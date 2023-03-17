@@ -1,1 +1,6 @@
 rootProject.name = 'apps'
+include 'apps-platform'
+include 'apps-core'
+include 'apps-web'
+include 'apps-api'
+include 'apps-batch'

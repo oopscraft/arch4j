@@ -9,8 +9,8 @@ plugins {
 dependencies {
 
     // platform
-    implementation platform(project(":apps-platform"))
-    annotationProcessor platform(project(":apps-platform"))
+    implementation platform(project(":app4j-platform"))
+    annotationProcessor platform(project(":app4j-platform"))
 
     // spring boot starter
     api 'org.springframework.boot:spring-boot-starter'

@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.data;
+package org.oopscraft.app4j.core.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;

@@ -1,10 +1,9 @@
-package org.oopscraft.apps.core.property;
+package org.oopscraft.app4j.core.property;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.apps.core.test.ServiceTestSupport;
-import org.springframework.data.domain.Page;
+import org.oopscraft.app4j.core.test.ServiceTestSupport;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 

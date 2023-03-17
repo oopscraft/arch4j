@@ -1,19 +1,19 @@
-package org.oopscraft.apps.core;
+package org.oopscraft.app4j.web;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-public class CoreConfigurationTest {
+public class WebApplication {
 
     /**
      * main
      * @param args
      */
     public static void main(String[] args) {
-        new SpringApplicationBuilder(CoreConfiguration.class)
+        new SpringApplicationBuilder(WebConfiguration.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
-                .web(WebApplicationType.NONE)
+                .web(WebApplicationType.SERVLET)
                 .registerShutdownHook(true)
                 .run(args);
     }

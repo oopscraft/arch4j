@@ -1,8 +1,8 @@
-package org.oopscraft.apps.core.data;
+package org.oopscraft.app4j.core.data;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.apps.core.data.converter.BooleanYnConverter;
+import org.oopscraft.app4j.core.data.converter.BooleanYnConverter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

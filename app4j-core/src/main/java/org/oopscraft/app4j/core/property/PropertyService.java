@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.property;
+package org.oopscraft.app4j.core.property;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

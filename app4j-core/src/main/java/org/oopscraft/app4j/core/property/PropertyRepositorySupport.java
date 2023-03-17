@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.property;
+package org.oopscraft.app4j.core.property;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

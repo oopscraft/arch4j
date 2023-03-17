@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.data;
+package org.oopscraft.app4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
 

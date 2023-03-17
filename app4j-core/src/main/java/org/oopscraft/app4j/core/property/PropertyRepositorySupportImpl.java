@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.property;
+package org.oopscraft.app4j.core.property;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;

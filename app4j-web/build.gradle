@@ -12,6 +12,9 @@ dependencies {
     implementation platform(project(":app4j-platform"))
     annotationProcessor platform(project(":app4j-platform"))
 
+    // subproject
+    implementation project(":app4j-core")
+
     // spring boot starter
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-security'

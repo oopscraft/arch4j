@@ -1,4 +1,4 @@
-package org.oopscraft.apps.core.property;
+package org.oopscraft.app4j.core.property;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

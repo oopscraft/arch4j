@@ -1,7 +1,7 @@
-package org.oopscraft.apps.core.test;
+package org.oopscraft.app4j.core.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.apps.core.CoreConfiguration;
+import org.oopscraft.app4j.core.CoreConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestConstructor;

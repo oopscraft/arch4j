@@ -16,5 +16,11 @@ dependencies {
         // query dsl
         api 'org.hibernate:hibernate-jpamodelgen:5.6.0.Final'
 
+        // mybatis
+        api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
+
+        // apache commons
+        api 'org.apache.httpcomponents:httpclient:4.5.13'
+
     }
 }

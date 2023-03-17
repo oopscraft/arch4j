@@ -16,6 +16,7 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter'
     api 'org.springframework.boot:spring-boot-starter-test'
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-web'
 
     // query dsl
     api "com.querydsl:querydsl-jpa"
@@ -25,8 +26,21 @@ dependencies {
     annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jpa'
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
+    // mybatis
+    api 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
+
     // h2database
     api 'com.h2database:h2'
+
+    // jackson
+    api 'com.fasterxml.jackson.core:jackson-core'
+    api 'com.fasterxml.jackson.core:jackson-databind'
+
+    // apache commons
+    api 'org.apache.httpcomponents:httpclient'
+
+    // ascii table
+    api "de.vandermeer:asciitable:0.3.2"
 
 }
 

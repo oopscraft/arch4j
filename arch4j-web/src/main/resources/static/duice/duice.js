@@ -1189,7 +1189,6 @@ var duice;
  * ============================================================================= */
 var duice;
 (function (duice) {
-    var _a;
     let alias = 'duice';
     /**
      * sets alias of namespace
@@ -1206,14 +1205,6 @@ var duice;
         return alias;
     }
     duice.getAlias = getAlias;
-    /**
-     * setColorScheme
-     * @param name
-     */
-    function setColorScheme(name) {
-        document.documentElement.className = name;
-    }
-    duice.setColorScheme = setColorScheme;
     /**
      * returns query selector expression
      */
@@ -1293,7 +1284,10 @@ var duice;
      * Generates component ID
      */
     function generateId() {
-        return self.crypto.randomUUID();
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     }
     duice.generateId = generateId;
     /**
@@ -1421,21 +1415,81 @@ var duice;
     }
     duice.dialog = dialog;
     /**
+     * Gets cookie value
+     * @param name
+     */
+    function getCookie(name) {
+        let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value ? value[2] : null;
+    }
+    duice.getCookie = getCookie;
+    /**
+     * Sets cookie value
+     * @param name
+     * @param value
+     * @param day
+     */
+    function setCookie(name, value, day) {
+        let date = new Date();
+        date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+    }
+    duice.setCookie = setCookie;
+    /**
+     * Deletes cookie
+     * @param name
+     */
+    function deleteCookie(name) {
+        setCookie(name, '', -1);
+    }
+    duice.deleteCookie = deleteCookie;
+    /**
+     * fetch
+     * @param url
+     * @param options
+     * @param _bypass
+     */
+    function fetch(url, options, _bypass) {
+        if (!options.headers) {
+            options.headers = {};
+        }
+        let xsrfToken = getCookie('X-XSRF-TOKEN');
+        options.headers['X-XSRF-TOKEN'] = xsrfToken;
+        let csrfToken = getCookie('X-CSRF-TOKEN');
+        options.headers['X-CSRF-TOKEN'] = csrfToken;
+        options.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+        options.headers['Pragma'] = 'no-cache';
+        options.headers['Expires'] = '0';
+        return globalThis.fetch(url, options)
+            .then(function (response) {
+            return __awaiter(this, void 0, void 0, function* () {
+                console.debug(response);
+                // bypass
+                if (_bypass) {
+                    return response;
+                }
+                // checks response
+                if (response.ok) {
+                    return response;
+                }
+                else {
+                    let responseJson = yield response.json();
+                    console.warn(responseJson);
+                    let message = responseJson.message;
+                    alert(message).then();
+                    throw Error(message);
+                }
+            });
+        })
+            .catch((error) => {
+            throw Error(error);
+        });
+    }
+    duice.fetch = fetch;
+    /**
      * listens DOMContentLoaded event
      */
     if (globalThis.document) {
-        // set color scheme
-        try {
-            if (window.matchMedia) {
-                let isColorSchemeDark = (_a = window.matchMedia('(prefers-color-scheme: dark)')) === null || _a === void 0 ? void 0 : _a.matches;
-                if (isColorSchemeDark) {
-                    setColorScheme('dark');
-                }
-            }
-        }
-        catch (ignore) {
-            console.warn(ignore.message, ignore);
-        }
         // initialize elements
         document.addEventListener("DOMContentLoaded", event => {
             initialize(document.documentElement, {});

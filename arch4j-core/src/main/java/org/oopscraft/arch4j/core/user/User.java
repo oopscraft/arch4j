@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.property;
+package org.oopscraft.arch4j.core.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldSupport;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "property")
@@ -16,15 +19,13 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Property extends SystemFieldSupport {
+public class User extends SystemFieldSupport {
 
     @Id
     @Column(name = "id", length = 64)
     private String id;
-    
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "value")
-    private String value;
 }

@@ -1,0 +1,31 @@
+# logging
+logging:
+  level:
+    root: DEBUG
+
+# server
+server:
+  port: 8080
+  error:
+    include-message: always
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+# management
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: shutdown,threaddump,heapdump
+
+# spring
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    enabled: true
+    cache: false
+
+

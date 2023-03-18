@@ -5,6 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface PropertyRepositorySupport {
 
-    Page<Property> findProperties(PropertySearch propertySearch, Pageable pageable);
+    Page<Property> findProperties(String id, String name, Pageable pageable);
 
 }

@@ -5,17 +5,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;
 
-    public List<Property> getProperties(PropertySearch codeSearch, Pageable pageable) {
-        Page<Property> propertyPage = propertyRepository.findProperties(codeSearch, pageable);
-        return propertyPage.getContent();
+    /**
+     * saveProperty
+     * @param property
+     */
+    public void saveProperty(Property property) {
+        propertyRepository.saveAndFlush(property);
+    }
+
+    /**
+     * getProperties
+     * @param id
+     * @param name
+     * @param pageable
+     * @return
+     */
+    public Page<Property> getProperties(String id, String name, Pageable pageable) {
+        return propertyRepository.findProperties(id, name, pageable);
     }
 
 }

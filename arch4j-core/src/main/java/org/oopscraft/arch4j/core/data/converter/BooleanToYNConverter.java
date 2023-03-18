@@ -7,7 +7,7 @@ import javax.persistence.Converter;
  * jpa converter for boolean to Y/N
  */
 @Converter
-public class BooleanYnConverter implements AttributeConverter<Boolean, String> {
+public class BooleanToYNConverter implements AttributeConverter<Boolean, String> {
 	
 	@Override
 	public String convertToDatabaseColumn(Boolean attribute) {

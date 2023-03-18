@@ -8,24 +8,24 @@ import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Slf4j
-public class BaseEntityListener {
+public class SystemFieldListener {
 
 	@PrePersist
-	public void prePersist(BaseEntity baseEntity) {
-		baseEntity.setSystemModifyDateTime(LocalDateTime.now());
-		baseEntity.setSystemModifyUserId(getCurrentUserId());
+	public void prePersist(SystemFieldSupport entity) {
+		entity.setSystemUpdateDateTime(LocalDateTime.now());
+		entity.setSystemUpdateUserId(getCurrentUserId());
 		
 	}
 	
 	@PreUpdate
-	public void preUpdate(BaseEntity baseEntity) {
-		baseEntity.setSystemModifyDateTime(LocalDateTime.now());
-		baseEntity.setSystemModifyUserId(getCurrentUserId());
+	public void preUpdate(SystemFieldSupport entity) {
+		entity.setSystemUpdateDateTime(LocalDateTime.now());
+		entity.setSystemUpdateUserId(getCurrentUserId());
 	}
 
 	@PreRemove
-	public void preRemove(BaseEntity baseEntity) {
-		if(baseEntity.getSystemData() != null && baseEntity.getSystemData()) {
+	public void preRemove(SystemFieldSupport entity) {
+		if(entity.getSystemRequired() != null && entity.getSystemRequired()) {
 			throw new RuntimeException("System data cannot be deleted.");
 		}
 	}

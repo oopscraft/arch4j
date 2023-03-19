@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
- * Role repository
+ * PropertyRepository
  */
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {

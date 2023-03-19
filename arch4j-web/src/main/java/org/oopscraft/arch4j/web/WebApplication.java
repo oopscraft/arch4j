@@ -4,6 +4,9 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
+/**
+ * WebApplication
+ */
 public class WebApplication {
 
     /**

@@ -27,6 +27,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Properties;
 
+/**
+ * CoreConfiguration
+ */
 @Slf4j
 @Configuration
 @ComponentScan(
@@ -39,6 +42,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class CoreConfiguration implements EnvironmentPostProcessor {
 
+    /**
+     * postProcessEnvironment
+     * @param environment
+     * @param application
+     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         // load default core config

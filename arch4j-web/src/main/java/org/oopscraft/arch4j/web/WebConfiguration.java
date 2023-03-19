@@ -19,6 +19,9 @@ import org.springframework.core.io.Resource;
 
 import java.util.Properties;
 
+/**
+ * WebConfiguration
+ */
 @Configuration
 @Import(CoreConfiguration.class)
 @ComponentScan(
@@ -32,6 +35,11 @@ import java.util.Properties;
 )
 public class WebConfiguration implements EnvironmentPostProcessor {
 
+    /**
+     * postProcessEnvironment
+     * @param environment
+     * @param application
+     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         // load default core config

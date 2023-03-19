@@ -34,8 +34,11 @@ public class PropertyServiceTest extends ServiceTestSupport {
         this.saveProperty();
 
         // get list
+        PropertySearch propertySearch = PropertySearch.builder()
+                .id("test")
+                .build();
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Property> page = propertyService.getProperties("test", null, pageable);
+        Page<Property> page = propertyService.getProperties(propertySearch, pageable);
         log.info("== content:{}", page.getContent());
         log.info("== totalElements:{}", page.getTotalElements());
     }

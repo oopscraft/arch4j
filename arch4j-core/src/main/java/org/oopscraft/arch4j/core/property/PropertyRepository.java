@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Role repository
  */
 @Repository
-public interface PropertyRepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property>, PropertyRepositorySupport {
+public interface PropertyRepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
 
 }

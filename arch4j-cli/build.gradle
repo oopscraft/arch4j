@@ -15,11 +15,6 @@ dependencies {
     // subproject
     implementation project(":arch4j-core")
 
-    // spring boot starter
-    api 'org.springframework.boot:spring-boot-starter-web'
-    api 'org.springframework.boot:spring-boot-starter-security'
-    api 'org.springframework.boot:spring-boot-starter-actuator'
-
 }
 
 test {

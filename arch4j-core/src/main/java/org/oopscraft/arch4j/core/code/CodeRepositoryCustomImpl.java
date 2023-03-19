@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CodeRepositorySupportImpl implements CodeRepositorySupport {
+public class CodeRepositoryCustomImpl implements CodeRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 

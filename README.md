@@ -1,5 +1,3 @@
-# ARCH4J
-
-Application Archetype for Java 
+# ARCH4J (Application Archetype for Java) 
 
 

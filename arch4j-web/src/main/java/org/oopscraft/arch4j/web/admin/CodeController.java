@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.property.Property;
-import org.oopscraft.arch4j.core.property.PropertySearch;
-import org.oopscraft.arch4j.core.property.PropertyService;
+import org.oopscraft.arch4j.core.code.Code;
+import org.oopscraft.arch4j.core.code.CodeSearch;
+import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("admin/property")
+@RequestMapping("admin/code")
 @RequiredArgsConstructor
-public class PropertyController {
+public class CodeController {
 
-    private final PropertyService propertyService;
+    private final CodeService codeService;
 
     /**
      * index
@@ -27,17 +27,17 @@ public class PropertyController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("admin/property.html");
+        return new ModelAndView("admin/code.html");
     }
 
     /**
-     * get properties
-     * @return
+     * get code
+     * @return code list
      */
-    @GetMapping("get-properties")
+    @GetMapping("get-codes")
     @ResponseBody
-    public Page<Property> getProperties(PropertySearch propertySearch) {
-        return propertyService.getProperties(propertySearch, Pageable.unpaged());
+    public Page<Code> getCodes(CodeSearch codeSearch, Pageable pageable) {
+        return codeService.getCodes(codeSearch, pageable);
     }
 
     /**
@@ -45,9 +45,9 @@ public class PropertyController {
      * @param id
      * @return
      */
-    @GetMapping("getProperty")
-    public Property getProperty(@RequestParam("id")String id) {
-        return propertyService.getProperty(id).orElseThrow(()->new NotFoundException(id));
+    @GetMapping("get-code")
+    public Code getCode(@RequestParam("id")String id) {
+        return codeService.getCode(id).orElseThrow(()->new NotFoundException(id));
     }
 
 }

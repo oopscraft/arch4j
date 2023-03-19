@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Properties;
@@ -51,8 +52,7 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
     }
 
     /**
-     * jpaQueryFactory
-     *
+     * JPAQueryFactory for query DSL
      * @param entityManager
      * @return
      */

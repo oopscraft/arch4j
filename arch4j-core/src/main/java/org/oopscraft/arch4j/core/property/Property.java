@@ -27,4 +27,5 @@ public class Property extends SystemFieldSupport {
 
     @Column(name = "value")
     private String value;
+
 }

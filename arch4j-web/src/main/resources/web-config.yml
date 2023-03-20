@@ -36,4 +36,10 @@ spring:
         prefix: _
         default-page-size: 100
         max-page-size: 1000
+  security:
+    user:
+      name: test
+      password: test
+      roles: TEST
+
 

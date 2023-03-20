@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("admin/property")
 @RequiredArgsConstructor
+//@PreAuthorize("hasAuthority('PROPERTY')")
 public class PropertyController {
 
     private final PropertyService propertyService;

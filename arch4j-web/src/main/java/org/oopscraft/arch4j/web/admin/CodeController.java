@@ -7,6 +7,7 @@ import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("admin/code")
 @RequiredArgsConstructor
+//@PreAuthorize("hasAuthority('CODE')")
 public class CodeController {
 
     private final CodeService codeService;

@@ -1,0 +1,49 @@
+package org.oopscraft.arch4j.core.user;
+
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.SystemFieldSupport;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Role(group of authorities)
+ */
+@Entity
+@Table(name = "role")
+@Data
+@EqualsAndHashCode(callSuper=false)
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Role extends SystemFieldSupport {
+
+    @Id
+    @Column(name = "id")
+    private String id;
+    
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "icon")
+    @Lob
+    private String icon;
+    
+    @Column(name = "note")
+    @Lob
+    private String note;
+    
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "role_authority",
+		joinColumns = @JoinColumn(name = "role_id"), 
+		foreignKey = @ForeignKey(name = "none"),
+		inverseJoinColumns = @JoinColumn(name = "authority_id"),
+		inverseForeignKey = @ForeignKey(name = "none")
+	)
+    @Builder.Default
+	List<Authority> authorities = new ArrayList<>();
+    
+}

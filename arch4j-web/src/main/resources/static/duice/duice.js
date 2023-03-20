@@ -1021,7 +1021,7 @@ var duice;
                     continue;
                 }
                 // value is object
-                if (typeof value === 'object') {
+                if (value != null && typeof value === 'object') {
                     let objectProxy = new ObjectProxy(value);
                     ObjectProxy.getHandler(objectProxy).addObserver(objectHandler);
                     this[name] = objectProxy;
@@ -1453,10 +1453,13 @@ var duice;
         if (!options.headers) {
             options.headers = {};
         }
-        let xsrfToken = getCookie('X-XSRF-TOKEN');
-        options.headers['X-XSRF-TOKEN'] = xsrfToken;
-        let csrfToken = getCookie('X-CSRF-TOKEN');
-        options.headers['X-CSRF-TOKEN'] = csrfToken;
+        // csrf token
+        ['XSRF-TOKEN', 'CSRF-TOKEN'].forEach(tokenName => {
+            let tokenValue = getCookie(tokenName);
+            if (tokenValue) {
+                options.headers[`X-${tokenName}`] = tokenValue;
+            }
+        });
         options.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
         options.headers['Pragma'] = 'no-cache';
         options.headers['Expires'] = '0';

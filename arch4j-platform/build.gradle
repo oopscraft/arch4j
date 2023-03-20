@@ -22,5 +22,8 @@ dependencies {
         // apache commons
         api 'org.apache.httpcomponents:httpclient:4.5.13'
 
+        // jwt
+        api 'io.jsonwebtoken:jjwt:0.9.1'
+
     }
 }

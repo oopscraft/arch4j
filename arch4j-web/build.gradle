@@ -25,6 +25,9 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
+    // jwt
+    api 'io.jsonwebtoken:jjwt'
+
 }
 
 test {

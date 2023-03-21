@@ -5,6 +5,7 @@
     <title></title>
     <script th:src="@{/static/duice/duice.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice.css}">
+    <script th:src="@{/static/web.js}"></script>
     <style>
         /* layout */
         body {
@@ -13,18 +14,37 @@
                   'header header header'
                   'nav main aside'
                   'footer footer footer';
-            grid-template-columns: 1fr 8fr 0fr;
+            grid-template-columns: 1fr 10fr 0fr;
             grid-template-rows: 70px 1fr 50px;
             padding: 0;
         }
         header {
             grid-area: header;
+            display: flex;
+            padding: 10px;
+            background-color: #efefef;
+            border-bottom: groove 2px #efefef;
+        }
+        header span.logo {
+            font-size: calc(var(--duice-font-size) * 2);
+            font-weight: 700;
+            font-family: monospace;
         }
         nav {
             grid-area: nav;
+            padding: 10px;
+        }
+        nav ul.menu {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul.menu li {
+            margin: 10px 0;
+            font-weight: 700;
         }
         main {
             grid-area: main;
+            padding: 10px;
         }
         aside {
             grid-area: aside;
@@ -49,16 +69,70 @@
         }
     </style>
     <script>
+        /**
+         * login
+         * @private
+         */
+        function _login() {
+            document.location.href = '[[@{/security/login}]]';
+        }
 
+        /**
+         * logout
+         * @private
+         */
+        function _logout() {
+            document.location.href = '[[@{/security/logout}]]';
+        }
     </script>
 </head>
 <body>
     <!-- header -->
     <header>
+        <div class="row">
+            <div class="col">
+                <img th:src="@{/static/image/logo-admin.png}" style="height:32px; vertical-align:middle;"/>
+                &nbsp;
+                <span class="logo">
+                    Administration Console
+                </span>
+            </div>
+            <div class="col">
+                <span onclick="_logout();" class="link">
+                    <img th:src="@{/static/image/icon-logout.png}" class="icon"/>
+                    <span>Logout</span>
+                </span>
+            </div>
+        </div>
     </header>
     <!-- nav -->
     <nav>
-
+        <ul class="menu">
+            <li class="link">
+                <img th:src="@{/static/image/icon-user.png}" class="icon"/>
+                <span>User</span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-menu.png}" class="icon"/>
+                <span>Menu</span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-property.png}" class="icon"/>
+                <span>Property</span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-code.png}" class="icon"/>
+                <span>Code</span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-article.png}" class="icon"/>
+                <span>Article</span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-api.png}" class="icon"/>
+                <span>API</span>
+            </li>
+        </ul>
     </nav>
     <!-- main -->
     <main layout:fragment="_main">

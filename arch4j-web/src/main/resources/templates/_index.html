@@ -5,6 +5,7 @@
     <title></title>
     <script th:src="@{/static/duice/duice.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice.css}">
+    <script th:src="@{/static/web.js}"></script>
     <style>
         /* layout */
         body {
@@ -49,12 +50,37 @@
         }
     </style>
     <script>
+        /**
+         * login
+         * @private
+         */
+        function _login() {
+            document.location.href = '[[@{/security/login}]]';
+        }
 
+        /**
+         * logout
+         * @private
+         */
+        function _logout() {
+            document.location.href = '[[@{/security/logout}]]';
+        }
     </script>
 </head>
 <body>
     <!-- header -->
     <header>
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col">
+                <span onclick="_login();" class="link">
+                    <img th:src="@{/static/image/icon-login.png}" class="icon"/>
+                    <span>Login</span>
+                </span>
+            </div>
+        </div>
     </header>
     <!-- nav -->
     <nav>

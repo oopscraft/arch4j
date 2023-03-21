@@ -1179,14 +1179,6 @@ var duice;
     }
     duice.ObjectProxy = ObjectProxy;
 })(duice || (duice = {}));
-/* =============================================================================
- * DUICE (Data-oriented UI Component Engine)
- * - Anyone can use it freely.
- * - Modify the source or allow re-creation. However, you must state that you have the original creator.
- * - However, we can not grant patents or licenses for  re-productive. (Modifications or reproductions must be shared with the public.)
- * Licence: LGPL(GNU Lesser General Public License version 3)
- * Copyright (C) 2016 chomookun@gmail.com
- * ============================================================================= */
 var duice;
 (function (duice) {
     let alias = 'duice';
@@ -1450,6 +1442,9 @@ var duice;
      * @param _bypass
      */
     function fetch(url, options, _bypass) {
+        if (!options) {
+            options = {};
+        }
         if (!options.headers) {
             options.headers = {};
         }
@@ -2208,6 +2203,16 @@ var duice;
          */
         setValue(value) {
             this.getHtmlElement().value = value;
+            // force select option
+            if (!value) {
+                for (let i = 0; i < this.getHtmlElement().options.length; i++) {
+                    let option = this.getHtmlElement().options[i];
+                    if (!option.nodeValue) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
         }
         /**
          * getValue

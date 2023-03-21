@@ -3,7 +3,84 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
+    <script>
+        const propertySearch = new duice.ObjectProxy({
+            key: null,
+            value: null
+        });
 
-<h1>Property</h1>
+        const properties = new duice.ArrayProxy([]);
+
+        function getProperties() {
+            let url = new URL("[[@{/admin/property/get-properties}]]", document.location.origin);
+            if (propertySearch.key && propertySearch.value) {
+                url.searchParams.append(propertySearch.key, propertySearch.value);
+            }
+            duice.fetch(url)
+                .then(async response => {
+                    let json = await response.json();
+                    duice.ArrayProxy.assign(properties, json.content);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded',()=> {
+            getProperties();
+        });
+    </script>
+    <h1>
+        <img th:src="@{/static/image/icon-property.png}"/>
+        Property
+    </h1>
+    <div class="row">
+        <div class="col">
+            <form onsubmit="return false;">
+                <select duice:object="propertySearch" duice:property="key">
+                    <option value>- Search Key -</option>
+                    <option value="id">id</option>
+                    <option value="name">name</option>
+                </select>
+                <input type="text" duice:object="propertySearch" duice:property="value"/>
+                <button onclick="getProperties();">&#128269; Search</button>
+                <button onclick="reset();">&#9986; Reset</button>
+            </form>
+        </div>
+        <div class="col">
+            <button onclick="">&#10133; Create</button>
+        </div>
+    </div>
+    <table>
+        <colgroup>
+            <col style="width:100px;"/>
+            <col/>
+            <col/>
+            <col/>
+            <col style="width:70px;"/>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr duice:array="properties" duice:loop="property,status">
+                <td duice:object="status" duice:property="count" class="ta-center"></td>
+                <td duice:object="property" duice:property="id"></td>
+                <td duice:object="property" duice:property="name"></td>
+                <td duice:object="property" duice:property="value"></td>
+                <td class="ta-center">
+                    <button>&#128221; Detail</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+    </div>
 
 </main>

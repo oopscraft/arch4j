@@ -68,25 +68,26 @@ html *:focus {
     border: var(--duice-element-focus-border);
 }
 body {
+    margin: 0;
     overflow-y: scroll;
 }
 h1 {
-    font-size: calc(var(--duice-font-size) + 1.0vw);
+    font-size: calc(var(--duice-font-size) * 2.0);
 }
 h2 {
-    font-size: calc(var(--duice-font-size) + 0.8vw);
+    font-size: calc(var(--duice-font-size) * 1.8);
 }
 h3 {
-    font-size: calc(var(--duice-font-size) + 0.6vw);
+    font-size: calc(var(--duice-font-size) * 1.6);
 }
 h4 {
-    font-size: calc(var(--duice-font-size) + 0.4vw);
+    font-size: calc(var(--duice-font-size) * 1.4);
 }
 h5 {
-    font-size: calc(var(--duice-font-size) + 0.2vw);
+    font-size: calc(var(--duice-font-size) * 1.2);
 }
 h6 {
-    font-size: calc(var(--duice-font-size) + 0.0vw);
+    font-size: calc(var(--duice-font-size) * 1.0);
 }
 small {
     font-size: smaller;
@@ -98,6 +99,7 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     border: var(--duice-table-border);
+    width: 100%;
 }
 table tr th {
     background-color: var(--duice-table-header-color);
@@ -199,6 +201,11 @@ button:hover {
     background-color: var(--duice-button-background-color-hover);
 }
 
+/* img */
+img {
+    vertical-align: middle;
+}
+
 /* ul */
 ul {
     text-align: left;
@@ -215,10 +222,12 @@ dialog {
     width: 100%;
 }
 .row {
+    width: 100%;
     display: flex;
     display: -ms-flexbox;
     flex-wrap: nowrap;
-    justify-content: unset;
+    justify-content: space-between;
+    align-items: center;
 }
 .row > * {
     border: none;
@@ -303,6 +312,15 @@ dialog {
 }
 .ta-right {
     text-align: right;
+}
+
+/* etc */
+.link {
+    cursor: pointer;
+}
+.icon {
+    height: calc(var(--duice-font-size) * 2.5);
+    vertical-align: middle;
 }
 
 

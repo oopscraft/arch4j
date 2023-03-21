@@ -28,4 +28,8 @@ public class Property extends SystemFieldSupport {
     @Column(name = "value")
     private String value;
 
+    @Column(name = "note")
+    @Lob
+    private String note;
+
 }

@@ -39,4 +39,5 @@ function _setDarkMode(enable) {
 }
 
 // set color scheme
-_setDarkMode(_isDarkMode());
+//_setDarkMode(_isDarkMode());
+

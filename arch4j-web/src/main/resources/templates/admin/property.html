@@ -34,12 +34,12 @@
     <div class="row">
         <div class="col">
             <form onsubmit="return false;">
-                <select duice:object="propertySearch" duice:property="key">
+                <select data-duice-object="propertySearch" data-duice-property="key">
                     <option value>- Search Key -</option>
                     <option value="id">id</option>
                     <option value="name">name</option>
                 </select>
-                <input type="text" duice:object="propertySearch" duice:property="value"/>
+                <input type="text" data-duice-object="propertySearch" data-duice-property="value"/>
                 <button onclick="getProperties();">&#128269; Search</button>
                 <button onclick="reset();">&#9986; Reset</button>
             </form>
@@ -66,11 +66,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr duice:array="properties" duice:loop="property,status">
-                <td duice:object="status" duice:property="count" class="ta-center"></td>
-                <td duice:object="property" duice:property="id"></td>
-                <td duice:object="property" duice:property="name"></td>
-                <td duice:object="property" duice:property="value"></td>
+            <tr data-duice-array="properties" data-duice-loop="property,status">
+                <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
+                <td data-duice-object="property" data-duice-property="id"></td>
+                <td data-duice-object="property" data-duice-property="name"></td>
+                <td data-duice-object="property" data-duice-property="value"></td>
                 <td class="ta-center">
                     <button>&#128221; Detail</button>
                 </td>

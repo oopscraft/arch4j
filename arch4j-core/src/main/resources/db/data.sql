@@ -1,6 +1,7 @@
 -- role
-insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Role');
-insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Role');
+insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Access Role');
+insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Access Role');
+insert into `role` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','H2 Console Access Role');
 insert into `role` (`id`,`name`) values ('TEST','Test Role');
 
 -- authority
@@ -9,6 +10,10 @@ insert into `authority` (`id`,`system_required`,`name`) values ('USER','Y','User
 -- user
 insert into `user` (`id`,`password`,`name`) values ('admin','{noop}admin','Administrator');
 insert into `user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
+insert into `user_role` (`user_id`,`role_id`) values ('admin','API');
+insert into `user_role` (`user_id`,`role_id`) values ('admin','H2-CONSOLE');
+insert into `user` (`id`,`password`,`name`) values ('api','{noop}api','Api');
+insert into `user_role` (`user_id`,`role_id`) values ('api','API');
 insert into `user` (`id`,`password`,`name`) values ('test','{noop}test','Tester');
 insert into `user_role` (`user_id`,`role_id`) values ('test','TEST');
 

@@ -24,12 +24,12 @@ dependencies {
     api 'org.springframework.session:spring-session-jdbc'
 
     // thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    api 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    api 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    api 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
-    // jwt
-    api 'io.jsonwebtoken:jjwt'
+    // spring doc
+    api 'org.springdoc:springdoc-openapi-ui'
 
 }
 

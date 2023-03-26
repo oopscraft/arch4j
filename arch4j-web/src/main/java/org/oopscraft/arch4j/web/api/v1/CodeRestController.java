@@ -1,16 +1,20 @@
 package org.oopscraft.arch4j.web.api.v1;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
+import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PaginationUtils;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,11 +27,24 @@ public class CodeRestController {
 
     private final CodeService codeService;
 
+    /**
+     * return list of code
+     * @param id
+     * @param name
+     * @param pageable
+     * @return
+     */
     @GetMapping
-    public ResponseEntity<List<CodeResponse>> getCodes(CodeRequest codeRequest, Pageable pageable) {
+    @Operation(summary = "Gets list of Code", description = "returns code list")
+    @PageableAsQueryParam
+    public ResponseEntity<List<CodeResponse>> getCodes(
+            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "name", required = false) String name,
+            Pageable pageable
+    ) {
         CodeSearch codeSearch = CodeSearch.builder()
-                .id(codeRequest.getId())
-                .name(codeRequest.getName())
+                .id(id)
+                .name(name)
                 .build();
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);
         List<CodeResponse> codeResponses = codePage.stream()

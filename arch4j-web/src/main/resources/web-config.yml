@@ -45,6 +45,18 @@ spring:
   session:
     store-type: jdbc
 
+# springdoc
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    enabled: true
+    disable-swagger-default-url: true
+    path: /api
+    operations-sorter: alpha
+  group-configs:
+    - group: version 1.0
+      paths-to-match: /api/v1/**
+
 
 
 

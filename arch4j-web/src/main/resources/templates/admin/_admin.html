@@ -116,7 +116,7 @@
                 <img th:src="@{/static/image/icon-menu.png}" class="icon"/>
                 <span>Menu</span>
             </li>
-            <li class="link">
+            <li class="link" th:onclick="|_openLink('@{/admin/property}');|">
                 <img th:src="@{/static/image/icon-property.png}" class="icon"/>
                 <span>Property</span>
             </li>

@@ -3,7 +3,7 @@
  * @returns {boolean}
  * @private
  */
-function _isDarkMode() {
+const _isDarkMode = function() {
 
     // checks cookie
     if(duice.getCookie('color-scheme') === 'dark') {
@@ -28,7 +28,7 @@ function _isDarkMode() {
  * setDarkMode
  * @param enable
  */
-function _setDarkMode(enable) {
+const _setDarkMode = function(enable) {
     if(enable){
         document.documentElement.classList.add('dark');
         duice.setCookie('color-scheme', 'dark', 356);
@@ -40,4 +40,15 @@ function _setDarkMode(enable) {
 
 // set color scheme
 //_setDarkMode(_isDarkMode());
+
+/**
+ * Opens link
+ */
+const _openLink = function(linkUrl, linkTarget){
+    if(linkTarget === '_blank'){
+        window.open(linkUrl,'_blank');
+    }else{
+        window.location.href = linkUrl;
+    }
+}
 

@@ -2,37 +2,33 @@ package org.oopscraft.arch4j.batch.sample;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.oopscraft.arch4j.batch.config.AbstractBatchConfigurer;
+import org.oopscraft.arch4j.batch.config.ActiveJobCondition;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
+@Conditional(ActiveJobCondition.class)
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "spring.batch.job.names", havingValue = "sample.DatabaseToDatabase")
-public class DatabaseToDatabase {
-
-    private final JobBuilderFactory jobBuilderFactory;
-
-    private final StepBuilderFactory stepBuilderFactory;
+public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     public Job job() {
-        return jobBuilderFactory.get("helloJob")
+        return getJobBuilder()
                 .start(testStep())
                 .build();
     }
 
     @Bean
     public Step testStep() {
-        return stepBuilderFactory.get("testStep")
+        return getStepBuilder("testStep")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info("== testStep ok");
+                    log.info("== {}", this.getClass().getName());
                     return RepeatStatus.FINISHED;
                 }).build();
     }

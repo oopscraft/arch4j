@@ -8,7 +8,7 @@ public class BatchApplicationTest {
     public void testDefault() {
         BatchApplication.main(new String[]{
                 "--spring.batch.job.enabled=true",
-                "--spring.batch.job.names=Test"
+                "--spring.batch.job.names=org.oopscraft.arch4j.batch.sample.DatabaseToDatabase"
         });
     }
 

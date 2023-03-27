@@ -73,7 +73,6 @@ public class WebConfiguration implements EnvironmentPostProcessor {
         public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 if(new AntPathRequestMatcher("/admin/**").matches(request)){
-                    log.info("== adminSecurityFilterChain", request.getRequestURI());
                     return true;
                 }
                 return false;
@@ -113,7 +112,6 @@ public class WebConfiguration implements EnvironmentPostProcessor {
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 if(new AntPathRequestMatcher("/api/**").matches(request)){
-                    log.info("== apiSecurityFilterChain", request.getRequestURI());
                     return true;
                 }
                 return false;
@@ -138,7 +136,6 @@ public class WebConfiguration implements EnvironmentPostProcessor {
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 if(new AntPathRequestMatcher("/actuator/**").matches(request)){
-                    log.info("== ActuatorSecurityFilterChain", request.getRequestURI());
                     return true;
                 }
                 return false;
@@ -165,7 +162,6 @@ public class WebConfiguration implements EnvironmentPostProcessor {
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 if(new AntPathRequestMatcher("/h2-console/**").matches(request)){
-                    log.info("== h2ConsoleSecurityFilterChain", request.getRequestURI());
                     return true;
                 }
                 return false;
@@ -191,7 +187,6 @@ public class WebConfiguration implements EnvironmentPostProcessor {
         @Order(99)
         public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
-                log.info("== defaultSecurityFilterChain", request.getRequestURI());
                 return true;
             });
             // admin

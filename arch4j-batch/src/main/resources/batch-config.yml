@@ -1,0 +1,16 @@
+# logging
+logging:
+  level:
+    root: DEBUG
+
+# spring
+spring:
+  main:
+    web-applition-type: none
+    lazy-initialization: true
+  batch:
+    initialize-schema: embedded
+    job:
+      enabled: false
+      names: ~
+

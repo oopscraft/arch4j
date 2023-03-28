@@ -5,13 +5,14 @@ import org.oopscraft.arch4j.batch.test.BatchTestSupport;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 import javax.batch.runtime.BatchStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@TestPropertySource(properties = "spring.batch.job.names=org.oopscraft.arch4j.batch.sample.DatabaseToDatabase")
+@ContextConfiguration(classes=DatabaseToDatabase.class)
 public class DatabaseToDatabaseTest extends BatchTestSupport {
 
     @Test

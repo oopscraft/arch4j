@@ -14,21 +14,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
-import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Properties;
 
 /**
- * CoreConfiguration
+ * CoreApplication
  */
 @Slf4j
 @Configuration
@@ -40,7 +35,7 @@ import java.util.Properties;
 @EnableJpaRepositories
 @EntityScan
 @EnableTransactionManagement
-public class CoreConfiguration implements EnvironmentPostProcessor {
+public class CoreApplication implements EnvironmentPostProcessor {
 
     /**
      * postProcessEnvironment

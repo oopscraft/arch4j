@@ -42,7 +42,7 @@ public class WebApplication implements EnvironmentPostProcessor {
 
     /**
      * main
-     * @param args
+     * @param args main arguments
      */
     public static void main(String[] args) {
         new SpringApplicationBuilder(WebApplication.class)
@@ -54,8 +54,8 @@ public class WebApplication implements EnvironmentPostProcessor {
 
     /**
      * postProcessEnvironment
-     * @param environment
-     * @param application
+     * @param environment spring environment
+     * @param application spring application
      */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -116,9 +116,9 @@ public class WebApplication implements EnvironmentPostProcessor {
         /**
          * API security filter chain
          *
-         * @param http
-         * @return
-         * @throws Exception
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
          */
         @Bean
         @Order(2)
@@ -140,9 +140,9 @@ public class WebApplication implements EnvironmentPostProcessor {
         /**
          * Actuator security filter chain
          *
-         * @param http
-         * @return
-         * @throws Exception
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
          */
         @Bean
         @Order(3)

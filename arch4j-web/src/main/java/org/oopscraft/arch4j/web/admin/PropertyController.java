@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.property.Property;
 import org.oopscraft.arch4j.core.property.PropertySearch;
 import org.oopscraft.arch4j.core.property.PropertyService;
-import org.oopscraft.arch4j.web.exception.NotFoundException;
+import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -48,7 +48,7 @@ public class PropertyController {
      */
     @GetMapping("getProperty")
     public Property getProperty(@RequestParam("id")String id) {
-        return propertyService.getProperty(id).orElseThrow(()->new NotFoundException(id));
+        return propertyService.getProperty(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 
 }

@@ -51,8 +51,9 @@ public class CodeService {
      * delete code
      * @param code
      */
-    public void deleteCode(Code code) {
-        codeRepository.delete(code);
+    public void deleteCode(String id) {
+        codeRepository.deleteById(id);
+        codeRepository.flush();
     }
 
 }

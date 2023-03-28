@@ -108,7 +108,7 @@
     <!-- nav -->
     <nav>
         <ul class="menu">
-            <li class="link">
+            <li class="link" th:onclick="|_openLink('@{/admin/user}')|">
                 <img th:src="@{/static/image/icon-user.png}" class="icon"/>
                 <span>User</span>
             </li>

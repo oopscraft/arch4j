@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * DataNotFoundException
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class NotFoundException extends RuntimeException {
+public class DataNotFoundException extends RuntimeException {
 
     /**
      * constructor
      * @param message
      */
-    public NotFoundException(String message){
+    public DataNotFoundException(String message){
         super(message);
     }
 
@@ -22,7 +22,7 @@ public class NotFoundException extends RuntimeException {
      * @param message
      * @param t
      */
-    public NotFoundException(String message, Throwable t){
+    public DataNotFoundException(String message, Throwable t){
         super(message, t);
     }
 

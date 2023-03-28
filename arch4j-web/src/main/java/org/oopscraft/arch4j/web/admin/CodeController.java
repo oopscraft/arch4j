@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
-import org.oopscraft.arch4j.web.exception.NotFoundException;
+import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +48,7 @@ public class CodeController {
      */
     @GetMapping("get-code")
     public Code getCode(@RequestParam("id")String id) {
-        return codeService.getCode(id).orElseThrow(()->new NotFoundException(id));
+        return codeService.getCode(id).orElseThrow(()->new DataNotFoundException(id));
     }
 
 }

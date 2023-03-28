@@ -6,12 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,22 +19,31 @@ public class PropertyService {
 
     /**
      * saveProperty
-     * @param property
+     * @param property property
      */
     public void saveProperty(Property property) {
-        propertyRepository.saveAndFlush(property);
+        Property one = propertyRepository.findById(property.getId()).orElse(null);
+        if(one == null) {
+            one = Property.builder()
+                    .id(property.getId())
+                    .build();
+        }
+        one.setName(property.getName());
+        one.setValue(property.getValue());
+        one.setNote(property.getNote());
+        propertyRepository.saveAndFlush(one);
     }
 
     /**
      * getProperties
-     * @param propertySearch
-     * @param pageable
-     * @return
+     * @param propertySearch property search condition
+     * @param pageable pageable
+     * @return property page
      */
     public Page<Property> getProperties(PropertySearch propertySearch, Pageable pageable) {
 
         // specification
-        Specification specification = (root, query, criteriaBuilder) -> {
+        Specification<Property> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if(propertySearch.getId() != null) {
                 predicates.add(criteriaBuilder.like(root.get(Property_.ID), '%' + propertySearch.getId() + '%'));
@@ -46,7 +51,7 @@ public class PropertyService {
             if(propertySearch.getName() != null) {
                 predicates.add(criteriaBuilder.like(root.get(Property_.NAME), '%' + propertySearch.getName() + '%'));
             }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
         // find and return
@@ -54,12 +59,21 @@ public class PropertyService {
     }
 
     /**
-     * getProperty
-     * @param id
-     * @return
+     * return property
+     * @param id property id
+     * @return property
      */
     public Optional<Property> getProperty(String id) {
         return propertyRepository.findById(id);
+    }
+
+    /**
+     * delete property
+     * @param id property id
+     */
+    public void deleteProperty(String id) {
+        propertyRepository.deleteById(id);
+        propertyRepository.flush();
     }
 
 }

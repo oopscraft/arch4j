@@ -1,9 +1,8 @@
-package org.oopscraft.arch4j.core.code;
+package org.oopscraft.arch4j.core.user;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,38 +10,40 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @RequiredArgsConstructor
-public class CodeRepositoryCustomImpl implements CodeRepositoryCustom {
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Code> findCodes(CodeSearch codeSearch, Pageable pageable) {
+    public Page<User> findUsers(UserSearch userSearch, Pageable pageable) {
 
         // query
-        QCode qCode = QCode.code;
-        JPAQuery<Code> query = jpaQueryFactory.select(qCode)
-                .from(qCode);
-        Optional.ofNullable(codeSearch.getId()).ifPresent(id ->
-                query.where(qCode.id.contains(id)));
-        Optional.ofNullable(codeSearch.getName()).ifPresent(name ->
-                query.where(qCode.name.contains(name)));
+        QUser qUser = QUser.user;
+        JPAQuery<User> query = jpaQueryFactory.select(qUser)
+                .from(qUser);
+        Optional.ofNullable(userSearch.getId()).ifPresent(id -> {
+            query.where(qUser.id.contains(id));
+        });
+        Optional.ofNullable(userSearch.getName()).ifPresent(name -> {
+            query.where(qUser.name.contains(name));
+        });
 
         // content
-        List<Code> content = query.clone()
-                .orderBy(qCode.systemUpdateDateTime.desc())
+        List<User> content = query.clone()
+                .orderBy(qUser.systemUpdateDateTime.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
 
         // total count
         Long total = query.clone()
-                .select(qCode.count())
+                .select(qUser.count())
                 .fetchOne();
         total = Optional.ofNullable(total).orElse(0L);
 
-        // return page
+        // returns page
         return new PageImpl<>(content, pageable, total);
     }
+
 }

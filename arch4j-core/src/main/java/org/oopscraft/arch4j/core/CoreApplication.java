@@ -20,6 +20,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -39,8 +41,8 @@ public class CoreApplication implements EnvironmentPostProcessor {
 
     /**
      * postProcessEnvironment
-     * @param environment
-     * @param application
+     * @param environment environment
+     * @param application application
      */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -49,15 +51,15 @@ public class CoreApplication implements EnvironmentPostProcessor {
         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
         factory.setResources(resource);
         factory.afterPropertiesSet();
-        Properties properties = factory.getObject();
+        Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("core-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
     /**
      * JPAQueryFactory for query DSL
-     * @param entityManager
-     * @return
+     * @param entityManager entity manager
+     * @return jpa query factory
      */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {

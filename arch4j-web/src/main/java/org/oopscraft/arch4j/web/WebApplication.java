@@ -27,6 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -63,7 +64,7 @@ public class WebApplication implements EnvironmentPostProcessor {
         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
         factory.setResources(resource);
         factory.afterPropertiesSet();
-        Properties properties = factory.getObject();
+        Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("web-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
     }

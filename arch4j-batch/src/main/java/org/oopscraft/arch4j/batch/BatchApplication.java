@@ -15,6 +15,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -65,7 +66,7 @@ public class BatchApplication implements EnvironmentPostProcessor {
         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
         factory.setResources(resource);
         factory.afterPropertiesSet();
-        Properties properties = factory.getObject();
+        Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("batch-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
     }

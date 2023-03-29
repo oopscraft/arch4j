@@ -11,20 +11,20 @@ import java.time.LocalDateTime;
 public class SystemFieldListener {
 
 	@PrePersist
-	public void prePersist(SystemFieldSupport entity) {
+	public void prePersist(SystemFieldEntity entity) {
 		entity.setSystemUpdateDateTime(LocalDateTime.now());
 		entity.setSystemUpdateUserId(getCurrentUserId());
 		
 	}
 	
 	@PreUpdate
-	public void preUpdate(SystemFieldSupport entity) {
+	public void preUpdate(SystemFieldEntity entity) {
 		entity.setSystemUpdateDateTime(LocalDateTime.now());
 		entity.setSystemUpdateUserId(getCurrentUserId());
 	}
 
 	@PreRemove
-	public void preRemove(SystemFieldSupport entity) {
+	public void preRemove(SystemFieldEntity entity) {
 		if(entity.getSystemRequired() != null && entity.getSystemRequired()) {
 			throw new RuntimeException("System data cannot be deleted.");
 		}

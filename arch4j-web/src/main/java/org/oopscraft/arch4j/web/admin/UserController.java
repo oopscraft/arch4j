@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.user.User;
+import org.oopscraft.arch4j.core.user.entity.UserEntity;
 import org.oopscraft.arch4j.core.user.UserSearch;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;

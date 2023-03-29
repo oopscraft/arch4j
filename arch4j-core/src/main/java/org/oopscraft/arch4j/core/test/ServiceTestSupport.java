@@ -1,6 +1,9 @@
 package org.oopscraft.arch4j.core.test;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.ClassOrderer;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +23,7 @@ import javax.persistence.PersistenceContext;
         }
 )
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
 @Rollback
 public abstract class ServiceTestSupport {

@@ -6,13 +6,12 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 
 import javax.batch.runtime.BatchStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ContextConfiguration(classes=DatabaseToDatabase.class)
+@ContextConfiguration(classes= DatabaseToDatabase.class)
 public class DatabaseToDatabaseTest extends BatchTestSupport {
 
     @Test

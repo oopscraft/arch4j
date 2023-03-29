@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.user;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.test.ServiceTestSupport;
+import org.oopscraft.arch4j.core.user.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,27 +17,23 @@ class UserServiceTest extends ServiceTestSupport {
 
     final UserService userService;
 
-    User createTestUser() {
-        return User.builder()
+    User testUser = User.builder()
                 .id(UUID.randomUUID().toString())
                 .name("user name")
                 .nickname("user nickname")
                 .build();
-    }
 
     @Test
     void saveUser() {
-        User testUser = createTestUser();
         userService.saveUser(testUser);
-        assertNotNull(entityManager.find(User.class, testUser.getId()));
+        assertNotNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
     @Test
     void getUsers() {
 
         // save test user
-        User testUser = createTestUser();
-        entityManager.persist(testUser);
+        saveUser();
 
         // get users by condition
         UserSearch userSearch = UserSearch.builder()
@@ -52,9 +49,8 @@ class UserServiceTest extends ServiceTestSupport {
     @Test
     void getUser() {
 
-        // save test
-        User testUser = createTestUser();
-        entityManager.persist(testUser);
+        // save test user
+        saveUser();
 
         // get user
         User user = userService.getUser(testUser.getId()).orElse(null);
@@ -67,14 +63,13 @@ class UserServiceTest extends ServiceTestSupport {
     void deleteUser() {
 
         // save test user
-        User testUser = createTestUser();
-        entityManager.persist(testUser);
+        saveUser();
 
         // delete
         userService.deleteUser(testUser.getId());
 
         // check
-        assertNull(entityManager.find(User.class, testUser.getId()));
+        assertNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
 }

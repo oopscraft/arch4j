@@ -1,7 +1,11 @@
 package org.oopscraft.arch4j.core.property;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.property.entity.PropertyEntity;
+import org.oopscraft.arch4j.core.property.entity.PropertyEntity_;
+import org.oopscraft.arch4j.core.property.repository.PropertyRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -10,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +27,16 @@ public class PropertyService {
      * @param property property
      */
     public void saveProperty(Property property) {
-        Property one = propertyRepository.findById(property.getId()).orElse(null);
-        if(one == null) {
-            one = Property.builder()
+        PropertyEntity propertyEntity = propertyRepository.findById(property.getId()).orElse(null);
+        if(propertyEntity == null) {
+            propertyEntity = PropertyEntity.builder()
                     .id(property.getId())
                     .build();
         }
-        one.setName(property.getName());
-        one.setValue(property.getValue());
-        one.setNote(property.getNote());
-        propertyRepository.saveAndFlush(one);
+        propertyEntity.setName(property.getName());
+        propertyEntity.setValue(property.getValue());
+        propertyEntity.setNote(property.getNote());
+        propertyRepository.saveAndFlush(propertyEntity);
     }
 
     /**
@@ -43,19 +48,24 @@ public class PropertyService {
     public Page<Property> getProperties(PropertySearch propertySearch, Pageable pageable) {
 
         // specification
-        Specification<Property> specification = (root, query, criteriaBuilder) -> {
+        Specification<PropertyEntity> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if(propertySearch.getId() != null) {
-                predicates.add(criteriaBuilder.like(root.get(Property_.ID), '%' + propertySearch.getId() + '%'));
+                predicates.add(criteriaBuilder.like(root.get(PropertyEntity_.ID), '%' + propertySearch.getId() + '%'));
             }
             if(propertySearch.getName() != null) {
-                predicates.add(criteriaBuilder.like(root.get(Property_.NAME), '%' + propertySearch.getName() + '%'));
+                predicates.add(criteriaBuilder.like(root.get(PropertyEntity_.NAME), '%' + propertySearch.getName() + '%'));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
         // find and return
-        return propertyRepository.findAll(specification, pageable);
+        Page<PropertyEntity> propertyEntityPage = propertyRepository.findAll(specification, pageable);
+        List<Property> properties = propertyEntityPage.getContent().stream()
+                .map(Property::from)
+                .collect(Collectors.toList());
+        long total = propertyEntityPage.getTotalElements();
+        return new PageImpl<>(properties, pageable, total);
     }
 
     /**
@@ -64,7 +74,7 @@ public class PropertyService {
      * @return property
      */
     public Optional<Property> getProperty(String id) {
-        return propertyRepository.findById(id);
+        return propertyRepository.findById(id).map(Property::from);
     }
 
     /**

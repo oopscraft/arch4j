@@ -2,17 +2,13 @@ package org.oopscraft.arch4j.core.property;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.oopscraft.arch4j.core.property.entity.PropertyEntity;
 import org.oopscraft.arch4j.core.test.ServiceTestSupport;
-import org.oopscraft.arch4j.core.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ContextConfiguration;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,26 +18,28 @@ class PropertyServiceTest extends ServiceTestSupport {
 
     final PropertyService propertyService;
 
-    Property createTestProperty() {
-        return Property.builder()
+    Property testProperty = Property.builder()
                 .id("test")
                 .name("test name")
                 .build();
-    }
 
     @Test
+    @Order(1)
     public void saveProperty() {
-        Property property = createTestProperty();
-        propertyService.saveProperty(property);
-        assertNotNull(entityManager.find(Property.class, property.getId()));
+
+        // save
+        propertyService.saveProperty(testProperty);
+
+        // check data
+        assertNotNull(entityManager.find(PropertyEntity.class, testProperty.getId()));
     }
 
     @Test
+    @Order(2)
     public void getProperties() {
 
         // save test property
-        Property testProperty = createTestProperty();
-        entityManager.persist(testProperty);
+        saveProperty();
 
         // get properties by condition
         PropertySearch propertySearch = PropertySearch.builder()
@@ -55,10 +53,10 @@ class PropertyServiceTest extends ServiceTestSupport {
     }
 
     @Test
+    @Order(3)
     public void getProperty() {
         // save
-        Property testProperty = createTestProperty();
-        entityManager.persist(testProperty);
+        saveProperty();
 
         // get property
         Property property = propertyService.getProperty(testProperty.getId()).orElse(null);
@@ -68,16 +66,16 @@ class PropertyServiceTest extends ServiceTestSupport {
     }
 
     @Test
+    @Order(4)
     public void deleteProperty() {
         // save test property
-        Property testProperty = createTestProperty();
-        entityManager.persist(testProperty);
+        saveProperty();
 
         // delete test property
         propertyService.deleteProperty(testProperty.getId());
 
         // test property must be null
-        assertNull(entityManager.find(Property.class, testProperty.getId()));
+        assertNull(entityManager.find(PropertyEntity.class, testProperty.getId()));
     }
 
 }

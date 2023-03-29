@@ -2,48 +2,43 @@ package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldSupport;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.user.entity.RoleEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Role(group of authorities)
+ * RoleEntity(group of authorities)
  */
-@Entity
-@Table(name = "role")
 @Data
+@Builder
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Role extends SystemFieldSupport {
+public class Role {
 
-    @Id
-    @Column(name = "id")
     private String id;
     
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "icon")
-    @Lob
     private String icon;
     
-    @Column(name = "note")
-    @Lob
     private String note;
-    
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name = "role_authority",
-		joinColumns = @JoinColumn(name = "role_id"), 
-		foreignKey = @ForeignKey(name = "none"),
-		inverseJoinColumns = @JoinColumn(name = "authority_id"),
-		inverseForeignKey = @ForeignKey(name = "none")
-	)
+
     @Builder.Default
 	List<Authority> authorities = new ArrayList<>();
+
+    public static Role from(RoleEntity roleEntity){
+        return Role.builder()
+                .id(roleEntity.getId())
+                .name(roleEntity.getName())
+                .icon(roleEntity.getIcon())
+                .note(roleEntity.getNote())
+                .authorities(roleEntity.getAuthorities().stream()
+                        .map(Authority::from)
+                        .collect(Collectors.toList()))
+                .build();
+    }
     
 }

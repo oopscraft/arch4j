@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class SystemFieldSupport {
+public class SystemFieldEntity {
 
 	@Column(name = "system_required", length = 1)
 	@Convert(converter= BooleanToYNConverter.class)

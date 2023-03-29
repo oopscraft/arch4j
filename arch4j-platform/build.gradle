@@ -26,6 +26,9 @@ dependencies {
         // apache commons
         api 'org.apache.httpcomponents:httpclient:4.5.13'
 
+        // model mapper
+        api "org.modelmapper:modelmapper:2.4.4"
+
         // spring doc
         api 'org.springdoc:springdoc-openapi-ui:1.6.0'
 

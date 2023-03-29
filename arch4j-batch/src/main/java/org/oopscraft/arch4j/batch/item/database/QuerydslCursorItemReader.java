@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.item;
+package org.oopscraft.arch4j.batch.item.database;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import org.hibernate.query.internal.QueryImpl;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,19 +27,11 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
 
     @Setter
     @Getter
-    private String name;
-
-    @Setter
-    @Getter
-    private PlatformTransactionManager transactionManager;
-
-    @Setter
-    @Getter
     private EntityManagerFactory entityManagerFactory;
 
     @Setter
     @Getter
-    private JPAQuery<?> query;
+    private JPAQuery<T> query;
 
     @Setter
     @Getter
@@ -52,30 +45,23 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
 
     private ScrollableResults cursor;
 
-    private int readCount = 0;
+    /**
+     * constructor
+     */
+    public QuerydslCursorItemReader() {
+        super.setName(ClassUtils.getShortName(this.getClass()));
+    }
 
     @Override
     protected void doOpen() {
 
-        // logging
-        log.info("-".repeat(80));
-        log.info("| {}.open()", this.getClass().getSimpleName());
-        log.info("| name: {}", name);
-        log.info("| query: {}", query);
-        log.info("| fetchSize: {}", fetchSize);
-        log.info("-".repeat(80));
-
         // checks validation
-        Assert.notNull(name, "name must not be null");
         Assert.notNull(entityManagerFactory, "entityManagerFactory must not be null");
         Assert.notNull(query, "query must not be null");
 
-        // sets name
-        super.setName(name);
-
         // creates cursor
         entityManager = entityManagerFactory.createEntityManager();
-        JPAQuery<?> jpaQuery = query.clone(entityManager);
+        JPAQuery<T> jpaQuery = query.clone(entityManager);
         jpaQuery.setHint(QueryHints.HINT_READONLY, true);
         QueryImpl<?> query = (QueryImpl<?>) jpaQuery.createQuery();
         query.setHint(QueryHints.HINT_READONLY, true);
@@ -107,7 +93,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
         if (cursor.next()) {
             Object[] data = cursor.get();
             entityManager.clear();  // Clears in-memory cache
-            readCount ++;
             if(data.length > 1) {
                 @SuppressWarnings("unchecked")
                 T item = (T) data;
@@ -136,13 +121,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
             entityManager.close();
         }
 
-        // logging
-        log.info("-".repeat(80));
-        log.info("| {}.close()", this.getClass().getSimpleName());
-        log.info("| name: {}", name);
-        log.info("| query: {}", query);
-        log.info("| readCount: {}", readCount);
-        log.info("-".repeat(80));
     }
 
     /**
@@ -152,8 +130,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
     @Setter
     @Accessors(chain = true, fluent = true)
     public static class QuerydslCursorItemReaderBuilder<T> {
-
-        private String name;
 
         private PlatformTransactionManager transactionManager;
 
@@ -171,8 +147,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
          */
         public QuerydslCursorItemReader<T> build() {
             QuerydslCursorItemReader<T> object = new QuerydslCursorItemReader<>();
-            Optional.ofNullable(name).ifPresent(object::setName);
-            Optional.ofNullable(transactionManager).ifPresent(object::setTransactionManager);
             Optional.ofNullable(entityManagerFactory).ifPresent(object::setEntityManagerFactory);
             Optional.ofNullable(query).ifPresent(object::setQuery);
             Optional.ofNullable(fetchSize).ifPresent(object::setFetchSize);

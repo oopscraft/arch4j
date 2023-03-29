@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oopscraft.arch4j.core.sample.mapper.SampleMapper">
+
+    <resultMap id="sample" type="org.oopscraft.arch4j.core.sample.vo.SampleVo">
+        <id property="id" column="user_id" />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="number" column="number"/>
+        <result property="longNumber" column="long_number"/>
+        <result property="doubleNumber" column="double_number"/>
+        <result property="bigDecimal" column="big_decimal"/>
+        <result property="sqlDate" column="sql_date"/>
+        <result property="utilDate" column="util_date"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="localDate" column="local_date"/>
+        <result property="localDateTime" column="local_date_time"/>
+        <result property="lobText" column="lob_text"/>
+        <result property="cryptoText" column="crypto_text"/>
+    </resultMap>
+
+    <select id="selectSamples" resultMap="sample">
+        <![CDATA[
+        select  id,
+                name,
+                number,
+                long_number,
+                double_number,
+                big_decimal,
+                sql_date,
+                util_date,
+                timestamp,
+                local_date_time,
+                local_date,
+                lob_text,
+                crypto_text
+        from    sandbox_sample
+        limit   #{limit}
+        ]]>
+    </select>
+
+</mapper>

@@ -4,18 +4,17 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import org.oopscraft.arch4j.batch.support.ManualTransactionUtil;
+import org.oopscraft.arch4j.batch.support.ManualTransactionHandler;
 import org.oopscraft.arch4j.core.sample.QSample;
 import org.oopscraft.arch4j.core.sample.QSampleBackup;
-import org.oopscraft.arch4j.core.sample.Sample;
-import org.oopscraft.arch4j.core.sample.SampleRepository;
+import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import org.oopscraft.arch4j.core.sample.repository.SampleRepository;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,7 +25,7 @@ import java.util.UUID;
 
 @Slf4j
 @Builder
-public class CreateSampleTasklet implements Tasklet {
+public class CreateSampleDataTasklet implements Tasklet {
 
     private Long size;
 
@@ -59,15 +58,15 @@ public class CreateSampleTasklet implements Tasklet {
      * clear sample
      */
     private void clearSample() {
-        try (ManualTransactionUtil manualTransactionUtil = new ManualTransactionUtil(transactionManager)) {
+        try (ManualTransactionHandler manualTransactionHandler = new ManualTransactionHandler(transactionManager)) {
 
             // deletes sample
             jpaQueryFactory.delete(QSample.sample).execute();
-            manualTransactionUtil.commit();
+            manualTransactionHandler.commit();
 
             // deletes sample backup
             jpaQueryFactory.delete(QSampleBackup.sampleBackup).execute();
-            manualTransactionUtil.commit();
+            manualTransactionHandler.commit();
         }
     }
 
@@ -75,10 +74,10 @@ public class CreateSampleTasklet implements Tasklet {
      * create sample
      */
     private void createSample() {
-        try (ManualTransactionUtil manualTransactionUtil = new ManualTransactionUtil(transactionManager)) {
+        try (ManualTransactionHandler manualTransactionUtil = new ManualTransactionHandler(transactionManager)) {
             for (int i = 0; i < size; i++) {
                 Faker faker = new Faker(new Locale(lang), new Random(i));
-                Sample sample = Sample.builder()
+                SampleEntity sample = SampleEntity.builder()
                         .id(UUID.randomUUID().toString())
                         .name(faker.name().lastName() + faker.name().firstName())
                         .number(faker.number().numberBetween(-100, 100))
@@ -108,7 +107,7 @@ public class CreateSampleTasklet implements Tasklet {
         // check create count
         long totalCount = sampleRepository.count();
         if(totalCount != this.size) {
-            throw new RuntimeException(String.format("Create Sample count mismatch - size:%d, totalCount:%d", size, totalCount));
+            throw new RuntimeException(String.format("Create SampleEntity count mismatch - size:%d, totalCount:%d", size, totalCount));
         }
     }
 

@@ -2,37 +2,40 @@ package org.oopscraft.arch4j.core.code;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldSupport;
+import org.oopscraft.arch4j.core.code.entity.CodeEntity;
+import org.oopscraft.arch4j.core.code.entity.CodeItemEntity;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
-@Entity
-@Table(name = "code")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Code extends SystemFieldSupport {
+@RequiredArgsConstructor
+public class Code {
 	
-	@Id
-	@Column(name = "id", length = 64)
-	private String id;
+	private final String id;
 	
-	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "note")
-	@Lob
 	private String note;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = CodeItem_.CODE_ID, cascade = CascadeType.ALL, orphanRemoval= true)
-	@OrderBy(CodeItem_.SORT)
-	@Builder.Default
+
+    @Builder.Default
 	List<CodeItem> items = new ArrayList<>();
 
+    static Code from(CodeEntity codeEntity) {
+        return Code.builder()
+                .id(codeEntity.getId())
+                .name(codeEntity.getName())
+                .note(codeEntity.getNote())
+                .items(codeEntity.getItems().stream()
+                        .map(CodeItem::from)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 
 }

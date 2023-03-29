@@ -2,35 +2,39 @@ package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldSupport;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.user.entity.AuthorityEntity;
 
 import javax.persistence.*;
 
 /**
- * Authority
+ * AuthorityEntity
  */
-@Entity
-@Table(name = "authority")
 @Data
-@EqualsAndHashCode(callSuper=false)
 @SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Authority extends SystemFieldSupport {
+@EqualsAndHashCode(callSuper=false)
+public class Authority {
 
-    @Id
-    @Column(name = "id")
     private String id;
 
-    @Column(name = "name")
     private String name;
     
-    @Column(name = "icon")
-    @Lob
     private String icon;
     
-    @Column(name = "note")
-    @Lob
     private String note;
+
+    /**
+     * factory method
+     * @param authorityEntity authority entity
+     * @return authority
+     */
+    public static Authority from(AuthorityEntity authorityEntity) {
+        return Authority.builder()
+                .id(authorityEntity.getId())
+                .name(authorityEntity.getName())
+                .icon(authorityEntity.getIcon())
+                .note(authorityEntity.getNote())
+                .build();
+    }
 
 }

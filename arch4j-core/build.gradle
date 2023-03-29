@@ -42,6 +42,9 @@ dependencies {
     // apache commons
     api 'org.apache.httpcomponents:httpclient'
 
+    // model mapper
+    api "org.modelmapper:modelmapper"
+
     // ascii table
     api "de.vandermeer:asciitable"
 

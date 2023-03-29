@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1;
+package org.oopscraft.arch4j.web.api.v1.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class CodeResponse {
      */
     @Data
     @Builder
-    protected static class Item {
+    public static class Item {
 
         private String id;
 
@@ -33,11 +33,6 @@ public class CodeResponse {
 
         private String value;
 
-        /**
-         * static factory method
-         * @param codeItem
-         * @return
-         */
         static Item from(CodeItem codeItem) {
             return Item.builder()
                     .id(codeItem.getId())
@@ -48,12 +43,7 @@ public class CodeResponse {
 
     }
 
-    /**
-     * static factory method
-     * @param code
-     * @return
-     */
-    static CodeResponse from(Code code){
+    public static CodeResponse from(Code code){
          return CodeResponse.builder()
                 .id(code.getId())
                 .name(code.getName())

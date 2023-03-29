@@ -2,43 +2,35 @@ package org.oopscraft.arch4j.core.code;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldSupport;
+import org.oopscraft.arch4j.core.code.entity.CodeItemEntity;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
-@Entity
-@Table(name = "code_item")
-@IdClass(CodeItem.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CodeItem extends SystemFieldSupport {
-
-	@Data
-	public static class Pk implements Serializable {
-		private String codeId;
-		private String id;
-	}
-
-	@Id
-	@Column(name = "code_id", length = 64)
-	private String codeId;
+@RequiredArgsConstructor
+public class CodeItem {
 	
-	@Id
-	@Column(name = "id")
-	private String id;
+    private final String id;
 
-	@Column(name = "sort")
-	private int sort;
-	
-	@Column(name = "name")
-	private String name;
+    private int sort;
 
-    @Column(name = "value")
+    private String name;
+
     private String value;
-	
+
+    static CodeItem from(CodeItemEntity codeItemEntity) {
+        return CodeItem.builder()
+                .id(codeItemEntity.getId())
+                .sort(codeItemEntity.getSort())
+                .name(codeItemEntity.getName())
+                .value(codeItemEntity.getValue())
+                .build();
+    }
+
 }

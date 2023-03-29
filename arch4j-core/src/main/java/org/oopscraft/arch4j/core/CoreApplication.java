@@ -2,6 +2,9 @@ package org.oopscraft.arch4j.core;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
+import org.modelmapper.ModelMapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -37,6 +40,10 @@ import java.util.Properties;
 @EnableJpaRepositories
 @EntityScan
 @EnableTransactionManagement
+@MapperScan(
+        annotationClass = Mapper.class,
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
 public class CoreApplication implements EnvironmentPostProcessor {
 
     /**
@@ -64,6 +71,19 @@ public class CoreApplication implements EnvironmentPostProcessor {
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
+    }
+
+    /**
+     * modelMapper
+     * @return model mapper
+     */
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration()
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true);
+        return modelMapper;
     }
 
 }

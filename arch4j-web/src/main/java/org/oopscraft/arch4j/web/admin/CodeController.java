@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
+import org.oopscraft.arch4j.core.code.entity.CodeEntity;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
@@ -24,7 +25,7 @@ public class CodeController {
 
     /**
      * index
-     * @return
+     * @return view
      */
     @GetMapping
     public ModelAndView index() {
@@ -43,8 +44,8 @@ public class CodeController {
 
     /**
      * get property
-     * @param id
-     * @return
+     * @param id code id
+     * @return code
      */
     @GetMapping("get-code")
     public Code getCode(@RequestParam("id")String id) {

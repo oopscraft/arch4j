@@ -1,11 +1,11 @@
 -- role
-insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Access Role');
-insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Access Role');
-insert into `role` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','H2 Console Access Role');
-insert into `role` (`id`,`name`) values ('TEST','Test Role');
+insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Access RoleEntity');
+insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Access RoleEntity');
+insert into `role` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','H2 Console Access RoleEntity');
+insert into `role` (`id`,`name`) values ('TEST','Test RoleEntity');
 
 -- authority
-insert into `authority` (`id`,`system_required`,`name`) values ('USER','Y','User Management Authority');
+insert into `authority` (`id`,`system_required`,`name`) values ('USER','Y','UserEntity Management AuthorityEntity');
 
 -- user
 insert into `user` (`id`,`password`,`name`) values ('admin','{noop}admin','Administrator');

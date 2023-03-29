@@ -6,6 +6,12 @@ logging:
     org.hibernate: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
+    jdbc.resultset: OFF
+    jdbc.audit: OFF
+    jdbc.sqltiming: OFF
+    jdbc.sqlonly: OFF
+    jdbc.resultsettable: DEBUG
+    faker: OFF
 
 # spring
 spring:
@@ -24,11 +30,19 @@ spring:
       schema-locations: classpath:db/schema.sql
       data-locations: classpath:db/data.sql
   jpa:
+    show-sql: true
     defer-datasource-initialization: true
     properties:
       hibernate:
-        show_sql: true
+        show_sql: false
         format_sql: true
         use_sql_comments: true
         globally_quoted_identifiers: true
 
+# mybatis
+mybatis:
+  configuration:
+    cache-enable: true
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: NULL

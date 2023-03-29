@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserRepository;
+import org.oopscraft.arch4j.core.user.entity.UserEntity;
+import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // retrieves user
-        User user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        UserEntity user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         // creates user details
         UserDetailsImpl userDetails = new UserDetailsImpl(user.getId());

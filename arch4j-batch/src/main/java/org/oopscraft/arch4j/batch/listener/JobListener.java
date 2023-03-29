@@ -31,13 +31,13 @@ public class JobListener implements JobExecutionListener {
     public final void beforeJob(JobExecution jobExecution) {
         stopWatch.reset();
         stopWatch.start();
-        log.info(StringUtils.repeat("-",80));
+        log.info("=".repeat(80));
         log.info("| [START] JobExecution");
         log.info("| jobName: {}", jobExecution.getJobInstance().getJobName());
         log.info("| jobParameters: {}", jobExecution.getJobParameters());
         log.info("| startTime: {}", Optional.ofNullable(jobExecution.getStartTime()).map(v->DATE_FORMAT.format(v)).orElse(null));
         log.info("| status: {}", jobExecution.getStatus());
-        log.info(StringUtils.repeat("-",80));
+        log.info("=".repeat(80));
     }
 
     /**
@@ -48,7 +48,7 @@ public class JobListener implements JobExecutionListener {
     @Override
     public final void afterJob(JobExecution jobExecution) {
         stopWatch.stop();
-        log.info(StringUtils.repeat("-",80));
+        log.info("=".repeat(80));
         log.info("| [END] JobExecution");
         log.info("| jobName: {}", jobExecution.getJobInstance().getJobName());
         log.info("| jobParameters: {}", jobExecution.getJobParameters());
@@ -57,7 +57,7 @@ public class JobListener implements JobExecutionListener {
         log.info("| elapsedTime: {}", stopWatch.formatTime());
         log.info("| status: {}", jobExecution.getStatus());
         log.info("| exitStatus: {}", jobExecution.getExitStatus());
-        log.info(StringUtils.repeat("-",80));
+        log.info("=".repeat(80));
     }
 
 }

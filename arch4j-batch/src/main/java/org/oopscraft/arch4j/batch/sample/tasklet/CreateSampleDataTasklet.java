@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
 import org.oopscraft.arch4j.batch.support.ManualTransactionHandler;
-import org.oopscraft.arch4j.core.sample.QSample;
-import org.oopscraft.arch4j.core.sample.QSampleBackup;
+import org.oopscraft.arch4j.core.sample.entity.QSampleBackupEntity;
+import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
 import org.oopscraft.arch4j.core.sample.repository.SampleRepository;
 import org.springframework.batch.core.StepContribution;
@@ -61,11 +61,11 @@ public class CreateSampleDataTasklet implements Tasklet {
         try (ManualTransactionHandler manualTransactionHandler = new ManualTransactionHandler(transactionManager)) {
 
             // deletes sample
-            jpaQueryFactory.delete(QSample.sample).execute();
+            jpaQueryFactory.delete(QSampleEntity.sampleEntity).execute();
             manualTransactionHandler.commit();
 
             // deletes sample backup
-            jpaQueryFactory.delete(QSampleBackup.sampleBackup).execute();
+            jpaQueryFactory.delete(QSampleBackupEntity.sampleBackupEntity).execute();
             manualTransactionHandler.commit();
         }
     }

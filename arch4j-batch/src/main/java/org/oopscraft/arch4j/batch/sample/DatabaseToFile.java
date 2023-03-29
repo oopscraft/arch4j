@@ -16,7 +16,7 @@ public class DatabaseToFile extends AbstractBatchConfigurer {
 
     @Bean
     public Job job() {
-        return getJobBuilder()
+        return getJobBuilder("test1")
                 .start(testStep())
                 .build();
     }

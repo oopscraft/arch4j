@@ -29,8 +29,16 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
     private final ModelMapper modelMapper;
 
     @Bean
-    public Job job() {
-        return getJobBuilder()
+    public Job querydslToJpaJob() {
+        return getJobBuilder("querydslToJpaJob")
+                .start(createSampleDataStep())
+                .next(querydslCursorItemReaderToJpaItemWriterStep())
+                .build();
+    }
+
+    @Bean
+    public Job mybatisToMybatisJob() {
+        return getJobBuilder("mybatisToMybatisJob")
                 .start(createSampleDataStep())
                 .next(querydslCursorItemReaderToJpaItemWriterStep())
                 .build();
@@ -59,7 +67,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
         return getStepBuilder("querydslCursorItemReaderToJpaItemWriterStep")
                 .<SampleEntity, SampleBackupEntity>chunk(10)
                 .reader(querydslCursorItemReader(null))
-                .processor(sampleToSampleBackupProcessor())
+                .processor(sampleEntityToSampleBackupEntityProcessor())
                 .writer(jpaItemWriter())
                 .build();
     }
@@ -80,7 +88,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    public ItemProcessor<SampleEntity, SampleBackupEntity> sampleToSampleBackupProcessor() {
+    public ItemProcessor<SampleEntity, SampleBackupEntity> sampleEntityToSampleBackupEntityProcessor() {
         return sample -> {
             log.debug("sample:{}", sample);
             SampleBackupEntity sampleBackup = modelMapper.map(sample, SampleBackupEntity.class);

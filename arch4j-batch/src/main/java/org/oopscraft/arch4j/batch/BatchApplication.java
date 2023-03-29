@@ -1,7 +1,9 @@
 package org.oopscraft.arch4j.batch;
 
 import org.oopscraft.arch4j.core.CoreApplication;
+import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -70,5 +72,19 @@ public class BatchApplication implements EnvironmentPostProcessor {
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("batch-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
+
+
+    /**
+     * jobRegistryBeanPostProcessor
+     * @param jobRegistry job registry
+     * @return jobRegistryBeanPostProcessor
+     */
+    @Bean
+    public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
+        JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
+        jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
+        return jobRegistryBeanPostProcessor;
+    }
+
 
 }

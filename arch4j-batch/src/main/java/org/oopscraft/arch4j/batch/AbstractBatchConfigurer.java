@@ -2,10 +2,14 @@ package org.oopscraft.arch4j.batch;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Getter;
+import org.oopscraft.arch4j.batch.listener.JobListener;
 import org.oopscraft.arch4j.batch.listener.StepListener;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
+import org.springframework.batch.core.configuration.support.ReferenceJobFactory;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +47,13 @@ public abstract class AbstractBatchConfigurer {
     @Getter
     private JPAQueryFactory jpaQueryFactory;
 
-    @Bean
-    public abstract Job job();
+//    @Bean
+//    public abstract Job job();
 
-    protected final JobBuilder getJobBuilder() {
-        Class<?> clazz = ClassUtils.getUserClass(this.getClass());
+    protected final JobBuilder getJobBuilder(String jobName) {
         return jobBuilderFactory
-                .get(clazz.getName());
+                .get(jobName)
+                .listener(new JobListener());
     }
 
     protected final StepBuilder getStepBuilder(String stepName) {
@@ -58,5 +62,7 @@ public abstract class AbstractBatchConfigurer {
                 .listener(new StepListener())
                 .transactionManager(transactionManager);
     }
+
+
 
 }

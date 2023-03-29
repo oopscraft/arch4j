@@ -43,7 +43,10 @@ dependencies {
     api 'org.apache.httpcomponents:httpclient'
 
     // ascii table
-    api "de.vandermeer:asciitable:0.3.2"
+    api "de.vandermeer:asciitable"
+
+    // data faker
+    api "net.datafaker:datafaker"
 
 }
 

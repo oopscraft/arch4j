@@ -18,7 +18,7 @@ public class DatabaseToDatabaseTest extends BatchTestSupport {
     @Test
     public void testJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("message", "hello world!")
+                .addLong("size", 123L)
                 .toJobParameters();
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());

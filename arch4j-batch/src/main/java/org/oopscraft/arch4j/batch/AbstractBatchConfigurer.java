@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.batch;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -12,6 +13,9 @@ import org.springframework.context.annotation.*;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.ClassUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Configuration
 public abstract class AbstractBatchConfigurer {
 
@@ -22,7 +26,12 @@ public abstract class AbstractBatchConfigurer {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
+    @Getter
     private PlatformTransactionManager transactionManager;
+
+    @PersistenceContext
+    @Getter
+    private EntityManager entityManager;
 
     @Bean
     public abstract Job job();

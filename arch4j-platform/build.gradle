@@ -32,6 +32,12 @@ dependencies {
         // log4jdbc
         api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
+        // ascii table
+        api "de.vandermeer:asciitable:0.3.2"
+
+        // data faker
+        api "net.datafaker:datafaker:1.4.0"
+
     }
 
 }

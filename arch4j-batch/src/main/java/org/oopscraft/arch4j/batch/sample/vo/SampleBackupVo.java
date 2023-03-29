@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.sample.dto;
+package org.oopscraft.arch4j.batch.sample.vo;
 
 import lombok.*;
 import org.oopscraft.arch4j.batch.item.file.annotation.Align;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class SampleTsvFile {
+public class SampleBackupVo {
 
     @Length(40)
     private String id;
@@ -52,6 +52,5 @@ public class SampleTsvFile {
 
     @Length(100)
     private String cryptoText;
-
 
 }

@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.oopscraft.arch4j.batch.sample.dao.SampleMapper">
+<mapper namespace="org.oopscraft.arch4j.batch.sample.mapper.SampleMapper">
 
-    <resultMap id="sample" type="org.oopscraft.arch4j.batch.sample.model.SampleVo">
+    <resultMap id="sample" type="org.oopscraft.arch4j.batch.sample.vo.SampleVo">
         <id property="id" column="user_id" />
         <result property="id" column="id"/>
         <result property="name" column="name"/>

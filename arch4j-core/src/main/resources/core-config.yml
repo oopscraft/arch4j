@@ -23,7 +23,7 @@ spring:
       driver-class-Name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       jdbc-url: jdbc:log4jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=FALSE;
       username: sa
-      password:
+      password: ENC(PqzV2jMKXZSYEE/AREcemQ==)
   sql:
     init:
       mode: embedded
@@ -38,6 +38,12 @@ spring:
         format_sql: true
         use_sql_comments: true
         globally_quoted_identifiers: true
+
+# jasypt
+jasypt:
+  encryptor:
+    bean: jasyptEncryptorBean
+    password: password
 
 # mybatis
 mybatis:

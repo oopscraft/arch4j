@@ -13,6 +13,9 @@ dependencies {
 
     constraints {
 
+        // jasypt
+        api 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
         // junit
         api 'org.junit.jupiter:junit-jupiter-api:5.8.1'
         api 'org.junit.jupiter:junit-jupiter-engine:5.8.1'

@@ -18,6 +18,9 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api 'org.springframework.boot:spring-boot-starter-web'
 
+    // jasypt
+    api 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
+
     // query dsl
     api "com.querydsl:querydsl-jpa"
     api "com.querydsl:querydsl-apt"

@@ -6,9 +6,9 @@
 <mapper namespace="org.oopscraft.arch4j.core.sample.mapper.SampleMapper">
 
     <resultMap id="sample" type="org.oopscraft.arch4j.core.sample.vo.SampleVo">
-        <id property="id" column="user_id" />
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="type" column="type"/>
         <result property="number" column="number"/>
         <result property="longNumber" column="long_number"/>
         <result property="doubleNumber" column="double_number"/>
@@ -24,8 +24,10 @@
 
     <select id="selectSamples" resultMap="sample">
         <![CDATA[
-        select  id,
+        select
+                id,
                 name,
+                type,
                 number,
                 long_number,
                 double_number,
@@ -37,7 +39,7 @@
                 local_date,
                 lob_text,
                 crypto_text
-        from    sandbox_sample
+        from    sample
         limit   #{limit}
         ]]>
     </select>

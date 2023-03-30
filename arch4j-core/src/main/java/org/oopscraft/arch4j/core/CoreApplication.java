@@ -3,8 +3,12 @@ package org.oopscraft.arch4j.core;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 import org.modelmapper.ModelMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.LoggerFactory;
@@ -40,6 +44,7 @@ import java.util.Properties;
 )
 @EnableAutoConfiguration
 @EnableConfigurationProperties
+@EnableEncryptableProperties
 @EnableJpaRepositories
 @EntityScan
 @EnableTransactionManagement
@@ -72,6 +77,21 @@ public class CoreApplication implements EnvironmentPostProcessor {
             environment.getSystemProperties().put("logging.level.org.hibernate.type.descriptor.sql.BasicBinder", "TRACE");
             environment.getSystemProperties().put("logging.level.jdbc.resultsettable", "DEBUG");
         }
+    }
+
+    /**
+     * PBE encryption bean
+     * @param environment environment
+     * @return PBE string encryptor
+     */
+    @Bean
+    public StringEncryptor jasyptEncryptorBean(ConfigurableEnvironment environment) {
+        StandardPBEStringEncryptor pbeEncryptor = new StandardPBEStringEncryptor();
+        EnvironmentStringPBEConfig pbeConfig = new EnvironmentStringPBEConfig();
+        String password = environment.getProperty("jasypt.encryptor.password");
+        pbeConfig.setPassword(password);
+        pbeEncryptor.setConfig(pbeConfig);
+        return pbeEncryptor;
     }
 
     /**

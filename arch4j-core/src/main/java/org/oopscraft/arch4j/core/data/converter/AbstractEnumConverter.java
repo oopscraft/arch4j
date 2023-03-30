@@ -31,7 +31,6 @@ public abstract class AbstractEnumConverter<E extends Enum<E>> implements Attrib
         try {
             return Enum.valueOf((Class<E>) enumType, dbData);
         }catch(Throwable t){
-            log.warn(t.getMessage());
             return null;
         }
     }

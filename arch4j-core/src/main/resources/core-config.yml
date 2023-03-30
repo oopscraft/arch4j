@@ -4,13 +4,13 @@ logging:
     root: DEBUG
     org.springframework: INFO
     org.hibernate: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql: INFO
     jdbc.resultset: OFF
     jdbc.audit: OFF
     jdbc.sqltiming: OFF
     jdbc.sqlonly: OFF
-    jdbc.resultsettable: DEBUG
+    jdbc.resultsettable: OFF
     faker: OFF
 
 # spring

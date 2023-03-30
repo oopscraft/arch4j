@@ -5,8 +5,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.oopscraft.arch4j.batch.AbstractBatchConfigurer;
+import org.oopscraft.arch4j.batch.item.database.MybatisCursorItemReader;
+import org.oopscraft.arch4j.batch.item.database.MybatisItemWriter;
 import org.oopscraft.arch4j.batch.item.database.QuerydslCursorItemReader;
+import org.oopscraft.arch4j.batch.sample.mapper.SampleBackupMapper;
+import org.oopscraft.arch4j.batch.sample.mapper.SampleMapper;
+import org.oopscraft.arch4j.batch.sample.tasklet.CompareSampleDataToBackupDataTasklet;
 import org.oopscraft.arch4j.batch.sample.tasklet.CreateSampleDataTasklet;
+import org.oopscraft.arch4j.batch.sample.vo.SampleBackupVo;
+import org.oopscraft.arch4j.batch.sample.vo.SampleVo;
 import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.entity.SampleBackupEntity;
 import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
@@ -29,24 +36,17 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
     private final ModelMapper modelMapper;
 
     @Bean
-    public Job querydslToJpaJob() {
+    Job querydslToJpaJob() {
         return getJobBuilder("querydslToJpaJob")
                 .start(createSampleDataStep())
                 .next(querydslCursorItemReaderToJpaItemWriterStep())
-                .build();
-    }
-
-    @Bean
-    public Job mybatisToMybatisJob() {
-        return getJobBuilder("mybatisToMybatisJob")
-                .start(createSampleDataStep())
-                .next(querydslCursorItemReaderToJpaItemWriterStep())
+                .next(compareSampleDataToBackupDateStep())
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step createSampleDataStep() {
+    Step createSampleDataStep() {
         return getStepBuilder("createSampleDataStep")
                 .tasklet(createSampleDataTasklet(null))
                 .transactionManager(getTransactionManager())
@@ -55,7 +55,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    public CreateSampleDataTasklet createSampleDataTasklet(@Value("#{jobParameters[size]}") Long size) {
+    CreateSampleDataTasklet createSampleDataTasklet(@Value("#{jobParameters[size]}") Integer size) {
         return CreateSampleDataTasklet.builder()
                 .size(size)
                 .build();
@@ -63,7 +63,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @JobScope
-    public Step querydslCursorItemReaderToJpaItemWriterStep() {
+    Step querydslCursorItemReaderToJpaItemWriterStep() {
         return getStepBuilder("querydslCursorItemReaderToJpaItemWriterStep")
                 .<SampleEntity, SampleBackupEntity>chunk(10)
                 .reader(querydslCursorItemReader(null))
@@ -74,7 +74,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    public QuerydslCursorItemReader<SampleEntity> querydslCursorItemReader(@Value("#{jobParameters[size]}") Long size) {
+    QuerydslCursorItemReader<SampleEntity> querydslCursorItemReader(@Value("#{jobParameters[size]}") Integer size) {
         QSampleEntity qSample = QSampleEntity.sampleEntity;
         JPAQuery<SampleEntity> query = getJpaQueryFactory()
                 .select(qSample)
@@ -88,7 +88,7 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    public ItemProcessor<SampleEntity, SampleBackupEntity> sampleEntityToSampleBackupEntityProcessor() {
+    ItemProcessor<SampleEntity, SampleBackupEntity> sampleEntityToSampleBackupEntityProcessor() {
         return sample -> {
             log.debug("sample:{}", sample);
             SampleBackupEntity sampleBackup = modelMapper.map(sample, SampleBackupEntity.class);
@@ -99,12 +99,81 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    public JpaItemWriter<SampleBackupEntity> jpaItemWriter() {
+    JpaItemWriter<SampleBackupEntity> jpaItemWriter() {
         return new JpaItemWriterBuilder<SampleBackupEntity>()
                 .entityManagerFactory(getEntityManagerFactory())
                 .usePersist(true)
                 .build();
     }
+
+    @Bean
+    @JobScope
+    Step compareSampleDataToBackupDateStep() {
+        return getStepBuilder("compareSampleDataToBackupDataStep")
+                .tasklet(compareSampleDataToBackupDataTasklet())
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    CompareSampleDataToBackupDataTasklet compareSampleDataToBackupDataTasklet() {
+        return CompareSampleDataToBackupDataTasklet.builder()
+                .build();
+    }
+
+    @Bean
+    Job mybatisToMybatisJob() {
+        return getJobBuilder("mybatisToMybatisJob")
+                .start(createSampleDataStep())
+                .next(mybatisCursorItemReaderToMybatisItemWriterStep())
+                .next(compareSampleDataToBackupDateStep())
+                .build();
+    }
+
+    @Bean
+    @JobScope
+    Step mybatisCursorItemReaderToMybatisItemWriterStep() {
+        return getStepBuilder("mybatisCursorItemReaderToMybatisItemWriter")
+                .<SampleVo, SampleBackupVo>chunk(10)
+                .reader(mybatisCursorItemReader(null))
+                .processor(sampleVoToSampleBackupVoProcessor())
+                .writer(mybatisItemWriter())
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    MybatisCursorItemReader<SampleVo> mybatisCursorItemReader(@Value("#{jobParameters[size]}") Integer size) {
+        return MybatisCursorItemReader.<SampleVo>builder()
+                .dataSource(getDataSource())
+                .sqlSessionFactory(getSqlSessionFactory())
+                .mapperClass(SampleMapper.class)
+                .mapperMethod("selectSamples")
+                .parameter("limit", size)
+                .build();
+    }
+
+    @Bean
+    @StepScope
+    ItemProcessor<SampleVo,SampleBackupVo> sampleVoToSampleBackupVoProcessor() {
+        return sampleVo -> {
+            log.debug("sampleVo:{}", sampleVo);
+            SampleBackupVo sampleBackupVo = modelMapper.map(sampleVo, SampleBackupVo.class);
+            log.debug("sampleBackupVo:{}", sampleBackupVo);
+            return sampleBackupVo;
+        };
+    }
+
+    @Bean
+    @StepScope
+    MybatisItemWriter<SampleBackupVo> mybatisItemWriter() {
+        return MybatisItemWriter.<SampleBackupVo>builder()
+                .sqlSessionFactory(getSqlSessionFactory())
+                .mapperClass(SampleBackupMapper.class)
+                .mapperMethod("insertSampleBackup")
+                .build();
+    }
+
 
 
 }

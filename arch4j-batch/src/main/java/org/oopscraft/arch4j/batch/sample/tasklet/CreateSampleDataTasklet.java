@@ -27,7 +27,7 @@ import java.util.UUID;
 @Builder
 public class CreateSampleDataTasklet implements Tasklet {
 
-    private Long size;
+    private Integer size;
 
     @Builder.Default
     private String lang = "en";

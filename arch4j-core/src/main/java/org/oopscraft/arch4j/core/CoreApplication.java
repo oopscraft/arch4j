@@ -1,10 +1,13 @@
 package org.oopscraft.arch4j.core;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.modelmapper.ModelMapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -53,6 +56,7 @@ public class CoreApplication implements EnvironmentPostProcessor {
      */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+
         // load default core config
         Resource resource = new DefaultResourceLoader().getResource("classpath:core-config.yml");
         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
@@ -61,6 +65,13 @@ public class CoreApplication implements EnvironmentPostProcessor {
         Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("core-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
+
+        // overrides debug log level
+        if("debug".equalsIgnoreCase(environment.getProperty("logging.level.root"))) {
+            environment.getSystemProperties().put("logging.level.org.hibernate.SQL", "DEBUG");
+            environment.getSystemProperties().put("logging.level.org.hibernate.type.descriptor.sql.BasicBinder", "TRACE");
+            environment.getSystemProperties().put("logging.level.jdbc.resultsettable", "DEBUG");
+        }
     }
 
     /**

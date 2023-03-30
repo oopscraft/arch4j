@@ -20,6 +20,9 @@ public class SampleVo {
     @Length(20)
     private String name;
 
+    @Length(10)
+    private String type;
+
     @Length(value = 10, align = Align.RIGHT)
     private Integer number;
 

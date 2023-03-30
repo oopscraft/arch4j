@@ -1,5 +1,7 @@
 package org.oopscraft.arch4j.batch;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -33,6 +35,10 @@ import java.util.Properties;
 )
 @EnableAutoConfiguration
 @EnableBatchProcessing
+@MapperScan(
+        annotationClass = Mapper.class,
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
 public class BatchApplication implements EnvironmentPostProcessor {
 
     /**

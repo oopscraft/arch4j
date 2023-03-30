@@ -6,6 +6,6 @@ import org.oopscraft.arch4j.batch.sample.vo.SampleBackupVo;
 @Mapper
 public interface SampleBackupMapper {
 
-    public Integer insertSample(SampleBackupVo sampleBackupVo);
+    public Integer insertSampleBackup(SampleBackupVo sampleBackupVo);
 
 }

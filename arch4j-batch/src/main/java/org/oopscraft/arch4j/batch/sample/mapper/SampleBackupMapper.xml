@@ -5,6 +5,40 @@
 
 <mapper namespace="org.oopscraft.arch4j.batch.sample.mapper.SampleBackupMapper">
 
-
+    <insert id="insertSampleBackup">
+        <![CDATA[
+        insert into sample_backup (
+            id,
+            name,
+            type,
+            number,
+            long_number,
+            double_number,
+            big_decimal,
+            sql_date,
+            util_date,
+            timestamp,
+            local_date_time,
+            local_date,
+            lob_text,
+            crypto_text
+        ) values (
+            #{id},
+            #{name},
+            #{type},
+            #{number},
+            #{longNumber},
+            #{doubleNumber},
+            #{bigDecimal},
+            #{sqlDate},
+            #{utilDate},
+            #{timestamp},
+            #{localDateTime},
+            #{localDate},
+            #{lobText},
+            #{cryptoText}
+        )
+        ]]>
+    </insert>
 
 </mapper>

@@ -11,6 +11,4 @@ public interface SampleMapper {
 
     public Cursor<SampleVo> selectSamples(@Param("limit") Integer limit);
 
-    public Integer insertSample(SampleBackupVo sampleBackupVo);
-
 }

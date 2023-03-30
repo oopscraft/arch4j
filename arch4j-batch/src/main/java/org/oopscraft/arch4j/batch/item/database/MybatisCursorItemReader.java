@@ -31,10 +31,6 @@ public class MybatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
 
     @Setter
     @Getter
-    private PlatformTransactionManager transactionManager;
-
-    @Setter
-    @Getter
     private SqlSessionFactory sqlSessionFactory;
 
     @Setter
@@ -169,7 +165,6 @@ public class MybatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
          */
         public MybatisCursorItemReader<T> build() {
             MybatisCursorItemReader<T> reader = new MybatisCursorItemReader<>();
-            Optional.ofNullable(transactionManager).ifPresent(reader::setTransactionManager);
             Optional.ofNullable(sqlSessionFactory).ifPresent(reader::setSqlSessionFactory);
             Optional.ofNullable(dataSource).ifPresent(reader::setDataSource);
             Optional.ofNullable(mapperClass).ifPresent(reader::setMapperClass);

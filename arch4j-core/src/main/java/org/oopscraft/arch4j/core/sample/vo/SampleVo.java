@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.sample.vo;
 
 import lombok.*;
+import org.oopscraft.arch4j.core.data.crpyto.Crypto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ public class SampleVo {
 
     private String lobText;
 
+    @Crypto
     private String cryptoText;
 
 }

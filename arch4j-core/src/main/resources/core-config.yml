@@ -39,12 +39,6 @@ spring:
         use_sql_comments: true
         globally_quoted_identifiers: true
 
-# jasypt
-jasypt:
-  encryptor:
-    bean: jasyptEncryptorBean
-    password: password
-
 # mybatis
 mybatis:
   configuration:
@@ -52,3 +46,24 @@ mybatis:
     call-setters-on-nulls: true
     map-underscore-to-camel-case: true
     jdbc-type-for-null: NULL
+#    interceptors:
+#      - org.oopscraft.arch4j.core.data.mybatis.CryptoEncryptInterceptor
+
+
+
+
+# jasypt
+jasypt:
+  encryptor:
+    bean: jasyptEncryptorBean
+    password: password
+
+# crypto
+crypto:
+  key-provider:
+    bean: defaultCryptoKeyProvider
+    password: EgBeF!SBkZZm^vTTEzy)^)3b$v*+T#av%DFnk9yvE$jJVP+hB6(VSWkP$Xr%X(NY
+    salt: 6c0b434f8ba833bca4340687c1ec8b70
+
+
+

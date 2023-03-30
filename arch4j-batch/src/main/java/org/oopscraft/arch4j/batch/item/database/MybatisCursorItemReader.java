@@ -11,6 +11,7 @@ import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+import org.oopscraft.arch4j.core.data.crpyto.CryptoUtil;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.Assert;
@@ -106,6 +107,9 @@ public class MybatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
         T next = null;
         if (cursorIterator.hasNext()) {
             next = cursorIterator.next();
+
+            // decrypt
+            CryptoUtil.getInstance().decryptObject(next);
         }
         return next;
     }

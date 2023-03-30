@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.batch.sample.vo;
 import lombok.*;
 import org.oopscraft.arch4j.batch.item.file.annotation.Align;
 import org.oopscraft.arch4j.batch.item.file.annotation.Length;
+import org.oopscraft.arch4j.core.data.crpyto.Crypto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -54,6 +55,7 @@ public class SampleBackupVo {
     private String lobText;
 
     @Length(100)
+    @Crypto
     private String cryptoText;
 
 }

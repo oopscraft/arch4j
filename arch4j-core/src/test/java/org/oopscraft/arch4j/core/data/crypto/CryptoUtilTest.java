@@ -2,9 +2,10 @@ package org.oopscraft.arch4j.core.data.crypto;
 
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.oopscraft.arch4j.core.data.crpyto.CryptoUtil;
+import org.oopscraft.arch4j.core.test.ServiceTestSupport;
 
 import java.util.Locale;
 import java.util.Random;
@@ -12,7 +13,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
-class CryptoUtilTest {
+class CryptoUtilTest extends ServiceTestSupport {
 
     @ParameterizedTest
     @ValueSource(strings = {"en","ko","ja","zh-CN"})
@@ -21,9 +22,9 @@ class CryptoUtilTest {
             Faker faker = new Faker(new Locale(language), new Random(i));
             String plainValue = faker.name().fullName();
             log.debug("== plainValue:{}", plainValue);
-            String encryptedValue = CryptoUtil.encrypt(plainValue);
+            String encryptedValue = CryptoUtil.getInstance().encrypt(plainValue);
             log.debug("== encryptedValue:{}", encryptedValue);
-            String decryptedValue = CryptoUtil.decrypt(encryptedValue);
+            String decryptedValue = CryptoUtil.getInstance().decrypt(encryptedValue);
             log.debug("== decryptedValue:{}", decryptedValue);
             assertEquals(plainValue, decryptedValue, "decrypted value is not match plain value");
         }

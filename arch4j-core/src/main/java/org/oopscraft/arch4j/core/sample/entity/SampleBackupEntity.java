@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.SampleType;
 
 import javax.persistence.*;
@@ -65,6 +66,7 @@ public class SampleBackupEntity extends SystemFieldEntity {
 
     @Column(name = "crypto_text")
     @Lob
+    @Convert(converter = CryptoConverter.class)
     private String cryptoText;
 
 }

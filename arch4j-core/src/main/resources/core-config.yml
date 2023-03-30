@@ -3,6 +3,7 @@ logging:
   level:
     root: DEBUG
     org.springframework: INFO
+    com.zaxxer.hikari: INFO
     org.hibernate: INFO
     org.hibernate.SQL: INFO
     org.hibernate.type.descriptor.sql: INFO

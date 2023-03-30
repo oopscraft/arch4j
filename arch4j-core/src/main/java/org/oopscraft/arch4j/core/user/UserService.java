@@ -33,6 +33,10 @@ public class UserService {
         userEntity.setNickname(user.getNickname());
         userEntity.setType(user.getType());
         userEntity.setStatus(user.getStatus());
+        userEntity.setMobile(user.getMobile());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setPhoto(user.getPhoto());
+        userEntity.setProfile(user.getProfile());
         userEntity.setRoles(user.getRoles().stream()
                 .map(role -> {
                     return RoleEntity.builder()

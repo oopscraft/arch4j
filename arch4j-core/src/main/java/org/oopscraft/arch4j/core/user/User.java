@@ -31,6 +31,14 @@ public class User {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
+    private String mobile;
+
+    private String email;
+
+    private String photo;
+
+    private String profile;
+
     @Builder.Default
     List<Role> roles = new ArrayList<>();
 
@@ -42,6 +50,10 @@ public class User {
                 .password(userEntity.getPassword())
                 .type(userEntity.getType())
                 .status(userEntity.getStatus())
+                .mobile(userEntity.getMobile())
+                .email(userEntity.getEmail())
+                .photo(userEntity.getPhoto())
+                .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()
                         .map(Role::from)
                         .collect(Collectors.toList()))

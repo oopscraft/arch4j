@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.AbstractEnumConverter;
+import org.oopscraft.arch4j.core.data.crypto.CryptoConverter;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.oopscraft.arch4j.core.user.UserType;
@@ -43,6 +44,20 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "status")
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
+
+    @Column(name = "mobile")
+    private String mobile;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "photo")
+    @Lob
+    private String photo;
+
+    @Column(name = "profile")
+    @Lob
+    private String profile;
 
    /**
      * roles

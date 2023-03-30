@@ -18,10 +18,13 @@ class UserServiceTest extends ServiceTestSupport {
     final UserService userService;
 
     User testUser = User.builder()
-                .id(UUID.randomUUID().toString())
-                .name("user name")
-                .nickname("user nickname")
-                .build();
+            .id(UUID.randomUUID().toString())
+            .name("user name")
+            .nickname("user nickname")
+            .mobile("010-1234-5678")
+            .email("lion@xxx.com")
+            .profile("profile")
+            .build();
 
     @Test
     void saveUser() {

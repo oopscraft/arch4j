@@ -20,8 +20,6 @@ public class CryptoUtil implements ApplicationContextAware {
 
     private static CryptoUtil instance;
 
-    private final CryptoKeyProvider cryptoKeyProvider;
-
     private final TextEncryptor encryptor;
 
     /**
@@ -57,8 +55,7 @@ public class CryptoUtil implements ApplicationContextAware {
      */
     @Autowired
     private CryptoUtil(CryptoKeyProvider cryptoKeyProvider) {
-        this.cryptoKeyProvider = cryptoKeyProvider;
-        encryptor = Encryptors.delux(this.cryptoKeyProvider.getPassword(), this.cryptoKeyProvider.getSalt());
+        encryptor = Encryptors.delux(cryptoKeyProvider.getPassword(), cryptoKeyProvider.getSalt());
     }
 
     /**
@@ -100,8 +97,8 @@ public class CryptoUtil implements ApplicationContextAware {
                     rawText = (String) field.get(object);
                     String cipherText = encrypt(rawText);
                     field.set(object, cipherText);
-                } catch (Throwable ignored) {
-                    log.warn("{} - {}", ignored.getMessage(), rawText);
+                } catch (Throwable ignore) {
+                    log.warn("{} - {}", ignore.getMessage(), rawText);
                 }
             }
         }
@@ -122,8 +119,8 @@ public class CryptoUtil implements ApplicationContextAware {
                     cipherText = (String) field.get(object);
                     String rawText = decrypt(cipherText);
                     field.set(object, rawText);
-                } catch (Throwable ignored) {
-                    log.warn("{} - {}", ignored.getMessage(), cipherText);
+                } catch (Throwable ignore) {
+                    log.warn("{} - {}", ignore.getMessage(), cipherText);
                 }
             }
         }

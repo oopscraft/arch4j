@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.test.ServiceTestSupport;
 import org.oopscraft.arch4j.core.user.entity.UserEntity;
@@ -27,12 +28,42 @@ class UserServiceTest extends ServiceTestSupport {
             .build();
 
     @Test
+    @Order(1)
     void saveUser() {
         userService.saveUser(testUser);
         assertNotNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
     @Test
+    @Order(2)
+    void getUser() {
+
+        // save test user
+        saveUser();
+
+        // get user
+        User user = userService.getUser(testUser.getId()).orElse(null);
+
+        // check
+        assertNotNull(user);
+    }
+
+    @Test
+    @Order(3)
+    void deleteUser() {
+
+        // save test user
+        saveUser();
+
+        // delete
+        userService.deleteUser(testUser.getId());
+
+        // check
+        assertNull(entityManager.find(UserEntity.class, testUser.getId()));
+    }
+
+    @Test
+    @Order(4)
     void getUsers() {
 
         // save test user
@@ -47,32 +78,6 @@ class UserServiceTest extends ServiceTestSupport {
 
         // check result
         assertTrue(userPage.getContent().stream().anyMatch(e -> e.getName().contains(userSearch.getName())));
-    }
-
-    @Test
-    void getUser() {
-
-        // save test user
-        saveUser();
-
-        // get user
-        User user = userService.getUser(testUser.getId()).orElse(null);
-
-        // check
-        assertNotNull(user);
-    }
-
-    @Test
-    void deleteUser() {
-
-        // save test user
-        saveUser();
-
-        // delete
-        userService.deleteUser(testUser.getId());
-
-        // check
-        assertNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
 }

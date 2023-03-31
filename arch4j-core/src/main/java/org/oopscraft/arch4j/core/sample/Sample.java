@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

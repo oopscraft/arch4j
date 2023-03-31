@@ -31,6 +31,9 @@ dependencies {
     // spring doc
     api 'org.springdoc:springdoc-openapi-ui'
 
+    // spring security test
+    api 'org.springframework.security:spring-security-test'
+
 }
 
 test {

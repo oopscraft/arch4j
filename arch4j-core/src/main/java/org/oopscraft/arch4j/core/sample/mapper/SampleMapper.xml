@@ -22,9 +22,8 @@
         <result property="cryptoText" column="crypto_text"/>
     </resultMap>
 
-    <select id="selectSamples" resultMap="sample">
-        <![CDATA[
-        select
+    <sql id="sqlSamples">
+        select  /* SampleMapper.sqlSamples */
                 id,
                 name,
                 type,
@@ -40,8 +39,26 @@
                 lob_text,
                 crypto_text
         from    sample
-        limit   #{limit}
-        ]]>
+        where   1 = 1
+        <if test = "id != null">
+            and id like concat('%',#{id},'%')
+        </if>
+        <if test = "name != null">
+            and name like concat('%',#{name},'%')
+        </if>
+        <if test = "type != null">
+            and type like concat('%',${type},'%')
+        </if>
+    </sql>
+
+    <select id="selectSamples" resultMap="sample">
+        <include refid="sqlSamples"/>
+    </select>
+
+    <select id="selectSamplesCount" resultType="long">
+        select  count(*) from (
+            <include refid="sqlSamples"/>
+        )
     </select>
 
 </mapper>

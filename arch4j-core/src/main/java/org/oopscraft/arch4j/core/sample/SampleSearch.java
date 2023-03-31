@@ -1,11 +1,7 @@
 package org.oopscraft.arch4j.core.sample;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

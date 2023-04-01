@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
 import org.oopscraft.arch4j.core.sample.mapper.SampleMapper;
 import org.oopscraft.arch4j.core.sample.repository.SampleRepository;
 import org.oopscraft.arch4j.core.sample.repository.SampleSpecification;
-import org.oopscraft.arch4j.core.sample.vo.SampleVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

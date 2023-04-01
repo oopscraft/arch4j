@@ -3,12 +3,11 @@ package org.oopscraft.arch4j.web.api.v1;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
-import org.oopscraft.arch4j.core.code.entity.CodeEntity;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.api.v1.dto.CodeResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
-import org.oopscraft.arch4j.web.support.PaginationUtils;
+import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -52,7 +51,7 @@ public class CodeRestController {
                 .map(CodeResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_RANGE, PaginationUtils.toContentRange("code", pageable, codePage))
+                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("code", pageable, codePage.getTotalElements()))
                 .body(codeResponses);
     }
 

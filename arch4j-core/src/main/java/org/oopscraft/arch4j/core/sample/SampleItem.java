@@ -27,6 +27,8 @@ public class SampleItem {
 
     private String name;
 
+    private String value;
+
     private Integer order;
 
     /**

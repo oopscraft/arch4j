@@ -35,6 +35,9 @@ public class SampleItemEntity extends SystemFieldEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "value")
+    private String value;
+
     @Column(name = "order")
     private Integer order;
 

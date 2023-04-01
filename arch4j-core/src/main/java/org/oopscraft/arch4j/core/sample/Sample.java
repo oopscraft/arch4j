@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.sample;
 
 import lombok.*;
+import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,5 +45,9 @@ public class Sample {
 
     @Singular("item")
     private List<SampleItem> items = new ArrayList<>();
+
+    public void addItem(SampleItem item) {
+        items.add(item);
+    }
 
 }

@@ -84,7 +84,14 @@ public class SampleService {
         // find data
         Page<SampleEntity> sampleEntityPage = sampleRepository.findAll(specification, pageable);
         List<Sample> samples  = sampleEntityPage.getContent().stream()
-                .map(sampleEntity -> modelMapper.map(sampleEntity, Sample.class))
+                .map(sampleEntity -> {
+                    Sample sample = modelMapper.map(sampleEntity, Sample.class);
+                    sampleEntity.getItems().forEach(sampleItemEntity -> {
+                        SampleItem sampleItem = modelMapper.map(sampleItemEntity, SampleItem.class);
+                        sample.addItem(sampleItem);
+                    });
+                    return sample;
+                })
                 .collect(Collectors.toList());
         long total = sampleEntityPage.getTotalElements();
 

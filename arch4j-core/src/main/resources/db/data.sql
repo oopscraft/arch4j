@@ -27,4 +27,9 @@ insert into `code` (`id`,`name`,`note`) values ('test1','test code 1','test code
 insert into `code` (`id`,`name`,`note`) values ('test2','test code 2','test code 2');
 insert into `code` (`id`,`name`,`note`) values ('test3','test code 3','test code 3');
 
+-- sample
+insert into `sample` (`id`, `name`, `type`) values ('sample001', 'sample 001', 'A');
+insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample001','item01','Item 01');
+insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample002','item02','Item 02');
+
 

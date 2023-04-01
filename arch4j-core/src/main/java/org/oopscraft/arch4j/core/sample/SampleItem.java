@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.entity.SampleItemEntity;
 import org.oopscraft.arch4j.core.sample.entity.SampleItemEntity_;
+import org.oopscraft.arch4j.core.support.ModelMapperFactory;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -27,5 +28,15 @@ public class SampleItem {
     private String name;
 
     private Integer order;
+
+    /**
+     * factory method
+     * @param sampleItemEntity sample item entity
+     * @return sample item
+     */
+    public static SampleItem from(SampleItemEntity sampleItemEntity) {
+        return ModelMapperFactory.getInstance()
+                .map(sampleItemEntity, SampleItem.class);
+    }
 
 }

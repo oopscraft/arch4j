@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web.api.v1;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.oopscraft.arch4j.core.sample.Sample;
 import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.oopscraft.arch4j.core.sample.SampleService;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,6 +30,8 @@ import java.util.Optional;
 public class SampleRestController {
 
     private final SampleService sampleService;
+
+    private final ModelMapper modelMapper;
 
     @GetMapping
     @Operation(summary = "Gets list of samples")
@@ -39,18 +42,28 @@ public class SampleRestController {
             @RequestParam(value = "type", required = false) String type,
             Pageable pageable
     ) {
+        // search condition
         SampleSearch sampleSearch = SampleSearch.builder()
                 .id(id)
                 .name(name)
-                .type(Optional.ofNullable(type).map(SampleType.valueOf(type)).orElse(null))
+                .type(Optional.ofNullable(type).map(SampleType::valueOf).orElse(null))
                 .build();
+
+        // search sample page
         Page<Sample> samplePage = sampleService.getSamplesByJpa(sampleSearch, pageable);
-        List<Sample> samples = samplePage.getContent();
+
+        // response list
+        List<SampleResponse> sampleResponses = samplePage.getContent().stream()
+                .map(sample -> modelMapper.map(sample, SampleResponse.class))
+                .collect(Collectors.toList());
+
+        // total size
         long totalSize = samplePage.getTotalElements();
 
+        // response
         return ResponseEntity.ok()
-                .contentType(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("sample", pageable, totalSize))
-                .body(samples);
+                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("sample", pageable, totalSize))
+                .body(sampleResponses);
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.oopscraft.arch4j.core.sample.SampleType;
 import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
+import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
 import org.oopscraft.arch4j.core.sample.vo.SampleVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,30 +22,26 @@ public class SampleRepositorySupportImpl implements SampleRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<SampleVo> findSamples(SampleSearch sampleSearch, Pageable pageable) {
+    public Page<SampleEntity> findSamples(SampleSearch sampleSearch, Pageable pageable) {
 
         // query
         QSampleEntity qSampleEntity = QSampleEntity.sampleEntity;
-        JPAQuery<SampleVo> query = jpaQueryFactory
-                .select(Projections.fields(SampleVo.class,
-                        qSampleEntity.id,
-                        qSampleEntity.name,
-                        qSampleEntity.type.stringValue().as("type"),
-                        qSampleEntity.number,
-                        qSampleEntity.longNumber,
-                        qSampleEntity.doubleNumber,
-                        qSampleEntity.bigDecimal,
-                        qSampleEntity.sqlDate,
-                        qSampleEntity.utilDate,
-                        qSampleEntity.timestamp,
-                        qSampleEntity.localDate,
-                        qSampleEntity.localDateTime,
-                        qSampleEntity.lobText,
-                        qSampleEntity.cryptoText
-                )).from(qSampleEntity);
+        JPAQuery<SampleEntity> query = jpaQueryFactory
+                .selectFrom(qSampleEntity);
+
+        // where condition
+        if(sampleSearch.getId() != null) {
+            query.where(qSampleEntity.id.contains(sampleSearch.getId()));
+        }
+        if(sampleSearch.getName() != null) {
+            query.where(qSampleEntity.name.contains(sampleSearch.getName()));
+        }
+        if(sampleSearch.getType() != null) {
+            query.where(qSampleEntity.type.eq(sampleSearch.getType()));
+        }
 
         // content
-        List<SampleVo> content = query.clone()
+        List<SampleEntity> content = query.clone()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

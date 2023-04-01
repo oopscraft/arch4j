@@ -1,13 +1,16 @@
 package org.oopscraft.arch4j.core.sample;
 
 import lombok.*;
+import org.modelmapper.ModelMapper;
 import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import org.oopscraft.arch4j.core.support.ModelMapperFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -48,6 +51,20 @@ public class Sample {
 
     public void addItem(SampleItem item) {
         items.add(item);
+    }
+
+    /**
+     * factory method
+     * @param sampleEntity sample entity
+     * @return sample
+     */
+    public static Sample from(SampleEntity sampleEntity) {
+        Sample sample = ModelMapperFactory.getInstance()
+                .map(sampleEntity, Sample.class);
+        sample.setItems(sampleEntity.getItems().stream()
+                .map(SampleItem::from)
+                .collect(Collectors.toList()));
+        return sample;
     }
 
 }

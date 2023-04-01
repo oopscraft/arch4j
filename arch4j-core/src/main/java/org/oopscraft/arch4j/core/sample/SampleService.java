@@ -84,14 +84,7 @@ public class SampleService {
         // find data
         Page<SampleEntity> sampleEntityPage = sampleRepository.findAll(specification, pageable);
         List<Sample> samples  = sampleEntityPage.getContent().stream()
-                .map(sampleEntity -> {
-                    Sample sample = modelMapper.map(sampleEntity, Sample.class);
-                    sampleEntity.getItems().forEach(sampleItemEntity -> {
-                        SampleItem sampleItem = modelMapper.map(sampleItemEntity, SampleItem.class);
-                        sample.addItem(sampleItem);
-                    });
-                    return sample;
-                })
+                .map(Sample::from)
                 .collect(Collectors.toList());
         long total = sampleEntityPage.getTotalElements();
 
@@ -108,11 +101,11 @@ public class SampleService {
     public Page<Sample> getSamplesByQuerydsl(SampleSearch sampleSearch, Pageable pageable) {
 
         // find
-        Page<SampleVo> sampleVoPage = sampleRepository.findSamples(sampleSearch, pageable);
+        Page<SampleEntity> sampleVoPage = sampleRepository.findSamples(sampleSearch, pageable);
 
         // convert
         List<Sample> samples = sampleVoPage.getContent().stream()
-                .map(sampleVo -> modelMapper.map(sampleVo, Sample.class))
+                .map(Sample::from)
                 .collect(Collectors.toList());
         long total = sampleVoPage.getTotalElements();
 

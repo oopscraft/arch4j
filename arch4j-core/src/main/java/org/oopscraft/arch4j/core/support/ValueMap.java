@@ -7,12 +7,7 @@ import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 
-/**
- * value map helper
- */
 public class ValueMap extends LinkedHashMap<String,Object> {
-
-    private static final long serialVersionUID = -8060385408388947013L;
 
     public ValueMap(){
         super();

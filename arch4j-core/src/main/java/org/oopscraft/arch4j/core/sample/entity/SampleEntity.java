@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sample")
@@ -65,5 +67,10 @@ public class SampleEntity extends SystemFieldEntity {
     @Lob
     @Convert(converter = CryptoConverter.class)
     private String cryptoText;
+
+    @Singular("item")
+    @OneToMany(mappedBy = SampleItemEntity_.SAMPLE_ID, cascade = CascadeType.ALL, orphanRemoval= true, fetch = FetchType.LAZY)
+    @OrderBy(SampleItemEntity_.ORDER)
+    private List<SampleItemEntity> items = new ArrayList<>();
 
 }

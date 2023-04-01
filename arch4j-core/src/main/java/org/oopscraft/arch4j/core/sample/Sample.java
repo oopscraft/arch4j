@@ -1,21 +1,17 @@
 package org.oopscraft.arch4j.core.sample;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-@SuperBuilder
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Sample {
 
     private String id;
@@ -45,5 +41,8 @@ public class Sample {
     private String lobText;
 
     private String cryptoText;
+
+    @Singular("item")
+    private List<SampleItem> items = new ArrayList<>();
 
 }

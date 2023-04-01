@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
-import org.oopscraft.arch4j.core.test.ServiceTestSupport;
+import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
-class SampleServiceTest extends ServiceTestSupport {
+class SampleServiceTest extends CoreTestSupport {
 
     final SampleService sampleService;
 

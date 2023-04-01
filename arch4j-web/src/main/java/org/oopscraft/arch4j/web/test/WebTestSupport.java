@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
 @Rollback
-public class ControllerTestSupport {
+public class WebTestSupport {
 
     @Autowired
     @Getter

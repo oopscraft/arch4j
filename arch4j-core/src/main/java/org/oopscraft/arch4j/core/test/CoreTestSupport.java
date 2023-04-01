@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.oopscraft.arch4j.core.CoreApplication;
@@ -16,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Slf4j
 @SpringBootTest(
-        classes = {CoreApplication.class},
+        classes = CoreApplication.class,
         properties = {
                 "spring.main.lazy-initialization=true",
                 "spring.main.web-application-type=none"
@@ -26,7 +25,7 @@ import javax.persistence.PersistenceContext;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
 @Rollback
-public abstract class ServiceTestSupport {
+public abstract class CoreTestSupport {
 
     @Autowired
     @PersistenceContext

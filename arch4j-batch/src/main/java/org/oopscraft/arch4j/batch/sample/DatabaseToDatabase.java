@@ -35,11 +35,28 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
 
     private final ModelMapper modelMapper;
 
+    /**
+     * querydsl to jpa
+     * @return job
+     */
     @Bean
     Job querydslToJpaJob() {
         return getJobBuilder("querydslToJpaJob")
                 .start(createSampleDataStep())
                 .next(querydslCursorItemReaderToJpaItemWriterStep())
+                .next(compareSampleDataToBackupDateStep())
+                .build();
+    }
+
+    /**
+     * mybatis to mybatis
+     * @return job
+     */
+    @Bean
+    Job mybatisToMybatisJob() {
+        return getJobBuilder("mybatisToMybatisJob")
+                .start(createSampleDataStep())
+                .next(mybatisCursorItemReaderToMybatisItemWriterStep())
                 .next(compareSampleDataToBackupDateStep())
                 .build();
     }
@@ -118,15 +135,6 @@ public class DatabaseToDatabase extends AbstractBatchConfigurer {
     @StepScope
     CompareSampleDataToBackupDataTasklet compareSampleDataToBackupDataTasklet() {
         return CompareSampleDataToBackupDataTasklet.builder()
-                .build();
-    }
-
-    @Bean
-    Job mybatisToMybatisJob() {
-        return getJobBuilder("mybatisToMybatisJob")
-                .start(createSampleDataStep())
-                .next(mybatisCursorItemReaderToMybatisItemWriterStep())
-                .next(compareSampleDataToBackupDateStep())
                 .build();
     }
 

@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.oopscraft.arch4j.core.sample.SampleType;
 import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.vo.SampleVo;
@@ -20,7 +21,7 @@ public class SampleRepositorySupportImpl implements SampleRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<SampleVo> findSamples(String id, String name, SampleType type, Pageable pageable) {
+    public Page<SampleVo> findSamples(SampleSearch sampleSearch, Pageable pageable) {
 
         // query
         QSampleEntity qSampleEntity = QSampleEntity.sampleEntity;

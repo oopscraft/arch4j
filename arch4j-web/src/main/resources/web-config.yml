@@ -2,6 +2,9 @@
 logging:
   level:
     root: DEBUG
+    org.apache.catalina.core.AprLifecycleListener: INFO
+    org.apache.tomcat.util.compat: INFO
+    org.apache.coyote.http11: INFO
 
 # server
 server:

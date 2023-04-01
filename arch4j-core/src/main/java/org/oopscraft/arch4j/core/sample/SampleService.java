@@ -101,7 +101,7 @@ public class SampleService {
     public Page<Sample> getSamplesByQuerydsl(SampleSearch sampleSearch, Pageable pageable) {
 
         // find
-        Page<SampleVo> sampleVoPage = sampleRepository.findSamples(sampleSearch.getId(), sampleSearch.getName(), sampleSearch.getType(), pageable);
+        Page<SampleVo> sampleVoPage = sampleRepository.findSamples(sampleSearch, pageable);
 
         // convert
         List<Sample> samples = sampleVoPage.getContent().stream()

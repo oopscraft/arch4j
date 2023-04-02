@@ -28,24 +28,26 @@ public class UserService {
                     .password(user.getPassword())
                     .build();
         }
-        userEntity.setUsername(user.getUsername());
-        userEntity.setNickname(user.getNickname());
-        userEntity.setType(user.getType());
-        userEntity.setStatus(user.getStatus());
-        userEntity.setMobile(user.getMobile());
-        userEntity.setEmail(user.getEmail());
-        userEntity.setPhoto(user.getPhoto());
-        userEntity.setProfile(user.getProfile());
-        userEntity.setRoles(user.getRoles().stream()
-                .map(role -> {
-                    return RoleEntity.builder()
-                            .id(role.getId())
-                            .name(role.getName())
-                            .icon(role.getIcon())
-                            .note(role.getNote())
-                            .build();
-                })
-                .collect(Collectors.toList()));
+        userEntity.toBuilder()
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .type(user.getType())
+                .status(user.getStatus())
+                .email(user.getEmail())
+                .mobile(user.getMobile())
+                .photo(user.getPhoto())
+                .profile(user.getProfile())
+                .roles(user.getRoles().stream()
+                        .map(role -> {
+                            return RoleEntity.builder()
+                                    .id(role.getId())
+                                    .name(role.getName())
+                                    .icon(role.getIcon())
+                                    .note(role.getNote())
+                                    .build();
+                        })
+                        .collect(Collectors.toList()))
+                .build();
         userRepository.saveAndFlush(userEntity);
     }
 

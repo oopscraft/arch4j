@@ -22,7 +22,7 @@ import java.util.List;
 )
 @Data
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity extends SystemFieldEntity {

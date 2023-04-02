@@ -2,8 +2,6 @@ package org.oopscraft.arch4j.core.sample.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
-import org.oopscraft.arch4j.core.sample.entity.SampleItemEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

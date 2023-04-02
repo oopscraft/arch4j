@@ -1,7 +1,8 @@
-package org.oopscraft.arch4j.core.code.entity;
+package org.oopscraft.arch4j.core.code.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.code.entity.CodeItemEntity_;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;

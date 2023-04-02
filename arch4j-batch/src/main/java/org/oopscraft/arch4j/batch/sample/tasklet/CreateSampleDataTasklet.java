@@ -7,7 +7,7 @@ import net.datafaker.Faker;
 import org.oopscraft.arch4j.batch.support.ManualTransactionHandler;
 import org.oopscraft.arch4j.core.sample.entity.QSampleBackupEntity;
 import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
 import org.oopscraft.arch4j.core.sample.repository.SampleRepository;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;

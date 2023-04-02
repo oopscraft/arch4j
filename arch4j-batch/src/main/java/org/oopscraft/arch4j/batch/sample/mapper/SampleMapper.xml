@@ -5,7 +5,7 @@
 
 <mapper namespace="org.oopscraft.arch4j.batch.sample.mapper.SampleMapper">
 
-    <resultMap id="sample" type="org.oopscraft.arch4j.batch.sample.vo.SampleVo">
+    <resultMap id="sample" type="org.oopscraft.arch4j.batch.sample.mapper.SampleVo">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="type" column="type"/>

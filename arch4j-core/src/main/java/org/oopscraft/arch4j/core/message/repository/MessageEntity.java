@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.message.entity;
+package org.oopscraft.arch4j.core.message.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

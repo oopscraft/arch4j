@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.sample.vo;
+package org.oopscraft.arch4j.core.sample.mapper;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.data.crpyto.Crypto;

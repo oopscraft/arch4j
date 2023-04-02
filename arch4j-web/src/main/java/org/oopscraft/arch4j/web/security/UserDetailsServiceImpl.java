@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.entity.UserEntity;
+import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

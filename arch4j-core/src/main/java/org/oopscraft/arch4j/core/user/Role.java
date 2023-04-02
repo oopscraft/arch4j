@@ -1,11 +1,8 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.user.entity.RoleEntity;
+import org.oopscraft.arch4j.core.user.repository.RoleEntity;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

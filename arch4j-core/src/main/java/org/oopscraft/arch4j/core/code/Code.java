@@ -2,11 +2,8 @@ package org.oopscraft.arch4j.core.code;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.code.entity.CodeEntity;
-import org.oopscraft.arch4j.core.code.entity.CodeItemEntity;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.code.repository.CodeEntity;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

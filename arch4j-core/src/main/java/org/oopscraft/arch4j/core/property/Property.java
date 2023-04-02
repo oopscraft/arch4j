@@ -2,10 +2,7 @@ package org.oopscraft.arch4j.core.property;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.property.entity.PropertyEntity;
-
-import javax.persistence.*;
+import org.oopscraft.arch4j.core.property.repository.PropertyEntity;
 
 @Data
 @SuperBuilder

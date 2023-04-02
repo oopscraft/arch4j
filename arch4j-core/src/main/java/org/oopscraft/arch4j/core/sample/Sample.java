@@ -1,8 +1,7 @@
 package org.oopscraft.arch4j.core.sample;
 
 import lombok.*;
-import org.modelmapper.ModelMapper;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
 import org.oopscraft.arch4j.core.support.ModelMapperFactory;
 
 import java.math.BigDecimal;

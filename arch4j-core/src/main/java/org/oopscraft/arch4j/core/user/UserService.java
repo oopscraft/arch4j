@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.entity.RoleEntity;
-import org.oopscraft.arch4j.core.user.entity.UserEntity;
+import org.oopscraft.arch4j.core.user.repository.RoleEntity;
+import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.sample.vo;
+package org.oopscraft.arch4j.batch.sample.mapper;
 
 import lombok.*;
 import org.oopscraft.arch4j.batch.item.file.annotation.Align;

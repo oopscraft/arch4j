@@ -1,6 +1,9 @@
-package org.oopscraft.arch4j.core.sample.entity;
+package org.oopscraft.arch4j.core.sample.repository;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
@@ -10,17 +13,15 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "sample")
+@Table(name = "sample_backup")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SampleEntity extends SystemFieldEntity {
+public class SampleBackupEntity extends SystemFieldEntity {
 
     @Id
     @Column(name = "id", length=64)
@@ -67,10 +68,5 @@ public class SampleEntity extends SystemFieldEntity {
     @Lob
     @Convert(converter = CryptoConverter.class)
     private String cryptoText;
-
-    @Singular("item")
-    @OneToMany(mappedBy = SampleItemEntity_.SAMPLE_ID, cascade = CascadeType.ALL, orphanRemoval= true, fetch = FetchType.LAZY)
-    @OrderBy(SampleItemEntity_.ORDER)
-    private List<SampleItemEntity> items = new ArrayList<>();
 
 }

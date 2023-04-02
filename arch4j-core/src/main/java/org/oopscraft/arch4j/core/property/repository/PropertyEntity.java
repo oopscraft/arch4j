@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.property.entity;
+package org.oopscraft.arch4j.core.property.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,13 +1,9 @@
 package org.oopscraft.arch4j.core.user;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.converter.AbstractEnumConverter;
-import org.oopscraft.arch4j.core.user.entity.UserEntity;
+import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
-import org.oopscraft.arch4j.core.code.entity.CodeEntity;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;

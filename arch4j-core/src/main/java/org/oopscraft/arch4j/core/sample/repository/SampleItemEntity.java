@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.sample.entity;
+package org.oopscraft.arch4j.core.sample.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

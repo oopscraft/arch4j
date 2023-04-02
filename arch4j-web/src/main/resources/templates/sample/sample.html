@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<main layout:fragment="_main">
+    <script>
+        const sampleSearch = new duice.ObjectProxy({
+            key: null,
+            value: null
+        });
+
+        const samples = new duice.ArrayProxy([]);
+
+        function getSamples() {
+            let url = new URL("[[@{/admin/sample/get-samples}]]", document.location.origin);
+            if (sampleSearch.key && sampleSearch.value) {
+                url.searchParams.append(sampleSearch.key, sampleSearch.value);
+            }
+            duice.fetch(url)
+                .then(async response => {
+                    let json = await response.json();
+                    duice.ArrayProxy.assign(samples, json.content);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded',()=> {
+            getSamples();
+        });
+    </script>
+    <h1>
+        <img th:src="@{/static/image/icon-sample.png}"/>
+        Property
+    </h1>
+    <div class="row">
+        <div class="col">
+            <form onsubmit="return false;">
+                <select data-duice-object="sampleSearch" data-duice-sample="key">
+                    <option value>- Search Key -</option>
+                    <option value="id">id</option>
+                    <option value="name">name</option>
+                </select>
+                <input type="text" data-duice-object="sampleSearch" data-duice-sample="value"/>
+                <button onclick="getSamples();">&#128269; Search</button>
+                <button onclick="reset();">&#9986; Reset</button>
+            </form>
+        </div>
+        <div class="col">
+            <button onclick="">&#10133; Create</button>
+        </div>
+    </div>
+    <table>
+        <colgroup>
+            <col style="width:100px;"/>
+            <col/>
+            <col/>
+            <col/>
+            <col style="width:70px;"/>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-duice-array="samples" data-duice-loop="sample,status">
+                <td data-duice-object="status" data-duice-sample="count" class="ta-center"></td>
+                <td data-duice-object="sample" data-duice-sample="id"></td>
+                <td data-duice-object="sample" data-duice-sample="name"></td>
+                <td data-duice-object="sample" data-duice-sample="value"></td>
+                <td class="ta-center">
+                    <button>&#128221; Detail</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+    </div>
+
+</main>

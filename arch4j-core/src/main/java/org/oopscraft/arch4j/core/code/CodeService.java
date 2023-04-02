@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.core.code;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.code.entity.CodeEntity;
-import org.oopscraft.arch4j.core.code.entity.CodeItemEntity;
+import org.oopscraft.arch4j.core.code.repository.CodeEntity;
+import org.oopscraft.arch4j.core.code.repository.CodeItemEntity;
 import org.oopscraft.arch4j.core.code.repository.CodeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

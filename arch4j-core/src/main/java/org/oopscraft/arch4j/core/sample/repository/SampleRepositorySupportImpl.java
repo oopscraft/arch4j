@@ -1,14 +1,9 @@
 package org.oopscraft.arch4j.core.sample.repository;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.sample.SampleSearch;
-import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
-import org.oopscraft.arch4j.core.sample.vo.SampleVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

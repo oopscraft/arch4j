@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.sample;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.RowBounds;
 import org.modelmapper.ModelMapper;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity;
+import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
 import org.oopscraft.arch4j.core.sample.mapper.SampleMapper;
 import org.oopscraft.arch4j.core.sample.repository.SampleRepository;
 import org.oopscraft.arch4j.core.sample.repository.SampleSpecification;

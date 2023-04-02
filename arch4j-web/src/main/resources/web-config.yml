@@ -47,6 +47,9 @@ spring:
         web-allow-others: true
   session:
     store-type: jdbc
+  security:
+    anonymous:
+      authorities: ~
 
 # springdoc
 springdoc:

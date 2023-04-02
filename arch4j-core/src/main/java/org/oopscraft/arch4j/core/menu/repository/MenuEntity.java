@@ -1,5 +1,9 @@
 package org.oopscraft.arch4j.core.menu.repository;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,7 +11,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "menu")
-public class MenuEntity {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public class MenuEntity extends SystemFieldEntity {
 
     @Id
     @Column(name = "id")

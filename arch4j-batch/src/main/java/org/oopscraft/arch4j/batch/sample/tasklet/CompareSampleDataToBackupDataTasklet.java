@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.oopscraft.arch4j.core.sample.entity.QSampleEntity;
+import org.oopscraft.arch4j.core.sample.repository.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.repository.SampleBackupEntity;
 import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
 import org.oopscraft.arch4j.core.sample.repository.SampleBackupRepository;

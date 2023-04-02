@@ -54,23 +54,28 @@
             <col/>
             <col/>
             <col/>
+            <col/>
             <col style="width:70px;"/>
         </colgroup>
         <thead>
             <tr>
                 <th>No</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Value</th>
+                <th>Username</th>
+                <th>Nickname</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Roles</th>
                 <th>-</th>
             </tr>
         </thead>
         <tbody>
             <tr data-duice-array="users" data-duice-loop="user,status">
-                <td data-duice-object="status" data-duice-user="count" class="ta-center"></td>
-                <td data-duice-object="user" data-duice-user="id"></td>
-                <td data-duice-object="user" data-duice-user="name"></td>
-                <td data-duice-object="user" data-duice-user="value"></td>
+                <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
+                <td data-duice-object="user" data-duice-property="username"></td>
+                <td data-duice-object="user" data-duice-property="nickname"></td>
+                <td><span data-duice-object="user" data-duice-property="type"></span></td>
+                <td><span data-duice-object="user" data-duice-property="status"></span></td>
+                <td><span></span></td>
                 <td class="ta-center">
                     <button>&#128221; Detail</button>
                 </td>

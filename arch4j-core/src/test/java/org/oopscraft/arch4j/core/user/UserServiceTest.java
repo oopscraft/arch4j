@@ -20,7 +20,7 @@ class UserServiceTest extends CoreTestSupport {
 
     User testUser = User.builder()
             .id(UUID.randomUUID().toString())
-            .name("user name")
+            .username("user name")
             .nickname("user nickname")
             .mobile("010-1234-5678")
             .email("lion@xxx.com")
@@ -71,13 +71,13 @@ class UserServiceTest extends CoreTestSupport {
 
         // get users by condition
         UserSearch userSearch = UserSearch.builder()
-                .name(testUser.getName())
+                .name(testUser.getUsername())
                 .build();
         Pageable pageable = PageRequest.of(0, 10);
         Page<User> userPage = userService.getUsers(userSearch, pageable);
 
         // check result
-        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getName().contains(userSearch.getName())));
+        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getUsername().contains(userSearch.getName())));
     }
 
 }

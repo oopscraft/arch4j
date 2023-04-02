@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(SystemFieldListener.class)
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class SystemFieldEntity {

@@ -15,11 +15,11 @@ public class User {
 
     private final String id;
 
-    private String name;
-
-    private String nickname;
+    private String username;
 
     private String password;
+
+    private String nickname;
 
     @Builder.Default
     private UserType type = UserType.GENERAL;
@@ -27,9 +27,9 @@ public class User {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    private String mobile;
-
     private String email;
+
+    private String mobile;
 
     private String photo;
 
@@ -41,13 +41,13 @@ public class User {
     public static User from(UserEntity userEntity) {
         return User.builder()
                 .id(userEntity.getId())
-                .name(userEntity.getName())
-                .nickname(userEntity.getNickname())
+                .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
+                .nickname(userEntity.getNickname())
                 .type(userEntity.getType())
                 .status(userEntity.getStatus())
-                .mobile(userEntity.getMobile())
                 .email(userEntity.getEmail())
+                .mobile(userEntity.getMobile())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()

@@ -1,39 +1,40 @@
 package org.oopscraft.arch4j.web.security;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.Singular;
+import org.oopscraft.arch4j.core.user.Authority;
+import org.oopscraft.arch4j.core.user.User;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-
+@Getter
+@Builder
 public class UserDetailsImpl implements UserDetails, CredentialsContainer {
+
+    private String id;
 
     private String username;
 
-    @Setter
     private String password;
 
-    @Setter
-    private boolean accountNonLocked = true;
+    @Builder.Default
+    private Boolean accountNonLocked = true;
 
-    @Setter
-    private boolean accountNonExpired = true;
+    @Builder.Default
+    private Boolean accountNonExpired = true;
 
-    @Setter
-    private boolean credentialNonExpired = true;
+    @Builder.Default
+    private Boolean credentialNonExpired = true;
 
+    @Builder.Default
     private Collection<GrantedAuthority> authorities = new ArrayList<>();
-
-    /**
-     * constructor
-     * @param username
-     */
-    public UserDetailsImpl(String username) {
-        this.username = username;
-    }
 
     @Override
     public String getUsername() {
@@ -60,14 +61,6 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
         return this.credentialNonExpired;
     }
 
-    /**
-     * addAuthority
-     * @param authority
-     */
-    public void addAuthority(GrantedAuthority authority) {
-        this.authorities.add(authority);
-    }
-
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
@@ -81,6 +74,31 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     @Override
     public void eraseCredentials() {
         this.password = null;
+    }
+
+    /**
+     * factory method
+     * @param user user
+     * @return userDetailsImpl
+     */
+    public static UserDetailsImpl from(User user) {
+
+        // adds authorities
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(GrantedAuthorityImpl.from(role));
+            role.getAuthorities().forEach(authority -> {
+                authorities.add(GrantedAuthorityImpl.from(authority));
+            });
+        });
+
+        // build
+        return UserDetailsImpl.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .authorities(authorities)
+                .build();
     }
 
 }

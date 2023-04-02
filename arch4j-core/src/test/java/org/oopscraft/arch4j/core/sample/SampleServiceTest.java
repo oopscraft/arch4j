@@ -43,10 +43,10 @@ class SampleServiceTest extends CoreTestSupport {
         saveSample();
 
         // get sample
-        Sample sample = sampleService.getSample(testSample.getId())
-                .orElseThrow(RuntimeException::new);
+        Sample sample = sampleService.getSample(testSample.getId()).orElse(null);
 
         // check
+        assertNotNull(sample);
         assertEquals(testSample.getId(), sample.getId());
     }
 

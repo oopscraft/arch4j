@@ -24,11 +24,11 @@ public class UserService {
         if(userEntity == null) {
             userEntity = UserEntity.builder()
                     .id(user.getId())
-                    .name(user.getName())
+                    .username(user.getUsername())
                     .password(user.getPassword())
                     .build();
         }
-        userEntity.setName(user.getName());
+        userEntity.setUsername(user.getUsername());
         userEntity.setNickname(user.getNickname());
         userEntity.setType(user.getType());
         userEntity.setStatus(user.getStatus());

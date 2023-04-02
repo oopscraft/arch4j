@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -75,6 +76,9 @@ public class WebApplication implements EnvironmentPostProcessor {
     // TODO @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
     static class SecurityConfiguration {
 
+        @Value("${spring.security.anonymous.authorities}")
+        private String anonymousAuthorities;
+
         /**
          * admin security filter chain
          *
@@ -91,6 +95,10 @@ public class WebApplication implements EnvironmentPostProcessor {
                 }
                 return false;
             });
+            // anonymous role
+            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
+                http.anonymous().authorities(anonymousAuthorities);
+            }
             // has ADMIN role
             http.authorizeRequests().anyRequest().hasRole("ADMIN");
             // csrf

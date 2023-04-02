@@ -1,5 +1,9 @@
 subprojects {
 
+    repositories {
+        mavenCentral()
+    }
+
     afterEvaluate {
         // java
         if(it.plugins.hasPlugin("java")) {

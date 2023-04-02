@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1;
+package org.oopscraft.arch4j.web.api.v1.sample;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.sample.Sample;
 import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.oopscraft.arch4j.core.sample.SampleService;
 import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.web.api.v1.dto.SampleResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1.dto;
+package org.oopscraft.arch4j.web.api.v1.code;
 
 import lombok.Builder;
 import lombok.Data;

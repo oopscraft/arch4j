@@ -1,11 +1,10 @@
-package org.oopscraft.arch4j.web.api.v1;
+package org.oopscraft.arch4j.web.api.v1.code;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
-import org.oopscraft.arch4j.web.api.v1.dto.CodeResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;

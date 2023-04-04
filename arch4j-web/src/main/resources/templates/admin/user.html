@@ -6,7 +6,10 @@
     <script>
         const userSearch = new duice.ObjectProxy({
             key: null,
-            value: null
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
         });
 
         const users = new duice.ArrayProxy([]);
@@ -20,44 +23,70 @@
                 .then(async response => {
                     let json = await response.json();
                     duice.ArrayProxy.assign(users, json.content);
+                    console.log(json.totalElements);
+                    userSearch._count = json.totalElements;
                 });
         }
 
         document.addEventListener('DOMContentLoaded',()=> {
-            getUsers();
+            let tabFolder = duice.tabFolder(
+                duice.tabItem(document.getElementById('userTabButton'), document.getElementById('userTabContent'), () => {
+                    getUsers();
+                }),
+                duice.tabItem(document.getElementById('roleTabButton'), document.getElementById('roleTabContent'), () => {
+                    //getUsers();
+                }),
+                duice.tabItem(document.getElementById('authorityTabButton'), document.getElementById('authorityTabContent'), () => {
+                    //getUsers();
+                })
+            );
+            tabFolder.setActive(0);
         });
     </script>
     <h1>
         <img th:src="@{/static/image/icon-user.png}"/>
         Property
     </h1>
-    <div class="row">
-        <div class="col">
-            <form onsubmit="return false;">
-                <select data-duice-object="userSearch" data-duice-user="key">
-                    <option value>- Search Key -</option>
-                    <option value="id">id</option>
-                    <option value="name">name</option>
-                </select>
-                <input type="text" data-duice-object="userSearch" data-duice-user="value"/>
-                <button onclick="getUsers();">&#128269; Search</button>
-                <button onclick="reset();">&#9986; Reset</button>
-            </form>
-        </div>
-        <div class="col">
-            <button onclick="">&#10133; Create</button>
-        </div>
+    <div>
+        <span id="userTabButton">
+            User
+        </span>
+        <span id="roleTabButton">
+            Role
+        </span>
+        <span id="authorityTabButton">
+            Authority
+        </span>
     </div>
-    <table>
-        <colgroup>
-            <col style="width:100px;"/>
-            <col/>
-            <col/>
-            <col/>
-            <col/>
-            <col style="width:70px;"/>
-        </colgroup>
-        <thead>
+    <!-- userTabContent -->
+    <div id="userTabContent">
+        <div class="row">
+            <div class="col">
+                <form onsubmit="return false;">
+                    <select data-duice-object="userSearch" data-duice-user="key">
+                        <option value>- Search Key -</option>
+                        <option value="id">id</option>
+                        <option value="name">name</option>
+                    </select>
+                    <input type="text" data-duice-object="userSearch" data-duice-user="value"/>
+                    <button onclick="getUsers();">&#128269; Search</button>
+                    <button onclick="reset();">&#9986; Reset</button>
+                </form>
+            </div>
+            <div class="col">
+                <button onclick="">&#10133; Create</button>
+            </div>
+        </div>
+        <table>
+            <colgroup>
+                <col style="width:100px;"/>
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+                <col style="width:70px;"/>
+            </colgroup>
+            <thead>
             <tr>
                 <th>No</th>
                 <th>Username</th>
@@ -67,8 +96,8 @@
                 <th>Roles</th>
                 <th>-</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr data-duice-array="users" data-duice-loop="user,status">
                 <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
                 <td data-duice-object="user" data-duice-property="username"></td>
@@ -80,12 +109,29 @@
                     <button>&#128221; Detail</button>
                 </td>
             </tr>
-        </tbody>
-    </table>
-    <div>
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <duice-pagination
+                        data-duice-object="userSearch"
+                        data-duice-size-property="_size"
+                        data-duice-page-property="_page"
+                        data-duice-count-property="_count"
+                        data-duice-onclick="getUsers(this.dataset.page);">
+                </duice-pagination>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <!-- roleTabContent -->
+    <div id="roleTabContent">
+        roleTabContent
+    </div>
+    <!-- authorityTabContent -->
+    <div id="authorityTabContent">
+        authorityTabContent
     </div>
 
 </main>

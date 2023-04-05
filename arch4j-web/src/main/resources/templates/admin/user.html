@@ -69,12 +69,21 @@
                         <option value="name">name</option>
                     </select>
                     <input type="text" data-duice-object="userSearch" data-duice-user="value"/>
-                    <button onclick="getUsers();">&#128269; Search</button>
-                    <button onclick="reset();">&#9986; Reset</button>
+                    <button onclick="getUsers();">
+                        <img class="icon" th:src="@{/static/image/icon-search.png}"/>
+                        <span>Search</span>
+                    </button>
+                    <button onclick="reset();">
+                        <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
+                        <span>Reset</span>
+                    </button>
                 </form>
             </div>
             <div class="col">
-                <button onclick="">&#10133; Create</button>
+                <button onclick="">
+                    <img class="icon" th:src="@{/static/image/icon-create.png}"/>
+                    <span>Create</span>
+                </button>
             </div>
         </div>
         <table>
@@ -89,9 +98,9 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Username</th>
-                <th>Nickname</th>
-                <th>Type</th>
+                <th data-th-text="#{core.user.username}"></th>
+                <th data-th-text="#{core.user.nickname}"></th>
+                <th data-th-text="#{core.user.type}"></th>
                 <th>Status</th>
                 <th>Roles</th>
                 <th>-</th>
@@ -106,7 +115,10 @@
                 <td><span data-duice-object="user" data-duice-property="status"></span></td>
                 <td><span></span></td>
                 <td class="ta-center">
-                    <button>&#128221; Detail</button>
+                    <button>
+                        <img class="icon" th:src="@{/static/image/icon-detail.png}"/>
+                        <span>Detail</span>
+                    </button>
                 </td>
             </tr>
             </tbody>

@@ -12,28 +12,37 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 import org.modelmapper.ModelMapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.oopscraft.arch4j.core.message.MessageService;
+import org.oopscraft.arch4j.core.message.MessageSource;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+import org.springframework.core.SpringProperties;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.Optional;
-import java.util.Properties;
+import java.time.Duration;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * CoreApplication
@@ -93,6 +102,38 @@ public class CoreApplication implements EnvironmentPostProcessor {
         pbeConfig.setPassword(password);
         pbeEncryptor.setConfig(pbeConfig);
         return pbeEncryptor;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.messages")
+    public MessageSourceProperties messageSourceProperties() {
+        return new MessageSourceProperties();
+    }
+
+    /**
+     * messageSource
+     * @return message source
+     */
+    @Bean
+    public MessageSource messageSource(MessageSourceProperties messageProperties, MessageService messageService) {
+        MessageSource messageSource = new MessageSource(messageService);
+        String basename = messageProperties.getBasename();
+        if(basename != null && !basename.isBlank()) {
+            String[] basenameArray = StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(basename));
+            messageSource.setBasenames(Arrays.stream(basenameArray)
+                    .map(name -> "classpath*:" + name).toArray(String[]::new));
+        }
+        if (messageProperties.getEncoding() != null) {
+            messageSource.setDefaultEncoding(messageProperties.getEncoding().name());
+        }
+        messageSource.setFallbackToSystemLocale(messageProperties.isFallbackToSystemLocale());
+        Duration cacheDuration = messageProperties.getCacheDuration();
+        if (cacheDuration != null) {
+            messageSource.setCacheMillis(cacheDuration.toMillis());
+        }
+        messageSource.setAlwaysUseMessageFormat(messageProperties.isAlwaysUseMessageFormat());
+        messageSource.setUseCodeAsDefaultMessage(messageProperties.isUseCodeAsDefaultMessage());
+        return messageSource;
     }
 
     /**

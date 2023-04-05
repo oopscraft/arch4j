@@ -2632,7 +2632,6 @@ var duice;
                }
                .${duice.getNamespace()}-pagination__item--disable {
                    pointer-events: none;
-                   opacity: 0.5;
                }
            `;
             }

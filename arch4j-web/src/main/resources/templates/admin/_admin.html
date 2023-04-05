@@ -8,19 +8,25 @@
     <script th:src="@{/static/web.js}"></script>
     <style>
         /* layout */
+        html {
+            height: 100%;
+        }
         body {
             display: grid;
             grid-template-areas:
                   'header header header'
                   'nav main aside'
                   'footer footer footer';
-            grid-template-columns: 1fr 10fr 0fr;
+            grid-template-columns: 1fr 8fr 0fr;
             grid-template-rows: 70px 1fr 50px;
+            height: 100%;
             padding: 0;
         }
         header {
             grid-area: header;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px;
             border-bottom: groove 2px #efefef;
         }
@@ -31,15 +37,25 @@
         }
         nav {
             grid-area: nav;
+            display: block;
             padding: 10px;
+            border-right: dotted 1px #ccc;
         }
         nav ul.menu {
             list-style-type: none;
             padding: 0;
         }
         nav ul.menu li {
-            margin: 10px 0;
+            padding: 0.5rem 0;
             font-weight: 700;
+            transition-duration: 0.3s;
+        }
+        nav ul.menu li:hover {
+            padding-left: 0.5rem;
+        }
+        nav ul.menu li.divider {
+            border-bottom: dotted 1px #ccc;
+            padding: 0;
         }
         main {
             grid-area: main;
@@ -50,6 +66,8 @@
         }
         footer {
             grid-area: footer;
+            border-top: dotted 1px #ccc;
+            background-color: #fefefe;
         }
 
         /* layout mobile */
@@ -109,27 +127,37 @@
         <ul class="menu">
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|">
                 <img th:src="@{/static/image/icon-user.png}" class="icon"/>
-                <span>User</span>
+                <span data-th-text="#{web.nav.user}"></span>
             </li>
-            <li class="link">
-                <img th:src="@{/static/image/icon-menu.png}" class="icon"/>
-                <span>Menu</span>
-            </li>
+            <li class="divider"></li>
             <li class="link" th:onclick="|_openLink('@{/admin/property}');|">
                 <img th:src="@{/static/image/icon-property.png}" class="icon"/>
-                <span>Property</span>
+                <span data-th-text="#{web.nav.property}"></span>
             </li>
+            <li class="divider"></li>
+            <li class="link" th:onclick="|_openLink('@{/admin/message}');|">
+                <img th:src="@{/static/image/icon-message.png}" class="icon"/>
+                <span data-th-text="#{web.nav.message}"></span>
+            </li>
+            <li class="divider"></li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-menu.png}" class="icon"/>
+                <span data-th-text="#{web.nav.menu}"></span>
+            </li>
+            <li class="divider"></li>
             <li class="link">
                 <img th:src="@{/static/image/icon-code.png}" class="icon"/>
-                <span>Code</span>
+                <span data-th-text="#{web.nav.code}"></span>
             </li>
+            <li class="divider"></li>
             <li class="link">
                 <img th:src="@{/static/image/icon-article.png}" class="icon"/>
-                <span>Article</span>
+                <span data-th-text="#{web.nav.article}"></span>
             </li>
+            <li class="divider"></li>
             <li class="link">
                 <img th:src="@{/static/image/icon-api.png}" class="icon"/>
-                <span>API</span>
+                <span data-th-text="#{web.nav.api}"></span>
             </li>
         </ul>
     </nav>

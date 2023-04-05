@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.engine.Session;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -30,7 +31,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Optional;
 import java.util.Properties;
@@ -44,7 +49,7 @@ import java.util.Properties;
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @EnableAutoConfiguration
-public class WebApplication implements EnvironmentPostProcessor {
+public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigurer {
 
     /**
      * main
@@ -72,6 +77,21 @@ public class WebApplication implements EnvironmentPostProcessor {
         Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("web-config", properties);
         environment.getPropertySources().addLast(propertiesPropertySource);
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieName("X-Accept-Language");
+        localeResolver.setLanguageTagCompliant(false);
+        return localeResolver;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("x-accept-language");
+        interceptorRegistry.addInterceptor(localeChangeInterceptor);
     }
 
     @Slf4j

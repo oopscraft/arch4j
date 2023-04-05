@@ -15,7 +15,6 @@
     --duice-table-th-border: solid 1px #ccc;
     --duice-table-td-border: dotted 1px #ccc;
     --duice-table-header-color: #fefefe;
-    --duice-table-padding: 0.0625rem 0.5rem;
     /* select */
     --duice-select-img: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAaklEQVR4nO2QMQ6AMAhFu6hXY+hn66Yrh7Omung/Q1wakw5NSVx4CRPwfiAEx3H+I8a4AcgiMrVmtMfMO4C1O0CXARQANxEtvf2hELGQt2TyvuU0kdchKq3qSinNJvLPJZmZD3O54zhhiAdheTXMKGeedwAAAABJRU5ErkJggg==");
     /* button */
@@ -108,24 +107,25 @@ table tr th {
     border: var(--duice-table-th-border);
     border-top: none;
     border-left: none;
-    padding: var(--duice-table-padding);
+    padding: 3px 0.5rem;
     font-weight: bold;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
+    text-align: left;
 }
 table tr th:last-of-type {
     border-right: none;
 }
-table tr th:has(*) {
-    padding: 1px;
+table tr th:has(button,input,select,textarea,table) {
+    padding: 0;
 }
 table tr td {
     border: var(--duice-table-td-border);
     border-top: none;
     border-left: none;
-    padding: var(--duice-table-padding);
+    padding: 3px 0.5rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -137,8 +137,8 @@ table tr td:last-of-type {
 table tr:last-of-type td {
     border-bottom: none;
 }
-table tr td:has(*) {
-    padding: 1px;
+table tr td:has(button,input,select,textarea,table) {
+    padding: 0;
 }
 table thead {
     position: sticky;
@@ -208,6 +208,9 @@ button {
     text-align: center;
     text-decoration: none;
     transition-duration: 0.3s;
+}
+button:has(img) {
+    padding-right: 1rem;
 }
 button:hover {
     background-color: var(--duice-button-background-color-hover);
@@ -353,5 +356,17 @@ dialog {
     vertical-align: middle;
 }
 
-
+/* tab */
+.tab {
+    border-bottom: solid 1px #ccc;
+}
+.tab__button {
+    border-bottom: none;
+}
+.tab__button:hover {
+    border-bottom: none;
+}
+.tab__button:focus {
+    border-bottom: none;
+}
 

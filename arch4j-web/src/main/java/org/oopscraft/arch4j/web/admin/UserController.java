@@ -1,9 +1,7 @@
 package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserSearch;
-import org.oopscraft.arch4j.core.user.UserService;
+import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +18,10 @@ public class UserController {
 
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("admin/user.html");
+        ModelAndView modelAndView = new ModelAndView("admin/user.html");
+        modelAndView.addObject("userTypes", UserType.values());
+        modelAndView.addObject("userStatuses", UserStatus.values());
+        return modelAndView;
     }
 
     @PostMapping("save-user")

@@ -71,13 +71,13 @@ class UserServiceTest extends CoreTestSupport {
 
         // get users by condition
         UserSearch userSearch = UserSearch.builder()
-                .name(testUser.getUsername())
+                .username(testUser.getUsername())
                 .build();
         Pageable pageable = PageRequest.of(0, 10);
         Page<User> userPage = userService.getUsers(userSearch, pageable);
 
         // check result
-        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getUsername().contains(userSearch.getName())));
+        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getUsername().contains(userSearch.getUsername())));
     }
 
 }

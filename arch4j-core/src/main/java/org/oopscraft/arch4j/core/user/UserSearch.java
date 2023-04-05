@@ -7,8 +7,16 @@ import lombok.Data;
 @Builder
 public class UserSearch {
 
-    private String id;
+    private String username;
 
-    private String name;
+    private String nickname;
+
+    private String email;
+
+    private String mobile;
+
+    private UserType type;
+
+    private UserStatus status;
 
 }

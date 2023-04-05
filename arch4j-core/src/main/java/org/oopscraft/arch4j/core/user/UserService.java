@@ -28,7 +28,7 @@ public class UserService {
                     .password(user.getPassword())
                     .build();
         }
-        userEntity.toBuilder()
+        userEntity = userEntity.toBuilder()
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .type(user.getType())
@@ -52,21 +52,6 @@ public class UserService {
     }
 
     /**
-     * find users
-     * @param userSearch search condition
-     * @param pageable pageable
-     * @return users
-     */
-    public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
-        Page<UserEntity> userEntityPage = userRepository.findUsers(userSearch, pageable);
-        List<User> users = userEntityPage.getContent().stream()
-                .map(User::from)
-                .collect(Collectors.toList());
-        long total = userEntityPage.getTotalElements();
-        return new PageImpl<>(users, pageable, total);
-    }
-
-    /**
      * get user
      * @param id id
      * @return user
@@ -82,6 +67,21 @@ public class UserService {
     public void deleteUser(String id) {
         userRepository.deleteById(id);
         userRepository.flush();
+    }
+
+    /**
+     * find users
+     * @param userSearch search condition
+     * @param pageable pageable
+     * @return users
+     */
+    public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
+        Page<UserEntity> userEntityPage = userRepository.findUsers(userSearch, pageable);
+        List<User> users = userEntityPage.getContent().stream()
+                .map(User::from)
+                .collect(Collectors.toList());
+        long total = userEntityPage.getTotalElements();
+        return new PageImpl<>(users, pageable, total);
     }
 
 }

@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.sample.repository;
 
 import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.core.sample.entity.SampleEntity_;
+import org.oopscraft.arch4j.core.sample.repository.SampleEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SampleSpecification {

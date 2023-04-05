@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.property;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.property.repository.PropertyEntity;
-import org.oopscraft.arch4j.core.property.entity.PropertyEntity_;
+import org.oopscraft.arch4j.core.property.repository.PropertyEntity_;
 import org.oopscraft.arch4j.core.property.repository.PropertyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

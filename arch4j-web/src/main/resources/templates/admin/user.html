@@ -5,8 +5,10 @@
 <main layout:fragment="_main">
     <script>
         const userSearch = new duice.ObjectProxy({
-            key: null,
+            key: 'username',
             value: null,
+            type: null,
+            status: null,
             _page: 0,
             _size: 20,
             _count: 0
@@ -14,11 +16,22 @@
 
         const users = new duice.ArrayProxy([]);
 
+        /**
+         * getUsers
+         */
         function getUsers() {
             let url = new URL("[[@{/admin/user/get-users}]]", document.location.origin);
             if (userSearch.key && userSearch.value) {
                 url.searchParams.append(userSearch.key, userSearch.value);
             }
+            if(userSearch.type) {
+                url.searchParams.append('type', userSearch.type);
+            }
+            if(userSearch.status) {
+                url.searchParams.append('status', userSearch.status);
+            }
+            url.searchParams.append('_page', userSearch._page);
+            url.searchParams.append('_size', userSearch._size);
             duice.fetch(url)
                 .then(async response => {
                     let json = await response.json();
@@ -26,6 +39,13 @@
                     console.log(json.totalElements);
                     userSearch._count = json.totalElements;
                 });
+        }
+
+        /**
+         * resetUserSearch
+         */
+        function resetUserSearch() {
+            getUsers();
         }
 
         document.addEventListener('DOMContentLoaded',()=> {
@@ -45,44 +65,56 @@
     </script>
     <h1>
         <img th:src="@{/static/image/icon-user.png}"/>
-        Property
+        <span data-th-text="#{web.title.user}"></span>
     </h1>
-    <div>
-        <span id="userTabButton">
-            User
-        </span>
-        <span id="roleTabButton">
-            Role
-        </span>
-        <span id="authorityTabButton">
-            Authority
-        </span>
+    <div class="tab">
+        <button id="userTabButton" class="tab__button">
+            <img class="icon" th:src="@{/static/image/icon-user.png}"/>
+            <span data-th-text="#{core.user}"></span>
+        </button>
+        <button id="roleTabButton" class="tab__button">
+            <img class="icon" th:src="@{/static/image/icon-role.png}"/>
+            <span data-th-text="#{core.role}"></span>
+        </button>
+        <button id="authorityTabButton" class="tab__button">
+            <img class="icon" th:src="@{/static/image/icon-authority.png}"/>
+            <span data-th-text="#{core.authority}"></span>
+        </button>
     </div>
     <!-- userTabContent -->
     <div id="userTabContent">
         <div class="row">
             <div class="col">
                 <form onsubmit="return false;">
-                    <select data-duice-object="userSearch" data-duice-user="key">
-                        <option value>- Search Key -</option>
-                        <option value="id">id</option>
-                        <option value="name">name</option>
+                    <select data-duice-object="userSearch" data-duice-property="key">
+                        <option value="username" th:text="#{core.user.username}"></option>
+                        <option value="nickname" th:text="#{core.user.nickname}"></option>
+                        <option value="email" th:text="#{core.user.email}"></option>
+                        <option value="mobile" th:text="#{core.user.mobile}"></option>
                     </select>
-                    <input type="text" data-duice-object="userSearch" data-duice-user="value"/>
+                    <input type="text" data-duice-object="userSearch" data-duice-property="value" th:placeholder="#{web.text.keyword}"/>
+                    <select data-duice-object="userSearch" data-duice-property="type">
+                        <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
+                        <option th:each="userType:${userTypes}" th:value="${userType}" th:text="${userType}"></option>
+                    </select>
+                    <select data-duice-object="userSearch" data-duice-property="status">
+                        <option value data-th-text="'- '+#{core.user.status}+' -'"></option>
+                        <option th:each="userStatus:${userStatuses}" th:value="${userStatus}" th:text="${userStatus}"></option>
+                    </select>
                     <button onclick="getUsers();">
                         <img class="icon" th:src="@{/static/image/icon-search.png}"/>
-                        <span>Search</span>
+                        <span data-th-text="#{web.text.search}">Search</span>
                     </button>
-                    <button onclick="reset();">
+                    <button onclick="resetUserSearch();">
                         <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
-                        <span>Reset</span>
+                        <span data-th-text="#{web.text.reset}">Reset</span>
                     </button>
                 </form>
             </div>
             <div class="col">
                 <button onclick="">
                     <img class="icon" th:src="@{/static/image/icon-create.png}"/>
-                    <span>Create</span>
+                    <span data-th-text="#{web.text.create}"></span>
                 </button>
             </div>
         </div>
@@ -93,17 +125,22 @@
                 <col/>
                 <col/>
                 <col/>
+                <col/>
+                <col/>
+                <col/>
                 <col style="width:70px;"/>
             </colgroup>
             <thead>
             <tr>
-                <th>No</th>
+                <th data-th-text="#{web.text.no}" class="ta-center"></th>
                 <th data-th-text="#{core.user.username}"></th>
                 <th data-th-text="#{core.user.nickname}"></th>
+                <th data-th-text="#{core.user.email}"></th>
+                <th data-th-text="#{core.user.mobile}"></th>
                 <th data-th-text="#{core.user.type}"></th>
-                <th>Status</th>
-                <th>Roles</th>
-                <th>-</th>
+                <th data-th-text="#{core.user.status}"></th>
+                <th data-th-text="#{core.user.roles}"></th>
+                <th class="ta-center">-</th>
             </tr>
             </thead>
             <tbody>
@@ -111,13 +148,23 @@
                 <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
                 <td data-duice-object="user" data-duice-property="username"></td>
                 <td data-duice-object="user" data-duice-property="nickname"></td>
+                <td data-duice-object="user" data-duice-property="email"></td>
+                <td data-duice-object="user" data-duice-property="mobile"></td>
                 <td><span data-duice-object="user" data-duice-property="type"></span></td>
                 <td><span data-duice-object="user" data-duice-property="status"></span></td>
-                <td><span></span></td>
+                <td>
+                    <span data-duice-object="user" data-duice-script="
+                    let roleIds = [];
+                    user.roles.forEach(role => {
+                        roleIds.push(role.id);
+                    });
+                    this.appendChild(document.createTextNode(roleIds.join(',')));
+                    "></span>
+                </td>
                 <td class="ta-center">
                     <button>
                         <img class="icon" th:src="@{/static/image/icon-detail.png}"/>
-                        <span>Detail</span>
+                        <span data-th-text="#{web.text.detail}">Detail</span>
                     </button>
                 </td>
             </tr>
@@ -134,7 +181,11 @@
                         data-duice-onclick="getUsers(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col"></div>
+            <div class="col">
+                <span data-th-text="#{web.text.total}"></span>
+                <span data-duice-object="userSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                <span data-th-text="#{web.text.rows}"></span>
+            </div>
         </div>
     </div>
     <!-- roleTabContent -->

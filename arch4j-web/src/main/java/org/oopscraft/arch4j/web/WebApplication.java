@@ -123,7 +123,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             });
             // anonymous role
             if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities);
+                http.anonymous().authorities(anonymousAuthorities.split(","));
             }
             // has ADMIN role
             http.authorizeRequests().anyRequest().hasRole("ADMIN");
@@ -164,6 +164,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 }
                 return false;
             });
+            // anonymous role
+            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
+                http.anonymous().authorities(anonymousAuthorities.split(","));
+            }
             // has ADMIN role
             http.authorizeRequests().anyRequest().hasRole("API");
             // cors
@@ -188,6 +192,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 }
                 return false;
             });
+            // anonymous role
+            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
+                http.anonymous().authorities(anonymousAuthorities.split(","));
+            }
             // has ADMIN role
             http.authorizeRequests().anyRequest().hasRole("ACTUATOR");
             // csrf
@@ -214,6 +222,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 }
                 return false;
             });
+            // anonymous role
+            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
+                http.anonymous().authorities(anonymousAuthorities.split(","));
+            }
             // has ADMIN role
             http.authorizeRequests().anyRequest().hasRole("H2-CONSOLE");
             // csrf
@@ -237,6 +249,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.requestMatcher(request -> {
                 return true;
             });
+            // anonymous role
+            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
+                http.anonymous().authorities(anonymousAuthorities.split(","));
+            }
             // admin
             http.authorizeRequests().anyRequest().permitAll();
             // csrf

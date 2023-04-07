@@ -21,6 +21,8 @@ public class UserController {
 
     private final RoleService roleService;
 
+    private final AuthorityService authorityService;
+
     @GetMapping
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("admin/user.html");
@@ -58,6 +60,12 @@ public class UserController {
     @ResponseBody
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
         return roleService.getRoles(roleSearch, pageable);
+    }
+
+    @GetMapping("get-authorities")
+    @ResponseBody
+    public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {
+        return authorityService.getAuthorities(authoritySearch, pageable);
     }
 
 }

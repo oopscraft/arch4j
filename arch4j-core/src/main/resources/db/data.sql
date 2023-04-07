@@ -1,11 +1,12 @@
+-- authority
+insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_USER','Y','UserEntity Management AuthorityEntity');
+
 -- role
 insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Access RoleEntity');
+insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER');
 insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Access RoleEntity');
 insert into `role` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','H2 Console Access RoleEntity');
 insert into `role` (`id`,`name`) values ('TEST','Test RoleEntity');
-
--- authority
-insert into `authority` (`id`,`system_required`,`name`) values ('USER','Y','UserEntity Management AuthorityEntity');
 
 -- user
 insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');

@@ -227,7 +227,10 @@
             <tbody>
             <tr data-duice-array="users" data-duice-loop="user,status">
                 <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                <td data-duice-object="user" data-duice-property="id" class="fw-bold"></td>
+                <td>
+                    <img data-duice-object="user" data-duice-property="photo" th:src="@{/static/image/icon-null.png}" class="icon"/>
+                    <span data-duice-object="user" data-duice-property="id" class="fw-bold"></span>
+                </td>
                 <td data-duice-object="user" data-duice-property="name"></td>
                 <td><span data-duice-object="user" data-duice-property="type"></span></td>
                 <td><span data-duice-object="user" data-duice-property="status"></span></td>
@@ -316,7 +319,10 @@
             <tbody>
             <tr data-duice-array="roles" data-duice-loop="role,status">
                 <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                <td data-duice-object="role" data-duice-property="id" class="fw-bold"></td>
+                <td>
+                    <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}" class="icon"/>
+                    <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
+                </td>
                 <td data-duice-object="role" data-duice-property="name"></td>
                 <td>
                     <span data-duice-object="role" data-duice-script="
@@ -400,7 +406,10 @@
             <tbody>
             <tr data-duice-array="authorities" data-duice-loop="authority,status">
                 <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                <td data-duice-object="authority" data-duice-property="id" class="fw-bold"></td>
+                <td>
+                    <img data-duice-object="authority" data-duice-property="icon" th:src="@{/static/image/icon-null.png}" class="icon"/>
+                    <span data-duice-object="authority" data-duice-property="id" class="fw-bold"></span>
+                </td>
                 <td data-duice-object="authority" data-duice-property="name"></td>
                 <td class="ta-center">
                     <button data-duice-object="authority" data-duice-script="this.dataset.id=authority.id;" onclick="getAuthority(this.dataset.id);">
@@ -634,7 +643,7 @@
                         <tr>
                             <th data-th-text="#{core.role.id}"></th>
                             <th data-th-text="#{core.role.name}"></th>
-                            <th>
+                            <th class="ta-center">
                                 <button>
                                     <img class="icon" th:src="@{/static/image/icon-add.png}"/>
                                 </button>
@@ -645,7 +654,7 @@
                         <tr data-duice-array="userDetail.user.roles" data-duice-loop="role,status">
                             <td data-duice-object="role" data-duice-property="id"></td>
                             <td data-duice-object="role" data-duice-property="name"></td>
-                            <td>
+                            <td class="ta-center">
                                 <button data-duice-object="role" data-duice-script="this.dataset.id=role.id;" onclick="userDetail.removeRole(this.dataset.id);">
                                     <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
                                 </button>

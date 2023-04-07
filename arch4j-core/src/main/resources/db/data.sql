@@ -1,12 +1,21 @@
 -- authority
-insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_USER','Y','UserEntity Management AuthorityEntity');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_USER','Y','User Access Authority','/static/image/icon-user.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_USER_EDIT','Y','User Edit Authority','/static/image/icon-user.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_PROPERTY','Y','Property Access Authority','/static/image/icon-property.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_PROPERTY_EDIT','Y','Property Edit Authority','/static/image/icon-property.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_MESSAGE','Y','Message Access Authority','/static/image/icon-message.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_MESSAGE_EDIT','Y','Message Edit Authority','/static/image/icon-message.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_MENU','Y','Menu Access Authority','/static/image/icon-menu.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_MENU_EDIT','Y','Message Access Authority','/static/image/icon-message.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_CODE','Y','Code Access Authority','/static/image/icon-code.png');
+insert into `authority` (`id`,`system_required`,`name`,`icon`) values ('ADMIN_CODE_EDIT','Y','Code Edit Authority','/static/image/icon-code.png');
 
 -- role
-insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Access RoleEntity');
+insert into `role` (`id`,`system_required`,`name`,`icon`) values ('ADMIN','Y','Administrator Access RoleEntity','/static/image/icon-admin.png');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER');
-insert into `role` (`id`,`system_required`,`name`) values ('API','Y','Restful Api Access RoleEntity');
-insert into `role` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','H2 Console Access RoleEntity');
-insert into `role` (`id`,`name`) values ('TEST','Test RoleEntity');
+insert into `role` (`id`,`system_required`,`name`,`icon`) values ('API','Y','Restful Api Access RoleEntity','/static/image/icon-api.png');
+insert into `role` (`id`,`system_required`,`name`,`icon`) values ('H2-CONSOLE','Y','H2 Console Access RoleEntity','/static/image/icon-database.png');
+insert into `role` (`id`,`name`,`icon`) values ('TEST','Test RoleEntity','/static/image/icon-test.png');
 
 -- user
 insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');

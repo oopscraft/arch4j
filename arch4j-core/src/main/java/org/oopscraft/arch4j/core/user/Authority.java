@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.AuthorityEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -10,9 +11,11 @@ import javax.validation.constraints.NotBlank;
  * AuthorityEntity
  */
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper=false)
-public class Authority {
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public class Authority extends SystemFieldEntity {
 
     private String id;
 

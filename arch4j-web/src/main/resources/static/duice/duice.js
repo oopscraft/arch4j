@@ -2617,8 +2617,8 @@ var duice;
                 let countProperty = duice.getElementAttribute(this.getHtmlElement(), 'count-property');
                 let onclick = duice.getElementAttribute(this.getHtmlElement(), 'onclick');
                 // optional
-                let prevText = duice.getElementAttribute(this.getHtmlElement(), 'prev-text') || '◀︎';
-                let nextText = duice.getElementAttribute(this.getHtmlElement(), 'next-text') || '▶︎';
+                let prevText = duice.getElementAttribute(this.getHtmlElement(), 'prev-text') || '<︎';
+                let nextText = duice.getElementAttribute(this.getHtmlElement(), 'next-text') || '>︎';
                 // page,size,count
                 let page = Number(object[pageProperty]);
                 let size = Number(object[sizeProperty]);
@@ -2879,7 +2879,7 @@ var duice;
     (function (component) {
         /**
          * textarea element factory class
-          */
+         */
         class TextareaElementFactory extends duice.ObjectElementFactory {
             /**
              * creates component
@@ -3244,5 +3244,73 @@ var duice;
         }
         tab.TabItem = TabItem;
     })(tab = duice.tab || (duice.tab = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        /**
+         * image element factory class
+         */
+        class ImageElementFactory extends duice.ObjectElementFactory {
+            /**
+             * creates component
+             * @param element
+             * @param context
+             */
+            doCreateElement(element, context) {
+                return new component.ImageElement(element, context);
+            }
+            /**
+             * returns supported
+             * @param element
+             */
+            doSupport(element) {
+                return (element.tagName.toLowerCase() === 'img');
+            }
+        }
+        component.ImageElementFactory = ImageElementFactory;
+        // register factory instance
+        duice.ObjectElementFactory.addInstance(new ImageElementFactory());
+    })(component = duice.component || (duice.component = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        /**
+         * image element component
+         */
+        class ImageElement extends duice.ObjectElement {
+            /**
+             * constructor
+             * @param element
+             * @param context
+             */
+            constructor(element, context) {
+                super(element, context);
+                this.originSrc = String(this.getHtmlElement().src);
+            }
+            /**
+              * set value
+              * @param value
+              */
+            setValue(value) {
+                if (value) {
+                    this.getHtmlElement().src = value;
+                }
+                else {
+                    this.getHtmlElement().src = this.originSrc;
+                }
+            }
+            /**
+             * return value
+             */
+            getValue() {
+                return this.getHtmlElement().src;
+            }
+        }
+        component.ImageElement = ImageElement;
+    })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

@@ -640,12 +640,32 @@ var duice;
             return arrayProxy;
         }
         /**
+         * clear
+         * @param arrayProxy
+         */
+        static clear(arrayProxy) {
+            let arrayHandler = this.getHandler(arrayProxy);
+            try {
+                // suspend
+                arrayHandler.suspendListener();
+                arrayHandler.suspendNotify();
+                // clear element
+                arrayProxy.length = 0;
+            }
+            finally {
+                // resume
+                arrayHandler.resumeListener();
+                arrayHandler.resumeNotify();
+            }
+            // notify observers
+            arrayHandler.notifyObservers(new duice.event.Event(this));
+        }
+        /**
          * assign
          * @param arrayProxy
          * @param array
          */
         static assign(arrayProxy, array) {
-            console.log('ArrayProxy.assign', arrayProxy, array);
             let arrayHandler = this.getHandler(arrayProxy);
             try {
                 // suspend
@@ -1378,7 +1398,7 @@ var duice;
             for (let name in object) {
                 let value = object[name];
                 // value is array
-                if (duice.ArrayProxy.isArray(value)) {
+                if (Array.isArray(value)) {
                     let arrayProxy = new duice.ArrayProxy(value);
                     duice.ArrayProxy.getHandler(arrayProxy).addObserver(objectHandler);
                     this[name] = arrayProxy;
@@ -1410,6 +1430,38 @@ var duice;
             return objectProxy;
         }
         /**
+         * clear
+         * @param objectProxy
+         */
+        static clear(objectProxy) {
+            let objectHandler = this.getHandler(objectProxy);
+            try {
+                // suspend
+                objectHandler.suspendListener();
+                objectHandler.suspendNotify();
+                // clear properties
+                for (let name in objectProxy) {
+                    let value = objectProxy[name];
+                    if (Array.isArray(value)) {
+                        duice.ArrayProxy.clear(value);
+                        continue;
+                    }
+                    if (value != null && typeof value === 'object') {
+                        ObjectProxy.clear(value);
+                        continue;
+                    }
+                    objectProxy[name] = null;
+                }
+            }
+            finally {
+                // resume
+                objectHandler.resumeListener();
+                objectHandler.resumeNotify();
+            }
+            // notify observers
+            objectHandler.notifyObservers(new duice.event.Event(this));
+        }
+        /**
          * assign
          * @param objectProxy
          * @param object
@@ -1424,8 +1476,8 @@ var duice;
                 for (let name in object) {
                     let value = object[name];
                     // source value is array
-                    if (duice.ArrayProxy.isArray(value)) {
-                        if (duice.ArrayProxy.isArray(objectProxy[name])) {
+                    if (Array.isArray(value)) {
+                        if (Array.isArray(objectProxy[name])) {
                             duice.ArrayProxy.assign(objectProxy[name], value);
                         }
                         else {
@@ -1434,8 +1486,8 @@ var duice;
                         continue;
                     }
                     // source value is object
-                    if (typeof value === 'object') {
-                        if (typeof objectProxy[name] === 'object') {
+                    if (value != null && typeof value === 'object') {
+                        if (objectProxy[name] != null && typeof objectProxy[name] === 'object') {
                             ObjectProxy.assign(objectProxy[name], value);
                         }
                         else {
@@ -1898,7 +1950,6 @@ var duice;
                 this.dialogElement.style.position = 'absolute';
                 this.dialogElement.style.left = '0';
                 this.dialogElement.style.right = '0';
-                this.dialogElement.style.margin = 'auto';
                 this.dialogElement.style.height = 'fit-content';
                 this.dialogElement.style.borderStyle = 'solid';
                 this.dialogElement.style.borderWidth = '1px';
@@ -1934,8 +1985,8 @@ var duice;
                 // creates close button
                 this.closeButton = document.createElement('span');
                 this.closeButton.style.position = 'absolute';
-                this.closeButton.style.top = '0';
-                this.closeButton.style.right = '0';
+                this.closeButton.style.top = '5px';
+                this.closeButton.style.right = '5px';
                 this.closeButton.style.cursor = 'pointer';
                 this.closeButton.style.width = '1rem';
                 this.closeButton.style.height = '1rem';
@@ -1943,7 +1994,7 @@ var duice;
                 this.closeButton.style.margin = '1px';
                 this.closeButton.style.textAlign = 'center';
                 this.closeButton.style.fontFamily = 'sans-serif';
-                this.closeButton.style.fontSize = '0.75rem';
+                this.closeButton.style.fontSize = '1rem';
                 this.closeButton.appendChild(document.createTextNode('X'));
                 this.closeButton.addEventListener('click', event => {
                     _this.close();
@@ -1980,12 +2031,22 @@ var duice;
                 let scrollX = window.scrollX;
                 let scrollY = window.scrollY;
                 // show dialog modal
+                this.dialogElement.style.opacity = '0';
                 window.document.body.appendChild(this.dialogElement);
                 this.dialogElement.showModal();
                 // restore previous scroll position
                 window.scrollTo(scrollX, scrollY);
                 // adjusting position
                 this.moveToCenterPosition();
+                // fade in
+                let _this = this;
+                (function fade() {
+                    let val = parseFloat(_this.dialogElement.style.opacity);
+                    if (!((val += .1) > 1)) {
+                        _this.dialogElement.style.opacity = String(val);
+                        requestAnimationFrame(fade);
+                    }
+                })();
             }
             /**
              * Hides modal
@@ -2013,11 +2074,11 @@ var duice;
             /**
              * close
              */
-            close() {
-                this.reject();
+            close(...args) {
+                this.reject(...args);
             }
             /**
-             * confirm
+             * resolve
              * @param args
              */
             resolve(...args) {
@@ -2025,7 +2086,7 @@ var duice;
                 this.promiseResolve(...args);
             }
             /**
-             * close
+             * reject
              * @param args
              */
             reject(...args) {
@@ -2141,6 +2202,13 @@ var duice;
                 return promise;
             }
             /**
+             * close
+             */
+            close(...args) {
+                this.resolve(false);
+                this.getDialogElement().parentNode.removeChild(this.getDialogElement());
+            }
+            /**
              * confirm
              */
             confirm() {
@@ -2151,13 +2219,6 @@ var duice;
              * cancel
              */
             cancel() {
-                this.resolve(false);
-                this.getDialogElement().parentNode.removeChild(this.getDialogElement());
-            }
-            /**
-             * close
-             */
-            close() {
                 this.resolve(false);
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
@@ -2220,6 +2281,13 @@ var duice;
                 return promise;
             }
             /**
+             * close
+             */
+            close(...args) {
+                this.resolve();
+                this.getDialogElement().parentNode.removeChild(this.getDialogElement());
+            }
+            /**
              * confirm
              */
             confirm(value) {
@@ -2230,13 +2298,6 @@ var duice;
              * cancel
              */
             cancel() {
-                this.resolve();
-                this.getDialogElement().parentNode.removeChild(this.getDialogElement());
-            }
-            /**
-             * close
-             */
-            close() {
                 this.resolve();
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }

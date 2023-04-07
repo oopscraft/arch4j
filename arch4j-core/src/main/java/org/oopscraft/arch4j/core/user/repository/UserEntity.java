@@ -12,14 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "user",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email"),
-                @UniqueConstraint(columnNames = "mobile")
-        }
-)
+@Table(name = "user")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder(toBuilder = true)
@@ -31,14 +24,13 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "id", length = 64)
     private String id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "nickname")
+    @Column(name = "name")
+    private String name;
+
     private String nickname;
 
     @Column(name = "type")

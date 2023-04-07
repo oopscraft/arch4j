@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "authority")
 @Data
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthorityEntity extends SystemFieldEntity {

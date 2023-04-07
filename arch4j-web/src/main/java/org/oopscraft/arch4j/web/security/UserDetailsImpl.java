@@ -2,9 +2,6 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.Singular;
-import org.oopscraft.arch4j.core.user.Authority;
 import org.oopscraft.arch4j.core.user.User;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -95,7 +92,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
         // build
         return UserDetailsImpl.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getName())
                 .password(user.getPassword())
                 .authorities(authorities)
                 .build();

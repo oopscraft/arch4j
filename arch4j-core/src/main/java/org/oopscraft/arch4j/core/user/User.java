@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 @Data
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    private final String id;
-
-    private String username;
+    private String id;
 
     private String password;
 
-    private String nickname;
+    private String name;
 
     @Builder.Default
     private UserType type = UserType.GENERAL;
@@ -41,9 +41,8 @@ public class User {
     public static User from(UserEntity userEntity) {
         return User.builder()
                 .id(userEntity.getId())
-                .username(userEntity.getUsername())
+                .name(userEntity.getName())
                 .password(userEntity.getPassword())
-                .nickname(userEntity.getNickname())
                 .type(userEntity.getType())
                 .status(userEntity.getStatus())
                 .email(userEntity.getEmail())

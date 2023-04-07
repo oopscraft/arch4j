@@ -70,29 +70,42 @@ html *:focus {
     border: var(--duice-element-focus-border);
 }
 body {
-    margin: 0;
+    margin: 1px;
     overflow-y: scroll;
 }
 h1 {
     font-size: calc(var(--duice-font-size) * 2.0);
+    margin: 1px;
 }
 h2 {
     font-size: calc(var(--duice-font-size) * 1.8);
+    margin: 1px;
 }
 h3 {
     font-size: calc(var(--duice-font-size) * 1.6);
+    margin: 1px;
 }
 h4 {
     font-size: calc(var(--duice-font-size) * 1.4);
+    margin: 1px;
 }
 h5 {
     font-size: calc(var(--duice-font-size) * 1.2);
+    margin: 1px;
 }
 h6 {
     font-size: calc(var(--duice-font-size) * 1.0);
+    margin: 1px;
 }
 small {
     font-size: smaller;
+}
+
+/* hr */
+hr {
+    margin: 1px;
+    border: none;
+    border-bottom: solid 1px #ccc;
 }
 
 /* table */
@@ -200,7 +213,6 @@ textarea {
 
 /* button */
 button {
-    margin: 1px;
     border: var(--duice-button-border);
     border-radius: var(--duice-button-border-radius);
     background-color: var(--duice-button-background-color);
@@ -209,13 +221,23 @@ button {
     text-decoration: none;
     transition-duration: 0.3s;
 }
-button:has(img) {
-    padding-right: 1rem;
+button:has(img) span {
+    margin-right: 1rem;
 }
 button:hover {
     background-color: var(--duice-button-background-color-hover);
     border: var(--duice-button-border-hover);
 }
+button.tab {
+    border-bottom: none;
+}
+button.tab:hover {
+    border-bottom: none;
+}
+button.tab:focus {
+    border-bottom: none;
+}
+
 
 /* img */
 img {
@@ -347,6 +369,11 @@ dialog {
     text-align: right;
 }
 
+/* width */
+.w-100 {
+    width: 100%;
+}
+
 /* etc */
 .link {
     cursor: pointer;
@@ -356,17 +383,4 @@ dialog {
     vertical-align: middle;
 }
 
-/* tab */
-.tab {
-    border-bottom: solid 1px #ccc;
-}
-.tab__button {
-    border-bottom: none;
-}
-.tab__button:hover {
-    border-bottom: none;
-}
-.tab__button:focus {
-    border-bottom: none;
-}
 

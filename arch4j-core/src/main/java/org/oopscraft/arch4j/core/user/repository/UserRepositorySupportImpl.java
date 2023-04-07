@@ -4,7 +4,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.user.UserSearch;
-import org.oopscraft.arch4j.core.user.repository.QUserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +23,11 @@ public class UserRepositorySupportImpl implements UserRepositorySupport {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPAQuery<UserEntity> query = jpaQueryFactory.select(qUserEntity)
                 .from(qUserEntity);
-        Optional.ofNullable(userSearch.getUsername()).ifPresent(username -> {
-            query.where(qUserEntity.username.contains(username));
+        Optional.ofNullable(userSearch.getId()).ifPresent(id -> {
+            query.where(qUserEntity.id.contains(id));
         });
-        Optional.ofNullable(userSearch.getNickname()).ifPresent(nickname -> {
-            query.where(qUserEntity.nickname.contains(nickname));
+        Optional.ofNullable(userSearch.getName()).ifPresent(name -> {
+            query.where(qUserEntity.name.contains(name));
         });
         Optional.ofNullable(userSearch.getEmail()).ifPresent(email -> {
             query.where(qUserEntity.email.contains(email));

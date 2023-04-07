@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +25,11 @@ public class UserService {
         if(userEntity == null) {
             userEntity = UserEntity.builder()
                     .id(user.getId())
-                    .username(user.getUsername())
-                    .password(user.getPassword())
                     .build();
         }
         userEntity = userEntity.toBuilder()
-                .username(user.getUsername())
-                .nickname(user.getNickname())
+                .password(user.getPassword())
+                .name(user.getName())
                 .type(user.getType())
                 .status(user.getStatus())
                 .email(user.getEmail())

@@ -1,8 +1,11 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.RoleEntity;
 
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,12 +14,14 @@ import java.util.stream.Collectors;
  * RoleEntity(group of authorities)
  */
 @Data
-@Builder
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper=false)
-public class Role {
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public class Role extends SystemFieldEntity {
 
     private String id;
-    
+
     private String name;
 
     private String icon;

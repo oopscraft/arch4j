@@ -5,18 +5,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserSearch {
+public class AuthoritySearch {
 
     private String id;
 
     private String name;
-
-    private String email;
-
-    private String mobile;
-
-    private UserType type;
-
-    private UserStatus status;
 
 }

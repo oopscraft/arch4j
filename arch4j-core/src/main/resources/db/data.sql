@@ -8,13 +8,13 @@ insert into `role` (`id`,`name`) values ('TEST','Test RoleEntity');
 insert into `authority` (`id`,`system_required`,`name`) values ('USER','Y','UserEntity Management AuthorityEntity');
 
 -- user
-insert into `user` (`id`,`username`,`email`,`mobile`,`password`,`nickname`,`type`,`status`) values ('admin','admin','admin@oopscraft.org','010-1111-2222','{noop}admin','Administrator','GENERAL','ACTIVE');
+insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');
 insert into `user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
 insert into `user_role` (`user_id`,`role_id`) values ('admin','API');
 insert into `user_role` (`user_id`,`role_id`) values ('admin','H2-CONSOLE');
-insert into `user` (`id`,`username`,`email`,`mobile`,`password`,`nickname`,`type`,`status`) values ('api','api','api@oopscraft.org','010-2222-3333','{noop}api','API Account','SYSTEM','ACTIVE');
+insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('api','API Account','api@oopscraft.org','010-2222-3333','{noop}api','SYSTEM','ACTIVE');
 insert into `user_role` (`user_id`,`role_id`) values ('api','API');
-insert into `user` (`id`,`username`,`email`,`mobile`,`password`,`nickname`,`type`,`status`) values ('test','test','test@oopscraft.org','010-3333-4444','{noop}api','Test Account','GENERAL','ACTIVE');
+insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('test','Test Account','test@oopscraft.org','010-3333-4444','{noop}api','GENERAL','ACTIVE');
 insert into `user_role` (`user_id`,`role_id`) values ('test','TEST');
 
 -- property

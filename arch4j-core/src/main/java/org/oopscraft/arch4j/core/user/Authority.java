@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.user.repository.AuthorityEntity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * AuthorityEntity
  */

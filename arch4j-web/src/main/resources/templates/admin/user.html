@@ -644,7 +644,7 @@
                             <th data-th-text="#{core.role.id}"></th>
                             <th data-th-text="#{core.role.name}"></th>
                             <th class="ta-center">
-                                <button>
+                                <button onclick="roleSelect.open();">
                                     <img class="icon" th:src="@{/static/image/icon-add.png}"/>
                                 </button>
                             </th>
@@ -652,7 +652,10 @@
                     </thead>
                     <tbody>
                         <tr data-duice-array="userDetail.user.roles" data-duice-loop="role,status">
-                            <td data-duice-object="role" data-duice-property="id"></td>
+                            <td>
+                                <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}" class="icon"/>
+                                <span data-duice-object="role" data-duice-property="id"></span>
+                            </td>
                             <td data-duice-object="role" data-duice-property="name"></td>
                             <td class="ta-center">
                                 <button data-duice-object="role" data-duice-script="this.dataset.id=role.id;" onclick="userDetail.removeRole(this.dataset.id);">
@@ -675,6 +678,109 @@
                     <img class="icon" th:src="@{/static/image/icon-save.png}"/>
                     <span data-th-text="#{web.text.save}"></span>
                 </buttonn>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- roleSelect -->
+    <dialog id="roleSelect" style="width:800px;">
+        <script>
+            const roleSelect = {
+                dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
+                roleSearch: new duice.ObjectProxy({
+                    key: 'id',
+                    value: null,
+                    _page: 0,
+                    _size: 10,
+                    _count: 0
+                }),
+                roles: new duice.ArrayProxy([]),
+                selectedRoles: new duice.ArrayProxy([]),
+                open: function() {
+                    this.getRoles(0);
+                    this.dialog.open();
+                },
+                getRoles: function(page) {
+                    let url = new URL('[[@{/admin/user/get-roles}]]',document.location.origin);
+                    if(this.roleSearch.key && this.roleSearch.value) {
+                        url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
+                    }
+                    duice.fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        duice.ArrayProxy.clear(this.roles);
+                        duice.ArrayProxy.assign(this.roles, data.content);
+                        this.roleSearch._count = data.totalElements;
+                    });
+                }
+            }
+        </script>
+        <h1>
+            <img th:src="@{/static/image/icon-role.png}"/>
+            <span data-th-text="#{core.role}"></span>
+        </h1>
+        <hr/>
+        <div class="row">
+            <div class="col">
+                <form onsubmit="return false;">
+                    <select data-duice-object="roleSelect.roleSearch" data-duice-property="key">
+                        <option value="id" th:text="#{core.role.id}"></option>
+                        <option value="name" th:text="#{core.role.name}"></option>
+                    </select>
+                    <button onclick="roleSelect.getRoles();">
+                        <img class="icon" th:src="@{/static/image/icon-search.png}"/>
+                        <span data-th-text="#{web.text.search}">Search</span>
+                    </button>
+                    <button onclick="roleSelect.resetRoleSearch();">
+                        <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
+                        <span data-th-text="#{web.text.reset}">Reset</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <table>
+            <colgroup>
+                <col/>
+                <col/>
+                <col/>
+                <col style="width:35px;"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th data-th-text="#{web.text.no}"></th>
+                <th data-th-text="#{core.role.id}"></th>
+                <th data-th-text="#{core.role.name}"></th>
+                <th class="ta-center">-</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-duice-array="roleSelect.roles" data-duice-loop="role,status">
+                <td data-duice-object="status" data-duice-property="count"></td>
+                <td data-duice-object="role" data-duice-property="id"></td>
+                <td data-duice-object="role" data-duice-property="name"></td>
+                <td class="ta-center">
+                    <button data-duice-object="role">
+                        <img class="icon" th:src="@{/static/image/icon-add.png}"/>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <duice-pagination
+                    data-duice-object="roleSelect.roleSearch"
+                    data-duice-size-property="_size"
+                    data-duice-page-property="_page"
+                    data-duice-count-property="_count"
+                    data-duice-onclick="roleSelect.roleSearch.getRoles(this.dataset.page);">
+                </duice-pagination>
+            </div>
+            <div class="col">
+                <span data-th-text="#{web.text.total}"></span>
+                <span data-duice-object="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                <span data-th-text="#{web.text.rows}"></span>
             </div>
         </div>
     </dialog>

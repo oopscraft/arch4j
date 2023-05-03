@@ -2310,6 +2310,74 @@ var duice;
     var component;
     (function (component) {
         /**
+         * image element component
+         */
+        class ImageElement extends duice.ObjectElement {
+            /**
+             * constructor
+             * @param element
+             * @param context
+             */
+            constructor(element, context) {
+                super(element, context);
+                this.originSrc = String(this.getHtmlElement().src);
+            }
+            /**
+              * set value
+              * @param value
+              */
+            setValue(value) {
+                if (value) {
+                    this.getHtmlElement().src = value;
+                }
+                else {
+                    this.getHtmlElement().src = this.originSrc;
+                }
+            }
+            /**
+             * return value
+             */
+            getValue() {
+                return this.getHtmlElement().src;
+            }
+        }
+        component.ImageElement = ImageElement;
+    })(component = duice.component || (duice.component = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        /**
+         * image element factory class
+         */
+        class ImageElementFactory extends duice.ObjectElementFactory {
+            /**
+             * creates component
+             * @param element
+             * @param context
+             */
+            doCreateElement(element, context) {
+                return new component.ImageElement(element, context);
+            }
+            /**
+             * returns supported
+             * @param element
+             */
+            doSupport(element) {
+                return (element.tagName.toLowerCase() === 'img');
+            }
+        }
+        component.ImageElementFactory = ImageElementFactory;
+        // register factory instance
+        duice.ObjectElementFactory.addInstance(new ImageElementFactory());
+    })(component = duice.component || (duice.component = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        /**
          * input element component
          */
         class InputElement extends duice.ObjectElement {
@@ -2681,6 +2749,7 @@ var duice;
                    list-style: none;
                    display: flex;
                    padding-left: 0;
+                   margin: 0;
                }
                .${duice.getNamespace()}-pagination__item {
                    cursor: pointer;
@@ -2703,36 +2772,6 @@ var duice;
         duice.CustomElementFactory.addInstance(customElementFactory);
     })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
-// namespace duice.component {
-//
-//     /**
-//      * textarea element factory class
-//       */
-//     export class PaginationFactory extends ObjectComponentFactory<HTMLTextAreaElement> {
-//
-//         /**
-//          * creates component
-//          * @param element
-//          * @param context
-//          */
-//         override doCreateComponent(element: HTMLTextAreaElement, context: object): TextareaElement {
-//             return new TextareaElement(element, context);
-//         }
-//
-//         /**
-//          * returns supported
-//          * @param element
-//          */
-//         override doSupport(element: HTMLElement): boolean {
-//             return (element.tagName.toLowerCase() === 'textarea');
-//         }
-//
-//     }
-//
-//     // register factory instance
-//     ObjectComponentFactory.addInstance(new TextareaElementFactory());
-//
-// }
 var duice;
 (function (duice) {
     var component;
@@ -3163,29 +3202,6 @@ var duice;
         format.StringFormat = StringFormat;
     })(format = duice.format || (duice.format = {}));
 })(duice || (duice = {}));
-///<reference path="TabItem.ts"/>
-var duice;
-(function (duice) {
-    var tab;
-    (function (tab) {
-        class TabFolder {
-            constructor() {
-                this.items = [];
-            }
-            addItem(item) {
-                item.setTabFolder(this);
-                item.setTabIndex(this.items.length);
-                this.items.push(item);
-            }
-            setActive(index) {
-                for (let i = 0; i < this.items.length; i++) {
-                    this.items[i].setActive(i === index);
-                }
-            }
-        }
-        tab.TabFolder = TabFolder;
-    })(tab = duice.tab || (duice.tab = {}));
-})(duice || (duice = {}));
 ///<reference path="TabFolder.ts"/>
 var duice;
 (function (duice) {
@@ -3245,72 +3261,27 @@ var duice;
         tab.TabItem = TabItem;
     })(tab = duice.tab || (duice.tab = {}));
 })(duice || (duice = {}));
+///<reference path="TabItem.ts"/>
 var duice;
 (function (duice) {
-    var component;
-    (function (component) {
-        /**
-         * image element factory class
-         */
-        class ImageElementFactory extends duice.ObjectElementFactory {
-            /**
-             * creates component
-             * @param element
-             * @param context
-             */
-            doCreateElement(element, context) {
-                return new component.ImageElement(element, context);
+    var tab;
+    (function (tab) {
+        class TabFolder {
+            constructor() {
+                this.items = [];
             }
-            /**
-             * returns supported
-             * @param element
-             */
-            doSupport(element) {
-                return (element.tagName.toLowerCase() === 'img');
+            addItem(item) {
+                item.setTabFolder(this);
+                item.setTabIndex(this.items.length);
+                this.items.push(item);
             }
-        }
-        component.ImageElementFactory = ImageElementFactory;
-        // register factory instance
-        duice.ObjectElementFactory.addInstance(new ImageElementFactory());
-    })(component = duice.component || (duice.component = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var component;
-    (function (component) {
-        /**
-         * image element component
-         */
-        class ImageElement extends duice.ObjectElement {
-            /**
-             * constructor
-             * @param element
-             * @param context
-             */
-            constructor(element, context) {
-                super(element, context);
-                this.originSrc = String(this.getHtmlElement().src);
-            }
-            /**
-              * set value
-              * @param value
-              */
-            setValue(value) {
-                if (value) {
-                    this.getHtmlElement().src = value;
-                }
-                else {
-                    this.getHtmlElement().src = this.originSrc;
+            setActive(index) {
+                for (let i = 0; i < this.items.length; i++) {
+                    this.items[i].setActive(i === index);
                 }
             }
-            /**
-             * return value
-             */
-            getValue() {
-                return this.getHtmlElement().src;
-            }
         }
-        component.ImageElement = ImageElement;
-    })(component = duice.component || (duice.component = {}));
+        tab.TabFolder = TabFolder;
+    })(tab = duice.tab || (duice.tab = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

@@ -224,9 +224,13 @@ button {
 button:has(img) span {
     margin-right: 1rem;
 }
-button:hover {
+button:hover:not([disabled]) {
     background-color: var(--duice-button-background-color-hover);
     border: var(--duice-button-border-hover);
+}
+button:disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
 button.tab {
     border-bottom: none;
@@ -237,7 +241,6 @@ button.tab:hover {
 button.tab:focus {
     border-bottom: none;
 }
-
 
 /* img */
 img {

@@ -92,7 +92,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("x-accept-language");
+        localeChangeInterceptor.setParamName("_language");
         interceptorRegistry.addInterceptor(localeChangeInterceptor);
     }
 

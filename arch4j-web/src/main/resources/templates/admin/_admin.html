@@ -101,6 +101,18 @@
         function _logout() {
             document.location.href = '[[@{/security/logout}]]';
         }
+
+        /**
+         * change language
+         * @param language
+         * @private
+         */
+        function _changeLanguage(language) {
+            let url = new URL(document.location.href);
+            url.searchParams.delete('_language');
+            url.searchParams.append('_language', language);
+            document.location.href = url.href;
+        }
     </script>
 </head>
 <body>

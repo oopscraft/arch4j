@@ -64,6 +64,7 @@
          * resetUserSearch
          */
         function resetUserSearch() {
+            duice.ObjectProxy.reset(userSearch);
             getUsers();
         }
 
@@ -251,6 +252,9 @@
                         <span data-th-text="#{web.text.detail}">Detail</span>
                     </button>
                 </td>
+            </tr>
+            <tr data-duice-array="users" data-duice-script="if(users.length === 0) this.hidden=false;" hidden>
+                <td colspan="100%" class="ta-center">Data Not Found</td>
             </tr>
             </tbody>
         </table>
@@ -677,6 +681,9 @@
                                     <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
                                 </button>
                             </td>
+                        </tr>
+                        <tr data-duice-array="userDetail.user.roles" data-duice-script="if(userDetail.user.roles.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="ta-center">Data Not Found</td>
                         </tr>
                     </tbody>
                 </table>

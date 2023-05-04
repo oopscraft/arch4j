@@ -110,7 +110,6 @@ hr {
 
 /* table */
 table {
-    border-collapse: separate;
     border-spacing: 0;
     border: var(--duice-table-border);
     width: 100%;
@@ -118,8 +117,8 @@ table {
 table tr th {
     background-color: var(--duice-table-header-color);
     border: var(--duice-table-th-border);
-    border-top: none;
-    border-left: none;
+    border-top-width: 0;
+    border-left-width: 0;
     padding: 3px 0.5rem;
     font-weight: bold;
     text-overflow: ellipsis;
@@ -129,15 +128,15 @@ table tr th {
     text-align: left;
 }
 table tr th:last-of-type {
-    border-right: none;
+    border-right-width: 0;
 }
 table tr th:has(button,input,select,textarea,table) {
     padding: 0;
 }
 table tr td {
     border: var(--duice-table-td-border);
-    border-top: none;
-    border-left: none;
+    border-top-width: 0;
+    border-left-width: 0;
     padding: 3px 0.5rem;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -145,10 +144,12 @@ table tr td {
     vertical-align: middle;
 }
 table tr td:last-of-type {
-    border-right: none;
+    border-right-width: 0;
 }
-table tr:last-of-type td {
-    border-bottom: none;
+table tr:last-of-type td,
+table tr:has(+ tr[hidden]) td,
+table tr:has(+ tr[style*="display:none"]) {
+    border-bottom-width: 0;
 }
 table tr td:has(button,input,select,textarea,table) {
     padding: 0;
@@ -162,6 +163,9 @@ table tfoot {
     position: sticky;
     position: -webkit-sticky;
     bottom: 0;
+}
+table tfoot tr:first-of-type td {
+    border-top: var(--duice-table-td-border);
 }
 
 /* input */
@@ -241,6 +245,7 @@ button.tab:hover {
 button.tab:focus {
     border-bottom: none;
 }
+
 
 /* img */
 img {

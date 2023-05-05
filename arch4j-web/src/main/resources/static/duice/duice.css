@@ -365,6 +365,9 @@ dialog {
 .fs-italic {
     font-style: italic !important;
 }
+.fs-smaller {
+    font-size: smaller;
+}
 
 /* text */
 .ta-left {
@@ -378,8 +381,31 @@ dialog {
 }
 
 /* width */
+.w-25 {
+    width: 25%;
+}
+.w-50 {
+    width: 50%;
+}
+.w-75 {
+    width: 75%;
+}
 .w-100 {
     width: 100%;
+}
+
+/* tag */
+.tag-required:after {
+    font-size: smaller;
+    font-weight: bold;
+    color: steelblue;
+    content: ' # '
+}
+.tag-system:after {
+    font-size: smaller;
+    font-weight: bold;
+    color: steelblue;
+    content: ' # '
 }
 
 /* etc */

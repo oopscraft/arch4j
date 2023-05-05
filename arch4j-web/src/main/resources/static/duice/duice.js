@@ -925,6 +925,13 @@ var duice;
                 return Number(index);
             }
         }
+        /**
+         * focus
+         */
+        focus() {
+            // no-ops
+            return false;
+        }
     }
     duice.ObjectElement = ObjectElement;
 })(duice || (duice = {}));
@@ -1134,6 +1141,21 @@ var duice;
          */
         setValue(property, value) {
             new Function('value', `this.${property} = value;`).call(this.getTarget(), value);
+        }
+        /**
+         * focus
+         * @param property
+         */
+        focus(property) {
+            this.observers.forEach(observer => {
+                if (observer instanceof duice.ObjectElement) {
+                    if (observer.getProperty() === property) {
+                        if (observer.focus()) {
+                            return false;
+                        }
+                    }
+                }
+            });
         }
     }
     duice.ObjectHandler = ObjectHandler;
@@ -1897,6 +1919,8 @@ var duice;
                     let event = new duice.event.PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
                     this.notifyObservers(event);
                 }, true);
+                // turn off autocomplete
+                this.getHtmlElement().setAttribute('autocomplete', 'off');
             }
             /**
              * set value
@@ -1930,6 +1954,13 @@ var duice;
              */
             setReadonly(readonly) {
                 this.getHtmlElement().readOnly = readonly;
+            }
+            /**
+             * focus
+             */
+            focus() {
+                this.getHtmlElement().focus();
+                return true;
             }
         }
         component.InputElement = InputElement;
@@ -3021,6 +3052,14 @@ var duice;
             for (let property in this) {
                 objectHandler.setReadonly(property, readonly);
             }
+        }
+        /**
+         * focus
+         * @param objectProxy
+         * @param property
+         */
+        static focus(objectProxy, property) {
+            this.getHandler(objectProxy).focus(property);
         }
     }
     duice.ObjectProxy = ObjectProxy;

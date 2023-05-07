@@ -7,6 +7,8 @@ import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +22,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public void saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getId()).orElse(null);
         if(userEntity == null) {
             userEntity = UserEntity.builder()
                     .id(user.getId())
+                    .password(passwordEncoder.encode(user.getPassword()))
                     .build();
         }
         userEntity = userEntity.toBuilder()
-                .password(user.getPassword())
                 .name(user.getName())
                 .type(user.getType())
                 .status(user.getStatus())

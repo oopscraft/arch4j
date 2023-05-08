@@ -1437,9 +1437,6 @@ var duice;
                 this.dialogElement.style.position = 'absolute';
                 this.dialogElement.style.left = '0';
                 this.dialogElement.style.right = '0';
-                this.dialogElement.style.height = 'fit-content';
-                this.dialogElement.style.borderStyle = 'solid';
-                this.dialogElement.style.borderWidth = '1px';
                 // header
                 this.header = document.createElement('span');
                 this.dialogElement.appendChild(this.header);
@@ -1600,16 +1597,19 @@ var duice;
             constructor(message) {
                 super(document.createElement('dialog'));
                 this.getDialogElement().style.padding = '1rem';
-                this.getDialogElement().style.minWidth = '15rem';
+                this.getDialogElement().style.minWidth = '20rem';
                 this.getDialogElement().style.textAlign = 'center';
                 // message pre
                 this.messagePre = document.createElement('pre');
+                this.messagePre.style.marginTop = '1rem';
+                this.messagePre.style.marginBottom = '1rem';
                 this.messagePre.innerHTML = message;
                 this.getDialogElement().appendChild(this.messagePre);
                 // confirm button
                 this.confirmButton = document.createElement('button');
                 this.confirmButton.appendChild(document.createTextNode('Yes'));
-                this.confirmButton.style.width = '3rem';
+                this.confirmButton.style.width = '4rem';
+                this.confirmButton.style.cursor = 'pointer';
                 this.confirmButton.addEventListener('click', event => {
                     this.confirm();
                 });
@@ -1657,24 +1657,30 @@ var duice;
             constructor(message) {
                 super(document.createElement('dialog'));
                 this.getDialogElement().style.padding = '1rem';
-                this.getDialogElement().style.minWidth = '15rem';
+                this.getDialogElement().style.minWidth = '20rem';
                 this.getDialogElement().style.textAlign = 'center';
                 // message pre
                 this.messagePre = document.createElement('pre');
+                this.messagePre.style.marginTop = '1rem';
+                this.messagePre.style.marginBottom = '1rem';
                 this.messagePre.innerHTML = message;
                 this.getDialogElement().appendChild(this.messagePre);
                 // confirm button
                 this.confirmButton = document.createElement('button');
                 this.confirmButton.appendChild(document.createTextNode('Yes'));
-                this.confirmButton.style.width = '3rem';
+                this.confirmButton.style.width = '4rem';
+                this.confirmButton.style.cursor = 'pointer';
                 this.confirmButton.addEventListener('click', event => {
                     this.confirm();
                 });
                 this.getDialogElement().appendChild(this.confirmButton);
+                // divider
+                this.getDialogElement().appendChild(document.createTextNode(' '));
                 // cancel button
                 this.cancelButton = document.createElement('button');
                 this.cancelButton.appendChild(document.createTextNode('No'));
-                this.cancelButton.style.width = '3rem';
+                this.cancelButton.style.width = '4rem';
+                this.cancelButton.style.cursor = 'pointer';
                 this.cancelButton.addEventListener('click', event => {
                     this.cancel();
                 });
@@ -1729,31 +1735,36 @@ var duice;
             constructor(message) {
                 super(document.createElement('dialog'));
                 this.getDialogElement().style.padding = '1rem';
-                this.getDialogElement().style.minWidth = '15rem';
+                this.getDialogElement().style.minWidth = '20rem';
                 this.getDialogElement().style.textAlign = 'center';
                 // message pre
                 this.messagePre = document.createElement('pre');
+                this.messagePre.style.marginTop = '1rem';
+                this.messagePre.style.marginBottom = '1rem';
                 this.messagePre.innerHTML = message;
                 this.getDialogElement().appendChild(this.messagePre);
                 // prompt input
                 this.promptInput = document.createElement('input');
-                this.promptInput.style.display = 'block';
                 this.promptInput.style.textAlign = 'center';
-                this.promptInput.style.margin = '0.75rem 0';
+                this.promptInput.style.marginBottom = '1rem';
                 this.promptInput.style.width = '100%';
                 this.getDialogElement().appendChild(this.promptInput);
                 // confirm button
                 this.confirmButton = document.createElement('button');
                 this.confirmButton.appendChild(document.createTextNode('Yes'));
-                this.confirmButton.style.width = '3rem';
+                this.confirmButton.style.width = '4rem';
+                this.confirmButton.style.cursor = 'pointer';
                 this.confirmButton.addEventListener('click', event => {
                     this.confirm(this.promptInput.value);
                 });
                 this.getDialogElement().appendChild(this.confirmButton);
+                // divider
+                this.getDialogElement().appendChild(document.createTextNode(' '));
                 // cancel button
                 this.cancelButton = document.createElement('button');
                 this.cancelButton.appendChild(document.createTextNode('No'));
-                this.cancelButton.style.width = '3rem';
+                this.cancelButton.style.width = '4rem';
+                this.cancelButton.style.cursor = 'pointer';
                 this.cancelButton.addEventListener('click', event => {
                     this.cancel();
                 });
@@ -2149,20 +2160,21 @@ var duice;
                 let size = Number(object[sizeProperty]);
                 let count = Number(object[countProperty]);
                 // calculate page
-                let totalPage = Math.floor(count / size);
-                let startPage = Math.floor(page / 10) * 10;
-                let endPage = Math.min(startPage + 10 - 1, totalPage);
+                let totalPage = Math.ceil(count / size);
+                let startPageIndex = Math.floor(page / 10) * 10;
+                let endPageIndex = Math.min(startPageIndex + 9, totalPage - 1);
+                console.debug('page', page);
                 console.debug('totalPage', totalPage);
-                console.debug('startPage', startPage);
-                console.debug('endPage', endPage);
+                console.debug('startPage', startPageIndex);
+                console.debug('endPage', endPageIndex);
                 // template
                 let pagination = document.createElement('ul');
                 pagination.classList.add(`${duice.getNamespace()}-pagination`);
                 // prev
                 let prev = document.createElement('li');
                 prev.appendChild(document.createTextNode(prevText));
-                prev.classList.add(`${duice.getNamespace()}-pagination__item`);
-                prev.dataset.page = String(Math.max(startPage - 10, 0));
+                prev.classList.add(`${duice.getNamespace()}-pagination__item-prev`);
+                prev.dataset.page = String(Math.max(startPageIndex - 10, 0));
                 prev.addEventListener('click', function () {
                     Function(onclick).call(prev);
                 });
@@ -2171,11 +2183,11 @@ var duice;
                 }
                 pagination.appendChild(prev);
                 // pages
-                for (let index = startPage; index <= endPage; index++) {
+                for (let index = startPageIndex; index <= endPageIndex; index++) {
                     let item = document.createElement('li');
                     item.appendChild(document.createTextNode(String(index + 1)));
                     item.dataset.page = String(index);
-                    item.classList.add(`${duice.getNamespace()}-pagination__item`);
+                    item.classList.add(`${duice.getNamespace()}-pagination__item-page`);
                     if (index === page) {
                         item.classList.add(`${duice.getNamespace()}-pagination__item--active`);
                     }
@@ -2187,39 +2199,48 @@ var duice;
                 // next
                 let next = document.createElement('li');
                 next.appendChild(document.createTextNode(nextText));
-                next.classList.add(`${duice.getNamespace()}-pagination__item`);
-                next.dataset.page = String(Math.min(endPage + 1, totalPage));
+                next.classList.add(`${duice.getNamespace()}-pagination__item-next`);
+                next.dataset.page = String(Math.min(endPageIndex + 1, totalPage));
                 next.addEventListener('click', function () {
                     Function(onclick).call(next);
                 });
-                if (endPage >= totalPage) {
+                if (endPageIndex >= (totalPage - 1)) {
                     next.classList.add(`${duice.getNamespace()}-pagination__item--disable`);
                 }
                 pagination.appendChild(next);
                 // returns
                 return pagination;
-                // return pagination.outerHTML;
             }
             doStyle(object) {
                 return `
-               .${duice.getNamespace()}-pagination {
-                   list-style: none;
-                   display: flex;
-                   padding-left: 0;
-                   margin: 0;
-               }
-               .${duice.getNamespace()}-pagination__item {
-                   cursor: pointer;
-                   padding: 0 0.5rem;
-               }
-               .${duice.getNamespace()}-pagination__item--active {
-                   font-weight: bold;
-                   text-decoration: underline;
-                   pointer-events: none;
-               }
-               .${duice.getNamespace()}-pagination__item--disable {
-                   pointer-events: none;
-               }
+                .${duice.getNamespace()}-pagination {
+                    list-style: none;
+                    display: flex;
+                    padding-left: 0;
+                    margin: 0;
+                }
+                .${duice.getNamespace()}-pagination__item-page {
+                    cursor: pointer;
+                    padding: 0 0.5rem;
+                }
+                .${duice.getNamespace()}-pagination__item-prev {
+                    cursor: pointer;
+                    padding: 0 0.5rem;
+                    font-size: smaller;    
+                }
+                .${duice.getNamespace()}-pagination__item-next {
+                    cursor: pointer;
+                    padding: 0 0.5rem;
+                    font-size: smaller;
+                }
+                .${duice.getNamespace()}-pagination__item--active {
+                    font-weight: bold;
+                    text-decoration: underline;
+                    pointer-events: none;
+                }
+                .${duice.getNamespace()}-pagination__item--disable {
+                    pointer-events: none;
+                }
            `;
             }
         }
@@ -3277,12 +3298,96 @@ var duice;
              */
             constructor(element, context) {
                 super(element, context);
+                this.editable = false;
                 this.originSrc = String(this.getHtmlElement().src);
+                // editable
+                let editable = duice.getElementAttribute(this.getHtmlElement(), 'editable');
+                if (editable) {
+                    this.editable = (editable === 'true');
+                }
+                if (this.editable) {
+                    this.getHtmlElement().style.cursor = 'pointer';
+                    this.getHtmlElement().addEventListener('click', event => {
+                        this.changeImage();
+                    });
+                }
+                // size
+                let size = duice.getElementAttribute(this.getHtmlElement(), 'size');
+                if (size) {
+                    let sizeArgs = size.split(',');
+                    this.width = parseInt(sizeArgs[0].trim());
+                    this.height = parseInt(sizeArgs[1].trim());
+                }
             }
             /**
-              * set value
-              * @param value
-              */
+             * open image
+             */
+            changeImage() {
+                let input = document.createElement('input');
+                input.setAttribute("type", "file");
+                input.setAttribute("accept", "image/gif, image/jpeg, image/png");
+                let _this = this;
+                input.addEventListener('change', function (e) {
+                    let fileReader = new FileReader();
+                    if (this.files && this.files[0]) {
+                        fileReader.addEventListener("load", (e) => __awaiter(this, void 0, void 0, function* () {
+                            let image = e.target.result;
+                            let value;
+                            if (_this.width && _this.height) {
+                                value = yield _this.convertImage(image, _this.width, _this.height);
+                            }
+                            else {
+                                value = yield _this.convertImage(image);
+                            }
+                            _this.setValue(value);
+                            // notify observers
+                            let event = new duice.event.PropertyChangeEvent(_this, _this.getProperty(), _this.getValue(), _this.getIndex());
+                            _this.notifyObservers(event);
+                        }));
+                        fileReader.readAsDataURL(this.files[0]);
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                input.click();
+            }
+            /**
+             * convert image
+             * @param dataUrl
+             * @param width
+             * @param height
+             */
+            convertImage(dataUrl, width, height) {
+                return new Promise(function (resolve, reject) {
+                    try {
+                        let canvas = document.createElement("canvas");
+                        let ctx = canvas.getContext("2d");
+                        let image = new Image();
+                        image.onload = function () {
+                            if (width && height) {
+                                canvas.width = width;
+                                canvas.height = height;
+                                ctx.drawImage(image, 0, 0, width, height);
+                            }
+                            else {
+                                canvas.width = image.naturalWidth;
+                                canvas.height = image.naturalHeight;
+                                ctx.drawImage(image, 0, 0);
+                            }
+                            let dataUrl = canvas.toDataURL("image/png");
+                            resolve(dataUrl);
+                        };
+                        image.src = dataUrl;
+                    }
+                    catch (e) {
+                        reject(e);
+                    }
+                });
+            }
+            /**
+             * set value
+             * @param value
+             */
             setValue(value) {
                 if (value) {
                     this.getHtmlElement().src = value;
@@ -3296,6 +3401,13 @@ var duice;
              */
             getValue() {
                 return this.getHtmlElement().src;
+            }
+            /**
+             * set readonly
+             * @param readonly
+             */
+            setReadonly(readonly) {
+                this.getHtmlElement().style.pointerEvents = (readonly ? 'none' : 'unset');
             }
         }
         component.ImgElement = ImgElement;

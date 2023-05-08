@@ -37,7 +37,10 @@
         /**
          * getUsers
          */
-        function getUsers() {
+        function getUsers(page) {
+            if(page) {
+                userSearch._page = page;
+            }
             let url = new URL("[[@{/admin/user/get-users}]]", document.location.origin);
             if (userSearch.key && userSearch.value) {
                 url.searchParams.append(userSearch.key, userSearch.value);
@@ -165,39 +168,37 @@
 
     <!-- userTabContent -->
     <div id="userTabContent">
-        <div class="flex justify-content-between" style="padding:1px 0;">
-            <div class="flex flex-wrap">
-                <form onsubmit="return false;" class="row">
-                    <span>
-                        <select data-duice-object="userSearch" data-duice-property="key">
-                            <option value="id" th:text="#{core.user.id}"></option>
-                            <option value="name" th:text="#{core.user.name}"></option>
-                            <option value="email" th:text="#{core.user.email}"></option>
-                            <option value="mobile" th:text="#{core.user.mobile}"></option>
-                        </select>
-                        <input type="text" data-duice-object="userSearch" data-duice-property="value" th:placeholder="#{web.text.keyword}"/>
-                    </span>
+        <div class="flex justify-content-between p-1px">
+            <form onsubmit="return false;" class="row">
+                <div class="flex gap-1px flex-wrap">
+                    <select data-duice-object="userSearch" data-duice-property="key">
+                        <option value="id" th:text="#{core.user.id}"></option>
+                        <option value="name" th:text="#{core.user.name}"></option>
+                        <option value="email" th:text="#{core.user.email}"></option>
+                        <option value="mobile" th:text="#{core.user.mobile}"></option>
+                    </select>
+                    <input type="text" data-duice-object="userSearch" data-duice-property="value"
+                           th:placeholder="#{web.text.keyword}"/>
                     <select data-duice-object="userSearch" data-duice-property="type">
                         <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
                         <option th:each="userType:${userTypes}" th:value="${userType}" th:text="${userType}"></option>
                     </select>
                     <select data-duice-object="userSearch" data-duice-property="status">
                         <option value data-th-text="'- '+#{core.user.status}+' -'"></option>
-                        <option th:each="userStatus:${userStatuses}" th:value="${userStatus}" th:text="${userStatus}"></option>
+                        <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
+                                th:text="${userStatus}"></option>
                     </select>
-                    <span>
-                        <button onclick="getUsers();">
-                            <img class="icon" th:src="@{/static/image/icon-search.png}"/>
-                            <span data-th-text="#{web.text.search}">Search</span>
-                        </button>
-                        <button onclick="resetUsers();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
-                            <span data-th-text="#{web.text.reset}">Reset</span>
-                        </button>
-                    </span>
-                </form>
-            </div>
-            <div class="flex">
+                    <button onclick="getUsers();">
+                        <img class="icon" th:src="@{/static/image/icon-search.png}"/>
+                        <span data-th-text="#{web.text.search}">Search</span>
+                    </button>
+                    <button onclick="resetUsers();">
+                        <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
+                        <span data-th-text="#{web.text.reset}">Reset</span>
+                    </button>
+                </div>
+            </form>
+            <div class="flex gap-1px">
                 <button onclick="createUser();">
                     <img class="icon" th:src="@{/static/image/icon-create.png}"/>
                     <span data-th-text="#{web.text.create}"></span>
@@ -516,7 +517,7 @@
                 });
 
                 // password division
-                // document.getElementById('userDetail_password').style.display = (this.isNew ? '' : 'none');
+                document.getElementById('userDetail_passwordDiv').style.display = (this.isNew ? '' : 'none');
 
                 // open dialog
                 return this.dialog.open();
@@ -647,34 +648,35 @@
             <img class="icon" th:src="@{/static/image/icon-user.png}"/>
             <span data-th-text="#{core.user}"></span>
         </h1>
-        <hr>
-        <div class="grid gap">
+        <div class="grid column-gap-1rem row-gap-1px">
             <div class="span-2">
-                <span data-th-text="#{core.user.id}" class="tag-required"></span>
+                <span data-th-text="#{core.user.id}" class="fw-bold tag-required"></span>
             </div>
             <div class="span-4">
-                <input type="text" data-duice-object="userDetail.user" data-duice-property="id" class="fw-bold"/>
+                <input type="text" data-duice-object="userDetail.user" data-duice-property="id" class="w-100 fw-bold"/>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.name}" class="tag-required"></span>
+                <span data-th-text="#{core.user.name}" class="fw-bold tag-required"></span>
             </div>
             <div class="span-4">
-                <input type="text" data-duice-object="userDetail.user" data-duice-property="name"/>
+                <input type="text" data-duice-object="userDetail.user" data-duice-property="name" class="w-100"/>
+            </div>
+            <div id="userDetail_passwordDiv" class="span-12 grid column-gap-1rem">
+                <div class="span-2">
+                    <span data-th-text="#{core.user.password}" class="fw-bold tag-required"></span>
+                </div>
+                <div class="span-4">
+                    <input type="password" data-duice-object="userDetail.user" data-duice-property="password" class="w-100"/>
+                </div>
+                <div class="span-2">
+                    <span data-th-text="#{core.user.password}" class="fw-bold tag-required"></span>
+                </div>
+                <div class="span-4">
+                    <input type="password" data-duice-object="userDetail.user" data-duice-property="passwordConfirm" class="w-100"/>
+                </div>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.password}" class="tag-required"></span>
-            </div>
-            <div class="span-4">
-                <input type="password" data-duice-object="userDetail.user" data-duice-property="password" class="w-25"/>
-            </div>
-            <div class="span-2">
-                <span data-th-text="#{core.user.password}" class="tag-required"></span>
-            </div>
-            <div class="span-4">
-                <input type="password" data-duice-object="userDetail.user" data-duice-property="passwordConfirm"/>
-            </div>
-            <div class="span-2">
-                <span data-th-text="#{core.user.type}"></span><br>
+                <span data-th-text="#{core.user.type}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
                 <select data-duice-object="userDetail.user" data-duice-property="type" class="w-100">
@@ -682,7 +684,7 @@
                 </select>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.status}"></span><br>
+                <span data-th-text="#{core.user.status}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
                 <select data-duice-object="userDetail.user" data-duice-property="status" class="w-100">
@@ -690,33 +692,32 @@
                 </select>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.email}"></span><br>
+                <span data-th-text="#{core.user.email}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
                 <input type="email" data-duice-object="userDetail.user" data-duice-property="email" class="w-100"/>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.mobile}"></span><br>
+                <span data-th-text="#{core.user.mobile}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
-                <input type="tel" data-duice-object="userDetail.user" data-duice-property="mobile" class="w-75"/>
+                <input type="tel" data-duice-object="userDetail.user" data-duice-property="mobile" class="w-100"/>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.photo}"></span><br>
+                <span data-th-text="#{core.user.photo}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
-                <img data-duice-object="userDetail.user" data-duice-property="photo" th:src="@{/static/image/icon-null.png}"/>
+                <img th:src="@{/static/image/icon-null.png}" data-duice-object="userDetail.user" data-duice-property="photo" data-duice-editable="true" data-duice-size="64,64" style="width:64px; height:64px;"/>
             </div>
             <div class="span-6"></div>
             <div class="span-2">
-                <span data-th-text="#{core.user.profile}"></span>
+                <span data-th-text="#{core.user.profile}" class="fw-bold"></span>
             </div>
             <div class="span-10">
-                <textarea data-duice-object="userDetail.user" data-duice-property="profile" rows="4"
-                          class="w-100"></textarea>
+                <textarea data-duice-object="userDetail.user" data-duice-property="profile" rows="4" class="w-100 h-100"></textarea>
             </div>
             <div class="span-2">
-                <span data-th-text="#{core.user.roles}"></span>
+                <span data-th-text="#{core.user.roles}" class="fw-bold"></span>
             </div>
             <div class="span-10">
                 <table class="w-100">
@@ -762,25 +763,24 @@
                 </tbody>
             </table>
             </div>
-            <div class="span-12 flex justify-content-end">
-                <button>
-                    <img class="icon" th:src="@{/static/image/icon-password.png}"/>
-                    <span data-th-text="#{web.text.changePassword}"></span>
-                </button>
-                <button>
-                    <img class="icon" th:src="@{/static/image/icon-token.png}"/>
-                    <span data-th-text="#{web.text.authorizationToken}"></span>
-                </button>
-                |
-                <button onclick="userDetail.delete();">
-                    <img class="icon" th:src="@{/static/image/icon-delete.png}"/>
-                    <span data-th-text="#{web.text.delete}"></span>
-                </button>
-                <button onclick="userDetail.save();">
-                    <img class="icon" th:src="@{/static/image/icon-save.png}"/>
-                    <span data-th-text="#{web.text.save}"></span>
-                </button>
-            </div>
+        </div>
+        <div class="flex gap-1px justify-content-end py-1px">
+            <button>
+                <img class="icon" th:src="@{/static/image/icon-password.png}"/>
+                <span data-th-text="#{web.text.changePassword}"></span>
+            </button>
+            <button>
+                <img class="icon" th:src="@{/static/image/icon-token.png}"/>
+                <span data-th-text="#{web.text.authorizationToken}"></span>
+            </button>
+            <button onclick="userDetail.delete();">
+                <img class="icon" th:src="@{/static/image/icon-delete.png}"/>
+                <span data-th-text="#{web.text.delete}"></span>
+            </button>
+            <button onclick="userDetail.save();">
+                <img class="icon" th:src="@{/static/image/icon-save.png}"/>
+                <span data-th-text="#{web.text.save}"></span>
+            </button>
         </div>
     </dialog>
 
@@ -818,10 +818,15 @@
                  * @param page
                  */
                 getRoles: function(page) {
+                    if(page) {
+                        this.roleSearch._page = page;
+                    }
                     let url = new URL('[[@{/admin/user/get-roles}]]',document.location.origin);
                     if(this.roleSearch.key && this.roleSearch.value) {
                         url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
                     }
+                    url.searchParams.append('_page', this.roleSearch._page);
+                    url.searchParams.append('_size', this.roleSearch._size);
                     _fetch(url)
                     .then(response => response.json())
                     .then(data => {
@@ -886,12 +891,12 @@
             }
         </script>
         <h1>
-            <img th:src="@{/static/image/icon-role.png}"/>
+            <img class="icon" th:src="@{/static/image/icon-role.png}"/>
             <span data-th-text="#{core.role}"></span>
         </h1>
-        <div class="row">
-            <div class="col">
-                <form onsubmit="return false;">
+        <div class="p-1px">
+            <form onsubmit="return false;">
+                <div class="flex gap-1px">
                     <select data-duice-object="roleSelect.roleSearch" data-duice-property="key">
                         <option value="id" th:text="#{core.role.id}"></option>
                         <option value="name" th:text="#{core.role.name}"></option>
@@ -905,103 +910,111 @@
                         <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
                         <span data-th-text="#{web.text.reset}">Reset</span>
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-        <table>
-            <colgroup>
-                <col style="width:70px;"/>
-                <col style="width:30%;"/>
-                <col/>
-                <col style="width:35px;"/>
-            </colgroup>
-            <thead>
-            <tr>
-                <th data-th-text="#{web.text.no}" class="ta-center"></th>
-                <th data-th-text="#{core.role.id}"></th>
-                <th data-th-text="#{core.role.name}"></th>
-                <th class="ta-center">-</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-duice-array="roleSelect.roles" data-duice-loop="role,status">
-                <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                <td>
-                    <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}" class="icon"/>
-                    <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
-                </td>
-                <td data-duice-object="role" data-duice-property="name"></td>
-                <td class="ta-center">
-                    <button data-duice-object="role"
-                            data-duice-script="
+        <div>
+            <table>
+                <colgroup>
+                    <col style="width:70px;"/>
+                    <col style="width:30%;"/>
+                    <col/>
+                    <col style="width:35px;"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th data-th-text="#{web.text.no}" class="ta-center"></th>
+                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.name}"></th>
+                    <th class="ta-center">-</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-array="roleSelect.roles" data-duice-loop="role,status">
+                    <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
+                    <td>
+                        <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}"
+                             class="icon"/>
+                        <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
+                    </td>
+                    <td data-duice-object="role" data-duice-property="name"></td>
+                    <td class="ta-center">
+                        <button data-duice-object="role"
+                                data-duice-script="
                             this.dataset.index = status.index;
                             if(role._selected) {
                                 this.disabled = true;
                             }"
-                            onclick="roleSelect.selectRole(this.dataset.index);">
-                        <img class="icon" th:src="@{/static/image/icon-add.png}"/>
-                    </button>
-                </td>
-            </tr>
-            <tr data-duice-array="roleSelect.roles" data-duice-script="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
-                <td colspan="100%" class="ta-center fs-smaller">No Data</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col">
+                                onclick="roleSelect.selectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-add.png}"/>
+                        </button>
+                    </td>
+                </tr>
+                <tr data-duice-array="roleSelect.roles"
+                    data-duice-script="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="ta-center fs-smaller">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-content-between">
+            <div></div>
+            <div>
                 <duice-pagination
                     data-duice-object="roleSelect.roleSearch"
                     data-duice-size-property="_size"
                     data-duice-page-property="_page"
                     data-duice-count-property="_count"
-                    data-duice-onclick="roleSelect.roleSearch.getRoles(this.dataset.page);">
+                    data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col">
+            <div>
                 <span data-th-text="#{web.text.total}"></span>
                 <span data-duice-object="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.text.rows}"></span>
             </div>
         </div>
-        <table>
-            <colgroup>
-                <col style="width:70px;"/>
-                <col style="width:30%;"/>
-                <col/>
-                <col style="width:35px;"/>
-            </colgroup>
-            <thead>
-            <tr>
-                <th data-th-text="#{web.text.no}" class="ta-center"></th>
-                <th data-th-text="#{core.role.id}"></th>
-                <th data-th-text="#{core.role.name}"></th>
-                <th class="ta-center">-</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-duice-array="roleSelect.selectedRoles" data-duice-loop="role,status">
-                <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                <td>
-                    <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}" class="icon"/>
-                    <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
-                </td>
-                <td data-duice-object="role" data-duice-property="name"></td>
-                <td class="ta-center">
-                    <button data-duice-object="role"
-                            data-duice-script="this.dataset.index = status.index;"
-                            onclick="roleSelect.deselectRole(this.dataset.index);">
-                        <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
-                    </button>
-                </td>
-            </tr>
-            <tr data-duice-array="roleSelect.selectedRoles" data-duice-script="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
-                <td colspan="100%" class="ta-center fs-smaller">No Data</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="row" style="margin-top:0.5rem;">
+        <div>
+            <table>
+                <colgroup>
+                    <col style="width:70px;"/>
+                    <col style="width:30%;"/>
+                    <col/>
+                    <col style="width:35px;"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th data-th-text="#{web.text.no}" class="ta-center"></th>
+                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.name}"></th>
+                    <th class="ta-center">-</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-array="roleSelect.selectedRoles" data-duice-loop="role,status">
+                    <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
+                    <td>
+                        <img data-duice-object="role" data-duice-property="icon" th:src="@{/static/image/icon-null.png}"
+                             class="icon"/>
+                        <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
+                    </td>
+                    <td data-duice-object="role" data-duice-property="name"></td>
+                    <td class="ta-center">
+                        <button data-duice-object="role"
+                                data-duice-script="this.dataset.index = status.index;"
+                                onclick="roleSelect.deselectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
+                        </button>
+                    </td>
+                </tr>
+                <tr data-duice-array="roleSelect.selectedRoles"
+                    data-duice-script="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="ta-center fs-smaller">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-content-between py-1px">
             <div class="col"></div>
             <div class="col">
                 <button onclick="roleSelect.confirm();">

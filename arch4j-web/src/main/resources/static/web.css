@@ -17,6 +17,7 @@
     --web-button-hover-border: solid 1px #000;
     --web-button-hover-background-color: #efefef;
     /* table */
+    --web-table-border: solid 1px #ccc;
     --web-table-header-border: solid 1px #ccc;
     --web-table-header-background-color: #f7f7f7;
     --web-table-body-border: solid 1px #ccc;
@@ -26,8 +27,12 @@
 /* global */
 html {
     font-size: var(--web-font-size);
+    width: 100%;
+    height: 100%;
 }
 body {
+    width: 100%;
+    height: 100%;
     background-color: var(--web-background-color);
     font-family: var(--web-font-family);
     color: var(--web-font-color);
@@ -151,22 +156,40 @@ button.tab:focus {
 /* table */
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: var(--web-table-border);
 }
-table th {
-    border: var(--web-table-header-border);
+table thead {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+table tr th {
+    border-right: var(--web-table-header-border);
+    border-bottom: var(--web-table-header-border);
     background-color: var(--web-table-header-background-color);
     font-weight: bold;
     padding: 2px 0.5rem;
     text-align: center;
     vertical-align: middle;
 }
-table td {
-    border: var(--web-table-body-border);
+table tr th:last-of-type {
+    border-right: none;
+}
+table tr td {
+    border-right: var(--web-table-body-border);
+    border-bottom: var(--web-table-body-border);
     background-color: var(--web-table-body-background-color);
     padding: 2px 0.5rem;
     text-align: center;
     vertical-align: middle;
+}
+table tr td:last-of-type {
+    border-right: none;
+}
+table tr:last-of-type td {
+    border-bottom: none;
 }
 table th:has(button,input,select,textarea,table),
 table td:has(button,input,select,textarea,table) {
@@ -288,8 +311,23 @@ table td:has(button,input,select,textarea,table) {
 }
 
 /* border */
-.b-none {
+.b-0 {
     border: none;
+}
+.b-1 {
+    border: var(--web-element-border);
+}
+.bt-1 {
+    border-top: var(--web-element-border);
+}
+.bl-1 {
+    border-left: var(--web-element-border);
+}
+.br-1 {
+    border-left: var(--web-element-border);
+}
+.bb-1 {
+    border-bottom: var(--web-element-border);
 }
 
 /* padding */
@@ -416,6 +454,35 @@ table td:has(button,input,select,textarea,table) {
 }
 .h-100 {
     height: 100%;
+}
+
+/* overflow */
+.overflow-auto {
+    overflow: auto;
+}
+.overflow-scroll {
+    overflow: scroll;
+}
+.overflow-hidden {
+    overflow: hidden;
+}
+.overflow-y-auto {
+    overflow-y: auto;
+}
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+.overflow-x-auto {
+    overflow-x: auto;
+}
+.overflow-x-scroll {
+    overflow-x: scroll;
+}
+.overflow-x-hidden {
+    overflow-x: hidden;
 }
 
 /* tag */

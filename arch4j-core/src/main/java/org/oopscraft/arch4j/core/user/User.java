@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,10 @@ public class User {
 
     private String mobile;
 
+    private LocalDateTime joinDateTime;
+
+    private LocalDateTime loginDateTime;
+
     private String photo;
 
     private String profile;
@@ -47,6 +52,8 @@ public class User {
                 .status(userEntity.getStatus())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
+                .joinDateTime(userEntity.getJoinDateTime())
+                .loginDateTime(userEntity.getLoginDateTime())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()

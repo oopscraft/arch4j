@@ -1,6 +1,12 @@
 package org.oopscraft.arch4j.web;
 
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -15,6 +21,7 @@ import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.MessageSource;
@@ -39,6 +46,12 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -94,6 +107,44 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("_language");
         interceptorRegistry.addInterceptor(localeChangeInterceptor);
+    }
+
+    /**
+     * customizes java.time.* Serializer/Deserializer
+     * @return jackson customizer
+     */
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
+                .failOnEmptyBeans(false)
+                .serializerByType(LocalDateTime.class, new JsonSerializer<LocalDateTime>(){
+                    @Override
+                    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+                        String result = value.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                        gen.writeString(result);
+                    }
+                })
+                .deserializerByType(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+                    @Override
+                    public LocalDateTime deserialize(JsonParser p, DeserializationContext context) throws IOException {
+                        String value = p.getValueAsString();
+                        return LocalDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                    }
+                })
+                .serializerByType(LocalDate.class, new JsonSerializer<LocalDate>(){
+                    @Override
+                    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+                        String result = value.format(DateTimeFormatter.ISO_DATE);
+                        gen.writeString(result);
+                    }
+                })
+                .deserializerByType(LocalDate.class, new JsonDeserializer<LocalDate>() {
+                    @Override
+                    public LocalDate deserialize(JsonParser p, DeserializationContext context) throws IOException {
+                        String value = p.getValueAsString();
+                        return LocalDate.parse(value, DateTimeFormatter.ISO_DATE);
+                    }
+                });
     }
 
     @Slf4j

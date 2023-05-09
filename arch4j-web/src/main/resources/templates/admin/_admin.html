@@ -13,11 +13,13 @@
 
     <style>
         html {
-            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
         }
         body {
+            width: 100%;
+            height: 100%;
             position: relative;
-            max-width: 100%;
             overflow: hidden;
             display: grid;
             grid-template-areas:
@@ -25,7 +27,7 @@
                   '_nav _main _aside'
                   '_footer _footer _footer';
             grid-template-columns: 3fr 20fr 1fr;
-            grid-template-rows: auto 1fr auto;
+            grid-template-rows: auto 1fr 1rem;
             grid-gap: 1rem 1rem;
             padding: 1rem;
         }

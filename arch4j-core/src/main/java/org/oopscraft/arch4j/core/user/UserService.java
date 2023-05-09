@@ -7,13 +7,12 @@ import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +29,7 @@ public class UserService {
             userEntity = UserEntity.builder()
                     .id(user.getId())
                     .password(passwordEncoder.encode(user.getPassword()))
+                    .joinDateTime(LocalDateTime.now())
                     .build();
         }
         userEntity = userEntity.toBuilder()
@@ -85,6 +85,29 @@ public class UserService {
                 .collect(Collectors.toList());
         long total = userEntityPage.getTotalElements();
         return new PageImpl<>(users, pageable, total);
+    }
+
+    /**
+     * update password
+     * @param id user id
+     * @param password password
+     */
+    public void changePassword(String id, String password) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.saveAndFlush(user);
+        });
+    }
+
+    /**
+     * updates login datetime
+     * @param id user id
+     */
+    public void updateLoginDateTime(String id) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setLoginDateTime(LocalDateTime.now());
+            userRepository.saveAndFlush(user);
+        });
     }
 
 }

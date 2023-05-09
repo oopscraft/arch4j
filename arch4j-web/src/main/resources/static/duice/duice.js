@@ -898,7 +898,7 @@ var duice;
          * @param value
          */
         setValue(value) {
-            value = this.getFormat() ? this.getFormat().encode(value) : value;
+            value = this.getFormat() ? this.getFormat().format(value) : value;
             this.htmlElement.innerText = value;
         }
         /**
@@ -906,7 +906,7 @@ var duice;
          */
         getValue() {
             let value = this.htmlElement.innerText;
-            value = this.getFormat() ? this.getFormat().decode(value) : value;
+            value = this.getFormat() ? this.getFormat().parse(value) : value;
             return value;
         }
         /**
@@ -1861,7 +1861,7 @@ var duice;
              */
             setValue(value) {
                 if (value) {
-                    value = this.getFormat() ? this.getFormat().encode(value) : value;
+                    value = this.getFormat() ? this.getFormat().format(value) : value;
                 }
                 else {
                     value = '';
@@ -1874,7 +1874,7 @@ var duice;
             getValue() {
                 let value = this.getHtmlElement().value;
                 if (value) {
-                    value = this.getFormat() ? this.getFormat().decode(value) : value;
+                    value = this.getFormat() ? this.getFormat().parse(value) : value;
                 }
                 else {
                     value = null;
@@ -1984,6 +1984,8 @@ var duice;
                         return new component.InputCheckboxElement(element, context);
                     case 'radio':
                         return new component.InputRadioElement(element, context);
+                    case 'datetime-local':
+                        return new component.InputDatetimeLocalElement(element, context);
                     default:
                         return new component.InputElement(element, context);
                 }
@@ -2022,7 +2024,7 @@ var duice;
              * Encodes number as format
              * @param number
              */
-            encode(number) {
+            format(number) {
                 if (!number || isNaN(Number(number))) {
                     return '';
                 }
@@ -2038,7 +2040,7 @@ var duice;
              * Decodes formatted value as original value
              * @param string
              */
-            decode(string) {
+            parse(string) {
                 if (!string) {
                     return null;
                 }
@@ -2509,12 +2511,9 @@ var duice;
              * Encodes date string
              * @param string
              */
-            encode(string) {
+            format(string) {
                 if (!string) {
                     return '';
-                }
-                if (!this.pattern) {
-                    return new Date(string).toString();
                 }
                 let date = new Date(string);
                 string = this.pattern.replace(this.patternRex, function ($1) {
@@ -2545,12 +2544,9 @@ var duice;
              * Decodes formatted date string to ISO date string.
              * @param string
              */
-            decode(string) {
+            parse(string) {
                 if (!string) {
                     return null;
-                }
-                if (!this.pattern) {
-                    return new Date(string).toISOString();
                 }
                 let date = new Date(0, 0, 0, 0, 0, 0);
                 let match;
@@ -2605,7 +2601,19 @@ var duice;
                         }
                     }
                 }
-                return date.toISOString();
+                // timezone offset
+                let tzo = new Date().getTimezoneOffset() * -1, dif = tzo >= 0 ? '+' : '-', pad = function (num) {
+                    return (num < 10 ? '0' : '') + num;
+                };
+                // return iso string
+                return date.getFullYear() +
+                    '-' + pad(date.getMonth() + 1) +
+                    '-' + pad(date.getDate()) +
+                    'T' + pad(date.getHours()) +
+                    ':' + pad(date.getMinutes()) +
+                    ':' + pad(date.getSeconds()) +
+                    dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+                    ':' + pad(Math.abs(tzo) % 60);
             }
         }
         format.DateFormat = DateFormat;
@@ -2631,7 +2639,7 @@ var duice;
              * encode string as format
              * @param value
              */
-            encode(value) {
+            format(value) {
                 if (!value) {
                     return value;
                 }
@@ -2657,7 +2665,7 @@ var duice;
              * decodes string as format
              * @param value
              */
-            decode(value) {
+            parse(value) {
                 if (!value) {
                     return value;
                 }
@@ -3411,6 +3419,42 @@ var duice;
             }
         }
         component.ImgElement = ImgElement;
+    })(component = duice.component || (duice.component = {}));
+})(duice || (duice = {}));
+///<reference path="../format/NumberFormat.ts"/>
+///<reference path="InputElement.ts"/>
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        /**
+         * input datetime-local element component
+         */
+        class InputDatetimeLocalElement extends component.InputElement {
+            /**
+             * constructor
+             * @param element
+             * @param context
+             */
+            constructor(element, context) {
+                super(element, context);
+                this.dateFormat = new duice.format.DateFormat('yyyy-MM-ddTHH:mm:ss');
+            }
+            /**
+             * set value
+             * @param value
+             */
+            setValue(value) {
+                this.getHtmlElement().value = this.dateFormat.format(value);
+            }
+            /**
+             * return value
+             */
+            getValue() {
+                return this.dateFormat.parse(this.getHtmlElement().value);
+            }
+        }
+        component.InputDatetimeLocalElement = InputDatetimeLocalElement;
     })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

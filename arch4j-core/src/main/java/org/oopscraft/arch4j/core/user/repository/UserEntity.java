@@ -8,6 +8,7 @@ import org.oopscraft.arch4j.core.user.UserStatus;
 import org.oopscraft.arch4j.core.user.UserType;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,12 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "mobile")
     private String mobile;
 
+    @Column(name = "join_datetime")
+    private LocalDateTime joinDateTime;
+
+    @Column(name = "login_datetime")
+    private LocalDateTime loginDateTime;
+
     @Column(name = "photo")
     @Lob
     private String photo;
@@ -55,7 +62,7 @@ public class UserEntity extends SystemFieldEntity {
     @Lob
     private String profile;
 
-   /**
+    /**
      * roles
      */
     @ManyToMany(fetch = FetchType.LAZY)

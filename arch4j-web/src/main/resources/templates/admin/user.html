@@ -505,6 +505,10 @@
                     duice.ObjectProxy.setReadonlyAll(this.user, false);
                 }
 
+                // readonly
+                duice.ObjectProxy.setReadonly(this.user, 'joinDateTime', true);
+                duice.ObjectProxy.setReadonly(this.user, 'loginDateTime', true);
+
                 // property change listener
                 let _this = this;
                 duice.ObjectProxy.onPropertyChanging(this.user, async function(event) {
@@ -704,6 +708,18 @@
                 <input type="tel" data-duice-object="userDetail.user" data-duice-property="mobile" class="w-100"/>
             </div>
             <div class="span-2">
+                <span data-th-text="#{core.user.joinDatetime}" class="fw-bold"></span>
+            </div>
+            <div class="span-4">
+                <input type="datetime-local" data-duice-object="userDetail.user" data-duice-property="joinDateTime" class="w-100"/>
+            </div>
+            <div class="span-2">
+                <span data-th-text="#{core.user.loginDatetime}" class="fw-bold"></span>
+            </div>
+            <div class="span-4">
+                <input type="datetime-local" data-duice-object="userDetail.user" data-duice-property="loginDateTime" class="w-100"/>
+            </div>
+            <div class="span-2">
                 <span data-th-text="#{core.user.photo}" class="fw-bold"></span><br>
             </div>
             <div class="span-4">
@@ -720,48 +736,50 @@
                 <span data-th-text="#{core.user.roles}" class="fw-bold"></span>
             </div>
             <div class="span-10">
-                <table class="w-100">
-                <colgroup>
-                    <col style="width:70px;"/>
-                    <col/>
-                    <col/>
-                    <col style="width:35px;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th data-th-text="#{web.text.no}" class="ta-center"></th>
-                    <th data-th-text="#{core.role.id}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
-                    <th class="ta-center">
-                        <button onclick="userDetail.addRole();">
-                            <img class="icon" th:src="@{/static/image/icon-add.png}"/>
-                        </button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-duice-array="userDetail.user.roles" data-duice-loop="role,status">
-                    <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
-                    <td>
-                        <img data-duice-object="role" data-duice-property="icon"
-                             th:src="@{/static/image/icon-null.png}"
-                             class="icon"/>
-                        <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
-                    </td>
-                    <td data-duice-object="role" data-duice-property="name"></td>
-                    <td class="ta-center">
-                        <button data-duice-object="role" data-duice-script="this.dataset.index=status.index;"
-                                onclick="userDetail.removeRole(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-duice-array="userDetail.user.roles"
-                    data-duice-script="if(userDetail.user.roles.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="ta-center fs-smaller">No Data</td>
-                </tr>
-                </tbody>
-            </table>
+                <div class="overflow-y-scroll b-1" style="max-height:calc(10rem - 2px);">
+                    <table class="w-100 b-0">
+                        <colgroup>
+                            <col style="width:70px;"/>
+                            <col/>
+                            <col/>
+                            <col style="width:35px;"/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.text.no}" class="ta-center"></th>
+                            <th data-th-text="#{core.role.id}"></th>
+                            <th data-th-text="#{core.role.name}"></th>
+                            <th class="ta-center">
+                                <button onclick="userDetail.addRole();">
+                                    <img class="icon" th:src="@{/static/image/icon-add.png}"/>
+                                </button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-array="userDetail.user.roles" data-duice-loop="role,status">
+                            <td data-duice-object="status" data-duice-property="count" class="ta-center"></td>
+                            <td>
+                                <img data-duice-object="role" data-duice-property="icon"
+                                     th:src="@{/static/image/icon-null.png}"
+                                     class="icon"/>
+                                <span data-duice-object="role" data-duice-property="id" class="fw-bold"></span>
+                            </td>
+                            <td data-duice-object="role" data-duice-property="name"></td>
+                            <td class="ta-center">
+                                <button data-duice-object="role" data-duice-script="this.dataset.index=status.index;"
+                                        onclick="userDetail.removeRole(this.dataset.index);">
+                                    <img class="icon" th:src="@{/static/image/icon-remove.png}"/>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr data-duice-array="userDetail.user.roles"
+                            data-duice-script="if(userDetail.user.roles.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="ta-center fs-smaller">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="flex gap-1px justify-content-end py-1px">
@@ -794,7 +812,7 @@
                     key: 'id',
                     value: null,
                     _page: 0,
-                    _size: 10,
+                    _size: 5,
                     _count: 0
                 }),
                 roles: new duice.ArrayProxy([]),

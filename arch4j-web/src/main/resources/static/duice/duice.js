@@ -2368,13 +2368,24 @@ var duice;
              * @param value
              */
             setValue(value) {
-                this.getHtmlElement().value = value;
+                if (value) {
+                    this.getHtmlElement().value = value;
+                }
+                else {
+                    this.getHtmlElement().value = '';
+                }
             }
             /**
              * return value
              */
             getValue() {
-                return this.getHtmlElement().value;
+                let value = this.getHtmlElement().value;
+                if (value != null && value.length > 0) {
+                    return value;
+                }
+                else {
+                    return null;
+                }
             }
             /**
              * set readonly

@@ -641,89 +641,88 @@
             <span data-th-text="#{core.user}"></span>
         </h1>
         <div class="container gap-1px gap-column-1rem">
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.id}" class="fw-bold tag-required"></span>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="text" data-duice-object="userDetail.user" data-duice-property="id" class="w-100 fw-bold"/>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.name}" class="fw-bold tag-required"></span>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="text" data-duice-object="userDetail.user" data-duice-property="name" class="w-100"/>
             </div>
             <div id="userDetail_passwordDiv" class="col-12 container gap-1px gap-column-1rem">
-                <div class="col-2">
+                <div class="col-2 col-s-12">
                     <span data-th-text="#{core.user.password}" class="fw-bold tag-required"></span>
                 </div>
-                <div class="col-4">
+                <div class="col-4 col-s-12">
                     <input type="password" data-duice-object="userDetail.user" data-duice-property="password" class="w-100"/>
                 </div>
-                <div class="col-2">
+                <div class="col-2 col-s-12">
                     <span data-th-text="#{core.user.password}" class="fw-bold tag-required"></span>
                 </div>
-                <div class="col-4">
+                <div class="col-4 col-s-12">
                     <input type="password" data-duice-object="userDetail.user" data-duice-property="passwordConfirm" class="w-100"/>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.type}" class="fw-bold"></span><br>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <select data-duice-object="userDetail.user" data-duice-property="type" class="w-100">
                     <option th:each="userType:${userTypes}" th:value="${userType}" th:text="${userType}"></option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.status}" class="fw-bold"></span><br>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <select data-duice-object="userDetail.user" data-duice-property="status" class="w-100">
                     <option th:each="userStatus:${userStatuses}" th:value="${userStatus}" th:text="${userStatus}"></option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.email}" class="fw-bold"></span><br>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="email" data-duice-object="userDetail.user" data-duice-property="email" class="w-100"/>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.mobile}" class="fw-bold"></span><br>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="tel" data-duice-object="userDetail.user" data-duice-property="mobile" class="w-100"/>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.joinDatetime}" class="fw-bold"></span>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="datetime-local" data-duice-object="userDetail.user" data-duice-property="joinDateTime" class="w-100"/>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.loginDatetime}" class="fw-bold"></span>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-s-12">
                 <input type="datetime-local" data-duice-object="userDetail.user" data-duice-property="loginDateTime" class="w-100"/>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.photo}" class="fw-bold"></span><br>
             </div>
-            <div class="col-4">
+            <div class="col-10 col-s-12">
                 <img th:src="@{/static/image/icon-null.png}" data-duice-object="userDetail.user" data-duice-property="photo" data-duice-editable="true" data-duice-size="64,64" style="width:64px; height:64px;"/>
             </div>
-            <div class="col-6"></div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.profile}" class="fw-bold"></span>
             </div>
-            <div class="col-10">
+            <div class="col-10 col-s-12">
                 <textarea data-duice-object="userDetail.user" data-duice-property="profile" rows="4" class="w-100 h-100"></textarea>
             </div>
-            <div class="col-2">
+            <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.roles}" class="fw-bold"></span>
             </div>
-            <div class="col-10">
+            <div class="col-10 col-s-12">
                 <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
                     <table class="w-100 border-0">
                         <colgroup>

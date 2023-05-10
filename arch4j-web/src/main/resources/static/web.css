@@ -217,6 +217,24 @@ dialog {
 .container.gap-1em {
     grid-gap: 1em;
 }
+.container.gap-row-1px {
+    grid-row-gap: 1px;
+}
+.container.gap-row-1rem {
+    grid-row-gap: 1rem;
+}
+.container.gap-row-1em {
+    grid-row-gap: 1em;
+}
+.container.gap-column-1px {
+    grid-column-gap: 1px;
+}
+.container.gap-column-1rem {
+    grid-column-gap: 1rem;
+}
+.container.gap-column-1em {
+    grid-column-gap: 1em;
+}
 .container > .col-0 {
     display: none;
 }

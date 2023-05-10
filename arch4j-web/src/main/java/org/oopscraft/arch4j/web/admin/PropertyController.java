@@ -24,7 +24,7 @@ public class PropertyController {
 
     /**
      * index
-     * @return
+     * @return model and view
      */
     @GetMapping
     public ModelAndView index() {
@@ -33,22 +33,24 @@ public class PropertyController {
 
     /**
      * get properties
-     * @return
+     * @return properties
      */
     @GetMapping("get-properties")
     @ResponseBody
-    public Page<Property> getProperties(PropertySearch propertySearch) {
-        return propertyService.getProperties(propertySearch, Pageable.unpaged());
+    public Page<Property> getProperties(PropertySearch propertySearch, Pageable pageable) {
+        return propertyService.getProperties(propertySearch, pageable);
     }
 
     /**
      * get property
-     * @param id
-     * @return
+     * @param id property id
+     * @return property
      */
     @GetMapping("getProperty")
+    @ResponseBody
     public Property getProperty(@RequestParam("id")String id) {
-        return propertyService.getProperty(id).orElseThrow(() -> new DataNotFoundException(id));
+        return propertyService.getProperty(id)
+                .orElseThrow(() -> new DataNotFoundException(id));
     }
 
 }

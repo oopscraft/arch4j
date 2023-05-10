@@ -58,7 +58,6 @@
                 .then(data => {
                     duice.ArrayProxy.clear(users);
                     duice.ArrayProxy.assign(users, data.content);
-                    console.log(data.totalElements);
                     userSearch._count = data.totalElements;
                 });
         }
@@ -151,7 +150,7 @@
         <img class="icon" th:src="@{/static/image/icon-user.png}"/>
         <span data-th-text="#{web.title.user}"></span>
     </h1>
-    <div style="border-bottom:solid 1px #ccc;">
+    <div class="border-bottom-1">
         <button id="userTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user.png}"/>
             <span data-th-text="#{core.user}"></span>
@@ -168,45 +167,47 @@
 
     <!-- userTabContent -->
     <div id="userTabContent">
-        <div class="flex justify-content-between p-1px">
-            <form onsubmit="return false;" class="row">
-                <div class="flex gap-1px flex-wrap">
-                    <select data-duice-object="userSearch" data-duice-property="key">
-                        <option value="id" th:text="#{core.user.id}"></option>
-                        <option value="name" th:text="#{core.user.name}"></option>
-                        <option value="email" th:text="#{core.user.email}"></option>
-                        <option value="mobile" th:text="#{core.user.mobile}"></option>
-                    </select>
-                    <input type="text" data-duice-object="userSearch" data-duice-property="value"
-                           th:placeholder="#{web.text.keyword}"/>
-                    <select data-duice-object="userSearch" data-duice-property="type">
-                        <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
-                        <option th:each="userType:${userTypes}" th:value="${userType}" th:text="${userType}"></option>
-                    </select>
-                    <select data-duice-object="userSearch" data-duice-property="status">
-                        <option value data-th-text="'- '+#{core.user.status}+' -'"></option>
-                        <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
-                                th:text="${userStatus}"></option>
-                    </select>
-                    <button onclick="getUsers();">
-                        <img class="icon" th:src="@{/static/image/icon-search.png}"/>
-                        <span data-th-text="#{web.text.search}">Search</span>
-                    </button>
-                    <button onclick="resetUsers();">
-                        <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
-                        <span data-th-text="#{web.text.reset}">Reset</span>
-                    </button>
-                </div>
+        <div class="container gap-1px margin-1px">
+            <form onsubmit="return false;" class="col-8 col-s-12 container gap-1px">
+                <select data-duice-object="userSearch" data-duice-property="key" class="col-1 col-s-4">
+                    <option value="id" th:text="#{core.user.id}"></option>
+                    <option value="name" th:text="#{core.user.name}"></option>
+                    <option value="email" th:text="#{core.user.email}"></option>
+                    <option value="mobile" th:text="#{core.user.mobile}"></option>
+                </select>
+                <input type="text" data-duice-object="userSearch" data-duice-property="value"
+                       th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                <select data-duice-object="userSearch" data-duice-property="type" class="col-1 col-s-12">
+                    <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
+                    <option th:each="userType:${userTypes}" th:value="${userType}" th:text="${userType}"></option>
+                </select>
+                <select data-duice-object="userSearch" data-duice-property="status" class="col-1 col-s-12">
+                    <option value data-th-text="'- '+#{core.user.status}+' -'"></option>
+                    <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
+                            th:text="${userStatus}"></option>
+                </select>
+                <button onclick="getUsers();" class="col-1 col-s-12">
+                    <img class="icon" th:src="@{/static/image/icon-search.png}"/>
+                    <span data-th-text="#{web.text.search}">Search</span>
+                </button>
+                <button onclick="resetUsers();" class="col-1 col-s-12">
+                    <img class="icon" th:src="@{/static/image/icon-reset.png}"/>
+                    <span data-th-text="#{web.text.reset}">Reset</span>
+                </button>
             </form>
-            <div class="flex gap-1px">
-                <button onclick="createUser();">
+            <div class="col-4 col-s-12 text-align-right container gap-1px">
+                <span class="col-10 col-s-0"></span>
+                <button class="col-1 col-s-12">
+                    <span>Test</span>
+                </button>
+                <button onclick="createUser();" class="col-1 col-s-12">
                     <img class="icon" th:src="@{/static/image/icon-create.png}"/>
                     <span data-th-text="#{web.text.create}"></span>
                 </button>
             </div>
         </div>
-        <div>
-            <table>
+        <div class="overflow-x-scroll border-1">
+            <table class="border-0">
                 <colgroup>
                     <col style="width:80px;"/>
                     <col/>
@@ -257,7 +258,7 @@
                         <button data-duice-object="user" data-duice-script="this.dataset.id=user.id;"
                                 onclick="getUser(this.dataset.id);">
                             <img class="icon" th:src="@{/static/image/icon-detail.png}"/>
-                            <span data-th-text="#{web.text.detail}">Detail</span>
+                            <span data-th-text="#{web.text.detail}"></span>
                         </button>
                     </td>
                 </tr>
@@ -267,9 +268,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="flex justify-content-between">
-            <div></div>
-            <div>
+        <div class="container">
+            <div class="col-4"></div>
+            <div class="col-4 justify-center">
                 <duice-pagination
                         data-duice-object="userSearch"
                         data-duice-size-property="_size"
@@ -278,7 +279,7 @@
                         data-duice-onclick="getUsers(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div>
+            <div class="col-4 justify-right">
                 <span data-th-text="#{web.text.total}"></span>
                 <span data-duice-object="userSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.text.rows}"></span>
@@ -652,7 +653,7 @@
             <img class="icon" th:src="@{/static/image/icon-user.png}"/>
             <span data-th-text="#{core.user}"></span>
         </h1>
-        <div class="grid column-gap-1rem row-gap-1px">
+        <div class="container column-gap-1rem row-gap-1px">
             <div class="span-2">
                 <span data-th-text="#{core.user.id}" class="fw-bold tag-required"></span>
             </div>
@@ -665,7 +666,7 @@
             <div class="span-4">
                 <input type="text" data-duice-object="userDetail.user" data-duice-property="name" class="w-100"/>
             </div>
-            <div id="userDetail_passwordDiv" class="span-12 grid column-gap-1rem">
+            <div id="userDetail_passwordDiv" class="span-12 container column-gap-1rem">
                 <div class="span-2">
                     <span data-th-text="#{core.user.password}" class="fw-bold tag-required"></span>
                 </div>
@@ -736,8 +737,8 @@
                 <span data-th-text="#{core.user.roles}" class="fw-bold"></span>
             </div>
             <div class="span-10">
-                <div class="overflow-y-scroll b-1" style="max-height:calc(10rem - 2px);">
-                    <table class="w-100 b-0">
+                <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
+                    <table class="w-100 border-0">
                         <colgroup>
                             <col style="width:70px;"/>
                             <col/>
@@ -912,7 +913,7 @@
             <img class="icon" th:src="@{/static/image/icon-role.png}"/>
             <span data-th-text="#{core.role}"></span>
         </h1>
-        <div class="p-1px">
+        <div class="padding-1px">
             <form onsubmit="return false;">
                 <div class="flex gap-1px">
                     <select data-duice-object="roleSelect.roleSearch" data-duice-property="key">

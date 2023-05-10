@@ -21,12 +21,12 @@ public class PropertyEntity extends SystemFieldEntity {
     @Id
     @Column(name = "id", length = 64)
     private String id;
-    
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "value")
     private String value;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "note")
     @Lob

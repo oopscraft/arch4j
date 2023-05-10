@@ -33,8 +33,8 @@ public class PropertyService {
                     .id(property.getId())
                     .build();
         }
-        propertyEntity.setName(property.getName());
         propertyEntity.setValue(property.getValue());
+        propertyEntity.setName(property.getName());
         propertyEntity.setNote(property.getNote());
         propertyRepository.saveAndFlush(propertyEntity);
     }

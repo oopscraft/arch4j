@@ -8,9 +8,6 @@
     <script th:src="@{/static/duice/duice.js}"></script>
     <script th:src="@{/static/web.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css}"/>
-
-<!--    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.css"/>-->
-
     <style>
         html {
             width: 100%;
@@ -23,25 +20,24 @@
             overflow: hidden;
             display: grid;
             grid-template-areas:
-                  '_header _header _header'
-                  '_nav _main _aside'
-                  '_footer _footer _footer';
+                    '_header _header _header'
+                    '_nav _main _aside'
+                    '_footer _footer _footer';
             grid-template-columns: 3fr 20fr 1fr;
             grid-template-rows: auto 1fr 1rem;
             grid-gap: 1rem 1rem;
             padding: 1rem;
         }
-        /* layout mobile */
         @media screen and (max-width: 1023px) {
             body {
                 display: grid;
                 grid-template-areas:
-                      '_header'
-                      '_nav'
-                      '_main'
-                      '_aside'
-                      '_footer';
-                grid-template-columns: 1fr;
+                        '_header'
+                        '_nav'
+                        '_main'
+                        '_aside'
+                        '_footer';
+                grid-template-columns: 100%;
                 grid-template-rows: auto auto 1fr auto auto;
                 grid-gap: 0.5rem 0.5rem;
                 padding: 0.5rem;
@@ -51,37 +47,71 @@
             grid-area: _header;
             display: grid;
             grid-template-areas:
-                '_header_logo _header_menu';
-            grid-template-columns: 2fr 10fr;
-            border-bottom: groove 2px lightgray;
+                        '_header-logo _header-menu';
+            grid-template-columns: auto auto;
+            border-bottom: groove 2px #efefef;
         }
-        header #_header_logo {
-            grid-area: _header_logo;
+        header #_header-logo {
+            grid-area: _header-logo;
+            display: flex;
+            justify-content: start;
         }
-        header #_header_menu {
-            grid-area: _header_menu;
+        header #_header-menuButton {
+            display: none;
+        }
+        header #_header-menu {
+            grid-area: _header-menu;
             display: flex;
             justify-content: end;
+        }
+        @media screen and (max-width: 1023px) {
+            header {
+                display: grid;
+                grid-template-areas:
+                        '_header-logo _header-menuButton'
+                        '_header-menu _header-menu';
+            }
+            header #_header-menuButton {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                padding-right: 1rem;
+            }
+            header #_header-menu {
+                display: none;
+            }
+            header #_header-menu.open {
+                display: flex;
+            }
         }
         nav {
             grid-area: _nav;
             display: grid;
             grid-template-areas:
-                '_nav_menu';
+                    '_nav-menu';
         }
-        nav #_nav_menu {
+        nav #_nav-menu {
+            grid-area: _nav-menu;
             list-style-type: none;
             margin: 0;
             padding: 0;
         }
-        nav #_nav_menu li {
+        nav #_nav-menu li {
             padding: 0.5rem;
             border-bottom: dotted 1px lightgray;
             font-weight: 700;
             transition-duration: 0.3s;
         }
-        nav #_nav_menu li:hover {
+        nav #_nav-menu li:hover {
              padding-left: 1rem;
+        }
+        @media screen and (max-width: 1023px) {
+            nav {
+                display: none;
+            }
+            nav.open {
+                display: grid;
+            }
         }
         main {
             grid-area: _main;
@@ -91,35 +121,7 @@
         }
         footer {
             grid-area: _footer;
-            border-top: dotted 1px lightgray;
         }
-
-
-
-        nav ul.menu {
-            list-style-type: none;
-            padding: 0;
-        }
-        nav ul.menu li {
-            font-weight: 700;
-            transition-duration: 0.3s;
-        }
-        nav ul.menu li:hover {
-            padding-left: 0.5rem;
-        }
-        nav ul.menu li.divider {
-            border-bottom: dotted 1px #ccc;
-            padding: 0;
-        }
-        /*main {*/
-        /*    grid-area: main;*/
-        /*    padding: 10px;*/
-        /*}*/
-        /*footer {*/
-        /*    grid-area: footer;*/
-        /*    border-top: dotted 1px #ccc;*/
-        /*    background-color: #fefefe;*/
-        /*}*/
     </style>
     <script>
         /**
@@ -139,10 +141,17 @@
 
         /**
          * logout
-         * @private
          */
         function _logout() {
             document.location.href = '[[@{/security/logout}]]';
+        }
+
+        /**
+         * open menu
+         */
+        function _openMenu() {
+            document.querySelector('header #_header-menu').classList.toggle('open');
+            document.querySelector('nav').classList.toggle('open');
         }
 
         /**
@@ -159,24 +168,29 @@
     </script>
 </head>
 <body>
+
     <!-- header -->
     <header>
-        <div id="_header_logo" class="col">
+        <div id="_header-logo">
             <h1 onclick="_home();" class="link">
                 <img th:src="@{/static/image/logo-admin.png}" style="height:32px; vertical-align:middle;"/>
                 <span>Admin Console</span>
             </h1>
         </div>
-        <div id="_header_menu" class="col">
-            <span onclick="_logout();" class="link">
+        <div id="_header-menuButton">
+            <img onclick="_openMenu();" th:src="@{/static/image/icon-menu.png}" class="icon link"/>
+        </div>
+        <div id="_header-menu">
+            <div onclick="_logout();" class="link">
                 <img th:src="@{/static/image/icon-logout.png}" class="icon"/>
                 <span>Logout</span>
-            </span>
+            </div>
         </div>
     </header>
+
     <!-- nav -->
     <nav>
-        <ul id="_nav_menu">
+        <ul id="_nav-menu">
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|">
                 <img th:src="@{/static/image/icon-user.png}" class="icon"/>
                 <span data-th-text="#{web.nav.user}"></span>
@@ -207,15 +221,18 @@
             </li>
         </ul>
     </nav>
+
     <!-- main -->
     <main layout:fragment="_main">
-
     </main>
+
     <!-- aside -->
     <aside>
     </aside>
+
     <!-- footer -->
     <footer>
     </footer>
+
 </body>
 </html>

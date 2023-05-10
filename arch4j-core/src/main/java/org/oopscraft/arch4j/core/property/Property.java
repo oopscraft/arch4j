@@ -10,18 +10,18 @@ import org.oopscraft.arch4j.core.property.repository.PropertyEntity;
 public class Property {
 
     private String id;
-    
-    private String name;
 
     private String value;
+
+    private String name;
 
     private String note;
 
     public static Property from(PropertyEntity propertyEntity) {
         return Property.builder()
                 .id(propertyEntity.getId())
-                .name(propertyEntity.getName())
                 .value(propertyEntity.getValue())
+                .name(propertyEntity.getName())
                 .note(propertyEntity.getNote())
                 .build();
     }

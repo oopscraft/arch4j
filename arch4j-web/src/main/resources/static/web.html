@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>web.html</title>
+    <script src="web.js"></script>
+    <link rel="stylesheet" type="text/css" href="web.css"/>
+    <style>
+        @media screen and (max-width: 1023px) {
+            .container {
+
+            }
+            .container > * {
+                flex-basis: 100%;
+            }
+        }
+        .item {
+            border: solid 1px gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="item">item1</div>
+    <div class="item">item2</div>
+    <div class="item" style="width:100px;">item3</div>
+</div>
+
+<div class="flex wrap">
+    <div class="border-1 w-50">item1</div>
+    <div class="border-1 w-50">item2</div>
+    <div class="border-1 w-50" style="width:100px;">item3</div>
+</div>
+
+<div class="container">
+    <div class="border-1 col-4 col-s-12">item1</div>
+    <div class="border-1 col-4">item2</div>
+    <div class="border-1 col-4">item3</div>
+    <div class="border-1 col-12">item4</div>
+</div>
+
+</body>
+</html>

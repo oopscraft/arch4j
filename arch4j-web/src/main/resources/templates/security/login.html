@@ -1,23 +1,41 @@
-<html>
-<head></head>
-<body>
-<h1>Login</h1>
-<form name='f' action="login-process" method='POST'>
-    <table>
-        <tr>
-            <td>User:</td>
-            <td><input type='text' name='username' value=''></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='password' /></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
-        </tr>
-    </table>
-    <span th:text="${errorMessage}"></span>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-</form>
-</body>
-</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="security/_security.html">
+<main layout:fragment="_main">
+    <style>
+        #login {
+            width: 200px;
+        }
+    </style>
+    <div id="login">
+        <h1 class="text-align-center">
+            <img class="icon" th:src="@{/static/image/logo-admin.svg}"/>
+            <span>Admin Console</span>
+        </h1>
+        <form name='f' action="login-process" method='POST' class="container gap-1px">
+            <div class="col-12">
+                <input type='text' name='username' value='' th:placeholder="#{core.user.id}"
+                       class="width-100 text-align-center"/>
+            </div>
+            <!--        <div class="col-12">-->
+            <!--            <span data-th-text="#{core.user.password}" class="font-weight-bold"></span>-->
+            <!--        </div>-->
+            <div class="col-12">
+                <input type='password' name='password' th:placeholder="#{core.user.password}"
+                       class="width-100 text-align-center"/>
+            </div>
+            <div class="col-12 container">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button class="col-12">
+                    <img class="icon" th:src="@{/static/image/icon-login.svg}">
+                    <span data-th-text="#{web.text.login}"></span>
+                </button>
+            </div>
+            <div class="col-12 justify-center">
+                <span th:text="${errorMessage}"></span>
+            </div>
+        </form>
+    </div>
+
+</main>

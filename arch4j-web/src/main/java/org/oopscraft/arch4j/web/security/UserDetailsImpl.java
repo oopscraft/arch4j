@@ -15,8 +15,6 @@ import java.util.List;
 @Builder
 public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
-    private String id;
-
     private String username;
 
     private String password;
@@ -91,8 +89,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
         // build
         return UserDetailsImpl.builder()
-                .id(user.getId())
-                .username(user.getName())
+                .username(user.getId())
                 .password(user.getPassword())
                 .authorities(authorities)
                 .build();

@@ -31,7 +31,6 @@ public class AuthorityService {
         }
         authorityEntity = authorityEntity.toBuilder()
                 .name(authority.getName())
-                .icon(authority.getIcon())
                 .note(authority.getNote())
                 .build();
         authorityRepository.saveAndFlush(authorityEntity);

@@ -20,9 +20,7 @@ public class Authority {
     private String id;
 
     private String name;
-    
-    private String icon;
-    
+
     private String note;
 
     /**
@@ -34,7 +32,6 @@ public class Authority {
         return Authority.builder()
                 .id(authorityEntity.getId())
                 .name(authorityEntity.getName())
-                .icon(authorityEntity.getIcon())
                 .note(authorityEntity.getNote())
                 .build();
     }

@@ -25,8 +25,6 @@
                     '_footer _footer _footer';
             grid-template-columns: 3fr 20fr 1fr;
             grid-template-rows: auto 1fr 1rem;
-            grid-gap: 1rem 1rem;
-            padding: 1rem;
         }
         @media screen and (max-width: 1023px) {
             body {
@@ -40,7 +38,7 @@
                 grid-template-columns: 100%;
                 grid-template-rows: auto auto 1fr auto auto;
                 grid-gap: 0.5rem 0.5rem;
-                padding: 0.5rem;
+                /*padding: 0.5rem;*/
             }
         }
         header {
@@ -50,6 +48,7 @@
                         '_header-logo _header-menu';
             grid-template-columns: auto auto;
             border-bottom: groove 2px #efefef;
+            padding: 1rem;
         }
         header #_header-logo {
             grid-area: _header-logo;
@@ -63,6 +62,13 @@
             grid-area: _header-menu;
             display: flex;
             justify-content: end;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+
+        }
+        header #_header-menu li {
+            margin: 0 0.5rem;
         }
         @media screen and (max-width: 1023px) {
             header {
@@ -89,6 +95,7 @@
             display: grid;
             grid-template-areas:
                     '_nav-menu';
+            padding: 1rem;
         }
         nav #_nav-menu {
             grid-area: _nav-menu;
@@ -115,12 +122,15 @@
         }
         main {
             grid-area: _main;
+            padding: 1rem;
         }
         aside {
             grid-area: _aside;
+            padding: 1rem;
         }
         footer {
             grid-area: _footer;
+            padding: 1rem;
         }
     </style>
     <script>
@@ -173,50 +183,71 @@
     <header>
         <div id="_header-logo">
             <h1 onclick="_home();" class="link">
-                <img th:src="@{/static/image/logo-admin.png}" style="height:32px; vertical-align:middle;"/>
+                <img class="icon" th:src="@{/static/image/logo-admin.svg}"/>
                 <span>Admin Console</span>
             </h1>
         </div>
         <div id="_header-menuButton">
-            <img onclick="_openMenu();" th:src="@{/static/image/icon-menu.png}" class="icon link"/>
+            <img onclick="_openMenu();" th:src="@{/static/image/icon-menu.svg}" class="icon link"/>
         </div>
-        <div id="_header-menu">
-            <div onclick="_logout();" class="link">
-                <img th:src="@{/static/image/icon-logout.png}" class="icon"/>
-                <span>Logout</span>
-            </div>
-        </div>
+        <ul id="_header-menu">
+            <li sec:authorize="!isAuthenticated()">
+                <div onclick="_login();" class="link">
+                    <img th:src="@{/static/image/icon-login.svg}" class="icon"/>
+                    <span data-th-text="#{web.nav.login}"></span>
+                </div>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <span>
+                    <img th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" class="icon"/>
+                    <span data-th-text="${_user.name}" class="font-weight-bold"></span>
+                </span>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <span onclick="_logout();" class="link">
+                    <img th:src="@{/static/image/icon-logout.svg}" class="icon"/>
+                    <span data-th-text="#{web.nav.logout}"></span>
+                </span>
+            </li>
+            <li>
+                <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                <select onchange="_changeLanguage(this.value);">
+                    <option value="en">English</option>
+                    <option value="ko">한국어</option>
+                </select>
+            </li>
+        </ul>
     </header>
 
     <!-- nav -->
     <nav>
         <ul id="_nav-menu">
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|">
-                <img th:src="@{/static/image/icon-user.png}" class="icon"/>
+                <img th:src="@{/static/image/icon-user.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.user}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/property}');|">
-                <img th:src="@{/static/image/icon-property.png}" class="icon"/>
-                <span data-th-text="#{web.nav.property}"></span>
+            <li class="link" th:onclick="|_openLink('@{/admin/variable}');|">
+                <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.variable}"></span>
+            </li>
+            <li class="link">
+                <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.menu}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/message}');|">
-                <img th:src="@{/static/image/icon-message.png}" class="icon"/>
+                <img th:src="@{/static/image/icon-message.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.message}"></span>
             </li>
             <li class="link">
-                <img th:src="@{/static/image/icon-menu.png}" class="icon"/>
-                <span data-th-text="#{web.nav.menu}"></span>
-            </li>
-            <li class="link">
-                <img th:src="@{/static/image/icon-code.png}" class="icon"/>
+                <img th:src="@{/static/image/icon-code.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.code}"></span>
             </li>
             <li class="link">
-                <img th:src="@{/static/image/icon-article.png}" class="icon"/>
+                <img th:src="@{/static/image/icon-article.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.article}"></span>
             </li>
             <li class="link">
-                <img th:src="@{/static/image/icon-api.png}" class="icon"/>
+                <img th:src="@{/static/image/icon-api.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.api}"></span>
             </li>
         </ul>

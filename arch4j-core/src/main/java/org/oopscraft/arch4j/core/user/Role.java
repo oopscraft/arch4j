@@ -24,8 +24,6 @@ public class Role {
 
     private String name;
 
-    private String icon;
-    
     private String note;
 
     @Builder.Default
@@ -35,7 +33,6 @@ public class Role {
         return Role.builder()
                 .id(roleEntity.getId())
                 .name(roleEntity.getName())
-                .icon(roleEntity.getIcon())
                 .note(roleEntity.getNote())
                 .authorities(roleEntity.getAuthorities().stream()
                         .map(Authority::from)

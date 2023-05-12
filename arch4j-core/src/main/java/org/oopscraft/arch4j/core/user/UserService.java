@@ -45,7 +45,6 @@ public class UserService {
                             return RoleEntity.builder()
                                     .id(role.getId())
                                     .name(role.getName())
-                                    .icon(role.getIcon())
                                     .note(role.getNote())
                                     .build();
                         })

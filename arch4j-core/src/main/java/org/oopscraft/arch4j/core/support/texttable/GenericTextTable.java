@@ -22,7 +22,7 @@ public class GenericTextTable extends TextTable {
         cwc.add(20,40).add(60,120);
         table.getRenderer().setCWC(cwc);
         table.addRule();
-        table.addRow("Property", "Value");
+        table.addRow("Variable", "Value");
         table.addRule();
         List<String> columnNames = parseColumnNames(object);
         if(columnNames.isEmpty()){

@@ -31,14 +31,12 @@ public class RoleService {
         }
         roleEntity = roleEntity.toBuilder()
                 .name(role.getName())
-                .icon(role.getIcon())
                 .note(role.getNote())
                 .authorities(role.getAuthorities().stream()
                         .map(authority -> {
                             return AuthorityEntity.builder()
                                     .id(authority.getId())
                                     .name(authority.getName())
-                                    .icon(authority.getIcon())
                                     .note(authority.getNote())
                                     .build();
                         })

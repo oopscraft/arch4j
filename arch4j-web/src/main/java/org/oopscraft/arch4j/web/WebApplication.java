@@ -13,8 +13,8 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.engine.Session;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -24,34 +24,37 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -147,14 +150,22 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 });
     }
 
+    /**
+     * spring security configuration
+     */
     @Slf4j
     @Configuration
     @EnableWebSecurity
-    // TODO @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+    @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+    @RequiredArgsConstructor
     static class SecurityConfiguration {
 
         @Value("${spring.security.anonymous.authorities}")
         private String anonymousAuthorities;
+
+        private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+        private final AuthenticationFailureHandler authenticationFailureHandler;
 
         /**
          * admin security filter chain
@@ -186,8 +197,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.formLogin()
                     .loginPage("/security/login")
                     .loginProcessingUrl("/security/login-process")
-                    .defaultSuccessUrl("/")
-                    .failureUrl("/security/login?error=true")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
                     .permitAll();
             // logout
             http.logout()
@@ -312,8 +323,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.formLogin()
                     .loginPage("/security/login")
                     .loginProcessingUrl("/security/login-process")
-                    .defaultSuccessUrl("/")
-                    .failureUrl("/security/login?error=true")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
                     .permitAll();
             // logout
             http.logout()

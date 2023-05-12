@@ -21,16 +21,12 @@ import java.util.List;
 public class RoleEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 64)
     private String id;
     
     @Column(name = "name")
     private String name;
 
-    @Column(name = "icon")
-    @Lob
-    private String icon;
-    
     @Column(name = "note")
     @Lob
     private String note;

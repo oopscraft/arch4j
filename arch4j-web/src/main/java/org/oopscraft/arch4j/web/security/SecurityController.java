@@ -28,7 +28,7 @@ public class SecurityController {
         ModelAndView modelAndView = new ModelAndView("security/login.html");
 
         // error
-        if(error == true) {
+        if(error) {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 AuthenticationException exception = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);

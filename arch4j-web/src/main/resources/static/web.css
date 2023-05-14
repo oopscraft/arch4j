@@ -411,6 +411,42 @@ dialog {
 .padding-1em {
     padding: 1em;
 }
+.padding-top-1px {
+    padding-top: 1px;
+}
+.padding-top-1rem {
+    padding-top: 1rem;
+}
+.padding-top-1em {
+    padding-top: 1em;
+}
+.padding-right-1px {
+    padding-right: 1px;
+}
+.padding-right-1rem {
+    padding-right: 1rem;
+}
+.padding-right-1em {
+    padding-right: 1em;
+}
+.padding-bottom-1px {
+    padding-bottom: 1px;
+}
+.padding-bottom-1rem {
+    padding-bottom: 1rem;
+}
+.padding-bottom-1em {
+    padding-bottom: 1em;
+}
+.padding-left-1px {
+    padding-left: 1px;
+}
+.padding-left-1rem {
+    padding-left: 1rem;
+}
+.padding-left-1em {
+    padding-left: 1em;
+}
 
 /* margin */
 .margin-1px {
@@ -421,6 +457,42 @@ dialog {
 }
 .margin-1em {
     margin: 1em;
+}
+.margin-top-1px {
+    margin-top: 1px;
+}
+.margin-top-1rem {
+    margin-top: 1rem;
+}
+.margin-top-1em {
+    margin-top: 1em;
+}
+.margin-right-1px {
+    margin-right: 1px;
+}
+.margin-right-1rem {
+    margin-right: 1rem;
+}
+.margin-right-1em {
+    margin-right: 1em;
+}
+.margin-bottom-1px {
+    margin-bottom: 1px;
+}
+.margin-bottom-1rem {
+    margin-bottom: 1rem;
+}
+.margin-bottom-1em {
+    margin-bottom: 1em;
+}
+.margin-left-1px {
+    margin-left: 1px;
+}
+.margin-left-1rem {
+    margin-left: 1rem;
+}
+.margin-left-1em {
+    margin-left: 1em;
 }
 
 /* font */

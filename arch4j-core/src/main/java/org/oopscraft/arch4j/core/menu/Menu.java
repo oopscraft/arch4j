@@ -2,6 +2,11 @@ package org.oopscraft.arch4j.core.menu;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.menu.repository.MenuEntity;
+import org.oopscraft.arch4j.core.user.Role;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -19,7 +24,13 @@ public class Menu {
 
     private String target;
 
+    private String icon;
+
     private Integer sort;
+
+    private String note;
+
+    private List<Role> roles = new ArrayList<>();
 
     /**
      * factory method from menu entity
@@ -33,7 +44,12 @@ public class Menu {
                 .name(menuEntity.getName())
                 .link(menuEntity.getLink())
                 .target(menuEntity.getTarget())
+                .icon(menuEntity.getIcon())
                 .sort(menuEntity.getSort())
+                .note(menuEntity.getNote())
+                .roles(menuEntity.getRoles().stream()
+                        .map(Role::from)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

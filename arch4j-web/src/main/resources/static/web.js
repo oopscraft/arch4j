@@ -156,3 +156,13 @@ const _openLink = function(linkUrl, linkTarget){
     }
 }
 
+/**
+ * checks is empty
+ * @param value
+ * @returns {boolean}
+ * @private
+ */
+const _isEmpty = function(value) {
+    return !(value && value.trim().length > 0);
+}
+

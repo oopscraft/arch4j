@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<main layout:fragment="_main">
+    <script>
+        // search condition
+        const menuSearch = new duice.ObjectProxy({
+            key: 'id',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // data
+        const menus = new duice.ArrayProxy([]);
+        const menu = new duice.ObjectProxy({
+            roles: []
+        });
+
+        /**
+         * getMenus
+         */
+        function getMenus(page) {
+            if(page) {
+                menuSearch._page = page;
+            }
+            let url = new URL("[[@{/admin/menu/get-menus}]]", document.location.origin);
+            if (menuSearch.key && menuSearch.value) {
+                url.searchParams.append(menuSearch.key, menuSearch.value);
+            }
+            url.searchParams.append('_page', menuSearch._page);
+            url.searchParams.append('_size', menuSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(menus);
+                    duice.ArrayProxy.assign(menus, data.content);
+                    menuSearch._count = data.totalElements;
+                });
+        }
+
+        /**
+         * resetMenus
+         */
+        function resetMenus() {
+            duice.ObjectProxy.reset(menuSearch);
+            getMenus();
+        }
+
+        /**
+         * getMenu
+         * @param id
+         */
+        function getMenu(id) {
+            let url = new URL('[[@{/admin/menu/get-menu}]]', document.location.origin);
+            url.searchParams.append('id', id);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(menu, data);
+                    duice.ObjectProxy.setReadonly(menu, 'id', true);
+                });
+        }
+
+        /**
+         * save menu
+         */
+        async function saveMenu() {
+
+            // check name
+            if(_isEmpty(menu.name)) {
+                await _alert('[[#{web.message.itemEmpty(#{core.menu.name})}]]');
+                duice.ObjectProxy.focus(menu, 'name');
+                return;
+            }
+
+            // calls save
+            _confirm('[[#{web.message.saveItemConfirm(#{core.menu})}]]').then(result => {
+                if(result) {
+                    let url = new URL('[[@{/admin/menu/save-menu}]]', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type' : 'application/json'
+                        },
+                        body: JSON.stringify(menu)
+                    }).then(response => {
+                        if(response.ok) {
+                            _alert('[[#{web.message.saveItemComplete(#{core.menu})}]]').then(() => {
+                                getMenus();
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * delete menu
+         */
+        function deleteMenu() {
+            _confirm('[[#{web.message.deleteItemConfirm(#{core.menu})}]]').then(result => {
+                if(result) {
+                    let url = new URL('[[@{/admin/menu/delete-menu}]]', document.location.origin);
+                    url.searchParams.append('id', menu.id);
+                    _fetch(url).then(response => {
+                        if(response.ok) {
+                            _alert('[[#{web.message.deleteItemComplete(#{core.menu})}]]').then(() => {
+                                getMenus();
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getMenus();
+        });
+    </script>
+    <h1>
+        <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
+        <span data-th-text="#{web.title.menu}"></span>
+    </h1>
+    <div class="container gap-column-1rem">
+        <div class="col-6 border-1 padding-1rem">
+            <h2>
+                Menu List
+            </h2>
+            <div>
+                <div data-duice-array="menus" data-duice-loop="menu,status" data-duice-hierarchy="id,parentId"
+                     data-duice-script="
+                    this.dataset.id = menu.id;
+                    if(menu.parentId) {
+                        this.style.marginLeft='1rem';
+                    }
+                ">
+                    <a href="#" data-duice-object="menu" data-duice-script="
+                    this.dataset.id = menu.id;
+                " onclick="getMenu(this.dataset.id);">
+                        <img data-duice-object="menu" data-duice-property="icon" class="icon" th:src="@{/static/image/icon-null.svg}"/>
+                        <span data-duice-object="menu" data-duice-property="name"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 border-1 padding-1rem">
+            <h2>
+                Detail
+            </h2>
+            <div class="container gap-1px gap-column-1rem">
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.name}" class="font-weight-bold tag-required"></span>
+                </div>
+                <div class="col-4 col-s-12">
+                    <input type="text" data-duice-object="menu" data-duice-property="name" class="width-100"/>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.parentMenu}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-4 col-s-12">
+                    <span data-duice-object="menu" data-duice-property="parentId"></span>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.link}" class="font-weight-bold tag-required"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <input type="text" data-duice-object="menu" data-duice-property="link" class="width-100"/>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.target}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <select data-duice-object="menu" data-duice-property="target">
+                        <option>_self</option>
+                        <option value="_blank">_blank</option>
+                    </select>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.icon}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <img class="icon" th:src="@{/static/image/icon-null.svg}"
+                         data-duice-object="menu"
+                         data-duice-property="icon"
+                         data-duice-editable="true"/>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.sort}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <input type="number" data-duice-object="menu" data-duice-property="sort"/>
+                </div>
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.note}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <textarea data-duice-object="menu" data-duice-property="note" rows="3" class="width-100 height-100"></textarea>
+                </div>
+
+                <div class="col-2 col-s-12">
+                    <span data-th-text="#{core.menu.roles}" class="font-weight-bold"></span>
+                </div>
+                <div class="col-10 col-s-12">
+                    <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
+                        <table class="width-100 border-0">
+                            <colgroup>
+                                <col style="width:70px;"/>
+                                <col/>
+                                <col/>
+                                <col style="width:35px;"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{core.role.id}"></th>
+                                <th data-th-text="#{core.role.name}"></th>
+                                <th class="text-align-center">
+                                    <button onclick="addMenuRole();">
+                                        <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-duice-array="menu.roles" data-duice-loop="role,status">
+                                <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
+                                <td data-duice-object="role" data-duice-property="id" class="font-weight-bold"></td>
+                                <td data-duice-object="role" data-duice-property="name"></td>
+                                <td class="text-align-center">
+                                    <button data-duice-object="role" data-duice-script="this.dataset.index=status.index;"
+                                            onclick="removeMenuRole(this.dataset.index);">
+                                        <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-duice-array="menu.roles"
+                                data-duice-script="if(menu.roles.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="container margin-1px">
+                <div class="col-12 justify-right">
+                    <button onclick="deleteMenu();">
+                        <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                        <span data-th-text="#{web.text.delete}"></span>
+                    </button>
+                    <button onclick="saveMenu();">
+                        <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                        <span data-th-text="#{web.text.save}"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>

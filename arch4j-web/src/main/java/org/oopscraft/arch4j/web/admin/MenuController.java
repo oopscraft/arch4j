@@ -38,28 +38,36 @@ public class MenuController {
      */
     @GetMapping("get-menus")
     @ResponseBody
-    public Page<Menu> getVariables(MenuSearch menuSearch, Pageable pageable) {
+    public Page<Menu> getMenus(MenuSearch menuSearch, Pageable pageable) {
         return menuService.getMenus(menuSearch, pageable);
     }
 
     /**
-     * get variable
-     * @param id variable id
-     * @return variable
+     * get menu
+     * @param id menu id
+     * @return menu
      */
     @GetMapping("get-menu")
     @ResponseBody
-    public Menu getVariable(@RequestParam("id")String id) {
+    public Menu getMenu(@RequestParam("id")String id) {
         return menuService.getMenu(id)
                 .orElseThrow(() -> new DataNotFoundException(id));
     }
 
+    /**
+     * saves menu
+     * @param menu menu info
+     */
     @PostMapping("save-menu")
     @ResponseBody
     public void saveMenu(@RequestBody @Valid Menu menu) {
         menuService.saveMenu(menu);
     }
 
+    /**
+     * deletes menu
+     * @param id menu id
+     */
     @GetMapping("delete-menu")
     @ResponseBody
     public void deleteMenu(@RequestParam("id")String id) {

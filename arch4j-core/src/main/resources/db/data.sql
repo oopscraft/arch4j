@@ -42,4 +42,15 @@ insert into `sample` (`id`, `name`, `type`) values ('sample001', 'sample 001', '
 insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample001','item01','Item 01');
 insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample002','item02','Item 02');
 
+-- menu
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu1',null,'Menu 1');
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu2',null,'Menu 2');
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu1A','menu1','Menu 1-A');
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu2B','menu2','Menu 2-B');
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu2A','menu2','Menu 2-A');
+insert into `menu` (`id`,`parent_id`,`name`) values ('menu3',null,'Menu 3');
+
+
+
+
 

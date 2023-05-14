@@ -230,7 +230,7 @@
                 <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.variable}"></span>
             </li>
-            <li class="link">
+            <li class="link" th:onclick="|_openLink('@{/admin/menu}');|">
                 <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.menu}"></span>
             </li>

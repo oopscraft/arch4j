@@ -31,12 +31,14 @@ public class MenuService {
                     .id(menu.getId())
                     .build();
         }
-        menuEntity.toBuilder()
+        menuEntity = menuEntity.toBuilder()
                 .parentId(menu.getParentId())
                 .name(menu.getName())
                 .link(menu.getLink())
                 .target(menu.getTarget())
+                .icon(menu.getIcon())
                 .sort(menu.getSort())
+                .note(menu.getNote())
                 .build();
         menuRepository.saveAndFlush(menuEntity);
     }

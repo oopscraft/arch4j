@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.user.Role;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -17,6 +18,8 @@ public class Menu {
     private String id;
 
     private String parentId;
+
+    private String parentName;
 
     private String name;
 
@@ -41,6 +44,9 @@ public class Menu {
         return Menu.builder()
                 .id(menuEntity.getId())
                 .parentId(menuEntity.getParentId())
+                .parentName(Optional.ofNullable(menuEntity.getParentMenu())
+                        .map(MenuEntity::getName)
+                        .orElse(null))
                 .name(menuEntity.getName())
                 .link(menuEntity.getLink())
                 .target(menuEntity.getTarget())

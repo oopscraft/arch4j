@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuSearch;
 import org.oopscraft.arch4j.core.menu.MenuService;
+import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.user.RoleSearch;
+import org.oopscraft.arch4j.core.user.RoleService;
 import org.oopscraft.arch4j.core.variable.Variable;
 import org.oopscraft.arch4j.core.variable.VariableSearch;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
@@ -14,14 +17,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("admin/menu")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('PROPERTY')")
+//@PreAuthorize("hasAuthority('ADMIN_MENU')")
 public class MenuController {
 
     private final MenuService menuService;
+
+    private final RoleService roleService;
 
     /**
      * index
@@ -61,6 +67,9 @@ public class MenuController {
     @PostMapping("save-menu")
     @ResponseBody
     public void saveMenu(@RequestBody @Valid Menu menu) {
+        if(menu.getId() == null) {
+            menu.setId(UUID.randomUUID().toString());
+        }
         menuService.saveMenu(menu);
     }
 
@@ -72,6 +81,17 @@ public class MenuController {
     @ResponseBody
     public void deleteMenu(@RequestParam("id")String id) {
         menuService.deleteMenu(id);
+    }
+
+    /**
+     * get roles
+     * @param roleSearch role search condition
+     * @param pageable page info
+     */
+    @GetMapping("get-roles")
+    @ResponseBody
+    public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
+        return roleService.getRoles(roleSearch, pageable);
     }
 
 }

@@ -2,10 +2,11 @@
     /* global */
     --web-background-color: white;
     --web-font-size: 12px;
+    --web-line-height: 2rem;
     --web-font-color: darkslategray;
     --web-font-family: sans-serif;
     /* element(input,select...) */
-    --web-element-border: solid 1px darkgray;
+    --web-element-border: solid 1px lightgray;
     --web-element-border-radius: 1px;
     --web-element-focus-border: solid 1px black;
     /* select */
@@ -19,7 +20,7 @@
     /* table */
     --web-table-header-border: solid 1px #ccc;
     --web-table-header-background-color: #f7f7f7;
-    --web-table-body-border: solid 1px #ccc;
+    --web-table-body-border: dotted 1px #ccc;
     --web-table-body-background-color: transparent;
     /* dialog */
     --web-dialog-border: solid 1px gray;
@@ -34,13 +35,15 @@ html {
 body {
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
     background-color: var(--web-background-color);
     font-family: var(--web-font-family);
     color: var(--web-font-color);
     margin: 0;
     font-size: 1rem;
     font-weight: 400;
-    line-height: 2rem;
+    line-height: var(--web-line-height);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -50,6 +53,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: inherit;
     font-size: inherit;
     color: inherit;
     line-height: inherit;
@@ -73,6 +77,10 @@ h5 {
 }
 h6 {
     font-size: 1.0rem;
+}
+
+a {
+    text-decoration: none;
 }
 
 /* input */
@@ -174,6 +182,7 @@ table tr th {
     padding: 2px 0.5rem;
     text-align: left;
     vertical-align: middle;
+    white-space: nowrap;
 }
 table tr th:last-of-type {
     border-right: none;
@@ -185,6 +194,8 @@ table tr td {
     padding: 2px 0.5rem;
     text-align: left;
     vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 table tr td:last-of-type {
     border-right: none;
@@ -200,6 +211,14 @@ table td:has(button,input,select,textarea,table) {
 /* dialog */
 dialog {
     border: var(--web-dialog-border);
+}
+
+/* hr */
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    margin: 1px;
 }
 
 /* container */

@@ -10,17 +10,13 @@
     </style>
     <div id="login">
         <h1 class="text-align-center">
-            <img class="icon" th:src="@{/static/image/logo-admin.svg}"/>
-            <span>Admin Console</span>
+            <img class="icon" th:src="@{/static/image/logo-admin.png}"/>
         </h1>
         <form name='f' action="login-process" method='POST' class="container gap-1px">
             <div class="col-12">
                 <input type='text' name='username' value='' th:placeholder="#{core.user.id}"
                        class="width-100 text-align-center"/>
             </div>
-            <!--        <div class="col-12">-->
-            <!--            <span data-th-text="#{core.user.password}" class="font-weight-bold"></span>-->
-            <!--        </div>-->
             <div class="col-12">
                 <input type='password' name='password' th:placeholder="#{core.user.password}"
                        class="width-100 text-align-center"/>

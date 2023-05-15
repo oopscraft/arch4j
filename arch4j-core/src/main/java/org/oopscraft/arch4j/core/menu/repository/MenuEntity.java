@@ -26,6 +26,10 @@ public class MenuEntity extends SystemFieldEntity {
     @Column(name = "parent_id")
     private String parentId;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private MenuEntity parentMenu;
+
     @Column(name = "name")
     private String name;
 

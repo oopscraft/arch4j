@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.repository.MenuEntity;
 import org.oopscraft.arch4j.core.menu.repository.MenuRepository;
 import org.oopscraft.arch4j.core.menu.repository.MenuSpecification;
+import org.oopscraft.arch4j.core.user.repository.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +41,15 @@ public class MenuService {
                 .icon(menu.getIcon())
                 .sort(menu.getSort())
                 .note(menu.getNote())
+                .roles(menu.getRoles().stream()
+                        .map(role -> {
+                            return RoleEntity.builder()
+                                    .id(role.getId())
+                                    .name(role.getName())
+                                    .note(role.getNote())
+                                    .build();
+                        })
+                        .collect(Collectors.toList()))
                 .build();
         menuRepository.saveAndFlush(menuEntity);
     }

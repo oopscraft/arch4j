@@ -213,7 +213,7 @@
         <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
         <span data-th-text="#{web.title.user}"></span>
     </h1>
-    <div class="border-bottom-1">
+    <div>
         <button id="userTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
             <span data-th-text="#{core.user}"></span>
@@ -227,6 +227,7 @@
             <span data-th-text="#{core.authority}"></span>
         </button>
     </div>
+    <hr/>
 
     <!-- userTabContent -->
     <div id="userTabContent">
@@ -258,8 +259,9 @@
                     <span data-th-text="#{web.text.reset}">Reset</span>
                 </button>
             </form>
-            <div class="col-4 col-s-12 justify-right">
-                <button onclick="createUser();">
+            <div class="col-4 col-s-12 container">
+                <div class="col-11 col-s-0"></div>
+                <button class="col-1 col-s-12" onclick="createUser();">
                     <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                     <span data-th-text="#{web.text.create}"></span>
                 </button>
@@ -322,7 +324,7 @@
                     </td>
                 </tr>
                 <tr data-duice-array="users" data-duice-script="if(users.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="font-size-smaller">No Data</td>
+                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
             </table>
@@ -365,8 +367,9 @@
                     <span data-th-text="#{web.text.reset}">Reset</span>
                 </button>
             </form>
-            <div class="col-4 col-s-12 justify-right">
-                <button onclick="createRole();">
+            <div class="col-4 col-s-12 container">
+                <div class="col-11 col-s-0"></div>
+                <button class="col-1 col-s-12" onclick="createRole();">
                     <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                     <span data-th-text="#{web.text.create}"></span>
                 </button>
@@ -457,8 +460,9 @@
                     <span data-th-text="#{web.text.reset}">Reset</span>
                 </button>
             </form>
-            <div class="col-4 col-s-12 justify-right">
-                <button onclick="createAuthority();">
+            <div class="col-4 col-s-12 container">
+                <div class="col-11 col-s-0"></div>
+                <button class="col-1 col-s-12" onclick="createAuthority();">
                     <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                     <span data-th-text="#{web.text.create}"></span>
                 </button>
@@ -702,6 +706,7 @@
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
             <span data-th-text="#{core.user}"></span>
         </h1>
+        <hr/>
         <div class="container gap-1px gap-column-1rem">
             <div class="col-2 col-s-12">
                 <span data-th-text="#{core.user.id}" class="font-weight-bold tag-required"></span>
@@ -964,6 +969,7 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role}"></span>
         </h1>
+        <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-object="roleSelect.roleSearch" data-duice-property="key" class="col-1">
@@ -1242,6 +1248,7 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role}"></span>
         </h1>
+        <hr/>
         <div class="container gap-1px gap-column-1rem">
             <div class="col-2 col-s-12">
                 <span data-th-text="#{core.role.id}" class="font-weight-bold tag-required"></span>
@@ -1436,6 +1443,7 @@
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
             <span data-th-text="#{core.authority}"></span>
         </h1>
+        <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-object="authoritySelect.authoritySearch" data-duice-property="key" class="col-1">
@@ -1693,6 +1701,7 @@
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
             <span data-th-text="#{core.authority}"></span>
         </h1>
+        <hr/>
         <div class="container gap-1px gap-column-1rem">
             <div class="col-2 col-s-12">
                 <span data-th-text="#{core.authority.id}" class="font-weight-bold tag-required"></span>

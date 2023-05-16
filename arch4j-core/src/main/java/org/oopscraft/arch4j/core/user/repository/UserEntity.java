@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.oopscraft.arch4j.core.user.UserType;
 

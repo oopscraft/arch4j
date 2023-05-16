@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;

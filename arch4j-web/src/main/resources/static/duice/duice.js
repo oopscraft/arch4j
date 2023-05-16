@@ -398,6 +398,8 @@ var duice;
             super();
             this.readonlyAll = false;
             this.readonly = new Set();
+            this.disableAll = false;
+            this.disable = new Set();
             this.listenerEnabled = true;
         }
         /**
@@ -444,6 +446,38 @@ var duice;
          */
         isReadonly(property) {
             return this.readonlyAll || this.readonly.has(property);
+        }
+        /**
+         * set disable all
+         * @param disable
+         */
+        setDisableAll(disable) {
+            this.disableAll = disable;
+            if (disable === false) {
+                this.disable.clear();
+            }
+            this.notifyObservers(new duice.event.Event(this));
+        }
+        /**
+         * set disable
+         * @param property
+         * @param disable
+         */
+        setDisable(property, disable) {
+            if (disable) {
+                this.disable.add(property);
+            }
+            else {
+                this.disable.delete(property);
+            }
+            this.notifyObservers(new duice.event.Event(this));
+        }
+        /**
+         * returns property is disabled
+         * @param property
+         */
+        isDisable(property) {
+            return this.disableAll || this.disable.has(property);
         }
         /**
          * suspends listener
@@ -981,6 +1015,8 @@ var duice;
                     this.setValue(observable.getValue(this.property));
                     // set readonly
                     this.setReadonly(observable.isReadonly(this.property));
+                    // set disable
+                    this.setDisable(observable.isDisable(this.property));
                 }
                 // executes script
                 this.executeScript(this.htmlElement, this.context);
@@ -1007,6 +1043,13 @@ var duice;
          * @param readonly
          */
         setReadonly(readonly) {
+            // no-op
+        }
+        /**
+         * set disable
+         * @param disable
+         */
+        setDisable(disable) {
             // no-op
         }
         /**
@@ -1976,6 +2019,18 @@ var duice;
                 this.getHtmlElement().readOnly = readonly;
             }
             /**
+             * set disable
+             * @param disable
+             */
+            setDisable(disable) {
+                if (disable) {
+                    this.getHtmlElement().setAttribute('disabled', 'disabled');
+                }
+                else {
+                    this.getHtmlElement().removeAttribute('disabled');
+                }
+            }
+            /**
              * focus
              */
             focus() {
@@ -2396,6 +2451,18 @@ var duice;
                     this.getHtmlElement().style.pointerEvents = '';
                 }
             }
+            /**
+             * set disable
+             * @param disable
+             */
+            setDisable(disable) {
+                if (disable) {
+                    this.getHtmlElement().setAttribute('disabled', 'disabled');
+                }
+                else {
+                    this.getHtmlElement().removeAttribute('disabled');
+                }
+            }
         }
         component.SelectElement = SelectElement;
     })(component = duice.component || (duice.component = {}));
@@ -2484,6 +2551,18 @@ var duice;
                 }
                 else {
                     this.getHtmlElement().removeAttribute('readonly');
+                }
+            }
+            /**
+             * set disable
+             * @param disable
+             */
+            setDisable(disable) {
+                if (disable) {
+                    this.getHtmlElement().setAttribute('disabled', 'disabled');
+                }
+                else {
+                    this.getHtmlElement().removeAttribute('disabled');
                 }
             }
         }
@@ -3095,11 +3174,32 @@ var duice;
          * @param readonly
          */
         static setReadonlyAll(objectProxy, readonly) {
-            let objectHandler = this.getHandler(objectProxy);
-            objectHandler.setReadonlyAll(readonly);
-            for (let property in this) {
-                objectHandler.setReadonly(property, readonly);
-            }
+            this.getHandler(objectProxy).setReadonlyAll(readonly);
+        }
+        /**
+         * setDisable
+         * @param objectProxy
+         * @param property
+         * @param disable
+         */
+        static setDisable(objectProxy, property, disable) {
+            this.getHandler(objectProxy).setDisable(property, disable);
+        }
+        /**
+         * isDisable
+         * @param objectProxy
+         * @param property
+         */
+        static isDisable(objectProxy, property) {
+            return this.getHandler(objectProxy).isDisable(property);
+        }
+        /**
+         * setDisableAll
+         * @param objectProxy
+         * @param disable
+         */
+        static setDisableAll(objectProxy, disable) {
+            this.getHandler(objectProxy).setDisableAll(disable);
         }
         /**
          * focus
@@ -3520,6 +3620,13 @@ var duice;
              */
             setReadonly(readonly) {
                 this.getHtmlElement().style.pointerEvents = (readonly ? 'none' : 'unset');
+            }
+            /**
+             * set disable
+             * @param disable
+             */
+            setDisable(disable) {
+                this.getHtmlElement().style.pointerEvents = (disable ? 'none' : 'unset');
             }
         }
         component.ImgElement = ImgElement;

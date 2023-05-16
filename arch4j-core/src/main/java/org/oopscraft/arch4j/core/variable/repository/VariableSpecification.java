@@ -1,7 +1,5 @@
 package org.oopscraft.arch4j.core.variable.repository;
 
-import org.oopscraft.arch4j.core.user.repository.RoleEntity;
-import org.oopscraft.arch4j.core.user.repository.RoleEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class VariableSpecification {

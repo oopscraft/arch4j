@@ -1,7 +1,10 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.repository.*;
+import org.oopscraft.arch4j.core.role.repository.AuthorityEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleRepository;
+import org.oopscraft.arch4j.core.role.repository.RoleSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

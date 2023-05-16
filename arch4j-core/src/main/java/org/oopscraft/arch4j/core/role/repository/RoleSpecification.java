@@ -1,8 +1,6 @@
-package org.oopscraft.arch4j.core.user.repository;
+package org.oopscraft.arch4j.core.role.repository;
 
-import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
-import org.oopscraft.arch4j.core.sample.repository.SampleEntity_;
+import org.oopscraft.arch4j.core.user.repository.RoleEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RoleSpecification {

@@ -22,6 +22,7 @@
     --web-table-header-background-color: #f7f7f7;
     --web-table-body-border: dotted 1px #ccc;
     --web-table-body-background-color: transparent;
+    --web-table-body-hover-background-color: #f7f7f7;
     /* dialog */
     --web-dialog-border: solid 1px gray;
 }
@@ -164,6 +165,7 @@ button.tab:focus {
 
 /* table */
 table {
+    table-layout: auto;
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -174,7 +176,7 @@ table thead {
     position: -webkit-sticky;
     top: 0;
 }
-table tr th {
+table thead tr th {
     border-right: var(--web-table-header-border);
     border-bottom: var(--web-table-header-border);
     background-color: var(--web-table-header-background-color);
@@ -184,10 +186,13 @@ table tr th {
     vertical-align: middle;
     white-space: nowrap;
 }
-table tr th:last-of-type {
+table thead tr th:last-of-type {
     border-right: none;
 }
-table tr td {
+table tbody tr:hover {
+    background-color: var(--web-table-body-hover-background-color);
+}
+table tbody tr td {
     border-right: var(--web-table-body-border);
     border-bottom: var(--web-table-body-border);
     background-color: var(--web-table-body-background-color);
@@ -195,16 +200,17 @@ table tr td {
     text-align: left;
     vertical-align: middle;
     white-space: nowrap;
+    overflow-x: hidden;
     text-overflow: ellipsis;
 }
-table tr td:last-of-type {
+table tbody tr td:last-of-type {
     border-right: none;
 }
-table tr:last-of-type td {
+table tbody tr:last-of-type td {
     border-bottom: none;
 }
-table th:has(button,input,select,textarea,table),
-table td:has(button,input,select,textarea,table) {
+table thead th:has(button,input,select,textarea,table),
+table tbody td:has(button,input,select,textarea,table) {
     padding: 1px;
 }
 

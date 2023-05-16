@@ -231,6 +231,10 @@
                 <img th:src="@{/static/image/icon-user.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.user}"></span>
             </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/role}')|">
+                <img th:src="@{/static/image/icon-role.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.role}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/variable}');|">
                 <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.variable}"></span>

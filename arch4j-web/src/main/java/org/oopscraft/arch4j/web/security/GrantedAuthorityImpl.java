@@ -1,9 +1,8 @@
 package org.oopscraft.arch4j.web.security;
 
 import lombok.Builder;
-import lombok.Getter;
-import org.oopscraft.arch4j.core.user.Authority;
-import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.role.Authority;
+import org.oopscraft.arch4j.core.role.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 @Builder

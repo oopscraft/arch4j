@@ -1,11 +1,9 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.user.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

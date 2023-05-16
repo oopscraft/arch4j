@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class WebController {
      * @return current login user info
      */
     @ModelAttribute("_user")
+    @Transactional(readOnly = true)
     public User getUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         if(securityContext != null) {

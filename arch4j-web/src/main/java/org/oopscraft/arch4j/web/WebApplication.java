@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -335,7 +337,15 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             // returns
             return http.build();
         }
+    }
 
+    /**
+     * httpTraceRepository
+     * @return httpTraceRepository
+     */
+    @Bean
+    public HttpTraceRepository httpTraceRepository() {
+        return new InMemoryHttpTraceRepository();
     }
 
     /**

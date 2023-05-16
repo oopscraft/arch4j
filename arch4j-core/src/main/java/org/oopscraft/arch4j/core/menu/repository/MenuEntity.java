@@ -3,8 +3,7 @@ package org.oopscraft.arch4j.core.menu.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.user.repository.AuthorityEntity;
-import org.oopscraft.arch4j.core.user.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

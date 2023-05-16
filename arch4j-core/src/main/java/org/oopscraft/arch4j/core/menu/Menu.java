@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.menu;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.menu.repository.MenuEntity;
-import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.role.Role;
 
 import java.util.ArrayList;
 import java.util.List;

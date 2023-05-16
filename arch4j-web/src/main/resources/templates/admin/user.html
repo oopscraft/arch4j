@@ -118,7 +118,7 @@
             // check blank
             if (!id) {
                 await _alert('[[#{web.message.itemEmpty(#{core.user.id})}]]');
-                duice.ObjectProxy.focus(this.user, 'id');
+                duice.ObjectProxy.focus(user, 'id');
                 return false;
             }
 
@@ -142,6 +142,7 @@
          * saveUser
          */
         async function saveUser() {
+
             // if new, checks id
             if (user._new) {
                 if (!await validateUserId(user.id)) {
@@ -269,7 +270,7 @@
                     </div>
                     <hr/>
                     <div class="container gap-1px margin-1px">
-                        <form onsubmit="return false;" class="col-12 col-s-12 container gap-1px">
+                        <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-object="userSearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="id" th:text="#{core.user.id}"></option>
                                 <option value="name" th:text="#{core.user.name}"></option>
@@ -298,7 +299,7 @@
                             </button>
                         </form>
                     </div>
-                    <div class="overflow-x-scroll border-1">
+                    <div class="overflow-x-auto border-1">
                         <table class="border-0">
                             <colgroup>
                                 <col style="width:5rem;"/>
@@ -330,8 +331,12 @@
                                           class="font-weight-bold"></span>
                                 </td>
                                 <td data-duice-object="user" data-duice-property="name"></td>
-                                <td><span data-duice-object="user" data-duice-property="type"></span></td>
-                                <td><span data-duice-object="user" data-duice-property="status"></span></td>
+                                <td>
+                                    <span data-duice-object="user" data-duice-property="type"></span>
+                                </td>
+                                <td>
+                                    <span data-duice-object="user" data-duice-property="status"></span>
+                                </td>
                             </tr>
                             <tr data-duice-array="users" data-duice-script="if(users.length === 0) this.hidden=false;"
                                 hidden>
@@ -369,7 +374,6 @@
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
                         <span data-th-text="#{web.title.detail}"></span>
                     </h2>
-                    <hr/>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.user.id}" class="font-weight-bold tag-required"></span>
@@ -466,7 +470,7 @@
                             <span data-th-text="#{core.user.roles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
+                            <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
                                 <table class="width-100 border-0">
                                     <colgroup>
                                         <col style="width:70px;"/>

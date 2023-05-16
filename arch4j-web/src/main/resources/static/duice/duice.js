@@ -997,6 +997,9 @@ var duice;
                 // set readonly
                 let readonly = objectHandler.isReadonly(this.property);
                 this.setReadonly(readonly);
+                // set disable
+                let disable = objectHandler.isDisable(this.property);
+                this.setDisable(disable);
             }
             // executes script
             this.executeScript(this.htmlElement, this.context);

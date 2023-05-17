@@ -4,8 +4,8 @@
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
     <script>
-        // variable search condition
-        const variableSearch = new duice.ObjectProxy({
+        // message search condition
+        const messageSearch = new duice.ObjectProxy({
             key: 'id',
             value: null,
             _page: 0,
@@ -13,16 +13,16 @@
             _count: 0
         });
 
-        // variable list
-        const variables = new duice.ArrayProxy([]);
+        // message list
+        const messages = new duice.ArrayProxy([]);
 
-        // variable
-        const variable = new duice.ObjectProxy({});
-        duice.ObjectProxy.setDisableAll(variable, true);
-        duice.ObjectProxy.onPropertyChanging(variable, async event => {
+        // message
+        const message = new duice.ObjectProxy({});
+        duice.ObjectProxy.setDisableAll(message, true);
+        duice.ObjectProxy.onPropertyChanging(message, async event => {
             if (event.getProperty() === 'id') {
-                if (!await validateVariableId(event.getValue())) {
-                    duice.ObjectProxy.focus(variable, 'id');
+                if (!await validateMessageId(event.getValue())) {
+                    duice.ObjectProxy.focus(message, 'id');
                     return false;
                 }
             }
@@ -30,88 +30,88 @@
         });
 
         /**
-         * getVariables
+         * getMessages
          * @param page page
          */
-        function getVariables(page) {
+        function getMessages(page) {
             if(page) {
-                variableSearch._page = page;
+                messageSearch._page = page;
             }
-            let url = new URL("[[@{/admin/variable/get-variables}]]", document.location.origin);
-            if (variableSearch.key && variableSearch.value) {
-                url.searchParams.append(variableSearch.key, variableSearch.value);
+            let url = new URL("[[@{/admin/message/get-messages}]]", document.location.origin);
+            if (messageSearch.key && messageSearch.value) {
+                url.searchParams.append(messageSearch.key, messageSearch.value);
             }
-            url.searchParams.append('_page', variableSearch._page);
-            url.searchParams.append('_size', variableSearch._size);
+            url.searchParams.append('_page', messageSearch._page);
+            url.searchParams.append('_size', messageSearch._size);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    duice.ArrayProxy.clear(variables);
-                    duice.ArrayProxy.assign(variables, data.content);
-                    variableSearch._count = data.totalElements;
+                    duice.ArrayProxy.clear(messages);
+                    duice.ArrayProxy.assign(messages, data.content);
+                    messageSearch._count = data.totalElements;
                 });
         }
 
         /**
-         * resetVariables
+         * resetMessages
          */
-        function resetVariables() {
-            duice.ObjectProxy.reset(variableSearch);
-            getVariables();
+        function resetMessages() {
+            duice.ObjectProxy.reset(messageSearch);
+            getMessages();
         }
 
         /**
-         * getVariable
-         * @param id variable id
+         * getMessage
+         * @param id message id
          */
-        function getVariable(id) {
-            let url = new URL('[[@{/admin/variable/get-variable}]]', document.location.origin);
+        function getMessage(id) {
+            let url = new URL('[[@{/admin/message/get-message}]]', document.location.origin);
             url.searchParams.append('id', id);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    duice.ObjectProxy.assign(variable, data);
-                    duice.ObjectProxy.setDisableAll(variable, false);
-                    duice.ObjectProxy.setReadonly(variable, 'id', true);
-                    variable._new = false;
+                    duice.ObjectProxy.assign(message, data);
+                    duice.ObjectProxy.setDisableAll(message, false);
+                    duice.ObjectProxy.setReadonly(message, 'id', true);
+                    message._new = false;
                 });
         }
 
         /**
-         * createVariable
+         * createMessage
          */
-        function createVariable() {
-            duice.ObjectProxy.clear(variable);
-            duice.ObjectProxy.assign(variable, {
+        function createMessage() {
+            duice.ObjectProxy.clear(message);
+            duice.ObjectProxy.assign(message, {
                 _new: true
             });
-            duice.ObjectProxy.setDisableAll(variable, false);
-            duice.ObjectProxy.setReadonly(variable, 'id', false);
-            duice.ObjectProxy.focus(variable, 'id');
+            duice.ObjectProxy.setDisableAll(message, false);
+            duice.ObjectProxy.setReadonly(message, 'id', false);
+            duice.ObjectProxy.focus(message, 'id');
         }
 
         /**
-         * validateVariableId
-         * @param id variable id
+         * validateMessageId
+         * @param id message id
          * @returns {Promise<boolean>}
          */
-        async function validateVariableId(id) {
+        async function validateMessageId(id) {
 
             // check blank
             if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.variable.id})}]]');
-                duice.ObjectProxy.focus(variable, 'id');
+                await _alert('[[#{web.message.itemEmpty(#{core.message.id})}]]');
+                duice.ObjectProxy.focus(message, 'id');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL('[[@{/admin/variable/get-variable}]]', document.location.origin);
+            let url = new URL('[[@{/admin/message/get-message}]]', document.location.origin);
             url.searchParams.append('id', id);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
-                let variable = await response.json();
-                if (variable) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.variable.id})}]]');
+                let message = await response.json();
+                if (message) {
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.message.id})}]]');
                     return false;
                 }
             }
@@ -121,39 +121,39 @@
         }
 
         /**
-         * saveVariable
+         * saveMessage
          */
-        async function saveVariable() {
+        async function saveMessage() {
 
             // if new, checks id
-            if (variable._new) {
-                if (!await validateVariableId(variable.id)) {
+            if (message._new) {
+                if (!await validateMessageId(message.id)) {
                     return false;
                 }
             }
 
             // checks name
-            if (!variable.name || variable.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.variable.name})}]]');
-                duice.ObjectProxy.focus(variable, 'name');
+            if (!message.name || message.name.trim().length < 1) {
+                await _alert('[[#{web.message.itemEmpty(#{core.message.name})}]]');
+                duice.ObjectProxy.focus(message, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.variable})}]]').then(result => {
+            _confirm('[[#{web.message.saveItemConfirm(#{core.message})}]]').then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/variable/save-variable}]]', document.location.origin);
+                    let url = new URL('[[@{/admin/message/save-message}]]', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(variable)
+                        body: JSON.stringify(message)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.variable})}]]').then(() => {
-                                getVariables();
-                                getVariable(variable.id);
+                            _alert('[[#{web.message.saveItemComplete(#{core.message})}]]').then(() => {
+                                getMessages();
+                                getMessage(message.id);
                             });
                         }
                     });
@@ -162,18 +162,18 @@
         }
 
         /**
-         * deleteVariable
+         * deleteMessage
          */
-        function deleteVariable() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.variable})}]]').then(result => {
+        function deleteMessage() {
+            _confirm('[[#{web.message.deleteItemConfirm(#{core.message})}]]').then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/variable/delete-variable}]]', document.location.origin);
-                    url.searchParams.append('id', variable.id);
+                    let url = new URL('[[@{/admin/message/delete-message}]]', document.location.origin);
+                    url.searchParams.append('id', message.id);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.variable})}]]').then(() => {
-                                getVariables();
-                                duice.ObjectProxy.clear(variable);
+                            _alert('[[#{web.message.deleteItemComplete(#{core.message})}]]').then(() => {
+                                getMessages();
+                                duice.ObjectProxy.clear(message);
                             });
                         }
                     })
@@ -183,16 +183,16 @@
 
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
-            getVariables();
+            getMessages();
         });
     </script>
     <h1>
-        <img class="icon" th:src="@{/static/image/icon-variable.svg}"/>
-        <span data-th-text="#{web.title.variable}"></span>
+        <img class="icon" th:src="@{/static/image/icon-message.svg}"/>
+        <span data-th-text="#{web.title.message}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
-            <!-- list of variable -->
+            <!-- list of message -->
             <div class="container border-1 padding-1rem">
                 <div class="col-12">
                     <div class="container padding-1px">
@@ -203,7 +203,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createVariable();">
+                            <button onclick="createMessage();">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -212,17 +212,17 @@
                     <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-object="variableSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.variable.id}"></option>
-                                <option value="name" th:text="#{core.variable.name}"></option>
+                            <select data-duice-object="messageSearch" data-duice-property="key" class="col-1 col-s-4">
+                                <option value="id" th:text="#{core.message.id}"></option>
+                                <option value="name" th:text="#{core.message.name}"></option>
                             </select>
-                            <input type="text" data-duice-object="variableSearch" data-duice-property="value"
+                            <input type="text" data-duice-object="messageSearch" data-duice-property="value"
                                    th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
-                            <button onclick="getVariables();" class="col-1 col-s-12">
+                            <button onclick="getMessages();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                                 <span data-th-text="#{web.text.search}">Search</span>
                             </button>
-                            <button onclick="resetVariables();" class="col-1 col-s-12">
+                            <button onclick="resetMessages();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                                 <span data-th-text="#{web.text.reset}">Reset</span>
                             </button>
@@ -238,20 +238,20 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.variable.id}"></th>
-                                <th data-th-text="#{core.variable.name}"></th>
+                                <th data-th-text="#{core.message.id}"></th>
+                                <th data-th-text="#{core.message.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="variables" data-duice-loop="variable,status" data-duice-script="
-                            this.dataset.id=variable.id;
-                            " onclick="getVariable(this.dataset.id);" class="link">
+                            <tr data-duice-array="messages" data-duice-loop="message,status" data-duice-script="
+                            this.dataset.id=message.id;
+                            " onclick="getMessage(this.dataset.id);" class="link">
                                 <td data-duice-object="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-object="variable" data-duice-property="id"></td>
-                                <td data-duice-object="variable" data-duice-property="name"></td>
+                                <td data-duice-object="message" data-duice-property="id"></td>
+                                <td data-duice-object="message" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-array="variables" data-duice-script="if(variables.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-array="messages" data-duice-script="if(messages.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -261,16 +261,16 @@
                         <div class="col-4"></div>
                         <div class="col-4 justify-center">
                             <duice-pagination
-                                    data-duice-object="variableSearch"
+                                    data-duice-object="messageSearch"
                                     data-duice-size-property="_size"
                                     data-duice-page-property="_page"
                                     data-duice-count-property="_count"
-                                    data-duice-onclick="getVariables(this.dataset.page);">
+                                    data-duice-onclick="getMessages(this.dataset.page);">
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
                             <span data-th-text="#{web.text.total}"></span>
-                            <span data-duice-object="variableSearch" data-duice-property="_count"
+                            <span data-duice-object="messageSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.text.rows}"></span>
                         </div>
@@ -279,7 +279,7 @@
             </div>
         </div>
         <div class="col-6 col-s-12">
-            <!-- variable detail -->
+            <!-- message detail -->
             <div class="container border-1 padding-1rem">
                 <div class="col-12">
                     <h2>
@@ -288,34 +288,34 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.variable.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.message.id}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="variable" data-duice-property="id"
+                            <input type="text" data-duice-object="message" data-duice-property="id"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.variable.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.message.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="variable" data-duice-property="name"
+                            <input type="text" data-duice-object="message" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.variable.value}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.message.value}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-object="variable" data-duice-property="value" rows="4"
+                            <textarea data-duice-object="message" data-duice-property="value" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteVariable();">
+                            <button onclick="deleteMessage();">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveVariable();">
+                            <button onclick="saveMessage();">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

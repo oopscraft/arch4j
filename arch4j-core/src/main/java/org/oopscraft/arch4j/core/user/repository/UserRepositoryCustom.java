@@ -4,7 +4,7 @@ import org.oopscraft.arch4j.core.user.UserSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface UserRepositorySupport {
+public interface UserRepositoryCustom {
 
     Page<UserEntity> findUsers(UserSearch userSearch, Pageable pageable);
 

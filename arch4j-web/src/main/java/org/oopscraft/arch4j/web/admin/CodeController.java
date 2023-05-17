@@ -8,16 +8,15 @@ import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/code")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('CODE')")
+//@PreAuthorize("hasAuthority('ADMIN_CODE')")
 public class CodeController {
 
     private final CodeService codeService;
@@ -47,8 +46,30 @@ public class CodeController {
      * @return code
      */
     @GetMapping("get-code")
+    @ResponseBody
     public Code getCode(@RequestParam("id")String id) {
-        return codeService.getCode(id).orElseThrow(()->new DataNotFoundException(id));
+        return codeService.getCode(id)
+                .orElseThrow(() -> new DataNotFoundException(id));
+    }
+
+    /**
+     * saves code
+     * @param code code info
+     */
+    @PostMapping("save-code")
+    @ResponseBody
+    public void saveCode(@RequestBody Code code) {
+        codeService.saveCode(code);
+    }
+
+    /**
+     * deletes code
+     * @param id code id
+     */
+    @GetMapping("delete-code")
+    @ResponseBody
+    public void deleteCode(@RequestParam("id")String id) {
+        codeService.deleteCode(id);
     }
 
 }

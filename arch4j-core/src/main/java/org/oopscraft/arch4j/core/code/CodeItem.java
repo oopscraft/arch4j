@@ -6,12 +6,12 @@ import org.oopscraft.arch4j.core.code.repository.CodeItemEntity;
 
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@SuperBuilder
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeItem {
 	
-    private final String id;
+    private String id;
 
     private int sort;
 

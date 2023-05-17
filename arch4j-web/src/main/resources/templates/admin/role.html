@@ -237,7 +237,7 @@
             if(page) {
                 authoritySearch._size = size;
             }
-            let url = new URL("[[@{/admin/user/get-authorities}]]", document.location.origin);
+            let url = new URL("[[@{/admin/role/get-authorities}]]", document.location.origin);
             if (authoritySearch.key && authoritySearch.value) {
                 url.searchParams.append(authoritySearch.key, authoritySearch.value);
             }
@@ -348,7 +348,7 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(role)
+                        body: JSON.stringify(authority)
                     }).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.authority})}]]').then(() => {

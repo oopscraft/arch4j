@@ -25,7 +25,7 @@ public class Role {
     private String note;
 
     @Builder.Default
-	List<Authority> authorities = new ArrayList<>();
+	private List<Authority> authorities = new ArrayList<>();
 
     public static Role from(RoleEntity roleEntity){
         return Role.builder()

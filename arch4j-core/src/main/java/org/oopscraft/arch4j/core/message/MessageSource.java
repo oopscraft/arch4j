@@ -1,13 +1,11 @@
 package org.oopscraft.arch4j.core.message;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -70,9 +68,9 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
     protected String resolveCodeWithoutArguments(String code, Locale locale) {
         String result = super.resolveCodeWithoutArguments(code, locale);
         if(result == null) {
-            Message message = messageService.getMessage(code, locale.getLanguage()).orElse(null);
+            Message message = messageService.getMessage(code).orElse(null);
             if(message != null) {
-                result = message.getMessage();
+                result = message.getValue(locale);
             }
         }
         return result;
@@ -87,9 +85,9 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
     protected MessageFormat resolveCode(String code, Locale locale) {
         MessageFormat messageFormat = super.resolveCode(code, locale);
         if(messageFormat == null) {
-            Message message = messageService.getMessage(code, locale.getLanguage()).orElse(null);
+           Message message = messageService.getMessage(code).orElse(null);
             if(message != null) {
-                messageFormat = new MessageFormat(message.getMessage(), locale);
+                messageFormat = new MessageFormat(message.getValue(locale), locale);
             }
         }
         return messageFormat;

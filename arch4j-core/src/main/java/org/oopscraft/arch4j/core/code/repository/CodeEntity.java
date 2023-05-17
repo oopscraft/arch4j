@@ -30,10 +30,9 @@ public class CodeEntity extends SystemFieldEntity {
 	@Lob
 	private String note;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = CodeItemEntity_.CODE_ID, cascade = CascadeType.ALL, orphanRemoval= true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = CodeItemEntity_.CODE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(CodeItemEntity_.SORT)
 	@Builder.Default
-	List<CodeItemEntity> items = new ArrayList<>();
-
+	private List<CodeItemEntity> items = new ArrayList<>();
 
 }

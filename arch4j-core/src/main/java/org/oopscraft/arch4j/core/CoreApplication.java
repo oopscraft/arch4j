@@ -106,6 +106,10 @@ public class CoreApplication implements EnvironmentPostProcessor {
         return pbeEncryptor;
     }
 
+    /**
+     * message properties
+     * @return message properties
+     */
     @Bean
     @ConfigurationProperties(prefix = "spring.messages")
     public MessageSourceProperties messageSourceProperties() {

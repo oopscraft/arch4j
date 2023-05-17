@@ -99,6 +99,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
+    /**
+     * creates locale resolver
+     * @return locale resolver
+     */
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
@@ -107,6 +111,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         return localeResolver;
     }
 
+    /**
+     * creates interceptor registry
+     * @param interceptorRegistry interceptor registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
@@ -364,9 +372,5 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     public static class OpenApiConfiguration {
 
     }
-
-
-
-
 
 }

@@ -73,11 +73,11 @@ public class VariableService {
         }
 
         // find data
-        Page<VariableEntity> propertyEntityPage = variableRepository.findAll(specification, pageable);
-        List<Variable> properties = propertyEntityPage.getContent().stream()
+        Page<VariableEntity> variableEntityPage = variableRepository.findAll(specification, pageable);
+        List<Variable> properties = variableEntityPage.getContent().stream()
                 .map(Variable::from)
                 .collect(Collectors.toList());
-        long total = propertyEntityPage.getTotalElements();
+        long total = variableEntityPage.getTotalElements();
 
         // return
         return new PageImpl<>(properties, pageable, total);

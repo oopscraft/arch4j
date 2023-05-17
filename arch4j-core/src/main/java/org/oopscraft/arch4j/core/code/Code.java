@@ -10,19 +10,19 @@ import java.util.stream.Collectors;
 
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@SuperBuilder
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Code {
 	
-	private final String id;
+	private String id;
 	
 	private String name;
 	
 	private String note;
 
     @Builder.Default
-	List<CodeItem> items = new ArrayList<>();
+	private List<CodeItem> items = new ArrayList<>();
 
     static Code from(CodeEntity codeEntity) {
         return Code.builder()

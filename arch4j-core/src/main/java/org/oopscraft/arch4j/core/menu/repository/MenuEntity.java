@@ -61,6 +61,6 @@ public class MenuEntity extends SystemFieldEntity {
 
     @OneToMany(mappedBy = MenuI18nEntity_.ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<MenuI18nEntity> i18n = new ArrayList<>();
+    private List<MenuI18nEntity> i18ns = new ArrayList<>();
 
 }

@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/role")
+@PreAuthorize("hasAuthority('ADMIN_ROLE')")
 @RequiredArgsConstructor
 public class RoleController {
 
@@ -63,6 +65,7 @@ public class RoleController {
      */
     @PostMapping("save-role")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
     public void saveRole(@RequestBody @Valid Role role) {
         roleService.saveRole(role);
     }
@@ -73,6 +76,7 @@ public class RoleController {
      */
     @GetMapping("delete-role")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
     public void deleteRole(@RequestParam("id") String id) {
         roleService.deleteRole(id);
     }
@@ -107,6 +111,7 @@ public class RoleController {
      */
     @PostMapping("save-authority")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
     public void saveAuthority(@RequestBody @Valid Authority authority) {
         authorityService.saveAuthority(authority);
     }
@@ -117,6 +122,7 @@ public class RoleController {
      */
     @GetMapping("delete-authority")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
     public void deleteAuthority(@RequestParam("id")String id) {
         authorityService.deleteAuthority(id);
     }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class SampleRepositorySupportImpl implements SampleRepositorySupport {
+public class SampleRepositoryCustomImpl implements SampleRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 

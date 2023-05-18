@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/user")
+@PreAuthorize("hasAuthority('ADMIN_USER')")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -63,6 +65,7 @@ public class UserController {
      */
     @PostMapping("save-user")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
     public void saveUser(@RequestBody @Valid User user) {
         userService.saveUser(user);
     }
@@ -73,6 +76,7 @@ public class UserController {
      */
     @GetMapping("delete-user")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
     public void deleteUser(@RequestParam("id") String id) {
         userService.deleteUser(id);
     }

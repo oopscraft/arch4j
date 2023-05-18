@@ -16,7 +16,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("admin")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('PROPERTY')")
 public class AdminController {
 
     /**

@@ -9,6 +9,7 @@ import org.oopscraft.arch4j.core.variable.VariableSearch;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("admin/message")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('PROPERTY')")
+@PreAuthorize("hasAuthority('ADMIN_MESSAGE')")
 public class MessageController {
 
     private final MessageService messageService;
@@ -60,6 +61,7 @@ public class MessageController {
      */
     @PostMapping("save-message")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")
     public void saveMessage(@RequestBody @Valid Message message) {
         messageService.saveMessage(message);
     }
@@ -70,6 +72,7 @@ public class MessageController {
      */
     @GetMapping("delete-message")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")
     public void deleteMessage(@RequestParam("id")String id) {
         messageService.deleteMessage(id);
     }

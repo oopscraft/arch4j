@@ -4,7 +4,7 @@ import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface SampleRepositorySupport {
+public interface SampleRepositoryCustom {
 
     Page<SampleEntity> findSamples(SampleSearch sampleSearch, Pageable pageable);
 

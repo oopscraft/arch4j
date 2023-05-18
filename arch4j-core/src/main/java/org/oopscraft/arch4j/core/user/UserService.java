@@ -23,6 +23,10 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * saves user
+     * @param user user info
+     */
     public void saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getId()).orElse(null);
         if(userEntity == null) {

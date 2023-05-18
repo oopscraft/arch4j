@@ -10,6 +10,7 @@ import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("admin/menu")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('ADMIN_MENU')")
+@PreAuthorize("hasAuthority('ADMIN_MENU')")
 public class MenuController {
 
     private final MenuService menuService;
@@ -64,6 +65,7 @@ public class MenuController {
      */
     @PostMapping("save-menu")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public void saveMenu(@RequestBody @Valid Menu menu) {
         if(menu.getId() == null) {
             menu.setId(UUID.randomUUID().toString());
@@ -77,6 +79,7 @@ public class MenuController {
      */
     @GetMapping("delete-menu")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public void deleteMenu(@RequestParam("id")String id) {
         menuService.deleteMenu(id);
     }

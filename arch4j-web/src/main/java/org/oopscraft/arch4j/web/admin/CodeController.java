@@ -7,6 +7,7 @@ import org.oopscraft.arch4j.core.code.CodeService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("admin/code")
 @RequiredArgsConstructor
-//@PreAuthorize("hasAuthority('ADMIN_CODE')")
+@PreAuthorize("hasAuthority('ADMIN_CODE')")
 public class CodeController {
 
     private final CodeService codeService;
@@ -58,6 +59,7 @@ public class CodeController {
      */
     @PostMapping("save-code")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
     public void saveCode(@RequestBody Code code) {
         codeService.saveCode(code);
     }
@@ -68,6 +70,7 @@ public class CodeController {
      */
     @GetMapping("delete-code")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
     public void deleteCode(@RequestParam("id")String id) {
         codeService.deleteCode(id);
     }

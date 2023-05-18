@@ -198,7 +198,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 http.anonymous().authorities(anonymousAuthorities.split(","));
             }
             // has ADMIN role
-            http.authorizeRequests().anyRequest().hasRole("ADMIN");
+            http.authorizeRequests().anyRequest().hasAuthority("ADMIN");
             // csrf
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             // cors
@@ -241,7 +241,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 http.anonymous().authorities(anonymousAuthorities.split(","));
             }
             // has ADMIN role
-            http.authorizeRequests().anyRequest().hasRole("API");
+            http.authorizeRequests().anyRequest().hasAuthority("API");
             // cors
             http.headers().frameOptions().sameOrigin();
             // returns
@@ -269,7 +269,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 http.anonymous().authorities(anonymousAuthorities.split(","));
             }
             // has ADMIN role
-            http.authorizeRequests().anyRequest().hasRole("ACTUATOR");
+            http.authorizeRequests().anyRequest().hasAuthority("ACTUATOR");
             // csrf
             http.csrf().disable();
             // cors
@@ -299,7 +299,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 http.anonymous().authorities(anonymousAuthorities.split(","));
             }
             // has ADMIN role
-            http.authorizeRequests().anyRequest().hasRole("H2-CONSOLE");
+            http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
             // csrf
             http.csrf().disable();
             // cors

@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.article;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 

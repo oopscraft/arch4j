@@ -12,6 +12,8 @@ insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_MENU','Y'
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_MENU_EDIT','Y','Message Access Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_CODE','Y','Code Access Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_CODE_EDIT','Y','Code Edit Authority');
+insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_BOARD','Y','Board Access Authority');
+insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_BOARD_EDIT','Y','Board Edit Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ACTUATOR','Y','Actuator Access Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','Actuator Access Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('API','Y','Actuator Access Authority');
@@ -31,6 +33,8 @@ insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_MENU_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_CODE');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_CODE_EDIT');
+insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD');
+insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUATOR');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'H2-CONSOLE');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'API');
@@ -68,7 +72,9 @@ insert into `menu` (`id`,`parent_id`,`name`) values ('menu2B','menu2','Menu 2-B'
 insert into `menu` (`id`,`parent_id`,`name`) values ('menu2A','menu2','Menu 2-A');
 insert into `menu` (`id`,`parent_id`,`name`) values ('menu3',null,'Menu 3');
 
-
-
-
+-- board
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test1','Test1 Board',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test2','Test2 Board',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test3','Test3 Board',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test4','Test4 Board',20,true,true);
 

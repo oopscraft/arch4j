@@ -1,6 +1,6 @@
-package org.oopscraft.arch4j.core.article.repository;
+package org.oopscraft.arch4j.core.board.repository;
 
-import org.oopscraft.arch4j.core.article.ArticleSearch;
+import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

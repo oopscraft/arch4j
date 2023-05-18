@@ -251,9 +251,9 @@
                 <img th:src="@{/static/image/icon-code.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.code}"></span>
             </li>
-            <li class="link">
-                <img th:src="@{/static/image/icon-article.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.article}"></span>
+            <li class="link" th:onclick="|_openLink('@{/admin/board}')|">
+                <img th:src="@{/static/image/icon-board.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.board}"></span>
             </li>
             <li class="link">
                 <img th:src="@{/static/image/icon-api.svg}" class="icon"/>

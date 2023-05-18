@@ -1,9 +1,9 @@
-package org.oopscraft.arch4j.core.article.repository;
+package org.oopscraft.arch4j.core.board.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.article.ArticleSearch;
+import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +50,7 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom {
         total = Optional.ofNullable(total).orElse(0L);
 
         // returns page
-        return new PageImpl<ArticleEntity>(articleEntities, pageable, total);
+        return new PageImpl<>(articleEntities, pageable, total);
     }
 
 }

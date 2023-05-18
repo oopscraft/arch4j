@@ -1,9 +1,8 @@
-package org.oopscraft.arch4j.core.article;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.article.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.article.repository.ArticleRepository;
-import org.oopscraft.arch4j.core.support.IdGenerator;
+import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
+import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

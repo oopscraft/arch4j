@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.article.repository;
+package org.oopscraft.arch4j.core.board.repository;
 
 import org.springframework.data.jpa.domain.Specification;
 

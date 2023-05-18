@@ -1,7 +1,7 @@
-package org.oopscraft.arch4j.core.article;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.article.repository.ArticleEntity;
+import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.user.User;
 
 import java.util.ArrayList;

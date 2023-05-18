@@ -1,13 +1,10 @@
-package org.oopscraft.arch4j.core.article;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.article.repository.BoardEntity;
+import org.oopscraft.arch4j.core.board.repository.BoardEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserSearch;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

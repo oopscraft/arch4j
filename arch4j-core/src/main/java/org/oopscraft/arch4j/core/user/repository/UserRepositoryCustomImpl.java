@@ -23,24 +23,24 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPAQuery<UserEntity> query = jpaQueryFactory.select(qUserEntity)
                 .from(qUserEntity);
-        Optional.ofNullable(userSearch.getId()).ifPresent(id -> {
-            query.where(qUserEntity.id.contains(id));
-        });
-        Optional.ofNullable(userSearch.getName()).ifPresent(name -> {
-            query.where(qUserEntity.name.contains(name));
-        });
-        Optional.ofNullable(userSearch.getEmail()).ifPresent(email -> {
-            query.where(qUserEntity.email.contains(email));
-        });
-        Optional.ofNullable(userSearch.getMobile()).ifPresent(mobile -> {
-            query.where(qUserEntity.mobile.contains(mobile));
-        });
-        Optional.ofNullable(userSearch.getType()).ifPresent(type -> {
-            query.where(qUserEntity.type.eq(type));
-        });
-        Optional.ofNullable(userSearch.getStatus()).ifPresent(status -> {
-            query.where(qUserEntity.status.eq(status));
-        });
+        if(userSearch.getId() != null) {
+            query.where(qUserEntity.id.contains(userSearch.getId()));
+        }
+        if(userSearch.getName() != null) {
+            query.where(qUserEntity.name.contains(userSearch.getName()));
+        }
+        if(userSearch.getEmail() != null) {
+            query.where(qUserEntity.email.contains(userSearch.getName()));
+        }
+        if(userSearch.getMobile() != null) {
+            query.where(qUserEntity.mobile.contains(userSearch.getMobile()));
+        }
+        if(userSearch.getType() != null) {
+            query.where(qUserEntity.type.eq(userSearch.getType()));
+        }
+        if(userSearch.getStatus() != null) {
+            query.where(qUserEntity.status.eq(userSearch.getStatus()));
+        }
 
         // content
         List<UserEntity> content = query.clone()

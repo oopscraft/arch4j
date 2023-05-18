@@ -1,21 +1,18 @@
-package org.oopscraft.arch4j.core.article;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.article.repository.BoardEntity;
-import org.oopscraft.arch4j.core.article.repository.BoardRepository;
-import org.oopscraft.arch4j.core.article.repository.BoardSpecification;
+import org.oopscraft.arch4j.core.board.repository.BoardEntity;
+import org.oopscraft.arch4j.core.board.repository.BoardRepository;
+import org.oopscraft.arch4j.core.board.repository.BoardSpecification;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +33,26 @@ public class BoardService {
                     .build();
         }
         boardEntity.setName(board.getName());
+        boardEntity.setNote(board.getNote());
+        boardEntity.setIcon(board.getIcon());
+        boardEntity.setPageSize(board.getPageSize());
+        boardEntity.setReplyEnabled(board.getReplyEnabled());
+        boardEntity.setFileEnabled(board.getFileEnabled());
+        boardEntity.setAccessRoles(board.getAccessRoles().stream()
+                .map(role -> RoleEntity.builder()
+                        .id(role.getId())
+                        .build())
+                .collect(Collectors.toList()));
+        boardEntity.setReadRoles(board.getReadRoles().stream()
+                .map(role -> RoleEntity.builder()
+                        .id(role.getId())
+                        .build())
+                .collect(Collectors.toList()));
+        boardEntity.setWriteRoles(board.getWriteRoles().stream()
+                .map(role -> RoleEntity.builder()
+                        .id(role.getId())
+                        .build())
+                .collect(Collectors.toList()));
         boardRepository.saveAndFlush(boardEntity);
     }
 

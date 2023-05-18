@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.oopscraft.arch4j.web.security.UserDetailsImpl;
@@ -17,6 +18,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,9 +32,18 @@ public class WebController {
 
     private final UserService userService;
 
+    /**
+     * index
+     * @return model and view
+     */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("_index.html");
+        ModelAndView modelAndView = new ModelAndView();
+        RedirectView redirectView = new RedirectView("/admin");
+        redirectView.setExposeModelAttributes(false);
+        modelAndView.setView(redirectView);
+        //modelAndView.setViewName("_index.html");
+        return modelAndView;
     }
 
     /**

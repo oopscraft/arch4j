@@ -4,6 +4,7 @@ plugins {
     id 'io.freefair.lombok' version '8.0.0-rc2'
     id 'org.springframework.boot' version '2.7.9'
     id 'idea'
+    id 'com.google.cloud.tools.jib' version '3.2.0'
 }
 
 dependencies {
@@ -41,4 +42,30 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jib {
+    from {
+        image = project.baseImage
+        auth {
+            username = project.imageUsername
+            password = project.imagePassword
+        }
+    }
+    to {
+        image = project.imageUrl
+        auth {
+            username = project.imageUsername
+            password = project.imagePassword
+        }
+        tags = [project.imageTag]
+    }
+    containerizingMode = "packaged"
+    container {
+        format = project.imageFormat
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        ports = ['8080']
+        jvmFlags = ["-Dfile.encoding=UTF-8"]
+        environment = ["TZ": "Asia/Seoul"]
+    }
 }

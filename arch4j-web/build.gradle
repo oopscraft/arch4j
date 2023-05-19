@@ -44,28 +44,38 @@ test {
     useJUnitPlatform()
 }
 
-jib {
-    from {
-        image = project.baseImage
-        auth {
-            username = project.imageUsername
-            password = project.imagePassword
-        }
-    }
-    to {
-        image = project.imageUrl
-        auth {
-            username = project.imageUsername
-            password = project.imagePassword
-        }
-        tags = [project.imageTag]
-    }
-    containerizingMode = "packaged"
-    container {
-        format = project.imageFormat
-        creationTime = "USE_CURRENT_TIMESTAMP"
-        ports = ['8080']
-        jvmFlags = ["-Dfile.encoding=UTF-8"]
-        environment = ["TZ": "Asia/Seoul"]
-    }
+bootJar {
+    enabled = true
+    archiveClassifier = 'boot'
+    mainClass = 'org.oopscraft.arch4j.web.WebApplication'
 }
+
+jar {
+    enabled = false
+}
+
+//jib {
+//    from {
+//        image = project.baseImage
+//        auth {
+//            username = project.imageUsername
+//            password = project.imagePassword
+//        }
+//    }
+//    to {
+//        image = project.imageUrl
+//        auth {
+//            username = project.imageUsername
+//            password = project.imagePassword
+//        }
+//        tags = [project.imageTag]
+//    }
+//    containerizingMode = "packaged"
+//    container {
+//        format = project.imageFormat
+//        creationTime = "USE_CURRENT_TIMESTAMP"
+//        ports = ['8080']
+//        jvmFlags = ["-Dfile.encoding=UTF-8"]
+//        environment = ["TZ": "Asia/Seoul"]
+//    }
+//}

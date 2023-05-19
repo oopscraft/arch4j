@@ -52,8 +52,8 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "join_datetime")
     private LocalDateTime joinDateTime;
 
-    @Column(name = "login_datetime")
-    private LocalDateTime loginDateTime;
+    @Column(name = "close_datetime")
+    private LocalDateTime closeDateTime;
 
     @Column(name = "photo")
     @Lob

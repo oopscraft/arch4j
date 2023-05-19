@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
@@ -24,7 +25,11 @@ public class AdminController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("admin/_admin.html");
+        ModelAndView modelAndView = new ModelAndView();
+        RedirectView redirectView = new RedirectView("admin/monitor");
+        redirectView.setExposeModelAttributes(false);
+        modelAndView.setView(redirectView);
+        return modelAndView;
     }
 
 }

@@ -54,7 +54,7 @@ public class User {
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
                 .joinDateTime(userEntity.getJoinDateTime())
-                .loginDateTime(userEntity.getLoginDateTime())
+                .loginDateTime(userEntity.getCloseDateTime())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()

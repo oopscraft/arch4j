@@ -1,6 +1,5 @@
 package org.oopscraft.arch4j.core.role.repository;
 
-import org.oopscraft.arch4j.core.user.repository.AuthorityEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class AuthoritySpecification {

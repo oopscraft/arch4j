@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<main layout:fragment="_main">
+    <script>
+        let cpuChart = null;
+        let memoryChart = null;
+        let diskChart = null;
+
+        /**
+         * get info
+         */
+        function getInfo() {
+            let url = new URL("[[@{/admin/monitor/get-info}]]", document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    let infoText = _convertJsonToPlainText(data);
+                    console.log(infoText);
+                    document.getElementById('info').value = infoText;
+                });
+        }
+
+        /**
+         * get cpu info
+         */
+        function getCpu() {
+            let url = new URL("[[@{/admin/monitor/get-cpu}]]", document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    initializeCpuChart(data);
+                });
+        }
+
+        /**
+         * initialize cpu chart
+         */
+        function initializeCpuChart(cpu) {
+            let labels = [];
+            let usage = [];
+            cpu.forEach(element => {
+                labels.push(new Date(element.time));
+                usage.push(element.usage)
+            });
+            cpuChart = new Chart(document.getElementById("cpuChart"), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Usage',
+                        data: usage,
+                        fill: true,
+                        borderColor: 'rgba(75,192,192,1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 1,
+                        pointStyle: 'crossRot'
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            display: false,
+                            title: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                callback: function(value, index, values) {
+                                    return value + ' %';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * get memory info
+         */
+        function getMemory() {
+            let url = new URL("[[@{/admin/monitor/get-memory}]]", document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    initializeMemoryChart(data);
+                });
+        }
+
+        /**
+         * initialize memory chart
+         * @param memory memory info
+         */
+        function initializeMemoryChart(memory) {
+            let labels = [];
+            let used = [];
+            let max = [];
+            memory.forEach(element => {
+                labels.push(new Date(element.time));
+                used.push(element.used);
+                max.push(element.max);
+            });
+
+            // creates chart
+            memoryChart = new Chart(document.getElementById("memoryChart"), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Used',
+                            data: used,
+                            fill: true,
+                            borderColor: 'rgba(75, 192, 192, 0.5)',
+                            backgroundColor: 'rgba(75, 192, 192,0.2)',
+                            borderWidth: 1,
+                            pointStyle: 'crossRot'
+                        },
+                        {
+                            label: 'Max',
+                            data: max,
+                            borderWidth: 1,
+                            pointStyle: 'dash'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            display: false,
+                            title: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                callback: function(value, index, values) {
+                                    return value + ' m';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * getDisk
+         */
+        function getDisk() {
+            let url = new URL("[[@{/admin/monitor/get-disk}]]", document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    initializeDiskChart(data);
+                });
+        }
+
+        /**
+         * initializeDiskChart
+         * @param disk disk info
+         */
+        function initializeDiskChart(disk) {
+            let labels = [];
+            let used = [];
+            let total = [];
+            disk.forEach(element => {
+                labels.push(new Date(element.time));
+                used.push(element.used);
+                total.push(element.total);
+            });
+
+            // creates chart
+            diskChart = new Chart(document.getElementById("diskChart"), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Used',
+                            data: used,
+                            fill: true,
+                            borderColor: 'rgba(75, 192, 192, 0.5)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 1,
+                            pointStyle: 'crossRot'
+                        },
+                        {
+                            label: 'Total',
+                            data: total,
+                            borderWidth: 1,
+                            pointStyle: 'dash'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            display: false,
+                            title: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                callback: function (value, index, values) {
+                                    return value + ' g';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getInfo();
+            getCpu();
+            getMemory();
+            getDisk();
+        });
+
+    </script>
+    <h1>
+        <img class="icon" th:src="@{/static/image/icon-monitor.svg}"/>
+        <span data-th-text="#{web.title.monitor}"></span>
+    </h1>
+    <div class="container gap-column-1rem gap-row-1rem">
+        <div class="col-6 col-s-12">
+            <div class="container border-1 padding-1rem height-100">
+                <div class="col-12" style="display:flex; flex-direction:column; height:100%;">
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-info.svg}"/>
+                        <span data-th-text="#{web.text.info}"></span>
+                    </h2>
+                    <textarea id="info" style="flex:1; min-height:15rem;" readonly="readonly"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-s-12">
+            <div class="container border-1 padding-1rem">
+                <div class="col-12">
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-cpu.svg}"/>
+                        <span data-th-text="#{web.text.cpu}"></span>
+                    </h2>
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-s-12">
+            <div class="container border-1 padding-1rem">
+                <div class="col-12">
+                    <h1>
+                        <img class="icon" th:src="@{/static/image/icon-memory.svg}"/>
+                        <span data-th-text="#{web.text.memory}"></span>
+                    </h1>
+                    <canvas id="memoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-s-12">
+            <div class="container border-1 padding-1rem">
+                <div class="col-12">
+                    <h1>
+                        <img class="icon" th:src="@{/static/image/icon-disk.svg}"/>
+                        <span data-th-text="#{web.text.disk}"></span>
+                    </h1>
+                    <canvas id="diskChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

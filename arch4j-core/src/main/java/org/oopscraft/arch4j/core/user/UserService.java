@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.user;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
+import org.oopscraft.arch4j.core.user.repository.LoginHistoryRepository;
 import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final LoginHistoryRepository userLoginRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -98,17 +101,6 @@ public class UserService {
     public void changePassword(String id, String password) {
         userRepository.findById(id).ifPresent(user -> {
             user.setPassword(passwordEncoder.encode(password));
-            userRepository.saveAndFlush(user);
-        });
-    }
-
-    /**
-     * updates login datetime
-     * @param id user id
-     */
-    public void updateLoginDateTime(String id) {
-        userRepository.findById(id).ifPresent(user -> {
-            user.setLoginDateTime(LocalDateTime.now());
             userRepository.saveAndFlush(user);
         });
     }

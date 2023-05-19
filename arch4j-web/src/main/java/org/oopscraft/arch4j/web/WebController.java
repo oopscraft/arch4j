@@ -33,7 +33,7 @@ public class WebController {
     private final UserService userService;
 
     /**
-     * index
+     * FIXME index
      * @return model and view
      */
     @GetMapping

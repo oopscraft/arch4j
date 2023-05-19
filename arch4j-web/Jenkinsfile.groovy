@@ -21,7 +21,7 @@ pipeline {
                 cleanWs()
                 checkout scm
                 sh '''
-                ./gradlew :apps-web:jib -x test --refresh-dependencies \
+                ./gradlew :arch4j-web:jib -x test --refresh-dependencies \
                 -DincludeSubmodule=true \
                 -PimagePublishHost=${IMAGE_PUBLISH_HOST} \
                 -PimageUsername=${IMAGE_CREDENTIALS_USR} \

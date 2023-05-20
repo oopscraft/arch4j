@@ -47,7 +47,8 @@ pipeline {
         }
         stage("jib") {
             environment {
-                IMAGE_CREDENTIALS = credentials('IMAGE_CREDENTIALS')
+                JIB_FROM_AUTH_CREDENTIALS = credentials('JIB_FROM_AUTH_CREDENTIALS')
+                JIB_TO_AUTH_CREDENTIALS = credientials('JIB_TO_AUTH_CREDENTIALS')
             }
             steps {
                 cleanWs()

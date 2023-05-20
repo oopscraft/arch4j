@@ -1,4 +1,11 @@
 allprojects {
+    group = 'org.oopscraft.arch4j'
+    version = '1.0.0-SNAPSHOT'
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
 
     repositories {
         if(project.mavenUrl) {

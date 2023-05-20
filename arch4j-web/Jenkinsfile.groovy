@@ -31,7 +31,7 @@ pipeline {
                 MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
                 PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
             }
-            step {
+            steps {
                 cleanWs()
                 checkout scm
                 sh '''

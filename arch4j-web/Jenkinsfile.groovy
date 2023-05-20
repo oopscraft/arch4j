@@ -10,7 +10,7 @@ pipeline {
         credentials(credentialType:'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'PUBLISHING_MAVEN_CREDENTIALS',
                 defaultValue: params.PUBLISHING_MAVEN_CREDENTIALS,
-                descripton: 'publishing maven credentials')
+                description: 'publishing maven credentials')
         string(name: 'JIB_FROM_IMAGE', defaultValue: params.JIB_FROM_IMAGE, description: 'container base image')
         credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'JIB_FROM_CREDENTIALS',

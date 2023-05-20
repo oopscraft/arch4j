@@ -14,12 +14,12 @@ pipeline {
         string(name: 'JIB_FROM_IMAGE', defaultValue: params.JIB_FROM_IMAGE, description: 'container base image')
         credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'JIB_FROM_AUTH_CREDENTIALS',
-                defaultValue: params.JIB_FROM_CREDENTIALS,
+                defaultValue: params.JIB_FROM_AUTH_CREDENTIALS,
                 description: 'base image repository credentials')
         string(name: 'JIB_TO_IMAGE', defaultValue: params.JIB_TO_IMAGE, description: 'target image')
         credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'JIB_TO_AUTH_CREDENTIALS',
-                defaultValue: params.JIB_TO_CREDENTIALS,
+                defaultValue: params.JIB_TO_AUTH_CREDENTIALS,
                 description: 'target image repository credentials')
     }
     options {

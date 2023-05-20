@@ -52,6 +52,7 @@ bootJar {
 }
 
 jar {
+    classifier = ''
     enabled = false
 }
 

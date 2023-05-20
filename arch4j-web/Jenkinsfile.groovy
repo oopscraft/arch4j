@@ -17,6 +17,7 @@ pipeline {
                 defaultValue: params.JIB_FROM_AUTH_CREDENTIALS,
                 description: 'base image repository credentials')
         string(name: 'JIB_TO_IMAGE', defaultValue: params.JIB_TO_IMAGE, description: 'target image')
+        string(name: 'JIB_TO_TAGS', defaultValue: params.JIB_TO_TAGS, description: 'target image tags')
         credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'JIB_TO_AUTH_CREDENTIALS',
                 defaultValue: params.JIB_TO_AUTH_CREDENTIALS,

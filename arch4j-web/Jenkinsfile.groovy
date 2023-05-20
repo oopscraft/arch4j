@@ -27,14 +27,18 @@ pipeline {
         disableConcurrentBuilds()
     }
     stages {
+        stage("prepare") {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
         stage("publish") {
             environment {
                 MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
                 PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
             }
             steps {
-                cleanWs()
-                checkout scm
                 sh '''
                 ./gradlew :arch4j-web:publish -x test --refresh-dependencies --stacktrace \
                 -PmavenUrl=${MAVEN_URL} \
@@ -52,8 +56,6 @@ pipeline {
                 JIB_TO_AUTH_CREDENTIALS = credentials('JIB_TO_AUTH_CREDENTIALS')
             }
             steps {
-                cleanWs()
-                checkout scm
                 sh '''
                 ./gradlew :arch4j-web:jib -x test --refresh-dependencies --stacktrace \
                 -PjibFromImage=${JIB_FROM_IMAGE} \
@@ -66,11 +68,11 @@ pipeline {
                 '''.stripIndent()
             }
         }
-//        stage("rollout") {
-//            steps {
-//                sh("kubectl rollout restart deployment/apps-web")
-//                sh("kubectl rollout status deployment/apps-web")
-//            }
-//        }
+        stage("rollout") {
+            steps {
+                sh("kubectl rollout restart deployment/apps-web")
+                sh("kubectl rollout status deployment/apps-web")
+            }
+        }
     }
 }

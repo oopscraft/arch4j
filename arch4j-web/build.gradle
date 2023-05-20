@@ -52,7 +52,7 @@ bootJar {
 }
 
 jar {
-    classifier = ''
+    archiveClassifier = ''
     enabled = false
 }
 

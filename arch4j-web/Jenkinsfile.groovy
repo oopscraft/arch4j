@@ -51,7 +51,8 @@ pipeline {
                 IMAGE_CREDENTIALS = credentials('IMAGE_CREDENTIALS')
             }
             steps {
-                cleanWs() checkout scm
+                cleanWs()
+                checkout scm
                 sh '''
                 ./gradlew :arch4j-web:jib -x test --refresh-dependencies \
                 -DincludeSubmodule=true \

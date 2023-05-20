@@ -1,5 +1,6 @@
 plugins {
     id "java-platform"
+    id "maven-publish"
 }
 
 javaPlatform {
@@ -46,4 +47,12 @@ dependencies {
 
     }
 
+}
+
+publishing {
+    publications {
+        myPlatform(MavenPublication) {
+            from components.javaPlatform
+        }
+    }
 }

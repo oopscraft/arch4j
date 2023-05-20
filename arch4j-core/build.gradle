@@ -4,6 +4,7 @@ plugins {
     id 'io.freefair.lombok' version '8.0.0-rc2'
     id 'org.springframework.boot' version '2.7.9'
     id 'idea'
+    id 'maven-publish'
 }
 
 dependencies {
@@ -63,3 +64,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    enabled = false
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+

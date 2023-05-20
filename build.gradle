@@ -1,6 +1,16 @@
-subprojects {
+allprojects {
 
     repositories {
+        if(project.mavenUrl) {
+            maven {
+                allowInsecureProtocol = true
+                url project.mavenUrl
+                credentials {
+                    username project.mavenUsername
+                    password project.mavenPassword
+                }
+            }
+        }
         mavenCentral()
     }
 
@@ -20,6 +30,21 @@ subprojects {
             it.sourceSets.test.resources {
                 srcDirs += ["src/test/java"]
                 exclude "**/*.java"
+            }
+        }
+        // maven-publish
+        if(it.plugins.hasPlugin('maven-publish')) {
+            it.publishing {
+                repositories {
+                    maven {
+                        allowInsecureProtocol = true
+                        url project.publishingMavenUrl
+                        credentials {
+                            username project.publishingMavenUsername
+                            password project.publishingMavenPassword
+                        }
+                    }
+                }
             }
         }
     }

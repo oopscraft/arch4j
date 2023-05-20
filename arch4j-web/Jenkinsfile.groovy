@@ -27,25 +27,25 @@ pipeline {
         disableConcurrentBuilds()
     }
     stages {
-        stage("publish") {
-            environment {
-                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
-                PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
-            }
-            steps {
-                cleanWs()
-                checkout scm
-                sh '''
-                ./gradlew :arch4j-web:publish -x test --refresh-dependencies --stacktrace \
-                -PmavenUrl=${MAVEN_URL} \
-                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
-                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
-                -PpublishingMavenUrl=${PUBLISHING_MAVEN_URL} \
-                -PpublishingMavenUsername=${PUBLISHING_MAVEN_CREDENTIALS_USR} \
-                -PpublishingMavenPassword=${PUBLISHING_MAVEN_CREDENTIALS_PSW} \
-                '''.stripIndent()
-            }
-        }
+//        stage("publish") {
+//            environment {
+//                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
+//                PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
+//            }
+//            steps {
+//                cleanWs()
+//                checkout scm
+//                sh '''
+//                ./gradlew :arch4j-web:publish -x test --refresh-dependencies --stacktrace \
+//                -PmavenUrl=${MAVEN_URL} \
+//                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
+//                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
+//                -PpublishingMavenUrl=${PUBLISHING_MAVEN_URL} \
+//                -PpublishingMavenUsername=${PUBLISHING_MAVEN_CREDENTIALS_USR} \
+//                -PpublishingMavenPassword=${PUBLISHING_MAVEN_CREDENTIALS_PSW} \
+//                '''.stripIndent()
+//            }
+//        }
         stage("jib") {
             environment {
                 JIB_FROM_AUTH_CREDENTIALS = credentials('JIB_FROM_AUTH_CREDENTIALS')

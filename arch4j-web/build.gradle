@@ -45,15 +45,15 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
 bootJar {
     enabled = true
     archiveClassifier = 'boot'
     mainClass = 'org.oopscraft.arch4j.web.WebApplication'
-}
-
-jar {
-    archiveClassifier = ''
-    enabled = false
 }
 
 publishing {

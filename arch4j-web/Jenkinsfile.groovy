@@ -68,7 +68,7 @@ pipeline {
                 '''.stripIndent()
             }
         }
-        stage("rollout") {
+        stage("deploy") {
             steps {
                 sh("source ~/.profile")
                 sh("kubectl rollout restart deployment/arch4j-web")

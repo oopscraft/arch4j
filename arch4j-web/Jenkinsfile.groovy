@@ -70,8 +70,8 @@ pipeline {
         }
         stage("rollout") {
             steps {
-                sh("kubectl rollout restart deployment/apps-web")
-                sh("kubectl rollout status deployment/apps-web")
+                sh("kubectl rollout restart deployment/arch4j-web")
+                sh("kubectl rollout status deployment/arch4j-web")
             }
         }
     }

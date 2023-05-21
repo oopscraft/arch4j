@@ -70,6 +70,7 @@ pipeline {
         }
         stage("rollout") {
             steps {
+                sh("source ~/.profile")
                 sh("kubectl rollout restart deployment/arch4j-web")
                 sh("kubectl rollout status deployment/arch4j-web")
             }

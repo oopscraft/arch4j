@@ -44,7 +44,7 @@ public class MonitorController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("/admin/monitor.html");
+        return new ModelAndView("admin/monitor.html");
     }
 
     /**

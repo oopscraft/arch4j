@@ -1,6 +1,7 @@
 allprojects {
-    group = project.group
-    version = project.version
+    group = project.projectGroup
+    version = project.projectVersion
+
     configurations.all {
         resolutionStrategy {
             cacheChangingModulesFor 0, 'seconds'

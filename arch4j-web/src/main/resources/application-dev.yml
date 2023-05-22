@@ -11,12 +11,3 @@ spring:
       jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j
       username: arch4j
       password: arch4j
-  sql:
-    init:
-      mode: always
-  jpa:
-    hibernate:
-      ddl-auto: create
-  session:
-    jdbc:
-      initialize-schema: always

@@ -15,6 +15,9 @@ dependencies {
     // subproject
     implementation project(":arch4j-core")
 
+    // picocli starter
+    api 'info.picocli:picocli-spring-boot-starter'
+
 }
 
 test {

@@ -45,6 +45,9 @@ dependencies {
         // data faker
         api "net.datafaker:datafaker:1.4.0"
 
+        // picocli starter
+        api 'info.picocli:picocli-spring-boot-starter:4.7.3'
+
     }
 
 }

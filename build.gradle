@@ -1,6 +1,6 @@
 allprojects {
-    group = 'org.oopscraft.arch4j'
-    version = '1.0.0-SNAPSHOT'
+    group = project.group
+    version = project.version
     configurations.all {
         resolutionStrategy {
             cacheChangingModulesFor 0, 'seconds'

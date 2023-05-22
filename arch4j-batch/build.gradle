@@ -4,6 +4,8 @@ plugins {
     id 'io.freefair.lombok' version '8.0.0-rc2'
     id 'org.springframework.boot' version '2.7.9'
     id 'idea'
+    id 'maven-publish'
+    id 'com.google.cloud.tools.jib' version '3.2.0'
 }
 
 dependencies {
@@ -26,4 +28,50 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+bootJar {
+    enabled = true
+    archiveClassifier = 'boot'
+    mainClass = 'org.oopscraft.arch4j.batch.BatchApplication'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+jib {
+    System.setProperty("sendCredentialsOverHttp", "true");
+    allowInsecureRegistries = true
+    from {
+        image = project.jibFromImage
+        auth {
+            username = project.jibFromAuthUsername
+            password = project.jibFromAuthPassword
+        }
+    }
+    to {
+        image = project.jibToImage
+        auth {
+            username = project.jibToAuthUsername
+            password = project.jibToAuthPassword
+        }
+        tags = [project.jibToTags]
+    }
+    containerizingMode = "packaged"
+    container {
+        format = 'OCI'
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        ports = ['8080']
+        jvmFlags = ["-Dfile.encoding=UTF-8"]
+    }
 }

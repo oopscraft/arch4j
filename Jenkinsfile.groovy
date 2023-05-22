@@ -16,7 +16,7 @@ pipeline {
                 name: 'JIB_FROM_AUTH_CREDENTIALS',
                 defaultValue: params.JIB_FROM_AUTH_CREDENTIALS,
                 description: 'base image repository credentials')
-        string(name: 'JIB_TO_IMAGE', defaultValue: params.JIB_TO_IMAGE, description: 'target image')
+        string(name: 'JIB_TO_IMAGE_NAMESPACE', defaultValue: params.JIB_TO_IMAGE_NAMESPACE, description: 'target image')
         string(name: 'JIB_TO_TAGS', defaultValue: params.JIB_TO_TAGS, description: 'target image tags')
         credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl',
                 name: 'JIB_TO_AUTH_CREDENTIALS',
@@ -40,7 +40,7 @@ pipeline {
             }
             steps {
                 sh '''
-                ./gradlew :arch4j-web:publish -x test --refresh-dependencies --stacktrace \
+                ./gradlew publish -x test --refresh-dependencies --stacktrace \
                 -PmavenUrl=${MAVEN_URL} \
                 -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
                 -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
@@ -57,11 +57,11 @@ pipeline {
             }
             steps {
                 sh '''
-                ./gradlew :arch4j-web:jib -x test --refresh-dependencies --stacktrace \
+                ./gradlew jib -x test --refresh-dependencies --stacktrace \
                 -PjibFromImage=${JIB_FROM_IMAGE} \
                 -PjibFromAuthUsername=${JIB_FROM_AUTH_CREDENTIALS_USR} \
                 -PjibFromAuthPassword=${JIB_FROM_AUTH_CREDENTIALS_PSW} \
-                -PjibToImage=${JIB_TO_IMAGE} \
+                -PjibToImageNamespace=${JIB_TO_IMAGE_NAMESPACE} \
                 -PjibToTags=${JIB_TO_TAGS} \
                 -PjibToAuthUsername=${JIB_TO_AUTH_CREDENTIALS_USR} \
                 -PjibToAuthPassword=${JIB_TO_AUTH_CREDENTIALS_PSW} \

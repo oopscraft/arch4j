@@ -37,7 +37,6 @@ allprojects {
             it.sourceSets.main.resources {
                 srcDirs += ["src/main/java"]
                 exclude "**/*.java"
-                include "**/*.xml"
             }
             it.sourceSets.test.java {
                 exclude "**/*.xml"
@@ -45,7 +44,6 @@ allprojects {
             it.sourceSets.test.resources {
                 srcDirs += ["src/test/java"]
                 exclude "**/*.java"
-                include "**/*.xml"
             }
             it.java {
                 withSourcesJar()

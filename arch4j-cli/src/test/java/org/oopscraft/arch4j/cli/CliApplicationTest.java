@@ -9,7 +9,7 @@ public class CliApplicationTest {
         CliApplication.main(new String[]{
                 "database",
                 "generate-schema",
-                "test"
+                "tmp/test.sql"
         });
     }
 }

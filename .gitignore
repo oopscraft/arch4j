@@ -44,8 +44,10 @@ hs_err_pid*
 
 # application file
 **/logs/
+**/log/
 **/dat/
-
+**/temp/
+**/tmp/
 
 # Ignore Gradle project-specific cache directory
 .gradle

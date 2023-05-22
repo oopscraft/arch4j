@@ -48,6 +48,9 @@ dependencies {
         // picocli starter
         api 'info.picocli:picocli-spring-boot-starter:4.7.3'
 
+        // mariadb
+        api 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
+
     }
 
 }

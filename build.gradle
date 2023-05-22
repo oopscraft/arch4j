@@ -31,13 +31,24 @@ allprojects {
             it.tasks.withType(JavaCompile){
                 options.encoding = 'UTF-8'
             }
+            it.sourceSets.main.java {
+                exclude "**/*.xml"
+            }
             it.sourceSets.main.resources {
                 srcDirs += ["src/main/java"]
                 exclude "**/*.java"
+                include "**/*.xml"
+            }
+            it.sourceSets.test.java {
+                exclude "**/*.xml"
             }
             it.sourceSets.test.resources {
                 srcDirs += ["src/test/java"]
                 exclude "**/*.java"
+                include "**/*.xml"
+            }
+            it.java {
+                withSourcesJar()
             }
         }
         // maven-publish

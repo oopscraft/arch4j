@@ -38,6 +38,7 @@ public class ArticleEntity extends SystemFieldEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Builder.Default
     private List<ArticleFileEntity> files = new ArrayList<>();
 
     @OneToMany(
@@ -45,6 +46,7 @@ public class ArticleEntity extends SystemFieldEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Builder.Default
     private List<ArticleReplyEntity> replies = new ArrayList<>();
 
 }

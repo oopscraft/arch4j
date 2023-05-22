@@ -72,6 +72,7 @@ public class SampleEntity extends SystemFieldEntity {
     @Singular("item")
     @OneToMany(mappedBy = SampleItemEntity_.SAMPLE_ID, cascade = CascadeType.ALL, orphanRemoval= true, fetch = FetchType.LAZY)
     @OrderBy(SampleItemEntity_.ORDER)
+    @Builder.Default
     private List<SampleItemEntity> items = new ArrayList<>();
 
 }

@@ -33,6 +33,7 @@ public class Menu {
 
     private String note;
 
+    @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
     /**

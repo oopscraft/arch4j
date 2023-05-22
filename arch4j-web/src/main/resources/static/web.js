@@ -166,27 +166,3 @@ const _isEmpty = function(value) {
     return !(value && value.trim().length > 0);
 }
 
-/**
- * convert json to plain text
- * @param json
- * @param indent
- * @returns {string}
- * @private
- */
-const _convertJsonToPlainText = function(json, indent = 0) {
-    const indentation = ' '.repeat(indent * 2);
-    let plainText = '';
-    for (let [key, value] of Object.entries(json)) {
-        if (typeof value === 'object' && !Array.isArray(value)) {
-            plainText += `${indentation}${key}:\n${_convertJsonToPlainText(value, indent + 1)}\n`;
-        } else if (Array.isArray(value)) {
-            plainText += `${indentation}${key}:\n`;
-            value.forEach((item) => {
-                plainText += `${indentation}  - ${_convertJsonToPlainText(item, indent + 2)}\n`;
-            });
-        } else {
-            plainText += `${indentation}${key}: ${value}\n`;
-        }
-    }
-    return plainText;
-}

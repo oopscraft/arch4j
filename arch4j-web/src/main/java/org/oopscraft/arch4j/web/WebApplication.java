@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.JavaInfo;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.context.annotation.*;
@@ -342,32 +343,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             // returns
             return http.build();
         }
-    }
-
-    /**
-     * infoContributor
-     * @return info contributor
-     */
-    @Bean
-    public InfoContributor infoContributor() {
-        return new InfoContributor() {
-            private final OsInfo osInfo = new OsInfo();
-            private final JavaInfo javaInfo = new JavaInfo();
-            @Override
-            public void contribute(org.springframework.boot.actuate.info.Info.Builder builder) {
-                builder.withDetail("os", osInfo)
-                        .withDetail("java", javaInfo);
-            }
-        };
-    }
-
-    /**
-     * httpTraceRepository
-     * @return httpTraceRepository
-     */
-    @Bean
-    public HttpTraceRepository httpTraceRepository() {
-        return new InMemoryHttpTraceRepository();
     }
 
     /**

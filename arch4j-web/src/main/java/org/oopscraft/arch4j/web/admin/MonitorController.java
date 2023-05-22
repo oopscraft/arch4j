@@ -7,6 +7,8 @@ import org.springframework.boot.actuate.info.InfoEndpoint;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.info.JavaInfo;
+import org.springframework.boot.info.OsInfo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +28,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Slf4j
 public class MonitorController {
 
-    private final InfoEndpoint infoEndpoint;
+    private final OsInfo osInfo = new OsInfo();
+
+    private final JavaInfo javaInfo = new JavaInfo();
 
     private final MetricsEndpoint metricsEndpoint;
-
-    private final HttpTraceRepository httpTraceRepository;
 
     private List<Map<String,Object>> cpu = new CopyOnWriteArrayList<>();
 
@@ -54,7 +56,10 @@ public class MonitorController {
     @GetMapping("get-info")
     @ResponseBody
     public Map<String,Object> getInfo() {
-        return infoEndpoint.info();
+        Map<String,Object> info = new LinkedHashMap<>();
+        info.put("os", osInfo);
+        info.put("jvm", javaInfo.getJvm());
+        return info;
     }
 
     /**
@@ -136,16 +141,6 @@ public class MonitorController {
     @ResponseBody
     public List<Map<String,Object>> getDisk() {
         return disk;
-    }
-
-    /**
-     * returns request info
-     * @return request info
-     */
-    @GetMapping("get-request")
-    @ResponseBody
-    public List<HttpTrace> getRequest() {
-        return httpTraceRepository.findAll();
     }
 
     /**

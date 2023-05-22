@@ -59,7 +59,6 @@ public class WebController {
             if(authentication instanceof UsernamePasswordAuthenticationToken) {
                 UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
                 User user = userService.getUser(userDetails.getUsername()).orElseThrow();
-                log.debug("== user: {}", user);
                 return user;
             }
         }

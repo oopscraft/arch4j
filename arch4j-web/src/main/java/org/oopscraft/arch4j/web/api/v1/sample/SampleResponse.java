@@ -44,7 +44,6 @@ public class SampleResponse {
 
     private String cryptoText;
 
-    @Singular("item")
     @Builder.Default
     private List<Item> items = new ArrayList<>();
 

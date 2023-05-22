@@ -69,7 +69,6 @@ public class SampleEntity extends SystemFieldEntity {
     @Convert(converter = CryptoConverter.class)
     private String cryptoText;
 
-    @Singular("item")
     @OneToMany(mappedBy = SampleItemEntity_.SAMPLE_ID, cascade = CascadeType.ALL, orphanRemoval= true, fetch = FetchType.LAZY)
     @OrderBy(SampleItemEntity_.ORDER)
     @Builder.Default

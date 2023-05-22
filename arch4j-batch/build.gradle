@@ -60,7 +60,7 @@ jib {
         }
     }
     to {
-        image = project.jibToImage
+        image = "${project.jibToImageNamespace}/${project.name}"
         auth {
             username = project.jibToAuthUsername
             password = project.jibToAuthPassword

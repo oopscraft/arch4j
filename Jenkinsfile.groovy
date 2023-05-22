@@ -57,7 +57,7 @@ pipeline {
             }
             steps {
                 sh '''
-                ./gradlew :arch4j-web:jib -x test --refresh-dependencies --stacktrace \
+                ./gradlew jib -x test --refresh-dependencies --stacktrace \
                 -PjibFromImage=${JIB_FROM_IMAGE} \
                 -PjibFromAuthUsername=${JIB_FROM_AUTH_CREDENTIALS_USR} \
                 -PjibFromAuthPassword=${JIB_FROM_AUTH_CREDENTIALS_PSW} \

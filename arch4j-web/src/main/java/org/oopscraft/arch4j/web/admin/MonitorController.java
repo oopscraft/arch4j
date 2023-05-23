@@ -32,6 +32,8 @@ public class MonitorController {
 
     private final JavaInfo javaInfo = new JavaInfo();
 
+    private final InfoEndpoint infoEndpoint;
+
     private final MetricsEndpoint metricsEndpoint;
 
     private List<Map<String,Object>> cpu = new CopyOnWriteArrayList<>();
@@ -56,10 +58,7 @@ public class MonitorController {
     @GetMapping("get-info")
     @ResponseBody
     public Map<String,Object> getInfo() {
-        Map<String,Object> info = new LinkedHashMap<>();
-        info.put("os", osInfo);
-        info.put("jvm", javaInfo.getJvm());
-        return info;
+        return infoEndpoint.info();
     }
 
     /**

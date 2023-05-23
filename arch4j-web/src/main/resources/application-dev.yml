@@ -11,3 +11,5 @@ spring:
       jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j
       username: arch4j
       password: ENC(rFBJXq2eCLrLhRgJi0gE3Q==)
+  thymeleaf:
+    cache: true

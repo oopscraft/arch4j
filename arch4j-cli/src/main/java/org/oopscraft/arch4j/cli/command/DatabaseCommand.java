@@ -28,9 +28,16 @@ public class DatabaseCommand {
 
     private final EntityManagerFactory entityManagerFactory;
 
-    @CommandLine.Command(name = "generate-schema")
+    /**
+     * get schema
+     * @param outFile out file path
+     * @return exit value
+     */
+    @CommandLine.Command(name = "get-schema")
     @Transactional
-    public Integer generateSchema(@CommandLine.Parameters(index = "0") String outputFile) {
+    public Integer getSchema(
+            @CommandLine.Option(names = {"-o","--out-file"}, description = "Output File Path") String outFile
+    ) {
         SessionFactoryImplementor sessionFactory = entityManagerFactory.unwrap(SessionFactoryImplementor.class);
         ServiceRegistry serviceRegistry = sessionFactory.getServiceRegistry().getParentServiceRegistry();
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
@@ -43,11 +50,18 @@ public class DatabaseCommand {
         schemaExport.setFormat(true);
         schemaExport.setDelimiter(";");
         schemaExport.setOverrideOutputFileContent();
-        schemaExport.setOutputFile(outputFile);
-        schemaExport.execute(EnumSet.of(TargetType.SCRIPT), SchemaExport.Action.CREATE, metadata);
+
+        // target type
+        EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.STDOUT);
+        if(outFile != null) {
+            schemaExport.setOutputFile(outFile);
+            targetTypes = EnumSet.of(TargetType.SCRIPT);
+        }
+        schemaExport.execute(targetTypes, SchemaExport.Action.CREATE, metadata);
+
+        // returns
         return 0;
     }
-
 
 
 }

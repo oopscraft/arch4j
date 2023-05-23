@@ -1,6 +1,8 @@
 package org.oopscraft.arch4j.cli;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.oopscraft.arch4j.cli.command.DatabaseCommand;
+import org.oopscraft.arch4j.cli.command.InstallCommand;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -23,8 +25,10 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import picocli.CommandLine;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * BatchApplication
@@ -37,6 +41,7 @@ import java.util.Properties;
 @EnableAutoConfiguration
 @CommandLine.Command(
         subcommands = {
+                InstallCommand.class,
                 DatabaseCommand.class
         }
 )
@@ -51,6 +56,27 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
      * @param args main arguments
      */
     public static void main(String[] args) {
+
+        // install
+        if("install".equals(args[0])) {
+
+            // confirms install
+            try (Scanner scanner = new Scanner(System.in)) {
+                System.out.print("Application data is initialized.Would you like to proceed?[Y/n]: ");
+                String answer = scanner.nextLine();
+                if (!"Y".equals(answer)) {
+                    System.out.println("Installation Stopped");
+                    System.exit(0);
+                }
+            }
+
+            // sets spring boot properties for initialization
+            args = ArrayUtils.add(args, "--logging.level.root=DEBUG");
+            args = ArrayUtils.add(args, "--logging.pattern.console=%msg%n");
+            args = ArrayUtils.add(args, "--spring.sql.init.mode=always");
+            args = ArrayUtils.add(args, "--spring.jpa.hibernate.ddl-auto=create");
+            args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
+        }
 
         // launch spring boot application
         try {
@@ -104,8 +130,9 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
     public void run(String... args) throws Exception {
         CliApplication cliApplication = applicationContext.getBean(CliApplication.class);
         CommandLine.IFactory factory = applicationContext.getBean(CommandLine.IFactory.class);
-        exitCode = new CommandLine(cliApplication, factory).execute(args);
+        CommandLine commandLine = new CommandLine(cliApplication, factory);
+        commandLine.setUnmatchedArgumentsAllowed(true);
+        exitCode = commandLine.execute(args);
     }
-
 
 }

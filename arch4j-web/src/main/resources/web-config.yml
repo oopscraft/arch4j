@@ -51,6 +51,8 @@ spring:
         web-allow-others: true
   session:
     store-type: jdbc
+    jdbc:
+      initialize-schema: embedded
   security:
     anonymous:
       authorities: ~

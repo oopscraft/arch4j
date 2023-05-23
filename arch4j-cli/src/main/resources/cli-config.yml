@@ -1,5 +1,6 @@
 # logging
 logging:
+  level:
+    root: OFF
   pattern:
     console:
-

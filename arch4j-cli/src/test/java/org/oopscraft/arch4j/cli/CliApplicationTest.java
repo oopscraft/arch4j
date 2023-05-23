@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 public class CliApplicationTest {
 
     @Test
-    public void generateSchema() {
+    public void getSchema() {
         CliApplication.main(new String[]{
                 "database",
-                "generate-schema",
-                "tmp/test.sql"
+                "get-schema"
         });
     }
 }

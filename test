@@ -1,0 +1,268 @@
+
+    create table "apps_message" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "note" clob,
+        "value" clob,
+        primary key ("id")
+    );
+
+    create table "article" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "board_id" varchar(255),
+        "content" varchar(255),
+        "title" varchar(255),
+        "user_id" varchar(255),
+        primary key ("id")
+    );
+
+    create table "article_file" (
+       "article_id" varchar(255) not null,
+        "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "length" bigint,
+        "name" varchar(255),
+        primary key ("article_id", "id")
+    );
+
+    create table "article_reply" (
+       "article_id" varchar(255) not null,
+        "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "comment" varchar(255),
+        "parent_id" varchar(255),
+        "user_id" varchar(255),
+        primary key ("article_id", "id")
+    );
+
+    create table "authority" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "note" clob,
+        primary key ("id")
+    );
+
+    create table "board" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "file_enabled" boolean,
+        "icon" varchar(255),
+        "name" varchar(255),
+        "note" varchar(255),
+        "page_size" integer,
+        "reply_enabled" boolean,
+        primary key ("id")
+    );
+
+    create table "board_role_access" (
+       "board_id" varchar(64) not null,
+        "role_id" varchar(64) not null
+    );
+
+    create table "board_role_read" (
+       "board_id" varchar(64) not null,
+        "role_id" varchar(64) not null
+    );
+
+    create table "board_role_write" (
+       "board_id" varchar(64) not null,
+        "role_id" varchar(64) not null
+    );
+
+    create table "code" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "note" clob,
+        primary key ("id")
+    );
+
+    create table "code_item" (
+       "code_id" varchar(64) not null,
+        "id" varchar(255) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "sort" integer,
+        "value" varchar(255),
+        primary key ("code_id", "id")
+    );
+
+    create table "login_history" (
+       "login_datetime" timestamp not null,
+        "user_id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "ip_address" varchar(255),
+        "login_success" boolean,
+        "user_agent" varchar(255),
+        primary key ("login_datetime", "user_id")
+    );
+
+    create table "menu" (
+       "id" varchar(255) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "icon" clob,
+        "link" varchar(255),
+        "name" varchar(255),
+        "note" varchar(255),
+        "parent_id" varchar(255),
+        "sort" integer,
+        "target" varchar(255),
+        primary key ("id")
+    );
+
+    create table "menu_i18n" (
+       "id" varchar(64) not null,
+        "language" varchar(8) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        primary key ("id", "language")
+    );
+
+    create table "menu_role" (
+       "menu_id" varchar(255) not null,
+        "role_id" varchar(64) not null
+    );
+
+    create table "message_i18n" (
+       "id" varchar(64) not null,
+        "language" varchar(8) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "value" varchar(255),
+        primary key ("id", "language")
+    );
+
+    create table "role" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "note" clob,
+        primary key ("id")
+    );
+
+    create table "role_authority" (
+       "role_id" varchar(64) not null,
+        "authority_id" varchar(64) not null
+    );
+
+    create table "sample" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "big_decimal" numeric(19,2),
+        "crypto_text" clob,
+        "double_number" double,
+        "lob_text" clob,
+        "local_date" date,
+        "local_date_time" timestamp,
+        "long_number" bigint,
+        "name" varchar(255) not null,
+        "number" integer,
+        "sql_date" date,
+        "timestamp" timestamp,
+        "type" integer,
+        "util_date" timestamp,
+        primary key ("id")
+    );
+
+    create table "sample_backup" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "big_decimal" numeric(19,2),
+        "crypto_text" clob,
+        "double_number" double,
+        "lob_text" clob,
+        "local_date" date,
+        "local_date_time" timestamp,
+        "long_number" bigint,
+        "name" varchar(255) not null,
+        "number" integer,
+        "sql_date" date,
+        "timestamp" timestamp,
+        "type" integer,
+        "util_date" timestamp,
+        primary key ("id")
+    );
+
+    create table "sample_item" (
+       "id" varchar(64) not null,
+        "sample_id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "order" integer,
+        "value" varchar(255),
+        primary key ("id", "sample_id")
+    );
+
+    create table "user" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "close_datetime" timestamp,
+        "email" varchar(255),
+        "join_datetime" timestamp,
+        "mobile" varchar(255),
+        "name" varchar(255),
+        "nickname" varchar(255),
+        "password" varchar(255),
+        "photo" clob,
+        "profile" clob,
+        "status" integer,
+        "type" integer,
+        primary key ("id")
+    );
+
+    create table "user_role" (
+       "user_id" varchar(64) not null,
+        "role_id" varchar(64) not null
+    );
+
+    create table "variable" (
+       "id" varchar(64) not null,
+        "system_required" varchar(1),
+        "system_update_date_time" timestamp,
+        "system_update_user_id" varchar(64),
+        "name" varchar(255),
+        "note" clob,
+        "value" varchar(255),
+        primary key ("id")
+    );
+
+    alter table "menu" 
+       add constraint "FK84ebjqhceprb655boh1e1lrtq" 
+       foreign key ("parent_id") 
+       references "menu";

@@ -35,6 +35,7 @@ spring:
     defer-datasource-initialization: true
     properties:
       hibernate:
+        ddl-auto: none
         show_sql: false
         format_sql: true
         use_sql_comments: true

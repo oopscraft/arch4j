@@ -179,8 +179,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
          * admin security filter chain
          *
          * @param http
-         * @return
-         * @throws Exception
+         * @return security filter chain
+         * @throws Exception excpetion
          */
         @Bean
         @Order(1)

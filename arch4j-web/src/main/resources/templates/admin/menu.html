@@ -163,6 +163,28 @@
             getMenus();
         });
     </script>
+    <style>
+        .menu-item {
+            padding-left: 0.5em;
+        }
+        .menu-item:hover {
+            background-color: #f7f7f7;
+        }
+        .menu-item::before {
+            content: "";
+            background-image: url('[[@{/static/image/icon-folder-close.svg}]]');
+            background-size: 1em 1em;
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+        }
+        .selected > .menu-item::before {
+            background-image: url('[[@{/static/image/icon-folder-open.svg}]]');
+        }
+        .selected > .menu-item {
+            background-color: #f7f7f7;
+        }
+    </style>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
         <span data-th-text="#{web.title.menu}"></span>
@@ -187,20 +209,18 @@
                         </div>
                     </div>
                     <hr/>
-                    <div data-duice-array="menus" data-duice-loop="menu,status" data-duice-hierarchy="id,parentId"
+                    <div data-duice-array="menus" data-duice-loop="menu,status" data-duice-hierarchy="id,parentId" data-duice-toggle-class="selected"
                          data-duice-script="
                     this.dataset.id = menu.id;
                     if(menu.parentId) {
                         this.style.marginLeft='1rem';
                     }
                     ">
-                        <div>
-                            <a href="#" data-duice-object="menu" data-duice-script="this.dataset.id = menu.id;"
-                               onclick="getMenu(this.dataset.id);">
-                                <img data-duice-object="menu" data-duice-property="icon" class="icon"
+                        <div data-duice-object="menu" data-duice-script="this.dataset.id = menu.id;"
+                             onclick="getMenu(this.dataset.id);" class="link menu-item">
+                            <img data-duice-object="menu" data-duice-property="icon" class="icon"
                                  th:src="@{/static/image/icon-null.svg}"/>
-                                <span data-duice-object="menu" data-duice-property="name" class="font-weight-bold"></span>
-                            </a>
+                            <span data-duice-object="menu" data-duice-property="name" class="font-weight-bold"></span>
                         </div>
                     </div>
                 </div>

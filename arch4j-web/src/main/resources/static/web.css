@@ -193,6 +193,9 @@ table thead tr th:last-of-type {
 table tbody tr:hover {
     background-color: var(--web-table-body-hover-background-color);
 }
+table tbody tr.selected {
+    background-color: var(--web-table-body-hover-background-color);
+}
 table tbody tr td {
     border-right: var(--web-table-body-border);
     border-bottom: var(--web-table-body-border);

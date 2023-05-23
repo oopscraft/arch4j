@@ -55,6 +55,26 @@ const _deleteCookie = function(name) {
 }
 
 /**
+ * start progress
+ * @private
+ */
+const _startProgress = function() {
+    if(window['NProgress']) {
+        NProgress.start();
+    }
+}
+
+/**
+ * stop progress
+ * @private
+ */
+const _stopProgress = function() {
+    if(window['NProgress']) {
+        NProgress.done();
+    }
+}
+
+/**
  * _fetch
  * @param url
  * @param options
@@ -77,6 +97,7 @@ const _fetch = function(url, options, _bypass) {
     options.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     options.headers['Pragma'] = 'no-cache';
     options.headers['Expires'] = '0';
+    _startProgress();
     return globalThis.fetch(url, options)
         .then(async function(response){
             console.debug(response);
@@ -99,6 +120,9 @@ const _fetch = function(url, options, _bypass) {
         })
         .catch((error)=>{
             throw Error(error);
+        })
+        .finally(() => {
+            _stopProgress();
         });
 }
 

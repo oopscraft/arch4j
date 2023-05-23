@@ -467,7 +467,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="roles" data-duice-loop="role,status" data-duice-script="
+                            <tr data-duice-array="roles" data-duice-loop="role,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=role.id;
                             " onclick="getRole(this.dataset.id);" class="link">
                                 <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
@@ -888,7 +888,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="authorities" data-duice-loop="authority,status" data-duice-script="
+                            <tr data-duice-array="authorities" data-duice-loop="authority,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=authority.id;
                             " onclick="getAuthority(this.dataset.id);" class="link">
                                 <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>

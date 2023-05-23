@@ -26,6 +26,12 @@ management:
       exposure:
         include: "*"
         exclude: shutdown,threaddump,heapdump
+  info:
+    os.enabled: true
+    java.enabled: true
+    build.enabled: true
+    defaults.enabled: true
+    git.enabled: true
 
 # spring
 spring:

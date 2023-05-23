@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title></title>
-    <script th:src="@{/static/duice/duice.js}"></script>
-    <script th:src="@{/static/web.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/web.css}"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css}">
+    <script th:src="@{/static/nprogress/nprogress.js}"></script>
+    <script th:src="@{/static/chartjs/chart.js}"></script>
+    <script th:src="@{'/static/duice/duice.js?version=' + ${_scriptVersion}}"></script>
+    <script th:src="@{'/static/web.js?version=' + ${_scriptVersion}}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{'/static/web.css?version=' + ${scriptVersion}}"/>
     <style>
         html {
             width: 100%;
@@ -228,6 +230,10 @@
     <!-- nav -->
     <nav>
         <ul id="_nav-menu">
+            <li class="link" th:onclick="|_openLink('@{/admin/monitor}')|">
+                <img th:src="@{/static/image/icon-monitor.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.monitor}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|">
                 <img th:src="@{/static/image/icon-user.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.user}"></span>
@@ -240,13 +246,13 @@
                 <img th:src="@{/static/image/icon-message.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.message}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/variable}');|">
-                <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.variable}"></span>
-            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/menu}');|">
                 <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.menu}"></span>
+            </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/variable}');|">
+                <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.variable}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/code}');|">
                 <img th:src="@{/static/image/icon-code.svg}" class="icon"/>

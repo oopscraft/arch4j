@@ -427,7 +427,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createRole();">
+                            <button onclick="createRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -582,11 +582,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteRole();">
+                            <button onclick="deleteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveRole();">
+                            <button onclick="saveRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>
@@ -640,7 +640,7 @@
                     if(page) {
                         this.authoritySearch._page = page;
                     }
-                    let url = new URL('[[@{/admin/user/get-authorities}]]',document.location.origin);
+                    let url = new URL('[[@{/admin/role/get-authorities}]]',document.location.origin);
                     if(this.authoritySearch.key && this.authoritySearch.value) {
                         url.searchParams.append(this.authoritySearch.key, this.authoritySearch.value);
                     }
@@ -677,7 +677,6 @@
                  * @param index
                  */
                 selectAuthority: function(index) {
-                    console.log('== index', index);
                     let authority = JSON.parse(JSON.stringify(this.authorities[index]));
                     this.selectedAuthorities.push(authority);
                     this.authorities.forEach(element => {
@@ -848,7 +847,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createAuthority();">
+                            <button onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -954,11 +953,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteAuthority();">
+                            <button onclick="deleteAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveAuthority();">
+                            <button onclick="saveAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

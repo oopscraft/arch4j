@@ -1,5 +1,6 @@
 -- authority
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN','Y','Admin Access Authority');
+insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_MONITOR','Y','Admin Monitor Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_USER','Y','User Access Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_USER_EDIT','Y','User Edit Authority');
 insert into `authority` (`id`,`system_required`,`name`) values ('ADMIN_ROLE','Y','Role Edit Authority');
@@ -21,6 +22,7 @@ insert into `authority` (`id`,`system_required`,`name`) values ('API','Y','Actua
 -- role
 insert into `role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Role');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN');
+insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_MONITOR');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_ROLE');
@@ -39,15 +41,25 @@ insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUAT
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'H2-CONSOLE');
 insert into `role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'API');
 insert into `role` (`id`,`system_required`,`name`) values ('DEV','Y','Developer Role');
-insert into `role` (`id`,`system_required`,`name`) values ('TEST','Y','Tester Role');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_ROLE');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU_EDIT');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE_EDIT');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE_EDIT');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE_EDIT');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');
+insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD_EDIT');
 
 -- user
 insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');
 insert into `user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
-insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('dev','Developer Account','api@oopscraft.org','010-2222-3333','{noop}api','SYSTEM','ACTIVE');
+insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('dev','Developer Account','api@oopscraft.org','010-2222-3333','{noop}dev','SYSTEM','ACTIVE');
 insert into `user_role` (`user_id`,`role_id`) values ('dev','DEV');
-insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('test','Test Account','test@oopscraft.org','010-3333-4444','{noop}test','GENERAL','ACTIVE');
-insert into `user_role` (`user_id`,`role_id`) values ('test','TEST');
 
 -- variable
 insert into `variable` (`id`,`name`,`value`) values ('test1', 'test property 1','test_value_1');

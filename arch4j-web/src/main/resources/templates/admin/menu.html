@@ -202,7 +202,7 @@
                             </h2>
                         </div>
                         <div class="col-2 justify-right">
-                            <button onclick="createMenu();">
+                            <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -338,11 +338,11 @@
                             </div>
                         </div>
                         <div class="col-12 justify-right">
-                            <button onclick="deleteMenu();">
+                            <button onclick="deleteMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveMenu();">
+                            <button onclick="saveMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

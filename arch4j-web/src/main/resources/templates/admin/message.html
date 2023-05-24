@@ -203,7 +203,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createMessage();">
+                            <button onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -311,11 +311,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteMessage();">
+                            <button onclick="deleteMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveMessage();">
+                            <button onclick="saveMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

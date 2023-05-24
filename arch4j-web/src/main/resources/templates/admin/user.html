@@ -262,7 +262,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createUser();">
+                            <button onclick="createUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -516,19 +516,19 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button>
+                            <button th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
                                 <span data-th-text="#{web.text.changePassword}"></span>
                             </button>
-                            <button>
+                            <button th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}"/>
                                 <span data-th-text="#{web.text.authorizationToken}"></span>
                             </button>
-                            <button onclick="deleteUser();">
+                            <button onclick="deleteUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveUser();">
+                            <button onclick="saveUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

@@ -4,7 +4,7 @@
 
 [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
 
-user/password: admin/admin
+user/password: admin/admin, dev/dev
 
 
 ## Create database

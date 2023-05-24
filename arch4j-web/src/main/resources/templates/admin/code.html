@@ -220,7 +220,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createCode();">
+                            <button onclick="createCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -345,7 +345,7 @@
                                         <th data-th-text="#{core.codeItem.name}"></th>
                                         <th data-th-text="#{core.codeItem.value}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addCodeItem();">
+                                            <button onclick="addCodeItem();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -366,7 +366,8 @@
                                         <td class="text-align-center">
                                             <button data-duice-object="item"
                                                     data-duice-script="this.dataset.index=status.index;"
-                                                    onclick="removeCodeItem(this.dataset.index);">
+                                                    onclick="removeCodeItem(this.dataset.index);"
+                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
@@ -383,11 +384,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteCode();">
+                            <button onclick="deleteCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveCode();">
+                            <button onclick="saveCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

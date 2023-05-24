@@ -70,7 +70,7 @@ public class MonitorScheduler {
     /**
      * collect disk info
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*10)
     public void collectDisk() {
         Map<String,Object> disk = new LinkedHashMap<>();
         disk.put("time", System.currentTimeMillis());

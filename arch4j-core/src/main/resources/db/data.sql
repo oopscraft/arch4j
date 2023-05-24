@@ -45,15 +45,10 @@ insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_ROLE');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU');
-insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE');
-insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE');
-insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE');
-insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE_EDIT');
 insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');
-insert into `role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD_EDIT');
 
 -- user
 insert into `user` (`id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');

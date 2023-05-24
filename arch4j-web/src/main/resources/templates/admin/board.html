@@ -273,7 +273,7 @@
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
-                            <button onclick="createBoard();">
+                            <button onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.text.create}"></span>
                             </button>
@@ -421,7 +421,7 @@
                                         <th data-th-text="#{core.role.id}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addBoardAccessRole();">
+                                            <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -435,7 +435,8 @@
                                         <td class="text-align-center">
                                             <button data-duice-object="role"
                                                     data-duice-script="this.dataset.index=status.index;"
-                                                    onclick="removeBoardAccessRole(this.dataset.index);">
+                                                    onclick="removeBoardAccessRole(this.dataset.index);"
+                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
@@ -467,7 +468,7 @@
                                         <th data-th-text="#{core.role.id}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addBoardReadRole();">
+                                            <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -481,7 +482,8 @@
                                         <td class="text-align-center">
                                             <button data-duice-object="role"
                                                     data-duice-script="this.dataset.index=status.index;"
-                                                    onclick="removeBoardReadRole(this.dataset.index);">
+                                                    onclick="removeBoardReadRole(this.dataset.index);"
+                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
@@ -513,7 +515,7 @@
                                         <th data-th-text="#{core.role.id}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addBoardWriteRole();">
+                                            <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -527,7 +529,8 @@
                                         <td class="text-align-center">
                                             <button data-duice-object="role"
                                                     data-duice-script="this.dataset.index=status.index;"
-                                                    onclick="removeBoardWriteRole(this.dataset.index);">
+                                                    onclick="removeBoardWriteRole(this.dataset.index);"
+                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
@@ -544,11 +547,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteBoard();">
+                            <button onclick="deleteBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.text.delete}"></span>
                             </button>
-                            <button onclick="saveBoard();">
+                            <button onclick="saveBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.text.save}"></span>
                             </button>

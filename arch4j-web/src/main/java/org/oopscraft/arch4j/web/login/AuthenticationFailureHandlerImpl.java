@@ -1,12 +1,18 @@
-package org.oopscraft.arch4j.web.security;
+package org.oopscraft.arch4j.web.login;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.oopscraft.arch4j.core.message.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.LocaleResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +25,12 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
+
+    private final MessageSource messageSource;
+
+    private final LocaleResolver localeResolver;
 
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -28,10 +39,10 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 
         // save exception
         HttpSession session = request.getSession(false);
-        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+        session.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
 
-        // send redirect
-        String redirectUrl = "/security/login?error=true";
+        // redirect
+        String redirectUrl = LoginConstant.LOGIN_URL + "?error=true";
         redirectStrategy.sendRedirect(request, response, redirectUrl);
     }
 

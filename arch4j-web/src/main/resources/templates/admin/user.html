@@ -240,16 +240,111 @@
             user.roles.splice(index, 1);
         }
 
+        /**
+         * change user password
+         */
+        function changeUserPassword() {
+            passwordChange.open(user.id);
+        }
+
+        /**
+         * generate user access token
+         */
+        function generateUserAccessToken() {
+            let url = new URL('[[@{/admin/user/generate-access-token}]]', document.location.origin);
+            url.searchParams.append('id', user.id);
+            _fetch(url)
+                .then(function(response){
+                    return response.text();
+                })
+                .then(function(data){
+                    let html = "<textarea style='width:400px; border:solid 1px #ccc;' rows='10'>"
+                        + data
+                        + "</textarea>";
+                    _alert(html);
+                });
+        }
+
+        // login history search condition
+        const loginHistorySearch = new duice.ObjectProxy({
+            key: 'userId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // login history list
+        const loginHistories = new duice.ArrayProxy([]);
+
+        /**
+         * getLoginHistories
+         * @param page page
+         */
+        function getLoginHistories(page) {
+            if(page) {
+                loginHistorySearch._size = size;
+            }
+            let url = new URL("[[@{/admin/user/get-login-histories}]]", document.location.origin);
+            if (loginHistorySearch.key && loginHistorySearch.value) {
+                url.searchParams.append(loginHistorySearch.key, loginHistorySearch.value);
+            }
+            url.searchParams.append('_page', loginHistorySearch._page);
+            url.searchParams.append('_size', loginHistorySearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(loginHistories);
+                    duice.ArrayProxy.assign(loginHistories, data.content);
+                    loginHistorySearch._count = data.totalElements;
+                });
+        }
+
+        /**
+         * resetLoginHistories
+         */
+        function resetLoginHistories() {
+            duice.ObjectProxy.reset(loginHistorySearch);
+            getLoginHistories();
+        }
+
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
-            getUsers();
+            let tabFolder = duice.tabFolder(
+                duice.tabItem(document.getElementById('userTabButton'),
+                    document.getElementById('userTabContent'),
+                    () => {
+                        getUsers();
+                    }),
+                duice.tabItem(document.getElementById('loginHistoryTabButton'),
+                    document.getElementById('loginHistoryTabContent'),
+                    () => {
+                        getLoginHistories();
+                    })
+            );
+            tabFolder.setActive(0);
         });
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
         <span data-th-text="#{web.title.user}"></span>
     </h1>
-    <div class="container gap-column-1rem gap-row-1rem">
+
+    <!-- tab -->
+    <div>
+        <button id="userTabButton" class="tab">
+            <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
+            <span data-th-text="#{core.user}"></span>
+        </button>
+        <button id="loginHistoryTabButton" class="tab">
+            <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
+            <span data-th-text="#{core.loginHistory}"></span>
+        </button>
+    </div>
+    <hr/>
+
+    <!-- userTabContent -->
+    <div id="userTabContent" class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
             <!-- list of user -->
             <div class="container border-1 padding-1rem">
@@ -397,7 +492,7 @@
                                        data-duice-property="password" class="width-100"/>
                             </div>
                             <div class="col-2 col-s-12">
-                                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>
+                                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>(*)
                             </div>
                             <div class="col-4 col-s-12">
                                 <input type="password" data-duice-object="user"
@@ -516,11 +611,11 @@
                     </div>
                     <div class="container margin-1px">
                         <div class="col-12 justify-right">
-                            <button th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="changeUserPassword();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
                                 <span data-th-text="#{web.text.changePassword}"></span>
                             </button>
-                            <button th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="generateUserAccessToken();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}"/>
                                 <span data-th-text="#{web.text.authorizationToken}"></span>
                             </button>
@@ -775,5 +870,180 @@
             </div>
         </div>
     </dialog>
+
+    <!-- password change -->
+    <dialog id="passwordChange">
+        <style>
+            #passwordChange {
+                width: 400px;
+                padding: 1.5rem;
+            }
+        </style>
+        <script>
+            const passwordChange = {
+                dialog: new duice.dialog.Dialog(document.getElementById('passwordChange')),
+                data: new duice.ObjectProxy({
+                    id: null,
+                    password: null,
+                    passwordConfirm: null
+                }),
+                /**
+                 * open
+                 * @param id user id
+                 */
+                open: async function(id) {
+                    duice.ObjectProxy.clear(this.data);
+                    this.data.id = id;
+                    return this.dialog.open();
+                },
+                /**
+                 * confirm
+                 */
+                confirm: async function() {
+
+                    // checks password
+                    if (_isEmpty(this.data.password)) {
+                        await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                        duice.ObjectProxy.focus(this.data, 'password');
+                        return false;
+                    }
+                    if (_isEmpty(this.data.passwordConfirm)) {
+                        await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                        duice.ObjectProxy.focus(this.data, 'passwordConfirm');
+                        return false;
+                    }
+                    if (this.data.password !== this.data.passwordConfirm) {
+                        await _alert('[[#{web.message.itemNotMatch(#{core.user.password})}]]');
+                        duice.ObjectProxy.focus(this.data, 'password');
+                        return false;
+                    }
+
+                    // call save
+                    _confirm('[[#{web.message.saveItemConfirm(#{core.user.password})}]]').then(result => {
+                        if (result) {
+                            let url = new URL('[[@{/admin/user/change-password}]]', document.location.origin);
+                            _fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(this.data)
+                            }).then(response => {
+                                if (response.ok) {
+                                    _alert('[[#{web.message.saveItemComplete(#{core.user.password})}]]').then(() => {
+                                        this.dialog.resolve(true);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        </script>
+        <h2>
+            <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
+            <span data-th-text="#{web.text.changePassword}"></span>
+        </h2>
+        <div class="container gap-1px padding-1px">
+            <div class="col-4">
+                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>
+            </div>
+            <div class="col-8">
+                <input type="password" data-duice-object="passwordChange.data" data-duice-property="password" class="width-100"/>
+            </div>
+            <div class="col-4">
+                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>(*)
+            </div>
+            <div class="col-8">
+                <input type="password" data-duice-object="passwordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
+            </div>
+        </div>
+        <div class="container padding-1px">
+            <div class="col-12 justify-right">
+                <button onclick="passwordChange.confirm();">
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                    <span data-th-text="#{web.text.confirm}"></span>
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- loginHistoryTabContent -->
+    <div id="loginHistoryTabContent" class="container gap-column-1rem gap-row-1rem">
+        <div class="col-12">
+            <!-- list of login history -->
+            <div class="container">
+                <div class="col-12">
+                    <div class="container gap-1px margin-1px">
+                        <form onsubmit="return false;" class="col-6 container gap-1px">
+                            <select data-duice-object="loginHistorySearch" data-duice-property="key" class="col-1 col-s-4">
+                                <option value="userId" th:text="#{core.loginHistory.userId}"></option>
+                                <option value="ipAddress" th:text="#{core.loginHistory.ipAddress}"></option>
+                            </select>
+                            <input type="text" data-duice-object="loginHistorySearch" data-duice-property="value"
+                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                            <button onclick="getLoginHistories();" class="col-1 col-s-12">
+                                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                                <span data-th-text="#{web.text.search}">Search</span>
+                            </button>
+                            <button onclick="resetLoginHistories();" class="col-1 col-s-12">
+                                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                                <span data-th-text="#{web.text.reset}">Reset</span>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="overflow-x-auto border-1">
+                        <table class="border-0">
+                            <colgroup>
+                                <col style="width:5rem;"/>
+                                <col/>
+                                <col/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{core.loginHistory.userId}"></th>
+                                <th data-th-text="#{core.loginHistory.loginDateTime}"></th>
+                                <th data-th-text="#{core.loginHistory.ipAddress}"></th>
+                                <th data-th-text="#{core.loginHistory.userAgent}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-duice-array="loginHistories" data-duice-loop="loginHistory,status">
+                                <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
+                                <td data-duice-object="loginHistory" data-duice-property="userId" class="font-weight-bold"></td>
+                                <td data-duice-object="loginHistory" data-duice-property="loginDateTime" class="font-weight-bold"></td>
+                                <td data-duice-object="loginHistory" data-duice-property="ipAddress"></td>
+                                <td data-duice-object="loginHistory" data-duice-property="userAgent"></td>
+                            </tr>
+                            <tr data-duice-array="loginHistories" data-duice-script="if(loginHistories.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align-center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container">
+                        <div class="col-4"></div>
+                        <div class="col-4 justify-center">
+                            <duice-pagination
+                                    data-duice-object="loginHistorySearch"
+                                    data-duice-size-property="_size"
+                                    data-duice-page-property="_page"
+                                    data-duice-count-property="_count"
+                                    data-duice-onclick="getLoginHistories(this.dataset.page);">
+                            </duice-pagination>
+                        </div>
+                        <div class="col-4 justify-right">
+                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-duice-object="loginHistorySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                            <span data-th-text="#{web.text.rows}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>

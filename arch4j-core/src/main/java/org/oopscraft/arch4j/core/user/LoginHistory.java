@@ -15,8 +15,6 @@ public class LoginHistory {
 
     private LocalDateTime loginDateTime;
 
-    private Boolean loginSuccess;
-
     private String ipAddress;
 
     private String userAgent;
@@ -30,7 +28,6 @@ public class LoginHistory {
         return LoginHistory.builder()
                 .userId(loginHistoryEntity.getUserId())
                 .loginDateTime(loginHistoryEntity.getLoginDateTime())
-                .loginSuccess(loginHistoryEntity.getLoginSuccess())
                 .ipAddress(loginHistoryEntity.getIpAddress())
                 .userAgent(loginHistoryEntity.getUserAgent())
                 .build();

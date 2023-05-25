@@ -35,9 +35,6 @@ public class LoginHistoryEntity extends SystemFieldEntity {
     @Column(name = "login_datetime")
     private LocalDateTime loginDateTime;
 
-    @Column(name = "login_success")
-    private Boolean loginSuccess;
-
     @Column(name = "ip_address")
     private String ipAddress;
 

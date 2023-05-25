@@ -99,9 +99,9 @@ public class UserService {
      * @param password password
      */
     public void changePassword(String id, String password) {
-        userRepository.findById(id).ifPresent(user -> {
-            user.setPassword(passwordEncoder.encode(password));
-            userRepository.saveAndFlush(user);
+        userRepository.findById(id).ifPresent(userEntity -> {
+            userEntity.setPassword(passwordEncoder.encode(password));
+            userRepository.saveAndFlush(userEntity);
         });
     }
 

@@ -1,10 +1,9 @@
-package org.oopscraft.arch4j.web.security;
+package org.oopscraft.arch4j.web.login;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.user.LoginHistory;
 import org.oopscraft.arch4j.core.user.LoginHistoryService;
-import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -49,7 +48,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         LoginHistory loginHistory = LoginHistory.builder()
                 .userId(userId)
                 .loginDateTime(loginDateTime)
-                .loginSuccess(true)
                 .ipAddress(ipAddress)
                 .userAgent(userAgent)
                 .build();

@@ -190,3 +190,39 @@ const _isEmpty = function(value) {
     return !(value && value.trim().length > 0);
 }
 
+/**
+ * home
+ */
+function _home() {
+    document.location.href = '/';
+}
+
+/**
+ * login
+ * @private
+ */
+function _login() {
+    document.location.href = '/login';
+}
+
+/**
+ * logout
+ */
+function _logout() {
+    document.location.href = '/logout';
+}
+
+/**
+ * change language
+ * @param language
+ * @private
+ */
+function _changeLanguage(language) {
+    if(language) {
+        let url = new URL(document.location.href);
+        url.searchParams.delete('_language');
+        url.searchParams.append('_language', language);
+        document.location.href = url.href;
+    }
+}
+

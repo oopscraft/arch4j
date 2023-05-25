@@ -5,13 +5,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component("defaultCryptoKeyProvider")
-@ConditionalOnProperty(prefix = "crypto", name = "key-provider.bean", havingValue="defaultCryptoKeyProvider", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "core.crypto", name = "key-provider.bean", havingValue="defaultCryptoKeyProvider", matchIfMissing = true)
 public class DefaultCryptoKeyProvider implements CryptoKeyProvider {
 
-    @Value("${crypto.key-provider.password}")
+    @Value("${core.crypto.key-provider.password}")
     private String password;
 
-    @Value("${crypto.key-provider.salt}")
+    @Value("${core.crypto.key-provider.salt}")
     private String salt;
 
     @Override

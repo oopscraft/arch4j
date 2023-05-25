@@ -26,7 +26,7 @@ public class SystemFieldListener {
 	@PreRemove
 	public void preRemove(SystemFieldEntity entity) {
 		if(entity.getSystemRequired() != null && entity.getSystemRequired()) {
-			throw new RuntimeException("System data cannot be deleted.");
+			throw new RuntimeException("System data can not be deleted.");
 		}
 	}
 

@@ -51,6 +51,9 @@ dependencies {
         // mariadb
         api 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
 
+        // jjwt
+        api 'io.jsonwebtoken:jjwt:0.9.1'
+
     }
 
 }

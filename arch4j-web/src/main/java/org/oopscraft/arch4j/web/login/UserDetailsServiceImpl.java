@@ -1,17 +1,13 @@
-package org.oopscraft.arch4j.web.security;
+package org.oopscraft.arch4j.web.login;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
-import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.PersistenceContext;
 
 @Service
 @RequiredArgsConstructor

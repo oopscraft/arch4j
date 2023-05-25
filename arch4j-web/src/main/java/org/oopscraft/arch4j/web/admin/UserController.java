@@ -4,14 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.*;
 import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
+import org.oopscraft.arch4j.web.login.AccessTokenEncoder;
+import org.oopscraft.arch4j.web.login.UserDetailsImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("admin/user")
@@ -22,6 +26,10 @@ public class UserController {
     private final UserService userService;
 
     private final RoleService roleService;
+
+    private final AccessTokenEncoder accessTokenEncoder;
+
+    private final LoginHistoryService loginHistoryService;
 
     /**
      * index
@@ -91,6 +99,40 @@ public class UserController {
     @ResponseBody
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
         return roleService.getRoles(roleSearch, pageable);
+    }
+
+    /**
+     * change password
+     * @param payload payload
+     */
+    @PostMapping("change-password")
+    @ResponseBody
+    public void changePassword(@RequestBody Map<String,String> payload) {
+        userService.changePassword(payload.get("id"), payload.get("password"));
+    }
+
+    /**
+     * generate access token
+     * @param id
+     */
+    @GetMapping("generate-access-token")
+    @ResponseBody
+    public String generateAccessToken(@RequestParam("id")String id) {
+        User user = userService.getUser(id).orElseThrow(() -> new DataNotFoundException(id));
+        UserDetailsImpl userDetails = UserDetailsImpl.from(user);
+        return accessTokenEncoder.encode(userDetails);
+    }
+
+    /**
+     * get login history
+     * @param loginHistorySearch search condition
+     * @param pageable pageable
+     * @return list of login history
+     */
+    @GetMapping("get-login-histories")
+    @ResponseBody
+    public Page<LoginHistory> getLoginHistories(LoginHistorySearch loginHistorySearch, Pageable pageable) {
+        return loginHistoryService.getLoginHistories(loginHistorySearch, pageable);
     }
 
 }

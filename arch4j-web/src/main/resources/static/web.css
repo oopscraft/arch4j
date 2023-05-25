@@ -168,6 +168,8 @@ button.locked::after {
 }
 button.tab {
     border-bottom: none;
+    padding: 0.2rem 1rem;
+    font-weight: bold;
 }
 button.tab:hover {
     border-bottom: none;
@@ -628,10 +630,5 @@ hr {
     color: steelblue;
     content: ' # '
 }
-.tag-system:after {
-    font-size: smaller;
-    font-weight: bold;
-    color: steelblue;
-    content: ' # '
-}
+
 

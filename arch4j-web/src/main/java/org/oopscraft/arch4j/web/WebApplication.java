@@ -16,20 +16,14 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
-import org.springframework.beans.factory.annotation.Value;
+import org.oopscraft.arch4j.web.login.LoginConstant;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.actuate.info.InfoContributor;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.boot.info.BuildProperties;
-import org.springframework.boot.info.JavaInfo;
-import org.springframework.boot.info.OsInfo;
 import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -39,7 +33,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -168,8 +164,9 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     @RequiredArgsConstructor
     static class SecurityConfiguration {
 
-        @Value("${spring.security.anonymous.authorities}")
-        private String anonymousAuthorities;
+        private final AuthenticationEntryPoint authenticationEntryPoint;
+
+        private final AccessDeniedHandler accessDeniedHandler;
 
         private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
@@ -178,43 +175,32 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         /**
          * admin security filter chain
          *
-         * @param http
+         * @param http http security
          * @return security filter chain
-         * @throws Exception excpetion
+         * @throws Exception exception
          */
         @Bean
         @Order(1)
         public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
-                if(new AntPathRequestMatcher("/admin/**").matches(request)){
-                    return true;
-                }
-                return false;
+                return new AntPathRequestMatcher("/admin/**").matches(request);
             });
-            // anonymous role
-            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities.split(","));
-            }
-            // has ADMIN role
             http.authorizeRequests().anyRequest().hasAuthority("ADMIN");
-            // csrf
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            // cors
-            http.cors().disable();
-            // login
+            http.exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler);
             http.formLogin()
-                    .loginPage("/security/login")
-                    .loginProcessingUrl("/security/login-process")
+                    .loginPage(LoginConstant.LOGIN_URL)
+                    .loginProcessingUrl(LoginConstant.LOGIN_PROCESS_URL)
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
-            // logout
             http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/security/logout"))
-                    .logoutSuccessUrl("/")
+                    .logoutRequestMatcher(new AntPathRequestMatcher(LoginConstant.LOGOUT_URL))
+                    .logoutSuccessUrl(LoginConstant.LOGOUT_SUCCESS_URL)
                     .invalidateHttpSession(true)
                     .permitAll();
-            // returns
             return http.build();
         }
 
@@ -229,20 +215,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(2)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
-                if(new AntPathRequestMatcher("/api/**").matches(request)){
-                    return true;
-                }
-                return false;
+                return new AntPathRequestMatcher("/api/**").matches(request);
             });
-            // anonymous role
-            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities.split(","));
-            }
-            // has ADMIN role
             http.authorizeRequests().anyRequest().hasAuthority("API");
-            // cors
             http.headers().frameOptions().sameOrigin();
-            // returns
             return http.build();
         }
 
@@ -257,22 +233,11 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(3)
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
-                if(new AntPathRequestMatcher("/actuator/**").matches(request)){
-                    return true;
-                }
-                return false;
+                return new AntPathRequestMatcher("/actuator/**").matches(request);
             });
-            // anonymous role
-            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities.split(","));
-            }
-            // has ADMIN role
             http.authorizeRequests().anyRequest().hasAuthority("ACTUATOR");
-            // csrf
             http.csrf().disable();
-            // cors
             http.headers().frameOptions().sameOrigin();
-            // returns
             return http.build();
         }
 
@@ -287,22 +252,11 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(4)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
-                if(new AntPathRequestMatcher("/h2-console/**").matches(request)){
-                    return true;
-                }
-                return false;
+                return new AntPathRequestMatcher("/h2-console/**").matches(request);
             });
-            // anonymous role
-            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities.split(","));
-            }
-            // has ADMIN role
             http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
-            // csrf
             http.csrf().disable();
-            // cors
             http.headers().frameOptions().sameOrigin();
-            // returns
             return http.build();
         }
 
@@ -319,28 +273,22 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.requestMatcher(request -> {
                 return true;
             });
-            // anonymous role
-            if(anonymousAuthorities != null && !anonymousAuthorities.isBlank()) {
-                http.anonymous().authorities(anonymousAuthorities.split(","));
-            }
-            // admin
             http.authorizeRequests().anyRequest().permitAll();
-            // csrf
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            // login
+            http.exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler);
             http.formLogin()
-                    .loginPage("/security/login")
-                    .loginProcessingUrl("/security/login-process")
+                    .loginPage(LoginConstant.LOGIN_URL)
+                    .loginProcessingUrl(LoginConstant.LOGIN_PROCESS_URL)
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
-            // logout
             http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/security/logout"))
-                    .logoutSuccessUrl("/")
+                    .logoutRequestMatcher(new AntPathRequestMatcher(LoginConstant.LOGOUT_URL))
+                    .logoutSuccessUrl(LoginConstant.LOGOUT_SUCCESS_URL)
                     .invalidateHttpSession(true)
                     .permitAll();
-            // returns
             return http.build();
         }
     }

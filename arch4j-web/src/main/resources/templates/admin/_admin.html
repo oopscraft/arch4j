@@ -144,27 +144,6 @@
         }
     </style>
     <script>
-        /**
-         * home
-         */
-        function _home() {
-            document.location.href = '[[@{/admin}]]';
-        }
-
-        /**
-         * login
-         * @private
-         */
-        function _login() {
-            document.location.href = '[[@{/security/login}]]';
-        }
-
-        /**
-         * logout
-         */
-        function _logout() {
-            document.location.href = '[[@{/security/logout}]]';
-        }
 
         /**
          * open menu
@@ -174,19 +153,6 @@
             document.querySelector('nav').classList.toggle('open');
         }
 
-        /**
-         * change language
-         * @param language
-         * @private
-         */
-        function _changeLanguage(language) {
-            if(language) {
-                let url = new URL(document.location.href);
-                url.searchParams.delete('_language');
-                url.searchParams.append('_language', language);
-                document.location.href = url.href;
-            }
-        }
     </script>
 </head>
 <body>

@@ -41,6 +41,10 @@ bootJar {
     mainClass = 'org.oopscraft.arch4j.batch.BatchApplication'
 }
 
+springBoot {
+    buildInfo()
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {

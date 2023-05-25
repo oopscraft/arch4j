@@ -56,6 +56,10 @@ bootJar {
     mainClass = 'org.oopscraft.arch4j.web.WebApplication'
 }
 
+springBoot {
+    buildInfo()
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -90,3 +94,5 @@ jib {
         jvmFlags = ["-Dfile.encoding=UTF-8"]
     }
 }
+
+

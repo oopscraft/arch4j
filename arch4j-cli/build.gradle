@@ -34,3 +34,7 @@ bootJar {
     archiveClassifier = 'boot'
     mainClass = 'org.oopscraft.arch4j.cli.CliApplication'
 }
+
+springBoot {
+    buildInfo()
+}

@@ -15,6 +15,7 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+  forward-headers-strategy: framework
 
 # management
 management:

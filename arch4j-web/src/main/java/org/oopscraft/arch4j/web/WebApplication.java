@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
-import org.oopscraft.arch4j.web.login.LoginConstant;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -191,14 +190,14 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                     .authenticationEntryPoint(authenticationEntryPoint)
                     .accessDeniedHandler(accessDeniedHandler);
             http.formLogin()
-                    .loginPage(LoginConstant.LOGIN_URL)
-                    .loginProcessingUrl(LoginConstant.LOGIN_PROCESS_URL)
+                    .loginPage("/admin/login")
+                    .loginProcessingUrl("/admin/login/process")
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
             http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher(LoginConstant.LOGOUT_URL))
-                    .logoutSuccessUrl(LoginConstant.LOGOUT_SUCCESS_URL)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
+                    .logoutSuccessUrl("/admin")
                     .invalidateHttpSession(true)
                     .permitAll();
             return http.build();
@@ -279,14 +278,14 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                     .authenticationEntryPoint(authenticationEntryPoint)
                     .accessDeniedHandler(accessDeniedHandler);
             http.formLogin()
-                    .loginPage(LoginConstant.LOGIN_URL)
-                    .loginProcessingUrl(LoginConstant.LOGIN_PROCESS_URL)
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login/process")
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
             http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher(LoginConstant.LOGOUT_URL))
-                    .logoutSuccessUrl(LoginConstant.LOGOUT_SUCCESS_URL)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
                     .permitAll();
             return http.build();

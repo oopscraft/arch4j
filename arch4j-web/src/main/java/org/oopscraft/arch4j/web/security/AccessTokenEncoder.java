@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.security;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.ZonedDateTime;
 import java.util.Date;
 

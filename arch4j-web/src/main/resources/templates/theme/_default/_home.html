@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css}">
-    <script th:src="@{/static/nprogress/nprogress.js}"></script>
-    <script th:src="@{/static/chartjs/chart.js}"></script>
-    <script th:src="@{'/static/duice/duice.js?version=' + ${_scriptVersion}}"></script>
-    <script th:src="@{'/static/web.js?version=' + ${_scriptVersion}}"></script>
+<th:block th:fragment="_header">
     <link rel="stylesheet" type="text/css" th:href="@{'/static/web.css?version=' + ${scriptVersion}}"/>
     <style>
         html {
@@ -114,7 +103,7 @@
             transition-duration: 0.3s;
         }
         nav #_nav-menu li:hover {
-             padding-left: 1rem;
+            padding-left: 1rem;
         }
         nav #_nav-menu li.locked {
             pointer-events: none;
@@ -149,7 +138,7 @@
          * home
          */
         function _home() {
-            document.location.href = '/admin';
+            document.location.href = '/';
         }
 
         /**
@@ -157,14 +146,14 @@
          * @private
          */
         function _login() {
-            document.location.href = '/admin/login';
+            document.location.href = '/login';
         }
 
         /**
          * logout
          */
         function _logout() {
-            document.location.href = '/admin/logout';
+            document.location.href = '/logout';
         }
 
         /**
@@ -176,9 +165,7 @@
         }
 
     </script>
-</head>
-<body>
-
+    <body>
     <!-- header -->
     <header>
         <div id="_header-logo">
@@ -242,10 +229,6 @@
                 <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.menu}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
-                <img th:src="@{/static/image/icon-board.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.board}"></span>
-            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/variable}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.variable}"></span>
@@ -254,17 +237,19 @@
                 <img th:src="@{/static/image/icon-code.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.code}"></span>
             </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
+                <img th:src="@{/static/image/icon-board.svg}" class="icon"/>
+                <span data-th-text="#{web.nav.board}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/api}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''API'')')}?'locked'">
                 <img th:src="@{/static/image/icon-api.svg}" class="icon"/>
                 <span data-th-text="#{web.nav.api}"></span>
             </li>
         </ul>
     </nav>
+</th:block>
 
-    <!-- main -->
-    <main layout:fragment="_main">
-    </main>
-
+<th:block th:fragment="_footer">
     <!-- aside -->
     <aside>
     </aside>
@@ -273,6 +258,5 @@
     <footer>
         <img th:src="@{/static/image/copyright.png}"/>
     </footer>
-
 </body>
-</html>
+</th:block>

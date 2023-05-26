@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login.exception;
+package org.oopscraft.arch4j.web.security.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

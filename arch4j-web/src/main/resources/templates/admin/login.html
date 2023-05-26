@@ -63,7 +63,7 @@
             }
 
             // request login
-            let url = new URL('[[@{/login/process}]]', document.location.origin);
+            let url = new URL('[[@{/admin/login/process}]]', document.location.origin);
             let payload = new URLSearchParams();
             payload.append('username', login.username);
             payload.append('password', login.password);
@@ -72,7 +72,7 @@
                 body: payload
             }, true).then(async function (response) {
                 if (response.ok) {
-                    location.href = '[[@{/}]]';
+                    location.href = '[[@{/admin}]]';
                 } else {
                     let json = await response.json();
                     login.message = json.message;

@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,12 +53,22 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                 .build();
         loginHistoryService.saveLoginHistory(loginHistory);
 
-        // redirect
-        String redirectUrl = "/";
+        // defines redirect url
+        String requestUri = request.getRequestURI();
+        String redirectUrl;
+        if(requestUri.startsWith("/admin")){
+            redirectUrl = "/admin";
+        }else{
+            redirectUrl = "/";
+        }
+
+        // saved request
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             redirectUrl = savedRequest.getRedirectUrl();
         }
+
+        // send redirect
         redirectStrategy.sendRedirect(request, response, redirectUrl);
     }
 

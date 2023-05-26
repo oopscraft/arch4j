@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/admin/login")
 @RequiredArgsConstructor
 public class LoginController {
 
@@ -25,7 +25,7 @@ public class LoginController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("login/login.html");
+        return new ModelAndView("admin/login.html");
     }
 
 }

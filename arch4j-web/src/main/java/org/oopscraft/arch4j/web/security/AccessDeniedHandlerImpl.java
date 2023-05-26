@@ -1,7 +1,6 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

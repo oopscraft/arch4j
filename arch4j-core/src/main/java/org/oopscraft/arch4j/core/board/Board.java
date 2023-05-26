@@ -22,6 +22,8 @@ public class Board {
 
     private String icon;
 
+    private String skin;
+
     private Integer pageSize;
 
     private Boolean replyEnabled;
@@ -48,6 +50,7 @@ public class Board {
                 .name(boardEntity.getName())
                 .note(boardEntity.getNote())
                 .icon(boardEntity.getIcon())
+                .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
                 .replyEnabled(boardEntity.isReplyEnabled())
                 .fileEnabled(boardEntity.isFileEnabled())

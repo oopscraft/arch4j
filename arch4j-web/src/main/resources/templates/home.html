@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_home.html">
+<main layout:fragment="_main">
+    <th:block th:replace="|theme/${_theme}/home.html|"/>
+</main>

@@ -191,28 +191,6 @@ const _isEmpty = function(value) {
 }
 
 /**
- * home
- */
-function _home() {
-    document.location.href = '/';
-}
-
-/**
- * login
- * @private
- */
-function _login() {
-    document.location.href = '/login';
-}
-
-/**
- * logout
- */
-function _logout() {
-    document.location.href = '/logout';
-}
-
-/**
  * change language
  * @param language
  * @private

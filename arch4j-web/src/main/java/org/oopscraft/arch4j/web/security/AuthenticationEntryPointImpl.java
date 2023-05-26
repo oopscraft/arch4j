@@ -1,7 +1,6 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -31,8 +30,15 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             String message = messageSource.getMessage("admin.security.AuthenticationException", null, localeResolver.resolveLocale(request));
             response.sendError(HttpServletResponse.SC_FORBIDDEN, HtmlUtils.htmlEscape(message));
         }else{
+            String requestUri = request.getRequestURI();
+            String loginUrl;
+            if(requestUri.startsWith("/admin")) {
+                loginUrl = "/admin/login";
+            }else{
+                loginUrl = "/login";
+            }
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", LoginConstant.LOGIN_URL);
+			response.setHeader("Location", loginUrl);
 			response.getWriter().flush();
         }
     }

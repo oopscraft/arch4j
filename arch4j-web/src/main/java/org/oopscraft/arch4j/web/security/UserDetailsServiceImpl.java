@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.user.User;

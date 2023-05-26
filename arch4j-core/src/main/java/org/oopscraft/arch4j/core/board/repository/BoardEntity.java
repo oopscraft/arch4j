@@ -32,6 +32,9 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "icon")
     private String icon;
 
+    @Column(name = "skin")
+    private String skin;
+
     @Column(name = "page_size")
     private Integer pageSize;
 

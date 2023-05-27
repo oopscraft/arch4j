@@ -49,6 +49,7 @@ public class BoardRestController {
      * @return board info
      */
     @GetMapping("{boardId}")
+    @Operation(summary = "get board info", description = "returns board information")
     public ResponseEntity<BoardResponse> getBoard(@PathVariable("boardId") String boardId) {
         BoardResponse boardResponse = boardService.getBoard(boardId)
                 .map(BoardResponse::from)
@@ -63,6 +64,7 @@ public class BoardRestController {
      * @return article list
      */
     @GetMapping("{boardId}/article")
+    @Operation(summary = "get list of articles")
     public ResponseEntity<List<ArticleResponse>> getArticles(@PathVariable("boardId") String boardId, Pageable pageable) {
         ArticleSearch articleSearch = ArticleSearch.builder()
                 .boardId(boardId)
@@ -82,6 +84,7 @@ public class BoardRestController {
      * @param articleRequest article info
      */
     @PostMapping("{boardId}/article")
+    @Operation(summary = "save article info")
     public ResponseEntity<Void> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
         Article article = Article.builder()
                 .title(articleRequest.getTitle())

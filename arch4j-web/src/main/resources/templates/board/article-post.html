@@ -3,5 +3,54 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_home.html">
 <main layout:fragment="_main">
+    <script>
+        const article = new duice.ObjectProxy({});
+
+        /**
+         * get article
+         * @param id
+         */
+        function getArticle(id) {
+            let url = new URL('[[@{/api/{_apiVersion}/article/(_apiVersion=${_apiVersion})}]]' + id, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.clear(article);
+                    duice.ObjectProxy.assign(article, data);
+                });
+        }
+
+        /**
+         * save article
+         */
+        function saveArticle() {
+            _confirm('[[#{web.message.saveItemConfirm(#{core.article})}]]').then(result => {
+                if(result) {
+                    let url = new URL('[[@{/api/{_apiVersion}/board/{id}/article(_apiVersion=${_apiVersion},id=${board.id})}]]', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(article)
+                    }).then(response => {
+                        if(response.ok) {
+                            _alert('[[#{web.message.saveItemComplete(#{core.article})}]]').then(()=>{
+                                //history.back();
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        // onload
+        document.addEventListener('DOMContentLoaded',() => {
+            let id = '[[${param.id}]]';
+            if(id) {
+                getArticle(id);
+            }
+        });
+    </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-post.html|"/>
 </main>

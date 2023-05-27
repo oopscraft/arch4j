@@ -32,6 +32,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -204,24 +205,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         }
 
         /**
-         * API security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
-        @Bean
-        @Order(2)
-        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/api/**").matches(request);
-            });
-            http.authorizeRequests().anyRequest().hasAuthority("API");
-            http.headers().frameOptions().sameOrigin();
-            return http.build();
-        }
-
-        /**
          * Actuator security filter chain
          *
          * @param http http
@@ -229,7 +212,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
          * @throws Exception exception
          */
         @Bean
-        @Order(3)
+        @Order(2)
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 return new AntPathRequestMatcher("/actuator/**").matches(request);
@@ -248,12 +231,32 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
          * @throws Exception
          */
         @Bean
-        @Order(4)
+        @Order(3)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 return new AntPathRequestMatcher("/h2-console/**").matches(request);
             });
             http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
+            http.csrf().disable();
+            http.headers().frameOptions().sameOrigin();
+            return http.build();
+        }
+
+        /**
+         * API security filter chain
+         *
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
+         */
+        @Bean
+        @Order(98)
+        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+            http.requestMatcher(request -> {
+                return new AntPathRequestMatcher("/api/**").matches(request);
+            });
+            http.authorizeRequests().anyRequest().permitAll();
+            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             return http.build();

@@ -20,7 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping
-    public ModelAndView listArticle(@PathVariable("boardId")String boardId) {
+    public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         board.setSkin("_default");
 

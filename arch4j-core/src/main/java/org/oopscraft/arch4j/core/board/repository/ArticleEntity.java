@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class ArticleEntity extends SystemFieldEntity {
     @Id
     @Column(name = "id", length = 64)
     private String id;
+
+    @Column(name = "date_time")
+    private LocalDateTime dateTime;
 
     @Column(name = "title")
     private String title;

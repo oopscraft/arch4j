@@ -3,8 +3,6 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.code.Code;
-import org.oopscraft.arch4j.web.api.v1.code.CodeResponse;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
@@ -12,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,27 +45,27 @@ public class BoardRestController {
 
     /**
      * return board info
-     * @param id board id
+     * @param boardId board id
      * @return board info
      */
-    @GetMapping("{id}")
-    public ResponseEntity<BoardResponse> getBoard(@PathVariable("id") String id) {
-        BoardResponse boardResponse = boardService.getBoard(id)
+    @GetMapping("{boardId}")
+    public ResponseEntity<BoardResponse> getBoard(@PathVariable("boardId") String boardId) {
+        BoardResponse boardResponse = boardService.getBoard(boardId)
                 .map(BoardResponse::from)
-                .orElseThrow(() -> new DataNotFoundException(id));
+                .orElseThrow(() -> new DataNotFoundException(boardId));
         return ResponseEntity.ok(boardResponse);
     }
 
     /**
      * returns board article list
-     * @param id board id
+     * @param boardId board id
      * @param pageable pagination info
      * @return article list
      */
-    @GetMapping("{id}/article")
-    public ResponseEntity<List<ArticleResponse>> getArticles(@PathVariable("id") String id, Pageable pageable) {
+    @GetMapping("{boardId}/article")
+    public ResponseEntity<List<ArticleResponse>> getArticles(@PathVariable("boardId") String boardId, Pageable pageable) {
         ArticleSearch articleSearch = ArticleSearch.builder()
-                .boardId(id)
+                .boardId(boardId)
                 .build();
         Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
         List<ArticleResponse> articleResponses = articlePage.getContent().stream()
@@ -79,6 +74,22 @@ public class BoardRestController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
                 .body(articleResponses);
+    }
+
+    /**
+     * save article
+     * @param boardId board id
+     * @param articleRequest article info
+     */
+    @PostMapping("{boardId}/article")
+    public ResponseEntity<Void> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
+        Article article = Article.builder()
+                .title(articleRequest.getTitle())
+                .content(articleRequest.getContent())
+                .boardId(boardId)
+                .build();
+        articleService.saveArticle(article);
+        return ResponseEntity.ok().build();
     }
 
 }

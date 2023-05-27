@@ -4,6 +4,7 @@ import lombok.*;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.user.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +16,15 @@ public class Article {
 
     private String id;
 
+    private LocalDateTime dateTime;
+
     private String title;
 
     private String content;
 
     private String boardId;
 
-    private Board board;
-
     private String userId;
-
-    private User user;
 
     @Builder.Default
     private List<ArticleReply> replies = new ArrayList<>();
@@ -38,6 +37,7 @@ public class Article {
     public static Article from(ArticleEntity articleEntity) {
         return Article.builder()
                 .id(articleEntity.getId())
+                .dateTime(articleEntity.getDateTime())
                 .title(articleEntity.getTitle())
                 .content(articleEntity.getContent())
                 .boardId(articleEntity.getBoardId())

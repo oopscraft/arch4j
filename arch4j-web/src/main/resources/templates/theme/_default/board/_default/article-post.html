@@ -1,22 +1,24 @@
 <h1 data-th-text="${board.name}">Board</h1>
 
 
-<div>
-    <div class="container border-top-1 border-bottom-1">
-        <div data-th-text="#{web.text.no}" class="col-1"></div>
-        <div data-th-text="#{core.article.title}" class="col-8"></div>
-        <div data-th-text="#{core.article.userName}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
+<div class="container gap-1px gap-column-1rem">
+    <div class="col-12">
+        <span data-th-text="#{core.article.title}" class="font-weight-bold tag-required"></span>
     </div>
-    <div class="container">
-        <div data-th-text="#{web.text.no}" class="col-1"></div>
-        <div data-th-text="#{core.article.title}" class="col-8"></div>
-        <div data-th-text="#{core.article.userName}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
+    <div class="col-12">
+        <input type="text" data-duice-object="article" data-duice-property="title" class="width-100 font-weight-bold"/>
+    </div>
+    <div class="col-12">
+        <span data-th-text="#{core.article.content}" class="font-weight-bold"></span>
+    </div>
+    <div class="col-12">
+        <textarea data-duice-object="article" data-duice-property="content" rows="4" class="width-100 height-100"></textarea>
+    </div>
+    <div class="col-12 justify-right">
+        <button onclick="saveArticle();">
+            post
+        </button>
+
     </div>
 </div>
-
-
 

@@ -2,16 +2,16 @@
 
 
 <div>
-    <div class="container border-top-1 border-bottom-1">
-        <div data-th-text="#{web.text.no}" class="col-1"></div>
-        <div data-th-text="#{core.article.title}" class="col-8"></div>
-        <div data-th-text="#{core.article.userName}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
+    <div class="container border-top-1 border-bottom-1 font-weight-bold">
+        <div data-th-text="#{web.text.no}" class="col-1 padding-1em"></div>
+        <div data-th-text="#{core.article.title}" class="col-8 padding-1em"></div>
+        <div data-th-text="#{core.article.userName}" class="col-1 padding-1em"></div>
+        <div data-th-text="#{core.article.dateTime}" class="col-1 padding-1em"></div>
+        <div data-th-text="#{core.article.dateTime}" class="col-1 padding-1em"></div>
     </div>
-    <div class="container">
-        <div data-th-text="#{web.text.no}" class="col-1"></div>
-        <div data-th-text="#{core.article.title}" class="col-8"></div>
+    <div data-duice-array="articles" data-duice-loop="article,status" class="container">
+        <div data-duice-object="status" data-duice-property="count" data-th-text="#{web.text.no}" class="col-1"></div>
+        <div data-duice-object="article" data-duice-property="title" data-th-text="#{core.article.title}" class="col-8"></div>
         <div data-th-text="#{core.article.userName}" class="col-1"></div>
         <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
         <div data-th-text="#{core.article.dateTime}" class="col-1"></div>

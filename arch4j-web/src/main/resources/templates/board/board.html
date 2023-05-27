@@ -2,6 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_home.html">
+
 <main layout:fragment="_main">
+    <script>
+        const articleSearch = new duice.ObjectProxy({
+            key: null,
+            value: null,
+            _page: 0,
+            _size: [[${board.pageSize}]],
+            _count: 0
+        });
+        const articles = new duice.ArrayProxy([]);
+
+        function getArticles(page) {
+            if(page) {
+                articleSearch._page = page;
+            }
+            let url = new URL('[[@{/api/{_apiVersion}/board/{boardId}/article(_apiVersion=${_apiVersion},boardId=${board.id})}]]', document.location.origin);
+            if(articleSearch.key && articleSearch.value) {
+                url.searchParams.append(key, value);
+            }
+            url.searchParams.append('_page', articleSearch._page);
+            url.searchParams.append('_size', articleSearch._size);
+            _fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                duice.ArrayProxy.clear(articles);
+                duice.ArrayProxy.assign(articles, data);
+            });
+        }
+
+        // on load
+        document.addEventListener('DOMContentLoaded', event => {
+            getArticles();
+        });
+    </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/board.html|"/>
 </main>

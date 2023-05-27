@@ -19,7 +19,7 @@ public class ArticlePostController {
     private final BoardService boardService;
 
     @GetMapping
-    public ModelAndView postArticle(@PathVariable("boardId")String boardId) {
+    public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         board.setSkin("_default");
 
@@ -27,6 +27,5 @@ public class ArticlePostController {
         modelAndView.addObject("board", board);
         return modelAndView;
     }
-
 
 }

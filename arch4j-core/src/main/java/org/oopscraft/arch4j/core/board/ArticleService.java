@@ -3,11 +3,13 @@ package org.oopscraft.arch4j.core.board;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
+import org.oopscraft.arch4j.core.support.IdGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,10 +25,14 @@ public class ArticleService {
      * @param article article info
      */
     public void saveArticle(Article article) {
-        ArticleEntity articleEntity = articleRepository.findById(article.getId()).orElse(null);
+        ArticleEntity articleEntity = null;
+        if(article.getId() != null) {
+            articleEntity = articleRepository.findById(article.getId()).orElse(null);
+        }
         if(articleEntity == null) {
             articleEntity = ArticleEntity.builder()
-                    .id(article.getId())
+                    .id(IdGenerator.uuid())
+                    .dateTime(LocalDateTime.now())
                     .build();
         }
         articleEntity.setTitle(article.getTitle());

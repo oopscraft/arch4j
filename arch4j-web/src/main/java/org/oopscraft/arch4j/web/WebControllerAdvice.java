@@ -24,6 +24,11 @@ public class WebControllerAdvice {
         return String.valueOf(SCRIPT_VERSION);
     }
 
+    @ModelAttribute("_apiVersion")
+    public String apiVersion() {
+        return "v1";
+    }
+
     @ModelAttribute("_theme")
     public String theme() {
         return "_default";

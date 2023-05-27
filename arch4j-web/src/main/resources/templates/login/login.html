@@ -72,7 +72,7 @@
                 body: payload
             }, true).then(async function (response) {
                 if (response.ok) {
-                    location.href = '[[@{/}]]';
+                    document.location.href = '[[@{/}]]';
                 } else {
                     let json = await response.json();
                     login.message = json.message;

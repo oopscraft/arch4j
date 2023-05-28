@@ -10,7 +10,7 @@ import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "variable")
+@Table(name = "core_variable")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder

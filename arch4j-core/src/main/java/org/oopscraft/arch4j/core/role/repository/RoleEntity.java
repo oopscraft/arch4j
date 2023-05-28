@@ -12,7 +12,7 @@ import java.util.List;
  * RoleEntity(group of authorities)
  */
 @Entity
-@Table(name = "role")
+@Table(name = "core_role")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder(toBuilder = true)
@@ -33,7 +33,7 @@ public class RoleEntity extends SystemFieldEntity {
     
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-		name = "role_authority",
+		name = "core_role_authority",
 		joinColumns = @JoinColumn(name = "role_id"), 
 		foreignKey = @ForeignKey(name = "none"),
 		inverseJoinColumns = @JoinColumn(name = "authority_id"),

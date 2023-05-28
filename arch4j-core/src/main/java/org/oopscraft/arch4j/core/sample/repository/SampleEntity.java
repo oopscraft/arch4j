@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sample")
+@Table(name = "core_sample")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "core_menu")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
@@ -50,7 +50,7 @@ public class MenuEntity extends SystemFieldEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "menu_role",
+            name = "core_menu_role",
             joinColumns = @JoinColumn(name = "menu_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),

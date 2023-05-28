@@ -8,7 +8,7 @@ import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "core_comment")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

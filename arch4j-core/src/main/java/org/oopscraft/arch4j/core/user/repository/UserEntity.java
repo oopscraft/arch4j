@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "core_user")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder(toBuilder = true)
@@ -68,7 +68,7 @@ public class UserEntity extends SystemFieldEntity {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
+            name = "core_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),

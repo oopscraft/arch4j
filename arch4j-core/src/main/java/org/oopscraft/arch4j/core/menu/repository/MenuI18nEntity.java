@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "menu_i18n")
+@Table(name = "core_menu_i18n")
 @IdClass(MenuI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)

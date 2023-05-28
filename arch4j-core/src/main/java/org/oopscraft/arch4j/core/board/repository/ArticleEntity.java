@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "article")
+@Table(name = "core_article")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

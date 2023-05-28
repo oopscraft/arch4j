@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "message_i18n")
+@Table(name = "core_message_i18n")
 @IdClass(MessageI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)

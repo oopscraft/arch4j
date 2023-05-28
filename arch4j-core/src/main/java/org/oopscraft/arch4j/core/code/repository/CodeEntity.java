@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "code")
+@Table(name = "core_code")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder

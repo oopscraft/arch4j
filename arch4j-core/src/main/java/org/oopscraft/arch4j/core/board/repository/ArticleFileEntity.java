@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "article_file")
+@Table(name = "core_article_file")
 @IdClass(ArticleFileEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)

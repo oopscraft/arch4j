@@ -10,7 +10,7 @@ import javax.persistence.*;
  * AuthorityEntity
  */
 @Entity
-@Table(name = "authority")
+@Table(name = "core_authority")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder(toBuilder = true)

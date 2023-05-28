@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "board")
+@Table(name = "core_board")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -49,7 +49,7 @@ public class BoardEntity extends SystemFieldEntity {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "board_role_access",
+            name = "core_board_role_access",
             joinColumns = @JoinColumn(name = "board_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
@@ -63,7 +63,7 @@ public class BoardEntity extends SystemFieldEntity {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "board_role_read",
+            name = "core_board_role_read",
             joinColumns = @JoinColumn(name = "board_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
@@ -77,7 +77,7 @@ public class BoardEntity extends SystemFieldEntity {
      */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "board_role_write",
+            name = "core_board_role_write",
             joinColumns = @JoinColumn(name = "board_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),

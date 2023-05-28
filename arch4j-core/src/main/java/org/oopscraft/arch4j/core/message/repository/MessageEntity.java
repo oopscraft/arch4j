@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "apps_message")
+@Table(name = "core_message")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)

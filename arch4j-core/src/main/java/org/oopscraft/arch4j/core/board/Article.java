@@ -2,11 +2,13 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.user.User;
+import org.oopscraft.arch4j.core.comment.Comment;
+import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -26,8 +28,10 @@ public class Article {
 
     private String userId;
 
+    private String userName;
+
     @Builder.Default
-    private List<ArticleReply> replies = new ArrayList<>();
+    private List<Comment> replies = new ArrayList<>();
 
     /**
      * factory method
@@ -42,6 +46,9 @@ public class Article {
                 .content(articleEntity.getContent())
                 .boardId(articleEntity.getBoardId())
                 .userId(articleEntity.getUserId())
+                .userName(Optional.ofNullable(articleEntity.getUser())
+                        .map(UserEntity::getName)
+                        .orElse(null))
                 .build();
     }
 

@@ -3,5 +3,41 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_home.html">
 <main layout:fragment="_main">
+    <script>
+        const article = new duice.ObjectProxy({});
+
+        /**
+         * get article
+         * @param id
+         */
+        function getArticle(id) {
+            let url = new URL('[[@{/api/{_apiVersion}/board/{boardId}/article/(_apiVersion=${_apiVersion},boardId=${board.id})}]]' + id, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.clear(article);
+                    duice.ObjectProxy.assign(article, data);
+                });
+        }
+
+        /**
+         * edit article
+         */
+        function editArticle() {
+            document.location.href = '[[@{/board/{boardId}/article-post?id={id}(boardId=${board.id},id=${param.id})}]]';
+        }
+
+        /**
+         * get articles
+         */
+        function getArticles() {
+            document.location.href = '[[@{/board/{boardId}(boardId=${board.id})}]]';
+        }
+
+        // onload
+        document.addEventListener('DOMContentLoaded', event => {
+            getArticle('[[${param.id}]]');
+        });
+    </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-read.html|"/>
 </main>

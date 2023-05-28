@@ -1,6 +1,15 @@
-<h1 data-th-text="${board.name}">Board</h1>
-
-
+<!-- title -->
+<div class="container">
+    <div class="col-8">
+        <h1 data-th-text="${board.name}">Board</h1>
+    </div>
+    <div class="col-4 justify-right">
+        <button onclick="postArticle();">
+            <span>Post</span>
+        </button>
+    </div>
+</div>
+<!-- article list -->
 <div>
     <div class="container border-top-1 border-bottom-1 font-weight-bold">
         <div data-th-text="#{web.text.no}" class="col-1 padding-1em"></div>
@@ -9,12 +18,24 @@
         <div data-th-text="#{core.article.dateTime}" class="col-1 padding-1em"></div>
         <div data-th-text="#{core.article.dateTime}" class="col-1 padding-1em"></div>
     </div>
-    <div data-duice-array="articles" data-duice-loop="article,status" class="container">
-        <div data-duice-object="status" data-duice-property="count" data-th-text="#{web.text.no}" class="col-1"></div>
-        <div data-duice-object="article" data-duice-property="title" data-th-text="#{core.article.title}" class="col-8"></div>
-        <div data-th-text="#{core.article.userName}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
-        <div data-th-text="#{core.article.dateTime}" class="col-1"></div>
+    <div data-duice-array="articles" data-duice-loop="article,status" class="container border-bottom-1">
+        <div class="col-1 padding-1em">
+            <span data-duice-object="status" data-duice-property="count"></span>
+        </div>
+        <div class="col-8 padding-1em">
+            <span data-duice-object="article" data-duice-property="title"
+                  onclick="readArticle(this.dataset.id);" data-duice-script="this.dataset.id=article.id;"
+                  class="link font-weight-bold"></span>
+        </div>
+        <div class="col-1 padding-1em">
+            <span></span>
+        </div>
+        <div class="col-1 padding-1em">
+
+        </div>
+        <div class="col-1 padding-1em">
+
+        </div>
     </div>
 </div>
 

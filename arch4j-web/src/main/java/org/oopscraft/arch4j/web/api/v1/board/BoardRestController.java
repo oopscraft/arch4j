@@ -22,7 +22,6 @@ public class BoardRestController {
 
     private final BoardService boardService;
 
-    private final ArticleService articleService;
 
     /**
      * returns list of board
@@ -57,42 +56,6 @@ public class BoardRestController {
         return ResponseEntity.ok(boardResponse);
     }
 
-    /**
-     * returns board article list
-     * @param boardId board id
-     * @param pageable pagination info
-     * @return article list
-     */
-    @GetMapping("{boardId}/article")
-    @Operation(summary = "get list of articles")
-    public ResponseEntity<List<ArticleResponse>> getArticles(@PathVariable("boardId") String boardId, Pageable pageable) {
-        ArticleSearch articleSearch = ArticleSearch.builder()
-                .boardId(boardId)
-                .build();
-        Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
-        List<ArticleResponse> articleResponses = articlePage.getContent().stream()
-                .map(ArticleResponse::from)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
-                .body(articleResponses);
-    }
 
-    /**
-     * save article
-     * @param boardId board id
-     * @param articleRequest article info
-     */
-    @PostMapping("{boardId}/article")
-    @Operation(summary = "save article info")
-    public ResponseEntity<Void> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
-        Article article = Article.builder()
-                .title(articleRequest.getTitle())
-                .content(articleRequest.getContent())
-                .boardId(boardId)
-                .build();
-        articleService.saveArticle(article);
-        return ResponseEntity.ok().build();
-    }
 
 }

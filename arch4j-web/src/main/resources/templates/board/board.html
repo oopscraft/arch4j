@@ -14,6 +14,10 @@
         });
         const articles = new duice.ArrayProxy([]);
 
+        /**
+         * get articles
+         * @param page
+         */
         function getArticles(page) {
             if(page) {
                 articleSearch._page = page;
@@ -30,6 +34,21 @@
                 duice.ArrayProxy.clear(articles);
                 duice.ArrayProxy.assign(articles, data);
             });
+        }
+
+        /**
+         * read article
+         * @param id
+         */
+        function readArticle(id) {
+            document.location.href = '[[@{/board/{boardId}/article-read(boardId=${board.id})}]]?id=' + id;
+        }
+
+        /**
+         * post article
+         */
+        function postArticle() {
+            document.location.href = '[[@{/board/{boardId}/article-post(boardId=${board.id})}]]';
         }
 
         // on load

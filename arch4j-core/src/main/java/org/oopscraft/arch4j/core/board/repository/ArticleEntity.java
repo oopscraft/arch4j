@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.board.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class ArticleEntity extends SystemFieldEntity {
     private String title;
 
     @Column(name = "content")
+    @Lob
     private String content;
 
     @Column(name = "boardId")
@@ -37,6 +39,10 @@ public class ArticleEntity extends SystemFieldEntity {
     @Column(name = "userId")
     private String userId;
 
+    @ManyToOne(targetEntity = UserEntity.class)
+    @JoinColumn(name = ArticleEntity_.USER_ID, insertable = false, updatable = false)
+    private UserEntity user;
+
     @OneToMany(
             mappedBy = ArticleFileEntity_.ARTICLE_ID,
             cascade = CascadeType.ALL,
@@ -44,13 +50,5 @@ public class ArticleEntity extends SystemFieldEntity {
     )
     @Builder.Default
     private List<ArticleFileEntity> files = new ArrayList<>();
-
-    @OneToMany(
-            mappedBy = ArticleReplyEntity_.ARTICLE_ID,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @Builder.Default
-    private List<ArticleReplyEntity> replies = new ArrayList<>();
 
 }

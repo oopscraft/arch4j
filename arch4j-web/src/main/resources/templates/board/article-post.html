@@ -11,7 +11,7 @@
          * @param id
          */
         function getArticle(id) {
-            let url = new URL('[[@{/api/{_apiVersion}/article/(_apiVersion=${_apiVersion})}]]' + id, document.location.origin);
+            let url = new URL('[[@{/api/{_apiVersion}/board/{boardId}/article/(_apiVersion=${_apiVersion},boardId=${board.id})}]]' + id, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -35,9 +35,7 @@
                         body: JSON.stringify(article)
                     }).then(response => {
                         if(response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.article})}]]').then(()=>{
-                                //history.back();
-                            });
+                            history.back();
                         }
                     })
                 }

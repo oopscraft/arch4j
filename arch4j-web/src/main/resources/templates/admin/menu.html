@@ -213,7 +213,7 @@
                          data-duice-script="
                     this.dataset.id = menu.id;
                     if(menu.parentId) {
-                        this.style.marginLeft='1rem';
+                        this.style.marginLeft=status.depth + 'rem';
                     }
                     ">
                         <div data-duice-object="menu" data-duice-script="this.dataset.id = menu.id;"

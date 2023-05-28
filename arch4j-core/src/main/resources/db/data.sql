@@ -72,16 +72,16 @@ insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample001','item0
 insert into `sample_item` (`sample_id`, `id`, `name`) values ('sample002','item02','Item 02');
 
 -- menu
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu1',null,'Menu 1');
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu2',null,'Menu 2');
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu1A','menu1','Menu 1-A');
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu2B','menu2','Menu 2-B');
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu2A','menu2','Menu 2-A');
-insert into `menu` (`id`,`parent_id`,`name`) values ('menu3',null,'Menu 3');
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu1',null,'Menu 1','/board/notice');
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu2',null,'Menu 2',null);
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu1A','menu1','Menu 1-A',null);
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu2B','menu2','Menu 2-B',null);
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu2A','menu2','Menu 2-A',null);
+insert into `menu` (`id`,`parent_id`,`name`,`link`) values ('menu3',null,'Menu 3', null);
 
 -- board
-insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test1','Test1 Board',20,true,true);
-insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test2','Test2 Board',20,true,true);
-insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test3','Test3 Board',20,true,true);
-insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test4','Test4 Board',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('notice','Notice',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('community','Community',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('qna','Question and Answer',20,true,true);
+insert into `board` (`id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test1','Test Board 1',20,true,true);
 

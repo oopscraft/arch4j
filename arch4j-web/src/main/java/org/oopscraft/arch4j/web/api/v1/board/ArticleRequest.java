@@ -9,6 +9,8 @@ import org.oopscraft.arch4j.core.board.Article;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleRequest {
 
+    private String id;
+
     private String title;
 
     private String content;

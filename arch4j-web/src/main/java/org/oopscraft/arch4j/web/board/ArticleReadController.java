@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/board/{boardId}/article-read")
+@RequestMapping("/board/{boardId}")
 @RequiredArgsConstructor
 public class ArticleReadController {
 
     private final BoardService boardService;
 
-    @GetMapping
+    @GetMapping("article-read")
     public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("id")String id) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         board.setSkin("_default");
@@ -27,5 +27,6 @@ public class ArticleReadController {
         modelAndView.addObject("board", board);
         return modelAndView;
     }
+
 
 }

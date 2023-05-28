@@ -39,6 +39,7 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom {
 
         // content
         List<ArticleEntity> articleEntities = query.clone()
+                .orderBy(qArticleEntity.dateTime.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

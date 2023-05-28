@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.board;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
+import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.support.IdGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -72,6 +73,10 @@ public class ArticleService {
                 .collect(Collectors.toList());
         long total = articleEntityPage.getTotalElements();
         return new PageImpl<>(articles, pageable, total);
+    }
+
+    public List<Comment> getArticleReplies(String articleId) {
+        return null;
     }
 
 }

@@ -203,83 +203,59 @@ var duice;
                 let loopArgs = this.loop.split(',');
                 let itemName = loopArgs[0].trim();
                 let statusName = (_a = loopArgs[1]) === null || _a === void 0 ? void 0 : _a.trim();
-                for (let index = 0; index < arrayProxy.length; index++) {
-                    // context
-                    let context = globalThis.Object.assign({}, this.context);
-                    context[itemName] = arrayProxy[index];
-                    context[statusName] = new duice.ObjectProxy({
-                        index: index,
-                        count: index + 1,
-                        size: arrayProxy.length,
-                        first: (index === 0),
-                        last: (arrayProxy.length == index + 1)
-                    });
-                    // clones row elements
-                    let rowHtmlElement = this.getHtmlElement().cloneNode(true);
-                    // adds embedded attribute
-                    duice.setElementAttribute(rowHtmlElement, 'index', index.toString());
-                    if (this.hierarchy) {
-                        let hierarchyArray = this.hierarchy.split(',');
-                        duice.setElementAttribute(rowHtmlElement, 'hierarchy-id', arrayProxy[index][hierarchyArray[0]]);
-                        duice.setElementAttribute(rowHtmlElement, 'hierarchy-pid', arrayProxy[index][hierarchyArray[1]]);
-                    }
-                    // editable
-                    if (this.editable) {
-                        rowHtmlElement.setAttribute('draggable', 'true');
-                        rowHtmlElement.addEventListener('dragstart', function (e) {
-                            let fromIndex = duice.getElementAttribute(this, 'index');
-                            e.dataTransfer.setData("text", fromIndex);
-                        });
-                        rowHtmlElement.addEventListener('dragover', function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        });
-                        rowHtmlElement.addEventListener('drop', function (e) {
-                            return __awaiter(this, void 0, void 0, function* () {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                let fromIndex = parseInt(e.dataTransfer.getData('text'));
-                                let toIndex = parseInt(duice.getElementAttribute(this, 'index'));
-                                let rowIndexChangeEvent = new duice.event.RowMoveEvent(_this, fromIndex, toIndex);
-                                _this.notifyObservers(rowIndexChangeEvent);
-                            });
-                        });
-                    }
-                    // initializes row element
-                    duice.initialize(rowHtmlElement, context);
-                    this.rowHtmlElements.push(rowHtmlElement);
-                    // insert into slot
-                    this.slot.appendChild(rowHtmlElement);
-                    // execute script
-                    this.executeScript(rowHtmlElement, context);
-                    // selectable
-                    if (this.toggleClass) {
-                        rowHtmlElement.addEventListener('click', e => {
-                            this.rowHtmlElements.forEach(element => {
-                                element.classList.remove(this.toggleClass);
-                            });
-                            e.currentTarget.classList.add(this.toggleClass);
-                            e.stopPropagation();
-                        });
-                    }
-                }
-                // hierarchy
+                // hierarchy loop
                 if (this.hierarchy) {
-                    let _this = this;
-                    let visit = function (currentElement) {
-                        let currentPid = duice.getElementAttribute(currentElement, 'hierarchy-pid');
-                        _this.slot.querySelectorAll(`*[data-${duice.getNamespace()}-index]`).forEach(element => {
-                            let id = duice.getElementAttribute(element, 'hierarchy-id');
-                            let pid = duice.getElementAttribute(element, 'hierarchy-pid');
-                            if (currentPid === id) {
-                                element.appendChild(currentElement.parentNode.removeChild(currentElement));
-                                return false;
+                    let hierarchyArray = this.hierarchy.split(',');
+                    let idName = hierarchyArray[0];
+                    let parentIdName = hierarchyArray[1];
+                    let index = -1;
+                    const _this = this;
+                    // visit function
+                    let visit = function (array, parentId, depth) {
+                        for (const object of array) {
+                            if (object[parentIdName] === parentId) {
+                                // context
+                                index++;
+                                let context = globalThis.Object.assign({}, _this.context);
+                                context[itemName] = object;
+                                context[statusName] = new duice.ObjectProxy({
+                                    index: index,
+                                    count: index + 1,
+                                    size: arrayProxy.length,
+                                    first: (index === 0),
+                                    last: (arrayProxy.length == index + 1),
+                                    depth: depth
+                                });
+                                // create row element
+                                _this.createRowHtmlElement(index, object, context);
+                                // visit child elements
+                                let id = object[idName];
+                                visit(array, id, depth + 1);
                             }
-                        });
+                        }
                     };
-                    this.rowHtmlElements.forEach(element => {
-                        visit(element);
-                    });
+                    // start visit
+                    visit(arrayProxy, null, 0);
+                }
+                // default loop
+                else {
+                    // normal
+                    for (let index = 0; index < arrayProxy.length; index++) {
+                        // element data
+                        let object = arrayProxy[index];
+                        // context
+                        let context = globalThis.Object.assign({}, this.context);
+                        context[itemName] = object;
+                        context[statusName] = new duice.ObjectProxy({
+                            index: index,
+                            count: index + 1,
+                            size: arrayProxy.length,
+                            first: (index === 0),
+                            last: (arrayProxy.length == index + 1)
+                        });
+                        // create row element
+                        this.createRowHtmlElement(index, object, context);
+                    }
                 }
             }
             // not loop
@@ -293,6 +269,58 @@ var duice;
                 this.slot.appendChild(rowHtmlElement);
                 // execute script
                 this.executeScript(rowHtmlElement, context);
+            }
+        }
+        /**
+         * create row html element
+         * @param index
+         * @param object
+         * @param context
+         */
+        createRowHtmlElement(index, object, context) {
+            // clones row elements
+            let rowHtmlElement = this.getHtmlElement().cloneNode(true);
+            // adds embedded attribute
+            duice.setElementAttribute(rowHtmlElement, 'index', index.toString());
+            // editable
+            let _this = this;
+            if (this.editable) {
+                rowHtmlElement.setAttribute('draggable', 'true');
+                rowHtmlElement.addEventListener('dragstart', function (e) {
+                    let fromIndex = duice.getElementAttribute(this, 'index');
+                    e.dataTransfer.setData("text", fromIndex);
+                });
+                rowHtmlElement.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                rowHtmlElement.addEventListener('drop', function (e) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        let fromIndex = parseInt(e.dataTransfer.getData('text'));
+                        let toIndex = parseInt(duice.getElementAttribute(this, 'index'));
+                        let rowIndexChangeEvent = new duice.event.RowMoveEvent(_this, fromIndex, toIndex);
+                        _this.notifyObservers(rowIndexChangeEvent);
+                    });
+                });
+            }
+            // initializes row element
+            duice.initialize(rowHtmlElement, context);
+            this.rowHtmlElements.push(rowHtmlElement);
+            // insert into slot
+            this.slot.appendChild(rowHtmlElement);
+            // execute script
+            this.executeScript(rowHtmlElement, context);
+            // selectable
+            if (this.toggleClass) {
+                rowHtmlElement.addEventListener('click', e => {
+                    this.rowHtmlElements.forEach(element => {
+                        element.classList.remove(this.toggleClass);
+                    });
+                    e.currentTarget.classList.add(this.toggleClass);
+                    e.stopPropagation();
+                });
             }
         }
         /**
@@ -3692,5 +3720,154 @@ var duice;
         }
         tab.TabFolder = TabFolder;
     })(tab = duice.tab || (duice.tab = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        class Tree extends duice.CustomElement {
+            constructor() {
+                super(...arguments);
+                this.uls = [];
+            }
+            /**
+             * doReader
+             * @param array
+             */
+            doRender(array) {
+                // get attribute
+                this.idProperty = duice.getElementAttribute(this.getHtmlElement(), 'id-property');
+                this.parentIdProperty = duice.getElementAttribute(this.getHtmlElement(), 'parent-id-property');
+                this.iconProperty = duice.getElementAttribute(this.getHtmlElement(), 'icon-property');
+                this.textProperty = duice.getElementAttribute(this.getHtmlElement(), 'text-property');
+                this.onclick = duice.getElementAttribute(this.getHtmlElement(), 'onclick');
+                // create tree element
+                let ulElement = this.arrayToTreeUl(array, null, 0);
+                ulElement.classList.add(`${duice.getNamespace()}-side-navigation`);
+                // return
+                return ulElement;
+            }
+            /**
+             * array to tree ul
+             * @param array
+             * @param parentId
+             * @param depth
+             */
+            arrayToTreeUl(array, parentId, depth) {
+                const ulElement = document.createElement('ul');
+                for (const object of array) {
+                    if (object[this.parentIdProperty] === parentId) {
+                        const liElement = document.createElement('li');
+                        liElement.style.listStyle = 'none';
+                        // create a element
+                        let aElement = document.createElement('a');
+                        // onclick
+                        if (this.onclick) {
+                            liElement.addEventListener('click', event => {
+                                Function(this.onclick).call(object);
+                            });
+                        }
+                        // icon
+                        if (this.iconProperty) {
+                            let iconElement = document.createElement('img');
+                            iconElement.src = object[this.iconProperty];
+                            aElement.appendChild(iconElement);
+                        }
+                        // text content
+                        let textElement = document.createElement('span');
+                        textElement.appendChild(document.createTextNode(object[this.textProperty]));
+                        aElement.appendChild(textElement);
+                        // adds to ul
+                        liElement.append(aElement);
+                        ulElement.appendChild(liElement);
+                        // recursively child ul element
+                        let childUlElement = this.arrayToTreeUl(array, object[this.idProperty], depth + 1);
+                        if (childUlElement.childElementCount > 0) {
+                            liElement.appendChild(childUlElement);
+                            liElement.classList.add('__fold__');
+                        }
+                        // indent
+                        if (depth > 0) {
+                            liElement.classList.add('__indent__');
+                        }
+                        if (depth <= 1) {
+                            ulElement.style.paddingLeft = '0';
+                        }
+                        else {
+                            ulElement.style.paddingLeft = '1em';
+                        }
+                        // toggle fold,unfold
+                        liElement.addEventListener('click', event => {
+                            if (liElement.querySelector('ul')) {
+                                if (liElement.classList.contains('__fold__')) {
+                                    liElement.classList.remove('__fold__');
+                                    liElement.classList.add('__unfold__');
+                                }
+                                else {
+                                    liElement.classList.add('__fold__');
+                                    liElement.classList.remove('__unfold__');
+                                }
+                            }
+                            event.stopPropagation();
+                        });
+                    }
+                }
+                // returns
+                return ulElement;
+            }
+            /**
+             * doStyle
+             * @param array
+             */
+            doStyle(array) {
+                return ` 
+                .${duice.getNamespace()}-side-navigation li {
+                    line-height: inherit;
+                }
+                .${duice.getNamespace()}-side-navigation li.__indent__::before {
+                    content: '';
+                    display: inline-block;
+                    width: 1em;
+                    height: 1em;
+                    vertical-align: middle;
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJklEQVR42mNgGAXUBA0NDf9HfTDqg1EfQHxALD0KRsEoGAWDBQAAM5IY9y7mNu0AAAAASUVORK5CYII=);
+                    background-position-x: center;
+                    background-position-y: center;
+                    cursor: pointer;
+                } 
+                .${duice.getNamespace()}-side-navigation li.__fold__::before {
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAOUlEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DRJaWPB/yFrwHwuGy+OiR1YQ0S4V0TQfjIJRMEIAAEXLZ9KMlg2EAAAAAElFTkSuQmCC);
+                } 
+                .${duice.getNamespace()}-side-navigation li.__fold__ > ul {
+                    display: none;
+                }
+                .${duice.getNamespace()}-side-navigation li.__unfold__::before {
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAANklEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DZJRC5AN+I8Fw+Vx0aNxQB0LaJoPRsEoGCEAAGOiY9YrvpoQAAAAAElFTkSuQmCC); 
+                } 
+                .${duice.getNamespace()}-side-navigation li.__unfold__ > ul {
+                    display: '';
+                }
+                .${duice.getNamespace()}-side-navigation li > a {
+                    display: inline-block;
+                    color: inherit;
+                    text-decoration: none; 
+                    cursor: pointer;
+                }
+                .${duice.getNamespace()}-side-navigation li > a > img {
+                    width: 1em;
+                    height: 1em;
+                    vertical-align: middle;
+                }
+                .${duice.getNamespace()}-side-navigation li > a > span {
+                    margin-left: 0.2em;
+                }
+            `;
+            }
+        }
+        component.Tree = Tree;
+        // register
+        let customElementFactory = new duice.CustomElementFactory(`${duice.getNamespace()}-side-navigation`, Tree);
+        duice.CustomElementFactory.addInstance(customElementFactory);
+    })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

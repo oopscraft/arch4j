@@ -23,11 +23,9 @@ public class BoardController {
     public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         board.setSkin("_default");
-
         ModelAndView modelAndView = new ModelAndView("board/board.html");
         modelAndView.addObject("board", board);
         return modelAndView;
     }
-
 
 }

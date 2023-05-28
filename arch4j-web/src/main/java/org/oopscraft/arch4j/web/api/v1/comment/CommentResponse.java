@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.comment;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.comment.Comment;
+import org.oopscraft.arch4j.core.comment.CommentTarget;
 
 @Data
 @Builder
@@ -13,7 +14,7 @@ public class CommentResponse {
 
     private String parentId;
 
-    private String targetType;
+    private CommentTarget target;
 
     private String targetId;
 
@@ -32,7 +33,7 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .id(comment.getId())
                 .parentId(comment.getParentId())
-                .targetType(comment.getTargetType())
+                .target(comment.getTarget())
                 .targetId(comment.getTargetId())
                 .content(comment.getContent())
                 .userId(comment.getUserId())

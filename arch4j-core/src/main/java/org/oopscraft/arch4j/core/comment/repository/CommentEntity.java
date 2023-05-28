@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.comment.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.comment.CommentTarget;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
@@ -23,8 +24,8 @@ public class CommentEntity extends SystemFieldEntity {
     @Column(name = "parent_id")
     private String parentId;
 
-    @Column(name = "target_type")
-    private String targetType;
+    @Column(name = "target")
+    private CommentTarget target;
 
     @Column(name = "target_id")
     private String targetId;

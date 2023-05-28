@@ -16,7 +16,7 @@ public class Comment {
 
     private String parentId;
 
-    private String targetType;
+    private CommentTarget target;
 
     private String targetId;
 
@@ -35,7 +35,7 @@ public class Comment {
         return Comment.builder()
                 .id(articleReplyEntity.getId())
                 .parentId(articleReplyEntity.getParentId())
-                .targetType(articleReplyEntity.getTargetType())
+                .target(articleReplyEntity.getTarget())
                 .targetId(articleReplyEntity.getTargetId())
                 .content(articleReplyEntity.getContent())
                 .userId(articleReplyEntity.getUserId())

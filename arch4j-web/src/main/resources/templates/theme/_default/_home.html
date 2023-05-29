@@ -170,7 +170,7 @@
     <header>
         <div id="_header-logo">
             <h1 onclick="_home();" class="link">
-                <img class="icon" th:src="@{themes}"/>
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/logo-arch4j.png(_theme=${_theme})}"/>
             </h1>
         </div>
         <div id="_header-menuButton">
@@ -179,7 +179,7 @@
         <ul id="_header-menu">
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_login();" class="link">
-                    <img th:src="@{themes}" class="icon"/>
+                    <img th:src="@{/static/theme/{_theme}/image/icon-login.svg(_theme=${_theme})}" class="icon"/>
                     <span data-th-text="#{web.nav.login}"></span>
                 </div>
             </li>
@@ -191,12 +191,12 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_logout();" class="link">
-                    <img th:src="@{themes}" class="icon"/>
+                    <img th:src="@{/static/theme/{_theme}/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
                     <span data-th-text="#{web.nav.logout}"></span>
                 </span>
             </li>
             <li>
-                <img th:src="@{themes}" class="icon"/>
+                <img th:src="@{/static/theme/{_theme}/image/icon-language.svg(_theme=${_theme})}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
                     <option value="en">English</option>
@@ -256,7 +256,7 @@
 
     <!-- footer -->
     <footer>
-        <img th:src="@{themes}"/>
+        <img th:src="@{/static/theme/{_theme}/image/copyright.png(_theme=${_theme})}" class="icon"/>
     </footer>
 </body>
 </th:block>

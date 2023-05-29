@@ -14,11 +14,11 @@ public class Comment {
 
     private String id;
 
-    private String parentId;
-
-    private CommentTarget target;
+    private TargetType targetType;
 
     private String targetId;
+
+    private String parentId;
 
     private String content;
 
@@ -28,18 +28,18 @@ public class Comment {
 
     /**
      * factory method
-     * @param articleReplyEntity article reply entity
+     * @param commentEntity article reply entity
      * @return article reply
      */
-    public static Comment from(CommentEntity articleReplyEntity) {
+    public static Comment from(CommentEntity commentEntity) {
         return Comment.builder()
-                .id(articleReplyEntity.getId())
-                .parentId(articleReplyEntity.getParentId())
-                .target(articleReplyEntity.getTarget())
-                .targetId(articleReplyEntity.getTargetId())
-                .content(articleReplyEntity.getContent())
-                .userId(articleReplyEntity.getUserId())
-                .userName(Optional.ofNullable(articleReplyEntity.getUser())
+                .id(commentEntity.getId())
+                .parentId(commentEntity.getParentId())
+                .targetType(commentEntity.getTargetType())
+                .targetId(commentEntity.getTargetId())
+                .content(commentEntity.getContent())
+                .userId(commentEntity.getUserId())
+                .userName(Optional.ofNullable(commentEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(null))
                 .build();

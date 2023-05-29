@@ -4,14 +4,16 @@
       layout:decorate="_home.html">
 <main layout:fragment="_main">
     <script>
+        const boardId = '[[${board.id}]]';
+        const articleId = '[[${param.id}]]';
         const article = new duice.ObjectProxy({});
 
         /**
          * get article
-         * @param id
+         * @param articleId
          */
-        function getArticle(id) {
-            let url = new URL('[[@{/api/{_apiVersion}/board/{boardId}/article/(_apiVersion=${_apiVersion},boardId=${board.id})}]]' + id, document.location.origin);
+        function getArticle(articleId) {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -26,7 +28,7 @@
         function saveArticle() {
             _confirm('[[#{web.message.saveItemConfirm(#{core.article})}]]').then(result => {
                 if(result) {
-                    let url = new URL('[[@{/api/{_apiVersion}/board/{id}/article(_apiVersion=${_apiVersion},id=${board.id})}]]', document.location.origin);
+                    let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -42,11 +44,21 @@
             });
         }
 
+        function deleteArticle() {
+            alert('delete');
+        }
+
+        /**
+         * goto cancel
+         */
+        function gotoCancel() {
+            history.back();
+        }
+
         // onload
         document.addEventListener('DOMContentLoaded',() => {
-            let id = '[[${param.id}]]';
-            if(id) {
-                getArticle(id);
+            if(articleId) {
+                getArticle(articleId);
             }
         });
     </script>

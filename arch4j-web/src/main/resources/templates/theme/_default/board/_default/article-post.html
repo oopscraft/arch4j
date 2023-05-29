@@ -1,18 +1,28 @@
 <!-- title -->
 <div class="container">
     <div class="col-8">
-        <h1 data-th-text="${board.name}">Board</h1>
+        <h1>
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
+            <span data-th-text="${board.name}"></span>
+        </h1>
     </div>
     <div class="col-4 justify-right">
+        <button onclick="gotoCancel();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.cancel}"></span>
+        </button>
         <button onclick="deleteArticle();">
-            Delete
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.delete}"></span>
         </button>
         <button onclick="saveArticle();">
-            Save
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.save}"></span>
         </button>
     </div>
 </div>
 <hr/>
+
 <!-- article list -->
 <div class="container gap-1px gap-column-1rem">
     <div class="col-12">

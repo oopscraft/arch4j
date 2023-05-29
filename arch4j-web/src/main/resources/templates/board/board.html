@@ -5,6 +5,7 @@
 
 <main layout:fragment="_main">
     <script>
+        const boardId = '[[${board.id}]]';
         const articleSearch = new duice.ObjectProxy({
             key: null,
             value: null,
@@ -22,33 +23,35 @@
             if(page) {
                 articleSearch._page = page;
             }
-            let url = new URL('[[@{/api/{_apiVersion}/board/{boardId}/article(_apiVersion=${_apiVersion},boardId=${board.id})}]]', document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
             if(articleSearch.key && articleSearch.value) {
                 url.searchParams.append(key, value);
             }
             url.searchParams.append('_page', articleSearch._page);
             url.searchParams.append('_size', articleSearch._size);
             _fetch(url)
-            .then(response => response.json())
-            .then(data => {
+            .then(async response => {
+                articleSearch._count = _parseTotalCount(response);
+                return response.json();
+            }).then(data => {
                 duice.ArrayProxy.clear(articles);
                 duice.ArrayProxy.assign(articles, data);
             });
         }
 
         /**
-         * read article
-         * @param id
+         * goto article read
+         * @param articleId
          */
-        function readArticle(id) {
-            document.location.href = '[[@{/board/{boardId}/article-read(boardId=${board.id})}]]?id=' + id;
+        function gotoRead(articleId) {
+            document.location.href = `[[@{/}]]board/${boardId}/article-read?id=${articleId}`;
         }
 
         /**
-         * post article
+         * goto article post
          */
-        function postArticle() {
-            document.location.href = '[[@{/board/{boardId}/article-post(boardId=${board.id})}]]';
+        function gotoPost() {
+            document.location.href = `[[@{/}]]board/${boardId}/article-post`;
         }
 
         // on load

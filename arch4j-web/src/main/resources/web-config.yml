@@ -36,20 +36,6 @@ management:
 
 # spring
 spring:
-  mvc:
-    static-path-pattern: /static/**
-  thymeleaf:
-    enabled: true
-    cache: false
-  jackson:
-    serialization:
-      indent_output: true
-  data:
-    web:
-      pageable:
-        prefix: _
-        default-page-size: 100
-        max-page-size: 1000
   h2:
     console:
       enabled: true
@@ -60,6 +46,26 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: embedded
+  data:
+    web:
+      pageable:
+        prefix: _
+        default-page-size: 100
+        max-page-size: 1000
+  jackson:
+    serialization:
+      indent_output: true
+  thymeleaf:
+    enabled: true
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations:
+        - classpath:/META-INF/resources/
+        - classpath:/static/
+        - classpath:/templates/
 
 # springdoc
 springdoc:

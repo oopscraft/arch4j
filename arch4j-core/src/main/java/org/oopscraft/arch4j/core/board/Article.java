@@ -31,7 +31,10 @@ public class Article {
     private String userName;
 
     @Builder.Default
-    private List<Comment> replies = new ArrayList<>();
+    private Long commentCount = 0L;
+
+    @Builder.Default
+    private Long likeCount = 0L;
 
     /**
      * factory method
@@ -46,6 +49,8 @@ public class Article {
                 .content(articleEntity.getContent())
                 .boardId(articleEntity.getBoardId())
                 .userId(articleEntity.getUserId())
+                .commentCount(articleEntity.getCommentCount())
+                .likeCount(articleEntity.getLikeCount())
                 .userName(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(null))

@@ -127,6 +127,26 @@ const _fetch = function(url, options, _bypass) {
 }
 
 /**
+ * Parsed total count from Content-Range header
+ * @Param {Response} response
+ */
+const _parseTotalCount = function(response){
+    let totalCount = -1;
+    let contentRange = response.headers.get("Content-Range");
+    try {
+        let totalCount = contentRange.split(' ')[1].split('/')[1];
+        totalCount = parseInt(totalCount);
+        if(isNaN(totalCount)){
+            return -1;
+        }
+        return totalCount;
+    }catch(e){
+        console.error(e);
+        return -1;
+    }
+}
+
+/**
  * _isDarkMode
  * @returns {boolean}
  * @private

@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.comment;
 
-public enum CommentTarget {
+public enum TargetType {
 
-    BOARD, PAGE
+    ARTICLE, PAGE
 
 }

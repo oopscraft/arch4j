@@ -22,6 +22,12 @@ public class ArticleResponse {
 
     private String userName;
 
+    @Builder.Default
+    private Long commentCount = 0L;
+
+    @Builder.Default
+    private Long likeCount = 0L;
+
     /**
      * factory method
      * @param article article
@@ -35,6 +41,8 @@ public class ArticleResponse {
                 .content(article.getContent())
                 .userId(article.getUserId())
                 .userName(article.getUserName())
+                .commentCount(article.getCommentCount())
+                .likeCount(article.getLikeCount())
                 .build();
     }
 

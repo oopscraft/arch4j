@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.comment.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.comment.CommentTarget;
+import org.oopscraft.arch4j.core.comment.TargetType;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
@@ -21,14 +21,14 @@ public class CommentEntity extends SystemFieldEntity {
     @Column(name = "id", length = 64)
     private String id;
 
-    @Column(name = "parent_id")
-    private String parentId;
-
-    @Column(name = "target")
-    private CommentTarget target;
+    @Column(name = "target_type")
+    private TargetType targetType;
 
     @Column(name = "target_id")
     private String targetId;
+
+    @Column(name = "parent_id")
+    private String parentId;
 
     @Column(name = "content")
     @Lob

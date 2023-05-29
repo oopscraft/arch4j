@@ -39,6 +39,14 @@ public class ArticleEntity extends SystemFieldEntity {
     @Column(name = "userId")
     private String userId;
 
+    @Column(name = "comment_count")
+    @Builder.Default
+    private Long commentCount = 0L;
+
+    @Column(name = "like_count")
+    @Builder.Default
+    private Long likeCount = 0L;
+
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = ArticleEntity_.USER_ID, insertable = false, updatable = false)
     private UserEntity user;

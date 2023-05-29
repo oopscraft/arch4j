@@ -5,6 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.oopscraft.arch4j.core.board.ArticleService;
+import org.oopscraft.arch4j.core.comment.Comment;
+import org.oopscraft.arch4j.core.comment.CommentService;
+import org.oopscraft.arch4j.core.comment.TargetType;
+import org.oopscraft.arch4j.web.api.v1.comment.CommentRequest;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentResponse;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 public class ArticleRestController {
 
     private final ArticleService articleService;
+
+    private final CommentService commentService;
 
     /**
      * save article
@@ -78,12 +84,36 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleResponse);
     }
 
-    @GetMapping("article/{articleId}/reply")
+    /**
+     * save article comment
+     * @param boardId board id
+     * @param id article id
+     * @param commentRequest comment request
+     * @return void
+     */
+    @PostMapping("article/{id}/comment")
+    public ResponseEntity<Void> saveArticleComment(@PathVariable String boardId, @PathVariable String id, @RequestBody CommentRequest commentRequest) {
+        Comment comment = Comment.builder()
+                .parentId(commentRequest.getParentId())
+                .content(commentRequest.getContent())
+                .build();
+        commentService.saveComment(TargetType.ARTICLE, id, comment);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * return comment list
+     * @param boardId board id
+     * @param id article id
+     * @return comment list
+     */
+    @GetMapping("article/{id}/comment")
     @Operation(summary = "get article replies")
-    public ResponseEntity<List<CommentResponse>> getArticleReplies() {
-
-
-        return null;
+    public ResponseEntity<List<CommentResponse>> getArticleComments(@PathVariable("boardId") String boardId, @PathVariable("id") String id) {
+        List<CommentResponse> commentResponses = commentService.getComments(TargetType.ARTICLE, id).stream()
+                .map(CommentResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(commentResponses);
     }
 
 

@@ -490,6 +490,30 @@ hr {
 .padding-left-1em {
     padding-left: 1em;
 }
+.padding-x-1px {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.padding-x-1em {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.padding-x-1rem {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.padding-y-1px {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+.padding-y-1em {
+    padding-right: 1em;
+    padding-left: 1em;
+}
+.padding-y-1rem {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
 
 /* margin */
 .margin-1px {
@@ -536,6 +560,30 @@ hr {
 }
 .margin-left-1em {
     margin-left: 1em;
+}
+.margin-x-1px {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.margin-x-1em {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.margin-x-1rem {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.margin-y-1px {
+    margin-right: 1px;
+    margin-left: 1px;
+}
+.margin-y-1em {
+    margin-right: 1em;
+    margin-left: 1em;
+}
+.margin-y-1rem {
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
 
 /* font */

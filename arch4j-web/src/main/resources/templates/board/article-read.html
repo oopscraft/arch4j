@@ -43,7 +43,19 @@
         function addComment(parentId) {
             duice.ObjectProxy.clear(comment);
             comment.parentId = parentId;
-            comments.push(comment);
+            let commentPost = document.getElementById('comment-post');
+            let parentCommentId = document.querySelector(`[data-comment-id="${parentId}"]`);
+            parentCommentId.appendChild(commentPost);
+        }
+
+        /**
+         * clear comment
+         */
+        function clearComment() {
+            duice.ObjectProxy.clear(comment);
+            let commentPost = document.getElementById('comment-post');
+            let commentPostContainer = document.getElementById('comment-post-container');
+            commentPostContainer.appendChild(commentPost);
         }
 
         /**
@@ -59,7 +71,7 @@
                 body: JSON.stringify(comment)
             }).then(response => {
                 if(response.ok) {
-                    duice.ObjectProxy.clear(comment);
+                    clearComment();
                     getComments();
                 }
             })

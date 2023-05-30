@@ -4,6 +4,7 @@ import lombok.*;
 import org.oopscraft.arch4j.core.comment.repository.CommentEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Data
@@ -14,9 +15,11 @@ public class Comment {
 
     private String id;
 
-    private TargetType targetType;
+    private String ownerType;
 
-    private String targetId;
+    private String ownerId;
+
+    private LocalDateTime createdAt;
 
     private String parentId;
 
@@ -26,6 +29,8 @@ public class Comment {
 
     private String userName;
 
+    private Long likeCount;
+
     /**
      * factory method
      * @param commentEntity article reply entity
@@ -34,14 +39,16 @@ public class Comment {
     public static Comment from(CommentEntity commentEntity) {
         return Comment.builder()
                 .id(commentEntity.getId())
+                .ownerType(commentEntity.getOwnerType())
+                .ownerId(commentEntity.getOwnerId())
+                .createdAt(commentEntity.getCreatedAt())
                 .parentId(commentEntity.getParentId())
-                .targetType(commentEntity.getTargetType())
-                .targetId(commentEntity.getTargetId())
                 .content(commentEntity.getContent())
                 .userId(commentEntity.getUserId())
                 .userName(Optional.ofNullable(commentEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(null))
+                .likeCount(commentEntity.getLikeCount())
                 .build();
     }
 

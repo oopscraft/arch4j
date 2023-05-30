@@ -6,7 +6,9 @@
     <script>
         const boardId = '[[${board.id}]]';
         const articleId = '[[${param.id}]]';
-        const article = new duice.ObjectProxy({});
+        const article = new duice.ObjectProxy({
+            files:[]
+        });
 
         /**
          * get article

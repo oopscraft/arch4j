@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
 import org.oopscraft.arch4j.core.comment.Comment;
+import org.oopscraft.arch4j.core.comment.CommentService;
 import org.oopscraft.arch4j.core.support.IdGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.comments.CommentType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+
+    private final CommentService commentService;
 
     /**
      * saves article
@@ -75,8 +79,22 @@ public class ArticleService {
         return new PageImpl<>(articles, pageable, total);
     }
 
-    public List<Comment> getArticleReplies(String articleId) {
-        return null;
+    /**
+     * save article comment
+     * @param id article id
+     * @param comment comment info
+     */
+    public void saveArticleComment(String id, Comment comment) {
+        commentService.saveComment("ARTICLE", id, comment);
+    }
+
+    /**
+     * returns article comments
+     * @param id articleId
+     * @return return comments
+     */
+    public List<Comment> getArticleComments(String id) {
+        return commentService.getComments("ARTICLE", id);
     }
 
 }

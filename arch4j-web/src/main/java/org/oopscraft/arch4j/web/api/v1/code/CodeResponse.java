@@ -40,7 +40,6 @@ public class CodeResponse {
                     .value(codeItem.getValue())
                     .build();
         }
-
     }
 
     public static CodeResponse from(Code code){

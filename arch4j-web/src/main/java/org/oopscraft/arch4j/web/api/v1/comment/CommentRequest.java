@@ -8,8 +8,6 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentRequest {
 
-    private String articleId;
-
     private String id;
 
     private String parentId;

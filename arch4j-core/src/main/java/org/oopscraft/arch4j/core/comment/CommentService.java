@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.comment.repository.CommentRepository;
 import org.oopscraft.arch4j.core.support.IdGenerator;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,17 +18,19 @@ public class CommentService {
 
     /**
      * save comment
-     * @param targetType target type
-     * @param targetId target id
+     * @param ownerType target type
+     * @param ownerId target id
      * @param comment comment info
      */
-    public void saveComment(TargetType targetType, String targetId, Comment comment) {
+    public void saveComment(String ownerType, String ownerId, Comment comment) {
         CommentEntity commentEntity;
         if(comment.getId() == null) {
             commentEntity = CommentEntity.builder()
                     .id(IdGenerator.uuid())
-                    .targetType(targetType)
-                    .targetId(targetId)
+                    .ownerType(ownerType)
+                    .ownerId(ownerId)
+                    .createdAt(LocalDateTime.now())
+                    .parentId(comment.getParentId())
                     .build();
         }else{
             commentEntity = commentRepository.findById(comment.getId())
@@ -40,12 +43,12 @@ public class CommentService {
 
     /**
      * get comments
-     * @param target target
-     * @param targetId target id
+     * @param ownerType target
+     * @param ownerId target id
      * @return comment list
      */
-    public List<Comment> getComments(TargetType target, String targetId) {
-        return commentRepository.findAllByTargetTypeAndTargetId(target, targetId).stream()
+    public List<Comment> getComments(String ownerType, String ownerId) {
+        return commentRepository.findAllByOwnerTypeAndOwnerIdOrderByCreatedAtDesc(ownerType, ownerId).stream()
                 .map(Comment::from)
                 .collect(Collectors.toList());
     }

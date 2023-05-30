@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.comment.CommentService;
-import org.oopscraft.arch4j.core.comment.TargetType;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentRequest;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentResponse;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
@@ -27,8 +26,6 @@ import java.util.stream.Collectors;
 public class ArticleRestController {
 
     private final ArticleService articleService;
-
-    private final CommentService commentService;
 
     /**
      * save article
@@ -97,7 +94,7 @@ public class ArticleRestController {
                 .parentId(commentRequest.getParentId())
                 .content(commentRequest.getContent())
                 .build();
-        commentService.saveComment(TargetType.ARTICLE, id, comment);
+        articleService.saveArticleComment(id, comment);
         return ResponseEntity.ok().build();
     }
 
@@ -110,7 +107,7 @@ public class ArticleRestController {
     @GetMapping("article/{id}/comment")
     @Operation(summary = "get article replies")
     public ResponseEntity<List<CommentResponse>> getArticleComments(@PathVariable("boardId") String boardId, @PathVariable("id") String id) {
-        List<CommentResponse> commentResponses = commentService.getComments(TargetType.ARTICLE, id).stream()
+        List<CommentResponse> commentResponses = articleService.getArticleComments(id).stream()
                 .map(CommentResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(commentResponses);

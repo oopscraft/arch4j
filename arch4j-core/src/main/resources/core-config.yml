@@ -68,6 +68,10 @@ core:
       bean: defaultCryptoKeyProvider
       password: EgBeF!SBkZZm^vTTEzy)^)3b$v*+T#av%DFnk9yvE$jJVP+hB6(VSWkP$Xr%X(NY
       salt: 6c0b434f8ba833bca4340687c1ec8b70
+  file:
+    bean: defaultFileService
+    properties: |
+      location=./files
 
 
 

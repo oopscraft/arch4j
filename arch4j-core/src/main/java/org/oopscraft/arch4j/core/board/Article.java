@@ -3,12 +3,14 @@ package org.oopscraft.arch4j.core.board;
 import lombok.*;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.comment.Comment;
+import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 @Builder

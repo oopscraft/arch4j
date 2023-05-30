@@ -28,6 +28,7 @@ public class ArticleResponse {
     @Builder.Default
     private Long likeCount = 0L;
 
+
     /**
      * factory method
      * @param article article
@@ -44,6 +45,16 @@ public class ArticleResponse {
                 .commentCount(article.getCommentCount())
                 .likeCount(article.getLikeCount())
                 .build();
+    }
+
+
+    @Data
+    @Builder
+    static class ArticleFileResponse {
+        private String articleId;
+        private String id;
+        private String name;
+        private String length;
     }
 
 }

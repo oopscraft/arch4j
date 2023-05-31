@@ -23,10 +23,10 @@ public class SystemFieldEntity {
 	@Builder.Default
 	private Boolean systemRequired = false;
 
-	@Column(name = "system_update_date_time")
-	private LocalDateTime systemUpdateDateTime;
+	@Column(name = "system_updated_at")
+	private LocalDateTime systemUpdatedAt;
 
-	@Column(name = "system_update_user_id", length = 64)
-	private String systemUpdateUserId;
+	@Column(name = "system_updated_by", length = 64)
+	private String systemUpdateBy;
 
 }

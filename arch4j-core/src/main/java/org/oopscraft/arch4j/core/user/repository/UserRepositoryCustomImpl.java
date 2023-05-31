@@ -44,7 +44,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         // content
         List<UserEntity> content = query.clone()
-                .orderBy(qUserEntity.systemUpdateDateTime.desc())
+                .orderBy(qUserEntity.systemUpdatedAt.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

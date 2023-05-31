@@ -5,7 +5,7 @@ import org.oopscraft.arch4j.core.role.*;
 import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.security.AccessTokenEncoder;
-import org.oopscraft.arch4j.web.security.UserDetailsImpl;
+import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -46,7 +46,8 @@ dependencies {
     // jasypt
     api 'com.github.ulisesbocchio:jasypt-spring-boot-starter'
 
-    // spring security crypto
+    // spring security
+    api "org.springframework.security:spring-security-core"
     api "org.springframework.security:spring-security-crypto"
 
     // apache commons

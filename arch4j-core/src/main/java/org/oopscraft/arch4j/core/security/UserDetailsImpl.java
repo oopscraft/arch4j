@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.security;
+package org.oopscraft.arch4j.core.security;
 
 import lombok.Builder;
 import lombok.Getter;

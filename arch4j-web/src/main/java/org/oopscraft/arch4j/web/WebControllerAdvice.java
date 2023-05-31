@@ -1,15 +1,13 @@
 package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
-import org.oopscraft.arch4j.web.security.UserDetailsImpl;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -41,15 +39,8 @@ public class WebControllerAdvice {
     @ModelAttribute("_user")
     @Transactional(readOnly = true)
     public User getUser() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if(securityContext != null) {
-            Authentication authentication = securityContext.getAuthentication();
-            if(authentication instanceof UsernamePasswordAuthenticationToken) {
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-                return userService.getUser(userDetails.getUsername()).orElseThrow();
-            }
-        }
-        return new User();
+        return SecurityUtils.getCurrentUser()
+                .orElse(new User());
     }
 
 }

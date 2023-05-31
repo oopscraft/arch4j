@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 @Component
 @RequiredArgsConstructor
-public class TransactionTemplateUtil {
+public class TransactionTemplateUtils {
 
     private final PlatformTransactionManager transactionManager;
 

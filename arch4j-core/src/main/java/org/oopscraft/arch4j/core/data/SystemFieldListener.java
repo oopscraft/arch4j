@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -12,15 +13,15 @@ public class SystemFieldListener {
 
 	@PrePersist
 	public void prePersist(SystemFieldEntity entity) {
-		entity.setSystemUpdateDateTime(LocalDateTime.now());
-		entity.setSystemUpdateUserId(getCurrentUserId());
+		entity.setSystemUpdatedAt(LocalDateTime.now());
+		entity.setSystemUpdateBy(getCurrentUserId());
 		
 	}
 	
 	@PreUpdate
 	public void preUpdate(SystemFieldEntity entity) {
-		entity.setSystemUpdateDateTime(LocalDateTime.now());
-		entity.setSystemUpdateUserId(getCurrentUserId());
+		entity.setSystemUpdatedAt(LocalDateTime.now());
+		entity.setSystemUpdateBy(getCurrentUserId());
 	}
 
 	@PreRemove
@@ -30,14 +31,8 @@ public class SystemFieldListener {
 		}
 	}
 
-	/*
-	 * Return login user id
-	 * @return
-	 * @throws Exception
-	 */
-	private static final String getCurrentUserId() {
-		// TODO
-		return null;
+	private static String getCurrentUserId() {
+        return SecurityUtils.getCurrentUserId().orElse(null);
 	}
 
 }

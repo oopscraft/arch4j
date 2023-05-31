@@ -17,7 +17,6 @@ insert into `core_authority` (`id`,`system_required`,`name`) values ('ADMIN_BOAR
 insert into `core_authority` (`id`,`system_required`,`name`) values ('ADMIN_BOARD_EDIT','Y','Board Edit Authority');
 insert into `core_authority` (`id`,`system_required`,`name`) values ('ACTUATOR','Y','Actuator Access Authority');
 insert into `core_authority` (`id`,`system_required`,`name`) values ('H2-CONSOLE','Y','Actuator Access Authority');
-insert into `core_authority` (`id`,`system_required`,`name`) values ('API','Y','Actuator Access Authority');
 
 -- role
 insert into `core_role` (`id`,`system_required`,`name`) values ('ADMIN','Y','Administrator Role');
@@ -39,7 +38,6 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'A
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'H2-CONSOLE');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'API');
 insert into `core_role` (`id`,`system_required`,`name`) values ('DEV','Y','Developer Role');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');

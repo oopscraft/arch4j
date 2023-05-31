@@ -13,6 +13,7 @@ server:
     include-message: always
     include-binding-errors: always
   tomcat:
+    use-relative-redirects: true
     mbeanregistry:
       enabled: true
   forward-headers-strategy: framework

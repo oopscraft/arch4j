@@ -97,6 +97,7 @@ const _fetch = function(url, options, _bypass) {
     options.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     options.headers['Pragma'] = 'no-cache';
     options.headers['Expires'] = '0';
+    options.redirect = 'follow';
     _startProgress();
     return globalThis.fetch(url, options)
         .then(async function(response){

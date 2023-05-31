@@ -52,24 +52,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                 .userAgent(userAgent)
                 .build();
         loginHistoryService.saveLoginHistory(loginHistory);
-
-        // defines redirect url
-        String requestUri = request.getRequestURI();
-        String redirectUrl;
-        if(requestUri.startsWith("/admin")){
-            redirectUrl = "/admin";
-        }else{
-            redirectUrl = "/";
-        }
-
-        // saved request
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        if (savedRequest != null) {
-            redirectUrl = savedRequest.getRedirectUrl();
-        }
-
-        // send redirect
-        redirectStrategy.sendRedirect(request, response, redirectUrl);
     }
 
 }

@@ -3,8 +3,12 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import lombok.Builder;
 import lombok.Data;
 import org.oopscraft.arch4j.core.board.Article;
+import org.oopscraft.arch4j.web.api.v1.file.FileInfoResponse;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -28,6 +32,8 @@ public class ArticleResponse {
     @Builder.Default
     private Long likeCount = 0L;
 
+    @Builder.Default
+    private List<FileInfoResponse> files = new ArrayList<>();
 
     /**
      * factory method
@@ -44,6 +50,9 @@ public class ArticleResponse {
                 .userName(article.getUserName())
                 .commentCount(article.getCommentCount())
                 .likeCount(article.getLikeCount())
+                .files(article.getFiles().stream()
+                        .map(FileInfoResponse::from)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

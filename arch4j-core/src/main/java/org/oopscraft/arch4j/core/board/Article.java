@@ -38,6 +38,9 @@ public class Article {
     @Builder.Default
     private Long likeCount = 0L;
 
+    @Builder.Default
+    private List<FileInfo> files = new ArrayList<>();
+
     /**
      * factory method
      * @param articleEntity article entity
@@ -56,6 +59,9 @@ public class Article {
                 .userName(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(null))
+                .files(articleEntity.getFiles().stream()
+                        .map(FileInfo::from)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

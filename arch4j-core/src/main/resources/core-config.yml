@@ -70,8 +70,8 @@ core:
       salt: 6c0b434f8ba833bca4340687c1ec8b70
   file:
     bean: defaultFileService
-    properties: |
-      location=./files
+    properties:
+      location: ./tmp
 
 
 

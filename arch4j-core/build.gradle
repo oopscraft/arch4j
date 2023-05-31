@@ -50,6 +50,7 @@ dependencies {
     api "org.springframework.security:spring-security-crypto"
 
     // apache commons
+    api 'commons-io:commons-io'
     api 'org.apache.httpcomponents:httpclient'
 
     // model mapper

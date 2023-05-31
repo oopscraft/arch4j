@@ -11,12 +11,18 @@ public class FileInfoResponse {
 
     private String id;
 
-    private String name;
+    private String filename;
+
+    private String contentType;
 
     private Long length = 0L;
 
-    public FileInfoResponse from(FileInfo fileInfo) {
+    public static FileInfoResponse from(FileInfo fileInfo) {
         return FileInfoResponse.builder()
+                .id(fileInfo.getId())
+                .filename(fileInfo.getFilename())
+                .contentType(fileInfo.getContentType())
+                .length(fileInfo.getLength())
                 .build();
     }
 

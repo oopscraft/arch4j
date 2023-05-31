@@ -24,12 +24,6 @@ public class FileInfoEntity extends SystemFieldEntity {
     @Column(name = "id", length = 64)
     private String id;
 
-    @Column(name = "owner_type")
-    private String ownerType;
-
-    @Column(name = "owner_id")
-    private String ownerId;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

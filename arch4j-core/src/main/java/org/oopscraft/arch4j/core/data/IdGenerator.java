@@ -1,8 +1,9 @@
-package org.oopscraft.arch4j.core.support;
+package org.oopscraft.arch4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -12,22 +13,19 @@ import java.util.UUID;
 @Slf4j
 public class IdGenerator {
 
-    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
      * generates UUID
      */
     public static String uuid() {
-        String uuid = UUID.randomUUID().toString();
-        log.debug("uuid:{}", uuid);
-        return uuid;
+        return UUID.randomUUID().toString().replaceAll("-","");
     }
 
     /**
      * encode base64
      */
     public static String encodeBase64(String plainValue) {
-        log.debug("plainValue:{}", plainValue);
         if(plainValue == null) {
             return null;
         }
@@ -41,7 +39,6 @@ public class IdGenerator {
      * decode base64
      */
     public static String decodeBase64(String encodedValue) {
-        log.debug("encodedValue:{}", encodedValue);
         if(encodedValue == null) {
             return null;
         }

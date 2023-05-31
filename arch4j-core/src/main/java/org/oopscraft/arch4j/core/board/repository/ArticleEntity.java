@@ -3,7 +3,9 @@ package org.oopscraft.arch4j.core.board.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
+import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
@@ -51,5 +53,16 @@ public class ArticleEntity extends SystemFieldEntity {
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = ArticleEntity_.USER_ID, insertable = false, updatable = false)
     private UserEntity user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "core_article_file",
+            joinColumns = @JoinColumn(name = "article_id"),
+            foreignKey = @ForeignKey(name = "none"),
+            inverseJoinColumns = @JoinColumn(name = "file_id"),
+            inverseForeignKey = @ForeignKey(name = "none")
+    )
+    @Builder.Default
+    List<FileInfoEntity> files = new ArrayList<>();
 
 }

@@ -5,13 +5,17 @@ import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
 import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.comment.CommentService;
-import org.oopscraft.arch4j.core.support.IdGenerator;
+import org.oopscraft.arch4j.core.file.FileInfo;
+import org.oopscraft.arch4j.core.file.FileService;
+import org.oopscraft.arch4j.core.data.IdGenerator;
+import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.comments.CommentType;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+
+    private final FileService fileService;
 
     private final CommentService commentService;
 
@@ -43,6 +49,19 @@ public class ArticleService {
         articleEntity.setTitle(article.getTitle());
         articleEntity.setContent(article.getContent());
         articleEntity.setBoardId(article.getBoardId());
+
+        // files
+        articleEntity.setFiles(article.getFiles().stream()
+                .map(fileInfo -> {
+                    return FileInfoEntity.builder()
+                            .id(fileInfo.getId())
+                            .filename(fileInfo.getFilename())
+                            .contentType(fileInfo.getContentType())
+                            .length(fileInfo.getLength())
+                            .build();
+                }).collect(Collectors.toList()));
+
+        // save
         articleRepository.saveAndFlush(articleEntity);
     }
 
@@ -81,20 +100,20 @@ public class ArticleService {
 
     /**
      * save article comment
-     * @param id article id
+     * @param articleId article id
      * @param comment comment info
      */
-    public void saveArticleComment(String id, Comment comment) {
-        commentService.saveComment("ARTICLE", id, comment);
+    public void saveArticleComment(String articleId, Comment comment) {
+        commentService.saveComment("ARTICLE", articleId, comment);
     }
 
     /**
      * returns article comments
-     * @param id articleId
+     * @param articleId articleId
      * @return return comments
      */
-    public List<Comment> getArticleComments(String id) {
-        return commentService.getComments("ARTICLE", id);
+    public List<Comment> getArticleComments(String articleId) {
+        return commentService.getComments("ARTICLE", articleId);
     }
 
 }

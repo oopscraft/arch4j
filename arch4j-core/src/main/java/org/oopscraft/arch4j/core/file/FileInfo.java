@@ -5,6 +5,8 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
 
+import java.io.OutputStream;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -13,10 +15,6 @@ import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
 public class FileInfo extends SystemFieldEntity {
 
     private String id;
-
-    private String ownerType;
-
-    private String ownerId;
 
     private String filename;
 
@@ -32,12 +30,10 @@ public class FileInfo extends SystemFieldEntity {
     public static FileInfo from(FileInfoEntity fileInfoEntity) {
         return FileInfo.builder()
                 .id(fileInfoEntity.getId())
-                .ownerType(fileInfoEntity.getOwnerType())
-                .ownerId(fileInfoEntity.getOwnerId())
                 .filename(fileInfoEntity.getFilename())
                 .contentType(fileInfoEntity.getContentType())
                 .length(fileInfoEntity.getLength())
                 .build();
-    }
+   }
 
 }

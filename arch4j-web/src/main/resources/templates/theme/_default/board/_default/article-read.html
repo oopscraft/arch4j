@@ -54,6 +54,26 @@
         </div>
     </div>
 </div>
+<!-- file -->
+<div class="content padding-x-1em">
+    <div class="col-12 font-weight-bold">
+        <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
+        <span data-th-text="#{core.article.files}"></span>
+    </div>
+    <div class="col-12">
+        <div data-duice-array="article.files" data-duice-loop="file,status" class="margin-right-1em">
+            <span data-duice-object="file" data-duice-property="filename"
+                  data-duice-script="this.dataset.fileId=file.id"
+                  class="cursor-pointer font-weight-bold"
+                  onclick="downloadFile(this.dataset.fileId);">
+            </span>
+            <span class="font-size-smaller" data-duice-object="file" data-duice-script="
+                this.innerHTML = `(${file.length} bytes)`;
+                ">
+            </span>
+        </div>
+    </div>
+</div>
 <hr/>
 <!-- comment title -->
 <div class="container padding-x-1em">

@@ -603,6 +603,16 @@ hr {
     font-size: smaller;
 }
 
+/* text-decoration */
+.text-decoration-underline {
+    text-decoration: underline;
+}
+
+/* cursor */
+.cursor-pointer {
+    cursor: pointer;
+}
+
 /* width */
 .width-25 {
     width: 25%;

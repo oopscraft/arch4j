@@ -51,6 +51,28 @@
         }
 
         /**
+         * upload file
+         */
+        function uploadFile() {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.addEventListener('change', function() {
+                let formData = new FormData();
+                formData.append("file", this.files[0]);
+                let url = new URL(`${_apiUrl}/v1/file`, document.location.origin);
+                _fetch(url, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    article.files.push(data);
+                });
+            });
+            input.click()
+        }
+
+        /**
          * goto cancel
          */
         function gotoCancel() {

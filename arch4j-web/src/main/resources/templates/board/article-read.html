@@ -6,7 +6,9 @@
     <script>
         const boardId = '[[${board.id}]]';
         const articleId = '[[${param.id}]]';
-        const article = new duice.ObjectProxy({});
+        const article = new duice.ObjectProxy({
+            files:[]
+        });
         const comments = new duice.ArrayProxy([]);
         const comment = new duice.ObjectProxy({});
 
@@ -75,6 +77,16 @@
                     getComments();
                 }
             })
+        }
+
+        /**
+         * download file
+         * @param fileId
+         */
+        function downloadFile(fileId) {
+            let link = document.createElement('a');
+            link.href = `${_apiUrl}/v1/file/${fileId}`;
+            link.click();
         }
 
         /**

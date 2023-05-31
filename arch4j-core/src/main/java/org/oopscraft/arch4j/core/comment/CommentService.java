@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.comment;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.comment.repository.CommentEntity;
 import org.oopscraft.arch4j.core.comment.repository.CommentRepository;
-import org.oopscraft.arch4j.core.support.IdGenerator;
+import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

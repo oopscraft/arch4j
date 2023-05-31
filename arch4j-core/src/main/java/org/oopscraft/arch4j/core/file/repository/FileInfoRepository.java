@@ -12,6 +12,4 @@ import java.util.List;
 @Repository
 public interface FileInfoRepository extends JpaRepository<FileInfoEntity, String>, JpaSpecificationExecutor<FileInfoEntity> {
 
-    public List<FileInfoEntity> findAllByOwnerTypeAndOwnerIdOrderByCreatedAtAsc(String targetType, String targetId);
-
 }

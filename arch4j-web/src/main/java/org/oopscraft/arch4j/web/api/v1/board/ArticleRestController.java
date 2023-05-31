@@ -7,8 +7,10 @@ import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.comment.CommentService;
+import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentRequest;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentResponse;
+import org.oopscraft.arch4j.web.api.v1.file.FileInfoResponse;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +45,15 @@ public class ArticleRestController {
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
+                .files(articleRequest.getFiles().stream()
+                        .map(fileInfoRequest ->
+                            FileInfo.builder()
+                                    .id(fileInfoRequest.getId())
+                                    .filename(fileInfoRequest.getFilename())
+                                    .contentType(fileInfoRequest.getContentType())
+                                    .length(fileInfoRequest.getLength())
+                                    .build()
+                        ).collect(Collectors.toList()))
                 .build();
         articleService.saveArticle(article);
         return ResponseEntity.ok().build();

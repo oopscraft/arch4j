@@ -34,12 +34,12 @@
     <div class="row">
         <div class="col">
             <form onsubmit="return false;">
-                <select data-duice-object="sampleSearch" data-duice-sample="key">
+                <select data-duice-bind="sampleSearch" data-duice-sample="key">
                     <option value>- Search Key -</option>
                     <option value="id">id</option>
                     <option value="name">name</option>
                 </select>
-                <input type="text" data-duice-object="sampleSearch" data-duice-sample="value"/>
+                <input type="text" data-duice-bind="sampleSearch" data-duice-sample="value"/>
                 <button onclick="getSamples();">&#128269; Search</button>
                 <button onclick="reset();">&#9986; Reset</button>
             </form>
@@ -66,11 +66,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr data-duice-array="samples" data-duice-loop="sample,status">
-                <td data-duice-object="status" data-duice-sample="count" class="text-align-center"></td>
-                <td data-duice-object="sample" data-duice-sample="id"></td>
-                <td data-duice-object="sample" data-duice-sample="name"></td>
-                <td data-duice-object="sample" data-duice-sample="value"></td>
+            <tr data-duice-bind="samples" data-duice-loop="sample,status">
+                <td data-duice-bind="status" data-duice-sample="count" class="text-align-center"></td>
+                <td data-duice-bind="sample" data-duice-sample="id"></td>
+                <td data-duice-bind="sample" data-duice-sample="name"></td>
+                <td data-duice-bind="sample" data-duice-sample="value"></td>
                 <td class="text-align-center">
                     <button>&#128221; Detail</button>
                 </td>

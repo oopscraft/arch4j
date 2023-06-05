@@ -1,5 +1,5 @@
 <th:block th:fragment="_header">
-    <link rel="stylesheet" type="text/css" th:href="@{'/static/web.css?version=' + ${scriptVersion}}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
         html {
             width: 100%;

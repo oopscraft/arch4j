@@ -90,10 +90,10 @@
         </h1>
         <form onsubmit="return false;" class="container gap-1px">
             <div class="col-12">
-                <input type='text' data-duice-object="login" data-duice-property="username" th:placeholder="#{core.user.id}" class="width-100 text-align-center"/>
+                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.id}" class="width-100 text-align-center"/>
             </div>
             <div class="col-12">
-                <input type='password' data-duice-object="login" data-duice-property='password' th:placeholder="#{core.user.password}" class="width-100 text-align-center"/>
+                <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.password}" class="width-100 text-align-center"/>
             </div>
             <div class="col-12 container">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -103,7 +103,7 @@
                 </button>
             </div>
             <div class="col-12 justify-center">
-                <span data-duice-object="login" data-duice-property="message"></span>
+                <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
         </form>
     </div>

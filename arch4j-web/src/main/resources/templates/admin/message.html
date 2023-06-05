@@ -212,11 +212,11 @@
                     <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-object="messageSearch" data-duice-property="key" class="col-1 col-s-4">
+                            <select data-duice-bind="messageSearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="id" th:text="#{core.message.id}"></option>
                                 <option value="name" th:text="#{core.message.name}"></option>
                             </select>
-                            <input type="text" data-duice-object="messageSearch" data-duice-property="value"
+                            <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
                                    th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getMessages();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
@@ -243,15 +243,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="messages" data-duice-loop="message,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=message.id;
                             " onclick="getMessage(this.dataset.id);" class="link">
-                                <td data-duice-object="status" data-duice-property="count"
+                                <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-object="message" data-duice-property="id"></td>
-                                <td data-duice-object="message" data-duice-property="name"></td>
+                                <td data-duice-bind="message" data-duice-property="id"></td>
+                                <td data-duice-bind="message" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-array="messages" data-duice-script="if(messages.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="messages" data-duice-script="if(messages.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -261,7 +261,7 @@
                         <div class="col-4"></div>
                         <div class="col-4 justify-center">
                             <duice-pagination
-                                    data-duice-object="messageSearch"
+                                    data-duice-bind="messageSearch"
                                     data-duice-size-property="_size"
                                     data-duice-page-property="_page"
                                     data-duice-count-property="_count"
@@ -270,7 +270,7 @@
                         </div>
                         <div class="col-4 justify-right">
                             <span data-th-text="#{web.text.total}"></span>
-                            <span data-duice-object="messageSearch" data-duice-property="_count"
+                            <span data-duice-bind="messageSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.text.rows}"></span>
                         </div>
@@ -291,21 +291,21 @@
                             <span data-th-text="#{core.message.id}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="message" data-duice-property="id"
+                            <input type="text" data-duice-bind="message" data-duice-property="id"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.message.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="message" data-duice-property="name"
+                            <input type="text" data-duice-bind="message" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.message.value}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-object="message" data-duice-property="value" rows="4"
+                            <textarea data-duice-bind="message" data-duice-property="value" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                     </div>

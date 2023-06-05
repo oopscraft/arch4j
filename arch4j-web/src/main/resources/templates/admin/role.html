@@ -436,11 +436,11 @@
                     <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-object="roleSearch" data-duice-property="key" class="col-1 col-s-4">
+                            <select data-duice-bind="roleSearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="id" th:text="#{core.role.id}"></option>
                                 <option value="name" th:text="#{core.role.name}"></option>
                             </select>
-                            <input type="text" data-duice-object="roleSearch" data-duice-property="value"
+                            <input type="text" data-duice-bind="roleSearch" data-duice-property="value"
                                    th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getRoles();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
@@ -467,14 +467,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="roles" data-duice-loop="role,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=role.id;
                             " onclick="getRole(this.dataset.id);" class="link">
-                                <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
-                                <td data-duice-object="role" data-duice-property="id" class="font-weight-bold"></td>
-                                <td data-duice-object="role" data-duice-property="name"></td>
+                                <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                <td data-duice-bind="role" data-duice-property="id" class="font-weight-bold"></td>
+                                <td data-duice-bind="role" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-array="roles" data-duice-script="if(roles.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="roles" data-duice-script="if(roles.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -484,7 +484,7 @@
                         <div class="col-4"></div>
                         <div class="col-4 justify-center">
                             <duice-pagination
-                                    data-duice-object="roleSearch"
+                                    data-duice-bind="roleSearch"
                                     data-duice-size-property="_size"
                                     data-duice-page-property="_page"
                                     data-duice-count-property="_count"
@@ -493,7 +493,7 @@
                         </div>
                         <div class="col-4 justify-right">
                             <span data-th-text="#{web.text.total}"></span>
-                            <span data-duice-object="roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                            <span data-duice-bind="roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.text.rows}"></span>
                         </div>
                     </div>
@@ -513,21 +513,21 @@
                             <span data-th-text="#{core.role.id}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="role" data-duice-property="id"
+                            <input type="text" data-duice-bind="role" data-duice-property="id"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.role.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="role" data-duice-property="name"
+                            <input type="text" data-duice-bind="role" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.role.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-object="role" data-duice-property="note" rows="3"
+                            <textarea data-duice-bind="role" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
@@ -555,22 +555,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr data-duice-array="role.authorities"
+                                    <tr data-duice-bind="role.authorities"
                                         data-duice-loop="authority,status">
-                                        <td data-duice-object="status" data-duice-property="count"
+                                        <td data-duice-bind="status" data-duice-property="count"
                                             class="text-align-center"></td>
-                                        <td data-duice-object="authority" data-duice-property="id"
+                                        <td data-duice-bind="authority" data-duice-property="id"
                                             class="font-weight-bold"></td>
-                                        <td data-duice-object="authority" data-duice-property="name"></td>
+                                        <td data-duice-bind="authority" data-duice-property="name"></td>
                                         <td class="text-align-center">
-                                            <button data-duice-object="authority"
+                                            <button data-duice-bind="authority"
                                                     data-duice-script="this.dataset.index=status.index;"
                                                     onclick="removeRoleAuthority(this.dataset.index);">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr data-duice-array="role.authorities"
+                                    <tr data-duice-bind="role.authorities"
                                         data-duice-script="if(role.authorities.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
@@ -715,11 +715,11 @@
         <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
-                <select data-duice-object="authoritySelect.authoritySearch" data-duice-property="key" class="col-1">
+                <select data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key" class="col-1">
                     <option value="id" th:text="#{core.authority.id}"></option>
                     <option value="name" th:text="#{core.authority.name}"></option>
                 </select>
-                <input type="text" data-duice-object="authoritySelect.authoritySearch" data-duice-property="value" class="col-2"/>
+                <input type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value" class="col-2"/>
                 <button onclick="authoritySelect.getAuthorities();" class="col-1">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                     <span data-th-text="#{web.text.search}">Search</span>
@@ -747,12 +747,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-duice-array="authoritySelect.authorities" data-duice-loop="authority,status">
-                    <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-object="authority" data-duice-property="id" class="font-weight-bold"></td>
-                    <td data-duice-object="authority" data-duice-property="name"></td>
+                <tr data-duice-bind="authoritySelect.authorities" data-duice-loop="authority,status">
+                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                    <td data-duice-bind="authority" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="authority" data-duice-property="name"></td>
                     <td class="text-align-center">
-                        <button data-duice-object="authority"
+                        <button data-duice-bind="authority"
                                 data-duice-script="
                             this.dataset.index = status.index;
                             if(authority._selected) {
@@ -763,7 +763,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr data-duice-array="authoritySelect.authorities"
+                <tr data-duice-bind="authoritySelect.authorities"
                     data-duice-script="if(authoritySelect.authorities.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
@@ -774,7 +774,7 @@
             <div class="col-4"></div>
             <div class="col-4 justify-center">
                 <duice-pagination
-                        data-duice-object="authoritySelect.authoritySearch"
+                        data-duice-bind="authoritySelect.authoritySearch"
                         data-duice-size-property="_size"
                         data-duice-page-property="_page"
                         data-duice-count-property="_count"
@@ -783,7 +783,7 @@
             </div>
             <div class="col-4 justify-right">
                 <span data-th-text="#{web.text.total}"></span>
-                <span data-duice-object="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                <span data-duice-bind="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.text.rows}"></span>
             </div>
         </div>
@@ -804,19 +804,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-duice-array="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
-                    <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-object="authority" data-duice-property="id" class="font-weight-bold"></td>
-                    <td data-duice-object="authority" data-duice-property="name"></td>
+                <tr data-duice-bind="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
+                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                    <td data-duice-bind="authority" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="authority" data-duice-property="name"></td>
                     <td class="text-align-center">
-                        <button data-duice-object="authority"
+                        <button data-duice-bind="authority"
                                 data-duice-script="this.dataset.index = status.index;"
                                 onclick="authoritySelect.deselectAuthority(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                         </button>
                     </td>
                 </tr>
-                <tr data-duice-array="authoritySelect.selectedAuthorities"
+                <tr data-duice-bind="authoritySelect.selectedAuthorities"
                     data-duice-script="if(authoritySelect.selectedAuthorities.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
@@ -856,11 +856,11 @@
                     <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-object="authoritySearch" data-duice-property="key" class="col-1 col-s-4">
+                            <select data-duice-bind="authoritySearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="id" th:text="#{core.authority.id}"></option>
                                 <option value="name" th:text="#{core.authority.name}"></option>
                             </select>
-                            <input type="text" data-duice-object="authoritySearch" data-duice-property="value"
+                            <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
                                    th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getAuthorities();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
@@ -887,14 +887,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="authorities" data-duice-loop="authority,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=authority.id;
                             " onclick="getAuthority(this.dataset.id);" class="link">
-                                <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
-                                <td data-duice-object="authority" data-duice-property="id" class="font-weight-bold"></td>
-                                <td data-duice-object="authority" data-duice-property="name"></td>
+                                <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                <td data-duice-bind="authority" data-duice-property="id" class="font-weight-bold"></td>
+                                <td data-duice-bind="authority" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-array="authorities" data-duice-script="if(authorities.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="authorities" data-duice-script="if(authorities.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -904,7 +904,7 @@
                         <div class="col-4"></div>
                         <div class="col-4 justify-center">
                             <duice-pagination
-                                    data-duice-object="authoritySearch"
+                                    data-duice-bind="authoritySearch"
                                     data-duice-size-property="_size"
                                     data-duice-page-property="_page"
                                     data-duice-count-property="_count"
@@ -913,7 +913,7 @@
                         </div>
                         <div class="col-4 justify-right">
                             <span data-th-text="#{web.text.total}"></span>
-                            <span data-duice-object="authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                            <span data-duice-bind="authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.text.rows}"></span>
                         </div>
                     </div>
@@ -933,21 +933,21 @@
                             <span data-th-text="#{core.authority.id}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="authority" data-duice-property="id"
+                            <input type="text" data-duice-bind="authority" data-duice-property="id"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.authority.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="authority" data-duice-property="name"
+                            <input type="text" data-duice-bind="authority" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.authority.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-object="authority" data-duice-property="note" rows="3"
+                            <textarea data-duice-bind="authority" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
                     </div>

@@ -229,11 +229,11 @@
                     <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-object="codeSearch" data-duice-property="key" class="col-1 col-s-4">
+                            <select data-duice-bind="codeSearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="id" th:text="#{core.code.id}"></option>
                                 <option value="name" th:text="#{core.code.name}"></option>
                             </select>
-                            <input type="text" data-duice-object="codeSearch" data-duice-property="value"
+                            <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
                                    th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getCodes();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
@@ -260,15 +260,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-array="codes" data-duice-loop="code,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-toggle-class="selected" data-duice-script="
                             this.dataset.id=code.id;
                             " onclick="getCode(this.dataset.id);" class="link">
-                                <td data-duice-object="status" data-duice-property="count"
+                                <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-object="code" data-duice-property="id"></td>
-                                <td data-duice-object="code" data-duice-property="name"></td>
+                                <td data-duice-bind="code" data-duice-property="id"></td>
+                                <td data-duice-bind="code" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-array="codes" data-duice-script="if(codes.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="codes" data-duice-script="if(codes.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -278,7 +278,7 @@
                         <div class="col-4"></div>
                         <div class="col-4 justify-center">
                             <duice-pagination
-                                    data-duice-object="codeSearch"
+                                    data-duice-bind="codeSearch"
                                     data-duice-size-property="_size"
                                     data-duice-page-property="_page"
                                     data-duice-count-property="_count"
@@ -287,7 +287,7 @@
                         </div>
                         <div class="col-4 justify-right">
                             <span data-th-text="#{web.text.total}"></span>
-                            <span data-duice-object="codeSearch" data-duice-property="_count"
+                            <span data-duice-bind="codeSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.text.rows}"></span>
                         </div>
@@ -308,21 +308,21 @@
                             <span data-th-text="#{core.code.id}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="code" data-duice-property="id"
+                            <input type="text" data-duice-bind="code" data-duice-property="id"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.code.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-object="code" data-duice-property="name"
+                            <input type="text" data-duice-bind="code" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.code.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-object="code" data-duice-property="note" rows="4"
+                            <textarea data-duice-bind="code" data-duice-property="note" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
@@ -352,19 +352,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr data-duice-array="code.items" data-duice-loop="item,status">
-                                        <td data-duice-object="status" data-duice-property="count" class="text-align-center"></td>
+                                    <tr data-duice-bind="code.items" data-duice-loop="item,status">
+                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                         <td>
-                                            <input type="text" data-duice-object="item" data-duice-property="id" class="width-100 font-weight-bold"/>
+                                            <input type="text" data-duice-bind="item" data-duice-property="id" class="width-100 font-weight-bold"/>
                                         </td>
                                         <td>
-                                            <input type="text" data-duice-object="item" data-duice-property="name" class="width-100"/>
+                                            <input type="text" data-duice-bind="item" data-duice-property="name" class="width-100"/>
                                         </td>
                                         <td>
-                                            <input type="text" data-duice-object="item" data-duice-property="value" class="width-100"/>
+                                            <input type="text" data-duice-bind="item" data-duice-property="value" class="width-100"/>
                                         </td>
                                         <td class="text-align-center">
-                                            <button data-duice-object="item"
+                                            <button data-duice-bind="item"
                                                     data-duice-script="this.dataset.index=status.index;"
                                                     onclick="removeCodeItem(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
@@ -372,7 +372,7 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr data-duice-array="code.items"
+                                    <tr data-duice-bind="code.items"
                                         data-duice-script="if(code.items.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>

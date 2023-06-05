@@ -28,13 +28,13 @@
         <span data-th-text="#{core.article.title}" class="font-weight-bold tag-required"></span>
     </div>
     <div class="col-12">
-        <input type="text" data-duice-object="article" data-duice-property="title" class="width-100 font-weight-bold"/>
+        <input type="text" data-duice-bind="article" data-duice-property="title" class="width-100 font-weight-bold"/>
     </div>
     <div class="col-12">
         <span data-th-text="#{core.article.content}" class="font-weight-bold"></span>
     </div>
     <div class="col-12">
-        <textarea data-duice-object="article" data-duice-property="content" class="width-100" style="height:70vh;"></textarea>
+        <textarea data-duice-bind="article" data-duice-property="content" class="width-100" style="height:70vh;"></textarea>
     </div>
 </div>
 <!-- file -->
@@ -44,13 +44,13 @@
         <span data-th-text="#{core.article.files}"></span>
     </div>
     <div class="col-12">
-        <div data-duice-array="article.files" data-duice-loop="file,status" class="margin-right-1em">
-            <span data-duice-object="file" data-duice-property="filename"
+        <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
+            <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-script="this.dataset.fileId=file.id"
                   class="cursor-pointer font-weight-bold"
                   onclick="downloadFile(this.dataset.fileId);">
             </span>
-            <span class="font-size-smaller" data-duice-object="file" data-duice-script="
+            <span class="font-size-smaller" data-duice-bind="file" data-duice-script="
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>

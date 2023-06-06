@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.*;
 import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
-import org.oopscraft.arch4j.web.security.AccessTokenEncoder;
+import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,7 @@ public class UserController {
 
     private final RoleService roleService;
 
-    private final AccessTokenEncoder accessTokenEncoder;
+    private final AuthenticationTokenService accessTokenEncoder;
 
     private final LoginHistoryService loginHistoryService;
 
@@ -119,7 +119,7 @@ public class UserController {
     public String generateAccessToken(@RequestParam("id")String id) {
         User user = userService.getUser(id).orElseThrow(() -> new DataNotFoundException(id));
         UserDetailsImpl userDetails = UserDetailsImpl.from(user);
-        return accessTokenEncoder.encode(userDetails);
+        return accessTokenEncoder.encodeAuthenticationToken(userDetails);
     }
 
     /**

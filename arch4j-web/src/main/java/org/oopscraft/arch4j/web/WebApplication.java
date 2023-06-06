@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
+import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
+import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -38,6 +40,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
@@ -172,6 +175,18 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
 
         private final AuthenticationFailureHandler authenticationFailureHandler;
 
+        private final  AuthenticationTokenService authenticationTokenService;
+
+        /**
+         * creates authentication token filter
+         * @return filter
+         */
+        private AuthenticationTokenFilter authenticationTokenFilter() {
+            return AuthenticationTokenFilter.builder()
+                    .authenticationTokenService(authenticationTokenService)
+                    .build();
+        }
+
         /**
          * admin security filter chain
          *
@@ -259,6 +274,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
             return http.build();
         }
 

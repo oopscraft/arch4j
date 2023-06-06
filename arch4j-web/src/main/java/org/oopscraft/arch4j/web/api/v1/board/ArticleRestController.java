@@ -8,6 +8,7 @@ import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.comment.CommentService;
 import org.oopscraft.arch4j.core.file.FileInfo;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentRequest;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentResponse;
 import org.oopscraft.arch4j.web.api.v1.file.FileInfoResponse;
@@ -45,6 +46,7 @@ public class ArticleRestController {
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
+                .userId(SecurityUtils.getCurrentUserId())
                 .files(articleRequest.getFiles().stream()
                         .map(fileInfoRequest ->
                             FileInfo.builder()

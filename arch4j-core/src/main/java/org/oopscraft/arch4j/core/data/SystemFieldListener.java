@@ -32,7 +32,7 @@ public class SystemFieldListener {
 	}
 
 	private static String getCurrentUserId() {
-        return SecurityUtils.getCurrentUserId().orElse(null);
+        return SecurityUtils.getCurrentUserId();
 	}
 
 }

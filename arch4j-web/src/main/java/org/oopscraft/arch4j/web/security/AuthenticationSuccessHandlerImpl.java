@@ -2,16 +2,12 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.core.user.LoginHistory;
 import org.oopscraft.arch4j.core.user.LoginHistoryService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,18 +25,20 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
+    private final AuthenticationTokenService authenticationTokenService;
+
     private final LoginHistoryService loginHistoryService;
-
-    private final RequestCache requestCache = new HttpSessionRequestCache();
-
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        // save login history
+        // issue authentication token
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String authenticationToken = authenticationTokenService.encodeAuthenticationToken(userDetails);
+        authenticationTokenService.issueAuthenticationToken(response, authenticationToken);
+
+        // save login history
         String userId = userDetails.getUsername();
         LocalDateTime loginDateTime = LocalDateTime.now();
         String ipAddress = request.getRemoteAddr();

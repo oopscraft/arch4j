@@ -52,11 +52,11 @@ public class SecurityUtils {
      * return current login user id
      * @return user id
      */
-    public static Optional<String> getCurrentUserId() {
+    public static String getCurrentUserId() {
         String userId = getUserDetails()
                 .map(UserDetailsImpl::getUsername)
                 .orElse(null);
-        return Optional.ofNullable(userId);
+        return Optional.ofNullable(userId).orElse(null);
     }
 
 }

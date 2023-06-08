@@ -15,6 +15,7 @@ public class FileInfoResponse {
 
     private String contentType;
 
+    @Builder.Default
     private Long length = 0L;
 
     public static FileInfoResponse from(FileInfo fileInfo) {

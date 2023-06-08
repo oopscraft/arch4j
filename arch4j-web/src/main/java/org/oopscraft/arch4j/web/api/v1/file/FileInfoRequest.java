@@ -15,6 +15,7 @@ public class FileInfoRequest {
 
     private String contentType;
 
+    @Builder.Default
     private Long length = 0L;
 
 }

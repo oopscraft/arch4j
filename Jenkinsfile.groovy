@@ -22,7 +22,7 @@ pipeline {
                 name: 'JIB_TO_AUTH_CREDENTIALS',
                 defaultValue: params.JIB_TO_AUTH_CREDENTIALS,
                 description: 'target image repository credentials')
-        string(name: 'SEND_MESSAGE_TO', defaultValue: params.SEND_MESSAGE_TO ?: 'SLACK', description: 'SLACK')
+        string(name: 'SEND_MESSAGE_TO', defaultValue: params.SEND_MESSAGE_TO ?: '___', description: 'SLACK')
     }
     options {
         disableConcurrentBuilds()
@@ -101,18 +101,10 @@ pipeline {
         always {
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
-                    sh('echo "a"')
-                    //slackSend channel: '#oopscraftorg', message: 'Build failed!'
+                    slackSend channel: '#oopscraftorg', message: 'Build failed!'
                 }
             }
         }
-
-
-//        when {
-//            expression {
-//                params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')
-//            }
-//        }
     }
 
 }

@@ -7,7 +7,7 @@
 
     <insert id="insertSampleBackup">
         <![CDATA[
-        insert into sample_backup (
+        insert into core_sample_backup (
             id,
             name,
             type,

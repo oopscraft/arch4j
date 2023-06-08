@@ -39,7 +39,7 @@
                 local_date,
                 lob_text,
                 crypto_text
-        from    sample
+        from    core_sample
         limit   #{limit}
         ]]>
     </select>

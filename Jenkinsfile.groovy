@@ -101,7 +101,14 @@ pipeline {
         always {
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
-                    slackSend channel: '#oopscraftorg', message: 'Build failed!'
+                    slackSend (
+                            channel: '#test',
+                            color: '#00FF00',
+                            message: """
+                                Job ${env.JOB_NAME} [${env.BUILD_NUMBER}] (${NGROK_DOMAIN}) 
+                                [TEST URL: http://${AWS_PUBLIC_IP}:3000]
+                            """
+                    )
                 }
             }
         }

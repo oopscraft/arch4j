@@ -98,8 +98,8 @@ pipeline {
 
     post {
         always {
-            if(jenkins.model.Jenkins.instance.pluginManager.isPluginInstalled('slack')) {
-                script {
+            script {
+                if(jenkins.model.Jenkins.instance.pluginManager.isPluginInstalled('slack')) {
                     slackSend channel: '#oopscraftorg', message: 'Build failed!'
                 }
             }

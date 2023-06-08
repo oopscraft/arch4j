@@ -103,7 +103,7 @@ pipeline {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
                     slackSend (
                             channel: '#oopscraftorg',
-                            message: "${currentBuild.currentResult} - ${env.JOB_NAME}"
+                            message: "[${currentBuild.currentResult}] ${env.JOB_NAME}.${env.BUILD_NUMBER} - ${env.BUILD_URL}"
                     )
                 }
             }

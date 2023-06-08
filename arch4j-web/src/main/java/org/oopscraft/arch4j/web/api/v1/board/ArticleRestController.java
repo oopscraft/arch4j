@@ -6,12 +6,10 @@ import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ArticleSearch;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.comment.Comment;
-import org.oopscraft.arch4j.core.comment.CommentService;
 import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentRequest;
 import org.oopscraft.arch4j.web.api.v1.comment.CommentResponse;
-import org.oopscraft.arch4j.web.api.v1.file.FileInfoResponse;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;
@@ -19,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +35,7 @@ public class ArticleRestController {
      */
     @PostMapping("article")
     @Operation(summary = "save article info")
-    public ResponseEntity<Void> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
+    public ResponseEntity<ArticleResponse> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
         Article article = Article.builder()
                 .id(articleRequest.getId())
                 .title(articleRequest.getTitle())
@@ -57,8 +52,13 @@ public class ArticleRestController {
                                     .build()
                         ).collect(Collectors.toList()))
                 .build();
-        articleService.saveArticle(article);
-        return ResponseEntity.ok().build();
+        article = articleService.saveArticle(article);
+        return ResponseEntity.ok(ArticleResponse.from(article));
+    }
+
+    @PutMapping("article/{articleId}")
+    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId) {
+        return null;
     }
 
     /**
@@ -105,13 +105,14 @@ public class ArticleRestController {
      * @return void
      */
     @PostMapping("article/{id}/comment")
-    public ResponseEntity<Void> saveArticleComment(@PathVariable String boardId, @PathVariable String id, @RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<Comment> saveArticleComment(@PathVariable String boardId, @PathVariable String id, @RequestBody CommentRequest commentRequest) {
         Comment comment = Comment.builder()
                 .parentId(commentRequest.getParentId())
                 .content(commentRequest.getContent())
+                .userId(SecurityUtils.getCurrentUserId())
                 .build();
-        articleService.saveArticleComment(id, comment);
-        return ResponseEntity.ok().build();
+        comment = articleService.saveArticleComment(id, comment);
+        return ResponseEntity.ok(comment);
     }
 
     /**

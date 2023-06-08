@@ -22,8 +22,9 @@ public class LoginHistoryService {
     /**
      * saves login history
      * @param loginHistory login history
+     * @return login history
      */
-    public void saveLoginHistory(LoginHistory loginHistory) {
+    public LoginHistory saveLoginHistory(LoginHistory loginHistory) {
         LoginHistoryEntity.Pk pk = LoginHistoryEntity.Pk.builder()
                 .userId(loginHistory.getUserId())
                 .loginDateTime(loginHistory.getLoginDateTime())
@@ -37,7 +38,8 @@ public class LoginHistoryService {
         }
         loginHistoryEntity.setIpAddress(loginHistory.getIpAddress());
         loginHistoryEntity.setUserAgent(loginHistory.getUserAgent());
-        loginHistoryRepository.saveAndFlush(loginHistoryEntity);
+        loginHistoryEntity = loginHistoryRepository.saveAndFlush(loginHistoryEntity);
+        return LoginHistory.from(loginHistoryEntity);
     }
 
     /**

@@ -38,7 +38,7 @@
                 local_date,
                 lob_text,
                 crypto_text
-        from    sample
+        from    core_sample
         where   1 = 1
         <if test = "id != null">
             and id like concat('%',#{id},'%')

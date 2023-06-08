@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping("admin/code")
 @RequiredArgsConstructor
@@ -60,8 +58,8 @@ public class CodeController {
     @PostMapping("save-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
-    public void saveCode(@RequestBody Code code) {
-        codeService.saveCode(code);
+    public Code saveCode(@RequestBody Code code) {
+        return codeService.saveCode(code);
     }
 
     /**

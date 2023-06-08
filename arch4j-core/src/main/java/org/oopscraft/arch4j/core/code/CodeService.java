@@ -11,10 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,8 +25,9 @@ public class CodeService {
     /**
      * saves code
      * @param code code info
+     * @return code
      */
-    public void saveCode(Code code) {
+    public Code saveCode(Code code) {
         CodeEntity codeEntity = codeRepository.findById(code.getId()).orElse(null);
         if(codeEntity == null) {
             codeEntity = CodeEntity.builder()
@@ -44,18 +41,17 @@ public class CodeService {
         List<CodeItemEntity> items = codeEntity.getItems();
         items.clear();
         AtomicInteger sort = new AtomicInteger();
-        code.getItems().forEach(item -> {
-            items.add(CodeItemEntity.builder()
-                    .codeId(code.getId())
-                    .id(item.getId())
-                    .sort(sort.getAndIncrement())
-                    .name(item.getName())
-                    .value(item.getValue())
-                    .build());
-        });
+        code.getItems().forEach(item -> items.add(CodeItemEntity.builder()
+                .codeId(code.getId())
+                .id(item.getId())
+                .sort(sort.getAndIncrement())
+                .name(item.getName())
+                .value(item.getValue())
+                .build()));
 
         // save and flush
-        codeRepository.saveAndFlush(codeEntity);
+        codeEntity = codeRepository.saveAndFlush(codeEntity);
+        return Code.from(codeEntity);
     }
 
     /**

@@ -21,8 +21,9 @@ public class CommentService {
      * @param ownerType target type
      * @param ownerId target id
      * @param comment comment info
+     * @return comment
      */
-    public void saveComment(String ownerType, String ownerId, Comment comment) {
+    public Comment saveComment(String ownerType, String ownerId, Comment comment) {
         CommentEntity commentEntity;
         if(comment.getId() == null) {
             commentEntity = CommentEntity.builder()
@@ -38,7 +39,8 @@ public class CommentService {
         }
         commentEntity.setContent(comment.getContent());
         commentEntity.setUserId(comment.getUserId());
-        commentRepository.saveAndFlush(commentEntity);
+        commentEntity = commentRepository.saveAndFlush(commentEntity);
+        return Comment.from(commentEntity);
     }
 
     /**

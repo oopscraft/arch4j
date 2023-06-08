@@ -24,7 +24,7 @@ public class VariableService {
      * saveVariable
      * @param variable variable
      */
-    public void saveVariable(Variable variable) {
+    public Variable saveVariable(Variable variable) {
         VariableEntity variableEntity = variableRepository.findById(variable.getId()).orElse(null);
         if(variableEntity == null) {
             variableEntity = VariableEntity.builder()
@@ -34,7 +34,8 @@ public class VariableService {
         variableEntity.setValue(variable.getValue());
         variableEntity.setName(variable.getName());
         variableEntity.setNote(variable.getNote());
-        variableRepository.saveAndFlush(variableEntity);
+        variableEntity = variableRepository.saveAndFlush(variableEntity);
+        return Variable.from(variableEntity);
     }
 
     /**

@@ -34,8 +34,9 @@ public class ArticleService {
     /**
      * saves article
      * @param article article info
+     * @return article
      */
-    public void saveArticle(Article article) {
+    public Article saveArticle(Article article) {
         ArticleEntity articleEntity = null;
         if(article.getId() != null) {
             articleEntity = articleRepository.findById(article.getId()).orElse(null);
@@ -62,7 +63,8 @@ public class ArticleService {
                 }).collect(Collectors.toList()));
 
         // save
-        articleRepository.saveAndFlush(articleEntity);
+        articleEntity = articleRepository.saveAndFlush(articleEntity);
+        return Article.from(articleEntity);
     }
 
     /**
@@ -102,9 +104,10 @@ public class ArticleService {
      * save article comment
      * @param articleId article id
      * @param comment comment info
+     * @return comment
      */
-    public void saveArticleComment(String articleId, Comment comment) {
-        commentService.saveComment("ARTICLE", articleId, comment);
+    public Comment saveArticleComment(String articleId, Comment comment) {
+        return commentService.saveComment("ARTICLE", articleId, comment);
     }
 
     /**

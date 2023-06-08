@@ -23,38 +23,23 @@ class MenuServiceTest extends CoreTestSupport {
 
     @Test
     void saveMenu() {
-
-        // save
-        menuService.saveMenu(testMenu);
-
-        // check
+        Menu savedMenu = menuService.saveMenu(testMenu);
+        assertNotNull(savedMenu);
         assertNotNull(entityManager.find(MenuEntity.class, testMenu.getId()));
     }
 
     @Test
     void getMenu() {
-
-        // save test menu
-        saveMenu();
-
-        // get menu
-        Menu menu = menuService.getMenu(testMenu.getId()).orElse(null);
-
-        // check
+        Menu savedMenu = menuService.saveMenu(testMenu);
+        Menu menu = menuService.getMenu(savedMenu.getId()).orElse(null);
         assertNotNull(menu);
-        assertEquals(testMenu.getId(), menu.getId());
+        assertEquals(savedMenu.getId(), menu.getId());
     }
 
     @Test
     void deleteMenu() {
-
-        // save test
-        saveMenu();
-
-        // delete
+        Menu savedMenu = menuService.saveMenu(testMenu);
         menuService.deleteMenu(testMenu.getId());
-
-        // check
         assertNull(entityManager.find(MenuEntity.class, testMenu.getId()));
     }
 

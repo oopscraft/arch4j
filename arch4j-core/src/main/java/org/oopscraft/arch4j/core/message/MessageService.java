@@ -23,8 +23,9 @@ public class MessageService {
     /**
      * save message
      * @param message message
+     * @return message
      */
-    public void saveMessage(Message message) {
+    public Message saveMessage(Message message) {
         MessageEntity messageEntity = messageRepository.findById(message.getId()).orElse(null);
         if(messageEntity == null) {
             messageEntity = MessageEntity.builder()
@@ -34,7 +35,8 @@ public class MessageService {
         messageEntity.setName(message.getName());
         messageEntity.setValue(message.getValue());
         messageEntity.setNote(message.getNote());
-        messageRepository.saveAndFlush(messageEntity);
+        messageEntity = messageRepository.saveAndFlush(messageEntity);
+        return Message.from(messageEntity);
     }
 
     /**

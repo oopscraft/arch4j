@@ -19,7 +19,8 @@ class UserServiceTest extends CoreTestSupport {
     final UserService userService;
 
     User testUser = User.builder()
-            .id(UUID.randomUUID().toString())
+            .id("test_user")
+            .password("password1234!@#$")
             .name("user name")
             .mobile("010-1234-5678")
             .email("lion@xxx.com")
@@ -29,53 +30,35 @@ class UserServiceTest extends CoreTestSupport {
     @Test
     @Order(1)
     void saveUser() {
-        userService.saveUser(testUser);
+        User savedUser = userService.saveUser(testUser);
+        assertNotNull(savedUser);
         assertNotNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
     @Test
     @Order(2)
     void getUser() {
-
-        // save test user
-        saveUser();
-
-        // get user
-        User user = userService.getUser(testUser.getId()).orElse(null);
-
-        // check
+        User savedUser = userService.saveUser(testUser);
+        User user = userService.getUser(savedUser.getId()).orElse(null);
         assertNotNull(user);
     }
 
     @Test
     @Order(3)
     void deleteUser() {
-
-        // save test user
-        saveUser();
-
-        // delete
-        userService.deleteUser(testUser.getId());
-
-        // check
+        User savedUser = userService.saveUser(testUser);
+        userService.deleteUser(savedUser.getId());
         assertNull(entityManager.find(UserEntity.class, testUser.getId()));
     }
 
     @Test
     @Order(4)
     void getUsers() {
-
-        // save test user
-        saveUser();
-
-        // get users by condition
+        User savedUser = userService.saveUser(testUser);
         UserSearch userSearch = UserSearch.builder()
-                .name(testUser.getName())
+                .name(savedUser.getName())
                 .build();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<User> userPage = userService.getUsers(userSearch, pageable);
-
-        // check result
+        Page<User> userPage = userService.getUsers(userSearch, PageRequest.of(0, 10));
         assertTrue(userPage.getContent().stream().anyMatch(e -> e.getName().contains(userSearch.getName())));
     }
 

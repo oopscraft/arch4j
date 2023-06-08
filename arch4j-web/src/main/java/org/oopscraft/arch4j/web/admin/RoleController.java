@@ -66,8 +66,8 @@ public class RoleController {
     @PostMapping("save-role")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
-    public void saveRole(@RequestBody @Valid Role role) {
-        roleService.saveRole(role);
+    public Role saveRole(@RequestBody @Valid Role role) {
+        return roleService.saveRole(role);
     }
 
     /**
@@ -112,8 +112,8 @@ public class RoleController {
     @PostMapping("save-authority")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
-    public void saveAuthority(@RequestBody @Valid Authority authority) {
-        authorityService.saveAuthority(authority);
+    public Authority saveAuthority(@RequestBody @Valid Authority authority) {
+        return authorityService.saveAuthority(authority);
     }
 
     /**

@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.message.Message;
 import org.oopscraft.arch4j.core.message.MessageSearch;
 import org.oopscraft.arch4j.core.message.MessageService;
-import org.oopscraft.arch4j.core.variable.Variable;
-import org.oopscraft.arch4j.core.variable.VariableSearch;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,12 +56,13 @@ public class MessageController {
     /**
      * saves message
      * @param message message info
+     * @return message
      */
     @PostMapping("save-message")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")
-    public void saveMessage(@RequestBody @Valid Message message) {
-        messageService.saveMessage(message);
+    public Message saveMessage(@RequestBody @Valid Message message) {
+        return messageService.saveMessage(message);
     }
 
     /**

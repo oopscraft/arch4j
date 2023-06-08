@@ -24,8 +24,9 @@ public class BoardService {
     /**
      * saves board info
      * @param board board info
+     * @return board
      */
-    public void saveBoard(Board board) {
+    public Board saveBoard(Board board) {
         BoardEntity boardEntity = boardRepository.findById(board.getId()).orElse(null);
         if(boardEntity == null) {
             boardEntity = BoardEntity.builder()
@@ -53,7 +54,8 @@ public class BoardService {
                         .id(role.getId())
                         .build())
                 .collect(Collectors.toList()));
-        boardRepository.saveAndFlush(boardEntity);
+        boardEntity = boardRepository.saveAndFlush(boardEntity);
+        return Board.from(boardEntity);
     }
 
     /**

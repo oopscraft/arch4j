@@ -24,8 +24,9 @@ public class MenuService {
     /**
      * save menu
      * @param menu menu
+     * @return menu
      */
-    public void saveMenu(Menu menu) {
+    public Menu saveMenu(Menu menu) {
         MenuEntity menuEntity = menuRepository.findById(menu.getId()).orElse(null);
         if(menuEntity == null) {
             menuEntity = MenuEntity.builder()
@@ -50,7 +51,8 @@ public class MenuService {
                         })
                         .collect(Collectors.toList()))
                 .build();
-        menuRepository.saveAndFlush(menuEntity);
+        menuEntity = menuRepository.saveAndFlush(menuEntity);
+        return Menu.from(menuEntity);
     }
 
     /**

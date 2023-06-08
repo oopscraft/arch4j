@@ -23,8 +23,9 @@ public class AuthorityService {
     /**
      * save authority
      * @param authority authority
+     * @return authority
      */
-    public void saveAuthority(Authority authority) {
+    public Authority saveAuthority(Authority authority) {
         AuthorityEntity authorityEntity = authorityRepository.findById(authority.getId()).orElse(null);
         if(authorityEntity == null) {
             authorityEntity = AuthorityEntity.builder()
@@ -35,7 +36,8 @@ public class AuthorityService {
                 .name(authority.getName())
                 .note(authority.getNote())
                 .build();
-        authorityRepository.saveAndFlush(authorityEntity);
+        authorityEntity = authorityRepository.saveAndFlush(authorityEntity);
+        return Authority.from(authorityEntity);
     }
 
     /**

@@ -26,53 +26,34 @@ class BoardServiceTest extends CoreTestSupport {
     @Test
     @Order(1)
     void saveBoard() {
-        boardService.saveBoard(testBoard);
-        assertNotNull(entityManager.find(BoardEntity.class, testBoard.getId()));
+        Board savedBoard = boardService.saveBoard(testBoard);
+        assertNotNull(entityManager.find(BoardEntity.class, savedBoard.getId()));
     }
 
     @Test
     @Order(2)
     void getUser() {
-
-        // save test board
-        saveBoard();
-
-        // get board
-        Board board = boardService.getBoard(testBoard.getId()).orElse(null);
-
-        // check
+        Board savedBoard = boardService.saveBoard(testBoard);
+        Board board = boardService.getBoard(savedBoard.getId()).orElse(null);
         assertNotNull(board);
     }
 
     @Test
     @Order(3)
     void deleteBoard() {
-
-        // save test board
-        saveBoard();
-
-        // delete
-        boardService.deleteBoard(testBoard.getId());
-
-        // check
-        assertNull(entityManager.find(BoardEntity.class, testBoard.getId()));
+        Board savedBoard = boardService.saveBoard(testBoard);
+        boardService.deleteBoard(savedBoard.getId());
+        assertNull(entityManager.find(BoardEntity.class, savedBoard.getId()));
     }
 
     @Test
     @Order(4)
-    void getUsers() {
-
-        // save test user
-        saveBoard();
-
-        // get board by condition
+    void getBoard() {
+        Board savedBoard = boardService.saveBoard(testBoard);
         BoardSearch boardSearch = BoardSearch.builder()
-                .name(testBoard.getName())
+                .name(savedBoard.getName())
                 .build();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Board> boardPage = boardService.getBoards(boardSearch, pageable);
-
-        // check result
+        Page<Board> boardPage = boardService.getBoards(boardSearch, PageRequest.of(0,10));
         assertTrue(boardPage.getContent().stream().anyMatch(e -> e.getName().contains(boardSearch.getName())));
     }
 

@@ -25,22 +25,21 @@
         <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold"></span>
     </h2>
     <div class="col-12">
-        <span style="display:inline-block; min-width:100px;">
+        <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{core.article.userName}"></span>
-            :
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </span>
+        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{core.article.dateTime}"></span>
-            :
             <span data-duice-bind="article" data-duice-property="dateTime" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </span>
+        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="commentCount"></span>
         </span>
+        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="likeCount"></span>
@@ -84,11 +83,12 @@
         </h2>
     </div>
 </div>
+
 <!-- comment list -->
 <div class="container">
     <div class="col-12">
         <div class="container padding-top-1em padding-bottom-1rem" data-duice-bind="comments" data-duice-loop="comment,status" data-duice-hierarchy="id,parentId"
-             data-duice-script="this.style.marginLeft = (status.depth*1) + 'em';">
+             data-duice-script="this.style.marginLeft = (status.depth*2) + 'em';">
             <div class="col-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                     data-duice-bind="comment" data-duice-script="
@@ -106,22 +106,20 @@
                         this.hidden = true;
                     }
                     "/>
-                <span style="display:inline-block; min-width:100px;">
+                <span>
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
-                    <span data-th-text="#{core.comment.userName}"></span>
                     <span data-duice-bind="comment" data-duice-property="userName"></span>
                 </span>
+                <span class="font-size-smaller">|</span>
                 <span>
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
-                <span data-th-text="#{core.comment.createdAt}"></span>
-                :
-                <span data-duice-bind="comment" data-duice-property="dateTime"
-                      data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
-            </span>
+                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+                    <span data-duice-bind="comment" data-duice-property="dateTime" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+                </span>
+                <span class="font-size-smaller">|</span>
                 <span>
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
-                <span data-duice-bind="comment" data-duice-property="likeCount"></span>
-            </span>
+                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+                    <span data-duice-bind="comment" data-duice-property="likeCount"></span>
+                </span>
             </div>
             <div class="col-12">
                 <div data-duice-bind="comment" data-duice-property="content"></div>
@@ -136,6 +134,7 @@
         </div>
     </div>
 </div>
+
 <!-- comment post -->
 <div id="comment-post-container">
     <div id="comment-post" class="container">

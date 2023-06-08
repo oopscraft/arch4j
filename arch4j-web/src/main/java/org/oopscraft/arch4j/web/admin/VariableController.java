@@ -60,8 +60,8 @@ public class VariableController {
     @PostMapping("save-variable")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_VARIABLE_EDIT')")
-    public void saveVariable(@RequestBody @Valid Variable variable) {
-        variableService.saveVariable(variable);
+    public Variable saveVariable(@RequestBody @Valid Variable variable) {
+        return variableService.saveVariable(variable);
     }
 
     /**

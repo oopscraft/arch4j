@@ -24,11 +24,14 @@ public class Board {
 
     private String skin;
 
-    private Integer pageSize;
+    @Builder.Default
+    private Integer pageSize = 20;
 
-    private Boolean replyEnabled;
+    @Builder.Default
+    private Boolean replyEnabled = true;
 
-    private Boolean fileEnabled;
+    @Builder.Default
+    private Boolean fileEnabled = true;
 
     @Builder.Default
     private List<Role> accessRoles = new ArrayList<>();

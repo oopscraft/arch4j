@@ -3,10 +3,6 @@ package org.oopscraft.arch4j.web.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.info.InfoEndpoint;
-import org.springframework.boot.actuate.metrics.MetricsEndpoint;
-import org.springframework.boot.info.JavaInfo;
-import org.springframework.boot.info.OsInfo;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.security.PermitAll;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Controller
 @RequestMapping("admin/monitor")

@@ -33,8 +33,8 @@ public class SampleController {
      */
     @PostMapping("save-sample")
     @ResponseBody
-    public void saveSample(@RequestBody Sample sample) {
-        sampleService.saveSample(sample);
+    public Sample saveSample(@RequestBody Sample sample) {
+        return sampleService.saveSample(sample);
     }
 
     /**

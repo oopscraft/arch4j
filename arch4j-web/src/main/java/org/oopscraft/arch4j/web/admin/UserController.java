@@ -73,8 +73,8 @@ public class UserController {
     @PostMapping("save-user")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
-    public void saveUser(@RequestBody @Valid User user) {
-        userService.saveUser(user);
+    public User saveUser(@RequestBody @Valid User user) {
+        return userService.saveUser(user);
     }
 
     /**

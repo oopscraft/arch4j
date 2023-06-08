@@ -22,15 +22,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final LoginHistoryRepository userLoginRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     /**
      * saves user
      * @param user user info
      */
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getId()).orElse(null);
         if(userEntity == null) {
             userEntity = UserEntity.builder()
@@ -57,7 +55,8 @@ public class UserService {
                         })
                         .collect(Collectors.toList()))
                 .build();
-        userRepository.saveAndFlush(userEntity);
+        userEntity = userRepository.saveAndFlush(userEntity);
+        return User.from(userEntity);
     }
 
     /**

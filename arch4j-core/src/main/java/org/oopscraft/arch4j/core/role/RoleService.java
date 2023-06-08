@@ -24,8 +24,9 @@ public class RoleService {
     /**
      * save role
      * @param role role
+     * @return role
      */
-    public void saveRole(Role role) {
+    public Role saveRole(Role role) {
         RoleEntity roleEntity = roleRepository.findById(role.getId()).orElse(null);
         if(roleEntity == null) {
             roleEntity = RoleEntity.builder()
@@ -45,7 +46,8 @@ public class RoleService {
                         })
                         .collect(Collectors.toList()))
                 .build();
-        roleRepository.saveAndFlush(roleEntity);
+        roleEntity = roleRepository.saveAndFlush(roleEntity);
+        return Role.from(roleEntity);
     }
 
     /**

@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, String>, JpaSpecificationExecutor<CommentEntity> {
 
-    public List<CommentEntity> findAllByOwnerTypeAndOwnerIdOrderByCreatedAtDesc(String ownerType, String ownerId);
+    List<CommentEntity> findAllByOwnerTypeAndOwnerIdOrderByCreatedAtDesc(String ownerType, String ownerId);
 
 }

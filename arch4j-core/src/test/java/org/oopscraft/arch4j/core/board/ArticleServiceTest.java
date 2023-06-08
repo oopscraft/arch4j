@@ -19,7 +19,6 @@ class ArticleServiceTest extends CoreTestSupport {
     final ArticleService articleService;
 
     Article testArticle = Article.builder()
-            .id(UUID.randomUUID().toString())
             .title("test title")
             .content("test content")
             .boardId("test")
@@ -28,53 +27,35 @@ class ArticleServiceTest extends CoreTestSupport {
     @Test
     @Order(1)
     void saveArticle() {
-        articleService.saveArticle(testArticle);
-        assertNotNull(entityManager.find(ArticleEntity.class, testArticle.getId()));
+        Article savedArticle = articleService.saveArticle(testArticle);
+        assertNotNull(entityManager.find(ArticleEntity.class, savedArticle.getId()));
     }
 
     @Test
     @Order(2)
     void getArticle() {
-
-        // save test
-        saveArticle();
-
-        // get article
-        Article article = articleService.getArticle(testArticle.getId()).orElse(null);
-
-        // check
+        Article savedArticle = articleService.saveArticle(testArticle);
+        Article article = articleService.getArticle(savedArticle.getId()).orElse(null);
         assertNotNull(article);
     }
 
     @Test
     @Order(3)
     void deleteArticle() {
-
-        // save test user
-        saveArticle();
-
-        // delete
-        articleService.deleteArticle(testArticle.getId());
-
-        // check
-        assertNull(entityManager.find(ArticleEntity.class, testArticle.getId()));
+        Article savedArticle = articleService.saveArticle(testArticle);saveArticle();
+        articleService.deleteArticle(savedArticle.getId());
+        assertNull(entityManager.find(ArticleEntity.class, savedArticle.getId()));
     }
 
     @Test
     @Order(4)
     void getArticles() {
-
-        // save test user
-        saveArticle();
-
-        // get users by condition
+        Article savedArticle = articleService.saveArticle(testArticle);
         ArticleSearch articleSearch = ArticleSearch.builder()
-                .boardId(testArticle.getBoardId())
+                .boardId(savedArticle.getBoardId())
                 .build();
         Pageable pageable = PageRequest.of(0, 10);
         Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
-
-        // check result
         assertTrue(articlePage.getContent().stream().anyMatch(e -> e.getBoardId().equals(articleSearch.getBoardId())));
     }
 

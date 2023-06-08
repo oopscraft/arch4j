@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
@@ -35,46 +35,27 @@ class AuthorityServiceTest extends CoreTestSupport {
     @Test
     @Order(2)
     void getAuthority() {
-
-        // save test role
-        saveAuthority();
-
-        // get role
-        Authority authority = authorityService.getAuthority(testAuthority.getId()).orElse(null);
-
-        // check
+        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
+        Authority authority = authorityService.getAuthority(savedAuthority.getId()).orElse(null);
         assertNotNull(authority);
     }
 
     @Test
     @Order(3)
-    void deleteRole() {
-
-        // save test data
-        saveAuthority();
-
-        // delete
-        authorityService.deleteAuthority(testAuthority.getId());
-
-        // check
-        assertNull(entityManager.find(RoleEntity.class, testAuthority.getId()));
+    void deleteAuthority() {
+        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
+        authorityService.deleteAuthority(savedAuthority.getId());
+        assertNull(entityManager.find(RoleEntity.class, savedAuthority.getId()));
     }
 
     @Test
     @Order(4)
-    void getRoles() {
-
-        // save test
-        saveAuthority();
-
-        // search by condition
+    void getAuthorities() {
+        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
         AuthoritySearch authoritySearch = AuthoritySearch.builder()
-                .name(testAuthority.getName())
+                .name(savedAuthority.getName())
                 .build();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Authority> rolePage = authorityService.getAuthorities(authoritySearch, pageable);
-
-        // check result
+        Page<Authority> rolePage = authorityService.getAuthorities(authoritySearch, PageRequest.of(0,10));
         assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getName().contains(authoritySearch.getName())));
     }
 

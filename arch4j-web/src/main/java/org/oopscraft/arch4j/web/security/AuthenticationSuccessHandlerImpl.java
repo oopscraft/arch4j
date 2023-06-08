@@ -49,7 +49,8 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                 .ipAddress(ipAddress)
                 .userAgent(userAgent)
                 .build();
-        loginHistoryService.saveLoginHistory(loginHistory);
+        loginHistory = loginHistoryService.saveLoginHistory(loginHistory);
+        log.debug("loginHistory:{}", loginHistory);
     }
 
 }

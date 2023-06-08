@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.code;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.code.repository.CodeItemEntity;
 
 

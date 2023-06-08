@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
@@ -27,53 +27,35 @@ class RoleServiceTest extends CoreTestSupport {
     @Test
     @Order(1)
     void saveRole() {
-        roleService.saveRole(testRole);
-        assertNotNull(entityManager.find(RoleEntity.class, testRole.getId()));
+        Role savedRole = roleService.saveRole(testRole);
+        assertNotNull(savedRole);
+        assertNotNull(entityManager.find(RoleEntity.class, savedRole.getId()));
     }
 
     @Test
     @Order(2)
     void getRole() {
-
-        // save test role
-        saveRole();
-
-        // get role
-        Role role = roleService.getRole(testRole.getId()).orElse(null);
-
-        // check
+        Role savedRole = roleService.saveRole(testRole);
+        Role role = roleService.getRole(savedRole.getId()).orElse(null);
         assertNotNull(role);
     }
 
     @Test
     @Order(3)
     void deleteRole() {
-
-        // save test data
-        saveRole();
-
-        // delete
-        roleService.deleteRole(testRole.getId());
-
-        // check
+        Role savedRole = roleService.saveRole(testRole);
+        roleService.deleteRole(savedRole.getId());
         assertNull(entityManager.find(RoleEntity.class, testRole.getId()));
     }
 
     @Test
     @Order(4)
     void getRoles() {
-
-        // save test
-        saveRole();
-
-        // search by condition
+        Role savedRole = roleService.saveRole(testRole);
         RoleSearch roleSearch = RoleSearch.builder()
-                .name(testRole.getName())
+                .name(savedRole.getName())
                 .build();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Role> rolePage = roleService.getRoles(roleSearch, pageable);
-
-        // check result
+        Page<Role> rolePage = roleService.getRoles(roleSearch, PageRequest.of(0,10));
         assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getName().contains(roleSearch.getName())));
     }
 

@@ -26,8 +26,8 @@ public abstract class FileService {
                 .contentType(fileInfo.getContentType())
                 .length(fileInfo.getLength())
                 .build();
-        fileInfoRepository.saveAndFlush(fileInfoEntity);
-        return fileInfo;
+        fileInfoEntity = fileInfoRepository.saveAndFlush(fileInfoEntity);
+        return FileInfo.from(fileInfoEntity);
     }
 
     public void deleteFile(String id) {

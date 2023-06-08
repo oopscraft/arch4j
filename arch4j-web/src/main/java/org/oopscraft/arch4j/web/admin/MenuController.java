@@ -66,11 +66,11 @@ public class MenuController {
     @PostMapping("save-menu")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
-    public void saveMenu(@RequestBody @Valid Menu menu) {
+    public Menu saveMenu(@RequestBody @Valid Menu menu) {
         if(menu.getId() == null) {
             menu.setId(UUID.randomUUID().toString());
         }
-        menuService.saveMenu(menu);
+        return menuService.saveMenu(menu);
     }
 
     /**

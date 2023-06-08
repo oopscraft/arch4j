@@ -30,8 +30,9 @@ public class SampleService {
     /**
      * save sample
      * @param sample sample
+     * @return sample
      */
-    public void saveSample(Sample sample) {
+    public Sample saveSample(Sample sample) {
         SampleEntity sampleEntity = sampleRepository.findById(sample.getId()).orElse(null);
         if(sampleEntity == null) {
             sampleEntity = SampleEntity.builder()
@@ -39,7 +40,8 @@ public class SampleService {
                     .build();
         }
         modelMapper.map(sample, sampleEntity);
-        sampleRepository.saveAndFlush(sampleEntity);
+        sampleEntity = sampleRepository.saveAndFlush(sampleEntity);
+        return Sample.from(sampleEntity);
     }
 
     /**

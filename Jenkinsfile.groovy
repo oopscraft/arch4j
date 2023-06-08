@@ -33,6 +33,19 @@ pipeline {
                 checkout scm
             }
         }
+        stage("build") {
+            environment {
+                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
+            }
+            steps {
+                sh '''
+                ./gradlew build --refresh-dependencies --stacktrace \
+                -PmavenUrl=${MAVEN_URL} \
+                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
+                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
+                '''.stripIndent()
+            }
+        }
         stage("publish") {
             environment {
                 MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
@@ -40,7 +53,7 @@ pipeline {
             }
             steps {
                 sh '''
-                ./gradlew publish -x test --refresh-dependencies --stacktrace \
+                ./gradlew publish -x test \
                 -PmavenUrl=${MAVEN_URL} \
                 -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
                 -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
@@ -57,7 +70,7 @@ pipeline {
             }
             steps {
                 sh '''
-                ./gradlew jib -x test --refresh-dependencies --stacktrace \
+                ./gradlew jib -x test \
                 -PjibFromImage=${JIB_FROM_IMAGE} \
                 -PjibFromAuthUsername=${JIB_FROM_AUTH_CREDENTIALS_USR} \
                 -PjibFromAuthPassword=${JIB_FROM_AUTH_CREDENTIALS_PSW} \

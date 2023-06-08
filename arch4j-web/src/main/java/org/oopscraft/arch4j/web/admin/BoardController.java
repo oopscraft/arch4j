@@ -4,9 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardSearch;
 import org.oopscraft.arch4j.core.board.BoardService;
-import org.oopscraft.arch4j.core.variable.Variable;
-import org.oopscraft.arch4j.core.variable.VariableSearch;
-import org.oopscraft.arch4j.core.variable.VariableService;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,8 +59,8 @@ public class BoardController {
     @PostMapping("save-board")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_BOARD_EDIT')")
-    public void saveVariable(@RequestBody @Valid Board board) {
-        boardService.saveBoard(board);
+    public Board saveVariable(@RequestBody @Valid Board board) {
+        return boardService.saveBoard(board);
     }
 
     /**

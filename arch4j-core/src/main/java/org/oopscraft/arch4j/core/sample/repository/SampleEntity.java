@@ -21,6 +21,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"items"})
 public class SampleEntity extends SystemFieldEntity {
 
     @Id

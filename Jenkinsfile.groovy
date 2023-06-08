@@ -45,8 +45,6 @@ pipeline {
                 -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
                 -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
                 '''.stripIndent()
-
-                junit '**/build/test-results/test/*.xml'
             }
         }
         stage("publish") {
@@ -100,6 +98,7 @@ pipeline {
     }
     post {
         always {
+            // send message
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
                     slackSend (
@@ -108,6 +107,8 @@ pipeline {
                     )
                 }
             }
+            // junit
+            junit '**/build/test-results/test/*.xml'
         }
     }
 

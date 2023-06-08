@@ -18,7 +18,7 @@ logging:
 spring:
   output:
     ansi:
-      enabled: always
+      enabled: detect
   datasource:
     hikari:
       driver-class-Name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

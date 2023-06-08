@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +23,13 @@ public class Article {
 
     private LocalDateTime dateTime;
 
+    @NotBlank(message = "Title is empty")
     private String title;
 
+    @NotBlank(message = "Content is empty")
     private String content;
 
+    @NotBlank(message = "Board ID is empty")
     private String boardId;
 
     private String userId;

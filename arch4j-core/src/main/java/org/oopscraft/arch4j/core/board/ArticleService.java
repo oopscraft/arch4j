@@ -5,17 +5,14 @@ import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
 import org.oopscraft.arch4j.core.comment.Comment;
 import org.oopscraft.arch4j.core.comment.CommentService;
-import org.oopscraft.arch4j.core.file.FileInfo;
-import org.oopscraft.arch4j.core.file.FileService;
 import org.oopscraft.arch4j.core.data.IdGenerator;
+import org.oopscraft.arch4j.core.data.ValidationUtils;
 import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +24,6 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    private final FileService fileService;
-
     private final CommentService commentService;
 
     /**
@@ -37,6 +32,7 @@ public class ArticleService {
      * @return article
      */
     public Article saveArticle(Article article) {
+        ValidationUtils.validate(article);
         ArticleEntity articleEntity = null;
         if(article.getId() != null) {
             articleEntity = articleRepository.findById(article.getId()).orElse(null);

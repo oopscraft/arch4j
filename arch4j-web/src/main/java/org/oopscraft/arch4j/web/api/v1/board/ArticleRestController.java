@@ -29,15 +29,14 @@ public class ArticleRestController {
     private final ArticleService articleService;
 
     /**
-     * save article
+     * create article
      * @param boardId board id
      * @param articleRequest article info
      */
     @PostMapping("article")
-    @Operation(summary = "save article info")
-    public ResponseEntity<ArticleResponse> saveArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
+    @Operation(summary = "create new article")
+    public ResponseEntity<ArticleResponse> createArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
         Article article = Article.builder()
-                .id(articleRequest.getId())
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
@@ -56,9 +55,21 @@ public class ArticleRestController {
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
+    /**
+     * modify article
+     * @param boardId board id
+     * @param articleId article id
+     * @param article article
+     * @return saved article
+     */
     @PutMapping("article/{articleId}")
-    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId) {
-        return null;
+    @Operation(summary = "modify article")
+    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId, Article article) {
+        Article one = articleService.getArticle(articleId).orElseThrow(RuntimeException::new);
+        one.setTitle(article.getTitle());
+        one.setContent(article.getContent());
+        Article savedArticle = articleService.saveArticle(article);
+        return ResponseEntity.ok(ArticleResponse.from(savedArticle));
     }
 
     /**

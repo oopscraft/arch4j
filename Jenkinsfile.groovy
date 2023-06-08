@@ -98,25 +98,20 @@ pipeline {
 
     post {
         always {
-            // Actions to be executed regardless of build status
+            script {
+                echo 'Always executed!'
+            }
         }
-
         success {
-            // Actions to be executed only if the build is successful
+            script {
+                slackSend channel: '#your-channel', message: 'Build successful!'
+            }
         }
-
         failure {
-            // Actions to be executed only if the build fails
+            script {
+                slackSend channel: '#your-channel', message: 'Build failed!'
+            }
         }
-
-        unstable {
-            // Actions to be executed only if the build is unstable
-        }
-
-        aborted {
-            // Actions to be executed only if the build is aborted
-        }
-
-        // Add more post-build conditions and actions as needed
     }
+
 }

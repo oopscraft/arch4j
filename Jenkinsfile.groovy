@@ -101,12 +101,7 @@ pipeline {
         always {
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
-                    slackSend (
-                            channel: '#oopscraft',
-                            message: """
-                                Job ${env.JOB_NAME} ${env.BUILD_NUMBER} 
-                            """
-                    )
+                    slackSend channel: '#oopscraftorg', message: 'Build ${env.JOB_NAME}'
                 }
             }
         }

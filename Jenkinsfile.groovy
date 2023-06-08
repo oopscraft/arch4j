@@ -95,4 +95,28 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            // Actions to be executed regardless of build status
+        }
+
+        success {
+            // Actions to be executed only if the build is successful
+        }
+
+        failure {
+            // Actions to be executed only if the build fails
+        }
+
+        unstable {
+            // Actions to be executed only if the build is unstable
+        }
+
+        aborted {
+            // Actions to be executed only if the build is aborted
+        }
+
+        // Add more post-build conditions and actions as needed
+    }
 }

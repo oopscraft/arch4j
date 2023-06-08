@@ -22,6 +22,7 @@ pipeline {
                 name: 'JIB_TO_AUTH_CREDENTIALS',
                 defaultValue: params.JIB_TO_AUTH_CREDENTIALS,
                 description: 'target image repository credentials')
+        string(name: 'SEND_MESSAGE_TO', defaultValue: params.SEND_MESSAGE_TO ?: 'SLACK', description: 'SLACK')
     }
     options {
         disableConcurrentBuilds()
@@ -97,11 +98,14 @@ pipeline {
     }
 
     post {
+        when {
+            expression {
+                params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')
+            }
+        }
         always {
             script {
-                if(jenkins.model.Jenkins.instance.pluginManager.isPluginInstalled('slack')) {
-                    slackSend channel: '#oopscraftorg', message: 'Build failed!'
-                }
+                slackSend channel: '#oopscraftorg', message: 'Build failed!'
             }
         }
     }

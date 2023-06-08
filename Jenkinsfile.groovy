@@ -102,8 +102,7 @@ pipeline {
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
                     slackSend (
-                            channel: '#test',
-                            color: '#00FF00',
+                            channel: '#oopscraft',
                             message: """
                                 Job ${env.JOB_NAME} ${env.BUILD_NUMBER} 
                             """

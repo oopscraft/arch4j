@@ -45,6 +45,8 @@ pipeline {
                 -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
                 -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
                 '''.stripIndent()
+
+                junit '**/build/test-results/test/*.xml'
             }
         }
         stage("publish") {

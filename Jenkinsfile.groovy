@@ -98,16 +98,20 @@ pipeline {
     }
 
     post {
-        when {
-            expression {
-                params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')
-            }
-        }
         always {
             script {
-                slackSend channel: '#oopscraftorg', message: 'Build failed!'
+                if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
+                    slackSend channel: '#oopscraftorg', message: 'Build failed!'
+                }
             }
         }
+
+
+//        when {
+//            expression {
+//                params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')
+//            }
+//        }
     }
 
 }

@@ -20,6 +20,7 @@ public class FileInfo extends SystemFieldEntity {
 
     private String contentType;
 
+    @Builder.Default
     private Long length = 0L;
 
     /**

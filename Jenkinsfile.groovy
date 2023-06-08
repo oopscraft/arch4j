@@ -98,6 +98,10 @@ pipeline {
     }
     post {
         always {
+
+            // junit
+            junit '**/build/test-results/test/*.xml'
+
             // send message
             script {
                 if(params.SEND_MESSAGE_TO != null && params.SEND_MESSAGE_TO.contains('SLACK')) {
@@ -107,8 +111,6 @@ pipeline {
                     )
                 }
             }
-            // junit
-            junit '**/build/test-results/test/*.xml'
         }
     }
 

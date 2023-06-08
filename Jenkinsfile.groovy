@@ -33,67 +33,67 @@ pipeline {
                 checkout scm
             }
         }
-        stage("build") {
-            environment {
-                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
-            }
-            steps {
-                sh '''
-                ./gradlew build --refresh-dependencies --stacktrace \
-                -PmavenUrl=${MAVEN_URL} \
-                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
-                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
-                '''.stripIndent()
-            }
-        }
-        stage("publish") {
-            environment {
-                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
-                PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
-            }
-            steps {
-                sh '''
-                ./gradlew publish -x test \
-                -PmavenUrl=${MAVEN_URL} \
-                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
-                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
-                -PpublishingMavenUrl=${PUBLISHING_MAVEN_URL} \
-                -PpublishingMavenUsername=${PUBLISHING_MAVEN_CREDENTIALS_USR} \
-                -PpublishingMavenPassword=${PUBLISHING_MAVEN_CREDENTIALS_PSW} \
-                '''.stripIndent()
-            }
-        }
-        stage("jib") {
-            environment {
-                JIB_FROM_AUTH_CREDENTIALS = credentials('JIB_FROM_AUTH_CREDENTIALS')
-                JIB_TO_AUTH_CREDENTIALS = credentials('JIB_TO_AUTH_CREDENTIALS')
-            }
-            steps {
-                sh '''
-                ./gradlew jib -x test \
-                -PjibFromImage=${JIB_FROM_IMAGE} \
-                -PjibFromAuthUsername=${JIB_FROM_AUTH_CREDENTIALS_USR} \
-                -PjibFromAuthPassword=${JIB_FROM_AUTH_CREDENTIALS_PSW} \
-                -PjibToImageNamespace=${JIB_TO_IMAGE_NAMESPACE} \
-                -PjibToTags=${JIB_TO_TAGS} \
-                -PjibToAuthUsername=${JIB_TO_AUTH_CREDENTIALS_USR} \
-                -PjibToAuthPassword=${JIB_TO_AUTH_CREDENTIALS_PSW} \
-                '''.stripIndent()
-            }
-        }
-        stage("deploy") {
-            steps {
-                sh '''
-                    kubectl \
-                    rollout restart deployment/arch4j-web \
-                    -o yaml
-                '''.stripIndent()
-                sh '''
-                    kubectl \
-                    rollout status deployment/arch4j-web
-                '''.stripIndent()
-            }
-        }
+//        stage("build") {
+//            environment {
+//                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
+//            }
+//            steps {
+//                sh '''
+//                ./gradlew build --refresh-dependencies --stacktrace \
+//                -PmavenUrl=${MAVEN_URL} \
+//                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
+//                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
+//                '''.stripIndent()
+//            }
+//        }
+//        stage("publish") {
+//            environment {
+//                MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
+//                PUBLISHING_MAVEN_CREDENTIALS = credentials('PUBLISHING_MAVEN_CREDENTIALS')
+//            }
+//            steps {
+//                sh '''
+//                ./gradlew publish -x test \
+//                -PmavenUrl=${MAVEN_URL} \
+//                -PmavenUsername=${MAVEN_CREDENTIALS_USR} \
+//                -PmavenPassword=${MAVEN_CREDENTIALS_PWD} \
+//                -PpublishingMavenUrl=${PUBLISHING_MAVEN_URL} \
+//                -PpublishingMavenUsername=${PUBLISHING_MAVEN_CREDENTIALS_USR} \
+//                -PpublishingMavenPassword=${PUBLISHING_MAVEN_CREDENTIALS_PSW} \
+//                '''.stripIndent()
+//            }
+//        }
+//        stage("jib") {
+//            environment {
+//                JIB_FROM_AUTH_CREDENTIALS = credentials('JIB_FROM_AUTH_CREDENTIALS')
+//                JIB_TO_AUTH_CREDENTIALS = credentials('JIB_TO_AUTH_CREDENTIALS')
+//            }
+//            steps {
+//                sh '''
+//                ./gradlew jib -x test \
+//                -PjibFromImage=${JIB_FROM_IMAGE} \
+//                -PjibFromAuthUsername=${JIB_FROM_AUTH_CREDENTIALS_USR} \
+//                -PjibFromAuthPassword=${JIB_FROM_AUTH_CREDENTIALS_PSW} \
+//                -PjibToImageNamespace=${JIB_TO_IMAGE_NAMESPACE} \
+//                -PjibToTags=${JIB_TO_TAGS} \
+//                -PjibToAuthUsername=${JIB_TO_AUTH_CREDENTIALS_USR} \
+//                -PjibToAuthPassword=${JIB_TO_AUTH_CREDENTIALS_PSW} \
+//                '''.stripIndent()
+//            }
+//        }
+//        stage("deploy") {
+//            steps {
+//                sh '''
+//                    kubectl \
+//                    rollout restart deployment/arch4j-web \
+//                    -o yaml
+//                '''.stripIndent()
+//                sh '''
+//                    kubectl \
+//                    rollout status deployment/arch4j-web
+//                '''.stripIndent()
+//            }
+//        }
     }
 
     post {
@@ -104,12 +104,12 @@ pipeline {
         }
         success {
             script {
-                slackSend channel: '#your-channel', message: 'Build successful!'
+                slackSend channel: '#oopscraftorg', message: 'Build successful!'
             }
         }
         failure {
             script {
-                slackSend channel: '#your-channel', message: 'Build failed!'
+                slackSend channel: '#oopscraftorg', message: 'Build failed!'
             }
         }
     }

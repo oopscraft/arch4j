@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
-public class HomeController {
+public class WebController {
 
     private static final long SCRIPT_VERSION = System.currentTimeMillis();
 

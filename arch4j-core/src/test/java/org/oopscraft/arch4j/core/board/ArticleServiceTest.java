@@ -22,6 +22,9 @@ class ArticleServiceTest extends CoreTestSupport {
             .title("test title")
             .content("test content")
             .boardId("test")
+            .userId("test")
+            .userName("test")
+            .password("password")
             .build();
 
     @Test

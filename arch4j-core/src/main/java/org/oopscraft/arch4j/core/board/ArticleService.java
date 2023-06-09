@@ -8,11 +8,14 @@ import org.oopscraft.arch4j.core.comment.CommentService;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.data.ValidationUtils;
 import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Security;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,37 +29,75 @@ public class ArticleService {
 
     private final CommentService commentService;
 
+    private final PasswordEncoder passwordEncoder;
+
     /**
      * saves article
      * @param article article info
      * @return article
      */
     public Article saveArticle(Article article) {
-        ValidationUtils.validate(article);
-        ArticleEntity articleEntity = null;
-        if(article.getId() != null) {
-            articleEntity = articleRepository.findById(article.getId()).orElse(null);
-        }
-        if(articleEntity == null) {
+        ValidationUtils.validate(article);  // validate
+        ArticleEntity articleEntity;
+
+        // create new article
+        if(article.getId() == null) {
             articleEntity = ArticleEntity.builder()
                     .id(IdGenerator.uuid())
                     .dateTime(LocalDateTime.now())
                     .build();
+
+            // authenticated user
+            if(SecurityUtils.isAuthenticated()) {
+                articleEntity.setUserId(SecurityUtils.getCurrentUserId());
+            }
+            // anonymous user
+            else{
+                // userName required
+                if(article.getUserName() == null) {
+                    throw new RuntimeException("userName is required");
+                }
+                articleEntity.setUserName(article.getUserName());
+
+                // password required
+                if(article.getPassword() == null) {
+                    throw new RuntimeException("password is required.");
+                }
+                articleEntity.setPassword(passwordEncoder.encode(article.getPassword()));
+            }
         }
+        // modify previous article
+        else {
+            articleEntity = articleRepository.findById(article.getId()).orElseThrow(RuntimeException::new);
+
+            // check current user is match to writer
+            if(articleEntity.getUserId() != null) {
+                if(!articleEntity.getUserId().equals(SecurityUtils.getCurrentUserId())){
+                    throw new RuntimeException("not matches user id");
+                }
+            }
+            // if anonymous user's article, check password
+            else{
+                if(!passwordEncoder.matches(article.getPassword(), articleEntity.getPassword())) {
+                    throw new RuntimeException("password not matches");
+                }
+            }
+        }
+
+        // set property
         articleEntity.setTitle(article.getTitle());
         articleEntity.setContent(article.getContent());
         articleEntity.setBoardId(article.getBoardId());
 
         // files
         articleEntity.setFiles(article.getFiles().stream()
-                .map(fileInfo -> {
-                    return FileInfoEntity.builder()
-                            .id(fileInfo.getId())
-                            .filename(fileInfo.getFilename())
-                            .contentType(fileInfo.getContentType())
-                            .length(fileInfo.getLength())
-                            .build();
-                }).collect(Collectors.toList()));
+                .map(fileInfo -> FileInfoEntity.builder()
+                        .id(fileInfo.getId())
+                        .filename(fileInfo.getFilename())
+                        .contentType(fileInfo.getContentType())
+                        .length(fileInfo.getLength())
+                        .build())
+                .collect(Collectors.toList()));
 
         // save
         articleEntity = articleRepository.saveAndFlush(articleEntity);
@@ -115,4 +156,22 @@ public class ArticleService {
         return commentService.getComments("ARTICLE", articleId);
     }
 
+    /**
+     * return article comment
+     * @param articleId article id
+     * @param commentId comment id
+     * @return comment info
+     */
+    public Optional<Comment> getArticleComment(String articleId, String commentId) {
+        return commentService.getComment(commentId);
+    }
+
+    /**
+     * delete comment
+     * @param articleId article id
+     * @param commentId comment id
+     */
+    public void deleteArticleComment(String articleId, String commentId) {
+        commentService.deleteComment(commentId);
+    }
 }

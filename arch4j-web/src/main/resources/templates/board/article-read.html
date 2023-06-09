@@ -42,22 +42,52 @@
          * add article comment
          * @param parentId
          */
-        function addComment(parentId) {
+        function replyComment(parentId) {
             duice.ObjectProxy.clear(comment);
             comment.parentId = parentId;
-            let commentPost = document.getElementById('comment-post');
-            let parentCommentId = document.querySelector(`[data-comment-id="${parentId}"]`);
-            parentCommentId.appendChild(commentPost);
+            let commentForm = document.getElementById('comment-form');
+            let parentCommentElement = document.querySelector(`[data-comment-id="${parentId}"]`);
+            parentCommentElement.appendChild(commentForm);
         }
 
         /**
-         * clear comment
+         * edit comment
+         * @param id
          */
-        function clearComment() {
+        function editComment(id) {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${id}`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.clear(comment);
+                    duice.ObjectProxy.assign(comment, data);
+                    let commentForm = document.getElementById('comment-form');
+                    commentForm.dataset.commentId = id;
+                    let commentElement = document.querySelector(`[data-comment-id="${id}"]`);
+                    commentForm.style.marginLeft = commentElement.style.marginLeft;
+                    commentElement.parentNode.insertBefore(commentForm, commentElement);
+                    commentElement.style.display = 'none';
+                });
+        }
+
+        /**
+         * cancel comment
+         */
+        function cancelComment() {
             duice.ObjectProxy.clear(comment);
-            let commentPost = document.getElementById('comment-post');
-            let commentPostContainer = document.getElementById('comment-post-container');
-            commentPostContainer.appendChild(commentPost);
+            let commentForm = document.getElementById('comment-form');
+            commentForm.style.marginLeft = 'initial';
+            let commentFormContainer = document.getElementById('comment-form-container');
+            commentFormContainer.appendChild(commentForm);
+
+            // in case of edit
+            let commentId = commentForm.dataset.commentId;
+            if(commentId) {
+                console.log(commentId);
+                let commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+                commentElement.style.display = 'block';
+                commentForm.dataset.commentId = '';
+            }
         }
 
         /**
@@ -73,7 +103,7 @@
                 body: JSON.stringify(comment)
             }).then(response => {
                 if(response.ok) {
-                    clearComment();
+                    cancelComment();
                     getComments();
                 }
             })
@@ -92,8 +122,17 @@
         /**
          * goto article edit
          */
-        function gotoEdit() {
-            document.location.href = `[[@{/}]]board/${boardId}/article-post?id=${articleId}`;
+        async function gotoEdit() {
+            let url = new URL(`[[@{/}]]board/${boardId}/article-post`, document.location.origin);
+            url.searchParams.append('id', articleId);
+            if(!article.userId) {
+                let password = await _prompt('enter password');
+                if(!password) {
+                    return false;
+                }
+                url.searchParams.append('password',password);
+            }
+            document.location.href = url.toString();
         }
 
         /**

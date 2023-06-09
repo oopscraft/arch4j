@@ -22,6 +22,19 @@ public class SecurityUtils {
     }
 
     /**
+     * check if authenticated
+     * @return whether authenticated or not
+     */
+    public static boolean isAuthenticated() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        if(securityContext != null) {
+            Authentication authentication = securityContext.getAuthentication();
+            return authentication instanceof UsernamePasswordAuthenticationToken;
+        }
+        return false;
+    }
+
+    /**
      * returns current login user details
      * @return user details
      */

@@ -18,6 +18,10 @@ public class ArticleRequest {
 
     private String content;
 
+    private String userName;
+
+    private String password;
+
     @Builder.Default
     private List<FileInfoRequest> files = new ArrayList<>();
 

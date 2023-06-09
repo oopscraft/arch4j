@@ -9,8 +9,9 @@
     <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/lib/simplemde/simplemde.min.css?version={version}(version=${_scriptVersion})}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/simplemde/simplemde.min.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/simplemde/simplemde.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/ckeditor/ckeditor.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
@@ -18,11 +19,18 @@
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <script>
         const _apiUrl = '[[@{/api}]]';
+        const _authenticated = [[${#authorization.expression('isAuthenticated()')}]];
     </script>
 </head>
 
 <!-- header -->
 <th:block th:include="|theme/${_theme}/_web.html| :: _header"/>
+
+<!-- auto completion off -->
+<div style="width:0; height:0; overflow:hidden;">
+    <input type="text"/>
+    <input type="password"/>
+</div>
 
 <!-- main -->
 <main layout:fragment="_main"/>

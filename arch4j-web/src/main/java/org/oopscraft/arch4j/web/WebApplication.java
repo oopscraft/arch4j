@@ -271,9 +271,9 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 return new AntPathRequestMatcher("/api/**").matches(request);
             });
             http.authorizeRequests().anyRequest().permitAll();
-            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            // additional authentication filter
             http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
             return http.build();
         }

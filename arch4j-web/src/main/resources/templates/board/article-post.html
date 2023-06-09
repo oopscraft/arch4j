@@ -28,11 +28,36 @@
          * save article
          */
         function saveArticle() {
+
+            // anonymous user, check password
+            if(!_authenticated) {
+                if(_isEmpty(article.password)) {
+                    _alert('enter password');
+                    return false;
+                }
+                if(article.password !== article.passwordConfirm) {
+                    _alert('password not match');
+                    return false;
+                }
+            }
+
+            // confirm message
             _confirm('[[#{web.message.saveItemConfirm(#{core.article})}]]').then(result => {
                 if(result) {
-                    let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
+                    let url;
+                    let method;
+                    // modify article
+                    if(articleId) {
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
+                        method = 'PUT';
+                    }
+                    // create article
+                    else{
+                        url =new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
+                        method = 'POST';
+                    }
                     _fetch(url, {
-                        method: 'POST',
+                        method: method,
                         headers: {
                             'Content-Type': 'application/json'
                         },

@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.security;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -26,7 +27,16 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // check authentication token
-        String authenticationToken = authenticationTokenService.parseAuthenticationToken(request);
+        String authenticationToken = null;
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if(authorization != null && authorization.trim().length() > 0) {
+            String[] authorizationArray = authorization.split(" ");
+            if(authorizationArray.length >= 2) {
+                authenticationToken = authorizationArray[1];
+            }
+        }
+
+        // if authentication token exist
         if(authenticationToken != null) {
             UserDetails userDetails = authenticationTokenService.decodeAuthenticationToken(authenticationToken);
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -35,7 +45,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
             // keep alive
             authenticationToken = authenticationTokenService.encodeAuthenticationToken(userDetails);
-            authenticationTokenService.issueAuthenticationToken(response, authenticationToken);
+            response.setHeader(HttpHeaders.AUTHORIZATION, authenticationToken);
         }
 
         // forward

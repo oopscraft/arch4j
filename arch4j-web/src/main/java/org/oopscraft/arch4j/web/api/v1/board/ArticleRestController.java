@@ -40,7 +40,8 @@ public class ArticleRestController {
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
-                .userId(SecurityUtils.getCurrentUserId())
+                .userName(articleRequest.getUserName())
+                .password(articleRequest.getPassword())
                 .files(articleRequest.getFiles().stream()
                         .map(fileInfoRequest ->
                             FileInfo.builder()
@@ -59,15 +60,16 @@ public class ArticleRestController {
      * modify article
      * @param boardId board id
      * @param articleId article id
-     * @param article article
+     * @param articleRequest article request
      * @return saved article
      */
     @PutMapping("article/{articleId}")
     @Operation(summary = "modify article")
-    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId, Article article) {
-        Article one = articleService.getArticle(articleId).orElseThrow(RuntimeException::new);
-        one.setTitle(article.getTitle());
-        one.setContent(article.getContent());
+    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId, @RequestBody ArticleRequest articleRequest) {
+        Article article = articleService.getArticle(articleId).orElseThrow(RuntimeException::new);
+        article.setTitle(articleRequest.getTitle());
+        article.setContent(articleRequest.getContent());
+        article.setPassword(articleRequest.getPassword());
         Article savedArticle = articleService.saveArticle(article);
         return ResponseEntity.ok(ArticleResponse.from(savedArticle));
     }
@@ -116,13 +118,23 @@ public class ArticleRestController {
      * @return void
      */
     @PostMapping("article/{id}/comment")
-    public ResponseEntity<Comment> saveArticleComment(@PathVariable String boardId, @PathVariable String id, @RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<Comment> createArticleComment(@PathVariable String boardId, @PathVariable String id, @RequestBody CommentRequest commentRequest) {
         Comment comment = Comment.builder()
                 .parentId(commentRequest.getParentId())
                 .content(commentRequest.getContent())
                 .userId(SecurityUtils.getCurrentUserId())
+                .userName(commentRequest.getUserName())
+                .password(commentRequest.getPassword())
                 .build();
         comment = articleService.saveArticleComment(id, comment);
+        return ResponseEntity.ok(comment);
+    }
+
+    @PutMapping("article/{articleId}/comment/{commentId}")
+    public ResponseEntity<Comment> modifyArticleComment(@PathVariable String boardId, @PathVariable String articleId, @PathVariable String commentId, @RequestBody CommentRequest commentRequest) {
+        Comment comment = articleService.getArticleComment(articleId, commentId).orElseThrow(()->new DataNotFoundException(commentId));
+        comment.setContent(commentRequest.getContent());
+        comment = articleService.saveArticleComment(articleId, comment);
         return ResponseEntity.ok(comment);
     }
 
@@ -141,5 +153,19 @@ public class ArticleRestController {
         return ResponseEntity.ok(commentResponses);
     }
 
+    /**
+     * return comment specified
+     * @param boardId board id
+     * @param articleId article id
+     * @param commentId comment id
+     * @return comment info
+     */
+    @GetMapping("article/{articleId}/comment/{commentId}")
+    public ResponseEntity<CommentResponse> getArticleComment(@PathVariable("boardId") String boardId, @PathVariable("articleId")String articleId, @PathVariable("commentId")String commentId) {
+        CommentResponse commentResponse = articleService.getArticleComment(articleId, commentId)
+                .map(CommentResponse::from)
+                .orElseThrow(()-> new DataNotFoundException(commentId));
+        return ResponseEntity.ok(commentResponse);
+    }
 
 }

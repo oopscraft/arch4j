@@ -36,6 +36,8 @@ public class Article {
 
     private String userName;
 
+    private String password;
+
     @Builder.Default
     private Long commentCount = 0L;
 
@@ -62,7 +64,8 @@ public class Article {
                 .likeCount(articleEntity.getLikeCount())
                 .userName(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getName)
-                        .orElse(null))
+                        .orElse(articleEntity.getUserName()))
+                .password(articleEntity.getPassword())
                 .files(articleEntity.getFiles().stream()
                         .map(FileInfo::from)
                         .collect(Collectors.toList()))

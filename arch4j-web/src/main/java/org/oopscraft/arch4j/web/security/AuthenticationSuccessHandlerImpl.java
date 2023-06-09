@@ -33,12 +33,8 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        // issue authentication token
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String authenticationToken = authenticationTokenService.encodeAuthenticationToken(userDetails);
-        authenticationTokenService.issueAuthenticationToken(response, authenticationToken);
-
         // save login history
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
         LocalDateTime loginDateTime = LocalDateTime.now();
         String ipAddress = request.getRemoteAddr();

@@ -1,4 +1,4 @@
-<!-- board title -->
+<!-- start: board title -->
 <div class="container">
     <div class="col-6">
         <h1>
@@ -17,8 +17,11 @@
         </button>
     </div>
 </div>
+<!-- end: board title -->
+
 <hr/>
-<!-- article title -->
+
+<!-- start: article title -->
 <div class="container padding-x-1em">
     <h2 class="col-12">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
@@ -46,14 +49,18 @@
         </span>
     </div>
 </div>
-<!-- article content -->
+<!-- end: article title -->
+
+<!-- start: article content -->
 <div class="container">
     <div class="col-12">
         <div data-duice-bind="article" data-duice-property="content" style="min-height:50vh;">
         </div>
     </div>
 </div>
-<!-- file -->
+<!-- end: article content -->
+
+<!-- start: article file -->
 <div class="content padding-x-1em">
     <div class="col-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
@@ -73,8 +80,11 @@
         </div>
     </div>
 </div>
+<!-- end: article file -->
+
 <hr/>
-<!-- comment title -->
+
+<!-- start: comment title -->
 <div class="container padding-x-1em">
     <div class="col-12">
         <h2>
@@ -83,12 +93,13 @@
         </h2>
     </div>
 </div>
+<!-- end: comment title -->
 
-<!-- comment list -->
+<!-- start: comment list -->
 <div class="container">
     <div class="col-12">
-        <div class="container padding-top-1em padding-bottom-1rem" data-duice-bind="comments" data-duice-loop="comment,status" data-duice-hierarchy="id,parentId"
-             data-duice-script="this.style.marginLeft = (status.depth*2) + 'em';">
+        <div class="container margin-top-1em margin-bottom-1rem padding-left-1em border-left-1" data-duice-bind="comments" data-duice-loop="comment,status" data-duice-hierarchy="id,parentId"
+             data-duice-script="this.dataset.commentId = comment.id; this.style.marginLeft = (status.depth*2) + 'em';">
             <div class="col-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                     data-duice-bind="comment" data-duice-script="
@@ -110,15 +121,17 @@
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="comment" data-duice-property="userName"></span>
                 </span>
-                <span class="font-size-smaller">|</span>
                 <span>
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
-                    <span data-duice-bind="comment" data-duice-property="dateTime" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+                    <span data-duice-bind="comment" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
                 </span>
-                <span class="font-size-smaller">|</span>
                 <span>
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="comment" data-duice-property="likeCount"></span>
+                </span>
+                <span data-duice-bind="comment" data-duice-script="this.dataset.id=comment.id;"
+                      onclick="editComment(this.dataset.id);" class="cursor-pointer text-decoration-underline">
+                    [<span data-th-text="#{web.text.edit}"></span>]
                 </span>
             </div>
             <div class="col-12">
@@ -126,29 +139,59 @@
             </div>
             <div class="col-12">
                 <span data-duice-bind="comment" data-duice-script="this.dataset.id=comment.id;"
-                      onclick="addComment(this.dataset.id);" style="text-decoration:underline;">
+                      onclick="replyComment(this.dataset.id);" class="cursor-pointer text-decoration-underline">
                     [<span data-th-text="#{web.text.reply}"></span>]
                 </span>
             </div>
-            <div data-duice-bind="comment" data-duice-script="this.dataset.commentId=comment.id" class="col-12"></div>
         </div>
     </div>
 </div>
+<!-- end: comment list -->
 
-<!-- comment post -->
-<div id="comment-post-container">
-    <div id="comment-post" class="container">
+<!-- start: comment form -->
+<div id="comment-form-container">
+    <div id="comment-form" class="container col-12 gap-row-1px padding-left-1em border-left-1">
+        <div class="col-12" >
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
+                 data-duice-bind="comment" data-duice-script="
+                    if(comment.parentId) {
+                        this.hidden = true;
+                    }else{
+                        this.hidden = false;
+                    }
+                    "/>
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
+                 data-duice-bind="comment" data-duice-script="
+                    if(comment.parentId) {
+                        this.hidden = false;
+                    }else{
+                        this.hidden = true;
+                    }
+                    "/>
+            <!-- START: writer name and password -->
+            <th:block sec:authorize="!isAuthenticated()">
+                <span data-th-text="#{core.comment.userName}" class="font-weight-bold tag-required"></span>
+                <input type="text" data-duice-bind="comment" data-duice-property="userName"/>
+                <span data-th-text="#{core.article.password}" class="font-weight-bold tag-required"></span>
+                <input type="password" data-duice-bind="comment" data-duice-property="password"/>
+                <input type="password" data-duice-bind="comment" data-duice-property="passwordConfirm"/>
+            </th:block>
+            <!-- END: writer name and password -->
+        </div>
         <div class="col-12">
-            <textarea data-duice-bind="comment" data-duice-property="content" rows="5" class="width-100"></textarea>
+            <textarea data-duice-bind="comment" data-duice-property="content" rows="5" class="width-100 height-100"></textarea>
+        </div>
+        <div class="col-12">
             <button onclick="saveComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.text.save}"></span>
             </button>
-            <button onclick="clearComment();">
+            <button onclick="cancelComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.text.cancel}"></span>
             </button>
         </div>
     </div>
 </div>
+<!-- end: comment form -->
 

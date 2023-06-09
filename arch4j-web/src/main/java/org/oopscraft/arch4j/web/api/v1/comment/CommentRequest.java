@@ -18,4 +18,6 @@ public class CommentRequest {
 
     private String userName;
 
+    private String password;
+
 }

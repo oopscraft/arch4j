@@ -1,4 +1,6 @@
-<!-- article title -->
+<!-- ================================================== -->
+<!-- START: article title                               -->
+<!-- ================================================== -->
 <div class="container">
     <div class="col-8">
         <h1>
@@ -21,9 +23,35 @@
         </button>
     </div>
 </div>
+<!-- ================================================== -->
+<!-- END: article title                                 -->
+<!-- ================================================== -->
+
 <hr/>
-<!-- article list -->
+
+<!-- ================================================== -->
+<!-- START: article list                                -->
+<!-- ================================================== -->
 <div class="container gap-1px gap-column-1rem">
+
+    <!-- START: writer name and password -->
+    <th:block sec:authorize="!isAuthenticated()">
+        <div class="col-12">
+            <span data-th-text="#{core.article.userName}" class="font-weight-bold tag-required"></span>
+        </div>
+        <div class="col-12">
+            <input type="text" data-duice-bind="article" data-duice-property="userName"/>
+        </div>
+        <div class="col-12">
+            <span data-th-text="#{core.article.password}" class="font-weight-bold tag-required"></span>
+        </div>
+        <div class="col-12">
+            <input type="password" data-duice-bind="article" data-duice-property="password"/>
+            <input type="password" data-duice-bind="article" data-duice-property="passwordConfirm"/>
+        </div>
+    </th:block>
+    <!-- END: writer name and password -->
+
     <div class="col-12">
         <span data-th-text="#{core.article.title}" class="font-weight-bold tag-required"></span>
     </div>
@@ -37,7 +65,13 @@
         <textarea data-duice-bind="article" data-duice-property="content" class="width-100" style="height:70vh;"></textarea>
     </div>
 </div>
-<!-- file -->
+<!-- ================================================== -->
+<!-- END: article list                                  -->
+<!-- ================================================== -->
+
+<!-- ================================================== -->
+<!-- START: file                                        -->
+<!-- ================================================== -->
 <div class="content">
     <div class="col-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
@@ -62,5 +96,7 @@
         </span>
     </div>
 </div>
-
+<!-- ================================================== -->
+<!-- END: file                                        -->
+<!-- ================================================== -->
 

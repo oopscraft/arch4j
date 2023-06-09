@@ -36,11 +36,17 @@ public class ArticleEntity extends SystemFieldEntity {
     @Lob
     private String content;
 
-    @Column(name = "boardId")
+    @Column(name = "board_id")
     private String boardId;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private String userId;
+
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "comment_count")
     @Builder.Default
@@ -50,8 +56,8 @@ public class ArticleEntity extends SystemFieldEntity {
     @Builder.Default
     private Long likeCount = 0L;
 
-    @ManyToOne(targetEntity = UserEntity.class)
-    @JoinColumn(name = ArticleEntity_.USER_ID, insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
     @OneToMany(fetch = FetchType.LAZY)

@@ -38,15 +38,21 @@ public class CommentEntity extends SystemFieldEntity {
     @Lob
     private String content;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private String userId;
+
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "like_count")
     @Builder.Default
     private Long likeCount = 0L;
 
-    @ManyToOne(targetEntity = UserEntity.class)
-    @JoinColumn(name = CommentEntity_.USER_ID, insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
 }

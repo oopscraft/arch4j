@@ -29,6 +29,8 @@ public class Comment {
 
     private String userName;
 
+    private String password;
+
     private Long likeCount;
 
     /**
@@ -47,7 +49,8 @@ public class Comment {
                 .userId(commentEntity.getUserId())
                 .userName(Optional.ofNullable(commentEntity.getUser())
                         .map(UserEntity::getName)
-                        .orElse(null))
+                        .orElse(commentEntity.getUserName()))
+                .password(commentEntity.getPassword())
                 .likeCount(commentEntity.getLikeCount())
                 .build();
     }

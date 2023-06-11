@@ -5,6 +5,8 @@ logging:
 
 # spring
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     hikari:
       driver-class-Name: org.mariadb.jdbc.Driver

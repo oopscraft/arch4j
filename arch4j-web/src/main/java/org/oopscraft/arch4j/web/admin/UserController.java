@@ -56,14 +56,14 @@ public class UserController {
 
     /**
      * returns user info
-     * @param id user id
+     * @param userId user id
      * @return user info
      */
     @GetMapping("get-user")
     @ResponseBody
-    public User getUser(@RequestParam("id") String id) {
-        return userService.getUser(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public User getUser(@RequestParam("userId") String userId) {
+        return userService.getUser(userId)
+                .orElseThrow(() -> new DataNotFoundException(userId));
     }
 
     /**
@@ -79,13 +79,13 @@ public class UserController {
 
     /**
      * deletes user
-     * @param id user id
+     * @param userId user id
      */
     @GetMapping("delete-user")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
-    public void deleteUser(@RequestParam("id") String id) {
-        userService.deleteUser(id);
+    public void deleteUser(@RequestParam("userId") String userId) {
+        userService.deleteUser(userId);
     }
 
     /**
@@ -107,17 +107,17 @@ public class UserController {
     @PostMapping("change-password")
     @ResponseBody
     public void changePassword(@RequestBody Map<String,String> payload) {
-        userService.changePassword(payload.get("id"), payload.get("password"));
+        userService.changePassword(payload.get("userId"), payload.get("password"));
     }
 
     /**
      * generate access token
-     * @param id
+     * @param userId
      */
     @GetMapping("generate-access-token")
     @ResponseBody
-    public String generateAccessToken(@RequestParam("id")String id) {
-        User user = userService.getUser(id).orElseThrow(() -> new DataNotFoundException(id));
+    public String generateAccessToken(@RequestParam("userId")String userId) {
+        User user = userService.getUser(userId).orElseThrow(() -> new DataNotFoundException(userId));
         UserDetailsImpl userDetails = UserDetailsImpl.from(user);
         return accessTokenEncoder.encodeAuthenticationToken(userDetails);
     }

@@ -21,7 +21,7 @@ public class SampleItemEntity extends SystemFieldEntity {
     @AllArgsConstructor
     public static class Pk implements Serializable {
         private String sampleId;
-        private String id;
+        private String itemId;
     }
 
     @Id
@@ -29,8 +29,8 @@ public class SampleItemEntity extends SystemFieldEntity {
     private String sampleId;
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "item_id", length = 64)
+    private String itemId;
 
     @Column(name = "name")
     private String name;

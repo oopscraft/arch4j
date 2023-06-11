@@ -27,14 +27,14 @@ public class MenuService {
      * @return menu
      */
     public Menu saveMenu(Menu menu) {
-        MenuEntity menuEntity = menuRepository.findById(menu.getId()).orElse(null);
+        MenuEntity menuEntity = menuRepository.findById(menu.getMenuId()).orElse(null);
         if(menuEntity == null) {
             menuEntity = MenuEntity.builder()
-                    .id(menu.getId())
+                    .menuId(menu.getMenuId())
                     .build();
         }
         menuEntity = menuEntity.toBuilder()
-                .parentId(menu.getParentId())
+                .parentMenuId(menu.getParentMenuId())
                 .name(menu.getName())
                 .link(menu.getLink())
                 .target(menu.getTarget())
@@ -44,7 +44,7 @@ public class MenuService {
                 .roles(menu.getRoles().stream()
                         .map(role -> {
                             return RoleEntity.builder()
-                                    .id(role.getId())
+                                    .roleId(role.getRoleId())
                                     .name(role.getName())
                                     .note(role.getNote())
                                     .build();
@@ -57,20 +57,20 @@ public class MenuService {
 
     /**
      * return menu
-     * @param id menu id
+     * @param menuId menu id
      * @return menu
      */
-    public Optional<Menu> getMenu(String id) {
-        return menuRepository.findById(id)
+    public Optional<Menu> getMenu(String menuId) {
+        return menuRepository.findById(menuId)
                 .map(Menu::from);
     }
 
     /**
      * delete menu
-     * @param id menu id
+     * @param menuId menu id
      */
-    public void deleteMenu(String id) {
-        menuRepository.deleteById(id);
+    public void deleteMenu(String menuId) {
+        menuRepository.deleteById(menuId);
         menuRepository.flush();
     }
 
@@ -82,8 +82,8 @@ public class MenuService {
      */
     public Page<Menu> getMenus(MenuSearch menuSearch, Pageable pageable) {
         Specification<MenuEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(menuSearch.getId() != null) {
-            specification = specification.and(MenuSpecification.likeId(menuSearch.getId()));
+        if(menuSearch.getMenuId() != null) {
+            specification = specification.and(MenuSpecification.likeMenuId(menuSearch.getMenuId()));
         }
         if(menuSearch.getName() != null) {
             specification = specification.and(MenuSpecification.likeName(menuSearch.getName()));

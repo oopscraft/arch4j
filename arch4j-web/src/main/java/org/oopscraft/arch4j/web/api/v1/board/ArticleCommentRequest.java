@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1.comment;
+package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
 
@@ -6,11 +6,13 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommentRequest {
+public class ArticleCommentRequest {
 
-    private String id;
+    private String articleId;
 
-    private String parentId;
+    private String commentId;
+
+    private String parentCommentId;
 
     private String content;
 

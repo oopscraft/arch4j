@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class RoleSearch {
 
-    private String id;
+    private String roleId;
 
     private String name;
 

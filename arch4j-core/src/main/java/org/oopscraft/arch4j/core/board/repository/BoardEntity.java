@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.core.board.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 
 import javax.persistence.*;
@@ -20,8 +19,8 @@ import java.util.List;
 public class BoardEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "board_id", length = 64)
+    private String boardId;
 
     @Column(name = "name")
     private String name;

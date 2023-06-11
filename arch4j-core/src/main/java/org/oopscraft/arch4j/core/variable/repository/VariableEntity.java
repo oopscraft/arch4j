@@ -19,8 +19,8 @@ import javax.persistence.*;
 public class VariableEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "variable_id", length = 32)
+    private String variableId;
 
     @Column(name = "value")
     private String value;

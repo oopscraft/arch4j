@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.core.user;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
-import org.oopscraft.arch4j.core.user.repository.LoginHistoryRepository;
 import org.oopscraft.arch4j.core.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,10 +28,10 @@ public class UserService {
      * @param user user info
      */
     public User saveUser(User user) {
-        UserEntity userEntity = userRepository.findById(user.getId()).orElse(null);
+        UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(null);
         if(userEntity == null) {
             userEntity = UserEntity.builder()
-                    .id(user.getId())
+                    .userId(user.getUserId())
                     .password(passwordEncoder.encode(user.getPassword()))
                     .joinDateTime(LocalDateTime.now())
                     .build();
@@ -48,7 +47,7 @@ public class UserService {
                 .roles(user.getRoles().stream()
                         .map(role -> {
                             return RoleEntity.builder()
-                                    .id(role.getId())
+                                    .roleId(role.getRoleId())
                                     .name(role.getName())
                                     .note(role.getNote())
                                     .build();
@@ -94,11 +93,11 @@ public class UserService {
 
     /**
      * update password
-     * @param id user id
+     * @param userId user id
      * @param password password
      */
-    public void changePassword(String id, String password) {
-        userRepository.findById(id).ifPresent(userEntity -> {
+    public void changePassword(String userId, String password) {
+        userRepository.findById(userId).ifPresent(userEntity -> {
             userEntity.setPassword(passwordEncoder.encode(password));
             userRepository.saveAndFlush(userEntity);
         });

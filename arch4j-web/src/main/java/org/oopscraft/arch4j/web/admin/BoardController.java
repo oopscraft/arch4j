@@ -43,13 +43,13 @@ public class BoardController {
 
     /**
      * get board
-     * @param id board id
+     * @param boardId board id
      * @return board
      */
     @GetMapping("get-board")
     @ResponseBody
-    public Board getBoard(@RequestParam("id")String id) {
-        return boardService.getBoard(id).orElseThrow(() -> new DataNotFoundException(id));
+    public Board getBoard(@RequestParam("boardId")String boardId) {
+        return boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
     }
 
     /**
@@ -65,13 +65,13 @@ public class BoardController {
 
     /**
      * deletes board
-     * @param id board id
+     * @param boardId board id
      */
     @GetMapping("delete-board")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_BOARD_EDIT')")
-    public void deleteBoard(@RequestParam("id")String id) {
-        boardService.deleteBoard(id);
+    public void deleteBoard(@RequestParam("boardId")String boardId) {
+        boardService.deleteBoard(boardId);
     }
 
 }

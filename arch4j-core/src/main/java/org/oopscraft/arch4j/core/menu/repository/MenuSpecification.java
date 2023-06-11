@@ -4,9 +4,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class MenuSpecification {
 
-    public static Specification<MenuEntity> likeId(String id) {
+    public static Specification<MenuEntity> likeMenuId(String menuId) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(root.get(MenuEntity_.ID), '%' + id + '%');
+                criteriaBuilder.like(root.get(MenuEntity_.MENU_ID), '%' + menuId + '%');
     }
 
     public static Specification<MenuEntity> likeName(String name) {

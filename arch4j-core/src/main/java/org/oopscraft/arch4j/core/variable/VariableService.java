@@ -25,10 +25,10 @@ public class VariableService {
      * @param variable variable
      */
     public Variable saveVariable(Variable variable) {
-        VariableEntity variableEntity = variableRepository.findById(variable.getId()).orElse(null);
+        VariableEntity variableEntity = variableRepository.findById(variable.getVariableId()).orElse(null);
         if(variableEntity == null) {
             variableEntity = VariableEntity.builder()
-                    .id(variable.getId())
+                    .variableId(variable.getVariableId())
                     .build();
         }
         variableEntity.setValue(variable.getValue());
@@ -40,19 +40,19 @@ public class VariableService {
 
     /**
      * get variable
-     * @param id variable id
+     * @param variableId variable id
      * @return variable
      */
-    public Optional<Variable> getVariable(String id) {
-        return variableRepository.findById(id).map(Variable::from);
+    public Optional<Variable> getVariable(String variableId) {
+        return variableRepository.findById(variableId).map(Variable::from);
     }
 
     /**
      * delete property
-     * @param id property id
+     * @param variableId property id
      */
-    public void deleteVariable(String id) {
-        variableRepository.deleteById(id);
+    public void deleteVariable(String variableId) {
+        variableRepository.deleteById(variableId);
         variableRepository.flush();
     }
 
@@ -66,8 +66,8 @@ public class VariableService {
 
         // search condition
         Specification<VariableEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(variableSearch.getId() != null) {
-            specification = specification.and(VariableSpecification.likeId(variableSearch.getId()));
+        if(variableSearch.getVariableId() != null) {
+            specification = specification.and(VariableSpecification.likeVariableId(variableSearch.getVariableId()));
         }
         if(variableSearch.getName() != null) {
             specification = specification.and(VariableSpecification.likeName(variableSearch.getName()));

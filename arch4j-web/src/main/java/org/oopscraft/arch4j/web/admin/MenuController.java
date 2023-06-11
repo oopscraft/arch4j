@@ -49,14 +49,14 @@ public class MenuController {
 
     /**
      * get menu
-     * @param id menu id
+     * @param menuId menu id
      * @return menu
      */
     @GetMapping("get-menu")
     @ResponseBody
-    public Menu getMenu(@RequestParam("id")String id) {
-        return menuService.getMenu(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Menu getMenu(@RequestParam("menuId")String menuId) {
+        return menuService.getMenu(menuId)
+                .orElseThrow(() -> new DataNotFoundException(menuId));
     }
 
     /**
@@ -67,21 +67,21 @@ public class MenuController {
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public Menu saveMenu(@RequestBody @Valid Menu menu) {
-        if(menu.getId() == null) {
-            menu.setId(UUID.randomUUID().toString());
+        if(menu.getMenuId() == null) {
+            menu.setMenuId(UUID.randomUUID().toString());
         }
         return menuService.saveMenu(menu);
     }
 
     /**
      * deletes menu
-     * @param id menu id
+     * @param menuId menu id
      */
     @GetMapping("delete-menu")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
-    public void deleteMenu(@RequestParam("id")String id) {
-        menuService.deleteMenu(id);
+    public void deleteMenu(@RequestParam("menuId")String menuId) {
+        menuService.deleteMenu(menuId);
     }
 
     /**

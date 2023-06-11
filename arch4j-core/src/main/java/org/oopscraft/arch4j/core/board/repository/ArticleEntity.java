@@ -3,15 +3,11 @@ package org.oopscraft.arch4j.core.board.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.file.FileInfo;
-import org.oopscraft.arch4j.core.file.repository.FileInfoEntity;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "core_article")
@@ -23,15 +19,17 @@ import java.util.List;
 public class ArticleEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "article_id", length = 32)
+    private String articleId;
 
-    @Column(name = "date_time")
-    private LocalDateTime dateTime;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
+    @NotBlank
     @Column(name = "title")
     private String title;
 
+    @NotBlank
     @Column(name = "content")
     @Lob
     private String content;
@@ -59,16 +57,5 @@ public class ArticleEntity extends SystemFieldEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_article_file",
-            joinColumns = @JoinColumn(name = "article_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "file_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
-    @Builder.Default
-    List<FileInfoEntity> files = new ArrayList<>();
 
 }

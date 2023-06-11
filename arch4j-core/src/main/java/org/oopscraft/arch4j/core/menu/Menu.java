@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu {
 
-    private String id;
+    private String menuId;
 
-    private String parentId;
+    private String parentMenuId;
 
-    private String parentName;
+    private String parentMenuName;
 
     private String name;
 
@@ -43,9 +43,9 @@ public class Menu {
      */
     public static Menu from(MenuEntity menuEntity) {
         return Menu.builder()
-                .id(menuEntity.getId())
-                .parentId(menuEntity.getParentId())
-                .parentName(Optional.ofNullable(menuEntity.getParentMenu())
+                .menuId(menuEntity.getMenuId())
+                .parentMenuId(menuEntity.getParentMenuId())
+                .parentMenuName(Optional.ofNullable(menuEntity.getParentMenu())
                         .map(MenuEntity::getName)
                         .orElse(null))
                 .name(menuEntity.getName())

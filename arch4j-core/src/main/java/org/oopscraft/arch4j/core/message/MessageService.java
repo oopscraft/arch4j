@@ -26,10 +26,10 @@ public class MessageService {
      * @return message
      */
     public Message saveMessage(Message message) {
-        MessageEntity messageEntity = messageRepository.findById(message.getId()).orElse(null);
+        MessageEntity messageEntity = messageRepository.findById(message.getMessageId()).orElse(null);
         if(messageEntity == null) {
             messageEntity = MessageEntity.builder()
-                    .id(message.getId())
+                    .messageId(message.getMessageId())
                     .build();
         }
         messageEntity.setName(message.getName());
@@ -41,19 +41,19 @@ public class MessageService {
 
     /**
      * returns message
-     * @param id message id
+     * @param messageId message id
      * @return message
      */
-    public Optional<Message> getMessage(String id) {
-        return messageRepository.findById(id).map(Message::from);
+    public Optional<Message> getMessage(String messageId) {
+        return messageRepository.findById(messageId).map(Message::from);
     }
 
     /**
      * deletes message
-     * @param id message id
+     * @param messageId message id
      */
-    public void deleteMessage(String id) {
-        messageRepository.deleteById(id);
+    public void deleteMessage(String messageId) {
+        messageRepository.deleteById(messageId);
         messageRepository.flush();
     }
 
@@ -67,8 +67,8 @@ public class MessageService {
 
         // search condition
         Specification<MessageEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(messageSearch.getId() != null) {
-            specification = specification.and(MessageSpecification.likeId(messageSearch.getId()));
+        if(messageSearch.getMessageId() != null) {
+            specification = specification.and(MessageSpecification.likeMessageId(messageSearch.getMessageId()));
         }
         if(messageSearch.getName() != null) {
             specification = specification.and(MessageSpecification.likeName(messageSearch.getName()));
@@ -84,8 +84,5 @@ public class MessageService {
         // returns
         return new PageImpl<>(messages, pageable, total);
     }
-
-
-
 
 }

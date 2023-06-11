@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 public class CodeSearch {
 
-    private String id;
+    private String codeId;
 
     private String name;
 

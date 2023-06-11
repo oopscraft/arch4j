@@ -24,13 +24,13 @@ public class MenuI18nEntity extends SystemFieldEntity {
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Pk implements Serializable {
-        private String id;
+        private String menuId;
         private String language;
     }
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "menu_id", length = 64)
+    private String menuId;
 
     @Id
     @Column(name = "language", length = 8)

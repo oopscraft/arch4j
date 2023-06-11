@@ -43,14 +43,14 @@ public class VariableController {
 
     /**
      * get variable
-     * @param id variable id
+     * @param variableId variable id
      * @return variable
      */
     @GetMapping("get-variable")
     @ResponseBody
-    public Variable getVariable(@RequestParam("id")String id) {
-        return variableService.getVariable(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Variable getVariable(@RequestParam("variableId")String variableId) {
+        return variableService.getVariable(variableId)
+                .orElseThrow(() -> new DataNotFoundException(variableId));
     }
 
     /**
@@ -66,13 +66,13 @@ public class VariableController {
 
     /**
      * deletes variable
-     * @param id variable id
+     * @param variableId variable id
      */
     @GetMapping("delete-variable")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_VARIABLE_EDIT')")
-    public void deleteVariable(@RequestParam("id")String id) {
-        variableService.deleteVariable(id);
+    public void deleteVariable(@RequestParam("variableId")String variableId) {
+        variableService.deleteVariable(variableId);
     }
 
 }

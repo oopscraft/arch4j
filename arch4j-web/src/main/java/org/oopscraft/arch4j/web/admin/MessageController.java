@@ -43,14 +43,14 @@ public class MessageController {
 
     /**
      * get message
-     * @param id message id
+     * @param messageId message id
      * @return message
      */
     @GetMapping("get-message")
     @ResponseBody
-    public Message getMessage(@RequestParam("id")String id) {
-        return messageService.getMessage(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Message getMessage(@RequestParam("messageId")String messageId) {
+        return messageService.getMessage(messageId)
+                .orElseThrow(() -> new DataNotFoundException(messageId));
     }
 
     /**
@@ -67,13 +67,13 @@ public class MessageController {
 
     /**
      * deletes message
-     * @param id message id
+     * @param messageId message id
      */
     @GetMapping("delete-message")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")
-    public void deleteMessage(@RequestParam("id")String id) {
-        messageService.deleteMessage(id);
+    public void deleteMessage(@RequestParam("messageId")String messageId) {
+        messageService.deleteMessage(messageId);
     }
 
 }

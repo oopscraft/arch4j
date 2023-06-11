@@ -19,7 +19,7 @@ class SampleServiceTest extends CoreTestSupport {
     final SampleService sampleService;
 
     Sample testSample = Sample.builder()
-            .id(UUID.randomUUID().toString())
+            .sampleId(UUID.randomUUID().toString())
             .name("name")
             .bigDecimal(BigDecimal.valueOf(1234))
             .build();
@@ -29,24 +29,24 @@ class SampleServiceTest extends CoreTestSupport {
     void saveSample() {
         Sample savedSample = sampleService.saveSample(testSample);
         assertNotNull(savedSample);
-        assertNotNull(entityManager.find(SampleEntity.class, savedSample.getId()));
+        assertNotNull(entityManager.find(SampleEntity.class, savedSample.getSampleId()));
     }
 
     @Test
     @Order(2)
     void getSample() {
         Sample savedSample = sampleService.saveSample(testSample);
-        Sample sample = sampleService.getSample(savedSample.getId()).orElse(null);
+        Sample sample = sampleService.getSample(savedSample.getSampleId()).orElse(null);
         assertNotNull(sample);
-        assertEquals(savedSample.getId(), sample.getId());
+        assertEquals(savedSample.getSampleId(), sample.getSampleId());
     }
 
     @Test
     @Order(3)
     public void deleteSample() {
         Sample savedSample = sampleService.saveSample(testSample);
-        sampleService.deleteSample(testSample.getId());
-        assertNull(entityManager.find(SampleEntity.class, savedSample.getId()));
+        sampleService.deleteSample(testSample.getSampleId());
+        assertNull(entityManager.find(SampleEntity.class, savedSample.getSampleId()));
     }
 
     @Test

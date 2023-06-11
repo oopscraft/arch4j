@@ -6,12 +6,12 @@ public class BoardSpecification {
 
     /**
      * linkId
-     * @param id board id
+     * @param boardId board id
      * @return specification
      */
-    public static Specification<BoardEntity> likeId(String id) {
+    public static Specification<BoardEntity> likeBoardId(String boardId) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(root.get(BoardEntity_.ID), '%' + id + '%');
+                criteriaBuilder.like(root.get(BoardEntity_.BOARD_ID), '%' + boardId + '%');
     }
 
     /**

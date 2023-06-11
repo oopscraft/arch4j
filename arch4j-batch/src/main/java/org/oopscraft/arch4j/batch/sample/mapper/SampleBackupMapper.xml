@@ -8,7 +8,7 @@
     <insert id="insertSampleBackup">
         <![CDATA[
         insert into core_sample_backup (
-            id,
+            sample_id,
             name,
             type,
             number,
@@ -23,7 +23,7 @@
             lob_text,
             crypto_text
         ) values (
-            #{id},
+            #{sampleId},
             #{name},
             #{type},
             #{number},

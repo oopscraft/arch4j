@@ -90,7 +90,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
         // build
         return UserDetailsImpl.builder()
-                .username(user.getId())
+                .username(user.getUserId())
                 .password(user.getPassword())
                 .accountNonLocked(user.getStatus() != UserStatus.LOCKED)
                 .accountNonExpired(user.getStatus() != UserStatus.EXPIRED)

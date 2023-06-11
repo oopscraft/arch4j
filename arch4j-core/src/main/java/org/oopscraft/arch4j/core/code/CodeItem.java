@@ -9,8 +9,10 @@ import org.oopscraft.arch4j.core.code.repository.CodeItemEntity;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeItem {
-	
-    private String id;
+
+    private String codeId;
+
+    private String itemId;
 
     private int sort;
 
@@ -20,7 +22,8 @@ public class CodeItem {
 
     static CodeItem from(CodeItemEntity codeItemEntity) {
         return CodeItem.builder()
-                .id(codeItemEntity.getId())
+                .codeId(codeItemEntity.getCodeId())
+                .itemId(codeItemEntity.getItemId())
                 .sort(codeItemEntity.getSort())
                 .name(codeItemEntity.getName())
                 .value(codeItemEntity.getValue())

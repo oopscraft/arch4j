@@ -35,7 +35,7 @@ public class CodeResponse {
 
         static Item from(CodeItem codeItem) {
             return Item.builder()
-                    .id(codeItem.getId())
+                    .id(codeItem.getItemId())
                     .name(codeItem.getName())
                     .value(codeItem.getValue())
                     .build();
@@ -44,7 +44,7 @@ public class CodeResponse {
 
     public static CodeResponse from(Code code){
          return CodeResponse.builder()
-                .id(code.getId())
+                .id(code.getCodeId())
                 .name(code.getName())
                 .items(code.getItems().stream().map(Item::from).collect(Collectors.toList()))
                 .build();

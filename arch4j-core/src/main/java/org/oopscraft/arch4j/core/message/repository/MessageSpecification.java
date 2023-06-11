@@ -1,13 +1,12 @@
 package org.oopscraft.arch4j.core.message.repository;
 
-import org.oopscraft.arch4j.core.menu.repository.MenuEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class MessageSpecification {
 
-    public static Specification<MessageEntity> likeId(String id) {
+    public static Specification<MessageEntity> likeMessageId(String messageId) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(root.get(MessageEntity_.ID), '%' + id + '%');
+                criteriaBuilder.like(root.get(MessageEntity_.MESSAGE_ID), '%' + messageId + '%');
     }
 
     public static Specification<MessageEntity> likeName(String name) {

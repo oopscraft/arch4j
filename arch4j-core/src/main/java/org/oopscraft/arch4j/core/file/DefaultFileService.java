@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.core.file;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.oopscraft.arch4j.core.file.repository.FileInfoRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.FileSystemResource;
@@ -11,22 +10,17 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 @Component("defaultFileService")
 @ConditionalOnProperty(prefix = "core.file", name = "bean", havingValue="defaultFileService", matchIfMissing = true)
-public class DefaultFileService extends FileService {
+public class DefaultFileService implements FileService {
 
     @Value("${core.file.properties.location}")
     private String location;
 
-    public DefaultFileService(FileInfoRepository fileInfoRepository) {
-        super(fileInfoRepository);
-    }
-
     @Override
-    protected void internalUpload(FileInfo fileInfo, InputStream inputStream) {
-        String filepath = location + File.separator + fileInfo.getId();
+    public void upload(String filename, InputStream inputStream) {
+        String filepath = location + File.separator + filename;
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         File file = new FileSystemResource(filepath).getFile();
         try {
@@ -40,8 +34,8 @@ public class DefaultFileService extends FileService {
     }
 
     @Override
-    protected InputStream internalDownload(FileInfo fileInfo) {
-        String filepath = location + File.separator + fileInfo.getId();
+    public InputStream download(String filename) {
+        String filepath = location + File.separator + filename;
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         try {
             return new FileSystemResource(filepath).getInputStream();
@@ -51,8 +45,8 @@ public class DefaultFileService extends FileService {
     }
 
     @Override
-    protected void internalDelete(FileInfo fileInfo) {
-        String filepath = location + File.separator + fileInfo.getId();
+    public void delete(String filename) {
+        String filepath = location + File.separator + filename;
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         File file = new File(filepath);
         if(file.exists()) {
@@ -61,5 +55,4 @@ public class DefaultFileService extends FileService {
             };
         }
     }
-
 }

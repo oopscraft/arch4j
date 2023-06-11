@@ -2,16 +2,11 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.comment.Comment;
-import org.oopscraft.arch4j.core.file.FileInfo;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -19,9 +14,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Article {
 
-    private String id;
+    private String articleId;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime createdAt;
 
     @NotBlank(message = "Title is empty")
     private String title;
@@ -44,9 +39,6 @@ public class Article {
     @Builder.Default
     private Long likeCount = 0L;
 
-    @Builder.Default
-    private List<FileInfo> files = new ArrayList<>();
-
     /**
      * factory method
      * @param articleEntity article entity
@@ -54,8 +46,8 @@ public class Article {
      */
     public static Article from(ArticleEntity articleEntity) {
         return Article.builder()
-                .id(articleEntity.getId())
-                .dateTime(articleEntity.getDateTime())
+                .articleId(articleEntity.getArticleId())
+                .createdAt(articleEntity.getCreatedAt())
                 .title(articleEntity.getTitle())
                 .content(articleEntity.getContent())
                 .boardId(articleEntity.getBoardId())
@@ -66,9 +58,6 @@ public class Article {
                         .map(UserEntity::getName)
                         .orElse(articleEntity.getUserName()))
                 .password(articleEntity.getPassword())
-                .files(articleEntity.getFiles().stream()
-                        .map(FileInfo::from)
-                        .collect(Collectors.toList()))
                 .build();
     }
 

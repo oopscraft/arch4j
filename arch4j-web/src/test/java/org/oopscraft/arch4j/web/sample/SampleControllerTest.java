@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SampleControllerTest extends WebTestSupport {
 
     Sample testSample = Sample.builder()
-            .id("test id")
+            .sampleId("test id")
             .name("test name")
             .type(SampleType.A)
             .build();
@@ -46,10 +46,10 @@ class SampleControllerTest extends WebTestSupport {
         this.saveSample();
 
         // test get sample
-        this.mockMvc.perform(get("/sample/get-sample").param("id", testSample.getId()))
+        this.mockMvc.perform(get("/sample/get-sample").param("sampleId", testSample.getSampleId()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testSample.getId()));
+                .andExpect(jsonPath("$.sampleId").value(testSample.getSampleId()));
     }
 
     /**
@@ -63,7 +63,7 @@ class SampleControllerTest extends WebTestSupport {
         saveSample();
 
         // test delete sample
-        this.mockMvc.perform(get("/sample/delete-sample").param("id", testSample.getId()))
+        this.mockMvc.perform(get("/sample/delete-sample").param("sampleId", testSample.getSampleId()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

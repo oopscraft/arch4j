@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class SampleSearch {
 
-    private String id;
+    private String sampleId;
 
     private String name;
 

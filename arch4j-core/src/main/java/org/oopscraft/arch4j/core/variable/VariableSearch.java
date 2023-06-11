@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class VariableSearch {
 
-    private String id;
+    private String variableId;
 
     private String name;
 

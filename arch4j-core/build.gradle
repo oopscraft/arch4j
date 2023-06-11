@@ -28,12 +28,16 @@ dependencies {
     annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jpa'
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
+    // javax.annotation-api
+    api 'javax.annotation:javax.annotation-api'
+
     // mybatis
     api 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
 
     // h2database
     api 'com.h2database:h2'
 
+    // mariadb
     api 'org.mariadb.jdbc:mariadb-java-client'
 
     // log4jdbc

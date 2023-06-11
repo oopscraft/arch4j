@@ -6,7 +6,7 @@
     <script>
         // user search condition
         const userSearch = new duice.ObjectProxy({
-            key: 'id',
+            key: 'userId',
             value: null,
             type: null,
             status: null,
@@ -20,15 +20,16 @@
 
         // user
         const user = new duice.ObjectProxy({
+            userId: null,
             roles:[]
         });
         duice.ObjectProxy.setDisableAll(user, true);
         duice.ObjectProxy.setReadonly(user, 'joinDateTime', true);
         duice.ObjectProxy.setReadonly(user, 'loginDateTime', true);
         duice.ObjectProxy.onPropertyChanging(user, async event => {
-            if (event.getProperty() === 'id') {
+            if (event.getProperty() === 'userId') {
                 if (!await validateUserId(event.getValue())) {
-                    duice.ObjectProxy.focus(user, 'id');
+                    duice.ObjectProxy.focus(user, 'userId');
                     return false;
                 }
             }
@@ -74,17 +75,17 @@
 
         /**
          * getUser
-         * @param id
+         * @param userId
          */
-        function getUser(id) {
+        function getUser(userId) {
             let url = new URL('[[@{/admin/user/get-user}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('userId', userId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ObjectProxy.assign(user, data);
                     duice.ObjectProxy.setDisableAll(user, false);
-                    duice.ObjectProxy.setReadonly(user, 'id', true);
+                    duice.ObjectProxy.setReadonly(user, 'userId', true);
                     user._new = false;
 
                     // password division
@@ -101,8 +102,8 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(user, false);
-            duice.ObjectProxy.setReadonly(user, 'id', false);
-            duice.ObjectProxy.focus(user, 'id');
+            duice.ObjectProxy.setReadonly(user, 'userId', false);
+            duice.ObjectProxy.focus(user, 'userId');
 
             // password division
             document.getElementById('userDetail_passwordDiv').style.display = '';
@@ -110,26 +111,26 @@
 
         /**
          * validateUserId
-         * @param id
+         * @param userId
          * @returns {Promise<boolean>}
          */
-        async function validateUserId(id) {
+        async function validateUserId(userId) {
 
             // check blank
-            if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.user.id})}]]');
-                duice.ObjectProxy.focus(user, 'id');
+            if (!userId) {
+                await _alert('[[#{web.message.itemEmpty(#{core.user.userId})}]]');
+                duice.ObjectProxy.focus(user, 'userId');
                 return false;
             }
 
             // check duplicated id
             let url = new URL('[[@{/admin/user/get-user}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('userId', userId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.user.id})}]]');
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.user.userId})}]]');
                     return false;
                 }
             }
@@ -145,7 +146,7 @@
 
             // if new, checks id
             if (user._new) {
-                if (!await validateUserId(user.id)) {
+                if (!await validateUserId(user.userId)) {
                     return false;
                 }
             }
@@ -190,7 +191,7 @@
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.user})}]]').then(() => {
                                 getUsers();
-                                getUser(user.id);
+                                getUser(user.userId);
                             });
                         }
                     });
@@ -205,7 +206,7 @@
             _confirm('[[#{web.message.deleteItemConfirm(#{core.user})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/user/delete-user}]]', document.location.origin);
-                    url.searchParams.append('id', user.id);
+                    url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.deleteItemComplete(#{core.user})}]]').then(() => {
@@ -224,7 +225,7 @@
         async function addUserRole() {
             let disabledRoleIds = [];
             user.roles.forEach(role => {
-                disabledRoleIds.push(role.id);
+                disabledRoleIds.push(role.roleId);
             });
             let selectedRoles = await roleSelect.open(disabledRoleIds);
             selectedRoles.forEach(role => {
@@ -244,7 +245,7 @@
          * change user password
          */
         function changeUserPassword() {
-            passwordChange.open(user.id);
+            passwordChange.open(user.userId);
         }
 
         /**
@@ -252,7 +253,7 @@
          */
         function generateUserAccessToken() {
             let url = new URL('[[@{/admin/user/generate-access-token}]]', document.location.origin);
-            url.searchParams.append('id', user.id);
+            url.searchParams.append('id', user.userId);
             _fetch(url)
                 .then(function(response){
                     return response.text();
@@ -363,11 +364,10 @@
                             </button>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="container gap-1px margin-1px">
+                    <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="userSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.user.id}"></option>
+                                <option value="userId" th:text="#{core.user.userId}"></option>
                                 <option value="name" th:text="#{core.user.name}"></option>
                                 <option value="email" th:text="#{core.user.email}"></option>
                                 <option value="mobile" th:text="#{core.user.mobile}"></option>
@@ -406,7 +406,7 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.user.id}"></th>
+                                <th data-th-text="#{core.user.userId}"></th>
                                 <th data-th-text="#{core.user.name}"></th>
                                 <th data-th-text="#{core.user.type}"></th>
                                 <th data-th-text="#{core.user.status}"></th>
@@ -414,14 +414,14 @@
                             </thead>
                             <tbody>
                             <tr data-duice-bind="users" data-duice-loop="user,status" data-duice-toggle-class="selected" data-duice-script="
-                            this.dataset.id=user.id;
-                            " onclick="getUser(this.dataset.id);" class="link">
+                            this.dataset.userId=user.userId;
+                            " onclick="getUser(this.dataset.userId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
                                 <td>
                                     <img data-duice-bind="user" data-duice-property="photo"
                                          th:src="@{/static/image/icon-null.svg}" class="icon"/>
-                                    <span data-duice-bind="user" data-duice-property="id"
+                                    <span data-duice-bind="user" data-duice-property="userId"
                                           class="font-weight-bold"></span>
                                 </td>
                                 <td data-duice-bind="user" data-duice-property="name"></td>
@@ -470,10 +470,10 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.user.userId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-bind="user" data-duice-property="id"
+                            <input type="text" data-duice-bind="user" data-duice-property="userId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
@@ -575,7 +575,7 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.id}"></th>
+                                        <th data-th-text="#{core.role.roleId}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addUserRole();">
@@ -588,7 +588,7 @@
                                     <tr data-duice-bind="user.roles" data-duice-loop="role,status">
                                         <td data-duice-bind="status" data-duice-property="count"
                                             class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="id"
+                                        <td data-duice-bind="role" data-duice-property="roleId"
                                             class="font-weight-bold"></td>
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
@@ -647,7 +647,7 @@
                 dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
                 alreadySelectedRoleIds : null,
                 roleSearch: new duice.ObjectProxy({
-                    key: 'id',
+                    key: 'roleId',
                     value: null,
                     _page: 0,
                     _size: 5,
@@ -691,11 +691,11 @@
                         this.roleSearch._count = data.totalElements;
                         // check already selected
                         this.roles.forEach(role => {
-                            if(this.alreadySelectedRoleIds.includes(role.id)){
+                            if(this.alreadySelectedRoleIds.includes(role.roleId)){
                                 role['_selected'] = true;
                             }
                             this.selectedRoles.forEach(element => {
-                                if(element.id === role.id) {
+                                if(element.roleId === role.roleId) {
                                     role['_selected'] = true;
                                 }
                             });
@@ -718,7 +718,7 @@
                     let role = JSON.parse(JSON.stringify(this.roles[index]));
                     this.selectedRoles.push(role);
                     this.roles.forEach(element => {
-                        if(element.id === role.id) {
+                        if(element.roleId === role.roleId) {
                             element['_selected'] = true;
                             return false;
                         }
@@ -732,7 +732,7 @@
                     let role = this.selectedRoles[index];
                     this.selectedRoles.splice(index, 1);
                     this.roles.forEach(element => {
-                        if(element.id === role.id) {
+                        if(element.roleId === role.roleId) {
                             element['_selected'] = false;
                             return false;
                         }
@@ -754,7 +754,7 @@
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
-                    <option value="id" th:text="#{core.role.id}"></option>
+                    <option value="roleId" th:text="#{core.role.roleId}"></option>
                     <option value="name" th:text="#{core.role.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
@@ -779,7 +779,7 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
@@ -787,7 +787,7 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
@@ -836,7 +836,7 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
@@ -844,7 +844,7 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
@@ -974,7 +974,7 @@
             <!-- list of login history -->
             <div class="container">
                 <div class="col-12">
-                    <div class="container gap-1px margin-1px">
+                    <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-6 container gap-1px">
                             <select data-duice-bind="loginHistorySearch" data-duice-property="key" class="col-1 col-s-4">
                                 <option value="userId" th:text="#{core.loginHistory.userId}"></option>

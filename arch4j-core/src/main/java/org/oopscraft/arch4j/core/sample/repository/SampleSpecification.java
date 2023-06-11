@@ -1,14 +1,13 @@
 package org.oopscraft.arch4j.core.sample.repository;
 
 import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.core.sample.repository.SampleEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SampleSpecification {
 
-    public static Specification<SampleEntity> likeId(String id) {
+    public static Specification<SampleEntity> likeSampleId(String sampleId) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.like(root.get(SampleEntity_.ID), '%' + id + '%');
+                criteriaBuilder.like(root.get(SampleEntity_.SAMPLE_ID), '%' + sampleId + '%');
     }
 
     public static Specification<SampleEntity> likeName(String name) {

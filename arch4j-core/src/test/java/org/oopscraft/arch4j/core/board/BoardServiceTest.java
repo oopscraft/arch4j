@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.board.repository.BoardEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ class BoardServiceTest extends CoreTestSupport {
     final BoardService boardService;
 
     Board testBoard = Board.builder()
-            .id(UUID.randomUUID().toString())
+            .boardId(UUID.randomUUID().toString())
             .name("test board")
             .build();
 
@@ -27,14 +26,14 @@ class BoardServiceTest extends CoreTestSupport {
     @Order(1)
     void saveBoard() {
         Board savedBoard = boardService.saveBoard(testBoard);
-        assertNotNull(entityManager.find(BoardEntity.class, savedBoard.getId()));
+        assertNotNull(entityManager.find(BoardEntity.class, savedBoard.getBoardId()));
     }
 
     @Test
     @Order(2)
     void getUser() {
         Board savedBoard = boardService.saveBoard(testBoard);
-        Board board = boardService.getBoard(savedBoard.getId()).orElse(null);
+        Board board = boardService.getBoard(savedBoard.getBoardId()).orElse(null);
         assertNotNull(board);
     }
 
@@ -42,8 +41,8 @@ class BoardServiceTest extends CoreTestSupport {
     @Order(3)
     void deleteBoard() {
         Board savedBoard = boardService.saveBoard(testBoard);
-        boardService.deleteBoard(savedBoard.getId());
-        assertNull(entityManager.find(BoardEntity.class, savedBoard.getId()));
+        boardService.deleteBoard(savedBoard.getBoardId());
+        assertNull(entityManager.find(BoardEntity.class, savedBoard.getBoardId()));
     }
 
     @Test

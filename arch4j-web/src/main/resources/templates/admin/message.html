@@ -6,7 +6,7 @@
     <script>
         // message search condition
         const messageSearch = new duice.ObjectProxy({
-            key: 'id',
+            key: 'messageId',
             value: null,
             _page: 0,
             _size: 20,
@@ -20,9 +20,9 @@
         const message = new duice.ObjectProxy({});
         duice.ObjectProxy.setDisableAll(message, true);
         duice.ObjectProxy.onPropertyChanging(message, async event => {
-            if (event.getProperty() === 'id') {
+            if (event.getProperty() === 'messageId') {
                 if (!await validateMessageId(event.getValue())) {
-                    duice.ObjectProxy.focus(message, 'id');
+                    duice.ObjectProxy.focus(message, 'messageId');
                     return false;
                 }
             }
@@ -62,17 +62,17 @@
 
         /**
          * getMessage
-         * @param id message id
+         * @param messageId message.messageId
          */
-        function getMessage(id) {
+        function getMessage(messageId) {
             let url = new URL('[[@{/admin/message/get-message}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('messageId', messageId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ObjectProxy.assign(message, data);
                     duice.ObjectProxy.setDisableAll(message, false);
-                    duice.ObjectProxy.setReadonly(message, 'id', true);
+                    duice.ObjectProxy.setReadonly(message, 'messageId', true);
                     message._new = false;
                 });
         }
@@ -86,32 +86,32 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(message, false);
-            duice.ObjectProxy.setReadonly(message, 'id', false);
-            duice.ObjectProxy.focus(message, 'id');
+            duice.ObjectProxy.setReadonly(message, 'messageId', false);
+            duice.ObjectProxy.focus(message, 'messageId');
         }
 
         /**
          * validateMessageId
-         * @param id message id
+         * @param messageId message.messageId
          * @returns {Promise<boolean>}
          */
-        async function validateMessageId(id) {
+        async function validateMessageId(messageId) {
 
             // check blank
-            if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.message.id})}]]');
-                duice.ObjectProxy.focus(message, 'id');
+            if (!messageId) {
+                await _alert('[[#{web.message.itemEmpty(#{core.message.messageId})}]]');
+                duice.ObjectProxy.focus(message, 'messageId');
                 return false;
             }
 
             // check duplicated id
             let url = new URL('[[@{/admin/message/get-message}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('messageId', messageId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let message = await response.json();
                 if (message) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.message.id})}]]');
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.message.messageId})}]]');
                     return false;
                 }
             }
@@ -127,7 +127,7 @@
 
             // if new, checks id
             if (message._new) {
-                if (!await validateMessageId(message.id)) {
+                if (!await validateMessageId(message.messageId)) {
                     return false;
                 }
             }
@@ -153,7 +153,7 @@
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.message})}]]').then(() => {
                                 getMessages();
-                                getMessage(message.id);
+                                getMessage(message.messageId);
                             });
                         }
                     });
@@ -168,7 +168,7 @@
             _confirm('[[#{web.message.deleteItemConfirm(#{core.message})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/message/delete-message}]]', document.location.origin);
-                    url.searchParams.append('id', message.id);
+                    url.searchParams.append('messageId', message.messageId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.deleteItemComplete(#{core.message})}]]').then(() => {
@@ -209,11 +209,10 @@
                             </button>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="container gap-1px margin-1px">
+                    <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="messageSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.message.id}"></option>
+                                <option value="messageId" th:text="#{core.message.messageId}"></option>
                                 <option value="name" th:text="#{core.message.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
@@ -238,17 +237,17 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.message.id}"></th>
+                                <th data-th-text="#{core.message.messageId}"></th>
                                 <th data-th-text="#{core.message.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-toggle-class="selected" data-duice-script="
-                            this.dataset.id=message.id;
+                            this.dataset.id=message.messageId;
                             " onclick="getMessage(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="message" data-duice-property="id"></td>
+                                <td data-duice-bind="message" data-duice-property="messageId"></td>
                                 <td data-duice-bind="message" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="messages" data-duice-script="if(messages.length === 0) this.hidden=false;" hidden>
@@ -288,10 +287,10 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.message.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.message.messageId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-bind="message" data-duice-property="id"
+                            <input type="text" data-duice-bind="message" data-duice-property="messageId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">

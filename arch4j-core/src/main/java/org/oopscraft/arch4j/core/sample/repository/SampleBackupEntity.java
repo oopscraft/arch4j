@@ -24,8 +24,8 @@ import java.time.LocalDateTime;
 public class SampleBackupEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length=64)
-    private String id;
+    @Column(name = "sample_id", length=64)
+    private String sampleId;
 
     @Column(name = "name", nullable = false)
     private String name;

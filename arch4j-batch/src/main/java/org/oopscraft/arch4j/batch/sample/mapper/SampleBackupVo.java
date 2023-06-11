@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class SampleBackupVo {
 
     @Length(40)
-    private String id;
+    private String sampleId;
 
     @Length(20)
     private String name;

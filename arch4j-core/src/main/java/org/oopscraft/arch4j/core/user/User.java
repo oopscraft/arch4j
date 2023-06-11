@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    private String id;
-
-    private String password;
+    private String userId;
 
     private String name;
+
+    private String password;
 
     @Builder.Default
     private UserType type = UserType.GENERAL;
@@ -46,7 +46,7 @@ public class User {
 
     public static User from(UserEntity userEntity) {
         return User.builder()
-                .id(userEntity.getId())
+                .userId(userEntity.getUserId())
                 .name(userEntity.getName())
                 .password(userEntity.getPassword())
                 .type(userEntity.getType())

@@ -43,7 +43,7 @@ public class SampleRestController {
     ) {
         // search condition
         SampleSearch sampleSearch = SampleSearch.builder()
-                .id(id)
+                .sampleId(id)
                 .name(name)
                 .type(Optional.ofNullable(type).map(SampleType::valueOf).orElse(null))
                 .build();

@@ -7,9 +7,6 @@ import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +16,7 @@ class UserServiceTest extends CoreTestSupport {
     final UserService userService;
 
     User testUser = User.builder()
-            .id("test_user")
+            .userId("test_user")
             .password("password1234!@#$")
             .name("user name")
             .mobile("010-1234-5678")
@@ -32,14 +29,14 @@ class UserServiceTest extends CoreTestSupport {
     void saveUser() {
         User savedUser = userService.saveUser(testUser);
         assertNotNull(savedUser);
-        assertNotNull(entityManager.find(UserEntity.class, testUser.getId()));
+        assertNotNull(entityManager.find(UserEntity.class, testUser.getUserId()));
     }
 
     @Test
     @Order(2)
     void getUser() {
         User savedUser = userService.saveUser(testUser);
-        User user = userService.getUser(savedUser.getId()).orElse(null);
+        User user = userService.getUser(savedUser.getUserId()).orElse(null);
         assertNotNull(user);
     }
 
@@ -47,8 +44,8 @@ class UserServiceTest extends CoreTestSupport {
     @Order(3)
     void deleteUser() {
         User savedUser = userService.saveUser(testUser);
-        userService.deleteUser(savedUser.getId());
-        assertNull(entityManager.find(UserEntity.class, testUser.getId()));
+        userService.deleteUser(savedUser.getUserId());
+        assertNull(entityManager.find(UserEntity.class, testUser.getUserId()));
     }
 
     @Test

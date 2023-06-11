@@ -44,10 +44,10 @@ public class CompareSampleDataToBackupDataTasklet implements Tasklet {
 
         // compare column value
         jpaQueryFactory.selectFrom(QSampleEntity.sampleEntity).stream().forEach(item ->{
-            SampleEntity sampleEntity = sampleRepository.findById(item.getId()).orElse(null);
-            SampleBackupEntity sampleBackupEntity = sampleBackupRepository.findById(item.getId()).orElse(null);
+            SampleEntity sampleEntity = sampleRepository.findById(item.getSampleId()).orElse(null);
+            SampleBackupEntity sampleBackupEntity = sampleBackupRepository.findById(item.getSampleId()).orElse(null);
             int result = new CompareToBuilder()
-                    .append(sampleEntity.getId(), sampleBackupEntity.getId())
+                    .append(sampleEntity.getSampleId(), sampleBackupEntity.getSampleId())
                     .append(sampleEntity.getName(), sampleBackupEntity.getName())
                     .append(sampleEntity.getNumber(), sampleBackupEntity.getNumber())
                     .append(sampleEntity.getBigDecimal(), sampleBackupEntity.getBigDecimal())

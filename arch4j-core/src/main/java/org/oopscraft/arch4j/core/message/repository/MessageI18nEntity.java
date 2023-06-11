@@ -22,13 +22,13 @@ public class MessageI18nEntity extends SystemFieldEntity {
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Pk implements Serializable {
-        private String id;
+        private String messageId;
         private String language;
     }
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "message_id", length = 64)
+    private String messageId;
 
     @Id
     @Column(name = "language", length = 8)

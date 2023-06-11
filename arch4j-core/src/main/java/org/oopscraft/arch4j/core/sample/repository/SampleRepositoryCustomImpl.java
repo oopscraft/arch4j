@@ -25,8 +25,8 @@ public class SampleRepositoryCustomImpl implements SampleRepositoryCustom {
                 .selectFrom(qSampleEntity);
 
         // where condition
-        if(sampleSearch.getId() != null) {
-            query.where(qSampleEntity.id.contains(sampleSearch.getId()));
+        if(sampleSearch.getSampleId() != null) {
+            query.where(qSampleEntity.sampleId.contains(sampleSearch.getSampleId()));
         }
         if(sampleSearch.getName() != null) {
             query.where(qSampleEntity.name.contains(sampleSearch.getName()));

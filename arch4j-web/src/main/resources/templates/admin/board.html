@@ -6,7 +6,7 @@
     <script>
         // board search condition
         const boardSearch = new duice.ObjectProxy({
-            key: 'id',
+            key: 'boardId',
             value: null,
             _page: 0,
             _size: 20,
@@ -24,9 +24,9 @@
         });
         duice.ObjectProxy.setDisableAll(board, true);
         duice.ObjectProxy.onPropertyChanging(board, async event => {
-            if (event.getProperty() === 'id') {
+            if (event.getProperty() === 'boardId') {
                 if (!await validateBoardId(event.getValue())) {
-                    duice.ObjectProxy.focus(board, 'id');
+                    duice.ObjectProxy.focus(board, 'boardId');
                     return false;
                 }
             }
@@ -66,17 +66,17 @@
 
         /**
          * getBoard
-         * @param id board id
+         * @param boardId board.boardId
          */
-        function getBoard(id) {
+        function getBoard(boardId) {
             let url = new URL('[[@{/admin/board/get-board}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('boardId', boardId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ObjectProxy.assign(board, data);
                     duice.ObjectProxy.setDisableAll(board, false);
-                    duice.ObjectProxy.setReadonly(board, 'id', true);
+                    duice.ObjectProxy.setReadonly(board, 'boardId', true);
                     board._new = false;
                 });
         }
@@ -90,32 +90,32 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(board, false);
-            duice.ObjectProxy.setReadonly(board, 'id', false);
-            duice.ObjectProxy.focus(board, 'id');
+            duice.ObjectProxy.setReadonly(board, 'boardId', false);
+            duice.ObjectProxy.focus(board, 'boardId');
         }
 
         /**
          * validateBoardId
-         * @param id board id
+         * @param boardId board.boardId
          * @returns {Promise<boolean>}
          */
-        async function validateBoardId(id) {
+        async function validateBoardId(boardId) {
 
             // check blank
-            if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.board.id})}]]');
-                duice.ObjectProxy.focus(board, 'id');
+            if (!boardId) {
+                await _alert('[[#{web.message.itemEmpty(#{core.board.boardId})}]]');
+                duice.ObjectProxy.focus(board, 'boardId');
                 return false;
             }
 
             // check duplicated id
             let url = new URL('[[@{/admin/board/get-board}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('boardId', boardId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let board = await response.json();
                 if (board) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.board.id})}]]');
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.board.boardId})}]]');
                     return false;
                 }
             }
@@ -131,7 +131,7 @@
 
             // if new, checks id
             if (board._new) {
-                if (!await validateBoardId(board.id)) {
+                if (!await validateBoardId(board.boardId)) {
                     return false;
                 }
             }
@@ -157,7 +157,7 @@
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.board})}]]').then(() => {
                                 getBoards();
-                                getBoard(board.id);
+                                getBoard(board.boardId);
                             });
                         }
                     });
@@ -172,7 +172,7 @@
             _confirm('[[#{web.message.deleteItemConfirm(#{core.board})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/board/delete-board}]]', document.location.origin);
-                    url.searchParams.append('id', board.id);
+                    url.searchParams.append('boardId', board.boardId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.deleteItemComplete(#{core.board})}]]').then(() => {
@@ -191,7 +191,7 @@
         async function addBoardAccessRole() {
             let disabledRoleIds = [];
             board.accessRoles.forEach(role => {
-                disabledRoleIds.push(role.id);
+                disabledRoleIds.push(role.roleId);
             });
             let selectedRoles = await roleSelect.open(disabledRoleIds);
             selectedRoles.forEach(role => {
@@ -213,7 +213,7 @@
         async function addBoardReadRole() {
             let disabledRoleIds = [];
             board.readRoles.forEach(role => {
-                disabledRoleIds.push(role.id);
+                disabledRoleIds.push(role.roleId);
             });
             let selectedRoles = await roleSelect.open(disabledRoleIds);
             selectedRoles.forEach(role => {
@@ -235,7 +235,7 @@
         async function addBoardWriteRole() {
             let disabledRoleIds = [];
             board.writeRoles.forEach(role => {
-                disabledRoleIds.push(role.id);
+                disabledRoleIds.push(role.roleId);
             });
             let selectedRoles = await roleSelect.open(disabledRoleIds);
             selectedRoles.forEach(role => {
@@ -283,7 +283,7 @@
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="boardSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.board.id}"></option>
+                                <option value="boardId" th:text="#{core.board.boardId}"></option>
                                 <option value="name" th:text="#{core.board.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
@@ -308,17 +308,17 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.board.id}"></th>
+                                <th data-th-text="#{core.board.boardId}"></th>
                                 <th data-th-text="#{core.board.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-toggle-class="selected" data-duice-script="
-                            this.dataset.id=board.id;
-                            " onclick="getBoard(this.dataset.id);" class="link">
+                            this.dataset.boardId=board.boardId;
+                            " onclick="getBoard(this.dataset.boardId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="board" data-duice-property="id"></td>
+                                <td data-duice-bind="board" data-duice-property="boardId"></td>
                                 <td data-duice-bind="board" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="boards" data-duice-script="if(boards.length === 0) this.hidden=false;" hidden>
@@ -358,10 +358,10 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.board.boardId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-bind="board" data-duice-property="id"
+                            <input type="text" data-duice-bind="board" data-duice-property="boardId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
@@ -418,7 +418,7 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.id}"></th>
+                                        <th data-th-text="#{core.role.roleId}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -430,7 +430,7 @@
                                     <tbody>
                                     <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
                                         <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="id"></td>
+                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
@@ -465,7 +465,7 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.id}"></th>
+                                        <th data-th-text="#{core.role.roleId}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -477,7 +477,7 @@
                                     <tbody>
                                     <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
                                         <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="id"></td>
+                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
@@ -512,7 +512,7 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.id}"></th>
+                                        <th data-th-text="#{core.role.roleId}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -524,7 +524,7 @@
                                     <tbody>
                                     <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
                                         <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="id"></td>
+                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
@@ -577,7 +577,7 @@
                 dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
                 alreadySelectedRoleIds : null,
                 roleSearch: new duice.ObjectProxy({
-                    key: 'id',
+                    key: 'roleId',
                     value: null,
                     _page: 0,
                     _size: 5,
@@ -621,11 +621,11 @@
                             this.roleSearch._count = data.totalElements;
                             // check already selected
                             this.roles.forEach(role => {
-                                if(this.alreadySelectedRoleIds.includes(role.id)){
+                                if(this.alreadySelectedRoleIds.includes(role.roleId)){
                                     role['_selected'] = true;
                                 }
                                 this.selectedRoles.forEach(element => {
-                                    if(element.id === role.id) {
+                                    if(element.roleId === role.roleId) {
                                         role['_selected'] = true;
                                     }
                                 });
@@ -648,7 +648,7 @@
                     let role = JSON.parse(JSON.stringify(this.roles[index]));
                     this.selectedRoles.push(role);
                     this.roles.forEach(element => {
-                        if(element.id === role.id) {
+                        if(element.roleId === role.roleId) {
                             element['_selected'] = true;
                             return false;
                         }
@@ -662,7 +662,7 @@
                     let role = this.selectedRoles[index];
                     this.selectedRoles.splice(index, 1);
                     this.roles.forEach(element => {
-                        if(element.id === role.id) {
+                        if(element.roleId === role.roleId) {
                             element['_selected'] = false;
                             return false;
                         }
@@ -684,7 +684,7 @@
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
-                    <option value="id" th:text="#{core.role.id}"></option>
+                    <option value="roleId" th:text="#{core.role.roleId}"></option>
                     <option value="name" th:text="#{core.role.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
@@ -709,7 +709,7 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
@@ -717,7 +717,7 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
@@ -766,7 +766,7 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.id}"></th>
+                    <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
@@ -774,7 +774,7 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="id" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"

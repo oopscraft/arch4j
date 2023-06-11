@@ -39,24 +39,24 @@ public class SampleController {
 
     /**
      * get sample
-     * @param id sample id
+     * @param sampleId sample id
      * @return sample
      */
     @GetMapping("get-sample")
     @ResponseBody
-    public Sample getSample(@RequestParam("id") String id) {
-        return sampleService.getSample(id)
+    public Sample getSample(@RequestParam("sampleId") String sampleId) {
+        return sampleService.getSample(sampleId)
                 .orElseThrow(() -> new DataNotFoundException("#{core.sample}"));
     }
 
     /**
      * delete sample
-     * @param id sample id
+     * @param sampleId sample id
      */
     @GetMapping("delete-sample")
     @ResponseBody
-    public void deleteSample(@RequestParam("id") String id) {
-        sampleService.deleteSample(id);
+    public void deleteSample(@RequestParam("sampleId") String sampleId) {
+        sampleService.deleteSample(sampleId);
     }
 
     /**

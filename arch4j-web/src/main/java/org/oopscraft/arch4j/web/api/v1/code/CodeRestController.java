@@ -42,7 +42,7 @@ public class CodeRestController {
             Pageable pageable
     ) {
         CodeSearch codeSearch = CodeSearch.builder()
-                .id(id)
+                .codeId(id)
                 .name(name)
                 .build();
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);

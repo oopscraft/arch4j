@@ -41,14 +41,14 @@ public class CodeController {
 
     /**
      * get property
-     * @param id code id
+     * @param codeId code id
      * @return code
      */
     @GetMapping("get-code")
     @ResponseBody
-    public Code getCode(@RequestParam("id")String id) {
-        return codeService.getCode(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Code getCode(@RequestParam("codeId")String codeId) {
+        return codeService.getCode(codeId)
+                .orElseThrow(() -> new DataNotFoundException(codeId));
     }
 
     /**
@@ -64,13 +64,13 @@ public class CodeController {
 
     /**
      * deletes code
-     * @param id code id
+     * @param codeId code id
      */
     @GetMapping("delete-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
-    public void deleteCode(@RequestParam("id")String id) {
-        codeService.deleteCode(id);
+    public void deleteCode(@RequestParam("codeId")String codeId) {
+        codeService.deleteCode(codeId);
     }
 
 }

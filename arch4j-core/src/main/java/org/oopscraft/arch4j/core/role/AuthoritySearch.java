@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class AuthoritySearch {
 
-    private String id;
+    private String authorityId;
 
     private String name;
 

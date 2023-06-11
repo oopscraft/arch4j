@@ -19,14 +19,14 @@ import java.util.List;
 public class MenuEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id")
-    private String id;
+    @Column(name = "menu_id")
+    private String menuId;
 
-    @Column(name = "parent_id")
-    private String parentId;
+    @Column(name = "parent_menu_id")
+    private String parentMenuId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false)
     private MenuEntity parentMenu;
 
     @Column(name = "name")
@@ -59,7 +59,7 @@ public class MenuEntity extends SystemFieldEntity {
     @Builder.Default
     List<RoleEntity> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = MenuI18nEntity_.ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = MenuI18nEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MenuI18nEntity> i18ns = new ArrayList<>();
 

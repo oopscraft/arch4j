@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Code {
 	
-	private String id;
+	private String codeId;
 	
 	private String name;
 	
@@ -25,7 +25,7 @@ public class Code {
 
     static Code from(CodeEntity codeEntity) {
         return Code.builder()
-                .id(codeEntity.getId())
+                .codeId(codeEntity.getCodeId())
                 .name(codeEntity.getName())
                 .note(codeEntity.getNote())
                 .items(codeEntity.getItems().stream()

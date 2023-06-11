@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MenuSearch {
 
-    private String id;
+    private String menuId;
 
     private String name;
 

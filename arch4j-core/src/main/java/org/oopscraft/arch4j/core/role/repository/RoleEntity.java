@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,11 @@ import java.util.List;
 public class RoleEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
-    
-    @Column(name = "name")
+    @Column(name = "role_id", length = 32)
+    private String roleId;
+
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "note")

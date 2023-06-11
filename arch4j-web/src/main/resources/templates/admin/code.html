@@ -6,7 +6,7 @@
     <script>
         // code search condition
         const codeSearch = new duice.ObjectProxy({
-            key: 'id',
+            key: 'codeId',
             value: null,
             _page: 0,
             _size: 20,
@@ -22,9 +22,9 @@
         });
         duice.ObjectProxy.setDisableAll(code, true);
         duice.ObjectProxy.onPropertyChanging(code, async event => {
-            if (event.getProperty() === 'id') {
+            if (event.getProperty() === 'codeId') {
                 if (!await validateCodeId(event.getValue())) {
-                    duice.ObjectProxy.focus(code, 'id');
+                    duice.ObjectProxy.focus(code, 'codeId');
                     return false;
                 }
             }
@@ -64,17 +64,17 @@
 
         /**
          * getCode
-         * @param id code id
+         * @param codeId code id
          */
-        function getCode(id) {
+        function getCode(codeId) {
             let url = new URL('[[@{/admin/code/get-code}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('codeId', codeId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ObjectProxy.assign(code, data);
                     duice.ObjectProxy.setDisableAll(code, false);
-                    duice.ObjectProxy.setReadonly(code, 'id', true);
+                    duice.ObjectProxy.setReadonly(code, 'codeId', true);
                     code._new = false;
                 });
         }
@@ -88,32 +88,32 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(code, false);
-            duice.ObjectProxy.setReadonly(code, 'id', false);
-            duice.ObjectProxy.focus(code, 'id');
+            duice.ObjectProxy.setReadonly(code, 'codeId', false);
+            duice.ObjectProxy.focus(code, 'codeId');
         }
 
         /**
          * validateCodeId
-         * @param id code id
+         * @param codeId code.codeId
          * @returns {Promise<boolean>}
          */
-        async function validateCodeId(id) {
+        async function validateCodeId(codeId) {
 
             // check blank
-            if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.code.id})}]]');
-                duice.ObjectProxy.focus(code, 'id');
+            if (!codeId) {
+                await _alert('[[#{web.message.itemEmpty(#{core.code.codeId})}]]');
+                duice.ObjectProxy.focus(code, 'codeId');
                 return false;
             }
 
             // check duplicated id
             let url = new URL('[[@{/admin/code/get-code}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('codeId', codeId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let code = await response.json();
                 if (code) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.code.id})}]]');
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.code.codeId})}]]');
                     return false;
                 }
             }
@@ -129,7 +129,7 @@
 
             // if new, checks id
             if (code._new) {
-                if (!await validateCodeId(code.id)) {
+                if (!await validateCodeId(code.codeId)) {
                     return false;
                 }
             }
@@ -155,7 +155,7 @@
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.code})}]]').then(() => {
                                 getCodes();
-                                getCode(code.id);
+                                getCode(code.codeId);
                             });
                         }
                     });
@@ -170,7 +170,7 @@
             _confirm('[[#{web.message.deleteItemConfirm(#{core.code})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/code/delete-code}]]', document.location.origin);
-                    url.searchParams.append('id', code.id);
+                    url.searchParams.append('codeId', code.codeId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.deleteItemComplete(#{core.code})}]]').then(() => {
@@ -230,7 +230,7 @@
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="codeSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.code.id}"></option>
+                                <option value="codeId" th:text="#{core.code.codeId}"></option>
                                 <option value="name" th:text="#{core.code.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
@@ -255,17 +255,17 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.code.id}"></th>
+                                <th data-th-text="#{core.code.codeId}"></th>
                                 <th data-th-text="#{core.code.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-toggle-class="selected" data-duice-script="
-                            this.dataset.id=code.id;
+                            this.dataset.id=code.codeId;
                             " onclick="getCode(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="code" data-duice-property="id"></td>
+                                <td data-duice-bind="code" data-duice-property="codeId"></td>
                                 <td data-duice-bind="code" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="codes" data-duice-script="if(codes.length === 0) this.hidden=false;" hidden>
@@ -305,10 +305,10 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.code.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.code.codeId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-bind="code" data-duice-property="id"
+                            <input type="text" data-duice-bind="code" data-duice-property="codeId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
@@ -341,7 +341,7 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.codeItem.id}"></th>
+                                        <th data-th-text="#{core.codeItem.itemId}"></th>
                                         <th data-th-text="#{core.codeItem.name}"></th>
                                         <th data-th-text="#{core.codeItem.value}"></th>
                                         <th class="text-align-center">
@@ -355,7 +355,7 @@
                                     <tr data-duice-bind="code.items" data-duice-loop="item,status">
                                         <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                         <td>
-                                            <input type="text" data-duice-bind="item" data-duice-property="id" class="width-100 font-weight-bold"/>
+                                            <input type="text" data-duice-bind="item" data-duice-property="itemId" class="width-100 font-weight-bold"/>
                                         </td>
                                         <td>
                                             <input type="text" data-duice-bind="item" data-duice-property="name" class="width-100"/>

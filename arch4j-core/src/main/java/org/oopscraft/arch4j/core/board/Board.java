@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Board {
 
-    private String id;
+    private String boardId;
 
     private String name;
 
@@ -49,7 +49,7 @@ public class Board {
      */
     public static Board from(BoardEntity boardEntity) {
         return Board.builder()
-                .id(boardEntity.getId())
+                .boardId(boardEntity.getBoardId())
                 .name(boardEntity.getName())
                 .note(boardEntity.getNote())
                 .icon(boardEntity.getIcon())

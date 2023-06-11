@@ -28,10 +28,10 @@ public class CodeService {
      * @return code
      */
     public Code saveCode(Code code) {
-        CodeEntity codeEntity = codeRepository.findById(code.getId()).orElse(null);
+        CodeEntity codeEntity = codeRepository.findById(code.getCodeId()).orElse(null);
         if(codeEntity == null) {
             codeEntity = CodeEntity.builder()
-                    .id(code.getId())
+                    .codeId(code.getCodeId())
                     .build();
         }
         codeEntity.setName(code.getName());
@@ -42,8 +42,8 @@ public class CodeService {
         items.clear();
         AtomicInteger sort = new AtomicInteger();
         code.getItems().forEach(item -> items.add(CodeItemEntity.builder()
-                .codeId(code.getId())
-                .id(item.getId())
+                .codeId(code.getCodeId())
+                .itemId(item.getItemId())
                 .sort(sort.getAndIncrement())
                 .name(item.getName())
                 .value(item.getValue())
@@ -63,8 +63,8 @@ public class CodeService {
     public Page<Code> getCodes(CodeSearch codeSearch, Pageable pageable) {
 
         Specification<CodeEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(codeSearch.getId() != null) {
-            specification = specification.and(CodeSpecification.likeId(codeSearch.getId()));
+        if(codeSearch.getCodeId() != null) {
+            specification = specification.and(CodeSpecification.likeCodeId(codeSearch.getCodeId()));
         }
         if(codeSearch.getName() != null) {
             specification = specification.and(CodeSpecification.likeName(codeSearch.getName()));
@@ -80,19 +80,19 @@ public class CodeService {
 
     /**
      * returns code
-     * @param id code id
+     * @param codeId code id
      * @return code info
      */
-    public Optional<Code> getCode(String id) {
-        return codeRepository.findById(id).map(Code::from);
+    public Optional<Code> getCode(String codeId) {
+        return codeRepository.findById(codeId).map(Code::from);
     }
 
     /**
      * deletes code
-     * @param id code id
+     * @param codeId code id
      */
-    public void deleteCode(String id) {
-        codeRepository.deleteById(id);
+    public void deleteCode(String codeId) {
+        codeRepository.deleteById(codeId);
         codeRepository.flush();
     }
 

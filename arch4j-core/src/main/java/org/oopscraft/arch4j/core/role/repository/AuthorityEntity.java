@@ -19,10 +19,10 @@ import javax.persistence.*;
 public class AuthorityEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "authority_id", length = 32)
+    private String authorityId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "note")

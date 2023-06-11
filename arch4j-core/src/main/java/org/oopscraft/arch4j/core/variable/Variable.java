@@ -11,7 +11,7 @@ import org.oopscraft.arch4j.core.variable.repository.VariableEntity;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Variable {
 
-    private String id;
+    private String variableId;
 
     private String value;
 
@@ -21,7 +21,7 @@ public class Variable {
 
     public static Variable from(VariableEntity variableEntity) {
         return Variable.builder()
-                .id(variableEntity.getId())
+                .variableId(variableEntity.getVariableId())
                 .value(variableEntity.getValue())
                 .name(variableEntity.getName())
                 .note(variableEntity.getNote())

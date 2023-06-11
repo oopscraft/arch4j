@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Message extends SystemFieldEntity {
 
-    private String id;
+    private String messageId;
 
     private String name;
 
@@ -48,7 +48,7 @@ public class Message extends SystemFieldEntity {
      */
     public static Message from(MessageEntity messageEntity) {
         return Message.builder()
-                .id(messageEntity.getId())
+                .messageId(messageEntity.getMessageId())
                 .name(messageEntity.getName())
                 .value(messageEntity.getValue())
                 .note(messageEntity.getNote())

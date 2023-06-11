@@ -3,8 +3,6 @@ package org.oopscraft.arch4j.core.message.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.menu.repository.MenuI18nEntity;
-import org.oopscraft.arch4j.core.menu.repository.MenuI18nEntity_;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,8 +18,8 @@ import java.util.List;
 public class MessageEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length=64)
-    private String id;
+    @Column(name = "message_id", length=64)
+    private String messageId;
 
     @Column(name = "name")
     private String name;
@@ -34,7 +32,7 @@ public class MessageEntity extends SystemFieldEntity {
     @Lob
     private String note;
 
-    @OneToMany(mappedBy = MessageI18nEntity_.ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = MessageI18nEntity_.MESSAGE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MessageI18nEntity> i18ns = new ArrayList<>();
 

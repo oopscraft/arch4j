@@ -14,7 +14,7 @@ import org.oopscraft.arch4j.core.role.repository.AuthorityEntity;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Authority {
 
-    private String id;
+    private String authorityId;
 
     private String name;
 
@@ -27,7 +27,7 @@ public class Authority {
      */
     public static Authority from(AuthorityEntity authorityEntity) {
         return Authority.builder()
-                .id(authorityEntity.getId())
+                .authorityId(authorityEntity.getAuthorityId())
                 .name(authorityEntity.getName())
                 .note(authorityEntity.getNote())
                 .build();

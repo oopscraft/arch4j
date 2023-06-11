@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.comment.repository;
+package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -6,34 +6,44 @@ import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "core_comment")
+@Table(name = "core_article_comment")
+@IdClass(ArticleCommentEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommentEntity extends SystemFieldEntity {
+public class ArticleCommentEntity extends SystemFieldEntity {
+
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Pk implements Serializable {
+        private String articleId;
+        private String commentId;
+    }
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "article_id", length = 64)
+    private String articleId;
 
-    @Column(name = "owner_type")
-    private String ownerType;
-
-    @Column(name = "owner_id")
-    private String ownerId;
+    @Id
+    @Column(name = "comment_id", length = 64)
+    private String commentId;
 
     @Column(name = "created_at")
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "parent_id")
-    private String parentId;
+    @Column(name = "parent_comment_id")
+    private String parentCommentId;
 
+    @NotBlank
     @Column(name = "content")
     @Lob
     private String content;

@@ -247,6 +247,25 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
          */
         @Bean
         @Order(3)
+        public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
+            http.requestMatcher(request -> {
+                return new AntPathRequestMatcher("/swagger-ui/**").matches(request);
+            });
+            http.authorizeRequests().anyRequest().hasAuthority("SWAGGER-UI");
+            http.csrf().disable();
+            http.headers().frameOptions().sameOrigin();
+            return http.build();
+        }
+
+        /**
+         * H2 console security filter chain
+         *
+         * @param http
+         * @return
+         * @throws Exception
+         */
+        @Bean
+        @Order(4)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> {
                 return new AntPathRequestMatcher("/h2-console/**").matches(request);

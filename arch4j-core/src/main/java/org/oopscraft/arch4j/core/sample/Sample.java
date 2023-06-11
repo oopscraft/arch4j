@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Sample {
 
-    private String id;
+    private String sampleId;
 
     private String name;
 

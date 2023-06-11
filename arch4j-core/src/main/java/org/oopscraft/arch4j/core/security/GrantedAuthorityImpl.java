@@ -22,7 +22,7 @@ public class GrantedAuthorityImpl implements GrantedAuthority {
      */
     public static GrantedAuthorityImpl from(Authority authority) {
         return GrantedAuthorityImpl.builder()
-                .authority(authority.getId())
+                .authority(authority.getAuthorityId())
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class GrantedAuthorityImpl implements GrantedAuthority {
      */
     public static GrantedAuthorityImpl from(Role role) {
         return GrantedAuthorityImpl.builder()
-                .authority("ROLE_" + role.getId())
+                .authority("ROLE_" + role.getRoleId())
                 .build();
     }
 

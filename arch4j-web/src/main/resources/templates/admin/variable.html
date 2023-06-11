@@ -6,7 +6,7 @@
     <script>
         // variable search condition
         const variableSearch = new duice.ObjectProxy({
-            key: 'id',
+            key: 'variableId',
             value: null,
             _page: 0,
             _size: 20,
@@ -20,9 +20,9 @@
         const variable = new duice.ObjectProxy({});
         duice.ObjectProxy.setDisableAll(variable, true);
         duice.ObjectProxy.onPropertyChanging(variable, async event => {
-            if (event.getProperty() === 'id') {
+            if (event.getProperty() === 'variableId') {
                 if (!await validateVariableId(event.getValue())) {
-                    duice.ObjectProxy.focus(variable, 'id');
+                    duice.ObjectProxy.focus(variable, 'variableId');
                     return false;
                 }
             }
@@ -62,17 +62,17 @@
 
         /**
          * getVariable
-         * @param id variable id
+         * @param variableId variable.variableId
          */
-        function getVariable(id) {
+        function getVariable(variableId) {
             let url = new URL('[[@{/admin/variable/get-variable}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('variableId', variableId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ObjectProxy.assign(variable, data);
                     duice.ObjectProxy.setDisableAll(variable, false);
-                    duice.ObjectProxy.setReadonly(variable, 'id', true);
+                    duice.ObjectProxy.setReadonly(variable, 'variableId', true);
                     variable._new = false;
                 });
         }
@@ -86,32 +86,32 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(variable, false);
-            duice.ObjectProxy.setReadonly(variable, 'id', false);
-            duice.ObjectProxy.focus(variable, 'id');
+            duice.ObjectProxy.setReadonly(variable, 'variableId', false);
+            duice.ObjectProxy.focus(variable, 'variableId');
         }
 
         /**
          * validateVariableId
-         * @param id variable id
+         * @param variableId variable.variableId
          * @returns {Promise<boolean>}
          */
-        async function validateVariableId(id) {
+        async function validateVariableId(variableId) {
 
             // check blank
-            if (!id) {
-                await _alert('[[#{web.message.itemEmpty(#{core.variable.id})}]]');
-                duice.ObjectProxy.focus(variable, 'id');
+            if (!variableId) {
+                await _alert('[[#{web.message.itemEmpty(#{core.variable.variableId})}]]');
+                duice.ObjectProxy.focus(variable, 'variableId');
                 return false;
             }
 
             // check duplicated id
             let url = new URL('[[@{/admin/variable/get-variable}]]', document.location.origin);
-            url.searchParams.append('id', id);
+            url.searchParams.append('variableId', variableId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let variable = await response.json();
                 if (variable) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.variable.id})}]]');
+                    await _alert('[[#{web.message.itemAlreadyExist(#{core.variable.variableId})}]]');
                     return false;
                 }
             }
@@ -127,7 +127,7 @@
 
             // if new, checks id
             if (variable._new) {
-                if (!await validateVariableId(variable.id)) {
+                if (!await validateVariableId(variable.variableId)) {
                     return false;
                 }
             }
@@ -153,7 +153,7 @@
                         if (response.ok) {
                             _alert('[[#{web.message.saveItemComplete(#{core.variable})}]]').then(() => {
                                 getVariables();
-                                getVariable(variable.id);
+                                getVariable(variable.variableId);
                             });
                         }
                     });
@@ -168,7 +168,7 @@
             _confirm('[[#{web.message.deleteItemConfirm(#{core.variable})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/variable/delete-variable}]]', document.location.origin);
-                    url.searchParams.append('id', variable.id);
+                    url.searchParams.append('variableId', variable.variableId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert('[[#{web.message.deleteItemComplete(#{core.variable})}]]').then(() => {
@@ -213,7 +213,7 @@
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="variableSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="id" th:text="#{core.variable.id}"></option>
+                                <option value="variableId" th:text="#{core.variable.variableId}"></option>
                                 <option value="name" th:text="#{core.variable.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="variableSearch" data-duice-property="value"
@@ -238,17 +238,17 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.text.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.variable.id}"></th>
+                                <th data-th-text="#{core.variable.variableId}"></th>
                                 <th data-th-text="#{core.variable.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr data-duice-bind="variables" data-duice-loop="variable,status" data-duice-toggle-class="selected" data-duice-script="
-                            this.dataset.id=variable.id;
-                            " onclick="getVariable(this.dataset.id);" class="link">
+                            this.dataset.variableId=variable.variableId;
+                            " onclick="getVariable(this.dataset.variableId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="variable" data-duice-property="id"></td>
+                                <td data-duice-bind="variable" data-duice-property="variableId"></td>
                                 <td data-duice-bind="variable" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="variables" data-duice-script="if(variables.length === 0) this.hidden=false;" hidden>
@@ -288,10 +288,10 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.variable.id}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.variable.variableId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
-                            <input type="text" data-duice-bind="variable" data-duice-property="id"
+                            <input type="text" data-duice-bind="variable" data-duice-property="variableId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">

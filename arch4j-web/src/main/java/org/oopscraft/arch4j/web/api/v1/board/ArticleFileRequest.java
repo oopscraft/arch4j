@@ -1,15 +1,16 @@
-package org.oopscraft.arch4j.web.api.v1.file;
+package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.file.FileInfo;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class FileInfoRequest {
+public class ArticleFileRequest {
 
-    private String id;
+    private String articleId;
+
+    private String fileId;
 
     private String filename;
 

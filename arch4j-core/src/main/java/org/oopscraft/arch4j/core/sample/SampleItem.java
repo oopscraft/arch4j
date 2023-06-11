@@ -12,7 +12,7 @@ public class SampleItem {
 
     private String sampleId;
 
-    private String id;
+    private String itemId;
 
     private String name;
 

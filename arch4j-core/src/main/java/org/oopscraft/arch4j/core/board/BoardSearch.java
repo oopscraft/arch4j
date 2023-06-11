@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardSearch {
 
-    private String id;
+    private String boardId;
 
     private String name;
 

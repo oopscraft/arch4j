@@ -27,10 +27,10 @@ public class BoardService {
      * @return board
      */
     public Board saveBoard(Board board) {
-        BoardEntity boardEntity = boardRepository.findById(board.getId()).orElse(null);
+        BoardEntity boardEntity = boardRepository.findById(board.getBoardId()).orElse(null);
         if(boardEntity == null) {
             boardEntity = BoardEntity.builder()
-                    .id(board.getId())
+                    .boardId(board.getBoardId())
                     .build();
         }
         boardEntity.setName(board.getName());
@@ -41,17 +41,17 @@ public class BoardService {
         boardEntity.setFileEnabled(board.getFileEnabled());
         boardEntity.setAccessRoles(board.getAccessRoles().stream()
                 .map(role -> RoleEntity.builder()
-                        .id(role.getId())
+                        .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
         boardEntity.setReadRoles(board.getReadRoles().stream()
                 .map(role -> RoleEntity.builder()
-                        .id(role.getId())
+                        .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
         boardEntity.setWriteRoles(board.getWriteRoles().stream()
                 .map(role -> RoleEntity.builder()
-                        .id(role.getId())
+                        .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
         boardEntity = boardRepository.saveAndFlush(boardEntity);
@@ -60,20 +60,20 @@ public class BoardService {
 
     /**
      * returns board
-     * @param id board id
+     * @param boardId board id
      * @return board info
      */
-    public Optional<Board> getBoard(String id) {
-        return boardRepository.findById(id)
+    public Optional<Board> getBoard(String boardId) {
+        return boardRepository.findById(boardId)
                 .map(Board::from);
     }
 
     /**
      * deletes board
-     * @param id board id
+     * @param boardId board id
      */
-    public void deleteBoard(String id) {
-        boardRepository.deleteById(id);
+    public void deleteBoard(String boardId) {
+        boardRepository.deleteById(boardId);
         boardRepository.flush();
     }
 
@@ -85,8 +85,8 @@ public class BoardService {
      */
     public Page<Board> getBoards(BoardSearch boardSearch, Pageable pageable) {
         Specification<BoardEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(boardSearch.getId() != null) {
-            specification = specification.and(BoardSpecification.likeId(boardSearch.getId()));
+        if(boardSearch.getBoardId() != null) {
+            specification = specification.and(BoardSpecification.likeBoardId(boardSearch.getBoardId()));
         }
         if(boardSearch.getName() != null) {
             specification = specification.and(BoardSpecification.likeName(boardSearch.getName()));

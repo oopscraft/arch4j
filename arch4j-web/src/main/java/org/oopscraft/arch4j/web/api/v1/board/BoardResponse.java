@@ -20,7 +20,7 @@ public class BoardResponse {
      */
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
-                .id(board.getId())
+                .id(board.getBoardId())
                 .name(board.getName())
                 .build();
     }

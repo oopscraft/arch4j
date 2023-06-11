@@ -78,7 +78,7 @@ public class CreateSampleDataTasklet implements Tasklet {
             for (int i = 0; i < size; i++) {
                 Faker faker = new Faker(new Locale(lang), new Random(i));
                 SampleEntity sample = SampleEntity.builder()
-                        .id(UUID.randomUUID().toString())
+                        .sampleId(UUID.randomUUID().toString())
                         .name(faker.name().lastName() + faker.name().firstName())
                         .number(faker.number().numberBetween(-100, 100))
                         .longNumber(faker.number().numberBetween(Long.MIN_VALUE, Long.MAX_VALUE))

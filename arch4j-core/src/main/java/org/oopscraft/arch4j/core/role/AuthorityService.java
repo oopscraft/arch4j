@@ -26,10 +26,10 @@ public class AuthorityService {
      * @return authority
      */
     public Authority saveAuthority(Authority authority) {
-        AuthorityEntity authorityEntity = authorityRepository.findById(authority.getId()).orElse(null);
+        AuthorityEntity authorityEntity = authorityRepository.findById(authority.getAuthorityId()).orElse(null);
         if(authorityEntity == null) {
             authorityEntity = AuthorityEntity.builder()
-                    .id(authority.getId())
+                    .authorityId(authority.getAuthorityId())
                     .build();
         }
         authorityEntity = authorityEntity.toBuilder()
@@ -42,19 +42,19 @@ public class AuthorityService {
 
     /**
      * get authority
-     * @param id id
+     * @param authorityId authority id
      * @return authority
      */
-    public Optional<Authority> getAuthority(String id) {
-        return authorityRepository.findById(id).map(Authority::from);
+    public Optional<Authority> getAuthority(String authorityId) {
+        return authorityRepository.findById(authorityId).map(Authority::from);
     }
 
     /**
      * delete authority
-     * @param id id
+     * @param authorityId id
      */
-    public void deleteAuthority(String id) {
-        authorityRepository.deleteById(id);
+    public void deleteAuthority(String authorityId) {
+        authorityRepository.deleteById(authorityId);
         authorityRepository.flush();
     }
 
@@ -68,8 +68,8 @@ public class AuthorityService {
 
         // search condition
         Specification<AuthorityEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(authoritySearch.getId() != null) {
-           specification = specification.and(AuthoritySpecification.likeId(authoritySearch.getId()));
+        if(authoritySearch.getAuthorityId() != null) {
+           specification = specification.and(AuthoritySpecification.likeAuthorityId(authoritySearch.getAuthorityId()));
         }
         if(authoritySearch.getName() != null) {
             specification = specification.and(AuthoritySpecification.likeName(authoritySearch.getName()));

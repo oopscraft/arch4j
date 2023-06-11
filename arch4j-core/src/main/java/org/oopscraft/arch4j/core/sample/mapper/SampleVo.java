@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class SampleVo {
 
-    private String id;
+    private String sampleId;
 
     private String name;
 

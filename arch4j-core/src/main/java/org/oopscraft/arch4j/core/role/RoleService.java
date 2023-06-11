@@ -27,10 +27,10 @@ public class RoleService {
      * @return role
      */
     public Role saveRole(Role role) {
-        RoleEntity roleEntity = roleRepository.findById(role.getId()).orElse(null);
+        RoleEntity roleEntity = roleRepository.findById(role.getRoleId()).orElse(null);
         if(roleEntity == null) {
             roleEntity = RoleEntity.builder()
-                    .id(role.getId())
+                    .roleId(role.getRoleId())
                     .build();
         }
         roleEntity = roleEntity.toBuilder()
@@ -39,7 +39,7 @@ public class RoleService {
                 .authorities(role.getAuthorities().stream()
                         .map(authority -> {
                             return AuthorityEntity.builder()
-                                    .id(authority.getId())
+                                    .authorityId(authority.getAuthorityId())
                                     .name(authority.getName())
                                     .note(authority.getNote())
                                     .build();
@@ -52,19 +52,19 @@ public class RoleService {
 
     /**
      * get role
-     * @param id id
+     * @param roleId role id
      * @return role
      */
-    public Optional<Role> getRole(String id) {
-        return roleRepository.findById(id).map(Role::from);
+    public Optional<Role> getRole(String roleId) {
+        return roleRepository.findById(roleId).map(Role::from);
     }
 
     /**
      * delete role
-     * @param id role id
+     * @param roleId role id
      */
-    public void deleteRole(String id) {
-        roleRepository.deleteById(id);
+    public void deleteRole(String roleId) {
+        roleRepository.deleteById(roleId);
         roleRepository.flush();
     }
 
@@ -78,8 +78,8 @@ public class RoleService {
 
         // search condition
         Specification<RoleEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(roleSearch.getId() != null) {
-           specification = specification.and(RoleSpecification.likeId(roleSearch.getId()));
+        if(roleSearch.getRoleId() != null) {
+           specification = specification.and(RoleSpecification.likeRoleId(roleSearch.getRoleId()));
         }
         if(roleSearch.getName() != null) {
             specification = specification.and(RoleSpecification.likeName(roleSearch.getName()));

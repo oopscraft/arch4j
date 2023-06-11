@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class MessageSearch {
 
-    private String id;
+    private String messageId;
 
     private String name;
 

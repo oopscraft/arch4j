@@ -3,14 +3,10 @@ package org.oopscraft.arch4j.core.role;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleSearch;
-import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +16,7 @@ class RoleServiceTest extends CoreTestSupport {
     final RoleService roleService;
 
     Role testRole = Role.builder()
-            .id("role_id")
+            .roleId("role_id")
             .name("role_name")
             .build();
 
@@ -29,14 +25,14 @@ class RoleServiceTest extends CoreTestSupport {
     void saveRole() {
         Role savedRole = roleService.saveRole(testRole);
         assertNotNull(savedRole);
-        assertNotNull(entityManager.find(RoleEntity.class, savedRole.getId()));
+        assertNotNull(entityManager.find(RoleEntity.class, savedRole.getRoleId()));
     }
 
     @Test
     @Order(2)
     void getRole() {
         Role savedRole = roleService.saveRole(testRole);
-        Role role = roleService.getRole(savedRole.getId()).orElse(null);
+        Role role = roleService.getRole(savedRole.getRoleId()).orElse(null);
         assertNotNull(role);
     }
 
@@ -44,8 +40,8 @@ class RoleServiceTest extends CoreTestSupport {
     @Order(3)
     void deleteRole() {
         Role savedRole = roleService.saveRole(testRole);
-        roleService.deleteRole(savedRole.getId());
-        assertNull(entityManager.find(RoleEntity.class, testRole.getId()));
+        roleService.deleteRole(savedRole.getRoleId());
+        assertNull(entityManager.find(RoleEntity.class, testRole.getRoleId()));
     }
 
     @Test

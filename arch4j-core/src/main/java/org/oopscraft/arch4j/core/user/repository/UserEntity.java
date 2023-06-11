@@ -23,23 +23,21 @@ import java.util.List;
 public class UserEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @Column(name = "user_id", length = 32)
+    private String userId;
 
-    @Column(name = "password")
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "password", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "name")
-    private String name;
-
-    private String nickname;
-
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     @Builder.Default
     private UserType type = UserType.GENERAL;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 

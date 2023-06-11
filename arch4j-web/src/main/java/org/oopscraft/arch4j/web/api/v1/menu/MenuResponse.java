@@ -30,8 +30,8 @@ public class MenuResponse {
      */
     public static MenuResponse from(Menu menu) {
         return MenuResponse.builder()
-                .id(menu.getId())
-                .parentId(menu.getParentId())
+                .id(menu.getMenuId())
+                .parentId(menu.getParentMenuId())
                 .name(menu.getName())
                 .link(menu.getLink())
                 .target(menu.getTarget())

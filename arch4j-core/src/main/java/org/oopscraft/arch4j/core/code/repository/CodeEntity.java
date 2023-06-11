@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.core.code.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.code.repository.CodeItemEntity_;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
@@ -20,10 +19,10 @@ import java.util.List;
 public class CodeEntity extends SystemFieldEntity {
 	
 	@Id
-	@Column(name = "id", length = 64)
-	private String id;
+	@Column(name = "code_id", length = 32)
+	private String codeId;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@Column(name = "note")

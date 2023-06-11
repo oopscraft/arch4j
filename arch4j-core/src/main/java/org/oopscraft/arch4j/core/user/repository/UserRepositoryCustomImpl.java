@@ -23,23 +23,23 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPAQuery<UserEntity> query = jpaQueryFactory.select(qUserEntity)
                 .from(qUserEntity);
-        if(userSearch.getId() != null) {
-            query.where(qUserEntity.id.contains(userSearch.getId()));
+        if(userSearch.getUserId() != null) {
+            query.where(qUserEntity.userId.contains(userSearch.getUserId()));
         }
         if(userSearch.getName() != null) {
             query.where(qUserEntity.name.contains(userSearch.getName()));
-        }
-        if(userSearch.getEmail() != null) {
-            query.where(qUserEntity.email.contains(userSearch.getName()));
-        }
-        if(userSearch.getMobile() != null) {
-            query.where(qUserEntity.mobile.contains(userSearch.getMobile()));
         }
         if(userSearch.getType() != null) {
             query.where(qUserEntity.type.eq(userSearch.getType()));
         }
         if(userSearch.getStatus() != null) {
             query.where(qUserEntity.status.eq(userSearch.getStatus()));
+        }
+        if(userSearch.getEmail() != null) {
+            query.where(qUserEntity.email.contains(userSearch.getName()));
+        }
+        if(userSearch.getMobile() != null) {
+            query.where(qUserEntity.mobile.contains(userSearch.getMobile()));
         }
 
         // content

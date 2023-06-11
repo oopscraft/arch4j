@@ -5,7 +5,6 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.core.sample.repository.SampleItemEntity_;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,8 +24,8 @@ import java.util.List;
 public class SampleEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "id", length=64)
-    private String id;
+    @Column(name = "sample_id", length=64)
+    private String sampleId;
 
     @Column(name = "name", nullable = false)
     private String name;

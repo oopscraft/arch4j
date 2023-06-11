@@ -49,14 +49,14 @@ public class RoleController {
 
     /**
      * returns role
-     * @param id role id
+     * @param roleId role id
      * @return role
      */
     @GetMapping("get-role")
     @ResponseBody
-    public Role getRole(@RequestParam("id")String id) {
-        return roleService.getRole(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Role getRole(@RequestParam("roleId")String roleId) {
+        return roleService.getRole(roleId)
+                .orElseThrow(() -> new DataNotFoundException(roleId));
     }
 
     /**
@@ -72,13 +72,13 @@ public class RoleController {
 
     /**
      * deletes role
-     * @param id role id
+     * @param roleId role id
      */
     @GetMapping("delete-role")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
-    public void deleteRole(@RequestParam("id") String id) {
-        roleService.deleteRole(id);
+    public void deleteRole(@RequestParam("roleId") String roleId) {
+        roleService.deleteRole(roleId);
     }
 
     /**
@@ -95,14 +95,14 @@ public class RoleController {
 
     /**
      * returns authority
-     * @param id authority id
+     * @param authorityId authority id
      * @return authority info
      */
     @GetMapping("get-authority")
     @ResponseBody
-    public Authority getAuthority(@RequestParam("id") String id) {
-        return authorityService.getAuthority(id)
-                .orElseThrow(() -> new DataNotFoundException(id));
+    public Authority getAuthority(@RequestParam("authorityId") String authorityId) {
+        return authorityService.getAuthority(authorityId)
+                .orElseThrow(() -> new DataNotFoundException(authorityId));
     }
 
     /**
@@ -118,13 +118,13 @@ public class RoleController {
 
     /**
      * deletes authority
-     * @param id authority id
+     * @param authorityId authority id
      */
     @GetMapping("delete-authority")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
-    public void deleteAuthority(@RequestParam("id")String id) {
-        authorityService.deleteAuthority(id);
+    public void deleteAuthority(@RequestParam("authorityId")String authorityId) {
+        authorityService.deleteAuthority(authorityId);
     }
 
 }

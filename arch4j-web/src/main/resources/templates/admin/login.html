@@ -52,7 +52,7 @@
          */
         async function processLogin() {
             if(_isEmpty(login.username)){
-                await _alert('[[#{web.message.itemEmpty(#{core.user.id})}]]');
+                await _alert('[[#{web.message.itemEmpty(#{core.user.userId})}]]');
                 duice.ObjectProxy.focus(login, 'username');
                 return false;
             }
@@ -91,7 +91,7 @@
         </h1>
         <form onsubmit="return false;" class="container gap-1px">
             <div class="col-12">
-                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.id}" class="width-100 text-align-center"/>
+                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.userId}" class="width-100 text-align-center"/>
             </div>
             <div class="col-12">
                 <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.password}" class="width-100 text-align-center"/>

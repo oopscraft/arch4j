@@ -33,10 +33,10 @@ public class SampleService {
      * @return sample
      */
     public Sample saveSample(Sample sample) {
-        SampleEntity sampleEntity = sampleRepository.findById(sample.getId()).orElse(null);
+        SampleEntity sampleEntity = sampleRepository.findById(sample.getSampleId()).orElse(null);
         if(sampleEntity == null) {
             sampleEntity = SampleEntity.builder()
-                    .id(sample.getId())
+                    .sampleId(sample.getSampleId())
                     .build();
         }
         modelMapper.map(sample, sampleEntity);
@@ -46,19 +46,19 @@ public class SampleService {
 
     /**
      * return sample
-     * @param id sample id
+     * @param sampleId sample id
      * @return sample
      */
-    public Optional<Sample> getSample(String id) {
-        return sampleRepository.findById(id).map(sampleEntity -> modelMapper.map(sampleEntity, Sample.class));
+    public Optional<Sample> getSample(String sampleId) {
+        return sampleRepository.findById(sampleId).map(sampleEntity -> modelMapper.map(sampleEntity, Sample.class));
     }
 
     /**
      * delete sample
-     * @param id sample id
+     * @param sampleId sample id
      */
-    public void deleteSample(String id) {
-        sampleRepository.deleteById(id);
+    public void deleteSample(String sampleId) {
+        sampleRepository.deleteById(sampleId);
         sampleRepository.flush();
     }
 
@@ -72,8 +72,8 @@ public class SampleService {
 
         // search condition
         Specification<SampleEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(sampleSearch.getId() != null) {
-            specification = specification.and(SampleSpecification.likeId(sampleSearch.getId()));
+        if(sampleSearch.getSampleId() != null) {
+            specification = specification.and(SampleSpecification.likeSampleId(sampleSearch.getSampleId()));
         }
         if(sampleSearch.getName() != null) {
             specification = specification.and(SampleSpecification.likeName(sampleSearch.getName()));

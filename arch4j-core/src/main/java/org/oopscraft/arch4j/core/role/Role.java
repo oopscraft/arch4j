@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Role {
 
-    private String id;
+    private String roleId;
 
     private String name;
 
@@ -29,7 +29,7 @@ public class Role {
 
     public static Role from(RoleEntity roleEntity){
         return Role.builder()
-                .id(roleEntity.getId())
+                .roleId(roleEntity.getRoleId())
                 .name(roleEntity.getName())
                 .note(roleEntity.getNote())
                 .authorities(roleEntity.getAuthorities().stream()

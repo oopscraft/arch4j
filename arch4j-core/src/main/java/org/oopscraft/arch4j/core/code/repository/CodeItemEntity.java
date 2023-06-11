@@ -21,7 +21,7 @@ public class CodeItemEntity extends SystemFieldEntity {
 	@Data
 	public static class Pk implements Serializable {
 		private String codeId;
-		private String id;
+		private String itemId;
 	}
 
 	@Id
@@ -29,8 +29,8 @@ public class CodeItemEntity extends SystemFieldEntity {
 	private String codeId;
 	
 	@Id
-	@Column(name = "id")
-	private String id;
+	@Column(name = "item_id")
+	private String itemId;
 
 	@Column(name = "sort")
 	private int sort;

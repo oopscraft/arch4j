@@ -26,7 +26,7 @@ public class MenuEntity extends SystemFieldEntity {
     private String parentMenuId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false)
+    @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MenuEntity parentMenu;
 
     @Column(name = "name")

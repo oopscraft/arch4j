@@ -62,7 +62,7 @@ public class ArticleCommentEntity extends SystemFieldEntity {
     private Long likeCount = 0L;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private UserEntity user;
 
 }

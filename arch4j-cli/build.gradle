@@ -18,6 +18,9 @@ dependencies {
     // picocli starter
     api 'info.picocli:picocli-spring-boot-starter'
 
+    // springframework(for session table creation)
+    api 'org.springframework.session:spring-session-jdbc'
+
 }
 
 test {

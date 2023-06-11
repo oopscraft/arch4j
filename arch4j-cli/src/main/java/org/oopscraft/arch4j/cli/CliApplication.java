@@ -75,6 +75,10 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
             args = ArrayUtils.add(args, "--logging.pattern.console=%msg%n");
             args = ArrayUtils.add(args, "--spring.sql.init.mode=always");
             args = ArrayUtils.add(args, "--spring.jpa.hibernate.ddl-auto=create");
+
+            // creates jdbc session table
+            args = ArrayUtils.add(args, "--spring.main.web-application-type=servlet");
+            args = ArrayUtils.add(args, "--spring.session.store-type=jdbc");
             args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
         }
 

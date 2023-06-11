@@ -26,6 +26,7 @@ public class BoardEntity extends SystemFieldEntity {
     private String name;
 
     @Column(name = "icon")
+    @Lob
     private String icon;
 
     @Column(name = "note")

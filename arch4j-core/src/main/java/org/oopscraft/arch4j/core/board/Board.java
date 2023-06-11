@@ -18,9 +18,9 @@ public class Board {
 
     private String name;
 
-    private String note;
-
     private String icon;
+
+    private String note;
 
     private String skin;
 
@@ -28,10 +28,10 @@ public class Board {
     private Integer pageSize = 20;
 
     @Builder.Default
-    private Boolean replyEnabled = true;
+    private Boolean fileEnabled = true;
 
     @Builder.Default
-    private Boolean fileEnabled = true;
+    private Boolean commentEnabled = true;
 
     @Builder.Default
     private List<Role> accessRoles = new ArrayList<>();
@@ -55,7 +55,7 @@ public class Board {
                 .icon(boardEntity.getIcon())
                 .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
-                .replyEnabled(boardEntity.isReplyEnabled())
+                .commentEnabled(boardEntity.isCommentEnabled())
                 .fileEnabled(boardEntity.isFileEnabled())
                 .accessRoles(boardEntity.getAccessRoles().stream()
                         .map(Role::from)

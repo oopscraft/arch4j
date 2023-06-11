@@ -21,8 +21,6 @@ public class ArticleReadController {
     @GetMapping("article-read")
     public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
-        board.setSkin("_default");
-
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");
         modelAndView.addObject("board", board);
         return modelAndView;

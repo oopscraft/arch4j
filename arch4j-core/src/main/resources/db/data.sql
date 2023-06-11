@@ -79,10 +79,10 @@ insert into `core_menu` (`menu_id`,`parent_menu_id`,`name`,`link`) values ('menu
 insert into `core_menu` (`menu_id`,`parent_menu_id`,`name`,`link`) values ('menu3',null,'Menu 3', null);
 
 -- board
-insert into `core_board` (`board_id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('notice','Notice',20,true,true);
-insert into `core_board` (`board_id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('community','Community',20,true,true);
-insert into `core_board` (`board_id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('qna','Question and Answer',20,true,true);
-insert into `core_board` (`board_id`,`name`,`page_size`,`reply_enabled`,`file_enabled`) values ('test1','Test Board 1',20,true,true);
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('notice','Notice','_default',20,true,true);
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('community','Community','_default',20,true,true);
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('qna','Question and Answer','_default',20,true,true);
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('test1','Test Board 1','_default',20,true,true);
 
 -- sample
 insert into `core_sample` (`sample_id`, `name`, `type`) values ('sample001', 'sample 001', 'A');

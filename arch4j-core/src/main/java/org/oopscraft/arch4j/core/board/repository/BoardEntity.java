@@ -25,11 +25,11 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "note")
-    private String note;
-
     @Column(name = "icon")
     private String icon;
+
+    @Column(name = "note")
+    private String note;
 
     @Column(name = "skin")
     private String skin;
@@ -37,11 +37,11 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "page_size")
     private Integer pageSize;
 
-    @Column(name = "reply_enabled")
-    private boolean replyEnabled;
-
     @Column(name = "file_enabled")
     private boolean fileEnabled;
+
+    @Column(name = "comment_enabled")
+    private boolean commentEnabled;
 
     /**
      * board access roles

@@ -372,6 +372,14 @@
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.icon}" class="font-weight-bold"></span><br>
+                        </div>
+                        <div class="col-10 col-s-12">
+                            <img th:src="@{/static/image/icon-board.svg}" data-duice-bind="board"
+                                 data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
+                                 style="width:32px; height:32px;"/>
+                        </div>
+                        <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
@@ -379,9 +387,17 @@
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.skin}" class="font-weight-bold"></span>
+                        </div>
+                        <div class="col-4 col-s-12">
+                            <select data-duice-bind="board" data-duice-property="skin">
+                                <option value="_default">_default</option>
+                            </select>
+                        </div>
+                        <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.pageSize}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="col-4 col-s-12">
                             <select data-duice-bind="board" data-duice-property="pageSize">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
@@ -390,18 +406,17 @@
                                 <option value="50">50</option>
                             </select>
                         </div>
-
-                        <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.replyEnabled}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="col-10 col-s-12">
-                            <input type="checkbox" data-duice-bind="board" data-duice-property="replyEnabled"/>
-                        </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.fileEnabled}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="col-4 col-s-12">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
+                        </div>
+                        <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.commentEnabled}" class="font-weight-bold"></span>
+                        </div>
+                        <div class="col-4 col-s-12">
+                            <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.accessRoles}" class="font-weight-bold"></span>

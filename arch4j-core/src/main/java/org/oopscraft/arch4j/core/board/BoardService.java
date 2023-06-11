@@ -34,10 +34,11 @@ public class BoardService {
                     .build();
         }
         boardEntity.setName(board.getName());
-        boardEntity.setNote(board.getNote());
         boardEntity.setIcon(board.getIcon());
+        boardEntity.setNote(board.getNote());
+        boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
-        boardEntity.setReplyEnabled(board.getReplyEnabled());
+        boardEntity.setCommentEnabled(board.getCommentEnabled());
         boardEntity.setFileEnabled(board.getFileEnabled());
         boardEntity.setAccessRoles(board.getAccessRoles().stream()
                 .map(role -> RoleEntity.builder()

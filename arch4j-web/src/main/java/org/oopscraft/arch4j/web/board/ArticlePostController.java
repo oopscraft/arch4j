@@ -44,7 +44,6 @@ public class ArticlePostController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         modelAndView.addObject("board", board);
-        board.setSkin("_default");
 
         // modify article
         if(id != null) {

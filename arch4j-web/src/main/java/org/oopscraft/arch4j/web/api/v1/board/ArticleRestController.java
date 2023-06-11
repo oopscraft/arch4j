@@ -2,10 +2,8 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Article;
-import org.oopscraft.arch4j.core.board.ArticleComment;
-import org.oopscraft.arch4j.core.board.ArticleSearch;
-import org.oopscraft.arch4j.core.board.ArticleService;
+import org.oopscraft.arch4j.core.board.*;
+import org.oopscraft.arch4j.core.file.FileService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
@@ -13,8 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 public class ArticleRestController {
 
     private final ArticleService articleService;
+
+    private final FileService fileService;
 
     /**
      * create article
@@ -96,6 +101,55 @@ public class ArticleRestController {
                 .map(ArticleResponse::from)
                 .orElseThrow(() -> new DataNotFoundException(articleId));
         return ResponseEntity.ok(articleResponse);
+    }
+
+    /**
+     * save article file
+     * @param articleId article id
+     * @param multipartFile multipart file
+     */
+    @PostMapping("article/{articleId}/file")
+    public ResponseEntity<Void> saveArticleFile(@PathVariable("articleId") String articleId, MultipartFile multipartFile) {
+        String filename = multipartFile.getOriginalFilename();
+        String contentType = multipartFile.getContentType();
+        Long length = multipartFile.getSize();
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            fileService.upload(filename, inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * get article file
+     * @param articleId article id
+     * @param fileId file id
+     * @param response http servlet response
+     */
+    @GetMapping("article/{articleId}/file/{fileId}")
+    public ResponseEntity<Void> getArticleFile(@PathVariable("articleId") String articleId, @PathVariable("fileId") String fileId, HttpServletResponse response) {
+        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow(()->new DataNotFoundException(fileId));
+        response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));
+        try (InputStream inputStream = fileService.download(articleFile.getFileId())) {
+            StreamUtils.copy(inputStream, response.getOutputStream());
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * delete article file
+     * @param articleId article id
+     * @param fileId file id
+     * @return void
+     */
+    @DeleteMapping("article/{articleId}/file/{fileId}")
+    public ResponseEntity<Void> deleteArticleFile(@PathVariable("articleId") String articleId, @PathVariable("fileId") String fileId) {
+        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow(()->new DataNotFoundException(fileId));
+        fileService.delete(articleFile.getFileId());
+        return ResponseEntity.ok().build();
     }
 
     /**

@@ -28,7 +28,7 @@ public class CodeRestController {
 
     /**
      * return list of code
-     * @param id
+     * @param codeId
      * @param name
      * @param pageable
      * @return
@@ -37,12 +37,12 @@ public class CodeRestController {
     @Operation(summary = "Gets list of CodeEntity", description = "returns code list")
     @PageableAsQueryParam
     public ResponseEntity<List<CodeResponse>> getCodes(
-            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "codeId", required = false) String codeId,
             @RequestParam(value = "name", required = false) String name,
             Pageable pageable
     ) {
         CodeSearch codeSearch = CodeSearch.builder()
-                .codeId(id)
+                .codeId(codeId)
                 .name(name)
                 .build();
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);

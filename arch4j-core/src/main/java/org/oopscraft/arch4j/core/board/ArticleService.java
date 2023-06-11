@@ -94,19 +94,19 @@ public class ArticleService {
 
     /**
      * returns article info
-     * @param id article id
+     * @param articleId article id
      * @return article info
      */
-    public Optional<Article> getArticle(String id) {
-        return articleRepository.findById(id).map(Article::from);
+    public Optional<Article> getArticle(String articleId) {
+        return articleRepository.findById(articleId).map(Article::from);
     }
 
     /**
      * deletes article
-     * @param id article id
+     * @param articleId article id
      */
-    public void deleteArticle(String id) {
-        articleRepository.deleteById(id);
+    public void deleteArticle(String articleId) {
+        articleRepository.deleteById(articleId);
         articleRepository.flush();
     }
 

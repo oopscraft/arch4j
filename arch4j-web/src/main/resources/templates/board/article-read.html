@@ -4,8 +4,8 @@
       layout:decorate="_web.html">
 <main layout:fragment="_main">
     <script>
-        const boardId = '[[${board.id}]]';
-        const articleId = '[[${param.id}]]';
+        const boardId = '[[${board.boardId}]]';
+        const articleId = '[[${param.articleId}]]';
         const article = new duice.ObjectProxy({
             files:[]
         });

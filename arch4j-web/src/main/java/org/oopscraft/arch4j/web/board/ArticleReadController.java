@@ -19,7 +19,7 @@ public class ArticleReadController {
     private final BoardService boardService;
 
     @GetMapping("article-read")
-    public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("id")String id) {
+    public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         board.setSkin("_default");
 

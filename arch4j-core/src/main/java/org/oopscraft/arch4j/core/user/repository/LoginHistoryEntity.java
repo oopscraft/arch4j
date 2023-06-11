@@ -9,7 +9,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "core_login_history")
+@Table(
+    name = "core_login_history",
+    indexes = {
+        @Index(columnList = "login_datetime")
+    }
+)
 @IdClass(LoginHistoryEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)

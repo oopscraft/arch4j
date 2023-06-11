@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "core_user")
+@Table(
+    name = "core_user",
+    indexes = {
+        @Index(columnList="name")
+    }
+)
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder(toBuilder = true)

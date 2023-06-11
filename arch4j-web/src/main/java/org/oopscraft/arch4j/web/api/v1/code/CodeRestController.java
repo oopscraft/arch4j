@@ -28,10 +28,10 @@ public class CodeRestController {
 
     /**
      * return list of code
-     * @param codeId
-     * @param name
-     * @param pageable
-     * @return
+     * @param codeId code id
+     * @param name name
+     * @param pageable pageable
+     * @return code list
      */
     @GetMapping
     @Operation(summary = "Gets list of CodeEntity", description = "returns code list")

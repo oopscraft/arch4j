@@ -15,3 +15,9 @@ spring:
       password: ENC(rFBJXq2eCLrLhRgJi0gE3Q==)
       minimum-idle: 10
       maximum-pool-size: 20
+
+# core
+core:
+  file:
+    properties:
+      location: /nfs

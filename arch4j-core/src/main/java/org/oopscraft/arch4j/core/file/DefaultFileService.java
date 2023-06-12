@@ -23,7 +23,7 @@ public class DefaultFileService implements FileService {
     @Override
     public void upload(String directory, String filename, InputStream inputStream) {
         String filepath = location + File.separator + directory + File.separator + filename;
-        log.warn("== DefaultFileService.upload:{}", filepath);
+        log.debug("== DefaultFileService.upload:{}", filepath);
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         File file = new FileSystemResource(filepath).getFile();
         try {
@@ -40,7 +40,7 @@ public class DefaultFileService implements FileService {
     @Override
     public InputStream download(String directory, String filename) {
         String filepath = location + File.separator + directory + File.separator + filename;
-        log.warn("== DefaultFileService.download:{}", filepath);
+        log.debug("== DefaultFileService.download:{}", filepath);
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         try {
             return new FileSystemResource(filepath).getInputStream();
@@ -52,7 +52,7 @@ public class DefaultFileService implements FileService {
     @Override
     public void delete(String directory, String filename) {
         String filepath = location + File.separator + directory + File.separator + filename;
-        log.warn("== DefaultFileService.delete:{}", filepath);
+        log.debug("== DefaultFileService.delete:{}", filepath);
         filepath = FilenameUtils.normalizeNoEndSeparator(filepath);
         File file = new File(filepath);
         if(file.exists()) {

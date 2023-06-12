@@ -78,13 +78,3 @@ springdoc:
     - group: version 1.0
       paths-to-match: /api/v1/**
 
-# web
-web:
-  access-token:
-    signing-key: ahD3N&nctCE&aDenBKHu)tav7FyqMw6vPHXRtw7)WbWIvX8Xdtrs4fu*E9UXN58L
-    expire-minutes: 60
-
-
-
-
-

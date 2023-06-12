@@ -21,3 +21,4 @@ core:
   file:
     properties:
       location: /nfs
+

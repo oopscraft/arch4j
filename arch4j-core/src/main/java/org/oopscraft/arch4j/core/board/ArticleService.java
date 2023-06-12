@@ -1,19 +1,22 @@
 package org.oopscraft.arch4j.core.board;
 
-import antlr.debug.ParserTokenListener;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.repository.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.data.ValidationUtils;
+import org.oopscraft.arch4j.core.file.FileService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,12 +32,14 @@ public class ArticleService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final FileService fileService;
+
     /**
      * saves article
      * @param article article info
      * @return article
      */
-    public Article saveArticle(Article article) {
+    public Article saveArticle(Article article, MultipartFile[] files) {
         ValidationUtils.validate(article);  // validate
         ArticleEntity articleEntity;
 
@@ -87,9 +92,55 @@ public class ArticleService {
         articleEntity.setContent(article.getContent());
         articleEntity.setBoardId(article.getBoardId());
 
-        // save
+        // save article entity
         articleEntity = articleRepository.saveAndFlush(articleEntity);
-        return Article.from(articleEntity);
+
+        // files (new file)
+        for(ArticleFile articleFile : article.getFiles()) {
+            ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
+                    .articleId(articleEntity.getArticleId())
+                    .fileId(articleFile.getFileId())
+                    .build();
+            ArticleFileEntity articleFileEntity = articleFileRepository.findById(pk).orElse(null);
+            if(articleFileEntity == null) {
+                articleFileEntity = ArticleFileEntity.builder()
+                        .articleId(articleEntity.getArticleId())
+                        .fileId(IdGenerator.uuid())
+                        .filename(articleFile.getFilename())
+                        .contentType(articleFile.getContentType())
+                        .length(articleFile.getLength())
+                        .build();
+                articleFileRepository.saveAndFlush(articleFileEntity);
+
+                // upload file (same filename)
+                for(MultipartFile file : files) {
+                    if(Objects.equals(file.getOriginalFilename(), articleFileEntity.getFilename())){
+                        try {
+                            fileService.upload("board", articleFileEntity.getFileId(), file.getInputStream());
+                        }catch(Throwable ignore){}
+                        break;
+                    }
+                }
+            }
+        }
+
+        // file (deleted file)
+        for(ArticleFileEntity articleFileEntity : articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(articleEntity.getArticleId())) {
+            if(article.getFiles().stream().noneMatch(e -> articleFileEntity.getFilename().equals(e.getFilename()))){
+                articleFileRepository.delete(articleFileEntity);
+                articleFileRepository.flush();
+
+                // delete file
+                fileService.delete("board", articleFileEntity.getFileId());
+            }
+        }
+
+        // return saved article
+        article = Article.from(articleEntity);
+        article.setFiles(articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(articleEntity.getArticleId()).stream()
+                .map(ArticleFile::from)
+                .collect(Collectors.toList()));
+        return article;
     }
 
     /**
@@ -98,7 +149,11 @@ public class ArticleService {
      * @return article info
      */
     public Optional<Article> getArticle(String articleId) {
-        return articleRepository.findById(articleId).map(Article::from);
+        Article article = articleRepository.findById(articleId).map(Article::from).orElseThrow();
+        article.setFiles(articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(article.getArticleId()).stream()
+                .map(ArticleFile::from)
+                .collect(Collectors.toList()));
+        return Optional.of(article);
     }
 
     /**
@@ -106,6 +161,8 @@ public class ArticleService {
      * @param articleId article id
      */
     public void deleteArticle(String articleId) {
+        articleFileRepository.deleteByArticleId(articleId);
+        articleFileRepository.flush();
         articleRepository.deleteById(articleId);
         articleRepository.flush();
     }
@@ -126,64 +183,85 @@ public class ArticleService {
     }
 
     /**
-     * save article file
-     * @param articleFile article file
-     * @return saved article file
+     * return article file
+     * @param articleId article id
+     * @param fileId file id
+     * @return article file info
      */
-    public ArticleFile saveArticleFile(ArticleFile articleFile) {
-        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
-                .articleId(articleFile.getArticleId())
-                .fileId(articleFile.getFileId())
-                .build();
-        ArticleFileEntity articleFileEntity = articleFileRepository.findById(pk).orElse(null);
-        if(articleFileEntity == null) {
-            articleFileEntity = ArticleFileEntity.builder()
-                    .articleId(articleFile.getArticleId())
-                    .fileId(IdGenerator.uuid())
-                    .build();
-        }
-        articleFileEntity.setFilename(articleFile.getFilename());
-        articleFileEntity.setContentType(articleFile.getContentType());
-        articleFileEntity.setLength(articleFile.getLength());
-        articleFileEntity = articleFileRepository.saveAndFlush(articleFileEntity);
-
-        // TODO file upload
-
-        return ArticleFile.from(articleFileEntity);
+    public Optional<ArticleFile> getArticleFile(String articleId, String fileId) {
+        return articleFileRepository.findById(new ArticleFileEntity.Pk(articleId, fileId))
+                .map(ArticleFile::from);
     }
 
     /**
-     * get article files
-     * @param articleId article id
-     * @return article files
+     * get article file input stream
+     * @param articleFile article file
+     * @return article file input stream
      */
-    public List<ArticleFile> getArticleFiles(String articleId) {
-        return articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(articleId).stream()
-                .map(ArticleFile::from)
-                .collect(Collectors.toList());
+    public InputStream getArticleFileInputStream(ArticleFile articleFile) {
+        return fileService.download("board", articleFile.getFileId());
     }
 
-    public Optional<ArticleFile> getArticleFile(String articleId, String fileId) {
-        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
-                .articleId(articleId)
-                .fileId(fileId)
-                .build();
-        ArticleFile articleFile = articleFileRepository.findById(pk)
-                .map(ArticleFile::from)
-                .orElse(null);
-        return Optional.ofNullable(articleFile);
-    }
 
-    public void deleteArticleFile(String articleId, String id) {
-        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
-                .articleId(articleId)
-                .fileId(id)
-                .build();
-        articleFileRepository.deleteById(pk);
-        articleFileRepository.flush();
+//    /**
+//     * save article file
+//     * @param articleFile article file
+//     * @return saved article file
+//     */
+//    public ArticleFile saveArticleFile(ArticleFile articleFile) {
+//        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
+//                .articleId(articleFile.getArticleId())
+//                .fileId(articleFile.getFileId())
+//                .build();
+//        ArticleFileEntity articleFileEntity = articleFileRepository.findById(pk).orElse(null);
+//        if(articleFileEntity == null) {
+//            articleFileEntity = ArticleFileEntity.builder()
+//                    .articleId(articleFile.getArticleId())
+//                    .fileId(IdGenerator.uuid())
+//                    .build();
+//        }
+//        articleFileEntity.setFilename(articleFile.getFilename());
+//        articleFileEntity.setContentType(articleFile.getContentType());
+//        articleFileEntity.setLength(articleFile.getLength());
+//        articleFileEntity = articleFileRepository.saveAndFlush(articleFileEntity);
+//
+//        // TODO file upload
+//
+//        return ArticleFile.from(articleFileEntity);
+//    }
 
-        // TODO delete file
-    }
+//    /**
+//     * get article files
+//     * @param articleId article id
+//     * @return article files
+//     */
+//    public List<ArticleFile> getArticleFiles(String articleId) {
+//        return articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(articleId).stream()
+//                .map(ArticleFile::from)
+//                .collect(Collectors.toList());
+//    }
+
+//    public Optional<ArticleFile> getArticleFile(String articleId, String fileId) {
+//        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
+//                .articleId(articleId)
+//                .fileId(fileId)
+//                .build();
+//        ArticleFile articleFile = articleFileRepository.findById(pk)
+//                .map(ArticleFile::from)
+//                .orElse(null);
+//        return Optional.ofNullable(articleFile);
+//    }
+
+//    public void deleteArticleFile(String articleId, String id) {
+//        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
+//                .articleId(articleId)
+//                .fileId(id)
+//                .build();
+//        articleFileRepository.deleteById(pk);
+//        articleFileRepository.flush();
+//
+//        // TODO delete file
+//    }
 
     /**
      * save article comment

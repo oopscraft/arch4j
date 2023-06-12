@@ -115,7 +115,7 @@
          */
         function downloadFile(fileId) {
             let link = document.createElement('a');
-            link.href = `${_apiUrl}/v1/file/${fileId}`;
+            link.href = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/file/${fileId}`;
             link.click();
         }
 
@@ -124,7 +124,7 @@
          */
         async function gotoEdit() {
             let url = new URL(`[[@{/}]]board/${boardId}/article-post`, document.location.origin);
-            url.searchParams.append('id', articleId);
+            url.searchParams.append('articleId', articleId);
             if(!article.userId) {
                 let password = await _prompt('enter password');
                 if(!password) {

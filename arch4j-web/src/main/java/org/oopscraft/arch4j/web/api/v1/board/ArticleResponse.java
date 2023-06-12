@@ -7,6 +7,7 @@ import org.oopscraft.arch4j.core.board.Article;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -31,7 +32,7 @@ public class ArticleResponse {
     private Long likeCount = 0L;
 
     @Builder.Default
-    private List<org.oopscraft.arch4j.web.api.v1.board.ArticleFileResponse> files = new ArrayList<>();
+    private List<ArticleFileResponse> files = new ArrayList<>();
 
     /**
      * factory method
@@ -48,17 +49,8 @@ public class ArticleResponse {
                 .userName(article.getUserName())
                 .commentCount(article.getCommentCount())
                 .likeCount(article.getLikeCount())
+                .files(article.getFiles().stream().map(ArticleFileResponse::from).collect(Collectors.toList()))
                 .build();
-    }
-
-
-    @Data
-    @Builder
-    static class ArticleFileResponse {
-        private String articleId;
-        private String id;
-        private String name;
-        private String length;
     }
 
 }

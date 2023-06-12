@@ -6,6 +6,8 @@ import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -38,6 +40,9 @@ public class Article {
 
     @Builder.Default
     private Long likeCount = 0L;
+
+    @Builder.Default
+    private List<ArticleFile> files = new ArrayList<>();
 
     /**
      * factory method

@@ -9,6 +9,7 @@
         const article = new duice.ObjectProxy({
             files:[]
         });
+        const files = [];
 
         /**
          * get article
@@ -22,6 +23,32 @@
                     duice.ObjectProxy.clear(article);
                     duice.ObjectProxy.assign(article, data);
                 });
+        }
+
+        /**
+         * add article file
+         */
+        function addArticleFile() {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.addEventListener('change', function () {
+                let file = this.files[0];
+                let articleFile = {
+                    filename: file.name,
+                    length: file.size
+                }
+                article.files.push(articleFile);
+                files.push(file);
+            });
+            input.click();
+        }
+
+        /**
+         * remove article file
+         * @param index
+         */
+        function removeArticleFile(index) {
+            article.files.splice(index,1);
         }
 
         /**
@@ -56,46 +83,48 @@
                         url =new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
                         method = 'POST';
                     }
+                    let formData = new FormData();
+                    formData.append("article", new Blob([JSON.stringify(article)], {type:'application/json'}));
+                    files.forEach(file => {
+                        formData.append("files", file);
+                    });
                     _fetch(url, {
                         method: method,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(article)
+                        body: formData
                     }).then(response => {
                         if(response.ok) {
                             history.back();
                         }
-                    })
+                    });
                 }
             });
         }
 
-        function deleteArticle() {
-            alert('delete');
-        }
-
-        /**
-         * upload file
-         */
-        function uploadFile() {
-            let input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.addEventListener('change', function() {
-                let formData = new FormData();
-                formData.append("file", this.files[0]);
-                let url = new URL(`${_apiUrl}/v1/file`, document.location.origin);
-                _fetch(url, {
-                    method: 'POST',
-                    body: formData
-                }).then(response => {
-                    return response.json();
-                }).then(data => {
-                    article.files.push(data);
-                });
-            });
-            input.click()
-        }
+        // function deleteArticle() {
+        //     alert('delete');
+        // }
+        //
+        // /**
+        //  * upload file
+        //  */
+        // function uploadFile() {
+        //     let input = document.createElement('input');
+        //     input.setAttribute('type', 'file');
+        //     input.addEventListener('change', function() {
+        //         let formData = new FormData();
+        //         formData.append("file", this.files[0]);
+        //         let url = new URL(`${_apiUrl}/v1/file`, document.location.origin);
+        //         _fetch(url, {
+        //             method: 'POST',
+        //             body: formData
+        //         }).then(response => {
+        //             return response.json();
+        //         }).then(data => {
+        //             article.files.push(data);
+        //         });
+        //     });
+        //     input.click()
+        // }
 
         /**
          * goto cancel

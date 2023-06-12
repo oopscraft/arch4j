@@ -69,7 +69,7 @@
     <div class="col-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
-                  data-duice-script="this.dataset.fileId=file.id"
+                  data-duice-script="this.dataset.fileId=file.fileId"
                   class="cursor-pointer font-weight-bold"
                   onclick="downloadFile(this.dataset.fileId);">
             </span>

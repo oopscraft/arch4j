@@ -4,10 +4,10 @@ import java.io.InputStream;
 
 public interface FileService {
 
-    void upload(String filename, InputStream inputStream);
+    void upload(String directory, String filename, InputStream inputStream);
 
-    InputStream download(String filename);
+    InputStream download(String directory, String filename);
 
-    void delete(String filename);
+    void delete(String directory, String filename);
 
 }

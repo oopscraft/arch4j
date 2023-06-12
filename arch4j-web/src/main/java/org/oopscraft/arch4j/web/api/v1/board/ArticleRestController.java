@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,15 +38,29 @@ public class ArticleRestController {
      */
     @PostMapping("article")
     @Operation(summary = "create new article")
-    public ResponseEntity<ArticleResponse> createArticle(@PathVariable("boardId") String boardId, @RequestBody ArticleRequest articleRequest) {
+    public ResponseEntity<ArticleResponse> createArticle(
+        @PathVariable("boardId") String boardId,
+        @RequestPart("article") ArticleRequest articleRequest,
+        @RequestPart(value = "files", required = false) MultipartFile[] files
+    ) {
         Article article = Article.builder()
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
                 .userName(articleRequest.getUserName())
                 .password(articleRequest.getPassword())
+                .files(articleRequest.getFiles().stream()
+                        .map(articleFileRequest ->
+                            ArticleFile.builder()
+                                    .articleId(articleFileRequest.getArticleId())
+                                    .fileId(articleFileRequest.getFileId())
+                                    .filename(articleFileRequest.getFilename())
+                                    .contentType(articleFileRequest.getContentType())
+                                    .length(articleFileRequest.getLength())
+                                    .build()
+                        ).collect(Collectors.toList()))
                 .build();
-        article = articleService.saveArticle(article);
+        article = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
@@ -58,13 +73,44 @@ public class ArticleRestController {
      */
     @PutMapping("article/{articleId}")
     @Operation(summary = "modify article")
-    public ResponseEntity<ArticleResponse> modifyArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId, @RequestBody ArticleRequest articleRequest) {
-        Article article = articleService.getArticle(articleId).orElseThrow(RuntimeException::new);
+    public ResponseEntity<ArticleResponse> modifyArticle(
+        @PathVariable("boardId")String boardId,
+        @PathVariable("articleId")String articleId,
+        @RequestPart("article") ArticleRequest articleRequest,
+        @RequestPart(value = "files", required = false) MultipartFile[] files
+    ) {
+        Article article = articleService.getArticle(articleId).orElseThrow();
         article.setTitle(articleRequest.getTitle());
         article.setContent(articleRequest.getContent());
         article.setPassword(articleRequest.getPassword());
-        Article savedArticle = articleService.saveArticle(article);
+        article.setFiles(articleRequest.getFiles().stream()
+                .map(articleFileRequest ->
+                    ArticleFile.builder()
+                        .articleId(articleFileRequest.getArticleId())
+                        .fileId(articleFileRequest.getFileId())
+                        .filename(articleFileRequest.getFilename())
+                        .contentType(articleFileRequest.getContentType())
+                        .length(articleFileRequest.getLength())
+                        .build()
+                )
+                .collect(Collectors.toList()));
+        Article savedArticle = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(savedArticle));
+    }
+
+    /**
+     * return article
+     * @param boardId board id
+     * @param articleId article id
+     * @return article
+     */
+    @GetMapping("article/{articleId}")
+    @Operation(summary = "get article")
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId) {
+        ArticleResponse articleResponse = articleService.getArticle(articleId)
+                .map(ArticleResponse::from)
+                .orElseThrow(() -> new DataNotFoundException(articleId));
+        return ResponseEntity.ok(articleResponse);
     }
 
     /**
@@ -89,66 +135,25 @@ public class ArticleRestController {
     }
 
     /**
-     * return article
-     * @param boardId board id
-     * @param articleId article id
-     * @return article
-     */
-    @GetMapping("article/{articleId}")
-    @Operation(summary = "get article")
-    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId) {
-        ArticleResponse articleResponse = articleService.getArticle(articleId)
-                .map(ArticleResponse::from)
-                .orElseThrow(() -> new DataNotFoundException(articleId));
-        return ResponseEntity.ok(articleResponse);
-    }
-
-    /**
-     * save article file
-     * @param articleId article id
-     * @param multipartFile multipart file
-     */
-    @PostMapping("article/{articleId}/file")
-    public ResponseEntity<Void> saveArticleFile(@PathVariable("articleId") String articleId, MultipartFile multipartFile) {
-        String filename = multipartFile.getOriginalFilename();
-        String contentType = multipartFile.getContentType();
-        Long length = multipartFile.getSize();
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            fileService.upload(filename, inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok().build();
-    }
-
-    /**
      * get article file
      * @param articleId article id
      * @param fileId file id
      * @param response http servlet response
      */
     @GetMapping("article/{articleId}/file/{fileId}")
-    public ResponseEntity<Void> getArticleFile(@PathVariable("articleId") String articleId, @PathVariable("fileId") String fileId, HttpServletResponse response) {
-        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow(()->new DataNotFoundException(fileId));
+    public ResponseEntity<Void> getArticleFile(
+            @PathVariable("boardId") String boardId,
+            @PathVariable("articleId") String articleId,
+            @PathVariable("fileId") String fileId,
+            HttpServletResponse response
+    ) {
+        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
         response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));
-        try (InputStream inputStream = fileService.download(articleFile.getFileId())) {
+        try (InputStream inputStream = articleService.getArticleFileInputStream(articleFile)) {
             StreamUtils.copy(inputStream, response.getOutputStream());
         }catch(Exception e){
             throw new RuntimeException(e);
         }
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * delete article file
-     * @param articleId article id
-     * @param fileId file id
-     * @return void
-     */
-    @DeleteMapping("article/{articleId}/file/{fileId}")
-    public ResponseEntity<Void> deleteArticleFile(@PathVariable("articleId") String articleId, @PathVariable("fileId") String fileId) {
-        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow(()->new DataNotFoundException(fileId));
-        fileService.delete(articleFile.getFileId());
         return ResponseEntity.ok().build();
     }
 

@@ -21,10 +21,10 @@ public class ArticleFileEntity extends SystemFieldEntity {
 
     @Builder
     @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor
     public static class Pk implements Serializable {
-        String articleId;
-        String fileId;
+        private String articleId;
+        private String fileId;
     }
 
     @Id

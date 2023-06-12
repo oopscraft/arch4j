@@ -37,14 +37,14 @@ class ArticleServiceTest extends CoreTestSupport {
     @Test
     @Order(1)
     void saveArticle() {
-        Article savedArticle = articleService.saveArticle(testArticle);
+        Article savedArticle = articleService.saveArticle(testArticle, null);
         assertNotNull(entityManager.find(ArticleEntity.class, savedArticle.getArticleId()));
     }
 
     @Test
     @Order(2)
     void getArticle() {
-        Article savedArticle = articleService.saveArticle(testArticle);
+        Article savedArticle = articleService.saveArticle(testArticle, null);
         Article article = articleService.getArticle(savedArticle.getArticleId()).orElse(null);
         assertNotNull(article);
     }
@@ -52,7 +52,7 @@ class ArticleServiceTest extends CoreTestSupport {
     @Test
     @Order(3)
     void deleteArticle() {
-        Article savedArticle = articleService.saveArticle(testArticle);saveArticle();
+        Article savedArticle = articleService.saveArticle(testArticle, null);saveArticle();
         articleService.deleteArticle(savedArticle.getArticleId());
         assertNull(entityManager.find(ArticleEntity.class, savedArticle.getArticleId()));
     }
@@ -60,36 +60,13 @@ class ArticleServiceTest extends CoreTestSupport {
     @Test
     @Order(4)
     void getArticles() {
-        Article savedArticle = articleService.saveArticle(testArticle);
+        Article savedArticle = articleService.saveArticle(testArticle, null);
         ArticleSearch articleSearch = ArticleSearch.builder()
                 .boardId(savedArticle.getBoardId())
                 .build();
         Pageable pageable = PageRequest.of(0, 10);
         Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
         assertTrue(articlePage.getContent().stream().anyMatch(e -> e.getBoardId().equals(articleSearch.getBoardId())));
-    }
-
-    @Test
-    @Order(5)
-    void saveArticleFile() {
-
-        // save
-        ArticleFile savedArticleFile = articleService.saveArticleFile(testArticleFile);
-
-        // check
-        ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
-                .articleId(savedArticleFile.getArticleId())
-                .fileId(savedArticleFile.getFileId())
-                .build();
-        assertNotNull(entityManager.find(ArticleFileEntity.class, pk));
-    }
-
-    @Test
-    @Order(6)
-    void getArticleFiles() {
-        ArticleFile savedArticleFile = articleService.saveArticleFile(testArticleFile);
-        List<ArticleFile> articleFiles = articleService.getArticleFiles(savedArticleFile.getArticleId());
-        assertFalse(articleFiles.isEmpty());
     }
 
 }

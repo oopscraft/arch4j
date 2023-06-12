@@ -88,10 +88,14 @@
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>
+            <span data-duice-bind="file" data-duice-script="this.dataset.index=status.index;"
+                  onclick="removeArticleFile(this.dataset.index);">
+                [<span data-th-text="#{web.text.delete}"></span>]
+            </span>
         </div>
     </div>
     <div class="col-12">
-        <span onclick="uploadFile()" class="cursor-pointer text-decoration-underline">
+        <span onclick="addArticleFile();" class="cursor-pointer text-decoration-underline">
             [<span data-th-text="#{web.text.upload}"></span>]
         </span>
     </div>

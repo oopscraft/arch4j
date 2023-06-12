@@ -8,6 +8,13 @@ import org.oopscraft.arch4j.core.sample.SampleType;
 import org.oopscraft.arch4j.web.api.v1.board.ArticleRequest;
 import org.oopscraft.arch4j.web.test.WebTestSupport;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,10 +35,20 @@ class ArticleRestControllerTest extends WebTestSupport {
     @Test
     @Order(1)
     void saveArticle() throws Exception {
-        this.mockMvc.perform(post("/api/v1/board/test/article")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(testArticleRequest))
-        ).andDo(print()).andExpect(status().isOk());
+
+        MockMultipartFile article = new MockMultipartFile(
+                "article",
+                "",
+                "application/json",
+                objectMapper.writeValueAsString(testArticleRequest).getBytes(StandardCharsets.UTF_8)
+        );
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/board/test/article")
+                        .file(article)
+                        .param("some-random", "4"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test

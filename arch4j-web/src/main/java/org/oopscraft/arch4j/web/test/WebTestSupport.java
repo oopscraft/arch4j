@@ -18,6 +18,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 @Slf4j
 @SpringBootTest(classes = WebApplication.class)
@@ -28,6 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Rollback
 public class WebTestSupport {
+
+    @Autowired
+    @Getter
+    protected WebApplicationContext webApplicationContext;
 
     @Autowired
     @Getter

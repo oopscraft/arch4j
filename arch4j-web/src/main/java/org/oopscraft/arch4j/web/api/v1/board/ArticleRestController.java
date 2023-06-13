@@ -192,7 +192,7 @@ public class ArticleRestController {
      * @param fileId file id
      * @param response http servlet response
      */
-    @GetMapping("file/{fileId}")
+    @GetMapping("{articleId}/file/{fileId}")
     public ResponseEntity<Void> getArticleFile(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId,

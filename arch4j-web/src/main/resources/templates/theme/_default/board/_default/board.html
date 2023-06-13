@@ -1,20 +1,23 @@
-<!-- title -->
+<!-- ================================================== -->
+<!-- start: title                                       -->
+<!-- ================================================== -->
 <div class="container">
-    <div class="col-8">
+    <div class="col-12">
         <h1>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
             <span data-th-text="${board.name}"></span>
         </h1>
     </div>
-    <div class="col-4 justify-right">
-        <button onclick="gotoPost();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.post}"></span>
-        </button>
-    </div>
 </div>
+<!-- ================================================== -->
+<!-- end: title                                         -->
+<!-- ================================================== -->
+
 <hr/>
-<!-- article list -->
+
+<!-- ================================================== -->
+<!-- article list                                       -->
+<!-- ================================================== -->
 <div>
     <div class="container border-bottom-1 font-weight-bold padding-1em">
         <div data-th-text="#{web.text.no}" class="col-1 col-s-1"></div>
@@ -47,11 +50,20 @@
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </div>
         <div class="col-1 col-s-0 justify-right">
-            <span data-duice-bind="article" data-duice-property="dateTime" data-duice-format="date('yyyy-MM-dd HH:mm')" class="font-size-smaller"></span>
+            <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+        </div>
+    </div>
+    <div class="container padding-1em" data-duice-bind="articles" data-duice-script="if(articles.length > 0) this.style.display='none';" style="border-bottom:dotted 1px lightgray;">
+        <div class="col-12 justify-center">
+            Data Not Found
         </div>
     </div>
     <div class="container padding-1em">
-        <div class="col-4"></div>
+        <div class="col-4 font-size-smaller">
+            <span data-th-text="#{web.text.total}"></span>
+            <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+            <span data-th-text="#{web.text.rows}"></span>
+        </div>
         <div class="col-4 justify-center">
             <duice-pagination
                     data-duice-bind="articleSearch"
@@ -61,13 +73,36 @@
                     data-duice-onclick="getArticles(this.dataset.page);">
             </duice-pagination>
         </div>
-        <div class="col-4 justify-right font-size-smaller">
-            <span data-th-text="#{web.text.total}"></span>
-            <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-            <span data-th-text="#{web.text.rows}"></span>
-        </div>
+        <div class="col-4"></div>
     </div>
 </div>
+<!-- ================================================== -->
+<!-- end: article list                                  -->
+<!-- ================================================== -->
 
-
-
+<!-- ================================================== -->
+<!-- start: button                                      -->
+<!-- ================================================== -->
+<div class="container">
+    <form onsubmit="return false;" class="col-8 container gap-column-1px">
+        <select class="col-s-3" data-duice-bind="articleSearch" data-duice-property="key">
+            <option data-th-text="'- ' + #{web.text.search} + ' -'"></option>
+            <option value="title" data-th-text="#{core.article.title}"></option>
+            <option value="content" data-th-text="#{core.article.content}"></option>
+        </select>
+        <input class="col-s-6" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
+        <button class="col-s-3" onclick="getArticles();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-search.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.search}"></span>
+        </button>
+    </form>
+    <div class="col-4 justify-right">
+        <button onclick="gotoPost();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.post}"></span>
+        </button>
+    </div>
+</div>
+<!-- ================================================== -->
+<!-- end: button                                        -->
+<!-- ================================================== -->

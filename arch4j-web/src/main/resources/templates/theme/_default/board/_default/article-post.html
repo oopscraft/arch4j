@@ -1,36 +1,22 @@
 <!-- ================================================== -->
-<!-- START: article title                               -->
+<!-- start: article title                               -->
 <!-- ================================================== -->
 <div class="container">
-    <div class="col-8">
+    <div class="col-12">
         <h1>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
             <span data-th-text="${board.name}"></span>
         </h1>
     </div>
-    <div class="col-4 justify-right">
-        <button onclick="gotoCancel();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.cancel}"></span>
-        </button>
-        <button onclick="deleteArticle();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.delete}"></span>
-        </button>
-        <button onclick="saveArticle();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.save}"></span>
-        </button>
-    </div>
 </div>
 <!-- ================================================== -->
-<!-- END: article title                                 -->
+<!-- end: article title                                 -->
 <!-- ================================================== -->
 
 <hr/>
 
 <!-- ================================================== -->
-<!-- START: article list                                -->
+<!-- start: article list                                -->
 <!-- ================================================== -->
 <div class="container gap-1px gap-column-1rem">
 
@@ -62,15 +48,15 @@
         <span data-th-text="#{core.article.content}" class="font-weight-bold"></span>
     </div>
     <div class="col-12">
-        <textarea data-duice-bind="article" data-duice-property="content" class="width-100" style="height:70vh;"></textarea>
+        <duice-simplemde data-duice-bind="article" data-duice-property="content"/>
     </div>
 </div>
 <!-- ================================================== -->
-<!-- END: article list                                  -->
+<!-- end: article list                                  -->
 <!-- ================================================== -->
 
 <!-- ================================================== -->
-<!-- START: file                                        -->
+<!-- start: file                                        -->
 <!-- ================================================== -->
 <div class="content">
     <div class="col-12 font-weight-bold">
@@ -82,25 +68,49 @@
             <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-script="this.dataset.fileId=file.id"
                   class="cursor-pointer font-weight-bold"
-                  onclick="downloadFile(this.dataset.fileId);">
+                  onclick="downloadArticleFile(this.dataset.fileId);">
             </span>
             <span class="font-size-smaller" data-duice-bind="file" data-duice-script="
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>
             <span data-duice-bind="file" data-duice-script="this.dataset.index=status.index;"
-                  onclick="removeArticleFile(this.dataset.index);">
-                [<span data-th-text="#{web.text.delete}"></span>]
+                  onclick="removeArticleFile(this.dataset.index);" class="cursor-pointer text-decoration-underline">
+                [<span data-th-text="#{web.text.remove}"></span>]
             </span>
         </div>
     </div>
     <div class="col-12">
         <span onclick="addArticleFile();" class="cursor-pointer text-decoration-underline">
-            [<span data-th-text="#{web.text.upload}"></span>]
+            [<span data-th-text="#{web.text.add}"></span>]
         </span>
     </div>
 </div>
 <!-- ================================================== -->
-<!-- END: file                                        -->
+<!-- end: file                                        -->
 <!-- ================================================== -->
+
+<!-- ================================================== -->
+<!-- start: button                                      -->
+<!-- ================================================== -->
+<div class="container padding-x-1em">
+    <div class="col-12 justify-center">
+        <button onclick="gotoCancel();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.cancel}"></span>
+        </button>
+        <button onclick="deleteArticle();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.delete}"></span>
+        </button>
+        <button onclick="saveArticle();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.text.save}"></span>
+        </button>
+    </div>
+</div>
+<!-- ================================================== -->
+<!-- end: button                                        -->
+<!-- ================================================== -->
+
 

@@ -2,8 +2,10 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.file.FileService;
+import org.oopscraft.arch4j.core.board.Article;
+import org.oopscraft.arch4j.core.board.ArticleFile;
+import org.oopscraft.arch4j.core.board.ArticleSearch;
+import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
@@ -11,44 +13,99 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/board/{boardId}")
+@RequestMapping("api/v1/board/{boardId}/article")
 @RequiredArgsConstructor
 public class ArticleRestController {
 
     private final ArticleService articleService;
 
-    private final FileService fileService;
+    private final PasswordEncoder passwordEncoder;
+
+    /**
+     * returns board article list
+     * @param boardId board id
+     * @param pageable pagination info
+     * @return article list
+     */
+    @GetMapping
+    @Operation(summary = "get list of articles")
+    public ResponseEntity<List<ArticleResponse>> getArticles(
+            @PathVariable("boardId") String boardId,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "content", required = false) String content,
+            Pageable pageable
+    ) {
+        ArticleSearch articleSearch = ArticleSearch.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .build();
+        Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
+        List<ArticleResponse> articleResponses = articlePage.getContent().stream()
+                .map(ArticleResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
+                .body(articleResponses);
+    }
+
+    /**
+     * return article
+     * @param boardId board id
+     * @param articleId article id
+     * @return article
+     */
+    @GetMapping("{articleId}")
+    @Operation(summary = "get article")
+    public ResponseEntity<ArticleResponse> getArticle(
+            @PathVariable("boardId")String boardId,
+            @PathVariable("articleId")String articleId
+    ) {
+        ArticleResponse articleResponse = articleService.getArticle(articleId)
+                .map(ArticleResponse::from)
+                .orElseThrow(() -> new DataNotFoundException(articleId));
+        return ResponseEntity.ok(articleResponse);
+    }
 
     /**
      * create article
      * @param boardId board id
      * @param articleRequest article info
      */
-    @PostMapping("article")
+    @PostMapping
     @Operation(summary = "create new article")
     public ResponseEntity<ArticleResponse> createArticle(
-        @PathVariable("boardId") String boardId,
-        @RequestPart("article") ArticleRequest articleRequest,
-        @RequestPart(value = "files", required = false) MultipartFile[] files
+            @PathVariable("boardId") String boardId,
+            @RequestPart("article") ArticleRequest articleRequest,
+            @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // check anonymous user
+        if(!SecurityUtils.isAuthenticated()) {
+            if(articleRequest.getUserName() == null) {
+                throw new RuntimeException("userName required");
+            }
+            if(articleRequest.getPassword() == null) {
+                throw new RuntimeException("password required");
+            }
+        }
+
+        // create
         Article article = Article.builder()
                 .title(articleRequest.getTitle())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
-                .userName(articleRequest.getUserName())
-                .password(articleRequest.getPassword())
                 .files(articleRequest.getFiles().stream()
                         .map(articleFileRequest ->
                             ArticleFile.builder()
@@ -60,26 +117,55 @@ public class ArticleRestController {
                                     .build()
                         ).collect(Collectors.toList()))
                 .build();
+
+        // authenticated user
+        if(SecurityUtils.isAuthenticated()) {
+            article.setUserId(SecurityUtils.getCurrentUserId());
+        }
+        // anonymous user
+        else{
+            article.setUserId(null);
+            article.setUserName(articleRequest.getUserName());
+            article.setPassword(articleRequest.getPassword());
+        }
+
+        // save
         article = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
     /**
-     * modify article
+     * edit article
      * @param boardId board id
      * @param articleId article id
      * @param articleRequest article request
      * @return saved article
      */
-    @PutMapping("article/{articleId}")
-    @Operation(summary = "modify article")
-    public ResponseEntity<ArticleResponse> modifyArticle(
-        @PathVariable("boardId")String boardId,
-        @PathVariable("articleId")String articleId,
-        @RequestPart("article") ArticleRequest articleRequest,
-        @RequestPart(value = "files", required = false) MultipartFile[] files
+    @PutMapping("{articleId}")
+    @Operation(summary = "edit article")
+    public ResponseEntity<ArticleResponse> editArticle(
+            @PathVariable("boardId") String boardId,
+            @PathVariable("articleId") String articleId,
+            @RequestPart("article") ArticleRequest articleRequest,
+            @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // get article
         Article article = articleService.getArticle(articleId).orElseThrow();
+
+        // writer is anonymous user
+        if(article.getUserId() == null) {
+            if(!passwordEncoder.matches(articleRequest.getPassword(), article.getPassword())){
+                throw new RuntimeException("password not matches");
+            }
+        }
+        // writer is authenticated user
+        else {
+            if(!Objects.equals(SecurityUtils.getCurrentUserId(), article.getUserId())) {
+                throw new RuntimeException("user is not writer");
+            }
+        }
+
+        // change articles
         article.setTitle(articleRequest.getTitle());
         article.setContent(articleRequest.getContent());
         article.setPassword(articleRequest.getPassword());
@@ -94,44 +180,10 @@ public class ArticleRestController {
                         .build()
                 )
                 .collect(Collectors.toList()));
-        Article savedArticle = articleService.saveArticle(article, files);
-        return ResponseEntity.ok(ArticleResponse.from(savedArticle));
-    }
 
-    /**
-     * return article
-     * @param boardId board id
-     * @param articleId article id
-     * @return article
-     */
-    @GetMapping("article/{articleId}")
-    @Operation(summary = "get article")
-    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("boardId")String boardId, @PathVariable("articleId")String articleId) {
-        ArticleResponse articleResponse = articleService.getArticle(articleId)
-                .map(ArticleResponse::from)
-                .orElseThrow(() -> new DataNotFoundException(articleId));
-        return ResponseEntity.ok(articleResponse);
-    }
-
-    /**
-     * returns board article list
-     * @param boardId board id
-     * @param pageable pagination info
-     * @return article list
-     */
-    @GetMapping("article")
-    @Operation(summary = "get list of articles")
-    public ResponseEntity<List<ArticleResponse>> getArticles(@PathVariable("boardId") String boardId, Pageable pageable) {
-        ArticleSearch articleSearch = ArticleSearch.builder()
-                .boardId(boardId)
-                .build();
-        Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
-        List<ArticleResponse> articleResponses = articlePage.getContent().stream()
-                .map(ArticleResponse::from)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
-                .body(articleResponses);
+        // save article
+        article = articleService.saveArticle(article, files);
+        return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
     /**
@@ -140,7 +192,7 @@ public class ArticleRestController {
      * @param fileId file id
      * @param response http servlet response
      */
-    @GetMapping("article/{articleId}/file/{fileId}")
+    @GetMapping("file/{fileId}")
     public ResponseEntity<Void> getArticleFile(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId,
@@ -155,67 +207,6 @@ public class ArticleRestController {
             throw new RuntimeException(e);
         }
         return ResponseEntity.ok().build();
-    }
-
-    /**
-     * save article comment
-     * @param boardId board id
-     * @param articleId article id
-     * @param commentRequest comment request
-     * @return void
-     */
-    @PostMapping("article/{articleId}/comment")
-    public ResponseEntity<ArticleComment> createArticleComment(@PathVariable String boardId, @PathVariable String articleId, @RequestBody ArticleCommentRequest commentRequest) {
-        ArticleComment articleComment = ArticleComment.builder()
-                .articleId(articleId)
-                .commentId(commentRequest.getCommentId())
-                .parentCommentId(commentRequest.getParentCommentId())
-                .content(commentRequest.getContent())
-                .userId(SecurityUtils.getCurrentUserId())
-                .userName(commentRequest.getUserName())
-                .password(commentRequest.getPassword())
-                .build();
-        articleComment = articleService.saveArticleComment(articleComment);
-        return ResponseEntity.ok(articleComment);
-    }
-
-    /**
-     * return comment list
-     * @param boardId board id
-     * @param id article id
-     * @return comment list
-     */
-    @GetMapping("article/{id}/comment")
-    @Operation(summary = "get article replies")
-    public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(@PathVariable("boardId") String boardId, @PathVariable("id") String id) {
-        List<ArticleCommentResponse> commentResponses = articleService.getArticleComments(id).stream()
-                .map(ArticleCommentResponse::from)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(commentResponses);
-    }
-
-    @PutMapping("article/{articleId}/comment/{commentId}")
-    public ResponseEntity<ArticleCommentResponse> modifyArticleComment(@PathVariable String boardId, @PathVariable String articleId, @PathVariable String commentId, @RequestBody ArticleCommentRequest commentRequest) {
-        ArticleComment articleComment = articleService.getArticleComment(articleId, commentId).orElseThrow(()->new DataNotFoundException(commentId));
-        articleComment.setContent(commentRequest.getContent());
-        articleComment = articleService.saveArticleComment(articleComment);
-        return ResponseEntity.ok(ArticleCommentResponse.from(articleComment));
-    }
-
-
-    /**
-     * return comment specified
-     * @param boardId board id
-     * @param articleId article id
-     * @param commentId comment id
-     * @return comment info
-     */
-    @GetMapping("article/{articleId}/comment/{commentId}")
-    public ResponseEntity<ArticleCommentResponse> getArticleComment(@PathVariable("boardId") String boardId, @PathVariable("articleId")String articleId, @PathVariable("commentId")String commentId) {
-        ArticleCommentResponse commentResponse = articleService.getArticleComment(articleId, commentId)
-                .map(ArticleCommentResponse::from)
-                .orElseThrow(()-> new DataNotFoundException(commentId));
-        return ResponseEntity.ok(commentResponse);
     }
 
 }

@@ -1067,6 +1067,117 @@ var duice;
     }
     duice.CustomElement = CustomElement;
 })(duice || (duice = {}));
+///<reference path="DataElementFactory.ts"/>
+var duice;
+(function (duice) {
+    class CustomElementFactory extends duice.DataElementFactory {
+        constructor(elementType) {
+            super();
+            this.elementType = elementType;
+        }
+        createElement(htmlElement, bindData, context) {
+            return Reflect.construct(this.elementType, [htmlElement, bindData, context]);
+        }
+    }
+    duice.CustomElementFactory = CustomElementFactory;
+})(duice || (duice = {}));
+///<reference path="DataElementFactory.ts"/>
+var duice;
+(function (duice) {
+    class ObjectElementFactory extends duice.DataElementFactory {
+        /**
+         * create component
+         * @param element
+         * @param object
+         * @param context
+         */
+        createElement(element, object, context) {
+            // create object element
+            let objectElement = this.doCreateElement(element, object, context);
+            // property
+            let property = duice.getElementAttribute(element, 'property');
+            if (property) {
+                objectElement.setProperty(property);
+            }
+            // format
+            let format = duice.getElementAttribute(element, 'format');
+            if (format) {
+                objectElement.setFormat(format);
+            }
+            // returns
+            return objectElement;
+        }
+        /**
+         * template method to create component
+         * @param htmlElement
+         * @param object
+         * @param context
+         */
+        doCreateElement(htmlElement, object, context) {
+            return new duice.ObjectElement(htmlElement, object, context);
+        }
+    }
+    duice.ObjectElementFactory = ObjectElementFactory;
+})(duice || (duice = {}));
+///<reference path="ObjectElementFactory.ts"/>
+var duice;
+(function (duice) {
+    class DataElementRegistry {
+        /**
+         * register
+         * @param tagName tag name
+         * @param dataElementFactory data element factory instance
+         */
+        static register(tagName, dataElementFactory) {
+            if (dataElementFactory instanceof duice.ArrayElementFactory) {
+                this.arrayElementFactories.set(tagName, dataElementFactory);
+            }
+            else if (dataElementFactory instanceof duice.ObjectElementFactory) {
+                this.objectElementFactories.set(tagName, dataElementFactory);
+            }
+            else if (dataElementFactory instanceof duice.CustomElementFactory) {
+                this.customElementFactories.set(tagName, dataElementFactory);
+            }
+            // register custom html element
+            if (tagName.includes('-')) {
+                globalThis.customElements.define(tagName, class extends HTMLElement {
+                });
+            }
+        }
+        /**
+         * getFactory
+         * @param htmlElement html element
+         * @param data data
+         */
+        static getFactory(htmlElement, data) {
+            let tagName = htmlElement.tagName.toLowerCase();
+            // custom element
+            if (this.customElementFactories.has(tagName)) {
+                return this.customElementFactories.get(tagName);
+            }
+            // array element
+            if (Array.isArray(data)) {
+                if (this.arrayElementFactories.has(tagName)) {
+                    return this.arrayElementFactories.get(tagName);
+                }
+                return this.defaultArrayElementFactory;
+            }
+            // object element
+            else {
+                if (this.objectElementFactories.has(tagName)) {
+                    return this.objectElementFactories.get(tagName);
+                }
+                return this.defaultObjectElementFactory;
+            }
+        }
+    }
+    DataElementRegistry.defaultObjectElementFactory = new duice.ObjectElementFactory();
+    DataElementRegistry.defaultArrayElementFactory = new duice.ArrayElementFactory();
+    DataElementRegistry.objectElementFactories = new Map();
+    DataElementRegistry.arrayElementFactories = new Map();
+    DataElementRegistry.customElementFactories = new Map();
+    duice.DataElementRegistry = DataElementRegistry;
+})(duice || (duice = {}));
 var duice;
 (function (duice) {
     var format;
@@ -1232,44 +1343,6 @@ var duice;
         }
     }
     duice.ObjectElement = ObjectElement;
-})(duice || (duice = {}));
-///<reference path="DataElementFactory.ts"/>
-var duice;
-(function (duice) {
-    class ObjectElementFactory extends duice.DataElementFactory {
-        /**
-         * create component
-         * @param element
-         * @param object
-         * @param context
-         */
-        createElement(element, object, context) {
-            // create object element
-            let objectElement = this.doCreateElement(element, object, context);
-            // property
-            let property = duice.getElementAttribute(element, 'property');
-            if (property) {
-                objectElement.setProperty(property);
-            }
-            // format
-            let format = duice.getElementAttribute(element, 'format');
-            if (format) {
-                objectElement.setFormat(format);
-            }
-            // returns
-            return objectElement;
-        }
-        /**
-         * template method to create component
-         * @param htmlElement
-         * @param object
-         * @param context
-         */
-        doCreateElement(htmlElement, object, context) {
-            return new duice.ObjectElement(htmlElement, object, context);
-        }
-    }
-    duice.ObjectElementFactory = ObjectElementFactory;
 })(duice || (duice = {}));
 var duice;
 (function (duice) {
@@ -1673,20 +1746,6 @@ var duice;
         }
     }
     duice.ObjectProxy = ObjectProxy;
-})(duice || (duice = {}));
-///<reference path="DataElementFactory.ts"/>
-var duice;
-(function (duice) {
-    class CustomElementFactory extends duice.DataElementFactory {
-        constructor(elementType) {
-            super();
-            this.elementType = elementType;
-        }
-        createElement(htmlElement, bindData, context) {
-            return Reflect.construct(this.elementType, [htmlElement, bindData, context]);
-        }
-    }
-    duice.CustomElementFactory = CustomElementFactory;
 })(duice || (duice = {}));
 ///<reference path="CustomElementFactory.ts"/>
 var duice;
@@ -2476,64 +2535,6 @@ var duice;
         component.ImgElement = ImgElement;
     })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
-var duice;
-(function (duice) {
-    class DataElementRegistry {
-        /**
-         * register
-         * @param tagName tag name
-         * @param dataElementFactory data element factory instance
-         */
-        static register(tagName, dataElementFactory) {
-            if (dataElementFactory instanceof duice.ArrayElementFactory) {
-                this.arrayElementFactories.set(tagName, dataElementFactory);
-            }
-            else if (dataElementFactory instanceof duice.ObjectElementFactory) {
-                this.objectElementFactories.set(tagName, dataElementFactory);
-            }
-            else if (dataElementFactory instanceof duice.CustomElementFactory) {
-                this.customElementFactories.set(tagName, dataElementFactory);
-            }
-            // register custom html element
-            if (tagName.includes('-')) {
-                globalThis.customElements.define(tagName, class extends HTMLElement {
-                });
-            }
-        }
-        /**
-         * getFactory
-         * @param htmlElement html element
-         * @param data data
-         */
-        static getFactory(htmlElement, data) {
-            let tagName = htmlElement.tagName.toLowerCase();
-            // custom element
-            if (this.customElementFactories.has(tagName)) {
-                return this.customElementFactories.get(tagName);
-            }
-            // array element
-            if (Array.isArray(data)) {
-                if (this.arrayElementFactories.has(tagName)) {
-                    return this.arrayElementFactories.get(tagName);
-                }
-                return this.defaultArrayElementFactory;
-            }
-            // object element
-            else {
-                if (this.objectElementFactories.has(tagName)) {
-                    return this.objectElementFactories.get(tagName);
-                }
-                return this.defaultObjectElementFactory;
-            }
-        }
-    }
-    DataElementRegistry.defaultObjectElementFactory = new duice.ObjectElementFactory();
-    DataElementRegistry.defaultArrayElementFactory = new duice.ArrayElementFactory();
-    DataElementRegistry.objectElementFactories = new Map();
-    DataElementRegistry.arrayElementFactories = new Map();
-    DataElementRegistry.customElementFactories = new Map();
-    duice.DataElementRegistry = DataElementRegistry;
-})(duice || (duice = {}));
 ///<reference path="../DataElementRegistry.ts"/>
 var duice;
 (function (duice) {
@@ -2940,10 +2941,7 @@ var duice;
                 let totalPage = Math.ceil(count / size);
                 let startPageIndex = Math.floor(page / 10) * 10;
                 let endPageIndex = Math.min(startPageIndex + 9, totalPage - 1);
-                console.debug('page', page);
-                console.debug('totalPage', totalPage);
-                console.debug('startPage', startPageIndex);
-                console.debug('endPage', endPageIndex);
+                endPageIndex = Math.max(endPageIndex, 0);
                 // template
                 let pagination = document.createElement('ul');
                 pagination.classList.add(`${duice.getNamespace()}-pagination`);
@@ -3125,6 +3123,157 @@ var duice;
         component.SelectElementFactory = SelectElementFactory;
         // register factory instance
         duice.DataElementRegistry.register('select', new SelectElementFactory());
+    })(component = duice.component || (duice.component = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var component;
+    (function (component) {
+        class SideNavigation extends duice.CustomElement {
+            constructor() {
+                super(...arguments);
+                this.uls = [];
+            }
+            /**
+             * doReader
+             * @param array
+             */
+            doRender(array) {
+                // get attribute
+                this.idProperty = duice.getElementAttribute(this.getHtmlElement(), 'id-property');
+                this.parentIdProperty = duice.getElementAttribute(this.getHtmlElement(), 'parent-id-property');
+                this.iconProperty = duice.getElementAttribute(this.getHtmlElement(), 'icon-property');
+                this.textProperty = duice.getElementAttribute(this.getHtmlElement(), 'text-property');
+                this.onclick = duice.getElementAttribute(this.getHtmlElement(), 'onclick');
+                // create tree element
+                let ulElement = this.arrayToTreeUl(array, null, 0);
+                ulElement.classList.add(`${duice.getNamespace()}-side-navigation`);
+                // return
+                return ulElement;
+            }
+            /**
+             * array to tree ul
+             * @param array
+             * @param parentId
+             * @param depth
+             */
+            arrayToTreeUl(array, parentId, depth) {
+                const ulElement = document.createElement('ul');
+                for (const object of array) {
+                    if (object[this.parentIdProperty] === parentId) {
+                        const liElement = document.createElement('li');
+                        liElement.style.listStyle = 'none';
+                        // create a element
+                        let aElement = document.createElement('a');
+                        // onclick
+                        if (this.onclick) {
+                            liElement.addEventListener('click', event => {
+                                Function(this.onclick).call(object);
+                            });
+                        }
+                        // icon
+                        if (this.iconProperty) {
+                            let iconElement = document.createElement('img');
+                            iconElement.src = object[this.iconProperty];
+                            aElement.appendChild(iconElement);
+                        }
+                        // text content
+                        let textElement = document.createElement('span');
+                        textElement.appendChild(document.createTextNode(object[this.textProperty]));
+                        aElement.appendChild(textElement);
+                        // adds to ul
+                        liElement.append(aElement);
+                        ulElement.appendChild(liElement);
+                        // recursively child ul element
+                        let childUlElement = this.arrayToTreeUl(array, object[this.idProperty], depth + 1);
+                        if (childUlElement.childElementCount > 0) {
+                            liElement.appendChild(childUlElement);
+                            liElement.classList.add('__fold__');
+                        }
+                        // indent
+                        if (depth > 0) {
+                            liElement.classList.add('__indent__');
+                        }
+                        if (depth <= 1) {
+                            ulElement.style.paddingLeft = '0';
+                        }
+                        else {
+                            ulElement.style.paddingLeft = '1em';
+                        }
+                        // toggle fold,unfold
+                        liElement.addEventListener('click', event => {
+                            if (liElement.querySelector('ul')) {
+                                if (liElement.classList.contains('__fold__')) {
+                                    liElement.classList.remove('__fold__');
+                                    liElement.classList.add('__unfold__');
+                                }
+                                else {
+                                    liElement.classList.add('__fold__');
+                                    liElement.classList.remove('__unfold__');
+                                }
+                            }
+                            event.stopPropagation();
+                        });
+                    }
+                }
+                // returns
+                return ulElement;
+            }
+            doUpdate(data) {
+                this.render();
+            }
+            /**
+             * doStyle
+             * @param array
+             */
+            doStyle(array) {
+                return `
+                .${duice.getNamespace()}-side-navigation li {
+                    line-height: inherit;
+                }
+                .${duice.getNamespace()}-side-navigation li.__indent__::before {
+                    content: '';
+                    display: inline-block;
+                    width: 1em;
+                    height: 1em;
+                    vertical-align: middle;
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJklEQVR42mNgGAXUBA0NDf9HfTDqg1EfQHxALD0KRsEoGAWDBQAAM5IY9y7mNu0AAAAASUVORK5CYII=);
+                    background-position-x: center;
+                    background-position-y: center;
+                    cursor: pointer;
+                }
+                .${duice.getNamespace()}-side-navigation li.__fold__::before {
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAOUlEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DRJaWPB/yFrwHwuGy+OiR1YQ0S4V0TQfjIJRMEIAAEXLZ9KMlg2EAAAAAElFTkSuQmCC);
+                }
+                .${duice.getNamespace()}-side-navigation li.__fold__ > ul {
+                    display: none;
+                }
+                .${duice.getNamespace()}-side-navigation li.__unfold__::before {
+                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAANklEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DZJRC5AN+I8Fw+Vx0aNxQB0LaJoPRsEoGCEAAGOiY9YrvpoQAAAAAElFTkSuQmCC);
+                }
+                .${duice.getNamespace()}-side-navigation li.__unfold__ > ul {
+                    display: '';
+                }
+                .${duice.getNamespace()}-side-navigation li > a {
+                    display: inline-block;
+                    color: inherit;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+                .${duice.getNamespace()}-side-navigation li > a > img {
+                    width: 1em;
+                    height: 1em;
+                    vertical-align: middle;
+                }
+                .${duice.getNamespace()}-side-navigation li > a > span {
+                    margin-left: 0.2em;
+                }
+            `;
+            }
+        }
+        component.SideNavigation = SideNavigation;
+        // register
+        duice.DataElementRegistry.register(`${duice.getNamespace()}-side-navigation`, new duice.CustomElementFactory(SideNavigation));
     })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
 var duice;
@@ -3573,156 +3722,5 @@ var duice;
         }
         tab.TabFolder = TabFolder;
     })(tab = duice.tab || (duice.tab = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var component;
-    (function (component) {
-        class SideNavigation extends duice.CustomElement {
-            constructor() {
-                super(...arguments);
-                this.uls = [];
-            }
-            /**
-             * doReader
-             * @param array
-             */
-            doRender(array) {
-                // get attribute
-                this.idProperty = duice.getElementAttribute(this.getHtmlElement(), 'id-property');
-                this.parentIdProperty = duice.getElementAttribute(this.getHtmlElement(), 'parent-id-property');
-                this.iconProperty = duice.getElementAttribute(this.getHtmlElement(), 'icon-property');
-                this.textProperty = duice.getElementAttribute(this.getHtmlElement(), 'text-property');
-                this.onclick = duice.getElementAttribute(this.getHtmlElement(), 'onclick');
-                // create tree element
-                let ulElement = this.arrayToTreeUl(array, null, 0);
-                ulElement.classList.add(`${duice.getNamespace()}-side-navigation`);
-                // return
-                return ulElement;
-            }
-            /**
-             * array to tree ul
-             * @param array
-             * @param parentId
-             * @param depth
-             */
-            arrayToTreeUl(array, parentId, depth) {
-                const ulElement = document.createElement('ul');
-                for (const object of array) {
-                    if (object[this.parentIdProperty] === parentId) {
-                        const liElement = document.createElement('li');
-                        liElement.style.listStyle = 'none';
-                        // create a element
-                        let aElement = document.createElement('a');
-                        // onclick
-                        if (this.onclick) {
-                            liElement.addEventListener('click', event => {
-                                Function(this.onclick).call(object);
-                            });
-                        }
-                        // icon
-                        if (this.iconProperty) {
-                            let iconElement = document.createElement('img');
-                            iconElement.src = object[this.iconProperty];
-                            aElement.appendChild(iconElement);
-                        }
-                        // text content
-                        let textElement = document.createElement('span');
-                        textElement.appendChild(document.createTextNode(object[this.textProperty]));
-                        aElement.appendChild(textElement);
-                        // adds to ul
-                        liElement.append(aElement);
-                        ulElement.appendChild(liElement);
-                        // recursively child ul element
-                        let childUlElement = this.arrayToTreeUl(array, object[this.idProperty], depth + 1);
-                        if (childUlElement.childElementCount > 0) {
-                            liElement.appendChild(childUlElement);
-                            liElement.classList.add('__fold__');
-                        }
-                        // indent
-                        if (depth > 0) {
-                            liElement.classList.add('__indent__');
-                        }
-                        if (depth <= 1) {
-                            ulElement.style.paddingLeft = '0';
-                        }
-                        else {
-                            ulElement.style.paddingLeft = '1em';
-                        }
-                        // toggle fold,unfold
-                        liElement.addEventListener('click', event => {
-                            if (liElement.querySelector('ul')) {
-                                if (liElement.classList.contains('__fold__')) {
-                                    liElement.classList.remove('__fold__');
-                                    liElement.classList.add('__unfold__');
-                                }
-                                else {
-                                    liElement.classList.add('__fold__');
-                                    liElement.classList.remove('__unfold__');
-                                }
-                            }
-                            event.stopPropagation();
-                        });
-                    }
-                }
-                // returns
-                return ulElement;
-            }
-            doUpdate(data) {
-                this.render();
-            }
-            /**
-             * doStyle
-             * @param array
-             */
-            doStyle(array) {
-                return `
-                .${duice.getNamespace()}-side-navigation li {
-                    line-height: inherit;
-                }
-                .${duice.getNamespace()}-side-navigation li.__indent__::before {
-                    content: '';
-                    display: inline-block;
-                    width: 1em;
-                    height: 1em;
-                    vertical-align: middle;
-                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAJklEQVR42mNgGAXUBA0NDf9HfTDqg1EfQHxALD0KRsEoGAWDBQAAM5IY9y7mNu0AAAAASUVORK5CYII=);
-                    background-position-x: center;
-                    background-position-y: center;
-                    cursor: pointer;
-                }
-                .${duice.getNamespace()}-side-navigation li.__fold__::before {
-                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAOUlEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DRJaWPB/yFrwHwuGy+OiR1YQ0S4V0TQfjIJRMEIAAEXLZ9KMlg2EAAAAAElFTkSuQmCC);
-                }
-                .${duice.getNamespace()}-side-navigation li.__fold__ > ul {
-                    display: none;
-                }
-                .${duice.getNamespace()}-side-navigation li.__unfold__::before {
-                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAANklEQVR42mNgGEygoaHhP8OQBqM+GBgXE8I0DZJRC5AN+I8Fw+Vx0aNxQB0LaJoPRsEoGCEAAGOiY9YrvpoQAAAAAElFTkSuQmCC);
-                }
-                .${duice.getNamespace()}-side-navigation li.__unfold__ > ul {
-                    display: '';
-                }
-                .${duice.getNamespace()}-side-navigation li > a {
-                    display: inline-block;
-                    color: inherit;
-                    text-decoration: none;
-                    cursor: pointer;
-                }
-                .${duice.getNamespace()}-side-navigation li > a > img {
-                    width: 1em;
-                    height: 1em;
-                    vertical-align: middle;
-                }
-                .${duice.getNamespace()}-side-navigation li > a > span {
-                    margin-left: 0.2em;
-                }
-            `;
-            }
-        }
-        component.SideNavigation = SideNavigation;
-        // register
-        duice.DataElementRegistry.register(`${duice.getNamespace()}-side-navigation`, new duice.CustomElementFactory(SideNavigation));
-    })(component = duice.component || (duice.component = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

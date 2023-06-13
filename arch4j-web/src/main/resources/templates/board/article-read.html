@@ -9,8 +9,8 @@
         const article = new duice.ObjectProxy({
             files:[]
         });
-        const comments = new duice.ArrayProxy([]);
-        const comment = new duice.ObjectProxy({});
+        const articleComments = new duice.ArrayProxy([]);
+        const articleComment = new duice.ObjectProxy({});
 
         /**
          * get article
@@ -28,42 +28,42 @@
         /**
          * get comments
          */
-        function getComments() {
+        function getArticleComments() {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    duice.ArrayProxy.clear(comments);
-                    duice.ArrayProxy.assign(comments, data);
+                    duice.ArrayProxy.clear(articleComments);
+                    duice.ArrayProxy.assign(articleComments, data);
                 });
         }
 
         /**
-         * add article comment
-         * @param parentId
+         * create article comment
+         * @param parentCommentId parent comment id
          */
-        function replyComment(parentId) {
-            duice.ObjectProxy.clear(comment);
-            comment.parentId = parentId;
-            let commentForm = document.getElementById('comment-form');
-            let parentCommentElement = document.querySelector(`[data-comment-id="${parentId}"]`);
+        function createArticleComment(parentCommentId) {
+            duice.ObjectProxy.clear(articleComment);
+            articleComment.parentCommentId = parentCommentId;
+            let commentForm = document.getElementById('article-comment-form');
+            let parentCommentElement = document.querySelector(`[data-comment-id="${parentCommentId}"]`);
             parentCommentElement.appendChild(commentForm);
         }
 
         /**
-         * edit comment
-         * @param id
+         * edit article comment
+         * @param commentId comment id
          */
-        function editComment(id) {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${id}`, document.location.origin);
+        function editArticleComment(commentId) {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    duice.ObjectProxy.clear(comment);
-                    duice.ObjectProxy.assign(comment, data);
-                    let commentForm = document.getElementById('comment-form');
-                    commentForm.dataset.commentId = id;
-                    let commentElement = document.querySelector(`[data-comment-id="${id}"]`);
+                    duice.ObjectProxy.clear(articleComment);
+                    duice.ObjectProxy.assign(articleComment, data);
+                    let commentForm = document.getElementById('article-comment-form');
+                    commentForm.dataset.commentId = commentId;
+                    let commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
                     commentForm.style.marginLeft = commentElement.style.marginLeft;
                     commentElement.parentNode.insertBefore(commentForm, commentElement);
                     commentElement.style.display = 'none';
@@ -73,11 +73,11 @@
         /**
          * cancel comment
          */
-        function cancelComment() {
-            duice.ObjectProxy.clear(comment);
-            let commentForm = document.getElementById('comment-form');
+        function cancelArticleComment() {
+            duice.ObjectProxy.clear(articleComment);
+            let commentForm = document.getElementById('article-comment-form');
             commentForm.style.marginLeft = 'initial';
-            let commentFormContainer = document.getElementById('comment-form-container');
+            let commentFormContainer = document.getElementById('article-comment-form-container');
             commentFormContainer.appendChild(commentForm);
 
             // in case of edit
@@ -93,27 +93,66 @@
         /**
          * save article comment
          */
-        function saveComment(){
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
+        function saveArticleComment(){
+            let commentId = articleComment.commentId;
+            let url;
+            let method;
+            if(commentId) {
+                url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
+                method = 'PUT';
+            }else{
+                url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
+                method = 'POST';
+            }
             _fetch(url, {
-                method: 'POST',
+                method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(comment)
+                body: JSON.stringify(articleComment)
             }).then(response => {
                 if(response.ok) {
-                    cancelComment();
-                    getComments();
+                    cancelArticleComment();
+                    getArticleComments();
+                    article.commentCount ++;
                 }
             })
+        }
+
+        /**
+         * delete article comment
+         * @param commentId
+         */
+        async function deleteArticleComment(commentId) {
+            let password = await _prompt("enter password");
+            if(!password) {
+                return false;
+            }
+
+            _confirm('[[#{web.message.deleteItemConfirm(#{core.articleComment})}]]').then(result => {
+                if(result) {
+                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
+                    _fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({password: password})
+                    }).then(response=> {
+                        if(response.ok) {
+                            getArticleComments();
+                            article.commentCount --;
+                        }
+                    });
+                }
+            });
         }
 
         /**
          * download file
          * @param fileId
          */
-        function downloadFile(fileId) {
+        function downloadArticleFile(fileId) {
             let link = document.createElement('a');
             link.href = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/file/${fileId}`;
             link.click();
@@ -122,7 +161,7 @@
         /**
          * goto article edit
          */
-        async function gotoEdit() {
+        async function gotoEditArticle() {
             let url = new URL(`[[@{/}]]board/${boardId}/article-post`, document.location.origin);
             url.searchParams.append('articleId', articleId);
             if(!article.userId) {
@@ -136,16 +175,16 @@
         }
 
         /**
-         * goto list
+         * goto article list
          */
-        function gotoList() {
+        function gotoListArticle() {
             document.location.href = `[[@{/}]]board/${boardId}`;
         }
 
         // onload
         document.addEventListener('DOMContentLoaded', event => {
             getArticle();
-            getComments();
+            getArticleComments();
         });
     </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-read.html|"/>

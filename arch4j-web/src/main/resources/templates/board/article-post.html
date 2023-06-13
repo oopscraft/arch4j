@@ -56,15 +56,22 @@
          */
         function saveArticle() {
 
-            // anonymous user, check password
-            if(!_authenticated) {
-                if(_isEmpty(article.password)) {
-                    _alert('enter password');
-                    return false;
-                }
-                if(article.password !== article.passwordConfirm) {
-                    _alert('password not match');
-                    return false;
+            // new article
+            if(!articleId) {
+                // anonymous user, check password
+                if(!_authenticated) {
+                    if(_isEmpty(article.password)) {
+                        _alert('enter password');
+                        return false;
+                    }
+                    if(!_isPasswordFormat(article.password)) {
+                        _alert('not valid password format');
+                        return false;
+                    }
+                    if(article.password !== article.passwordConfirm) {
+                        _alert('password not match');
+                        return false;
+                    }
                 }
             }
 

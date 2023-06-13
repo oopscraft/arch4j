@@ -317,6 +317,15 @@ hr {
 .container > .col-12 {
     grid-column: span 12;
 }
+.container > .justify-left {
+    justify-self: left;
+}
+.container > .justify-center {
+    justify-self: center;
+}
+.container > .justify-right {
+    justify-self: right;
+}
 @media screen and (max-width: 1023px) {
     .container > .col-s-0 {
         display: none;
@@ -357,15 +366,15 @@ hr {
     .container > .col-s-12 {
         grid-column: span 12;
     }
-}
-.container > .justify-left {
-    justify-self: left;
-}
-.container > .justify-center {
-    justify-self: center;
-}
-.container > .justify-right {
-    justify-self: right;
+    .container > .justify-s-left {
+        justify-self: left;
+    }
+    .container > .justify-s-center {
+        justify-self: center;
+    }
+    .container > .justify-s-right {
+        justify-self: right;
+    }
 }
 
 /* flex */

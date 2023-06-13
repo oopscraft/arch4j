@@ -42,6 +42,26 @@ var duice;
 (function (duice) {
     var plugin;
     (function (plugin) {
+        class CkeditorFactory extends duice.ObjectElementFactory {
+            /**
+             * create element
+             * @param htmlElement
+             * @param bindData
+             * @param context
+             */
+            doCreateElement(htmlElement, bindData, context) {
+                return new plugin.Ckeditor(htmlElement, bindData, context);
+            }
+        }
+        plugin.CkeditorFactory = CkeditorFactory;
+        // register
+        duice.DataElementRegistry.register(`${duice.getNamespace()}-ckeditor`, new CkeditorFactory());
+    })(plugin = duice.plugin || (duice.plugin = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var plugin;
+    (function (plugin) {
         class Marked extends duice.ObjectElement {
             constructor(element, bindData, context) {
                 super(element, bindData, context);
@@ -76,6 +96,26 @@ var duice;
 (function (duice) {
     var plugin;
     (function (plugin) {
+        class MarkedFactory extends duice.ObjectElementFactory {
+            /**
+             * create element
+             * @param htmlElement
+             * @param bindData
+             * @param context
+             */
+            doCreateElement(htmlElement, bindData, context) {
+                return new plugin.Marked(htmlElement, bindData, context);
+            }
+        }
+        plugin.MarkedFactory = MarkedFactory;
+        // register
+        duice.DataElementRegistry.register(`${duice.getNamespace()}-marked`, new MarkedFactory());
+    })(plugin = duice.plugin || (duice.plugin = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var plugin;
+    (function (plugin) {
         class Simplemde extends duice.ObjectElement {
             constructor(element, bindData, context) {
                 super(element, bindData, context);
@@ -100,6 +140,8 @@ var duice;
                         return preview.innerHTML;
                     },
                     tabSize: 4,
+                    status: false,
+                    hideIcons: ['fullscreen', 'side-by-side'],
                     renderingConfig: {
                         insertTexts: {
                             horizontalRule: ["", "\n\n-----\n\n"],
@@ -122,15 +164,18 @@ var duice;
              * @param value
              */
             setValue(value) {
+                if (!value) {
+                    value = '';
+                }
                 // checks value is changed
                 if (value !== this.simpleMde.value()) {
                     // sets value
                     this.simpleMde.value(value);
                     // Fixes CodeMirror bug (#344) - refresh not working after value changed.
-                    let codemirror = this.simpleMde.codemirror;
-                    setTimeout(function () {
-                        codemirror.refresh();
-                    }.bind(codemirror), 0);
+                    // let codemirror = this.simpleMde.codemirror;
+                    // setTimeout(function() {
+                    //     codemirror.refresh();
+                    // }.bind(codemirror), 0);
                 }
             }
             /**
@@ -141,26 +186,6 @@ var duice;
             }
         }
         plugin.Simplemde = Simplemde;
-    })(plugin = duice.plugin || (duice.plugin = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var plugin;
-    (function (plugin) {
-        class CkeditorFactory extends duice.ObjectElementFactory {
-            /**
-             * create element
-             * @param htmlElement
-             * @param bindData
-             * @param context
-             */
-            doCreateElement(htmlElement, bindData, context) {
-                return new plugin.Ckeditor(htmlElement, bindData, context);
-            }
-        }
-        plugin.CkeditorFactory = CkeditorFactory;
-        // register
-        duice.DataElementRegistry.register(`${duice.getNamespace()}-ckeditor`, new CkeditorFactory());
     })(plugin = duice.plugin || (duice.plugin = {}));
 })(duice || (duice = {}));
 var duice;
@@ -181,26 +206,6 @@ var duice;
         plugin.SimplemdeFactory = SimplemdeFactory;
         // register
         duice.DataElementRegistry.register(`${duice.getNamespace()}-simplemde`, new SimplemdeFactory());
-    })(plugin = duice.plugin || (duice.plugin = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var plugin;
-    (function (plugin) {
-        class MarkedFactory extends duice.ObjectElementFactory {
-            /**
-             * create element
-             * @param htmlElement
-             * @param bindData
-             * @param context
-             */
-            doCreateElement(htmlElement, bindData, context) {
-                return new plugin.Marked(htmlElement, bindData, context);
-            }
-        }
-        plugin.MarkedFactory = MarkedFactory;
-        // register
-        duice.DataElementRegistry.register(`${duice.getNamespace()}-marked`, new MarkedFactory());
     })(plugin = duice.plugin || (duice.plugin = {}));
 })(duice || (duice = {}));
 /// <reference path="../node_modules/duice/dist/duice.d.ts" />

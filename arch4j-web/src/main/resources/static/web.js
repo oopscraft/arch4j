@@ -212,6 +212,54 @@ const _isEmpty = function(value) {
 }
 
 /**
+ * Checks generic ID (alphabet + number + -,_)
+ * @param value
+ */
+const _isIdFormat = function(value) {
+    if(value){
+        let pattern = /^[a-zA-Z0-9\-\_\.]{1,}$/;
+        return pattern.test(value);
+    }
+    return false;
+}
+
+/**
+ * Checks generic password (At least 1 alphabet, 1 number, 1 special char)
+ * @param value
+ */
+const _isPasswordFormat = function(value) {
+    if(value){
+        let pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+        return pattern.test(value);
+    }
+    return false;
+}
+
+/**
+ * Checks valid email address pattern
+ * @param value
+ */
+const _isEmailFormat = function(value) {
+    if(value){
+        let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return pattern.test(value);
+    }
+    return false;
+}
+
+/**
+ * Checks if value is URL address format
+ * @param value
+ */
+const _isUrlFormat = function(value) {
+    if(value){
+        let pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        return pattern.test(value);
+    }
+    return false;
+}
+
+/**
  * change language
  * @param language
  * @private

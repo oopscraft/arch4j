@@ -175,7 +175,7 @@
             </h1>
         </div>
         <div id="_header-menuButton">
-            <img onclick="_openMenu();" th:src="@{themes}" class="icon link"/>
+            <img onclick="_openMenu();" th:src="@{/static/theme/{_theme}/image/icon-menu.svg(_theme=${_theme})}" class="icon link"/>
         </div>
         <ul id="_header-menu">
             <li sec:authorize="!isAuthenticated()">

@@ -54,8 +54,8 @@
 <!-- ================================================== -->
 <div class="container">
     <div class="col-12">
-        <div data-duice-bind="article" data-duice-property="content" style="min-height:50vh;">
-        </div>
+        <duice-marked data-duice-bind="article" data-duice-property="content"/>
+<!--        <div data-duice-bind="article" data-duice-property="content" style="min-height:50vh;"></div>-->
     </div>
 </div>
 <!-- ================================================== -->
@@ -212,7 +212,7 @@
                         this.hidden = true;
                     }
                     "/>
-            <!-- START: writer name and password -->
+            <!-- start: writer name and password -->
             <th:block sec:authorize="!isAuthenticated()">
                 <span data-th-text="#{core.articleComment.userName}" class="font-weight-bold tag-required"></span>
                 <input type="text" data-duice-bind="articleComment" data-duice-property="userName"/>
@@ -220,7 +220,7 @@
                 <input type="password" data-duice-bind="articleComment" data-duice-property="password"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm"/>
             </th:block>
-            <!-- END: writer name and password -->
+            <!-- end: writer name and password -->
         </div>
         <div class="col-12">
             <duice-simplemde data-duice-bind="articleComment" data-duice-property="content"/>

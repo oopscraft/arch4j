@@ -172,10 +172,10 @@ var duice;
                     // sets value
                     this.simpleMde.value(value);
                     // Fixes CodeMirror bug (#344) - refresh not working after value changed.
-                    // let codemirror = this.simpleMde.codemirror;
-                    // setTimeout(function() {
-                    //     codemirror.refresh();
-                    // }.bind(codemirror), 0);
+                    let codemirror = this.simpleMde.codemirror;
+                    setTimeout(function () {
+                        codemirror.refresh();
+                    }.bind(codemirror), 0);
                 }
             }
             /**

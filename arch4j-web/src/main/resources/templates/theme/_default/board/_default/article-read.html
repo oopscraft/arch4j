@@ -131,7 +131,7 @@
              data-duice-bind="articleComments"
              data-duice-loop="articleComment,status"
              data-duice-hierarchy="commentId,parentCommentId"
-             data-duice-script="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*2) + 'em';">
+             data-duice-script="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
             <div class="col-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"

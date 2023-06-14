@@ -622,6 +622,11 @@ hr {
     cursor: pointer;
 }
 
+/* display */
+.display-none {
+    display: none;
+}
+
 /* width */
 .width-25 {
     width: 25%;

@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/board/{boardId}")
@@ -30,29 +32,47 @@ public class ArticlePostController {
     /**
      * index
      * @param boardId board id
-     * @param id article id
+     * @param articleId article id
      * @return model and view
      */
-    @GetMapping("article-post")
+    @RequestMapping(value = "article-post", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView index(
         @PathVariable("boardId") String boardId,
-        @RequestParam(value = "id", required = false) String id,
+        @RequestParam(value = "articleId", required = false) String articleId,
         @RequestParam(value = "password", required = false) String password
     ){
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("board/article-post.html");
 
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         modelAndView.addObject("board", board);
 
-        // modify article
-        if(id != null) {
+        // when edit article
+        if(articleId != null) {
+
             // get article
-            Article article = articleService.getArticle(id).orElseThrow(()->new DataNotFoundException(id));
+            Article article = articleService.getArticle(articleId).orElseThrow();
             modelAndView.addObject("article", article);
 
-            // writer is authenticated user
-            if(article.getUserId() != null) {
+            // when writer is anonymous and password is defined.
+            if(article.getUserId() == null) {
+
+                // password not found
+                if(password == null) {
+                    modelAndView.setViewName("board/article-post-check-password.html");
+                    return modelAndView;
+                }
+
+                //check password
+                if(!passwordEncoder.matches(password, article.getPassword())) {
+                    throw new AuthorizationFailureException("password not matches");
+                }
+
+                // append password
+                modelAndView.addObject("articlePassword", password);
+            }
+            // writer is authenticated user, check same with current user
+            else{
                 // check authenticated
                 if(!SecurityUtils.isAuthenticated()) {
                     throw new AuthenticationFailureException("not authenticated");
@@ -62,20 +82,10 @@ public class ArticlePostController {
                     throw new AuthorizationFailureException("not writer");
                 }
             }
-            // writer is anonymous user
-            else {
-                // check password
-                if(!passwordEncoder.matches(password, article.getPassword())) {
-                    throw new AuthorizationFailureException("password not match");
-                }
-            }
         }
 
         // return
-        modelAndView.setViewName("board/article-post.html");
         return modelAndView;
     }
-
-
 
 }

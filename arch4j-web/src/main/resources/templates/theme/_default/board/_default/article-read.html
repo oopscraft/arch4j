@@ -28,17 +28,14 @@
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </span>
-        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="article" data-duice-property="dateTime" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+            <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </span>
-        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="commentCount"></span>
         </span>
-        <span class="font-size-smaller">|</span>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="likeCount"></span>
@@ -137,21 +134,11 @@
              data-duice-script="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*2) + 'em';">
             <div class="col-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
-                    data-duice-bind="articleComment" data-duice-script="
-                    if(articleComment.parentCommentId) {
-                        this.hidden = true;
-                    }else{
-                        this.hidden = false;
-                    }
-                    "/>
+                     data-duice-bind="articleComment"
+                     data-duice-script="this.hidden=isChildArticleComment(articleComment);"/>
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
-                    data-duice-bind="articleComment" data-duice-script="
-                    if(articleComment.parentCommentId) {
-                        this.hidden = false;
-                    }else{
-                        this.hidden = true;
-                    }
-                    "/>
+                     data-duice-bind="articleComment"
+                     data-duice-script="this.hidden=!isChildArticleComment(articleComment);"/>
                 <span>
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="articleComment" data-duice-property="userName"></span>
@@ -164,13 +151,18 @@
                     <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="articleComment" data-duice-property="likeCount"></span>
                 </span>
-                <span data-duice-bind="articleComment" data-duice-script="this.dataset.commentId=articleComment.commentId;"
-                      onclick="editArticleComment(this.dataset.commentId);" class="cursor-pointer text-decoration-underline">
+                <span class="link"
+                      data-duice-bind="articleComment"
+                      data-duice-if="return canEditArticleComment(articleComment);"
+                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      onclick="editArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.text.edit}"></span>]
                 </span>
-                |
-                <span data-duice-bind="articleComment" data-duice-script="this.dataset.commentId=articleComment.commentId;"
-                      onclick="deleteArticleComment(this.dataset.commentId);" class="cursor-pointer text-decoration-underline">
+                <span class="link"
+                      data-duice-bind="articleComment"
+                      data-duice-if="return canDeleteArticleComment(articleComment);"
+                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      onclick="deleteArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.text.delete}"></span>]
                 </span>
             </div>
@@ -178,8 +170,10 @@
                 <duice-marked data-duice-bind="articleComment" data-duice-property="content"/>
             </div>
             <div class="col-12">
-                <span data-duice-bind="articleComment" data-duice-script="this.dataset.commentId=articleComment.commentId;"
-                      onclick="createArticleComment(this.dataset.commentId);" class="cursor-pointer text-decoration-underline">
+                <span class="link"
+                      data-duice-bind="articleComment"
+                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      onclick="addArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{core.articleComment}"></span>]
                 </span>
             </div>
@@ -197,42 +191,29 @@
     <div id="article-comment-form" class="container col-12 gap-row-1px padding-left-1em border-left-1">
         <div class="col-12" >
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
-                 data-duice-bind="articleComment" data-duice-script="
-                    if(articleComment.parentCommentId) {
-                        this.hidden = true;
-                    }else{
-                        this.hidden = false;
-                    }
-                    "/>
+                 data-duice-bind="articleComment"
+                 data-duice-if="return !isChildArticleComment(articleComment);"/>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
-                 data-duice-bind="articleComment" data-duice-script="
-                    if(articleComment.parentCommentId) {
-                        this.hidden = false;
-                    }else{
-                        this.hidden = true;
-                    }
-                    "/>
-            <!-- start: writer name and password -->
-            <th:block sec:authorize="!isAuthenticated()">
-                <span data-th-text="#{core.articleComment.userName}" class="font-weight-bold tag-required"></span>
-                <input type="text" data-duice-bind="articleComment" data-duice-property="userName"/>
-                <span data-th-text="#{core.articleComment.password}" class="font-weight-bold tag-required"></span>
-                <input type="password" data-duice-bind="articleComment" data-duice-property="password"/>
-                <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm"/>
-            </th:block>
-            <!-- end: writer name and password -->
+                 data-duice-bind="articleComment"
+                 data-duice-if="return isChildArticleComment(articleComment);"/>
+            <span data-duice-bind="articleComment"
+                  data-duice-if="return isEnableArticleCommentUserInput(articleComment);">
+                <input type="text" data-duice-bind="articleComment" data-duice-property="userName" th:placeholder="#{core.articleComment.userName}"/>
+                <input type="password" data-duice-bind="articleComment" data-duice-property="password" th:placeholder="#{core.articleComment.password}"/>
+                <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.articleComment.password}"/>
+            </span>
         </div>
         <div class="col-12">
             <duice-simplemde data-duice-bind="articleComment" data-duice-property="content"/>
         </div>
         <div class="col-12 justify-center padding-1em">
-            <button onclick="saveArticleComment();">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
-                <span data-th-text="#{web.text.save}"></span>
-            </button>
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.text.cancel}"></span>
+            </button>
+            <button onclick="saveArticleComment();">
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
+                <span data-th-text="#{web.text.save}"></span>
             </button>
         </div>
     </div>

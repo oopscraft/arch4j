@@ -11,7 +11,9 @@ import org.oopscraft.arch4j.core.file.FileService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -30,6 +32,8 @@ public class ArticleService {
     private final ArticleFileRepository articleFileRepository;
 
     private final FileService fileService;
+
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * saves article
@@ -53,8 +57,13 @@ public class ArticleService {
                     .createdAt(LocalDateTime.now())
                     .userId(article.getUserId())
                     .userName(article.getUserName())
-                    .password(article.getPassword())
                     .build();
+        }
+
+        // password
+        if(article.getUserId() == null) {
+            Assert.notNull(article.getPassword(), "password is required");
+            articleEntity.setPassword(passwordEncoder.encode(article.getPassword()));
         }
 
         // set article property

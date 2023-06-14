@@ -6,6 +6,7 @@
     <script>
         const boardId = '[[${board.boardId}]]';
         const articleId = '[[${param.articleId}]]';
+        const articlePassword = '[[${articlePassword}]]';
         const article = new duice.ObjectProxy({
             files:[]
         });
@@ -22,6 +23,12 @@
                 .then(data => {
                     duice.ObjectProxy.clear(article);
                     duice.ObjectProxy.assign(article, data);
+                    if(articlePassword) {
+                        article.password = articlePassword;
+                        article.passwordConfirm = articlePassword;
+                        duice.ObjectProxy.setReadonly(article, 'password' ,true);
+                        duice.ObjectProxy.setReadonly(article, 'passwordConfirm', true);
+                    }
                 });
         }
 
@@ -59,7 +66,7 @@
             // new article
             if(!articleId) {
                 // anonymous user, check password
-                if(!_authenticated) {
+                if(!_isAuthenticated) {
                     if(_isEmpty(article.password)) {
                         _alert('enter password');
                         return false;
@@ -100,7 +107,11 @@
                         body: formData
                     }).then(response => {
                         if(response.ok) {
-                            history.back();
+                            if(articlePassword) {
+                                history.go(-2);
+                            }else{
+                                history.back();
+                            }
                         }
                     });
                 }
@@ -134,10 +145,21 @@
         // }
 
         /**
-         * goto cancel
+         * goto board
+         */
+        function gotoBoard() {
+
+        }
+
+        /**
+         * goto read
          */
         function gotoCancel() {
-            history.back();
+            if(articlePassword) {
+                history.go(-2);
+            }else{
+                history.back();
+            }
         }
 
         // onload

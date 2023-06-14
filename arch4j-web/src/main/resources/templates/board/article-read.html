@@ -3,9 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_web.html">
 <main layout:fragment="_main">
-    <script>
-        const boardId = '[[${board.boardId}]]';
-        const articleId = '[[${param.articleId}]]';
+    <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
+        const articleId = [[${param.articleId}]];
         const article = new duice.ObjectProxy({
             files:[]
         });
@@ -39,10 +39,82 @@
         }
 
         /**
-         * create article comment
+         * is child article comment
+         * @param articleComment
+         * @returns {boolean}
+         */
+        function isChildArticleComment(articleComment) {
+            if(articleComment.parentCommentId) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * can edit article comment
+         * @param articleComment
+         * @returns {boolean}
+         */
+        function canEditArticleComment(articleComment) {
+            // anonymous writer
+            if(!articleComment.userId) {
+                return true;
+            }
+            // authenticated writer
+            else{
+                // login status
+                if(_isAuthenticated) {
+                    if(articleComment.userId === _user.userId) {
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * can delete article comment
+         * @param articleComment
+         * @returns {boolean}
+         */
+        function canDeleteArticleComment(articleComment) {
+            return canEditArticleComment(articleComment);
+        }
+
+        /**
+         * is enable article comment user input
+         * @param articleComment
+         */
+        function isEnableArticleCommentUserInput(articleComment) {
+            // new comment
+            if(!articleComment.commentId) {
+                if(_isAuthenticated) {
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            // edit comment
+            else {
+                // authenticated writer
+                if(articleComment.userId) {
+                    return false;
+                }
+                // anonymous writer
+                else{
+                    return true;
+                }
+            }
+        }
+
+        /**
+         * add article comment
          * @param parentCommentId parent comment id
          */
-        function createArticleComment(parentCommentId) {
+        function addArticleComment(parentCommentId) {
             duice.ObjectProxy.clear(articleComment);
             articleComment.parentCommentId = parentCommentId;
             let commentForm = document.getElementById('article-comment-form');
@@ -94,29 +166,53 @@
          * save article comment
          */
         function saveArticleComment(){
-            let commentId = articleComment.commentId;
-            let url;
-            let method;
-            if(commentId) {
-                url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
-                method = 'PUT';
-            }else{
-                url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
-                method = 'POST';
-            }
-            _fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(articleComment)
-            }).then(response => {
-                if(response.ok) {
-                    cancelArticleComment();
-                    getArticleComments();
-                    article.commentCount ++;
+
+            // check password
+            if(isEnableArticleCommentUserInput(articleComment)) {
+                if(_isEmpty(articleComment.password)) {
+                    _alert('enter password');
+                    return false;
                 }
-            })
+                if(!_isPasswordFormat(articleComment.password)) {
+                    _alert('not valid password format');
+                    return false;
+                }
+                if(articleComment.password !== articleComment.passwordConfirm) {
+                    _alert('password not match');
+                    return false;
+                }
+            }
+
+            // confirm message
+            _confirm([[#{web.message.saveItemConfirm(#{core.articleComment})}]]).then(result => {
+                if(result) {
+                    let commentId = articleComment.commentId;
+                    let url;
+                    let method;
+                    if(commentId) {
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
+                        method = 'PUT';
+                    }else{
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
+                        method = 'POST';
+                    }
+                    _fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(articleComment)
+                    }).then(response => {
+                        if(response.ok) {
+                            cancelArticleComment();
+                            getArticleComments();
+                            if(!commentId) {
+                                article.commentCount ++;
+                            }
+                        }
+                    })
+                }
+            });
         }
 
         /**
@@ -129,7 +225,7 @@
                 return false;
             }
 
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.articleComment})}]]').then(result => {
+            _confirm([[#{web.message.deleteItemConfirm(#{core.articleComment})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
                     _fetch(url, {
@@ -162,15 +258,8 @@
          * goto article edit
          */
         async function gotoEditArticle() {
-            let url = new URL(`[[@{/}]]board/${boardId}/article-post`, document.location.origin);
+            let url = new URL(`${_rootUrl}/board/${boardId}/article-post`, document.location.origin);
             url.searchParams.append('articleId', articleId);
-            if(!article.userId) {
-                let password = await _prompt('enter password');
-                if(!password) {
-                    return false;
-                }
-                url.searchParams.append('password',password);
-            }
             document.location.href = url.toString();
         }
 
@@ -178,7 +267,7 @@
          * goto article list
          */
         function gotoListArticle() {
-            document.location.href = `[[@{/}]]board/${boardId}`;
+            document.location.href = `${_rootUrl}/board/${boardId}`;
         }
 
         // onload

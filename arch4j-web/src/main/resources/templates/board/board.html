@@ -4,8 +4,8 @@
       layout:decorate="_web.html">
 
 <main layout:fragment="_main">
-    <script>
-        const boardId = '[[${board.boardId}]]';
+    <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
         const articleSearch = new duice.ObjectProxy({
             key: null,
             value: null,
@@ -44,14 +44,14 @@
          * @param articleId
          */
         function gotoRead(articleId) {
-            document.location.href = `[[@{/}]]board/${boardId}/article-read?articleId=${articleId}`;
+            document.location.href = `${_rootUrl}/board/${boardId}/article-read?articleId=${articleId}`;
         }
 
         /**
          * goto article post
          */
         function gotoPost() {
-            document.location.href = `[[@{/}]]board/${boardId}/article-post`;
+            document.location.href = `${_rootUrl}/board/${boardId}/article-post`;
         }
 
         // on load

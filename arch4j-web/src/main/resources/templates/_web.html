@@ -17,9 +17,11 @@
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/duice-plugin/duice-plugin.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
-    <script>
-        const _apiUrl = '[[@{/api}]]';
-        const _authenticated = [[${#authorization.expression('isAuthenticated()')}]];
+    <script th:inline="javascript">
+        const _rootUrl = [[@{/}]].replace('/','');
+        const _apiUrl = [[@{/api}]];
+        const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
+        const _user = [[${_user}]];
     </script>
 </head>
 

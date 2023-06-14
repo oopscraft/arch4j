@@ -19,10 +19,11 @@ const _confirm = function(message) {
 /**
  * prompt
  * @param message
+ * @param type
  * @returns {*}
  */
-const _prompt = function(message) {
-    return duice.prompt(message);
+const _prompt = function(message, type) {
+    return duice.prompt(message, type);
 }
 
 /**

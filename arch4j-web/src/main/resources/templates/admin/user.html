@@ -118,7 +118,7 @@
 
             // check blank
             if (!userId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.user.userId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.userId})}]]');
                 duice.ObjectProxy.focus(user, 'userId');
                 return false;
             }
@@ -130,7 +130,7 @@
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.user.userId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.user.userId})}]]');
                     return false;
                 }
             }
@@ -153,7 +153,7 @@
 
             // checks name
             if (!user.name || user.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.user.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.name})}]]');
                 duice.ObjectProxy.focus(user, 'name');
                 return false;
             }
@@ -161,24 +161,24 @@
             // checks password
             if (user._new) {
                 if (!user.password || user.password.trim().length < 1) {
-                    await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
                 if (!user.passwordConfirm || user.passwordConfirm.trim().length < 1) {
-                    await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
                     duice.ObjectProxy.focus(user, 'passwordConfirm');
                     return false;
                 }
                 if (user.password !== user.passwordConfirm) {
-                    await _alert('[[#{web.message.itemNotMatch(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemNotMatch(#{core.user.password})}]]');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.user})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.user})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/user/save-user}]]', document.location.origin);
                     _fetch(url, {
@@ -189,7 +189,7 @@
                         body: JSON.stringify(user)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.user})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.user})}]]').then(() => {
                                 getUsers();
                                 getUser(user.userId);
                             });
@@ -203,13 +203,13 @@
          * deleteUser
          */
         function deleteUser() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.user})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.user})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/user/delete-user}]]', document.location.origin);
                     url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.user})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.user})}]]').then(() => {
                                 getUsers();
                                 duice.ObjectProxy.clear(user);
                             });
@@ -328,7 +328,7 @@
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
-        <span data-th-text="#{web.title.user}"></span>
+        <span data-th-text="#{web.admin.user}"></span>
     </h1>
 
     <!-- tab -->
@@ -354,13 +354,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -373,7 +373,7 @@
                                 <option value="mobile" th:text="#{core.user.mobile}"></option>
                             </select>
                             <input type="text" data-duice-bind="userSearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <select data-duice-bind="userSearch" data-duice-property="type" class="col-1 col-s-12">
                                 <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
                                 <option th:each="userType:${userTypes}" th:value="${userType}"
@@ -386,11 +386,11 @@
                             </select>
                             <button onclick="getUsers();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetUsers();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -405,7 +405,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.user.userId}"></th>
                                 <th data-th-text="#{core.user.name}"></th>
                                 <th data-th-text="#{core.user.type}"></th>
@@ -451,10 +451,10 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="userSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -466,7 +466,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -574,7 +574,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                         <th data-th-text="#{core.role.roleId}"></th>
                                         <th data-th-text="#{core.role.name}"></th>
                                         <th class="text-align-center">
@@ -613,19 +613,19 @@
                         <div class="col-12 justify-right">
                             <button onclick="changeUserPassword();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
-                                <span data-th-text="#{web.text.changePassword}"></span>
+                                <span data-th-text="#{web.admin.user.changePassword}"></span>
                             </button>
                             <button onclick="generateUserAccessToken();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}"/>
-                                <span data-th-text="#{web.text.authorizationToken}"></span>
+                                <span data-th-text="#{web.admin.user.authorizationToken}"></span>
                             </button>
                             <button onclick="deleteUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>
@@ -760,11 +760,11 @@
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
                 <button onclick="roleSelect.getRoles();" class="col-1">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                    <span data-th-text="#{web.text.search}">Search</span>
+                    <span data-th-text="#{web.global.search}">Search</span>
                 </button>
                 <button onclick="roleSelect.resetRoles();" class="col-1">
                     <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                    <span data-th-text="#{web.text.reset}">Reset</span>
+                    <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
             </form>
         </div>
@@ -778,7 +778,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
@@ -820,9 +820,9 @@
                 </duice-pagination>
             </div>
             <div class="col-4 justify-right">
-                <span data-th-text="#{web.text.total}"></span>
+                <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                <span data-th-text="#{web.text.rows}"></span>
+                <span data-th-text="#{web.global.rows}"></span>
             </div>
         </div>
         <div class="border-1 overflow-x-scroll">
@@ -835,7 +835,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.roleId}"></th>
                     <th data-th-text="#{core.role.name}"></th>
                     <th class="text-align-center">-</th>
@@ -865,7 +865,7 @@
             <div class="col-12 justify-right">
                 <button onclick="roleSelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                    <span data-th-text="#{web.text.confirm}"></span>
+                    <span data-th-text="#{web.global.confirm}"></span>
                 </button>
             </div>
         </div>
@@ -903,23 +903,23 @@
 
                     // checks password
                     if (_isEmpty(this.data.password)) {
-                        await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
                     if (_isEmpty(this.data.passwordConfirm)) {
-                        await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'passwordConfirm');
                         return false;
                     }
                     if (this.data.password !== this.data.passwordConfirm) {
-                        await _alert('[[#{web.message.itemNotMatch(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemNotMatch(#{core.user.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
 
                     // call save
-                    _confirm('[[#{web.message.saveItemConfirm(#{core.user.password})}]]').then(result => {
+                    _confirm('[[#{web.global.saveItemConfirm(#{core.user.password})}]]').then(result => {
                         if (result) {
                             let url = new URL('[[@{/admin/user/change-password}]]', document.location.origin);
                             _fetch(url, {
@@ -930,7 +930,7 @@
                                 body: JSON.stringify(this.data)
                             }).then(response => {
                                 if (response.ok) {
-                                    _alert('[[#{web.message.saveItemComplete(#{core.user.password})}]]').then(() => {
+                                    _alert('[[#{web.global.saveItemComplete(#{core.user.password})}]]').then(() => {
                                         this.dialog.resolve(true);
                                     });
                                 }
@@ -942,7 +942,7 @@
         </script>
         <h2>
             <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
-            <span data-th-text="#{web.text.changePassword}"></span>
+            <span data-th-text="#{web.admin.user.changePassword}"></span>
         </h2>
         <div class="container gap-1px padding-1px">
             <div class="col-4">
@@ -962,7 +962,7 @@
             <div class="col-12 justify-right">
                 <button onclick="passwordChange.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                    <span data-th-text="#{web.text.confirm}"></span>
+                    <span data-th-text="#{web.global.confirm}"></span>
                 </button>
             </div>
         </div>
@@ -981,14 +981,14 @@
                                 <option value="ipAddress" th:text="#{core.loginHistory.ipAddress}"></option>
                             </select>
                             <input type="text" data-duice-bind="loginHistorySearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getLoginHistories();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetLoginHistories();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -1003,7 +1003,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.loginHistory.userId}"></th>
                                 <th data-th-text="#{core.loginHistory.loginDateTime}"></th>
                                 <th data-th-text="#{core.loginHistory.ipAddress}"></th>
@@ -1036,9 +1036,9 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="loginHistorySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>

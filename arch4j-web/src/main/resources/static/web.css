@@ -80,6 +80,10 @@ h6 {
     font-size: 1.0rem;
 }
 
+small {
+    font-size: smaller;
+}
+
 a {
     text-decoration: none;
 }
@@ -630,6 +634,11 @@ hr {
 /* display */
 .display-none {
     display: none;
+}
+@media screen and (max-width: 1023px) {
+    .display-s-none {
+        display: none;
+    }
 }
 
 /* width */

@@ -25,6 +25,8 @@ public class ArticleCommentResponse {
 
     private String userName;
 
+    private String userIcon;
+
     @Builder.Default
     private Long likeCount = 0L;
 

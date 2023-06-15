@@ -27,6 +27,8 @@ public class ArticleComment {
 
     private String userName;
 
+    private String userIcon;
+
     private String password;
 
     private Long likeCount;
@@ -42,6 +44,9 @@ public class ArticleComment {
                 .userName(Optional.ofNullable(articleCommentEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(articleCommentEntity.getUserName()))
+                .userIcon(Optional.ofNullable(articleCommentEntity.getUser())
+                        .map(UserEntity::getPhoto)
+                        .orElse(null))
                 .password(articleCommentEntity.getPassword())
                 .likeCount(articleCommentEntity.getLikeCount())
                 .build();

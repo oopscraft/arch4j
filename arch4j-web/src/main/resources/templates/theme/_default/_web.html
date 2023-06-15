@@ -181,7 +181,7 @@
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_login();" class="link">
                     <img th:src="@{/static/theme/{_theme}/image/icon-login.svg(_theme=${_theme})}" class="icon"/>
-                    <span data-th-text="#{web.nav.login}"></span>
+                    <span data-th-text="#{web.global.login}"></span>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()">
@@ -193,7 +193,7 @@
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_logout();" class="link">
                     <img th:src="@{/static/theme/{_theme}/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
-                    <span data-th-text="#{web.nav.logout}"></span>
+                    <span data-th-text="#{web.global.logout}"></span>
                 </span>
             </li>
             <li>

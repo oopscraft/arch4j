@@ -33,6 +33,8 @@ public class Article {
 
     private String userName;
 
+    private String userIcon;
+
     private String password;
 
     @Builder.Default
@@ -62,6 +64,9 @@ public class Article {
                 .userName(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(articleEntity.getUserName()))
+                .userIcon(Optional.ofNullable(articleEntity.getUser())
+                        .map(UserEntity::getPhoto)
+                        .orElse(null))
                 .password(articleEntity.getPassword())
                 .build();
     }

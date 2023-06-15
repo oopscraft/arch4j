@@ -271,7 +271,7 @@
     </style>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-monitor.svg}"/>
-        <span data-th-text="#{web.title.monitor}"></span>
+        <span data-th-text="#{web.admin.monitor}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
@@ -279,7 +279,7 @@
                 <div class="col-12" style="display:flex; flex-direction:column; height:100%;">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-info.svg}"/>
-                        <span data-th-text="#{web.text.info}"></span>
+                        <span data-th-text="#{web.admin.monitor.info}"></span>
                     </h2>
                     <textarea id="info" style="flex:1;" readonly="readonly"></textarea>
                 </div>
@@ -290,7 +290,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-cpu.svg}"/>
-                        <span data-th-text="#{web.text.cpu}"></span>
+                        <span data-th-text="#{web.admin.monitor.cpu}"></span>
                     </h2>
                     <canvas id="cpuChart"></canvas>
                 </div>
@@ -301,7 +301,7 @@
                 <div class="col-12">
                     <h1>
                         <img class="icon" th:src="@{/static/image/icon-memory.svg}"/>
-                        <span data-th-text="#{web.text.memory}"></span>
+                        <span data-th-text="#{web.admin.monitor.memory}"></span>
                     </h1>
                     <canvas id="memoryChart"></canvas>
                 </div>
@@ -312,7 +312,7 @@
                 <div class="col-12">
                     <h1>
                         <img class="icon" th:src="@{/static/image/icon-disk.svg}"/>
-                        <span data-th-text="#{web.text.disk}"></span>
+                        <span data-th-text="#{web.admin.monitor.disk}"></span>
                     </h1>
                     <canvas id="diskChart"></canvas>
                 </div>

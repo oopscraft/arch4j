@@ -99,7 +99,7 @@
 
             // check blank
             if (!variableId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.variable.variableId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.variable.variableId})}]]');
                 duice.ObjectProxy.focus(variable, 'variableId');
                 return false;
             }
@@ -111,7 +111,7 @@
             if (response.ok) {
                 let variable = await response.json();
                 if (variable) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.variable.variableId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.variable.variableId})}]]');
                     return false;
                 }
             }
@@ -134,13 +134,13 @@
 
             // checks name
             if (!variable.name || variable.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.variable.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.variable.name})}]]');
                 duice.ObjectProxy.focus(variable, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.variable})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.variable})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/variable/save-variable}]]', document.location.origin);
                     _fetch(url, {
@@ -151,7 +151,7 @@
                         body: JSON.stringify(variable)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.variable})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.variable})}]]').then(() => {
                                 getVariables();
                                 getVariable(variable.variableId);
                             });
@@ -165,13 +165,13 @@
          * deleteVariable
          */
         function deleteVariable() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.variable})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.variable})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/variable/delete-variable}]]', document.location.origin);
                     url.searchParams.append('variableId', variable.variableId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.variable})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.variable})}]]').then(() => {
                                 getVariables();
                                 duice.ObjectProxy.clear(variable);
                             });
@@ -188,7 +188,7 @@
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-variable.svg}"/>
-        <span data-th-text="#{web.title.variable}"></span>
+        <span data-th-text="#{web.admin.variable}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
@@ -199,13 +199,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createVariable();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -217,14 +217,14 @@
                                 <option value="name" th:text="#{core.variable.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="variableSearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getVariables();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetVariables();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -237,7 +237,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.variable.variableId}"></th>
                                 <th data-th-text="#{core.variable.name}"></th>
                             </tr>
@@ -269,10 +269,10 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="variableSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -284,7 +284,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -313,11 +313,11 @@
                         <div class="col-12 justify-right">
                             <button onclick="deleteVariable();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveVariable();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>

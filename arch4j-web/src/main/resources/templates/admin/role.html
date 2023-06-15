@@ -102,7 +102,7 @@
 
             // check blank
             if (!roleId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.role.roleId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.roleId})}]]');
                 duice.ObjectProxy.focus(authority, 'roleId');
                 return false;
             }
@@ -114,7 +114,7 @@
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.role.roleId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.roleId})}]]');
                     return false;
                 }
             }
@@ -137,13 +137,13 @@
 
             // checks name
             if (!role.name || role.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.role.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.name})}]]');
                 duice.ObjectProxy.focus(role, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.role})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.role})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/save-role}]]', document.location.origin);
                     _fetch(url, {
@@ -154,7 +154,7 @@
                         body: JSON.stringify(role)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.role})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.role})}]]').then(() => {
                                 getRoles();
                                 getRole(role.roleId);
                             });
@@ -168,13 +168,13 @@
          * deleteRole
          */
         function deleteRole() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.role})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.role})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/delete-role}]]', document.location.origin);
                     url.searchParams.append('roleId', role.roleId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.role})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.role})}]]').then(() => {
                                 getRoles();
                                 duice.ObjectProxy.clear(role);
                             });
@@ -300,7 +300,7 @@
 
             // check blank
             if (!authorityId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.authority.authorityId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.authority.authorityId})}]]');
                 duice.ObjectProxy.focus(authority, 'authorityId');
                 return false;
             }
@@ -312,7 +312,7 @@
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.authority.authorityId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.authority.authorityId})}]]');
                     return false;
                 }
             }
@@ -335,13 +335,13 @@
 
             // checks name
             if (!authority.name || authority.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.authority.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.authority.name})}]]');
                 duice.ObjectProxy.focus(authority, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.authority})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.authority})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/save-authority}]]', document.location.origin);
                     _fetch(url, {
@@ -352,7 +352,7 @@
                         body: JSON.stringify(authority)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.authority})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.authority})}]]').then(() => {
                                 getAuthorities();
                                 getAuthority(authority.authorityId);
                             });
@@ -366,13 +366,13 @@
          * deleteAuthority
          */
         function deleteAuthority() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.authority})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.authority})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/delete-authority}]]', document.location.origin);
                     url.searchParams.append('authorityId', authority.authorityId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.authority})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.authority})}]]').then(() => {
                                 getAuthorities();
                                 duice.ObjectProxy.clear(authority);
                             });
@@ -398,7 +398,7 @@
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-        <span data-th-text="#{web.title.role}"></span>
+        <span data-th-text="#{web.admin.role}"></span>
     </h1>
 
     <!-- tab -->
@@ -424,13 +424,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -441,14 +441,14 @@
                                 <option value="name" th:text="#{core.role.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="roleSearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getRoles();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetRoles();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -461,7 +461,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.role.roleId}"></th>
                                 <th data-th-text="#{core.role.name}"></th>
                             </tr>
@@ -492,9 +492,9 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -506,7 +506,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -544,7 +544,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                         <th data-th-text="#{core.authority.authorityId}"></th>
                                         <th data-th-text="#{core.authority.name}"></th>
                                         <th class="text-align-center">
@@ -584,11 +584,11 @@
                         <div class="col-12 justify-right">
                             <button onclick="deleteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>
@@ -722,11 +722,11 @@
                 <input type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value" class="col-2"/>
                 <button onclick="authoritySelect.getAuthorities();" class="col-1">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                    <span data-th-text="#{web.text.search}">Search</span>
+                    <span data-th-text="#{web.global.search}">Search</span>
                 </button>
                 <button onclick="authoritySelect.resetAuthorities();" class="col-1">
                     <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                    <span data-th-text="#{web.text.reset}">Reset</span>
+                    <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
             </form>
         </div>
@@ -740,7 +740,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.authority.authorityId}"></th>
                     <th data-th-text="#{core.authority.name}"></th>
                     <th class="text-align-center">-</th>
@@ -782,9 +782,9 @@
                 </duice-pagination>
             </div>
             <div class="col-4 justify-right">
-                <span data-th-text="#{web.text.total}"></span>
+                <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                <span data-th-text="#{web.text.rows}"></span>
+                <span data-th-text="#{web.global.rows}"></span>
             </div>
         </div>
         <div class="border-1 overflow-x-scroll">
@@ -797,7 +797,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.authority.authorityId}"></th>
                     <th data-th-text="#{core.authority.name}"></th>
                     <th class="text-align-center">-</th>
@@ -827,7 +827,7 @@
             <div class="col-12 justify-right">
                 <button onclick="authoritySelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                    <span data-th-text="#{web.text.confirm}"></span>
+                    <span data-th-text="#{web.global.confirm}"></span>
                 </button>
             </div>
         </div>
@@ -843,13 +843,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -860,14 +860,14 @@
                                 <option value="name" th:text="#{core.authority.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getAuthorities();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetAuthorities();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -880,7 +880,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.role.roleId}"></th>
                                 <th data-th-text="#{core.role.name}"></th>
                             </tr>
@@ -911,9 +911,9 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -925,7 +925,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -954,11 +954,11 @@
                         <div class="col-12 justify-right">
                             <button onclick="deleteAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>

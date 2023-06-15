@@ -52,12 +52,12 @@
          */
         async function processLogin() {
             if(_isEmpty(login.username)){
-                await _alert('[[#{web.message.itemEmpty(#{core.user.id})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.id})}]]');
                 duice.ObjectProxy.focus(login, 'username');
                 return false;
             }
             if(_isEmpty(login.password)){
-                await _alert('[[#{web.message.itemEmpty(#{core.user.password})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
                 duice.ObjectProxy.focus(login, 'password');
                 return false;
             }
@@ -99,7 +99,7 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <button onclick="processLogin();" class="col-12">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
-                    <span data-th-text="#{web.text.login}"></span>
+                    <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
             <div class="col-12 justify-center">

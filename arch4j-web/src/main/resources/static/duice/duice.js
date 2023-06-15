@@ -1296,7 +1296,7 @@ var duice;
          * @param value
          */
         setValue(value) {
-            if (value) {
+            if (value !== undefined && value !== null) {
                 value = this.getFormat() ? this.getFormat().format(value) : value;
                 this.htmlElement.innerText = value;
             }

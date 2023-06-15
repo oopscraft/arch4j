@@ -99,7 +99,7 @@
 
             // check blank
             if (!messageId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.message.messageId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.message.messageId})}]]');
                 duice.ObjectProxy.focus(message, 'messageId');
                 return false;
             }
@@ -111,7 +111,7 @@
             if (response.ok) {
                 let message = await response.json();
                 if (message) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.message.messageId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.message.messageId})}]]');
                     return false;
                 }
             }
@@ -134,13 +134,13 @@
 
             // checks name
             if (!message.name || message.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.message.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.message.name})}]]');
                 duice.ObjectProxy.focus(message, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.message})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.message})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/message/save-message}]]', document.location.origin);
                     _fetch(url, {
@@ -151,7 +151,7 @@
                         body: JSON.stringify(message)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.message})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.message})}]]').then(() => {
                                 getMessages();
                                 getMessage(message.messageId);
                             });
@@ -165,13 +165,13 @@
          * deleteMessage
          */
         function deleteMessage() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.message})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.message})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/message/delete-message}]]', document.location.origin);
                     url.searchParams.append('messageId', message.messageId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.message})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.message})}]]').then(() => {
                                 getMessages();
                                 duice.ObjectProxy.clear(message);
                             });
@@ -188,7 +188,7 @@
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-message.svg}"/>
-        <span data-th-text="#{web.title.message}"></span>
+        <span data-th-text="#{web.admin.message}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
@@ -199,13 +199,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -216,14 +216,14 @@
                                 <option value="name" th:text="#{core.message.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getMessages();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetMessages();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -236,7 +236,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.message.messageId}"></th>
                                 <th data-th-text="#{core.message.name}"></th>
                             </tr>
@@ -268,10 +268,10 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="messageSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -312,11 +312,11 @@
                         <div class="col-12 justify-right">
                             <button onclick="deleteMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>

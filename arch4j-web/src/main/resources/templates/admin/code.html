@@ -101,7 +101,7 @@
 
             // check blank
             if (!codeId) {
-                await _alert('[[#{web.message.itemEmpty(#{core.code.codeId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.code.codeId})}]]');
                 duice.ObjectProxy.focus(code, 'codeId');
                 return false;
             }
@@ -113,7 +113,7 @@
             if (response.ok) {
                 let code = await response.json();
                 if (code) {
-                    await _alert('[[#{web.message.itemAlreadyExist(#{core.code.codeId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.code.codeId})}]]');
                     return false;
                 }
             }
@@ -136,13 +136,13 @@
 
             // checks name
             if (!code.name || code.name.trim().length < 1) {
-                await _alert('[[#{web.message.itemEmpty(#{core.code.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.code.name})}]]');
                 duice.ObjectProxy.focus(code, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.message.saveItemConfirm(#{core.code})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.code})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/code/save-code}]]', document.location.origin);
                     _fetch(url, {
@@ -153,7 +153,7 @@
                         body: JSON.stringify(code)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.saveItemComplete(#{core.code})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.code})}]]').then(() => {
                                 getCodes();
                                 getCode(code.codeId);
                             });
@@ -167,13 +167,13 @@
          * deleteCode
          */
         function deleteCode() {
-            _confirm('[[#{web.message.deleteItemConfirm(#{core.code})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.code})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/code/delete-code}]]', document.location.origin);
                     url.searchParams.append('codeId', code.codeId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.message.deleteItemComplete(#{core.code})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.code})}]]').then(() => {
                                 getCodes();
                                 duice.ObjectProxy.clear(code);
                             });
@@ -205,7 +205,7 @@
     </script>
     <h1>
         <img class="icon" th:src="@{/static/image/icon-code.svg}"/>
-        <span data-th-text="#{web.title.code}"></span>
+        <span data-th-text="#{web.admin.code}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
         <div class="col-6 col-s-12">
@@ -216,13 +216,13 @@
                         <div class="col-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.text.list}"></span>
+                                <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
                         <div class="col-4 justify-right">
                             <button onclick="createCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.text.create}"></span>
+                                <span data-th-text="#{web.global.create}"></span>
                             </button>
                         </div>
                     </div>
@@ -234,14 +234,14 @@
                                 <option value="name" th:text="#{core.code.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
-                                   th:placeholder="#{web.text.keyword}" class="col-2 col-s-8"/>
+                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <button onclick="getCodes();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.text.search}">Search</span>
+                                <span data-th-text="#{web.global.search}">Search</span>
                             </button>
                             <button onclick="resetCodes();" class="col-1 col-s-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.text.reset}">Reset</span>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </form>
                     </div>
@@ -254,7 +254,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                 <th data-th-text="#{core.code.codeId}"></th>
                                 <th data-th-text="#{core.code.name}"></th>
                             </tr>
@@ -286,10 +286,10 @@
                             </duice-pagination>
                         </div>
                         <div class="col-4 justify-right">
-                            <span data-th-text="#{web.text.total}"></span>
+                            <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="codeSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.text.rows}"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
                         </div>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
                 <div class="col-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.text.detail}"></span>
+                        <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
@@ -340,7 +340,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th data-th-text="#{web.text.no}" class="text-align-center"></th>
+                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                         <th data-th-text="#{core.codeItem.itemId}"></th>
                                         <th data-th-text="#{core.codeItem.name}"></th>
                                         <th data-th-text="#{core.codeItem.value}"></th>
@@ -386,11 +386,11 @@
                         <div class="col-12 justify-right">
                             <button onclick="deleteCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.text.delete}"></span>
+                                <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button onclick="saveCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.text.save}"></span>
+                                <span data-th-text="#{web.global.save}"></span>
                             </button>
                         </div>
                     </div>

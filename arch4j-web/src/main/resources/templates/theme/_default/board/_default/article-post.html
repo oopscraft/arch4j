@@ -58,7 +58,7 @@
 <!-- ================================================== -->
 <!-- start: file                                        -->
 <!-- ================================================== -->
-<div class="content">
+<div class="content margin-top-1em">
     <div class="col-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.article.files}"></span>
@@ -76,13 +76,13 @@
             </span>
             <span data-duice-bind="file" data-duice-script="this.dataset.index=status.index;"
                   onclick="removeArticleFile(this.dataset.index);" class="link">
-                [<span data-th-text="#{web.text.remove}"></span>]
+                [<span data-th-text="#{web.global.remove}"></span>]
             </span>
         </div>
     </div>
     <div class="col-12">
         <span onclick="addArticleFile();" class="link">
-            [<span data-th-text="#{web.text.add}"></span>]
+            [<span data-th-text="#{web.global.add}"></span>]
         </span>
     </div>
 </div>
@@ -97,15 +97,15 @@
     <div class="col-12 justify-center">
         <button onclick="gotoCancel();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.cancel}"></span>
+            <span data-th-text="#{web.global.cancel}"></span>
         </button>
         <button onclick="deleteArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.delete}"></span>
+            <span data-th-text="#{web.board.deleteArticle}"></span>
         </button>
         <button onclick="saveArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.save}"></span>
+            <span data-th-text="#{web.board.saveArticle}"></span>
         </button>
     </div>
 </div>

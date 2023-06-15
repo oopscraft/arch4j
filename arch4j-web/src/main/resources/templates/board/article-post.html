@@ -63,10 +63,24 @@
          * @returns {boolean}
          */
         function isAnonymousArticle() {
-            if(!article.userId) {
-                return true;
-            }else{
-                return false;
+            // new article
+            if(!article.articleId) {
+                if(_isAuthenticated) {
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+            // edit article
+            else {
+                // authenticated writer
+                if(article.articleId) {
+                    return false;
+                }
+                // anonymous writer
+                else{
+                    return true;
+                }
             }
         }
 
@@ -102,7 +116,7 @@
             }
 
             // confirm message
-            _confirm([[#{web.message.saveItemConfirm(#{core.article})}]]).then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.article})}]]).then(result => {
                 if(result) {
                     let url;
                     let method;
@@ -126,7 +140,7 @@
                         body: formData
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.message.saveItemComplete(#{core.article})}]]).then(()=>{
+                            _alert([[#{web.global.saveItemComplete(#{core.article})}]]).then(()=>{
                                 if(articlePassword) {
                                     history.go(-2);
                                 }else{
@@ -153,7 +167,7 @@
             }
 
             // fire confirm message and save
-            _confirm([[#{web.message.deleteItemConfirm(#{core.article})}]]).then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.article})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}`;
                     _fetch(url, {
@@ -164,7 +178,7 @@
                         body: JSON.stringify(article)
                     }).then(response=> {
                         if(response.ok) {
-                            _alert([[#{web.message.deleteItemComplete(#{core.article})}]]).then(()=>{
+                            _alert([[#{web.global.deleteItemComplete(#{core.article})}]]).then(()=>{
                                 gotoBoard();
                             });
                         }

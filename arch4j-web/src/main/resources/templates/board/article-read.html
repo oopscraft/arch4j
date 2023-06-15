@@ -199,7 +199,7 @@
             }
 
             // confirm message
-            _confirm([[#{web.message.saveItemConfirm(#{core.articleComment})}]]).then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.articleComment})}]]).then(result => {
                 if(result) {
                     let commentId = articleComment.commentId;
                     let url;
@@ -219,7 +219,7 @@
                         body: JSON.stringify(articleComment)
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.message.saveItemComplete(#{core.articleComment})}]]).then(()=> {
+                            _alert([[#{web.global.saveItemComplete(#{core.articleComment})}]]).then(()=> {
                                 cancelArticleComment();
                                 getArticleComments();
                                 if(!commentId) {
@@ -246,7 +246,7 @@
             }
 
             // fire confirm message and save
-            _confirm([[#{web.message.deleteItemConfirm(#{core.articleComment})}]]).then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.articleComment})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
                     _fetch(url, {
@@ -257,7 +257,7 @@
                         body: JSON.stringify(articleComment)
                     }).then(response=> {
                         if(response.ok) {
-                            _alert([[#{web.message.deleteItemComplete(#{core.articleComment})}]]).then(()=>{
+                            _alert([[#{web.global.deleteItemComplete(#{core.articleComment})}]]).then(()=>{
                                 cancelArticleComment();
                                 getArticleComments();
                                 article.commentCount --;

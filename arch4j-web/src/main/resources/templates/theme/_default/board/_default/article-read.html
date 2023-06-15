@@ -9,20 +9,19 @@
         </h1>
     </div>
 </div>
+<hr/>
 <!-- ================================================== -->
 <!-- end: board title                                   -->
 <!-- ================================================== -->
 
-<hr/>
-
 <!-- ================================================== -->
 <!-- start: article title                               -->
 <!-- ================================================== -->
-<div class="container padding-x-1em">
-    <h2 class="col-12">
+<div class="container margin-top-1em">
+    <h1 class="col-12">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
         <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold"></span>
-    </h2>
+    </h1>
     <div class="col-12">
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
@@ -49,7 +48,7 @@
 <!-- ================================================== -->
 <!-- start: article content -->
 <!-- ================================================== -->
-<div class="container">
+<div class="container margin-top-1em">
     <div class="col-12">
         <duice-marked data-duice-bind="article" data-duice-property="content"/>
 <!--        <div data-duice-bind="article" data-duice-property="content" style="min-height:50vh;"></div>-->
@@ -62,7 +61,7 @@
 <!-- ================================================== -->
 <!-- start: article file                                -->
 <!-- ================================================== -->
-<div class="content padding-x-1em">
+<div class="container margin-top-1em">
     <div class="col-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.article.files}"></span>
@@ -92,11 +91,15 @@
     <div class="col-12 justify-center">
         <button onclick="gotoListArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-list.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.list}"></span>
+            <span data-th-text="#{web.board.listArticle}"></span>
         </button>
         <button onclick="gotoEditArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-edit.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.text.edit}"></span>
+            <span data-th-text="#{web.board.editArticle}"></span>
+        </button>
+        <button onclick="gotoListArticle();">
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+            <span data-th-text="#{web.board.likeArticle}"></span>
         </button>
     </div>
 </div>
@@ -114,7 +117,9 @@
         <h2>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-th-text="#{core.articleComment}"></span>
-            (<span data-duice-bind="article" data-duice-property="commentCount"></span>)
+            <small>
+                (<span data-duice-bind="article" data-duice-property="commentCount"></span>)
+            </small>
         </h2>
     </div>
 </div>
@@ -140,7 +145,10 @@
                      data-duice-bind="articleComment"
                      data-duice-script="this.hidden=!isChildArticleComment(articleComment);"/>
                 <span>
-                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
+                    <img class="icon"
+                         th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                         data-duice-bind="articleComment"
+                         data-duice-property="userPhoto"/>
                     <span data-duice-bind="articleComment" data-duice-property="userName"></span>
                 </span>
                 <span>
@@ -156,7 +164,7 @@
                       data-duice-if="return canEditArticleComment(articleComment);"
                       data-duice-script="this.dataset.commentId=articleComment.commentId;"
                       onclick="editArticleComment(this.dataset.commentId);">
-                    [<span data-th-text="#{web.text.edit}"></span>]
+                    [<span data-th-text="#{web.board.editComment}"></span>]
                 </span>
             </div>
             <div class="col-12">
@@ -167,7 +175,13 @@
                       data-duice-bind="articleComment"
                       data-duice-script="this.dataset.commentId=articleComment.commentId;"
                       onclick="addArticleComment(this.dataset.commentId);">
-                    [<span data-th-text="#{core.articleComment}"></span>]
+                    [<span data-th-text="#{web.board.replyComment}"></span>]
+                </span>
+                <span class="link"
+                      data-duice-bind="articleComment"
+                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      onclick="likeArticleComment(this.dataset.commentId);">
+                    [<span data-th-text="#{web.board.likeComment}"></span>]
                 </span>
             </div>
         </div>
@@ -202,18 +216,18 @@
         <div class="col-12 justify-center padding-1em">
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
-                <span data-th-text="#{web.text.cancel}"></span>
+                <span data-th-text="#{web.global.cancel}"></span>
             </button>
             <button data-duice-bind="articleComment"
                     data-duice-if="return canDeleteArticleComment(articleComment);"
                     data-duice-script="this.dataset.commentId=articleComment.commentId;"
                     onclick="deleteArticleComment(this.dataset.commentId);">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
-                <span data-th-text="#{web.text.delete}"></span>
+                <span data-th-text="#{web.global.delete}"></span>
             </button>
             <button onclick="saveArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
-                <span data-th-text="#{web.text.save}"></span>
+                <span data-th-text="#{web.board.saveComment}"></span>
             </button>
         </div>
     </div>

@@ -199,7 +199,7 @@
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_login();" class="link">
                     <img th:src="@{/static/image/icon-login.svg}" class="icon"/>
-                    <span data-th-text="#{web.nav.login}"></span>
+                    <span data-th-text="#{web.global.login}"></span>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()">
@@ -211,7 +211,7 @@
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_logout();" class="link">
                     <img th:src="@{/static/image/icon-logout.svg}" class="icon"/>
-                    <span data-th-text="#{web.nav.logout}"></span>
+                    <span data-th-text="#{web.global.logout}"></span>
                 </span>
             </li>
             <li>
@@ -230,39 +230,39 @@
         <ul id="_nav-menu">
             <li class="link" th:onclick="|_openLink('@{/admin/monitor}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MONITOR'')')}?'locked'">
                 <img th:src="@{/static/image/icon-monitor.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.monitor}"></span>
+                <span data-th-text="#{web.admin.monitor}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER'')')}?'locked'">
                 <img th:src="@{/static/image/icon-user.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.user}"></span>
+                <span data-th-text="#{web.admin.user}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/role}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-role.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.role}"></span>
+                <span data-th-text="#{web.admin.role}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-message.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.message}"></span>
+                <span data-th-text="#{web.admin.message}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/menu}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU'')')}?'locked'">
                 <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.menu}"></span>
+                <span data-th-text="#{web.admin.menu}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
                 <img th:src="@{/static/image/icon-board.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.board}"></span>
+                <span data-th-text="#{web.admin.board}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/variable}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.variable}"></span>
+                <span data-th-text="#{web.admin.variable}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/code}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-code.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.code}"></span>
+                <span data-th-text="#{web.admin.code}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''SWAGGER-UI'')')}?'locked'">
                 <img th:src="@{/static/image/icon-api.svg}" class="icon"/>
-                <span data-th-text="#{web.nav.api}"></span>
+                <span data-th-text="#{web.admin.api}"></span>
             </li>
         </ul>
     </nav>

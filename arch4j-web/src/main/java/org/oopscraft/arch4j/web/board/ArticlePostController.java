@@ -59,7 +59,7 @@ public class ArticlePostController {
 
                 // password not found
                 if(password == null) {
-                    modelAndView.setViewName("board/article-post-check-password.html");
+                    modelAndView.setViewName("board/article-check-password.html");
                     return modelAndView;
                 }
 

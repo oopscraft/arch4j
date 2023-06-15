@@ -245,6 +245,11 @@ hr {
     margin: 1px;
 }
 
+/* hidden attribute */
+[hidden] {
+    display: none !important;
+}
+
 /* container */
 .container {
     display: grid;

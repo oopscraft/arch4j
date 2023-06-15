@@ -158,13 +158,6 @@
                       onclick="editArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.text.edit}"></span>]
                 </span>
-                <span class="link"
-                      data-duice-bind="articleComment"
-                      data-duice-if="return canDeleteArticleComment(articleComment);"
-                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
-                      onclick="deleteArticleComment(this.dataset.commentId);">
-                    [<span data-th-text="#{web.text.delete}"></span>]
-                </span>
             </div>
             <div class="col-12">
                 <duice-marked data-duice-bind="articleComment" data-duice-property="content"/>
@@ -197,7 +190,7 @@
                  data-duice-bind="articleComment"
                  data-duice-if="return isChildArticleComment(articleComment);"/>
             <span data-duice-bind="articleComment"
-                  data-duice-if="return isEnableArticleCommentUserInput(articleComment);">
+                  data-duice-if="return isAnonymousArticleComment(articleComment);">
                 <input type="text" data-duice-bind="articleComment" data-duice-property="userName" th:placeholder="#{core.articleComment.userName}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="password" th:placeholder="#{core.articleComment.password}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.articleComment.password}"/>
@@ -210,6 +203,13 @@
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.text.cancel}"></span>
+            </button>
+            <button data-duice-bind="articleComment"
+                    data-duice-if="return canDeleteArticleComment(articleComment);"
+                    data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                    onclick="deleteArticleComment(this.dataset.commentId);">
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
+                <span data-th-text="#{web.text.delete}"></span>
             </button>
             <button onclick="saveArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>

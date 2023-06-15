@@ -53,7 +53,7 @@
             <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </div>
     </div>
-    <div class="container padding-1em" data-duice-bind="articles" data-duice-script="if(articles.length > 0) this.style.display='none';" style="border-bottom:dotted 1px lightgray;">
+    <div class="container padding-1em" data-duice-bind="articles" data-duice-if="return articles.length===0" style="border-bottom:dotted 1px lightgray;" hidden>
         <div class="col-12 justify-center">
             Data Not Found
         </div>

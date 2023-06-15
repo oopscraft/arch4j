@@ -56,6 +56,10 @@
          * @returns {boolean}
          */
         function canEditArticleComment(articleComment) {
+            // target exists
+            if(!articleComment.commentId) {
+                return false;
+            }
             // anonymous writer
             if(!articleComment.userId) {
                 return true;
@@ -85,10 +89,10 @@
         }
 
         /**
-         * is enable article comment user input
+         * detect article comment is anonymous
          * @param articleComment
          */
-        function isEnableArticleCommentUserInput(articleComment) {
+        function isAnonymousArticleComment(articleComment) {
             // new comment
             if(!articleComment.commentId) {
                 if(_isAuthenticated) {
@@ -163,22 +167,33 @@
         }
 
         /**
+         * is valid article comment password
+         * @returns {boolean}
+         */
+        function isValidArticleArticleCommentPassword() {
+            if(_isEmpty(articleComment.password)) {
+                _alert('enter password');
+                return false;
+            }
+            if(!_isPasswordFormat(articleComment.password)) {
+                _alert('not valid password format');
+                return false;
+            }
+            if(articleComment.password !== articleComment.passwordConfirm) {
+                _alert('password not match');
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * save article comment
          */
         function saveArticleComment(){
 
-            // check password
-            if(isEnableArticleCommentUserInput(articleComment)) {
-                if(_isEmpty(articleComment.password)) {
-                    _alert('enter password');
-                    return false;
-                }
-                if(!_isPasswordFormat(articleComment.password)) {
-                    _alert('not valid password format');
-                    return false;
-                }
-                if(articleComment.password !== articleComment.passwordConfirm) {
-                    _alert('password not match');
+            // if anonymous article comment, check password
+            if(isAnonymousArticleComment(articleComment)) {
+                if(!isValidArticleArticleCommentPassword()) {
                     return false;
                 }
             }
@@ -204,13 +219,15 @@
                         body: JSON.stringify(articleComment)
                     }).then(response => {
                         if(response.ok) {
-                            cancelArticleComment();
-                            getArticleComments();
-                            if(!commentId) {
-                                article.commentCount ++;
-                            }
+                            _alert([[#{web.message.saveItemComplete(#{core.articleComment})}]]).then(()=> {
+                                cancelArticleComment();
+                                getArticleComments();
+                                if(!commentId) {
+                                    article.commentCount ++;
+                                }
+                            });
                         }
-                    })
+                    });
                 }
             });
         }
@@ -219,12 +236,16 @@
          * delete article comment
          * @param commentId
          */
-        async function deleteArticleComment(commentId) {
-            let password = await _prompt("enter password");
-            if(!password) {
-                return false;
+        function deleteArticleComment(commentId) {
+
+            // if anonymous article comment, check password
+            if(isAnonymousArticleComment(articleComment)) {
+                if(!isValidArticleArticleCommentPassword()) {
+                    return false;
+                }
             }
 
+            // fire confirm message and save
             _confirm([[#{web.message.deleteItemConfirm(#{core.articleComment})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
@@ -233,11 +254,14 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({password: password})
+                        body: JSON.stringify(articleComment)
                     }).then(response=> {
                         if(response.ok) {
-                            getArticleComments();
-                            article.commentCount --;
+                            _alert([[#{web.message.deleteItemComplete(#{core.articleComment})}]]).then(()=>{
+                                cancelArticleComment();
+                                getArticleComments();
+                                article.commentCount --;
+                            });
                         }
                     });
                 }

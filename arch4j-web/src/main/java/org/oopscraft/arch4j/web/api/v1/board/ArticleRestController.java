@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,6 +87,7 @@ public class ArticleRestController {
      */
     @PostMapping
     @Operation(summary = "create new article")
+    @Transactional
     public ResponseEntity<ArticleResponse> createArticle(
             @PathVariable("boardId") String boardId,
             @RequestPart("article") ArticleRequest articleRequest,
@@ -143,6 +145,7 @@ public class ArticleRestController {
      */
     @PutMapping("{articleId}")
     @Operation(summary = "edit article")
+    @Transactional
     public ResponseEntity<ArticleResponse> editArticle(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId,
@@ -168,6 +171,7 @@ public class ArticleRestController {
         // change articles
         article.setTitle(articleRequest.getTitle());
         article.setContent(articleRequest.getContent());
+        article.setUserName(articleRequest.getUserName());
         article.setPassword(articleRequest.getPassword());
         article.setFiles(articleRequest.getFiles().stream()
                 .map(articleFileRequest ->
@@ -206,6 +210,41 @@ public class ArticleRestController {
         }catch(Exception e){
             throw new RuntimeException(e);
         }
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * delete article
+     * @param boardId board id
+     * @param articleId article id
+     * @param articleRequest article request
+     * @return void
+     */
+    @DeleteMapping("{articleId}")
+    @Transactional
+    public ResponseEntity<Void> deleteArticle(
+        @PathVariable("boardId") String boardId,
+        @PathVariable("articleId") String articleId,
+        @RequestBody ArticleRequest articleRequest
+    ) {
+        // get target article
+        Article article = articleService.getArticle(articleId).orElseThrow();
+
+        // writer is anonymous user
+        if(article.getUserId() == null) {
+            if(!passwordEncoder.matches(articleRequest.getPassword(), article.getPassword())) {
+                throw new RuntimeException("password not match");
+            }
+        }
+        // writer is authenticated user
+        else {
+            if (!Objects.equals(article.getUserId(), SecurityUtils.getCurrentUserId())) {
+                throw new RuntimeException("not writer");
+            }
+        }
+
+        // delete article
+        articleService.deleteArticle(articleId);
         return ResponseEntity.ok().build();
     }
 

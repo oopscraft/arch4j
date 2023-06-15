@@ -304,6 +304,8 @@ var duice;
             this.rowHtmlElements.push(rowHtmlElement);
             // insert into slot
             this.slot.appendChild(rowHtmlElement);
+            // check if clause
+            duice.checkIf(rowHtmlElement, context);
             // execute script
             duice.executeScript(rowHtmlElement, context);
             // selectable
@@ -1294,15 +1296,25 @@ var duice;
          * @param value
          */
         setValue(value) {
-            value = this.getFormat() ? this.getFormat().format(value) : value;
-            this.htmlElement.innerText = value;
+            if (value) {
+                value = this.getFormat() ? this.getFormat().format(value) : value;
+                this.htmlElement.innerText = value;
+            }
+            else {
+                this.htmlElement.innerText = '';
+            }
         }
         /**
          * return value
          */
         getValue() {
             let value = this.htmlElement.innerText;
-            value = this.getFormat() ? this.getFormat().parse(value) : value;
+            if (value && value.trim().length > 0) {
+                value = this.getFormat() ? this.getFormat().parse(value) : value;
+            }
+            else {
+                value = null;
+            }
             return value;
         }
         /**
@@ -1857,10 +1869,10 @@ var duice;
         if (ifClause) {
             let result = execute(ifClause, htmlElement, context);
             if (!result) {
-                htmlElement.style.display = 'none';
+                htmlElement.hidden = true;
             }
             else {
-                htmlElement.style.display = 'unset';
+                htmlElement.hidden = false;
             }
         }
     }

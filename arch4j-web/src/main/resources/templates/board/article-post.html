@@ -3,10 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_web.html">
 <main layout:fragment="_main">
-    <script>
-        const boardId = '[[${board.boardId}]]';
-        const articleId = '[[${param.articleId}]]';
-        const articlePassword = '[[${articlePassword}]]';
+    <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
+        const articleId = [[${param.articleId}]];
+        const articlePassword = [[${articlePassword}]];
         const article = new duice.ObjectProxy({
             files:[]
         });
@@ -59,31 +59,50 @@
         }
 
         /**
+         * detect article is anonymous
+         * @returns {boolean}
+         */
+        function isAnonymousArticle() {
+            if(!article.userId) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        /**
+         * check valid article password
+         */
+        function isValidArticlePassword() {
+            if(_isEmpty(article.password)) {
+                _alert('enter password');
+                return false;
+            }
+            if(!_isPasswordFormat(article.password)) {
+                _alert('not valid password format');
+                return false;
+            }
+            if(article.password !== article.passwordConfirm) {
+                _alert('password not match');
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * save article
          */
         function saveArticle() {
 
-            // new article
-            if(!articleId) {
-                // anonymous user, check password
-                if(!_isAuthenticated) {
-                    if(_isEmpty(article.password)) {
-                        _alert('enter password');
-                        return false;
-                    }
-                    if(!_isPasswordFormat(article.password)) {
-                        _alert('not valid password format');
-                        return false;
-                    }
-                    if(article.password !== article.passwordConfirm) {
-                        _alert('password not match');
-                        return false;
-                    }
+            // if anonymous article, check password.
+            if(isAnonymousArticle()) {
+                if(!isValidArticlePassword()) {
+                    return false;
                 }
             }
 
             // confirm message
-            _confirm('[[#{web.message.saveItemConfirm(#{core.article})}]]').then(result => {
+            _confirm([[#{web.message.saveItemConfirm(#{core.article})}]]).then(result => {
                 if(result) {
                     let url;
                     let method;
@@ -107,42 +126,52 @@
                         body: formData
                     }).then(response => {
                         if(response.ok) {
-                            if(articlePassword) {
-                                history.go(-2);
-                            }else{
-                                history.back();
-                            }
+                            _alert([[#{web.message.saveItemComplete(#{core.article})}]]).then(()=>{
+                                if(articlePassword) {
+                                    history.go(-2);
+                                }else{
+                                    history.back();
+                                }
+                            });
                         }
                     });
                 }
             });
         }
 
-        // function deleteArticle() {
-        //     alert('delete');
-        // }
-        //
-        // /**
-        //  * upload file
-        //  */
-        // function uploadFile() {
-        //     let input = document.createElement('input');
-        //     input.setAttribute('type', 'file');
-        //     input.addEventListener('change', function() {
-        //         let formData = new FormData();
-        //         formData.append("file", this.files[0]);
-        //         let url = new URL(`${_apiUrl}/v1/file`, document.location.origin);
-        //         _fetch(url, {
-        //             method: 'POST',
-        //             body: formData
-        //         }).then(response => {
-        //             return response.json();
-        //         }).then(data => {
-        //             article.files.push(data);
-        //         });
-        //     });
-        //     input.click()
-        // }
+        /**
+         * delete article
+         * @returns {boolean}
+         */
+        function deleteArticle() {
+
+            // if anonymous article, check password.
+            if(isAnonymousArticle()) {
+                if(!isValidArticlePassword()) {
+                    return false;
+                }
+            }
+
+            // fire confirm message and save
+            _confirm([[#{web.message.deleteItemConfirm(#{core.article})}]]).then(result => {
+                if(result) {
+                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}`;
+                    _fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(article)
+                    }).then(response=> {
+                        if(response.ok) {
+                            _alert([[#{web.message.deleteItemComplete(#{core.article})}]]).then(()=>{
+                                gotoBoard();
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
         /**
          * goto board

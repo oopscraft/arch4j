@@ -10,11 +10,11 @@
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/simplemde/simplemde.min.css?version={version}(version=${_scriptVersion})}">
-    <script th:src="@{/static/simplemde/simplemde.min.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/ckeditor/ckeditor.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/codemirror.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/codemirror/codemirror.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/markdown/markdown.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/duice-plugin/duice-plugin.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
@@ -118,6 +118,10 @@
             border-bottom: dotted 1px lightgray;
             font-weight: 700;
             transition-duration: 0.3s;
+        }
+        nav #_nav-menu li img {
+            height: 1.5em;
+            vertical-align: middle;
         }
         nav #_nav-menu li:hover {
              padding-left: 1rem;
@@ -229,39 +233,39 @@
     <nav>
         <ul id="_nav-menu">
             <li class="link" th:onclick="|_openLink('@{/admin/monitor}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MONITOR'')')}?'locked'">
-                <img th:src="@{/static/image/icon-monitor.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-monitor.svg}"/>
                 <span data-th-text="#{web.admin.monitor}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/user}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER'')')}?'locked'">
-                <img th:src="@{/static/image/icon-user.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-user.svg}"/>
                 <span data-th-text="#{web.admin.user}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/role}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE'')')}?'locked'">
-                <img th:src="@{/static/image/icon-role.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-role.svg}"/>
                 <span data-th-text="#{web.admin.role}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
-                <img th:src="@{/static/image/icon-message.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-message.svg}"/>
                 <span data-th-text="#{web.admin.message}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/menu}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU'')')}?'locked'">
-                <img th:src="@{/static/image/icon-menu.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-menu.svg}"/>
                 <span data-th-text="#{web.admin.menu}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
-                <img th:src="@{/static/image/icon-board.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-board.svg}"/>
                 <span data-th-text="#{web.admin.board}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/variable}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE'')')}?'locked'">
-                <img th:src="@{/static/image/icon-variable.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-variable.svg}"/>
                 <span data-th-text="#{web.admin.variable}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/code}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE'')')}?'locked'">
-                <img th:src="@{/static/image/icon-code.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-code.svg}"/>
                 <span data-th-text="#{web.admin.code}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''SWAGGER-UI'')')}?'locked'">
-                <img th:src="@{/static/image/icon-api.svg}" class="icon"/>
+                <img th:src="@{/static/image/icon-api.svg}"/>
                 <span data-th-text="#{web.admin.api}"></span>
             </li>
         </ul>

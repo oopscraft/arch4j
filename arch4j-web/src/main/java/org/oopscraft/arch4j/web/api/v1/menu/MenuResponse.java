@@ -9,9 +9,9 @@ import org.oopscraft.arch4j.core.menu.Menu;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuResponse {
 
-    private String id;
+    private String menuId;
 
-    private String parentId;
+    private String parentMenuId;
 
     private String name;
 
@@ -30,8 +30,8 @@ public class MenuResponse {
      */
     public static MenuResponse from(Menu menu) {
         return MenuResponse.builder()
-                .id(menu.getMenuId())
-                .parentId(menu.getParentMenuId())
+                .menuId(menu.getMenuId())
+                .parentMenuId(menu.getParentMenuId())
                 .name(menu.getName())
                 .link(menu.getLink())
                 .target(menu.getTarget())

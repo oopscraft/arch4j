@@ -50,8 +50,7 @@
 <!-- ================================================== -->
 <div class="container margin-top-1em">
     <div class="col-12">
-        <duice-marked data-duice-bind="article" data-duice-property="content"/>
-<!--        <div data-duice-bind="article" data-duice-property="content" style="min-height:50vh;"></div>-->
+        <duice-markdown-viewer data-duice-bind="article" data-duice-property="content"/>
     </div>
 </div>
 <!-- ================================================== -->
@@ -168,7 +167,7 @@
                 </span>
             </div>
             <div class="col-12">
-                <duice-marked data-duice-bind="articleComment" data-duice-property="content"/>
+                <duice-markdown-viewer data-duice-bind="articleComment" data-duice-property="content"/>
             </div>
             <div class="col-12">
                 <span class="link"
@@ -211,7 +210,7 @@
             </span>
         </div>
         <div class="col-12">
-            <duice-simplemde data-duice-bind="articleComment" data-duice-property="content"/>
+            <duice-markdown-editor data-duice-bind="articleComment" data-duice-property="content" class="border-1" style="min-height:10em;"/>
         </div>
         <div class="col-12 justify-center padding-1em">
             <button onclick="cancelArticleComment();">

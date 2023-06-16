@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("menu")
+@RequestMapping("api/v1/menu")
 @RequiredArgsConstructor
 public class MenuRestController {
 

@@ -11,17 +11,60 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/simplemde/simplemde.min.css?version={version}(version=${_scriptVersion})}">
-    <script th:src="@{/static/simplemde/simplemde.min.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/ckeditor/ckeditor.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/codemirror.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/codemirror/codemirror.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/markdown/markdown.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/duice-plugin/duice-plugin.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = [[${_user}]];
+        const _menus = new duice.ArrayProxy([]);
+
+        /**
+         * home
+         */
+        function _home() {
+            document.location.href = '/';
+        }
+
+        /**
+         * login
+         * @private
+         */
+        function _login() {
+            document.location.href = '/login';
+        }
+
+        /**
+         * logout
+         */
+        function _logout() {
+            document.location.href = '/logout';
+        }
+
+        /**
+         * get menus
+         * @private
+         */
+        function _getMenus() {
+            let url = new URL(`${_apiUrl}/v1/menu`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(_menus);
+                    duice.ArrayProxy.assign(_menus, data);
+                });
+        }
+
+        // on load
+        document.addEventListener('DOMContentLoaded', event => {
+            _getMenus();
+        });
+
     </script>
 </head>
 

@@ -28,10 +28,10 @@ public class WebController {
         ModelAndView modelAndView = new ModelAndView();
 
         // TODO
-        RedirectView redirectView = new RedirectView("/admin");
-        redirectView.setExposeModelAttributes(false);
-        modelAndView.setView(redirectView);
-        //modelAndView.setViewName("home.html");
+//        RedirectView redirectView = new RedirectView("/admin");
+//        redirectView.setExposeModelAttributes(false);
+//        modelAndView.setView(redirectView);
+        modelAndView.setViewName("web.html");
         return modelAndView;
     }
 

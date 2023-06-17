@@ -118,7 +118,7 @@
 
             // check blank
             if (!userId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.user.userId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.User.userId})}]]');
                 duice.ObjectProxy.focus(user, 'userId');
                 return false;
             }
@@ -130,7 +130,7 @@
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.user.userId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]');
                     return false;
                 }
             }
@@ -153,7 +153,7 @@
 
             // checks name
             if (!user.name || user.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.user.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.User.name})}]]');
                 duice.ObjectProxy.focus(user, 'name');
                 return false;
             }
@@ -161,24 +161,24 @@
             // checks password
             if (user._new) {
                 if (!user.password || user.password.trim().length < 1) {
-                    await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
                 if (!user.passwordConfirm || user.passwordConfirm.trim().length < 1) {
-                    await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
                     duice.ObjectProxy.focus(user, 'passwordConfirm');
                     return false;
                 }
                 if (user.password !== user.passwordConfirm) {
-                    await _alert('[[#{web.global.itemNotMatch(#{core.user.password})}]]');
+                    await _alert('[[#{web.global.itemNotMatch(#{core.user.User.password})}]]');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.user})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.user.User})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/user/save-user}]]', document.location.origin);
                     _fetch(url, {
@@ -189,7 +189,7 @@
                         body: JSON.stringify(user)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.user})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.user.User})}]]').then(() => {
                                 getUsers();
                                 getUser(user.userId);
                             });
@@ -203,13 +203,13 @@
          * deleteUser
          */
         function deleteUser() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.user})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.user.User})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/user/delete-user}]]', document.location.origin);
                     url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.user})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.user.User})}]]').then(() => {
                                 getUsers();
                                 duice.ObjectProxy.clear(user);
                             });
@@ -335,14 +335,14 @@
     <div>
         <button id="userTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
-            <span data-th-text="#{core.user}"></span>
+            <span data-th-text="#{core.user.User}"></span>
         </button>
         <button id="loginHistoryTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
-            <span data-th-text="#{core.loginHistory}"></span>
+            <span data-th-text="#{core.user.LoginHistory}"></span>
         </button>
     </div>
-    <hr/>
+    <hr class="margin-1px"/>
 
     <!-- userTabContent -->
     <div id="userTabContent" class="container gap-column-1rem gap-row-1rem">
@@ -367,20 +367,20 @@
                     <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="userSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="userId" th:text="#{core.user.userId}"></option>
-                                <option value="name" th:text="#{core.user.name}"></option>
-                                <option value="email" th:text="#{core.user.email}"></option>
-                                <option value="mobile" th:text="#{core.user.mobile}"></option>
+                                <option value="userId" th:text="#{core.user.User.userId}"></option>
+                                <option value="name" th:text="#{core.user.User.name}"></option>
+                                <option value="email" th:text="#{core.user.User.email}"></option>
+                                <option value="mobile" th:text="#{core.user.User.mobile}"></option>
                             </select>
                             <input type="text" data-duice-bind="userSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
                             <select data-duice-bind="userSearch" data-duice-property="type" class="col-1 col-s-12">
-                                <option value data-th-text="'- '+#{core.user.type}+' -'"></option>
+                                <option value data-th-text="'- '+#{core.user.User.type}+' -'"></option>
                                 <option th:each="userType:${userTypes}" th:value="${userType}"
                                         th:text="${userType}"></option>
                             </select>
                             <select data-duice-bind="userSearch" data-duice-property="status" class="col-1 col-s-12">
-                                <option value data-th-text="'- '+#{core.user.status}+' -'"></option>
+                                <option value data-th-text="'- '+#{core.user.User.status}+' -'"></option>
                                 <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                         th:text="${userStatus}"></option>
                             </select>
@@ -406,10 +406,10 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.user.userId}"></th>
-                                <th data-th-text="#{core.user.name}"></th>
-                                <th data-th-text="#{core.user.type}"></th>
-                                <th data-th-text="#{core.user.status}"></th>
+                                <th data-th-text="#{core.user.User.userId}"></th>
+                                <th data-th-text="#{core.user.User.name}"></th>
+                                <th data-th-text="#{core.user.User.type}"></th>
+                                <th data-th-text="#{core.user.User.status}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -470,14 +470,14 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.userId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.user.User.userId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="user" data-duice-property="userId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.user.User.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="user" data-duice-property="name"
@@ -485,14 +485,14 @@
                         </div>
                         <div id="userDetail_passwordDiv" class="col-12 container gap-1px gap-column-1rem">
                             <div class="col-2 col-s-12">
-                                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>
+                                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
                             </div>
                             <div class="col-4 col-s-12">
                                 <input type="password" data-duice-bind="user"
                                        data-duice-property="password" class="width-100"/>
                             </div>
                             <div class="col-2 col-s-12">
-                                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>(*)
+                                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
                             </div>
                             <div class="col-4 col-s-12">
                                 <input type="password" data-duice-bind="user"
@@ -500,7 +500,7 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.type}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.type}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="user" data-duice-property="type" class="width-100">
@@ -509,7 +509,7 @@
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.status}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.status}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="user" data-duice-property="status" class="width-100">
@@ -518,35 +518,35 @@
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.email}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.email}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="email" data-duice-bind="user" data-duice-property="email"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.mobile}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.mobile}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="tel" data-duice-bind="user" data-duice-property="mobile"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.joinDateTime}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.user.User.joinDateTime}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="datetime-local" data-duice-bind="user"
                                    data-duice-property="joinDateTime" readonly class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.closeDateTime}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.user.User.closeDateTime}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="datetime-local" data-duice-bind="user"
                                    data-duice-property="closeDateTime" readonly class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.photo}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-10 col-s-12">
                             <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
@@ -554,14 +554,14 @@
                                  style="width:64px; height:64px;"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.profile}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.user.User.profile}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="user" data-duice-property="profile" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.roles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.user.User.roles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -575,8 +575,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.roleId}"></th>
-                                        <th data-th-text="#{core.role.name}"></th>
+                                        <th data-th-text="#{core.role.Role.roleId}"></th>
+                                        <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addUserRole();">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -748,14 +748,14 @@
         </script>
         <h2>
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-            <span data-th-text="#{core.role}"></span>
+            <span data-th-text="#{core.role.Role}"></span>
         </h2>
         <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
-                    <option value="roleId" th:text="#{core.role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.name}"></option>
+                    <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                    <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
                 <button onclick="roleSelect.getRoles();" class="col-1">
@@ -779,8 +779,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -836,8 +836,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -903,23 +903,23 @@
 
                     // checks password
                     if (_isEmpty(this.data.password)) {
-                        await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
                     if (_isEmpty(this.data.passwordConfirm)) {
-                        await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'passwordConfirm');
                         return false;
                     }
                     if (this.data.password !== this.data.passwordConfirm) {
-                        await _alert('[[#{web.global.itemNotMatch(#{core.user.password})}]]');
+                        await _alert('[[#{web.global.itemNotMatch(#{core.user.User.password})}]]');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
 
                     // call save
-                    _confirm('[[#{web.global.saveItemConfirm(#{core.user.password})}]]').then(result => {
+                    _confirm('[[#{web.global.saveItemConfirm(#{core.user.User.password})}]]').then(result => {
                         if (result) {
                             let url = new URL('[[@{/admin/user/change-password}]]', document.location.origin);
                             _fetch(url, {
@@ -930,7 +930,7 @@
                                 body: JSON.stringify(this.data)
                             }).then(response => {
                                 if (response.ok) {
-                                    _alert('[[#{web.global.saveItemComplete(#{core.user.password})}]]').then(() => {
+                                    _alert('[[#{web.global.saveItemComplete(#{core.user.User.password})}]]').then(() => {
                                         this.dialog.resolve(true);
                                     });
                                 }
@@ -946,13 +946,13 @@
         </h2>
         <div class="container gap-1px padding-1px">
             <div class="col-4">
-                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>
+                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
             </div>
             <div class="col-8">
                 <input type="password" data-duice-bind="passwordChange.data" data-duice-property="password" class="width-100"/>
             </div>
             <div class="col-4">
-                <span data-th-text="#{core.user.password}" class="font-weight-bold tag-required"></span>(*)
+                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
             </div>
             <div class="col-8">
                 <input type="password" data-duice-bind="passwordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
@@ -977,8 +977,8 @@
                     <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-6 container gap-1px">
                             <select data-duice-bind="loginHistorySearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="userId" th:text="#{core.loginHistory.userId}"></option>
-                                <option value="ipAddress" th:text="#{core.loginHistory.ipAddress}"></option>
+                                <option value="userId" th:text="#{core.user.LoginHistory.userId}"></option>
+                                <option value="ipAddress" th:text="#{core.user.LoginHistory.ipAddress}"></option>
                             </select>
                             <input type="text" data-duice-bind="loginHistorySearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -1004,10 +1004,10 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.loginHistory.userId}"></th>
-                                <th data-th-text="#{core.loginHistory.loginDateTime}"></th>
-                                <th data-th-text="#{core.loginHistory.ipAddress}"></th>
-                                <th data-th-text="#{core.loginHistory.userAgent}"></th>
+                                <th data-th-text="#{core.user.LoginHistory.userId}"></th>
+                                <th data-th-text="#{core.user.LoginHistory.loginDateTime}"></th>
+                                <th data-th-text="#{core.user.LoginHistory.ipAddress}"></th>
+                                <th data-th-text="#{core.user.LoginHistory.userAgent}"></th>
                             </tr>
                             </thead>
                             <tbody>

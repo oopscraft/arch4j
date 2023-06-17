@@ -5,6 +5,7 @@ import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,10 @@ public class Article {
     @NotBlank(message = "Title is empty")
     private String title;
 
+    @Builder.Default
+    @NotNull(message = "Content format is empty")
+    private ContentFormat contentFormat = ContentFormat.TEXT;
+
     @NotBlank(message = "Content is empty")
     private String content;
 
@@ -38,10 +43,10 @@ public class Article {
     private String password;
 
     @Builder.Default
-    private Long commentCount = 0L;
+    private Integer commentCount = 0;
 
     @Builder.Default
-    private Long likeCount = 0L;
+    private Integer likeCount = 0;
 
     @Builder.Default
     private List<ArticleFile> files = new ArrayList<>();
@@ -56,6 +61,7 @@ public class Article {
                 .articleId(articleEntity.getArticleId())
                 .createdAt(articleEntity.getCreatedAt())
                 .title(articleEntity.getTitle())
+                .contentFormat(articleEntity.getContentFormat())
                 .content(articleEntity.getContent())
                 .boardId(articleEntity.getBoardId())
                 .userId(articleEntity.getUserId())

@@ -244,10 +244,6 @@
                 <img th:src="@{/static/image/icon-role.svg}"/>
                 <span data-th-text="#{web.admin.role}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
-                <img th:src="@{/static/image/icon-message.svg}"/>
-                <span data-th-text="#{web.admin.message}"></span>
-            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/menu}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU'')')}?'locked'">
                 <img th:src="@{/static/image/icon-menu.svg}"/>
                 <span data-th-text="#{web.admin.menu}"></span>
@@ -255,6 +251,10 @@
             <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
                 <img th:src="@{/static/image/icon-board.svg}"/>
                 <span data-th-text="#{web.admin.board}"></span>
+            </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
+                <img th:src="@{/static/image/icon-message.svg}"/>
+                <span data-th-text="#{web.admin.message}"></span>
             </li>
             <li class="link" th:onclick="|_openLink('@{/admin/variable}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE'')')}?'locked'">
                 <img th:src="@{/static/image/icon-variable.svg}"/>

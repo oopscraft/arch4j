@@ -47,6 +47,11 @@ public class ArticlePostController {
         Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
         modelAndView.addObject("board", board);
 
+        // check access permission
+        if(!boardService.hasWritePermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
         // when edit article
         if(articleId != null) {
 

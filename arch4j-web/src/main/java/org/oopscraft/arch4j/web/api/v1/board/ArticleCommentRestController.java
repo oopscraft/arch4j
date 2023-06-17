@@ -89,6 +89,7 @@ public class ArticleCommentRestController {
                 .articleId(articleId)
                 .commentId(articleCommentRequest.getCommentId())
                 .parentCommentId(articleCommentRequest.getParentCommentId())
+                .contentFormat(articleCommentRequest.getContentFormat())
                 .content(articleCommentRequest.getContent())
                 .userId(SecurityUtils.getCurrentUserId())
                 .userName(articleCommentRequest.getUserName())
@@ -142,6 +143,7 @@ public class ArticleCommentRestController {
 
         // change article comment
         articleComment.setUserName(articleCommentRequest.getUserName());
+        articleComment.setContentFormat(articleCommentRequest.getContentFormat());
         articleComment.setContent(articleCommentRequest.getContent());
 
         // save

@@ -99,7 +99,7 @@
 
             // check blank
             if (!messageId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.message.messageId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.message.Message.messageId})}]]');
                 duice.ObjectProxy.focus(message, 'messageId');
                 return false;
             }
@@ -111,7 +111,7 @@
             if (response.ok) {
                 let message = await response.json();
                 if (message) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.message.messageId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.message.Message.messageId})}]]');
                     return false;
                 }
             }
@@ -134,13 +134,13 @@
 
             // checks name
             if (!message.name || message.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.message.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.message.Message.name})}]]');
                 duice.ObjectProxy.focus(message, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.message})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.message.Message})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/message/save-message}]]', document.location.origin);
                     _fetch(url, {
@@ -151,7 +151,7 @@
                         body: JSON.stringify(message)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.message})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.message.Message})}]]').then(() => {
                                 getMessages();
                                 getMessage(message.messageId);
                             });
@@ -165,13 +165,13 @@
          * deleteMessage
          */
         function deleteMessage() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.message})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.message.Message})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/message/delete-message}]]', document.location.origin);
                     url.searchParams.append('messageId', message.messageId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.message})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.message.Message})}]]').then(() => {
                                 getMessages();
                                 duice.ObjectProxy.clear(message);
                             });
@@ -212,8 +212,8 @@
                     <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="messageSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="messageId" th:text="#{core.message.messageId}"></option>
-                                <option value="name" th:text="#{core.message.name}"></option>
+                                <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
+                                <option value="name" th:text="#{core.message.Message.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -237,8 +237,8 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.message.messageId}"></th>
-                                <th data-th-text="#{core.message.name}"></th>
+                                <th data-th-text="#{core.message.Message.messageId}"></th>
+                                <th data-th-text="#{core.message.Message.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -287,21 +287,21 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.message.messageId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.message.Message.messageId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="message" data-duice-property="messageId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.message.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.message.Message.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="message" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.message.value}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.message.Message.value}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="message" data-duice-property="value" rows="4"

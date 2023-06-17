@@ -2,10 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Article;
-import org.oopscraft.arch4j.core.board.ArticleFile;
-import org.oopscraft.arch4j.core.board.ArticleSearch;
-import org.oopscraft.arch4j.core.board.ArticleService;
+import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.web.support.PageableUtils;
@@ -13,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
@@ -29,6 +27,8 @@ import java.util.stream.Collectors;
 @RequestMapping("api/v1/board/{boardId}/article")
 @RequiredArgsConstructor
 public class ArticleRestController {
+
+    private final BoardService boardService;
 
     private final ArticleService articleService;
 
@@ -48,6 +48,15 @@ public class ArticleRestController {
             @RequestParam(value = "content", required = false) String content,
             Pageable pageable
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check access permission
+        if(!boardService.hasAccessPermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
+        // search articles
         ArticleSearch articleSearch = ArticleSearch.builder()
                 .boardId(boardId)
                 .title(title)
@@ -74,6 +83,15 @@ public class ArticleRestController {
             @PathVariable("boardId")String boardId,
             @PathVariable("articleId")String articleId
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check read permission
+        if(!boardService.hasReadPermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
+        // return article
         ArticleResponse articleResponse = articleService.getArticle(articleId)
                 .map(ArticleResponse::from)
                 .orElseThrow(() -> new DataNotFoundException(articleId));
@@ -93,6 +111,14 @@ public class ArticleRestController {
             @RequestPart("article") ArticleRequest articleRequest,
             @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check write permission
+        if(!boardService.hasWritePermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
             if(articleRequest.getUserName() == null) {
@@ -106,6 +132,7 @@ public class ArticleRestController {
         // create
         Article article = Article.builder()
                 .title(articleRequest.getTitle())
+                .contentFormat(articleRequest.getContentFormat())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
                 .files(articleRequest.getFiles().stream()
@@ -152,6 +179,14 @@ public class ArticleRestController {
             @RequestPart("article") ArticleRequest articleRequest,
             @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check write permission
+        if(!boardService.hasWritePermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
         // get article
         Article article = articleService.getArticle(articleId).orElseThrow();
 
@@ -170,6 +205,7 @@ public class ArticleRestController {
 
         // change articles
         article.setTitle(articleRequest.getTitle());
+        article.setContentFormat(articleRequest.getContentFormat());
         article.setContent(articleRequest.getContent());
         article.setUserName(articleRequest.getUserName());
         article.setPassword(articleRequest.getPassword());
@@ -203,6 +239,15 @@ public class ArticleRestController {
             @PathVariable("fileId") String fileId,
             HttpServletResponse response
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check read permission
+        if(!boardService.hasReadPermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
+        // response
         ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
         response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));
         try (InputStream inputStream = articleService.getArticleFileInputStream(articleFile)) {
@@ -227,6 +272,14 @@ public class ArticleRestController {
         @PathVariable("articleId") String articleId,
         @RequestBody ArticleRequest articleRequest
     ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check write permission
+        if(!boardService.hasWritePermission(board)){
+            throw new AccessDeniedException("No permission");
+        }
+
         // get target article
         Article article = articleService.getArticle(articleId).orElseThrow();
 

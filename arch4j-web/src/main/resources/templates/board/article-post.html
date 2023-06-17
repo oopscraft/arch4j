@@ -8,6 +8,7 @@
         const articleId = [[${param.articleId}]];
         const articlePassword = [[${articlePassword}]];
         const article = new duice.ObjectProxy({
+            contentFormat: 'TEXT',
             files:[]
         });
         const files = [];
@@ -116,7 +117,7 @@
             }
 
             // confirm message
-            _confirm([[#{web.global.saveItemConfirm(#{core.article})}]]).then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.board.Article})}]]).then(result => {
                 if(result) {
                     let url;
                     let method;
@@ -140,7 +141,7 @@
                         body: formData
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.article})}]]).then(()=>{
+                            _alert([[#{web.global.saveItemComplete(#{core.board.Article})}]]).then(()=>{
                                 if(articlePassword) {
                                     history.go(-2);
                                 }else{
@@ -167,7 +168,7 @@
             }
 
             // fire confirm message and save
-            _confirm([[#{web.global.deleteItemConfirm(#{core.article})}]]).then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.board.Article})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}`;
                     _fetch(url, {
@@ -178,20 +179,13 @@
                         body: JSON.stringify(article)
                     }).then(response=> {
                         if(response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.article})}]]).then(()=>{
+                            _alert([[#{web.global.deleteItemComplete(#{core.board.Article})}]]).then(()=>{
                                 gotoBoard();
                             });
                         }
                     });
                 }
             });
-        }
-
-        /**
-         * goto board
-         */
-        function gotoBoard() {
-
         }
 
         /**

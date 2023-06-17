@@ -2,6 +2,8 @@ package org.oopscraft.arch4j.core.security;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.oopscraft.arch4j.core.role.Authority;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.springframework.security.core.CredentialsContainer;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Builder
@@ -70,6 +73,27 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     @Override
     public void eraseCredentials() {
         this.password = null;
+    }
+
+    /**
+     * check has role
+     * @param role role
+     * @return result
+     */
+    public boolean hasRole(Role role) {
+        GrantedAuthority authority = GrantedAuthorityImpl.from(role);
+        return this.authorities.stream()
+                .anyMatch(el -> Objects.equals(el.getAuthority(), authority.getAuthority()));
+    }
+
+    /**
+     * check has authority
+     * @param authority authority
+     * @return result
+     */
+    public boolean hasAuthority(Authority authority) {
+        return this.authorities.stream()
+                .anyMatch(el -> Objects.equals(el.getAuthority(), authority.getAuthorityId()));
     }
 
     /**

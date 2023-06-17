@@ -2,8 +2,11 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,10 +41,21 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "page_size")
     private Integer pageSize;
 
-    @Column(name = "file_enabled")
+    @Column(name = "access_policy", length = 16)
+    public SecurityPolicy accessPolicy;
+
+    @Column(name = "read_policy", length = 16)
+    public SecurityPolicy readPolicy;
+
+    @Column(name = "write_policy", length = 16)
+    public SecurityPolicy writePolicy;
+
+    @Column(name = "file_enabled", length = 1)
+    @Convert(converter= BooleanToYNConverter.class)
     private boolean fileEnabled;
 
-    @Column(name = "comment_enabled")
+    @Column(name = "comment_enabled", length = 1)
+    @Convert(converter= BooleanToYNConverter.class)
     private boolean commentEnabled;
 
     /**
@@ -85,6 +99,5 @@ public class BoardEntity extends SystemFieldEntity {
     )
     @Builder.Default
     private List<RoleEntity> writeRoles = new ArrayList<>();
-
 
 }

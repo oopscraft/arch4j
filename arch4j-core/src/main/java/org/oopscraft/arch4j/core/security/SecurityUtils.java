@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.core.security;
 
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -66,10 +68,41 @@ public class SecurityUtils {
      * @return user id
      */
     public static String getCurrentUserId() {
-        String userId = getUserDetails()
+        return getUserDetails()
                 .map(UserDetailsImpl::getUsername)
                 .orElse(null);
-        return Optional.ofNullable(userId).orElse(null);
+    }
+
+    /**
+     * check has any role
+     * @param roles roles
+     * @return result
+     */
+    public static boolean hasAnyRole(List<Role> roles) {
+        UserDetailsImpl userDetails = getUserDetails().orElse(null);
+        if(userDetails == null) {
+            return false;
+        }
+        return roles.stream().anyMatch(userDetails::hasRole);
+    }
+
+    /**
+     * has permission
+     * @param securityPolicy security policy
+     * @param requiredRoles roles
+     * @return result
+     */
+    public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
+        if(securityPolicy == SecurityPolicy.PERMIT_ALL) {
+            return true;
+        }
+        if(securityPolicy == SecurityPolicy.AUTHENTICATED) {
+            return isAuthenticated();
+        }
+        if(securityPolicy == SecurityPolicy.HAS_ANY_ROLE) {
+            return hasAnyRole(requiredRoles);
+        }
+        return false;
     }
 
 }

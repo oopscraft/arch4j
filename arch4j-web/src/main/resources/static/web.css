@@ -246,7 +246,7 @@ hr {
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-    margin: 1px;
+    margin: 0.5em 0;
 }
 
 /* hidden attribute */

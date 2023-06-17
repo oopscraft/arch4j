@@ -10,7 +10,9 @@
             files:[]
         });
         const articleComments = new duice.ArrayProxy([]);
-        const articleComment = new duice.ObjectProxy({});
+        const articleComment = new duice.ObjectProxy({
+            contentFormat: 'TEXT'
+        });
 
         /**
          * get article
@@ -120,7 +122,10 @@
          */
         function addArticleComment(parentCommentId) {
             duice.ObjectProxy.clear(articleComment);
-            articleComment.parentCommentId = parentCommentId;
+            duice.ObjectProxy.assign(articleComment, {
+                parentCommentId: parentCommentId,
+                contentFormat: 'TEXT'
+            });
             let commentForm = document.getElementById('article-comment-form');
             let parentCommentElement = document.querySelector(`[data-comment-id="${parentCommentId}"]`);
             parentCommentElement.appendChild(commentForm);
@@ -151,6 +156,9 @@
          */
         function cancelArticleComment() {
             duice.ObjectProxy.clear(articleComment);
+            duice.ObjectProxy.assign(articleComment,{
+                contentFormat: 'TEXT'
+            });
             let commentForm = document.getElementById('article-comment-form');
             commentForm.style.marginLeft = 'initial';
             let commentFormContainer = document.getElementById('article-comment-form-container');
@@ -199,7 +207,7 @@
             }
 
             // confirm message
-            _confirm([[#{web.global.saveItemConfirm(#{core.articleComment})}]]).then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
                 if(result) {
                     let commentId = articleComment.commentId;
                     let url;
@@ -219,7 +227,7 @@
                         body: JSON.stringify(articleComment)
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.articleComment})}]]).then(()=> {
+                            _alert([[#{web.global.saveItemComplete(#{core.board.ArticleComment})}]]).then(()=> {
                                 cancelArticleComment();
                                 getArticleComments();
                                 if(!commentId) {
@@ -246,7 +254,7 @@
             }
 
             // fire confirm message and save
-            _confirm([[#{web.global.deleteItemConfirm(#{core.articleComment})}]]).then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
                     _fetch(url, {
@@ -257,7 +265,7 @@
                         body: JSON.stringify(articleComment)
                     }).then(response=> {
                         if(response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.articleComment})}]]).then(()=>{
+                            _alert([[#{web.global.deleteItemComplete(#{core.board.ArticleComment})}]]).then(()=>{
                                 cancelArticleComment();
                                 getArticleComments();
                                 article.commentCount --;

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +41,7 @@ public class ArticleService {
      * @param article article info
      * @return article
      */
+    @Transactional
     public Article saveArticle(Article article, MultipartFile[] files) {
 
         // validate
@@ -68,6 +70,7 @@ public class ArticleService {
 
         // set article property
         articleEntity.setTitle(article.getTitle());
+        articleEntity.setContentFormat(article.getContentFormat());
         articleEntity.setContent(article.getContent());
         articleEntity.setBoardId(article.getBoardId());
 
@@ -139,6 +142,7 @@ public class ArticleService {
      * deletes article
      * @param articleId article id
      */
+    @Transactional
     public void deleteArticle(String articleId) {
         articleFileRepository.deleteByArticleId(articleId);
         articleFileRepository.flush();

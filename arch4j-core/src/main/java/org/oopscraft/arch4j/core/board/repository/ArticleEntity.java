@@ -2,15 +2,14 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.board.ArticleFile;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "core_article")
@@ -32,6 +31,10 @@ public class ArticleEntity extends SystemFieldEntity {
     @Column(name = "title")
     private String title;
 
+    @NotNull
+    @Column(name = "content_format", length = 16)
+    private ContentFormat contentFormat;
+
     @NotBlank
     @Column(name = "content")
     @Lob
@@ -51,11 +54,11 @@ public class ArticleEntity extends SystemFieldEntity {
 
     @Column(name = "comment_count")
     @Builder.Default
-    private Long commentCount = 0L;
+    private Integer commentCount = 0;
 
     @Column(name = "like_count")
     @Builder.Default
-    private Long likeCount = 0L;
+    private Integer likeCount = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

@@ -58,6 +58,7 @@ public class ArticleCommentService {
 
         // save
         articleCommentEntity.setUserName(articleComment.getUserName());
+        articleCommentEntity.setContentFormat(articleComment.getContentFormat());
         articleCommentEntity.setContent(articleComment.getContent());
         articleCommentEntity = articleCommentRepository.saveAndFlush(articleCommentEntity);
 

@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import lombok.Builder;
 import lombok.Data;
 import org.oopscraft.arch4j.core.board.Article;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class ArticleResponse {
 
     private String title;
 
+    private ContentFormat contentFormat;
+
     private String content;
 
     private String userId;
@@ -28,10 +31,10 @@ public class ArticleResponse {
     private String userIcon;
 
     @Builder.Default
-    private Long commentCount = 0L;
+    private Integer commentCount = 0;
 
     @Builder.Default
-    private Long likeCount = 0L;
+    private Integer likeCount = 0;
 
     @Builder.Default
     private List<ArticleFileResponse> files = new ArrayList<>();
@@ -46,6 +49,7 @@ public class ArticleResponse {
                 .articleId(article.getArticleId())
                 .createdAt(article.getCreatedAt())
                 .title(article.getTitle())
+                .contentFormat(article.getContentFormat())
                 .content(article.getContent())
                 .userId(article.getUserId())
                 .userName(article.getUserName())

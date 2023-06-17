@@ -226,12 +226,11 @@
                             </button>
                         </div>
                     </div>
-                    <hr/>
                     <div class="container gap-1px margin-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="codeSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="codeId" th:text="#{core.code.codeId}"></option>
-                                <option value="name" th:text="#{core.code.name}"></option>
+                                <option value="codeId" th:text="#{core.code.Code.codeId}"></option>
+                                <option value="name" th:text="#{core.code.Code.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -255,8 +254,8 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.code.codeId}"></th>
-                                <th data-th-text="#{core.code.name}"></th>
+                                <th data-th-text="#{core.code.Code.codeId}"></th>
+                                <th data-th-text="#{core.code.Code.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -305,28 +304,28 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.code.codeId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.code.Code.codeId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="code" data-duice-property="codeId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.code.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.code.Code.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="code" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.code.note}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.code.Code.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="code" data-duice-property="note" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.code.items}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.code.Code.items}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -341,9 +340,9 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.codeItem.itemId}"></th>
-                                        <th data-th-text="#{core.codeItem.name}"></th>
-                                        <th data-th-text="#{core.codeItem.value}"></th>
+                                        <th data-th-text="#{core.code.CodeItem.itemId}"></th>
+                                        <th data-th-text="#{core.code.CodeItem.name}"></th>
+                                        <th data-th-text="#{core.code.CodeItem.value}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addCodeItem();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>

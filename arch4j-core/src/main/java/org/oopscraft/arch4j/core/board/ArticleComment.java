@@ -21,6 +21,8 @@ public class ArticleComment {
 
     private LocalDateTime createdAt;
 
+    private ContentFormat contentFormat;
+
     private String content;
 
     private String userId;
@@ -39,6 +41,7 @@ public class ArticleComment {
                 .commentId(articleCommentEntity.getCommentId())
                 .createdAt(articleCommentEntity.getCreatedAt())
                 .parentCommentId(articleCommentEntity.getParentCommentId())
+                .contentFormat(articleCommentEntity.getContentFormat())
                 .content(articleCommentEntity.getContent())
                 .userId(articleCommentEntity.getUserId())
                 .userName(Optional.ofNullable(articleCommentEntity.getUser())

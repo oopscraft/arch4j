@@ -102,7 +102,7 @@
 
             // check blank
             if (!roleId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.roleId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.Role.roleId})}]]');
                 duice.ObjectProxy.focus(authority, 'roleId');
                 return false;
             }
@@ -114,7 +114,7 @@
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.roleId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.Role.roleId})}]]');
                     return false;
                 }
             }
@@ -137,13 +137,13 @@
 
             // checks name
             if (!role.name || role.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.Role.name})}]]');
                 duice.ObjectProxy.focus(role, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.role})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.role.Role})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/save-role}]]', document.location.origin);
                     _fetch(url, {
@@ -154,7 +154,7 @@
                         body: JSON.stringify(role)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.role})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.role.Role})}]]').then(() => {
                                 getRoles();
                                 getRole(role.roleId);
                             });
@@ -168,13 +168,13 @@
          * deleteRole
          */
         function deleteRole() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.role})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.role.Role})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/delete-role}]]', document.location.origin);
                     url.searchParams.append('roleId', role.roleId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.role})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.role.Role})}]]').then(() => {
                                 getRoles();
                                 duice.ObjectProxy.clear(role);
                             });
@@ -300,7 +300,7 @@
 
             // check blank
             if (!authorityId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.authority.authorityId})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.Authority.authorityId})}]]');
                 duice.ObjectProxy.focus(authority, 'authorityId');
                 return false;
             }
@@ -312,7 +312,7 @@
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.authority.authorityId})}]]');
+                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.Authority.authorityId})}]]');
                     return false;
                 }
             }
@@ -335,13 +335,13 @@
 
             // checks name
             if (!authority.name || authority.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.authority.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.role.Authority.name})}]]');
                 duice.ObjectProxy.focus(authority, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.authority})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.role.Authority})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/save-authority}]]', document.location.origin);
                     _fetch(url, {
@@ -352,7 +352,7 @@
                         body: JSON.stringify(authority)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.authority})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.role.Authority})}]]').then(() => {
                                 getAuthorities();
                                 getAuthority(authority.authorityId);
                             });
@@ -366,13 +366,13 @@
          * deleteAuthority
          */
         function deleteAuthority() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.authority})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.role.Authority})}]]').then(result => {
                 if (result) {
                     let url = new URL('[[@{/admin/role/delete-authority}]]', document.location.origin);
                     url.searchParams.append('authorityId', authority.authorityId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.authority})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.role.Authority})}]]').then(() => {
                                 getAuthorities();
                                 duice.ObjectProxy.clear(authority);
                             });
@@ -405,14 +405,14 @@
     <div>
         <button id="roleTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-            <span data-th-text="#{core.role}"></span>
+            <span data-th-text="#{core.role.Role}"></span>
         </button>
         <button id="authorityTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
-            <span data-th-text="#{core.authority}"></span>
+            <span data-th-text="#{core.role.Authority}"></span>
         </button>
     </div>
-    <hr/>
+    <hr class="margin-1px"/>
 
     <!-- roleTabContent -->
     <div id="roleTabContent" class="container gap-column-1rem gap-row-1rem">
@@ -437,8 +437,8 @@
                     <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="roleSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="roleId" th:text="#{core.role.roleId}"></option>
-                                <option value="name" th:text="#{core.role.name}"></option>
+                                <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                                <option value="name" th:text="#{core.role.Role.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="roleSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -462,8 +462,8 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.role.roleId}"></th>
-                                <th data-th-text="#{core.role.name}"></th>
+                                <th data-th-text="#{core.role.Role.roleId}"></th>
+                                <th data-th-text="#{core.role.Role.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -510,28 +510,28 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.role.roleId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.role.Role.roleId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="role" data-duice-property="roleId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.role.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.role.Role.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="role" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.role.note}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.role.Role.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="role" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.role.authorities}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.role.Role.authorities}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -545,8 +545,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.authority.authorityId}"></th>
-                                        <th data-th-text="#{core.authority.name}"></th>
+                                        <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                                        <th data-th-text="#{core.role.Authority.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addRoleAuthority();">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -710,14 +710,14 @@
         </script>
         <h1>
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
-            <span data-th-text="#{core.authority}"></span>
+            <span data-th-text="#{core.role.Authority}"></span>
         </h1>
         <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key" class="col-1">
-                    <option value="authorityId" th:text="#{core.authority.authorityId}"></option>
-                    <option value="name" th:text="#{core.authority.name}"></option>
+                    <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
+                    <option value="name" th:text="#{core.role.Authority.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value" class="col-2"/>
                 <button onclick="authoritySelect.getAuthorities();" class="col-1">
@@ -741,8 +741,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.authority.authorityId}"></th>
-                    <th data-th-text="#{core.authority.name}"></th>
+                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                    <th data-th-text="#{core.role.Authority.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -798,8 +798,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.authority.authorityId}"></th>
-                    <th data-th-text="#{core.authority.name}"></th>
+                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                    <th data-th-text="#{core.role.Authority.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -856,8 +856,8 @@
                     <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="authoritySearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="authorityId" th:text="#{core.authority.authorityId}"></option>
-                                <option value="name" th:text="#{core.authority.name}"></option>
+                                <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
+                                <option value="name" th:text="#{core.role.Authority.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -881,8 +881,8 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.role.roleId}"></th>
-                                <th data-th-text="#{core.role.name}"></th>
+                                <th data-th-text="#{core.role.Role.roleId}"></th>
+                                <th data-th-text="#{core.role.Role.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -929,21 +929,21 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.authority.authorityId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.role.Authority.authorityId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="authority" data-duice-property="authorityId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.authority.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.role.Authority.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="authority" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.authority.note}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.role.Authority.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="authority" data-duice-property="note" rows="3"

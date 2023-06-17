@@ -5,6 +5,7 @@ import org.oopscraft.arch4j.core.board.repository.BoardEntity;
 import org.oopscraft.arch4j.core.board.repository.BoardRepository;
 import org.oopscraft.arch4j.core.board.repository.BoardSpecification;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +39,8 @@ public class BoardService {
         boardEntity.setNote(board.getNote());
         boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
-        boardEntity.setCommentEnabled(board.getCommentEnabled());
-        boardEntity.setFileEnabled(board.getFileEnabled());
+        boardEntity.setCommentEnabled(board.isCommentEnabled());
+        boardEntity.setFileEnabled(board.isFileEnabled());
         boardEntity.setAccessRoles(board.getAccessRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .roleId(role.getRoleId())
@@ -100,5 +101,31 @@ public class BoardService {
         return new PageImpl<>(boards, pageable, total);
     }
 
+    /**
+     * can access
+     * @param board board
+     * @return result
+     */
+    public boolean hasAccessPermission(Board board) {
+        return SecurityUtils.hasPermission(board.getAccessPolicy(), board.getAccessRoles());
+    }
+
+    /**
+     * can read
+     * @param board board
+     * @return result
+     */
+    public boolean hasReadPermission(Board board) {
+        return SecurityUtils.hasPermission(board.getReadPolicy(), board.getReadRoles());
+    }
+
+    /**
+     * can write
+     * @param board board
+     * @return result
+     */
+    public boolean hasWritePermission(Board board) {
+        return SecurityUtils.hasPermission(board.getWritePolicy(), board.getWriteRoles());
+    }
 
 }

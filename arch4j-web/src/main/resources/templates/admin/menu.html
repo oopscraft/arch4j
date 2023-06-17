@@ -82,13 +82,13 @@
 
             // check name
             if(_isEmpty(menu.name)) {
-                await _alert('[[#{web.global.itemEmpty(#{core.menu.name})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.menu.Menu.name})}]]');
                 duice.ObjectProxy.focus(menu, 'name');
                 return;
             }
 
             // calls save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.menu})}]]').then(result => {
+            _confirm('[[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]').then(result => {
                 if(result) {
                     let url = new URL('[[@{/admin/menu/save-menu}]]', document.location.origin);
                     _fetch(url, {
@@ -99,7 +99,7 @@
                         body: JSON.stringify(menu)
                     }).then(response => {
                         if(response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.menu})}]]').then(() => {
+                            _alert('[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]').then(() => {
                                 getMenus();
                             });
                         }
@@ -112,13 +112,13 @@
          * delete menu
          */
         function deleteMenu() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.menu})}]]').then(result => {
+            _confirm('[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]').then(result => {
                 if(result) {
                     let url = new URL('[[@{/admin/menu/delete-menu}]]', document.location.origin);
                     url.searchParams.append('menuId', menu.id);
                     _fetch(url).then(response => {
                         if(response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.menu})}]]').then(() => {
+                            _alert('[[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]').then(() => {
                                 getMenus();
                             });
                         }
@@ -237,13 +237,13 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.menu.Menu.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight-bold width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.parentMenu}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <div class="container">
@@ -255,13 +255,13 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.link}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.link}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <input type="text" data-duice-bind="menu" data-duice-property="link" class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.target}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.target}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <select data-duice-bind="menu" data-duice-property="target">
@@ -270,7 +270,7 @@
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.icon}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <img class="icon" th:src="@{/static/image/icon-null.svg}"
@@ -279,13 +279,13 @@
                                  data-duice-editable="true"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.sort}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <input type="number" data-duice-bind="menu" data-duice-property="sort"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.note}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                         <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
@@ -293,7 +293,7 @@
                         </div>
 
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.menu.roles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
@@ -307,8 +307,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.roleId}"></th>
-                                        <th data-th-text="#{core.role.name}"></th>
+                                        <th data-th-text="#{core.role.Role.roleId}"></th>
+                                        <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addMenuRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -424,7 +424,7 @@
         </script>
         <h1>
             <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
-            <span data-th-text="#{core.menu}"></span>
+            <span data-th-text="#{core.menu.Menu}"></span>
         </h1>
         <hr/>
         <div class="overflow-x-scroll">
@@ -565,14 +565,14 @@
         </script>
         <h1>
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-            <span data-th-text="#{core.role}"></span>
+            <span data-th-text="#{core.role.Role}"></span>
         </h1>
         <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
-                    <option value="roleId" th:text="#{core.role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.name}"></option>
+                    <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                    <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
                 <button onclick="roleSelect.getRoles();" class="col-1">
@@ -596,8 +596,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -653,8 +653,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,7 @@ public class UserService {
      * saves user
      * @param user user info
      */
+    @Transactional
     public User saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(null);
         if(userEntity == null) {

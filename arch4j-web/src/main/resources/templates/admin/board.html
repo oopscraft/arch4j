@@ -279,12 +279,11 @@
                             </button>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="container gap-1px margin-1px">
+                    <div class="container gap-1px margin-x-1px">
                         <form onsubmit="return false;" class="col-12 container gap-1px">
                             <select data-duice-bind="boardSearch" data-duice-property="key" class="col-1 col-s-4">
-                                <option value="boardId" th:text="#{core.board.boardId}"></option>
-                                <option value="name" th:text="#{core.board.name}"></option>
+                                <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
+                                <option value="name" th:text="#{core.board.Board.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
@@ -308,8 +307,8 @@
                             <thead>
                             <tr>
                                 <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.board.boardId}"></th>
-                                <th data-th-text="#{core.board.name}"></th>
+                                <th data-th-text="#{core.board.Board.boardId}"></th>
+                                <th data-th-text="#{core.board.Board.name}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -358,21 +357,21 @@
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.boardId}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.board.Board.boardId}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="board" data-duice-property="boardId"
                                    class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.name}" class="font-weight-bold tag-required"></span>
+                            <span data-th-text="#{core.board.Board.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="board" data-duice-property="name"
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.icon}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
                         </div>
                         <div class="col-10 col-s-12">
                             <img th:src="@{/static/image/icon-board.svg}" data-duice-bind="board"
@@ -380,14 +379,14 @@
                                  style="width:32px; height:32px;"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.note}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="board" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.skin}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.skin}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="board" data-duice-property="skin">
@@ -395,7 +394,7 @@
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.pageSize}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.pageSize}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="board" data-duice-property="pageSize">
@@ -407,19 +406,25 @@
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.fileEnabled}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.commentEnabled}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.commentEnabled}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.accessRoles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.anonymousAllowed}" class="font-weight-bold"></span>
+                        </div>
+                        <div class="col-10 col-s-12">
+                            <input type="checkbox" data-duice-bind="board" data-duice-property="anonymousAllowed"/>
+                        </div>
+                        <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.Board.accessRoles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -433,8 +438,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.roleId}"></th>
-                                        <th data-th-text="#{core.role.name}"></th>
+                                        <th data-th-text="#{core.role.Role.roleId}"></th>
+                                        <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -466,7 +471,7 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.readRoles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.readRoles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -480,8 +485,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.roleId}"></th>
-                                        <th data-th-text="#{core.role.name}"></th>
+                                        <th data-th-text="#{core.role.Role.roleId}"></th>
+                                        <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -513,7 +518,7 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.writeRoles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.writeRoles}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
@@ -527,8 +532,8 @@
                                     <thead>
                                     <tr>
                                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.roleId}"></th>
-                                        <th data-th-text="#{core.role.name}"></th>
+                                        <th data-th-text="#{core.role.Role.roleId}"></th>
+                                        <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
                                             <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -693,14 +698,14 @@
         </script>
         <h2>
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-            <span data-th-text="#{core.role}"></span>
+            <span data-th-text="#{core.role.Role}"></span>
         </h2>
         <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
-                    <option value="roleId" th:text="#{core.role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.name}"></option>
+                    <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                    <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
                 <button onclick="roleSelect.getRoles();" class="col-1">
@@ -724,8 +729,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -781,8 +786,8 @@
                 <thead>
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.roleId}"></th>
-                    <th data-th-text="#{core.role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.name}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>

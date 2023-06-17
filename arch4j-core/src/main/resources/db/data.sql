@@ -40,7 +40,6 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'A
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'H2-CONSOLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'SWAGGER-UI');
-
 insert into `core_role` (`role_id`,`system_required`,`name`) values ('DEV','Y','Developer Role');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');
@@ -55,6 +54,7 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'H2-
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWAGGER-UI');
 
 -- user
+insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('user','User','user@oopscraft.org','010-1111-2222','{noop}user','GENERAL','ACTIVE');
 insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
 insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('dev','Developer Account','api@oopscraft.org','010-2222-3333','{noop}dev','SYSTEM','ACTIVE');
@@ -71,9 +71,9 @@ insert into `core_code` (`code_id`,`name`,`note`) values ('test2','test code 2',
 insert into `core_code` (`code_id`,`name`,`note`) values ('test3','test code 3','test code 3');
 
 -- board
-insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('notice','Notice Board','_default',20,true,true);
-insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('anonymous','Anonymous Board','_default',20,true,true);
-insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`) values ('member','Member Board','_default',20,true,true);
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`,`access_policy`,`read_policy`,`write_policy`) values ('notice','Notice Board','_default',20,'Y','Y','AUTHENTICATED','AUTHENTICATED','HAS_ANY_ROLE');
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`,`access_policy`,`read_policy`,`write_policy`) values ('anonymous','Anonymous Board','_default',20,'Y','Y','PERMIT_ALL','PERMIT_ALL','PERMIT_ALL');
+insert into `core_board` (`board_id`,`name`,`skin`,`page_size`,`comment_enabled`,`file_enabled`,`access_policy`,`read_policy`,`write_policy`) values ('member','Member Board','_default',20,'Y','Y','AUTHENTICATED','AUTHENTICATED','AUTHENTICATED');
 
 -- menu
 insert into `core_menu` (`menu_id`,`parent_menu_id`,`name`,`link`,`target`,`icon`) values ('board',null,'Board Demo',null,null,'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAM5JREFUWEftlzEOgkAQRR8ewspWa+y04RAYPYgH8SAavYSFNjR09lYewpgxYCYISLK7WYuhI1nmv31b8Dch8pNEzscAtIExcAZmgY/lBmTAQ3I0QA4cA4fX41fAqQmwBvbVigtw9wwzAZbVzA1w6AP4LPAIoTdoAGbADJgBM2AGzMBPAzvg6vFXLKMWwHZoH/Cc/TWu1UAKFMAocPoTmANlsxHJu0BMAwNIKX2HtwHobN3hXJk6O2bfxUR3OFeAzo751wDRj8BV+6Dvo19OX6AXWCE+Gh4hAAAAAElFTkSuQmCC');

@@ -2,11 +2,13 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,6 +44,10 @@ public class ArticleCommentEntity extends SystemFieldEntity {
 
     @Column(name = "parent_comment_id")
     private String parentCommentId;
+
+    @NotNull
+    @Column(name = "content_format", length = 16)
+    private ContentFormat contentFormat;
 
     @NotBlank
     @Column(name = "content")

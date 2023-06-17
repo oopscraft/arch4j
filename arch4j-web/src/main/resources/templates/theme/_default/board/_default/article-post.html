@@ -16,20 +16,20 @@
 <hr/>
 
 <!-- ================================================== -->
-<!-- start: article list                                -->
+<!-- start: article content                             -->
 <!-- ================================================== -->
 <div class="container gap-1px gap-column-1rem">
 
     <!-- START: writer name and password -->
     <th:block sec:authorize="!isAuthenticated()">
         <div class="col-12">
-            <span data-th-text="#{core.article.userName}" class="font-weight-bold tag-required"></span>
+            <span data-th-text="#{core.board.Article.userName}" class="font-weight-bold tag-required"></span>
         </div>
         <div class="col-12">
             <input type="text" data-duice-bind="article" data-duice-property="userName"/>
         </div>
         <div class="col-12">
-            <span data-th-text="#{core.article.password}" class="font-weight-bold tag-required"></span>
+            <span data-th-text="#{core.board.Article.password}" class="font-weight-bold tag-required"></span>
         </div>
         <div class="col-12">
             <input type="password" data-duice-bind="article" data-duice-property="password"/>
@@ -39,20 +39,31 @@
     <!-- END: writer name and password -->
 
     <div class="col-12">
-        <span data-th-text="#{core.article.title}" class="font-weight-bold tag-required"></span>
+        <span data-th-text="#{core.board.Article.title}" class="font-weight-bold tag-required"></span>
     </div>
     <div class="col-12">
         <input type="text" data-duice-bind="article" data-duice-property="title" class="width-100 font-weight-bold"/>
     </div>
     <div class="col-12">
-        <span data-th-text="#{core.article.content}" class="font-weight-bold"></span>
+        <span data-th-text="#{core.board.Article.content}" class="font-weight-bold tag-required"></span>
+        &nbsp;
+        <label>
+            <input type="radio" data-duice-bind="article" data-duice-property="contentFormat" value="TEXT"/>
+            <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
+        </label>
+        &nbsp;
+        <label>
+            <input type="radio" data-duice-bind="article" data-duice-property="contentFormat" value="MARKDOWN"/>
+            <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
+        </label>
     </div>
-    <div class="col-12">
-        <duice-markdown-editor data-duice-bind="article" data-duice-property="content" class="border-1" style="min-height:30em;"/>
+    <div class="col-12" style="height:40em;">
+        <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
+        <duice-markdown-editor data-duice-bind="article" data-duice-if="return article.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 height-100"/>
     </div>
 </div>
 <!-- ================================================== -->
-<!-- end: article list                                  -->
+<!-- end: article content                               -->
 <!-- ================================================== -->
 
 <!-- ================================================== -->
@@ -61,7 +72,7 @@
 <div class="content margin-top-1em">
     <div class="col-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
-        <span data-th-text="#{core.article.files}"></span>
+        <span data-th-text="#{core.board.Article.files}"></span>
     </div>
     <div class="col-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">

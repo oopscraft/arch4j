@@ -21,11 +21,11 @@
 <div>
     <div class="container border-bottom-1 font-weight-bold padding-x-1em display-s-none">
         <div data-th-text="#{web.global.no}" class="col-1 justify-left padding-left-1em col-s-0"></div>
-        <div data-th-text="#{core.article.title}" class="col-9 col-s-12"></div>
+        <div data-th-text="#{core.board.Article.title}" class="col-9 col-s-12"></div>
         <span class="col-2 justify-right padding-right-1em col-s-0">
-            <span data-th-text="#{core.article.userName}"></span>
+            <span data-th-text="#{core.board.Article.userName}"></span>
             |
-            <span data-th-text="#{core.article.dateTime}"></span>
+            <span data-th-text="#{core.board.Article.createdAt}"></span>
         </div>
     </div>
     <div data-duice-bind="articles" data-duice-loop="article,status" class="container padding-x-1em" style="border-bottom:dotted 1px lightgray;">
@@ -90,8 +90,8 @@
     <form onsubmit="return false;" class="col-8 container gap-column-1px">
         <select class="col-s-3" data-duice-bind="articleSearch" data-duice-property="key">
             <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
-            <option value="title" data-th-text="#{core.article.title}"></option>
-            <option value="content" data-th-text="#{core.article.content}"></option>
+            <option value="title" data-th-text="#{core.board.Article.title}"></option>
+            <option value="content" data-th-text="#{core.board.Article.content}"></option>
         </select>
         <input class="col-s-6" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
         <button class="col-s-3" onclick="getArticles();">

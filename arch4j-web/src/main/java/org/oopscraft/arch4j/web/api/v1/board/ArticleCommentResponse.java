@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.ArticleComment;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,8 @@ public class ArticleCommentResponse {
     private String parentCommentId;
 
     private LocalDateTime createdAt;
+
+    private ContentFormat contentFormat;
 
     private String content;
 
@@ -41,6 +44,7 @@ public class ArticleCommentResponse {
                 .commentId(articleComment.getCommentId())
                 .parentCommentId(articleComment.getParentCommentId())
                 .createdAt(articleComment.getCreatedAt())
+                .contentFormat(articleComment.getContentFormat())
                 .content(articleComment.getContent())
                 .userId(articleComment.getUserId())
                 .userName(articleComment.getUserName())

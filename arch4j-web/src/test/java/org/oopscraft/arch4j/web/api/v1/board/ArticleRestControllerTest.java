@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.core.sample.Sample;
 import org.oopscraft.arch4j.core.sample.SampleType;
 import org.oopscraft.arch4j.web.api.v1.board.ArticleRequest;
@@ -29,6 +30,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     ArticleRequest testArticleRequest = ArticleRequest.builder()
             .articleId(null)
             .title("test title")
+            .contentFormat(ContentFormat.TEXT)
             .content("test content")
             .build();
 
@@ -44,7 +46,7 @@ class ArticleRestControllerTest extends WebTestSupport {
         );
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/board/test/article")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/board/anonymous/article")
                         .file(article)
                         .param("some-random", "4"))
                 .andDo(print())
@@ -55,7 +57,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     @Order(2)
     void getArticles() throws Exception {
         saveArticle();
-        this.mockMvc.perform(get("/api/v1/board/test/article"))
+        this.mockMvc.perform(get("/api/v1/board/anonymous/article"))
                 .andDo(print()).andExpect(status().isOk());
     }
 

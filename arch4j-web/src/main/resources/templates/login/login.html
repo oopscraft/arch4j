@@ -10,35 +10,6 @@
     <script th:src="@{/static/chartjs/chart.js}"></script>
     <script th:src="@{'/static/duice/duice.js?version=' + ${_scriptVersion}}"></script>
     <script th:src="@{'/static/web.js?version=' + ${_scriptVersion}}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{'/static/web.css?version=' + ${scriptVersion}}"/>
-    <style>
-        html {
-            width: 100%;
-            height: 100%;
-        }
-        body {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: 100%;
-            grid-template-rows: 100%;
-        }
-        main {
-            justify-self: center;
-            align-self: center;
-        }
-        @media screen and (max-width: 1023px) {
-            body {
-                display: grid;
-                grid-template-columns: 100%;
-                grid-template-rows: 100%;
-            }
-        }
-        #login {
-            width: 200px;
-            height: 300px;
-        }
-    </style>
     <script>
         const login = new duice.ObjectProxy({
             username: null,
@@ -50,14 +21,14 @@
          * process login
          * @returns {Promise<boolean>}
          */
-        async function processLogin() {
+        const processLogin = async function() {
             if(_isEmpty(login.username)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.id})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.User.userId})}]]');
                 duice.ObjectProxy.focus(login, 'username');
                 return false;
             }
             if(_isEmpty(login.password)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
                 duice.ObjectProxy.focus(login, 'password');
                 return false;
             }
@@ -80,33 +51,19 @@
                 }
             });
         }
+
+        /**
+         * login with Google
+         */
+        const loginWithGoogle = function() {
+            alert("not ready yet");
+        }
+
     </script>
 </head>
 <body>
 <main>
-    <div id="login">
-        <h1 class="text-align-center">
-            <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
-        </h1>
-        <form onsubmit="return false;" class="container gap-1px">
-            <div class="col-12">
-                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.id}" class="width-100 text-align-center"/>
-            </div>
-            <div class="col-12">
-                <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.password}" class="width-100 text-align-center"/>
-            </div>
-            <div class="col-12 container">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <button onclick="processLogin();" class="col-12">
-                    <img class="icon" th:src="@{/static/image/icon-login.svg}">
-                    <span data-th-text="#{web.global.login}"></span>
-                </button>
-            </div>
-            <div class="col-12 justify-center">
-                <span data-duice-bind="login" data-duice-property="message"></span>
-            </div>
-        </form>
-    </div>
+    <th:block th:replace="|theme/${_theme}/login/login.html|"/>
 </main>
 </body>
 </html>

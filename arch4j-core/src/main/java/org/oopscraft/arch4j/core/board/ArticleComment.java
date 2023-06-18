@@ -21,7 +21,7 @@ public class ArticleComment {
 
     private LocalDateTime createdAt;
 
-    private ContentFormat contentFormat;
+    private TextFormat contentFormat;
 
     private String content;
 

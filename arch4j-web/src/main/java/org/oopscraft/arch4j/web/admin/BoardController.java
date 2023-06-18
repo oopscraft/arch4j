@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardSearch;
 import org.oopscraft.arch4j.core.board.BoardService;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

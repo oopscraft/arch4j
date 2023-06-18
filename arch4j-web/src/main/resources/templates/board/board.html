@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_web.html">
-
-<main layout:fragment="_main">
+      layout:decorate="board/_board.html">
+<th:block layout:fragment="_main_board">
     <script th:inline="javascript">
-        const boardId = [[${board.boardId}]];
         const articleSearch = new duice.ObjectProxy({
             key: null,
             value: null,
@@ -19,7 +17,7 @@
          * get articles
          * @param page
          */
-        function getArticles(page) {
+        const getArticles = function(page) {
             if(page) {
                 articleSearch._page = page;
             }
@@ -43,14 +41,14 @@
          * goto article read
          * @param articleId
          */
-        function gotoRead(articleId) {
+        const gotoRead = function(articleId) {
             document.location.href = `${_rootUrl}/board/${boardId}/article-read?articleId=${articleId}`;
         }
 
         /**
          * goto article post
          */
-        function gotoPost() {
+        const gotoPost = function() {
             document.location.href = `${_rootUrl}/board/${boardId}/article-post`;
         }
 
@@ -60,4 +58,4 @@
         });
     </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/board.html|"/>
-</main>
+</th:block>

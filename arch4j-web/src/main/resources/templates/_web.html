@@ -21,7 +21,11 @@
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
-        const _user = [[${_user}]];
+        const _user = new duice.ObjectProxy({
+            userId: [[${_user.userId}]],
+            name: [[${_user.name}]],
+            photo: [[${_user.photo}]]
+        });
         const _menus = new duice.ArrayProxy([]);
 
         /**

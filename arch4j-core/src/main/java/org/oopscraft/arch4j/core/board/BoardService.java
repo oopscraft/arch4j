@@ -35,22 +35,27 @@ public class BoardService {
                     .build();
         }
         boardEntity.setName(board.getName());
-        boardEntity.setIcon(board.getIcon());
         boardEntity.setNote(board.getNote());
+        boardEntity.setIcon(board.getIcon());
+        boardEntity.setMessageFormat(board.getMessageFormat());
+        boardEntity.setMessage(board.getMessage());
         boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
-        boardEntity.setCommentEnabled(board.isCommentEnabled());
         boardEntity.setFileEnabled(board.isFileEnabled());
+        boardEntity.setCommentEnabled(board.isCommentEnabled());
+        boardEntity.setAccessPolicy(board.getAccessPolicy());
         boardEntity.setAccessRoles(board.getAccessRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
+        boardEntity.setReadPolicy(board.getReadPolicy());
         boardEntity.setReadRoles(board.getReadRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
+        boardEntity.setWritePolicy(board.getWritePolicy());
         boardEntity.setWriteRoles(board.getWriteRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .roleId(role.getRoleId())

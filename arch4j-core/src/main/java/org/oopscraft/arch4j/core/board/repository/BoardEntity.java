@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.ColumnDefault;
+import org.oopscraft.arch4j.core.board.TextFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
@@ -28,18 +28,33 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "note")
+    private String note;
+
     @Column(name = "icon")
     @Lob
     private String icon;
 
-    @Column(name = "note")
-    private String note;
+    @Column(name = "message_format", length = 16)
+    private TextFormat messageFormat;
+
+    @Column(name = "message")
+    @Lob
+    private String message;
 
     @Column(name = "skin")
     private String skin;
 
     @Column(name = "page_size")
     private Integer pageSize;
+
+    @Column(name = "file_enabled", length = 1)
+    @Convert(converter= BooleanToYNConverter.class)
+    private boolean fileEnabled;
+
+    @Column(name = "comment_enabled", length = 1)
+    @Convert(converter= BooleanToYNConverter.class)
+    private boolean commentEnabled;
 
     @Column(name = "access_policy", length = 16)
     public SecurityPolicy accessPolicy;
@@ -49,14 +64,6 @@ public class BoardEntity extends SystemFieldEntity {
 
     @Column(name = "write_policy", length = 16)
     public SecurityPolicy writePolicy;
-
-    @Column(name = "file_enabled", length = 1)
-    @Convert(converter= BooleanToYNConverter.class)
-    private boolean fileEnabled;
-
-    @Column(name = "comment_enabled", length = 1)
-    @Convert(converter= BooleanToYNConverter.class)
-    private boolean commentEnabled;
 
     /**
      * board access roles

@@ -1,25 +1,21 @@
 <!-- ================================================== -->
-<!-- start: title                                       -->
+<!-- start: message                                     -->
 <!-- ================================================== -->
 <div class="container">
     <div class="col-12">
-        <h1>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
-            <span data-th-text="${board.name}"></span>
-        </h1>
+        <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
+        <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"/>
     </div>
 </div>
 <!-- ================================================== -->
-<!-- end: title                                         -->
+<!-- end: message                                       -->
 <!-- ================================================== -->
-
-<hr/>
 
 <!-- ================================================== -->
 <!-- article list                                       -->
 <!-- ================================================== -->
 <div>
-    <div class="container border-bottom-1 font-weight-bold padding-x-1em display-s-none">
+    <div class="container border-x-1 font-weight-bold padding-x-1em display-s-none">
         <div data-th-text="#{web.global.no}" class="col-1 justify-left padding-left-1em col-s-0"></div>
         <div data-th-text="#{core.board.Article.title}" class="col-9 col-s-12"></div>
         <span class="col-2 justify-right padding-right-1em col-s-0">

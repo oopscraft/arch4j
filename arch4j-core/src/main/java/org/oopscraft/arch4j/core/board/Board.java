@@ -2,13 +2,8 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.repository.BoardEntity;
-import org.oopscraft.arch4j.core.role.Authority;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.security.GrantedAuthorityImpl;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
-import org.oopscraft.arch4j.core.security.UserDetailsImpl;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import java.util.ArrayList;
@@ -25,14 +20,24 @@ public class Board {
 
     private String name;
 
+    private String note;
+
     private String icon;
 
-    private String note;
+    private TextFormat messageFormat;
+
+    private String message;
 
     private String skin;
 
     @Builder.Default
     private Integer pageSize = 20;
+
+    @Builder.Default
+    private boolean fileEnabled = true;
+
+    @Builder.Default
+    private boolean commentEnabled = true;
 
     @Column(name = "access_policy", length = 16)
     @Builder.Default
@@ -55,12 +60,6 @@ public class Board {
     @Builder.Default
     private List<Role> writeRoles = new ArrayList<>();
 
-    @Builder.Default
-    private boolean fileEnabled = true;
-
-    @Builder.Default
-    private boolean commentEnabled = true;
-
     /**
      * factory method
      * @param boardEntity board entity
@@ -72,6 +71,8 @@ public class Board {
                 .name(boardEntity.getName())
                 .note(boardEntity.getNote())
                 .icon(boardEntity.getIcon())
+                .messageFormat(boardEntity.getMessageFormat())
+                .message(boardEntity.getMessage())
                 .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
                 .accessPolicy(boardEntity.getAccessPolicy())

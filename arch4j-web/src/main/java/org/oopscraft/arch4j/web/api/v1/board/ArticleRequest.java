@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.TextFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ArticleRequest {
 
     private String title;
 
-    private ContentFormat contentFormat;
+    private TextFormat contentFormat;
 
     private String content;
 

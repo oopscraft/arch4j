@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_web.html">
-<main layout:fragment="_main">
+      layout:decorate="board/_board.html">
+<th:block layout:fragment="_main_board">
     <script th:inline="javascript">
-        const boardId = [[${board.boardId}]];
         const articleId = [[${param.articleId}]];
         const article = new duice.ObjectProxy({
             files:[]
         });
         const articleComments = new duice.ArrayProxy([]);
         const articleComment = new duice.ObjectProxy({
-            contentFormat: 'TEXT'
+            contentFormat: 'PLAIN'
         });
 
         /**
          * get article
          */
-        function getArticle() {
+        const getArticle = function() {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
@@ -30,7 +29,7 @@
         /**
          * get comments
          */
-        function getArticleComments() {
+        const getArticleComments = function() {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
@@ -45,7 +44,7 @@
          * @param articleComment
          * @returns {boolean}
          */
-        function isChildArticleComment(articleComment) {
+        const isChildArticleComment = function(articleComment) {
             if(articleComment.parentCommentId) {
                 return true;
             }
@@ -57,7 +56,7 @@
          * @param articleComment
          * @returns {boolean}
          */
-        function canEditArticleComment(articleComment) {
+        const canEditArticleComment = function(articleComment) {
             // target exists
             if(!articleComment.commentId) {
                 return false;
@@ -86,7 +85,7 @@
          * @param articleComment
          * @returns {boolean}
          */
-        function canDeleteArticleComment(articleComment) {
+        const canDeleteArticleComment = function(articleComment) {
             return canEditArticleComment(articleComment);
         }
 
@@ -94,7 +93,7 @@
          * detect article comment is anonymous
          * @param articleComment
          */
-        function isAnonymousArticleComment(articleComment) {
+        const isAnonymousArticleComment = function(articleComment) {
             // new comment
             if(!articleComment.commentId) {
                 if(_isAuthenticated) {
@@ -120,11 +119,11 @@
          * add article comment
          * @param parentCommentId parent comment id
          */
-        function addArticleComment(parentCommentId) {
+        const addArticleComment = function(parentCommentId) {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment, {
                 parentCommentId: parentCommentId,
-                contentFormat: 'TEXT'
+                contentFormat: 'PLAIN'
             });
             let commentForm = document.getElementById('article-comment-form');
             let parentCommentElement = document.querySelector(`[data-comment-id="${parentCommentId}"]`);
@@ -135,7 +134,7 @@
          * edit article comment
          * @param commentId comment id
          */
-        function editArticleComment(commentId) {
+        const editArticleComment = function(commentId) {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
@@ -154,7 +153,7 @@
         /**
          * cancel comment
          */
-        function cancelArticleComment() {
+        const cancelArticleComment = function() {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment,{
                 contentFormat: 'TEXT'
@@ -178,7 +177,7 @@
          * is valid article comment password
          * @returns {boolean}
          */
-        function isValidArticleArticleCommentPassword() {
+        const isValidArticleArticleCommentPassword = function() {
             if(_isEmpty(articleComment.password)) {
                 _alert('enter password');
                 return false;
@@ -197,7 +196,7 @@
         /**
          * save article comment
          */
-        function saveArticleComment(){
+        const saveArticleComment = function(){
 
             // if anonymous article comment, check password
             if(isAnonymousArticleComment(articleComment)) {
@@ -244,7 +243,7 @@
          * delete article comment
          * @param commentId
          */
-        function deleteArticleComment(commentId) {
+        const deleteArticleComment = function(commentId) {
 
             // if anonymous article comment, check password
             if(isAnonymousArticleComment(articleComment)) {
@@ -280,7 +279,7 @@
          * download file
          * @param fileId
          */
-        function downloadArticleFile(fileId) {
+        const downloadArticleFile = function(fileId) {
             let link = document.createElement('a');
             link.href = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/file/${fileId}`;
             link.click();
@@ -289,7 +288,7 @@
         /**
          * goto article edit
          */
-        async function gotoEditArticle() {
+        const gotoEditArticle = async function() {
             let url = new URL(`${_rootUrl}/board/${boardId}/article-post`, document.location.origin);
             url.searchParams.append('articleId', articleId);
             document.location.href = url.toString();
@@ -298,7 +297,7 @@
         /**
          * goto article list
          */
-        function gotoListArticle() {
+        const gotoListArticle = function() {
             document.location.href = `${_rootUrl}/board/${boardId}`;
         }
 
@@ -309,4 +308,4 @@
         });
     </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-read.html|"/>
-</main>
+</th:block>

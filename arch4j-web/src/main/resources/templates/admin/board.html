@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
-    <script>
+    <script th:inline="javascript">
         // board search condition
         const boardSearch = new duice.ObjectProxy({
             key: 'boardId',
@@ -18,6 +18,7 @@
 
         // board
         const board = new duice.ObjectProxy({
+            messageFormat: 'PLAIN',
             accessRoles: [],
             readRoles: [],
             writeRoles: []
@@ -41,7 +42,7 @@
             if(page) {
                 boardSearch._page = page;
             }
-            let url = new URL("[[@{/admin/board/get-boards}]]", document.location.origin);
+            let url = new URL([[@{/admin/board/get-boards}]], document.location.origin);
             if (boardSearch.key && boardSearch.value) {
                 url.searchParams.append(boardSearch.key, boardSearch.value);
             }
@@ -69,7 +70,7 @@
          * @param boardId board.boardId
          */
         function getBoard(boardId) {
-            let url = new URL('[[@{/admin/board/get-board}]]', document.location.origin);
+            let url = new URL([[@{/admin/board/get-board}]], document.location.origin);
             url.searchParams.append('boardId', boardId);
             _fetch(url)
                 .then(response => response.json())
@@ -103,19 +104,19 @@
 
             // check blank
             if (!boardId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.board.boardId})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.board.Board.boardId})}]]);
                 duice.ObjectProxy.focus(board, 'boardId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL('[[@{/admin/board/get-board}]]', document.location.origin);
+            let url = new URL([[@{/admin/board/get-board}]], document.location.origin);
             url.searchParams.append('boardId', boardId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let board = await response.json();
                 if (board) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.board.boardId})}]]');
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.board.Board.boardId})}]]);
                     return false;
                 }
             }
@@ -138,15 +139,15 @@
 
             // checks name
             if (!board.name || board.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.board.name})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.board.Board.name})}]]);
                 duice.ObjectProxy.focus(board, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.board})}]]').then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.board.Board})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/board/save-board}]]', document.location.origin);
+                    let url = new URL([[@{/admin/board/save-board}]], document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -155,7 +156,7 @@
                         body: JSON.stringify(board)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.board})}]]').then(() => {
+                            _alert([[#{web.global.saveItemComplete(#{core.board.Board})}]]).then(() => {
                                 getBoards();
                                 getBoard(board.boardId);
                             });
@@ -169,13 +170,13 @@
          * deleteBoard
          */
         function deleteBoard() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.board})}]]').then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.board.Board})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/board/delete-board}]]', document.location.origin);
+                    let url = new URL([[@{/admin/board/delete-board}]], document.location.origin);
                     url.searchParams.append('boardId', board.boardId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.board})}]]').then(() => {
+                            _alert([[#{web.global.deleteItemComplete(#{core.board.Board})}]]).then(() => {
                                 getBoards();
                                 duice.ObjectProxy.clear(board);
                             });
@@ -251,6 +252,14 @@
             board.writeRoles.splice(index, 1);
         }
 
+        /**
+         * open board
+         */
+        function openBoard() {
+            let url = new URL([[@{/board/}]] + board.boardId, document.location.origin);
+            window.open(url,'_blank');
+        }
+
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
             getBoards();
@@ -317,7 +326,7 @@
                             " onclick="getBoard(this.dataset.boardId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="board" data-duice-property="boardId"></td>
+                                <td data-duice-bind="board" data-duice-property="boardId" class="font-weight-bold"></td>
                                 <td data-duice-bind="board" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="boards" data-duice-script="if(boards.length === 0) this.hidden=false;" hidden>
@@ -371,20 +380,44 @@
                                    class="width-100"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
-                        </div>
-                        <div class="col-10 col-s-12">
-                            <img th:src="@{/static/image/icon-board.svg}" data-duice-bind="board"
-                                 data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
-                                 style="width:32px; height:32px;"/>
-                        </div>
-                        <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.Board.note}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
                             <textarea data-duice-bind="board" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
+                        <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
+                        </div>
+                        <div class="col-10 col-s-12">
+                            <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board"
+                                 data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
+                                 style="width:32px; height:32px;"/>
+                        </div>
+
+
+                        <div class="col-2 col-s-12">
+                            <span data-th-text="#{core.board.Board.message}" class="font-weight-bold"></span>
+                        </div>
+                        <div class="col-10 col-s-12 container">
+                            <div class="col-12">
+                                <label>
+                                    <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="PLAIN"/>
+                                    <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
+                                </label>
+                                &nbsp;
+                                <label>
+                                    <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="MARKDOWN"/>
+                                    <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
+                                </label>
+                            </div>
+                            <div class="col-12" style="height:10em;">
+                                <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message" class="width-100 height-100"></textarea>
+                                <duice-markdown-editor data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message" class="border-1 width-100 height-100"/>
+                            </div>
+                        </div>
+
+
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.board.Board.skin}" class="font-weight-bold"></span>
                         </div>
@@ -418,16 +451,19 @@
                             <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.Board.anonymousAllowed}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.accessPolicy}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <input type="checkbox" data-duice-bind="board" data-duice-property="anonymousAllowed"/>
-                        </div>
-                        <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.Board.accessRoles}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="col-10 col-s-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <select data-duice-bind="board" data-duice-property="accessPolicy">
+                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                        th:value="${securityPolicy}"
+                                        th:text="${securityPolicy.getLabel()}">
+                                </option>
+                            </select>
+                            <div data-duice-bind="board"
+                                 data-duice-if="return board.accessPolicy === 'AUTHORIZED'"
+                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
                                 <table class="width-100 border-0">
                                     <colgroup>
                                         <col style="width:5rem;"/>
@@ -471,10 +507,19 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.Board.readRoles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.readPolicy}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <select data-duice-bind="board" data-duice-property="readPolicy">
+                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                        th:value="${securityPolicy}"
+                                        th:text="${securityPolicy.getLabel()}">
+                                </option>
+                            </select>
+                            <div data-duice-bind="board"
+                                 data-duice-if="return board.readPolicy === 'AUTHORIZED'"
+                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
                                 <table class="width-100 border-0">
                                     <colgroup>
                                         <col style="width:5rem;"/>
@@ -518,10 +563,19 @@
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.board.Board.writeRoles}" class="font-weight-bold"></span>
+                            <span data-th-text="#{core.board.Board.writePolicy}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <select data-duice-bind="board" data-duice-property="writePolicy">
+                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                        th:value="${securityPolicy}"
+                                        th:text="${securityPolicy.getLabel()}">
+                                </option>
+                            </select>
+                            <div data-duice-bind="board"
+                                 data-duice-if="return board.writePolicy === 'AUTHORIZED'"
+                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
                                 <table class="width-100 border-0">
                                     <colgroup>
                                         <col style="width:5rem;"/>
@@ -565,8 +619,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container margin-1px">
-                        <div class="col-12 justify-right">
+                    <div class="container margin-top-1em">
+                        <div class="col-6 col-s-12">
+                            <button onclick="openBoard();">
+                                <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                                <span data-th-text="#{web.admin.board.openBoard}"></span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-s-12 justify-right">
                             <button onclick="deleteBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>

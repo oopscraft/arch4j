@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_web.html">
-<main layout:fragment="_main">
+      layout:decorate="board/_board.html">
+<th:block layout:fragment="_main_board">
     <script th:inline="javascript">
-        const boardId = [[${board.boardId}]];
         const articleId = [[${param.articleId}]];
         const articlePassword = [[${articlePassword}]];
         const article = new duice.ObjectProxy({
-            contentFormat: 'TEXT',
+            contentFormat: 'PLAIN',
             files:[]
         });
         const files = [];
@@ -17,7 +16,7 @@
          * get article
          * @param articleId
          */
-        function getArticle(articleId) {
+        const getArticle = function(articleId) {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
@@ -36,7 +35,7 @@
         /**
          * add article file
          */
-        function addArticleFile() {
+        const addArticleFile = function() {
             let input = document.createElement('input');
             input.setAttribute('type', 'file');
             input.addEventListener('change', function () {
@@ -55,7 +54,7 @@
          * remove article file
          * @param index
          */
-        function removeArticleFile(index) {
+        const removeArticleFile = function(index) {
             article.files.splice(index,1);
         }
 
@@ -63,7 +62,7 @@
          * detect article is anonymous
          * @returns {boolean}
          */
-        function isAnonymousArticle() {
+        const isAnonymousArticle = function() {
             // new article
             if(!article.articleId) {
                 if(_isAuthenticated) {
@@ -88,7 +87,7 @@
         /**
          * check valid article password
          */
-        function isValidArticlePassword() {
+        const isValidArticlePassword = function() {
             if(_isEmpty(article.password)) {
                 _alert('enter password');
                 return false;
@@ -107,7 +106,7 @@
         /**
          * save article
          */
-        function saveArticle() {
+        const saveArticle = function() {
 
             // if anonymous article, check password.
             if(isAnonymousArticle()) {
@@ -158,7 +157,7 @@
          * delete article
          * @returns {boolean}
          */
-        function deleteArticle() {
+        const deleteArticle = function() {
 
             // if anonymous article, check password.
             if(isAnonymousArticle()) {
@@ -191,7 +190,7 @@
         /**
          * goto read
          */
-        function gotoCancel() {
+        const gotoCancel = function() {
             if(articlePassword) {
                 history.go(-2);
             }else{
@@ -208,4 +207,4 @@
 
     </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-post.html|"/>
-</main>
+</th:block>

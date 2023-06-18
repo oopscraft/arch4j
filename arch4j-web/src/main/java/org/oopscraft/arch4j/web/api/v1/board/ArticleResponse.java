@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import lombok.Builder;
 import lombok.Data;
 import org.oopscraft.arch4j.core.board.Article;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.TextFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ArticleResponse {
 
     private String title;
 
-    private ContentFormat contentFormat;
+    private TextFormat contentFormat;
 
     private String content;
 

@@ -21,7 +21,7 @@
             height: 100%;
             display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 100%;
+            grid-template-rows: 75%;
         }
         main {
             justify-self: center;
@@ -35,11 +35,12 @@
             }
         }
         #login {
-            width: 200px;
-            height: 300px;
+            width: 300px;
+            padding: 1em;
+            border: solid 1px #000;
         }
     </style>
-    <script>
+    <script th:inline="javascript">
         const login = new duice.ObjectProxy({
             username: null,
             password: null,
@@ -52,18 +53,18 @@
          */
         async function processLogin() {
             if(_isEmpty(login.username)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.userId})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
                 duice.ObjectProxy.focus(login, 'username');
                 return false;
             }
             if(_isEmpty(login.password)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.password})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
                 duice.ObjectProxy.focus(login, 'password');
                 return false;
             }
 
             // request login
-            let url = new URL('[[@{/admin/login/process}]]', document.location.origin);
+            let url = new URL([[@{/admin/login/process}]], document.location.origin);
             let payload = new URLSearchParams();
             payload.append('username', login.username);
             payload.append('password', login.password);
@@ -72,7 +73,7 @@
                 body: payload
             }, true).then(async function (response) {
                 if (response.ok) {
-                    document.location.href = '[[@{/admin}]]';
+                    document.location.href = [[@{/admin}]];
                 } else {
                     let json = await response.json();
                     login.message = json.message;
@@ -89,12 +90,12 @@
         <h1 class="text-align-center">
             <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
         </h1>
-        <form onsubmit="return false;" class="container gap-1px">
+        <form onsubmit="return false;" class="container gap-1em">
             <div class="col-12">
-                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.userId}" class="width-100 text-align-center"/>
+                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
             </div>
             <div class="col-12">
-                <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.password}" class="width-100 text-align-center"/>
+                <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
             </div>
             <div class="col-12 container">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -103,10 +104,22 @@
                     <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
+            <div class="col-12">
+                <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                <select onchange="_changeLanguage(this.value);">
+                    <option>- language -</option>
+                    <option value="en">English</option>
+                    <option value="ko">한국어</option>
+                </select>
+            </div>
             <div class="col-12 justify-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
         </form>
+        <hr/>
+        <div>
+            <img class="icon" th:src="@{/static/image/copyright.png}"/>
+        </div>
     </div>
 </main>
 </body>

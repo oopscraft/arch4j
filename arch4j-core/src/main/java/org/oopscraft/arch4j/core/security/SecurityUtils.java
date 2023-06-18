@@ -93,13 +93,13 @@ public class SecurityUtils {
      * @return result
      */
     public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
-        if(securityPolicy == SecurityPolicy.PERMIT_ALL) {
+        if(securityPolicy == SecurityPolicy.ANONYMOUS) {
             return true;
         }
         if(securityPolicy == SecurityPolicy.AUTHENTICATED) {
             return isAuthenticated();
         }
-        if(securityPolicy == SecurityPolicy.HAS_ANY_ROLE) {
+        if(securityPolicy == SecurityPolicy.AUTHORIZED) {
             return hasAnyRole(requiredRoles);
         }
         return false;

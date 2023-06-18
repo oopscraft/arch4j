@@ -1,20 +1,4 @@
 <!-- ================================================== -->
-<!-- start: board title                                 -->
-<!-- ================================================== -->
-<div class="container">
-    <div class="col-12">
-        <h1>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
-            <span data-th-text="${board.name}"></span>
-        </h1>
-    </div>
-</div>
-<hr/>
-<!-- ================================================== -->
-<!-- end: board title                                   -->
-<!-- ================================================== -->
-
-<!-- ================================================== -->
 <!-- start: article title                               -->
 <!-- ================================================== -->
 <div class="container margin-top-1em">
@@ -50,7 +34,7 @@
 <!-- ================================================== -->
 <div class="container margin-top-1em">
     <div class="col-12">
-        <div data-duice-bind="article" data-duice-if="return article.contentFormat === 'TEXT'" data-duice-property="content"></div>
+        <div data-duice-bind="article" data-duice-if="return article.contentFormat === 'PLAIN'" data-duice-property="content"></div>
         <duice-markdown-viewer data-duice-bind="article" data-duice-if="return article.contentFormat ==='MARKDOWN'" data-duice-property="content"/>
     </div>
 </div>
@@ -168,7 +152,7 @@
                 </span>
             </div>
             <div class="col-12">
-                <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content"></div>
+                <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='PLAIN'" data-duice-property="content"></div>
                 <duice-markdown-viewer data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
             </div>
             <div class="col-12">
@@ -210,20 +194,25 @@
                 <input type="password" data-duice-bind="articleComment" data-duice-property="password" th:placeholder="#{core.board.ArticleComment.password}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.board.ArticleComment.password}"/>
             </span>
+            <span sec:authorize="isAuthenticated()">
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                     data-duice-bind="_user" data-duice-property="photo"/>
+                <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
+            </span>
         </div>
         <div class="col-12">
             <label>
-                <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="TEXT"/>
-                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
+                <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="PLAIN"/>
+                <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
             </label>
             &nbsp;
             <label>
                 <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="MARKDOWN"/>
-                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
+                <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
             </label>
         </div>
         <div class="col-12" style="height:20em;">
-            <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
+            <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='PLAIN'" data-duice-property="content" class="width-100 height-100"></textarea>
             <duice-markdown-editor data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
         </div>
         <div class="col-12 justify-center padding-1em">

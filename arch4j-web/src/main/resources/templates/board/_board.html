@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_web.html">
+<main layout:fragment="_main">
+    <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
+        const board = new duice.ObjectProxy({});
+
+        /**
+         * get article
+         */
+        const getBoard = function() {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(board, data);
+                });
+        }
+
+        // on load
+        document.addEventListener('DOMContentLoaded', event => {
+            getBoard();
+        });
+
+    </script>
+    <th:block th:replace="|theme/${_theme}/board/${board.skin}/_board.html|"/>
+    <th:block layout:fragment="_main_board"/>
+</main>

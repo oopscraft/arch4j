@@ -168,8 +168,9 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span>
-                    <img th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" class="icon"/>
-                    <span data-th-text="${_user.name}" class="font-weight-bold"></span>
+                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                         data-duice-bind="_user" data-duice-property="photo"/>
+                    <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">

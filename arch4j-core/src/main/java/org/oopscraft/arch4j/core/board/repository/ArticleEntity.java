@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.TextFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
 
@@ -33,7 +33,7 @@ public class ArticleEntity extends SystemFieldEntity {
 
     @NotNull
     @Column(name = "content_format", length = 16)
-    private ContentFormat contentFormat;
+    private TextFormat contentFormat;
 
     @NotBlank
     @Column(name = "content")

@@ -99,6 +99,11 @@ input:focus {
     outline: 0;
     border: var(--web-element-focus-border);
 }
+input[type='checkbox'],
+input[type='radio'] {
+    margin-top: -1px;
+    vertical-align: middle;
+}
 
 /* textarea */
 textarea {
@@ -234,6 +239,26 @@ table tbody tr:last-of-type td {
 table thead th:has(button,input,select,textarea,table),
 table tbody td:has(button,input,select,textarea,table) {
     padding: 1px;
+}
+
+/* ul,ol,li */
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 1em;
+}
+ol {
+    display: block;
+    list-style-type: decimal;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 1em;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
 }
 
 /* dialog */
@@ -449,6 +474,14 @@ hr {
 }
 .border-right-1 {
     border-right: var(--web-element-border);
+}
+.border-x-1 {
+    border-top: var(--web-element-border);
+    border-bottom: var(--web-element-border);
+}
+.border-y-1 {
+    border-right: var(--web-element-border);
+    border-left: var(--web-element-border);
 }
 
 /* text-align */

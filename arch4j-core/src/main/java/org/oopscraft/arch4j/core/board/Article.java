@@ -26,7 +26,7 @@ public class Article {
 
     @Builder.Default
     @NotNull(message = "Content format is empty")
-    private ContentFormat contentFormat = ContentFormat.TEXT;
+    private TextFormat contentFormat = TextFormat.PLAIN;
 
     @NotBlank(message = "Content is empty")
     private String content;

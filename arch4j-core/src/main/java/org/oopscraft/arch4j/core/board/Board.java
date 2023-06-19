@@ -36,8 +36,6 @@ public class Board {
     @Builder.Default
     private boolean fileEnabled = true;
 
-    @Builder.Default
-    private boolean commentEnabled = true;
 
     @Column(name = "access_policy", length = 16)
     @Builder.Default
@@ -60,6 +58,15 @@ public class Board {
     @Builder.Default
     private List<Role> writeRoles = new ArrayList<>();
 
+    @Builder.Default
+    private boolean commentEnabled = true;
+
+    @Builder.Default
+    private SecurityPolicy commentPolicy = SecurityPolicy.AUTHENTICATED;
+
+    @Builder.Default
+    private List<Role> commentRoles = new ArrayList<>();
+
     /**
      * factory method
      * @param boardEntity board entity
@@ -75,6 +82,7 @@ public class Board {
                 .message(boardEntity.getMessage())
                 .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
+                .fileEnabled(boardEntity.isFileEnabled())
                 .accessPolicy(boardEntity.getAccessPolicy())
                 .accessRoles(boardEntity.getAccessRoles().stream()
                         .map(Role::from)
@@ -87,8 +95,11 @@ public class Board {
                 .writeRoles(boardEntity.getWriteRoles().stream()
                         .map(Role::from)
                         .collect(Collectors.toList()))
-                .fileEnabled(boardEntity.isFileEnabled())
                 .commentEnabled(boardEntity.isCommentEnabled())
+                .commentPolicy(boardEntity.getCommentPolicy())
+                .commentRoles(boardEntity.getCommentRoles().stream()
+                        .map(Role::from)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

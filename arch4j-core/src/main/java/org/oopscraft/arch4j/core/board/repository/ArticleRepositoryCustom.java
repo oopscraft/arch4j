@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ArticleRepositoryCustom {
 
-    public Page<ArticleEntity> findArticles(ArticleSearch articleSearch, Pageable pageable);
+    Page<ArticleEntity> findArticles(ArticleSearch articleSearch, Pageable pageable);
 
 }

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ArticleCommentRestController {
 
+    private final BoardService boardService;
+
     private final ArticleCommentService articleCommentService;
 
     private final PasswordEncoder passwordEncoder;
@@ -30,11 +32,13 @@ public class ArticleCommentRestController {
      * @return comment list
      */
     @GetMapping
-    @Operation(summary = "get article replies")
+    @Operation(summary = "get article comments")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId
     ) {
+        Board board = boardService.getBoard(boardId).orElseThrow();
+        boardService.checkReadPermission(board);
         List<ArticleCommentResponse> commentResponses = articleCommentService.getArticleComments(articleId).stream()
                 .map(ArticleCommentResponse::from)
                 .collect(Collectors.toList());
@@ -54,6 +58,8 @@ public class ArticleCommentRestController {
             @PathVariable("articleId") String articleId,
             @PathVariable("commentId") String commentId
     ) {
+        Board board = boardService.getBoard(boardId).orElseThrow();
+        boardService.checkReadPermission(board);
         ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
                 .map(ArticleCommentResponse::from)
                 .orElseThrow(()-> new DataNotFoundException(commentId));

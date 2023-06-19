@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
@@ -67,7 +66,7 @@ public class DefaultStorageClient implements StorageClient {
         if(file.exists()) {
             if(!file.delete()) {
                 throw new RuntimeException("file delete error");
-            };
+            }
         }
     }
 }

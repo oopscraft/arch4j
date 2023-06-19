@@ -1,8 +1,5 @@
 package org.oopscraft.arch4j.core;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -10,11 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
-import org.modelmapper.ModelMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.message.MessageService;
 import org.oopscraft.arch4j.core.message.MessageSource;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,13 +17,11 @@ import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
-import org.springframework.core.SpringProperties;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -38,14 +31,12 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * CoreApplication

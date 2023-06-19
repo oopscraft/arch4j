@@ -42,7 +42,6 @@ public class BoardService {
         boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
         boardEntity.setFileEnabled(board.isFileEnabled());
-        boardEntity.setCommentEnabled(board.isCommentEnabled());
         boardEntity.setAccessPolicy(board.getAccessPolicy());
         boardEntity.setAccessRoles(board.getAccessRoles().stream()
                 .map(role -> RoleEntity.builder()
@@ -61,6 +60,15 @@ public class BoardService {
                         .roleId(role.getRoleId())
                         .build())
                 .collect(Collectors.toList()));
+        boardEntity.setCommentEnabled(board.isCommentEnabled());
+        boardEntity.setCommentPolicy(board.getCommentPolicy());
+        boardEntity.setCommentRoles(board.getCommentRoles().stream()
+                .map(role -> RoleEntity.builder()
+                        .roleId(role.getRoleId())
+                        .build())
+                .collect(Collectors.toList()));
+
+        // save
         boardEntity = boardRepository.saveAndFlush(boardEntity);
         return Board.from(boardEntity);
     }
@@ -106,31 +114,20 @@ public class BoardService {
         return new PageImpl<>(boards, pageable, total);
     }
 
-    /**
-     * can access
-     * @param board board
-     * @return result
-     */
-    public boolean hasAccessPermission(Board board) {
-        return SecurityUtils.hasPermission(board.getAccessPolicy(), board.getAccessRoles());
+    public void checkAccessPermission(Board board) {
+        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
     }
 
-    /**
-     * can read
-     * @param board board
-     * @return result
-     */
-    public boolean hasReadPermission(Board board) {
-        return SecurityUtils.hasPermission(board.getReadPolicy(), board.getReadRoles());
+    public void checkReadPermission(Board board) {
+        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
     }
 
-    /**
-     * can write
-     * @param board board
-     * @return result
-     */
-    public boolean hasWritePermission(Board board) {
-        return SecurityUtils.hasPermission(board.getWritePolicy(), board.getWriteRoles());
+    public void checkWritePermission(Board board) {
+        SecurityUtils.checkPermission(board.getWritePolicy(), board.getWriteRoles());
+    }
+
+    public void checkCommentPermission(Board board) {
+        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
     }
 
 }

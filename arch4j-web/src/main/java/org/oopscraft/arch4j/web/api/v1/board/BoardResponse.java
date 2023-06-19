@@ -27,13 +27,15 @@ public class BoardResponse {
 
     private boolean fileEnabled;
 
-    private boolean commentEnabled;
-
     private SecurityPolicy accessPolicy;
 
     private SecurityPolicy readPolicy;
 
     private SecurityPolicy writePolicy;
+
+    private boolean commentEnabled;
+
+    private SecurityPolicy commentPolicy;
 
     /**
      * factory method
@@ -50,10 +52,11 @@ public class BoardResponse {
                 .skin(board.getSkin())
                 .pageSize(board.getPageSize())
                 .fileEnabled(board.isFileEnabled())
-                .commentEnabled(board.isCommentEnabled())
                 .accessPolicy(board.getAccessPolicy())
                 .readPolicy(board.getReadPolicy())
                 .writePolicy(board.getWritePolicy())
+                .commentEnabled(board.isCommentEnabled())
+                .commentPolicy(board.getCommentPolicy())
                 .build();
     }
 

@@ -52,10 +52,6 @@ public class BoardEntity extends SystemFieldEntity {
     @Convert(converter= BooleanToYNConverter.class)
     private boolean fileEnabled;
 
-    @Column(name = "comment_enabled", length = 1)
-    @Convert(converter= BooleanToYNConverter.class)
-    private boolean commentEnabled;
-
     @Column(name = "access_policy", length = 16)
     public SecurityPolicy accessPolicy;
 
@@ -64,6 +60,13 @@ public class BoardEntity extends SystemFieldEntity {
 
     @Column(name = "write_policy", length = 16)
     public SecurityPolicy writePolicy;
+
+    @Column(name = "comment_enabled", length = 1)
+    @Convert(converter= BooleanToYNConverter.class)
+    private boolean commentEnabled;
+
+    @Column(name = "comment_policy", length = 16)
+    public SecurityPolicy commentPolicy;
 
     /**
      * board access roles
@@ -106,5 +109,20 @@ public class BoardEntity extends SystemFieldEntity {
     )
     @Builder.Default
     private List<RoleEntity> writeRoles = new ArrayList<>();
+
+    /**
+     * board write roles
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "core_board_role_comment",
+            joinColumns = @JoinColumn(name = "board_id"),
+            foreignKey = @ForeignKey(name = "none"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            inverseForeignKey = @ForeignKey(name = "none")
+    )
+    @Builder.Default
+    private List<RoleEntity> commentRoles = new ArrayList<>();
+
 
 }

@@ -1,22 +1,21 @@
 package org.oopscraft.arch4j.web.board;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.core.security.exception.AuthenticationFailureException;
+import org.oopscraft.arch4j.core.security.exception.AuthorizationFailureException;
 import org.oopscraft.arch4j.web.exception.DataNotFoundException;
-import org.oopscraft.arch4j.web.security.exception.AuthenticationFailureException;
-import org.oopscraft.arch4j.web.security.exception.AuthorizationFailureException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/board/{boardId}")
@@ -48,9 +47,7 @@ public class ArticlePostController {
         modelAndView.addObject("board", board);
 
         // check access permission
-        if(!boardService.hasWritePermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        boardService.checkWritePermission(board);
 
         // when edit article
         if(articleId != null) {

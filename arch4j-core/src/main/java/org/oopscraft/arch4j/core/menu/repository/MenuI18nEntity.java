@@ -6,8 +6,6 @@ import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "core_menu_i18n")

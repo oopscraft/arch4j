@@ -91,14 +91,13 @@ public class CryptoUtil implements ApplicationContextAware {
         for(Field field : fields) {
             Annotation annotation = field.getAnnotation(Crypto.class);
             if(annotation != null) {
-                String rawText = null;
                 try {
                     field.setAccessible(true);
-                    rawText = (String) field.get(object);
+                    String rawText = (String) field.get(object);
                     String cipherText = encrypt(rawText);
                     field.set(object, cipherText);
-                } catch (Throwable ignore) {
-                    log.warn("{} - {}", ignore.getMessage(), rawText);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -113,14 +112,13 @@ public class CryptoUtil implements ApplicationContextAware {
         for(Field field : fields) {
             Annotation annotation = field.getAnnotation(Crypto.class);
             if(annotation != null) {
-                String cipherText = null;
                 try {
                     field.setAccessible(true);
-                    cipherText = (String) field.get(object);
+                    String cipherText = (String) field.get(object);
                     String rawText = decrypt(cipherText);
                     field.set(object, rawText);
-                } catch (Throwable ignore) {
-                    log.warn("{} - {}", ignore.getMessage(), cipherText);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

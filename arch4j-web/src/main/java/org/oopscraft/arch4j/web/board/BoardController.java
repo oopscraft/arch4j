@@ -19,16 +19,8 @@ public class BoardController {
 
     @GetMapping
     public ModelAndView index(@PathVariable("boardId")String boardId) {
-
-        // get board
         Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check access permission
-        if(!boardService.hasAccessPermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
-
-        // return model and view
+        boardService.checkAccessPermission(board);
         ModelAndView modelAndView = new ModelAndView("board/board.html");
         modelAndView.addObject("board", board);
         return modelAndView;

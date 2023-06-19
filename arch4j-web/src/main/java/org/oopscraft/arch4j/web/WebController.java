@@ -2,22 +2,16 @@ package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
 public class WebController {
-
-    private static final long SCRIPT_VERSION = System.currentTimeMillis();
-
-    private final UserService userService;
 
     /**
      * FIXME index

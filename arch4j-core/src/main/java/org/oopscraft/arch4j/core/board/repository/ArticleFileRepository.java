@@ -1,6 +1,5 @@
 package org.oopscraft.arch4j.core.board.repository;
 
-import org.oopscraft.arch4j.core.board.ArticleFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

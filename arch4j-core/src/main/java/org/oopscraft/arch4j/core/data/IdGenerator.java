@@ -30,8 +30,7 @@ public class IdGenerator {
             return null;
         }
         byte[] bytes = Base64.getUrlEncoder().encode(plainValue.getBytes(CHARSET));
-        String encodedValue = new String(bytes, CHARSET);
-        return encodedValue;
+        return new String(bytes, CHARSET);
     }
 
     /**
@@ -42,8 +41,7 @@ public class IdGenerator {
             return null;
         }
         byte[] bytes = Base64.getUrlDecoder().decode(encodedValue.getBytes(CHARSET));
-        String decodedValue = new String(bytes, CHARSET);
-        return decodedValue;
+        return new String(bytes, CHARSET);
     }
 
 }

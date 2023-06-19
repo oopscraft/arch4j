@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface SampleMapper {
 
-    public List<SampleVo> selectSamples(SampleSearch sampleSearch, RowBounds rowBounds);
+    List<SampleVo> selectSamples(SampleSearch sampleSearch, RowBounds rowBounds);
 
-    public Long selectSamplesCount(SampleSearch sampleSearch);
+    Long selectSamplesCount(SampleSearch sampleSearch);
 
 }

@@ -7,6 +7,6 @@ import org.apache.ibatis.cursor.Cursor;
 @Mapper
 public interface SampleMapper {
 
-    public Cursor<SampleVo> selectSamples(@Param("limit") Integer limit);
+    Cursor<SampleVo> selectSamples(@Param("limit") Integer limit);
 
 }

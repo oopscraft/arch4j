@@ -107,9 +107,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
         List<GrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {
             authorities.add(GrantedAuthorityImpl.from(role));
-            role.getAuthorities().forEach(authority -> {
-                authorities.add(GrantedAuthorityImpl.from(authority));
-            });
+            role.getAuthorities().forEach(authority -> authorities.add(GrantedAuthorityImpl.from(authority)));
         });
 
         // build

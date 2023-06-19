@@ -35,7 +35,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -199,9 +198,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Bean
         @Order(1)
         public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/admin/**").matches(request);
-            });
+            http.requestMatcher(request -> new AntPathRequestMatcher("/admin/**").matches(request));
             http.authorizeRequests().anyRequest().hasAuthority("ADMIN");
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.exceptionHandling()
@@ -231,9 +228,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Bean
         @Order(2)
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/actuator/**").matches(request);
-            });
+            http.requestMatcher(request -> new AntPathRequestMatcher("/actuator/**").matches(request));
             http.authorizeRequests().anyRequest().hasAuthority("ACTUATOR");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
@@ -243,16 +238,14 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         /**
          * H2 console security filter chain
          *
-         * @param http
-         * @return
-         * @throws Exception
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
          */
         @Bean
         @Order(3)
         public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/swagger-ui/**").matches(request);
-            });
+            http.requestMatcher(request -> new AntPathRequestMatcher("/swagger-ui/**").matches(request));
             http.authorizeRequests().anyRequest().hasAuthority("SWAGGER-UI");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
@@ -262,16 +255,14 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         /**
          * H2 console security filter chain
          *
-         * @param http
-         * @return
-         * @throws Exception
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
          */
         @Bean
         @Order(4)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/h2-console/**").matches(request);
-            });
+            http.requestMatcher(request -> new AntPathRequestMatcher("/h2-console/**").matches(request));
             http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
@@ -288,9 +279,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Bean
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return new AntPathRequestMatcher("/api/**").matches(request);
-            });
+            http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
             http.authorizeRequests().anyRequest().permitAll();
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
@@ -302,16 +291,14 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         /**
          * default security filter chain
          *
-         * @param http
-         * @return
-         * @throws Exception
+         * @param http http
+         * @return security filter chain
+         * @throws Exception exception
          */
         @Bean
         @Order(99)
         public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> {
-                return true;
-            });
+            http.requestMatcher(request -> true);
             http.authorizeRequests().anyRequest().permitAll();
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.exceptionHandling()

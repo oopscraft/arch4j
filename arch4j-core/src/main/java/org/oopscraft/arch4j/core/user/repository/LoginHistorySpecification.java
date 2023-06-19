@@ -1,7 +1,5 @@
 package org.oopscraft.arch4j.core.user.repository;
 
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class LoginHistorySpecification {

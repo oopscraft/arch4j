@@ -84,7 +84,7 @@ web:
   locales:
     - en_US
     - ko_KR
-    - zh_CN
-    - ja_JP
+    #- zh_CN
+    #- ja_JP
 
 

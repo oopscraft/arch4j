@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class ColumnParser<T> {
 
-    private static List<ColumnParser> columnParserRegistries = new ArrayList<>() {{
+    private static final List<ColumnParser> columnParserRegistries = new ArrayList<>() {{
         add(new MapColumnParser());
         add(new ArrayColumnParser());
         add(new GenericColumnParser());
@@ -37,11 +37,7 @@ public abstract class ColumnParser<T> {
      * @return
      */
     static boolean isDelimiterChar(char c) {
-        if(c == ' '	|| c == '-' || c == '_'){
-            return true;
-        }else {
-            return false;
-        }
+        return c == ' ' || c == '-' || c == '_';
     }
 
     /**

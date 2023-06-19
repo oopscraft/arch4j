@@ -42,13 +42,11 @@ public class MenuService {
                 .sort(menu.getSort())
                 .note(menu.getNote())
                 .roles(menu.getRoles().stream()
-                        .map(role -> {
-                            return RoleEntity.builder()
+                        .map(role -> RoleEntity.builder()
                                     .roleId(role.getRoleId())
                                     .name(role.getName())
                                     .note(role.getNote())
-                                    .build();
-                        })
+                                    .build())
                         .collect(Collectors.toList()))
                 .build();
         menuEntity = menuRepository.saveAndFlush(menuEntity);

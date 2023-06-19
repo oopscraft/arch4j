@@ -20,13 +20,13 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
 
     private final MessageService messageService;
 
-    private PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+    private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
     /**
      * refreshProperties
-     * @param filename
-     * @param propHolder
-     * @return
+     * @param filename filename
+     * @param propHolder property holder
+     * @return property holder
      */
     @Override
     protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
@@ -39,9 +39,9 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
 
     /**
      * refreshClassPathProperties
-     * @param filename
-     * @param propHolder
-     * @return
+     * @param filename filename
+     * @param propHolder property holder
+     * @return property holder
      */
     private PropertiesHolder refreshClassPathProperties(String filename, PropertiesHolder propHolder) {
         Properties properties = new Properties();

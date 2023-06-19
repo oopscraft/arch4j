@@ -37,13 +37,11 @@ public class RoleService {
                 .name(role.getName())
                 .note(role.getNote())
                 .authorities(role.getAuthorities().stream()
-                        .map(authority -> {
-                            return AuthorityEntity.builder()
+                        .map(authority -> AuthorityEntity.builder()
                                     .authorityId(authority.getAuthorityId())
                                     .name(authority.getName())
                                     .note(authority.getNote())
-                                    .build();
-                        })
+                                    .build())
                         .collect(Collectors.toList()))
                 .build();
         roleEntity = roleRepository.saveAndFlush(roleEntity);

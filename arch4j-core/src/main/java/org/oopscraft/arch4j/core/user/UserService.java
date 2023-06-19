@@ -47,13 +47,11 @@ public class UserService {
                 .photo(user.getPhoto())
                 .profile(user.getProfile())
                 .roles(user.getRoles().stream()
-                        .map(role -> {
-                            return RoleEntity.builder()
+                        .map(role -> RoleEntity.builder()
                                     .roleId(role.getRoleId())
                                     .name(role.getName())
                                     .note(role.getNote())
-                                    .build();
-                        })
+                                    .build())
                         .collect(Collectors.toList()))
                 .build();
         userEntity = userRepository.saveAndFlush(userEntity);

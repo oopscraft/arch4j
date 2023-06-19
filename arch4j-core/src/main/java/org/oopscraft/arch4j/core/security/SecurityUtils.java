@@ -1,6 +1,8 @@
 package org.oopscraft.arch4j.core.security;
 
 import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.security.exception.AuthenticationFailureException;
+import org.oopscraft.arch4j.core.security.exception.AuthorizationFailureException;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +94,7 @@ public class SecurityUtils {
      * @param requiredRoles roles
      * @return result
      */
+    @Deprecated
     public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
         if(securityPolicy == SecurityPolicy.ANONYMOUS) {
             return true;
@@ -103,6 +106,30 @@ public class SecurityUtils {
             return hasAnyRole(requiredRoles);
         }
         return false;
+    }
+
+
+    /**
+     * check has permission
+     * @param targetSecurityPolicy target security policy
+     * @param targetRequiredRoles target required roles
+     */
+    public static void checkPermission(SecurityPolicy targetSecurityPolicy, List<Role> targetRequiredRoles) {
+        if(targetSecurityPolicy == SecurityPolicy.ANONYMOUS) {
+            return;
+        }
+        if(targetSecurityPolicy == SecurityPolicy.AUTHENTICATED) {
+            if(!isAuthenticated()) {
+                throw new AuthenticationFailureException();
+            }else{
+                return;
+            }
+        }
+        if(targetSecurityPolicy == SecurityPolicy.AUTHORIZED) {
+            if(!hasAnyRole(targetRequiredRoles)) {
+                throw new AuthorizationFailureException();
+            }
+        }
     }
 
 }

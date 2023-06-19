@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
@@ -52,9 +51,7 @@ public class ArticleRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check access permission
-        if(!boardService.hasAccessPermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        boardService.checkReadPermission(board);
 
         // search articles
         ArticleSearch articleSearch = ArticleSearch.builder()
@@ -86,10 +83,9 @@ public class ArticleRestController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check read permission
-        if(!boardService.hasReadPermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
 
         // return article
         ArticleResponse articleResponse = articleService.getArticle(articleId)
@@ -114,10 +110,10 @@ public class ArticleRestController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check write permission
-        if(!boardService.hasWritePermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
+        boardService.checkWritePermission(board);
 
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
@@ -182,10 +178,10 @@ public class ArticleRestController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check write permission
-        if(!boardService.hasWritePermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
+        boardService.checkWritePermission(board);
 
         // get article
         Article article = articleService.getArticle(articleId).orElseThrow();
@@ -242,10 +238,9 @@ public class ArticleRestController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check read permission
-        if(!boardService.hasReadPermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
 
         // response
         ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
@@ -275,10 +270,10 @@ public class ArticleRestController {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check write permission
-        if(!boardService.hasWritePermission(board)){
-            throw new AccessDeniedException("No permission");
-        }
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
+        boardService.checkWritePermission(board);
 
         // get target article
         Article article = articleService.getArticle(articleId).orElseThrow();

@@ -5,8 +5,6 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.repository.ArticleFileEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
-import java.io.InputStream;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SampleBackupMapper {
 
-    public Integer insertSampleBackup(SampleBackupVo sampleBackupVo);
+    Integer insertSampleBackup(SampleBackupVo sampleBackupVo);
 
 }

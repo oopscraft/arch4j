@@ -24,6 +24,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
@@ -66,6 +67,7 @@ import java.util.Properties;
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @EnableAutoConfiguration
+@EnableConfigurationProperties(WebProperties.class)
 public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigurer {
 
     /**

@@ -183,8 +183,7 @@
                 <img th:src="@{/static/theme/{_theme}/image/icon-language.svg(_theme=${_theme})}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
-                    <option value="en">English</option>
-                    <option value="ko">한국어</option>
+                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}"></option>
                 </select>
             </li>
         </ul>

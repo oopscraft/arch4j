@@ -1,26 +1,24 @@
 package org.oopscraft.arch4j.core.data.crpyto;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component("defaultCryptoKeyProvider")
-@ConditionalOnProperty(prefix = "core.crypto", name = "key-provider.bean", havingValue="defaultCryptoKeyProvider", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "core.data.crypto.crypto-key-provider", name = "bean", havingValue="defaultCryptoKeyProvider", matchIfMissing = true)
+@AllArgsConstructor
 public class DefaultCryptoKeyProvider implements CryptoKeyProvider {
 
-    @Value("${core.crypto.key-provider.password}")
-    private String password;
-
-    @Value("${core.crypto.key-provider.salt}")
-    private String salt;
+    private final CryptoKeyProviderProperties cryptoKeyProviderProperties;
 
     @Override
     public String getPassword() {
-        return password;
+        return cryptoKeyProviderProperties.getProperties().getProperty("password");
     }
 
     @Override
     public String getSalt() {
-        return salt;
+        return cryptoKeyProviderProperties.getProperties().getProperty("salt");
     }
+
 }

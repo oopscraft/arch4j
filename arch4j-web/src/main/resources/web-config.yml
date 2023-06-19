@@ -78,3 +78,13 @@ springdoc:
     - group: version 1.0
       paths-to-match: /api/v1/**
 
+# web
+web:
+  theme: _default
+  locales:
+    - en_US
+    - ko_KR
+    - zh_CN
+    - ja_JP
+
+

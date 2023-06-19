@@ -7,7 +7,7 @@ import org.oopscraft.arch4j.core.board.repository.ArticleFileRepository;
 import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.data.ValidationUtils;
-import org.oopscraft.arch4j.core.file.FileService;
+import org.oopscraft.arch4j.core.storage.StorageClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +32,7 @@ public class ArticleService {
 
     private final ArticleFileRepository articleFileRepository;
 
-    private final FileService fileService;
+    private final StorageClient fileService;
 
     private final PasswordEncoder passwordEncoder;
 

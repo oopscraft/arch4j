@@ -18,7 +18,8 @@ spring:
 
 # core
 core:
-  file:
-    properties:
-      location: /nfs
+  storage:
+    storage-client:
+      properties:
+        location: /nfs
 

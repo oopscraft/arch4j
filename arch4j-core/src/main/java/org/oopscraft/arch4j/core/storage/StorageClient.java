@@ -1,8 +1,8 @@
-package org.oopscraft.arch4j.core.file;
+package org.oopscraft.arch4j.core.storage;
 
 import java.io.InputStream;
 
-public interface FileService {
+public interface StorageClient {
 
     void upload(String directory, String filename, InputStream inputStream);
 

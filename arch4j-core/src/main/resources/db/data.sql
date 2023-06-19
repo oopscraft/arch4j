@@ -115,8 +115,15 @@ insert into `core_board`(
 ) values (
     'anonymous',
     'Anonymous Board',
-    'PLAIN',
-    'Anonymous Board',
+    'MARKDOWN',
+    '**Anonymous Board Demo**
+* Accessible for non-logged-in users
+* Read/Write enabled
+
+**익명게시판 데모**
+* 로그인하지 않은 사용자 접근가능
+* 읽기/쓰기 가능
+',
     '_default',
     20,
     'Y',
@@ -168,3 +175,57 @@ insert into `core_menu` (`menu_id`,`parent_menu_id`,`name`,`link`,`target`,`icon
 insert into `core_sample` (`sample_id`, `name`, `type`) values ('sample001', 'sample 001', 'A');
 insert into `core_sample_item` (`sample_id`, `item_id`, `name`) values ('sample001','item01','Item 01');
 insert into `core_sample_item` (`sample_id`, `item_id`, `name`) values ('sample002','item02','Item 02');
+
+
+
+
+
+
+
+
+
+-- demo data
+INSERT INTO core_article
+(article_id, system_required, system_updated_by, system_updated_at, board_id, comment_count, content, content_format, created_at, like_count, password, title, user_id, user_name)
+VALUES('7b70bab4b58d4265b18b7d5859efbb62', 'N', 'admin', '2023-06-18 17:14:36.236', 'anonymous', 0, '# Java 프로세스를 통해 PDF 문서의 페이지를 삭제하는 방법
+PDF 파일은 신뢰성이 높기 때문에 계약서나 저작권 성명 등 중요한 내용을 보관하는데 자주 사용됩니다. 그러나 때로는 중복 페이지를 삭제하거나 파일 크기를 줄이기 위해 중요하지 않은 내용을 삭제해야 할 수도 있습니다. 이를 위해 PDF 문서를 Word 문서로 변환할 수 있지만, Free Spire.PDF for Java프로그래밍 라이브러리를 사용하여 프로그래밍 방식으로 PDF 파일에서 지정된 페이지를 빠르게 제거할 수도 있습니다. 아래는 구체적인 튜토리얼입니다.
+
+## 프로그램 환경
+IntelliJ IDEA 2018 (jdk 1.8.0)
+
+먼저Free Spire.PDF for Java를 설치하십시오.
+
+이 링크에서  Free Spire.PDF for Java를 다운로드하고 패키지의 압축을 풀 수 있습니다.그런 다음 IDEA에서 새 프로젝트를 만들고 차례로 "파일" - "프로젝트 구조" - "모듈" - "의존성"을 클릭합니다. 오른쪽 초록색 플러스 아래에있는 "JAR 또는 디렉토리"를 선택하고, 압축 해제 된 패키지의 lib 폴더에서 "Spire.PDF.jar"를 찾아 프로젝트로 가져옵니다.
+
+```java
+import com.spire.pdf.*;
+
+public class DeletePage {
+    public static void main(String[] args) {
+
+        //PdfDocument 인스턴스 만들기
+        PdfDocument pdf = new PdfDocument();
+
+        //PDF 문서 로드
+        pdf.loadFromFile("sample.pdf");
+
+        //두 번째 페이지 삭제
+        pdf.getPages().removeAt(1);
+
+        //문서를 다른 파일에 저장
+        pdf.saveToFile("output/result.pdf");
+        pdf.close();
+    }
+}
+```
+
+먼저 PdfDocument 객체를 인스턴스화합니다. 그런 다음 pdf.loadFromFile() 메서드를 사용하여 PDF 문서를 로드합니다. pdf.getPages().removeAt() 메서드를 통해 PDF 문서의 페이지 컬렉션을 가져와 지정된 페이지를 삭제합니다. 마지막으로 수정된 PDF 문서가 다른 파일 "result.pdf"에 저장됩니다.
+
+이 코드는 PDF 파일에서 지정된 페이지를 삭제하는 방법을 보여줍니다. 이 외에도 Free Spire.PDF for Java는 "PDF에 페이지 추가", "PDF 파일의 페이지 크기 변경"도 지원합니다.', 'MARKDOWN', '2023-06-18 17:14:36.231', 0, NULL, 'Java 프로세스를 통해 PDF 문서의 페이지를 삭제하는 방법', 'admin', NULL);
+
+
+
+
+
+
+

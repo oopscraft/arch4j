@@ -21,6 +21,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +56,7 @@ import java.util.stream.Collectors;
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @EnableAutoConfiguration
-@EnableConfigurationProperties
+@ConfigurationPropertiesScan
 @EnableEncryptableProperties
 @EnableJpaRepositories
 @EntityScan

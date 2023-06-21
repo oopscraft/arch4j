@@ -18,7 +18,7 @@ import java.util.List;
 public class MessageEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "message_id", length=64)
+    @Column(name = "message_id", length = 64)
     private String messageId;
 
     @Column(name = "name")

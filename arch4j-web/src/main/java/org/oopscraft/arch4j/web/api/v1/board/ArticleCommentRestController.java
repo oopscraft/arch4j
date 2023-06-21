@@ -1,10 +1,11 @@
 package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +35,18 @@ public class ArticleCommentRestController {
     @GetMapping
     @Operation(summary = "get article comments")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId
     ) {
+        // get board
         Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
         boardService.checkReadPermission(board);
+
+        // return article responses
         List<ArticleCommentResponse> commentResponses = articleCommentService.getArticleComments(articleId).stream()
                 .map(ArticleCommentResponse::from)
                 .collect(Collectors.toList());
@@ -53,16 +61,25 @@ public class ArticleCommentRestController {
      * @return comment info
      */
     @GetMapping("{commentId}")
+    @Operation(summary = "get article comment")
     public ResponseEntity<ArticleCommentResponse> getArticleComment(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description =  "article ID")
             @PathVariable("articleId") String articleId,
+            @Parameter(description = "comment ID")
             @PathVariable("commentId") String commentId
     ) {
+        // get board
         Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
         boardService.checkReadPermission(board);
+
+        // return article comment
         ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
                 .map(ArticleCommentResponse::from)
-                .orElseThrow(()-> new DataNotFoundException(commentId));
+                .orElseThrow();
         return ResponseEntity.ok(commentResponse);
     }
 
@@ -75,11 +92,21 @@ public class ArticleCommentRestController {
      */
     @PostMapping
     @Transactional
+    @Operation(summary = "creates article comment")
     public ResponseEntity<ArticleComment> createArticleComment(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId,
+            @Parameter(description = "article comment request", schema = @Schema(type = "object", implementation = ArticleCommentRequest.class))
             @RequestBody ArticleCommentRequest articleCommentRequest
     ) {
+        // get board
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkCommentPermission(board);
+
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
             if(articleCommentRequest.getUserName() == null) {
@@ -90,7 +117,7 @@ public class ArticleCommentRestController {
             }
         }
 
-        // create
+        // create article comment
         ArticleComment articleComment = ArticleComment.builder()
                 .articleId(articleId)
                 .commentId(articleCommentRequest.getCommentId())
@@ -111,7 +138,7 @@ public class ArticleCommentRestController {
             articleComment.setPassword(articleCommentRequest.getPassword());
         }
 
-        // save
+        // save article comment
         articleComment = articleCommentService.saveArticleComment(articleComment);
         return ResponseEntity.ok(articleComment);
     }
@@ -125,12 +152,19 @@ public class ArticleCommentRestController {
      */
     @PutMapping("{commentId}")
     @Transactional
+    @Operation(summary = "edit article comment")
     public ResponseEntity<ArticleCommentResponse> editArticleComment(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId,
             @PathVariable("commentId") String commentId,
             @RequestBody ArticleCommentRequest articleCommentRequest
     ) {
+        // get board
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkCommentPermission(board);
+
         // get target article comment
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();
 
@@ -166,18 +200,29 @@ public class ArticleCommentRestController {
      */
     @DeleteMapping("{commentId}")
     @Transactional
+    @Operation(summary = "delete article comment")
     public ResponseEntity<Void> deleteArticleComment(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId,
+            @Parameter(description = "comment ID")
             @PathVariable("commentId") String commentId,
-            @RequestBody ArticleCommentRequest articleCommentRequest
+            @Parameter(description = "article delete request", schema = @Schema(type = "object", implementation = ArticleCommentDeleteRequest.class))
+            @RequestBody ArticleCommentDeleteRequest articleCommentDeleteRequest
     ) {
+        // get board
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkCommentPermission(board);
+
         // get target article comment to delete
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();
 
         // writer is anonymous user
         if(articleComment.getUserId() == null) {
-            if(!passwordEncoder.matches(articleCommentRequest.getPassword(), articleComment.getPassword())) {
+            if(!passwordEncoder.matches(articleCommentDeleteRequest.getPassword(), articleComment.getPassword())) {
                 throw new RuntimeException("password not match");
             }
         }

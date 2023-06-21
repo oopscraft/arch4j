@@ -131,7 +131,8 @@
                         method = 'POST';
                     }
                     let formData = new FormData();
-                    formData.append("article", new Blob([JSON.stringify(article)], {type:'application/json'}));
+                    //formData.append("article", new Blob([JSON.stringify(article)], {type:'application/json'}));
+                    formData.append('article', JSON.stringify(article));
                     files.forEach(file => {
                         formData.append("files", file);
                     });

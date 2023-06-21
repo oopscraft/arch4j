@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,7 +47,7 @@ public class CodeController {
     @ResponseBody
     public Code getCode(@RequestParam("codeId")String codeId) {
         return codeService.getCode(codeId)
-                .orElseThrow(() -> new DataNotFoundException(codeId));
+                .orElseThrow();
     }
 
     /**

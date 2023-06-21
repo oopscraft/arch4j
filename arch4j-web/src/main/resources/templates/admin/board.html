@@ -55,6 +55,9 @@
                     duice.ArrayProxy.clear(boards);
                     duice.ArrayProxy.assign(boards, data.content);
                     boardSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(boards, boards.findIndex(item => item.boardId === board.boardId));
                 });
         }
 
@@ -155,13 +158,12 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(board)
-                    }).then(response => {
-                        if (response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.board.Board})}]]).then(() => {
-                                getBoards();
-                                getBoard(board.boardId);
-                            });
-                        }
+                    }).then(response => response.json())
+                    .then(data => {
+                        _alert([[#{web.global.saveItemComplete(#{core.board.Board})}]]).then(() => {
+                            getBoard(data.boardId);
+                            getBoards();
+                        });
                     });
                 }
             });
@@ -344,7 +346,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.boardId=board.boardId;
                             " onclick="getBoard(this.dataset.boardId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -471,7 +473,7 @@
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
                                         th:value="${securityPolicy}"
-                                        th:text="${securityPolicy.getLabel()}">
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
                                 </option>
                             </select>
                             <div data-duice-bind="board"
@@ -527,7 +529,7 @@
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
                                         th:value="${securityPolicy}"
-                                        th:text="${securityPolicy.getLabel()}">
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
                                 </option>
                             </select>
                             <div data-duice-bind="board"
@@ -583,7 +585,7 @@
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
                                         th:value="${securityPolicy}"
-                                        th:text="${securityPolicy.getLabel()}">
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
                                 </option>
                             </select>
                             <div data-duice-bind="board"
@@ -645,7 +647,7 @@
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
                                         th:value="${securityPolicy}"
-                                        th:text="${securityPolicy.getLabel()}">
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
                                 </option>
                             </select>
                             <div data-duice-bind="board"

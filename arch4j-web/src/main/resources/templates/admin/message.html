@@ -49,6 +49,9 @@
                     duice.ArrayProxy.clear(messages);
                     duice.ArrayProxy.assign(messages, data.content);
                     messageSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(messages, messages.findIndex(item => item.messageId === message.messageId));
                 });
         }
 
@@ -242,7 +245,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.id=message.messageId;
                             " onclick="getMessage(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"

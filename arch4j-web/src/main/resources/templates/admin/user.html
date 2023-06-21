@@ -62,6 +62,9 @@
                     duice.ArrayProxy.clear(users);
                     duice.ArrayProxy.assign(users, data.content);
                     userSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(users, users.findIndex(e => e.userId === user.userId));
                 });
         }
 
@@ -413,7 +416,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="users" data-duice-loop="user,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="users" data-duice-loop="user,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.userId=user.userId;
                             " onclick="getUser(this.dataset.userId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"

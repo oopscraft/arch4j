@@ -145,7 +145,7 @@ var duice;
             super(htmlElement.cloneNode(true), bindData, context);
             this.slot = document.createElement('slot');
             this.editable = false;
-            this.rowHtmlElements = [];
+            this.itemHtmlElements = [];
             // replace with slot for position
             htmlElement.replaceWith(this.slot);
             // mark initialized (not using after clone as templates)
@@ -166,11 +166,11 @@ var duice;
             this.editable = editable;
         }
         /**
-         * set toggle class
-         * @param toggleClass
+         * set selected class
+         * @param selectedClass
          */
-        setToggleClass(toggleClass) {
-            this.toggleClass = toggleClass;
+        setSelectedItemClass(selectedClass) {
+            this.selectedItemClass = selectedClass;
         }
         /**
          * set hierarchy
@@ -186,10 +186,10 @@ var duice;
             var _a;
             let arrayProxy = this.getBindData();
             // reset row elements
-            this.rowHtmlElements.forEach(rowElement => {
+            this.itemHtmlElements.forEach(rowElement => {
                 rowElement.parentNode.removeChild(rowElement);
             });
-            this.rowHtmlElements.length = 0;
+            this.itemHtmlElements.length = 0;
             // loop
             if (this.loop) {
                 let loopArgs = this.loop.split(',');
@@ -219,7 +219,7 @@ var duice;
                                     depth: depth
                                 });
                                 // create row element
-                                _this.createRowHtmlElement(index, object, context);
+                                _this.createItemHtmlElement(index, object, context);
                                 // visit child elements
                                 let id = object[idName];
                                 visit(array, id, depth + 1);
@@ -246,78 +246,82 @@ var duice;
                             last: (arrayProxy.length == index + 1)
                         });
                         // create row element
-                        this.createRowHtmlElement(index, object, context);
+                        this.createItemHtmlElement(index, object, context);
                     }
                 }
             }
             // not loop
             else {
                 // initialize
-                let rowHtmlElement = this.getHtmlElement().cloneNode(true);
+                let itemHtmlElement = this.getHtmlElement().cloneNode(true);
                 let context = Object.assign({}, this.getContext());
-                duice.initialize(rowHtmlElement, this.getContext());
-                this.rowHtmlElements.push(rowHtmlElement);
+                duice.initialize(itemHtmlElement, this.getContext());
+                this.itemHtmlElements.push(itemHtmlElement);
                 // append to slot
-                this.slot.appendChild(rowHtmlElement);
+                this.slot.appendChild(itemHtmlElement);
                 // check if
-                duice.checkIf(rowHtmlElement, context);
+                duice.checkIf(itemHtmlElement, context);
                 // execute script
-                duice.executeScript(rowHtmlElement, context);
+                duice.executeScript(itemHtmlElement, context);
             }
         }
         /**
-         * create row html element
+         * create item html element
          * @param index
          * @param object
          * @param context
          */
-        createRowHtmlElement(index, object, context) {
+        createItemHtmlElement(index, object, context) {
             // clones row elements
-            let rowHtmlElement = this.getHtmlElement().cloneNode(true);
+            let itemHtmlElement = this.getHtmlElement().cloneNode(true);
             // adds embedded attribute
-            duice.setElementAttribute(rowHtmlElement, 'index', index.toString());
+            duice.setElementAttribute(itemHtmlElement, 'index', index.toString());
             // editable
             let _this = this;
             if (this.editable) {
-                rowHtmlElement.setAttribute('draggable', 'true');
-                rowHtmlElement.addEventListener('dragstart', function (e) {
+                itemHtmlElement.setAttribute('draggable', 'true');
+                itemHtmlElement.addEventListener('dragstart', function (e) {
                     let fromIndex = duice.getElementAttribute(this, 'index');
                     e.dataTransfer.setData("text", fromIndex);
                 });
-                rowHtmlElement.addEventListener('dragover', function (e) {
+                itemHtmlElement.addEventListener('dragover', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                 });
-                rowHtmlElement.addEventListener('drop', function (e) {
+                itemHtmlElement.addEventListener('drop', function (e) {
                     return __awaiter(this, void 0, void 0, function* () {
                         e.preventDefault();
                         e.stopPropagation();
                         let fromIndex = parseInt(e.dataTransfer.getData('text'));
                         let toIndex = parseInt(duice.getElementAttribute(this, 'index'));
-                        let rowIndexChangeEvent = new duice.event.RowMoveEvent(_this, fromIndex, toIndex);
-                        _this.notifyObservers(rowIndexChangeEvent);
+                        let itemMoveEvent = new duice.event.ItemMoveEvent(_this, fromIndex, toIndex);
+                        _this.notifyObservers(itemMoveEvent);
                     });
                 });
             }
             // initializes row element
-            duice.initialize(rowHtmlElement, context);
-            this.rowHtmlElements.push(rowHtmlElement);
+            duice.initialize(itemHtmlElement, context);
+            this.itemHtmlElements.push(itemHtmlElement);
             // insert into slot
-            this.slot.appendChild(rowHtmlElement);
+            this.slot.appendChild(itemHtmlElement);
             // check if clause
-            duice.checkIf(rowHtmlElement, context);
+            duice.checkIf(itemHtmlElement, context);
             // execute script
-            duice.executeScript(rowHtmlElement, context);
+            duice.executeScript(itemHtmlElement, context);
             // selectable
-            if (this.toggleClass) {
-                rowHtmlElement.addEventListener('click', e => {
-                    this.rowHtmlElements.forEach(element => {
-                        element.classList.remove(this.toggleClass);
+            itemHtmlElement.addEventListener('click', e => {
+                // selected class
+                if (this.selectedItemClass) {
+                    this.itemHtmlElements.forEach(element => {
+                        element.classList.remove(this.selectedItemClass);
                     });
-                    e.currentTarget.classList.add(this.toggleClass);
+                    e.currentTarget.classList.add(this.selectedItemClass);
                     e.stopPropagation();
-                });
-            }
+                }
+                // trigger row select event
+                let rowSelectEvent = new duice.event.ItemSelectEvent(this, index);
+                this.notifyObservers(rowSelectEvent);
+            });
         }
         /**
          * update
@@ -327,6 +331,18 @@ var duice;
         update(observable, event) {
             console.debug('ArrayElement.update', observable, event);
             if (observable instanceof duice.ArrayHandler) {
+                // row select event
+                if (event instanceof duice.event.ItemSelectEvent) {
+                    if (this.selectedItemClass) {
+                        this.itemHtmlElements.forEach(el => el.classList.remove(this.selectedItemClass));
+                        let index = event.getIndex();
+                        if (index >= 0) {
+                            this.itemHtmlElements[event.getIndex()].classList.add(this.selectedItemClass);
+                        }
+                    }
+                    return;
+                }
+                // render
                 this.render();
             }
         }
@@ -373,10 +389,10 @@ var duice;
             if (editable) {
                 arrayElement.setEditable(editable.toLowerCase() === 'true');
             }
-            // toggle class
-            let toggleClass = duice.getElementAttribute(htmlElement, 'toggle-class');
-            if (toggleClass) {
-                arrayElement.setToggleClass(toggleClass);
+            // selected class
+            let selectedItemClass = duice.getElementAttribute(htmlElement, 'selected-item-class');
+            if (selectedItemClass) {
+                arrayElement.setSelectedItemClass(selectedItemClass);
             }
             // returns
             return arrayElement;
@@ -537,9 +553,9 @@ var duice;
     var event;
     (function (event) {
         /**
-         * RowMoveEvent
+         * ItemMoveEvent
          */
-        class RowMoveEvent extends event.Event {
+        class ItemMoveEvent extends event.Event {
             /**
              * constructor
              * @param source
@@ -564,11 +580,11 @@ var duice;
                 return this.toIndex;
             }
         }
-        event.RowMoveEvent = RowMoveEvent;
+        event.ItemMoveEvent = ItemMoveEvent;
     })(event = duice.event || (duice.event = {}));
 })(duice || (duice = {}));
 ///<reference path="DataHandler.ts"/>
-///<reference path="event/RowMoveEvent.ts"/>
+///<reference path="event/ItemMoveEvent.ts"/>
 var duice;
 (function (duice) {
     /**
@@ -606,7 +622,7 @@ var duice;
                             for (let i in arguments) {
                                 rows.push(arguments[i]);
                             }
-                            yield _this.insertRow(target, index, ...rows);
+                            yield _this.insertItem(target, index, ...rows);
                             return target.length;
                         });
                     };
@@ -628,11 +644,11 @@ var duice;
                             }
                             // delete rows
                             if (deleteCount > 0) {
-                                yield _this.deleteRow(target, start, deleteCount);
+                                yield _this.deleteItem(target, start, deleteCount);
                             }
                             // insert rows
                             if (insertRows.length > 0) {
-                                yield _this.insertRow(target, start, ...insertRows);
+                                yield _this.insertItem(target, start, ...insertRows);
                             }
                             // returns deleted rows
                             return deleteRows;
@@ -651,7 +667,7 @@ var duice;
                                 index = 0;
                             }
                             let rows = [target[index]];
-                            yield _this.deleteRow(target, index);
+                            yield _this.deleteItem(target, index);
                             return rows;
                         });
                     };
@@ -685,7 +701,13 @@ var duice;
                 console.debug("ArrayHandler.update", observable, event);
                 // instance is array component
                 if (observable instanceof duice.ArrayElement) {
-                    if (event instanceof duice.event.RowMoveEvent) {
+                    // row select event
+                    if (event instanceof duice.event.ItemSelectEvent) {
+                        this.selectedItemIndex = event.getIndex();
+                        return;
+                    }
+                    // row move event
+                    if (event instanceof duice.event.ItemMoveEvent) {
                         let object = this.getTarget().splice(event.getFromIndex(), 1)[0];
                         this.getTarget().splice(event.getToIndex(), 0, object);
                     }
@@ -695,19 +717,19 @@ var duice;
             });
         }
         /**
-         * insertRow
+         * insert item
          * @param arrayProxy
          * @param index
          * @param rows
          */
-        insertRow(arrayProxy, index, ...rows) {
+        insertItem(arrayProxy, index, ...rows) {
             return __awaiter(this, void 0, void 0, function* () {
                 let arrayHandler = duice.ArrayProxy.getHandler(arrayProxy);
                 let proxyTarget = duice.ArrayProxy.getTarget(arrayProxy);
                 rows.forEach((object, index) => {
                     rows[index] = new duice.ObjectProxy(object);
                 });
-                let event = new duice.event.RowInsertEvent(this, index, rows);
+                let event = new duice.event.ItemInsertEvent(this, index, rows);
                 if (yield arrayHandler.checkListener(arrayHandler.rowInsertingListener, event)) {
                     proxyTarget.splice(index, 0, ...rows);
                     yield arrayHandler.checkListener(arrayHandler.rowInsertedListener, event);
@@ -716,19 +738,19 @@ var duice;
             });
         }
         /**
-         * deleteRow
+         * delete item
          * @param arrayProxy
          * @param index
          * @param size
          */
-        deleteRow(arrayProxy, index, size) {
+        deleteItem(arrayProxy, index, size) {
             return __awaiter(this, void 0, void 0, function* () {
                 let arrayHandler = duice.ArrayProxy.getHandler(arrayProxy);
                 let proxyTarget = duice.ArrayProxy.getTarget(arrayProxy);
                 let sliceBegin = index;
                 let sliceEnd = (size ? index + size : index + 1);
                 let rows = proxyTarget.slice(sliceBegin, sliceEnd);
-                let event = new duice.event.RowDeleteEvent(this, index, rows);
+                let event = new duice.event.ItemDeleteEvent(this, index, rows);
                 if (yield arrayHandler.checkListener(arrayHandler.rowDeletingListener, event)) {
                     let spliceStart = index;
                     let spliceDeleteCount = (size ? size : 1);
@@ -739,15 +761,31 @@ var duice;
             });
         }
         /**
-         * appendRow
+         * append item
          * @param arrayProxy
          * @param rows
          */
-        appendRow(arrayProxy, ...rows) {
+        appendItem(arrayProxy, ...rows) {
             return __awaiter(this, void 0, void 0, function* () {
                 let index = arrayProxy.length;
-                return this.insertRow(arrayProxy, index, ...rows);
+                return this.insertItem(arrayProxy, index, ...rows);
             });
+        }
+        /**
+         * select item
+         * @param index
+         */
+        selectItem(index) {
+            this.selectedItemIndex = index;
+            // notify row select event
+            let rowSelectEvent = new duice.event.ItemSelectEvent(this, this.selectedItemIndex);
+            this.notifyObservers(rowSelectEvent);
+        }
+        /**
+         * return selected item index
+         */
+        getSelectedItemIndex() {
+            return this.selectedItemIndex;
         }
     }
     duice.ArrayHandler = ArrayHandler;
@@ -971,6 +1009,21 @@ var duice;
             for (let index = 0; index >= this.length; index++) {
                 duice.ObjectProxy.setReadonlyAll(this[index], readonly);
             }
+        }
+        /**
+         * select item
+         * @param arrayProxy
+         * @param index
+         */
+        static selectItem(arrayProxy, index) {
+            return this.getHandler(arrayProxy).selectItem(index);
+        }
+        /**
+         * return selected item index
+         * @param arrayProxy
+         */
+        static getSelectedItemIndex(arrayProxy) {
+            return this.getHandler(arrayProxy).getSelectedItemIndex();
         }
     }
     duice.ArrayProxy = ArrayProxy;
@@ -3180,76 +3233,6 @@ var duice;
 })(duice || (duice = {}));
 var duice;
 (function (duice) {
-    var event;
-    (function (event) {
-        /**
-         * RowInsertEvent
-         */
-        class RowInsertEvent extends event.Event {
-            /**
-             * constructor
-             * @param source
-             * @param index
-             */
-            constructor(source, index, rows) {
-                super(source);
-                this.rows = [];
-                this.index = index;
-                this.rows = rows;
-            }
-            /**
-             * return index
-             */
-            getIndex() {
-                return this.index;
-            }
-            /**
-             * getRows
-             */
-            getRows() {
-                return this.rows;
-            }
-        }
-        event.RowInsertEvent = RowInsertEvent;
-    })(event = duice.event || (duice.event = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var event;
-    (function (event) {
-        /**
-         * RowDeleteEvent
-         */
-        class RowDeleteEvent extends event.Event {
-            /**
-             * constructor
-             * @param source
-             * @param index
-             */
-            constructor(source, index, rows) {
-                super(source);
-                this.rows = [];
-                this.index = index;
-                this.rows = rows;
-            }
-            /**
-             * return index
-             */
-            getIndex() {
-                return this.index;
-            }
-            /**
-             * getRows
-             */
-            getRows() {
-                return this.rows;
-            }
-        }
-        event.RowDeleteEvent = RowDeleteEvent;
-    })(event = duice.event || (duice.event = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
     var format;
     (function (format) {
         /**
@@ -3526,5 +3509,102 @@ var duice;
         }
         tab.TabFolder = TabFolder;
     })(tab = duice.tab || (duice.tab = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemInsertEvent
+         */
+        class ItemInsertEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             * @param items
+             */
+            constructor(source, index, items) {
+                super(source);
+                this.items = [];
+                this.index = index;
+                this.items = items;
+            }
+            /**
+             * return index
+             */
+            getIndex() {
+                return this.index;
+            }
+            /**
+             * return items
+             */
+            getItems() {
+                return this.items;
+            }
+        }
+        event.ItemInsertEvent = ItemInsertEvent;
+    })(event = duice.event || (duice.event = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemDeleteEvent
+         */
+        class ItemDeleteEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             * @param items
+             */
+            constructor(source, index, items) {
+                super(source);
+                this.items = [];
+                this.index = index;
+                this.items = items;
+            }
+            /**
+             * return index
+             */
+            getIndex() {
+                return this.index;
+            }
+            /**
+             * get items
+             */
+            getItems() {
+                return this.items;
+            }
+        }
+        event.ItemDeleteEvent = ItemDeleteEvent;
+    })(event = duice.event || (duice.event = {}));
+})(duice || (duice = {}));
+///<reference path="Event.ts"/>
+var duice;
+(function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemSelectEvent
+         */
+        class ItemSelectEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             */
+            constructor(source, index) {
+                super(source);
+                this.index = index;
+            }
+            getIndex() {
+                return this.index;
+            }
+        }
+        event.ItemSelectEvent = ItemSelectEvent;
+    })(event = duice.event || (duice.event = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

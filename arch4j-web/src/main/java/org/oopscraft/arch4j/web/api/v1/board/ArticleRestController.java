@@ -1,15 +1,24 @@
 package org.oopscraft.arch4j.web.api.v1.board;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
+import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
@@ -33,6 +42,8 @@ public class ArticleRestController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final ObjectMapper objectMapper;
+
     /**
      * returns board article list
      * @param boardId board id
@@ -41,10 +52,15 @@ public class ArticleRestController {
      */
     @GetMapping
     @Operation(summary = "get list of articles")
+    @PageableAsQueryParam
     public ResponseEntity<List<ArticleResponse>> getArticles(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "title search keyword")
             @RequestParam(value = "title", required = false) String title,
+            @Parameter(description = "content search keyword")
             @RequestParam(value = "content", required = false) String content,
+            @Parameter(hidden = true)
             Pageable pageable
     ) {
         // get board info
@@ -77,7 +93,9 @@ public class ArticleRestController {
     @GetMapping("{articleId}")
     @Operation(summary = "get article")
     public ResponseEntity<ArticleResponse> getArticle(
+            @Parameter(description = "board ID")
             @PathVariable("boardId")String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId")String articleId
     ) {
         // get board info
@@ -90,23 +108,34 @@ public class ArticleRestController {
         // return article
         ArticleResponse articleResponse = articleService.getArticle(articleId)
                 .map(ArticleResponse::from)
-                .orElseThrow(() -> new DataNotFoundException(articleId));
+                .orElseThrow();
         return ResponseEntity.ok(articleResponse);
     }
 
     /**
      * create article
      * @param boardId board id
-     * @param articleRequest article info
+     * @param articleRequestString article info
      */
-    @PostMapping
-    @Operation(summary = "create new article")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
+    @Operation(summary = "create article")
     public ResponseEntity<ArticleResponse> createArticle(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
-            @RequestPart("article") ArticleRequest articleRequest,
+            @Parameter(description = "article", schema = @Schema(type="object", implementation = ArticleRequest.class))
+            @RequestPart("article") String articleRequestString,
+            @Parameter(description = "attachment files")
             @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // multipart article string to object (converter is not work)
+        ArticleRequest articleRequest;
+        try {
+            articleRequest = this.objectMapper.readValue(articleRequestString, ArticleRequest.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 
@@ -167,12 +196,16 @@ public class ArticleRestController {
      * @return saved article
      */
     @PutMapping("{articleId}")
-    @Operation(summary = "edit article")
     @Transactional
+    @Operation(summary = "edit article")
     public ResponseEntity<ArticleResponse> editArticle(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId,
+            @Parameter(description = "article", schema = @Schema(type="object", implementation = ArticleRequest.class))
             @RequestPart("article") ArticleRequest articleRequest,
+            @Parameter(description = "attachment files")
             @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
         // get board info
@@ -229,9 +262,13 @@ public class ArticleRestController {
      * @param response http servlet response
      */
     @GetMapping("{articleId}/file/{fileId}")
+    @Operation(description = "get article file")
     public ResponseEntity<Void> getArticleFile(
+            @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId,
+            @Parameter(description = "file ID")
             @PathVariable("fileId") String fileId,
             HttpServletResponse response
     ) {
@@ -257,15 +294,19 @@ public class ArticleRestController {
      * delete article
      * @param boardId board id
      * @param articleId article id
-     * @param articleRequest article request
+     * @param articleDeleteRequest article delete request
      * @return void
      */
     @DeleteMapping("{articleId}")
     @Transactional
+    @Operation(description = "delete article")
     public ResponseEntity<Void> deleteArticle(
-        @PathVariable("boardId") String boardId,
-        @PathVariable("articleId") String articleId,
-        @RequestBody ArticleRequest articleRequest
+            @Parameter(description = "board ID")
+            @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
+            @PathVariable("articleId") String articleId,
+            @Parameter(description = "article delete request", schema = @Schema(type = "object", implementation = ArticleDeleteRequest.class))
+            @RequestBody ArticleDeleteRequest articleDeleteRequest
     ) {
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
@@ -280,14 +321,14 @@ public class ArticleRestController {
 
         // writer is anonymous user
         if(article.getUserId() == null) {
-            if(!passwordEncoder.matches(articleRequest.getPassword(), article.getPassword())) {
-                throw new RuntimeException("password not match");
+            if(!passwordEncoder.matches(articleDeleteRequest.getPassword(), article.getPassword())) {
+                throw new AccessDeniedException("password not match");
             }
         }
         // writer is authenticated user
         else {
             if (!Objects.equals(article.getUserId(), SecurityUtils.getCurrentUserId())) {
-                throw new RuntimeException("not writer");
+                throw new AccessDeniedException("not writer");
             }
         }
 

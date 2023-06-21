@@ -12,7 +12,14 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "core_article")
+@Table(
+    name = "core_article",
+    indexes = {
+        @Index(name = "ix_board_id_created_at", columnList = "board_id, created_at"),
+        @Index(name = "ix_title", columnList = "title"),
+        @Index(name = "ix_user_id", columnList = "user_id")
+    }
+)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -40,10 +47,10 @@ public class ArticleEntity extends SystemFieldEntity {
     @Lob
     private String content;
 
-    @Column(name = "board_id")
+    @Column(name = "board_id", length = 32)
     private String boardId;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", length = 32)
     private String userId;
 
     @Column(name = "user_name")

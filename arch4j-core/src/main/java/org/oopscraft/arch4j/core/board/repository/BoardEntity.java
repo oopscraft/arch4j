@@ -29,6 +29,7 @@ public class BoardEntity extends SystemFieldEntity {
     private String name;
 
     @Column(name = "note")
+    @Lob
     private String note;
 
     @Column(name = "icon")
@@ -123,6 +124,5 @@ public class BoardEntity extends SystemFieldEntity {
     )
     @Builder.Default
     private List<RoleEntity> commentRoles = new ArrayList<>();
-
 
 }

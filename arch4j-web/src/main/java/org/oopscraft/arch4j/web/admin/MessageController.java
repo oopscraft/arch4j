@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.message.Message;
 import org.oopscraft.arch4j.core.message.MessageSearch;
 import org.oopscraft.arch4j.core.message.MessageService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,7 +49,7 @@ public class MessageController {
     @ResponseBody
     public Message getMessage(@RequestParam("messageId")String messageId) {
         return messageService.getMessage(messageId)
-                .orElseThrow(() -> new DataNotFoundException(messageId));
+                .orElseThrow();
     }
 
     /**

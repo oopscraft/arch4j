@@ -22,7 +22,7 @@ public class AuthorityEntity extends SystemFieldEntity {
     @Column(name = "authority_id", length = 32)
     private String authorityId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "note")

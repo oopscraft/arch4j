@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.web.admin;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.*;
 import org.oopscraft.arch4j.core.user.*;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.data.domain.Page;
@@ -62,8 +61,7 @@ public class UserController {
     @GetMapping("get-user")
     @ResponseBody
     public User getUser(@RequestParam("userId") String userId) {
-        return userService.getUser(userId)
-                .orElseThrow(() -> new DataNotFoundException(userId));
+        return userService.getUser(userId).orElseThrow();
     }
 
     /**
@@ -117,7 +115,7 @@ public class UserController {
     @GetMapping("generate-access-token")
     @ResponseBody
     public String generateAccessToken(@RequestParam("userId")String userId) {
-        User user = userService.getUser(userId).orElseThrow(() -> new DataNotFoundException(userId));
+        User user = userService.getUser(userId).orElseThrow();
         UserDetailsImpl userDetails = UserDetailsImpl.from(user);
         return accessTokenEncoder.encodeAuthenticationToken(userDetails);
     }

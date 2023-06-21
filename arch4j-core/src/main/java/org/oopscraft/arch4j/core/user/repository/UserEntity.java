@@ -17,7 +17,9 @@ import java.util.List;
 @Table(
     name = "core_user",
     indexes = {
-        @Index(columnList="name")
+        @Index(name = "ix_name", columnList = "name"),
+        @Index(name = "ix_email", columnList = "email"),
+        @Index(name = "ix_mobile", columnList = "mobile")
     }
 )
 @Data
@@ -31,25 +33,25 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "user_id", length = 32)
     private String userId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", length = 16)
     @Builder.Default
     private UserType type = UserType.GENERAL;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", length = 16)
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @Column(name = "email")
+    @Column(name = "email", length = 64)
     private String email;
 
-    @Column(name = "mobile")
+    @Column(name = "mobile", length = 32)
     private String mobile;
 
     @Column(name = "join_datetime")

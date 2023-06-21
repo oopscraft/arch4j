@@ -51,6 +51,9 @@
                     duice.ArrayProxy.clear(codes);
                     duice.ArrayProxy.assign(codes, data.content);
                     codeSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(codes, codes.findIndex(item => item.codeId === code.codeId));
                 });
         }
 
@@ -259,7 +262,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.id=code.codeId;
                             " onclick="getCode(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"

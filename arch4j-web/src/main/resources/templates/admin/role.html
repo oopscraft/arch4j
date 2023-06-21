@@ -52,6 +52,9 @@
                     duice.ArrayProxy.clear(roles);
                     duice.ArrayProxy.assign(roles, data.content);
                     roleSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(roles, roles.findIndex(item => item.roleId === role.roleId));
                 });
         }
 
@@ -250,6 +253,9 @@
                     duice.ArrayProxy.clear(authorities);
                     duice.ArrayProxy.assign(authorities, data.content);
                     authoritySearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(authorities, authorities.findIndex(item => item.authorityId === authority.authorityId));
                 });
         }
 
@@ -467,7 +473,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.id=role.roleId;
                             " onclick="getRole(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
@@ -886,7 +892,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-toggle-class="selected" data-duice-script="
+                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-selected-item-class="selected" data-duice-script="
                             this.dataset.id=authority.authorityId;
                             " onclick="getAuthority(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>

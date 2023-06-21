@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.*;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
@@ -35,6 +37,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -105,6 +108,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         localeResolver.setCookieName("X-Accept-Language");
+        localeResolver.setCookieHttpOnly(true);
         localeResolver.setLanguageTagCompliant(false);
         return localeResolver;
     }
@@ -117,7 +121,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("_language");
-        interceptorRegistry.addInterceptor(localeChangeInterceptor);
+        interceptorRegistry.addInterceptor(localeChangeInterceptor)
+                .order(Ordered.HIGHEST_PRECEDENCE);
     }
 
     /**
@@ -168,6 +173,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     @RequiredArgsConstructor
     static class SecurityConfiguration {
 
+        private final WebProperties webProperties;
+
         private final AuthenticationEntryPoint authenticationEntryPoint;
 
         private final AccessDeniedHandler accessDeniedHandler;
@@ -188,6 +195,12 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                     .build();
         }
 
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+            return (web) -> web.ignoring()
+                    .antMatchers("/static/**");
+        }
+
         /**
          * admin security filter chain
          *
@@ -199,7 +212,11 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(1)
         public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/admin/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("ADMIN");
+            http.authorizeRequests()
+                    .antMatchers("/admin/login**")
+                    .permitAll()
+                    .anyRequest()
+                    .hasAuthority("ADMIN");
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)
@@ -280,7 +297,15 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
-            http.authorizeRequests().anyRequest().permitAll();
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+                http.authorizeRequests()
+                        .anyRequest()
+                        .permitAll();
+            }else{
+                http.authorizeRequests()
+                        .anyRequest()
+                        .authenticated();
+            }
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             // additional authentication filter
@@ -298,8 +323,18 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Bean
         @Order(99)
         public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> true);
-            http.authorizeRequests().anyRequest().permitAll();
+            http.authorizeRequests()
+                    .antMatchers("/login**")
+                    .permitAll();
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+                http.authorizeRequests()
+                        .anyRequest()
+                        .permitAll();
+            }else{
+                http.authorizeRequests()
+                        .anyRequest()
+                        .authenticated();
+            }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)

@@ -31,18 +31,18 @@ public class ArticleCommentEntity extends SystemFieldEntity {
     }
 
     @Id
-    @Column(name = "article_id", length = 64)
+    @Column(name = "article_id", length = 32)
     private String articleId;
 
     @Id
-    @Column(name = "comment_id", length = 64)
+    @Column(name = "comment_id", length = 32)
     private String commentId;
 
     @Column(name = "created_at")
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "parent_comment_id")
+    @Column(name = "parent_comment_id", length = 32)
     private String parentCommentId;
 
     @NotNull
@@ -54,7 +54,7 @@ public class ArticleCommentEntity extends SystemFieldEntity {
     @Lob
     private String content;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", length = 16)
     private String userId;
 
     @Column(name = "user_name")

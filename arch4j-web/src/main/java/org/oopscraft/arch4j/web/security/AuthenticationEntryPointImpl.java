@@ -1,12 +1,11 @@
 package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
+import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
+import org.oopscraft.arch4j.web.error.ErrorResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,18 +16,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-    private final MessageSource messageSource;
-
-    private final LocaleResolver localeResolver;
+    private final ErrorResponseHandler errorResponseHandler;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
-        if("application/json".equals(request.getHeader("Content-Type"))
-        || "XMLHttpRequest".equals(request.getHeader("X-Requested-with"))
-        ){
-            response.setHeader("Content-Type", "application/json");
-            String message = messageSource.getMessage("admin.security.AuthenticationException", null, localeResolver.resolveLocale(request));
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, HtmlUtils.htmlEscape(message));
+        int status = HttpServletResponse.SC_FORBIDDEN;
+        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, status, authenticationException);
+        if (errorResponseHandler.isRestRequest(request)) {
+            errorResponseHandler.sendRestErrorResponse(response, errorResponse);
         }else{
             String requestUri = request.getRequestURI();
             String loginUrl;
@@ -37,11 +32,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             }else{
                 loginUrl = "/login";
             }
-            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", loginUrl);
-			response.getWriter().flush();
+            response.sendRedirect(loginUrl);
         }
     }
-
 
 }

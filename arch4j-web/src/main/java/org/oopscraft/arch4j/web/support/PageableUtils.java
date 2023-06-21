@@ -7,10 +7,10 @@ public class PageableUtils {
 
     /**
      * toContentRange
-     * @param name unit name
+     * @param unit unit name
      * @param pageable pageable
      * @param totalSize total size
-     * @return
+     * @return content range string
      */
     public static String toContentRange(String unit, Pageable pageable, long totalSize) {
         return new StringBuffer()

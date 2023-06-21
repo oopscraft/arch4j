@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.variable.Variable;
 import org.oopscraft.arch4j.core.variable.VariableSearch;
 import org.oopscraft.arch4j.core.variable.VariableService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,7 +49,7 @@ public class VariableController {
     @ResponseBody
     public Variable getVariable(@RequestParam("variableId")String variableId) {
         return variableService.getVariable(variableId)
-                .orElseThrow(() -> new DataNotFoundException(variableId));
+                .orElseThrow();
     }
 
     /**

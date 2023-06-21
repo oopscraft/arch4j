@@ -98,25 +98,30 @@ const _fetch = function(url, options, _bypass) {
     options.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     options.headers['Pragma'] = 'no-cache';
     options.headers['Expires'] = '0';
+    options.redirect = 'follow';
     _startProgress();
     return globalThis.fetch(url, options)
-        .then(async function(response){
+        .then(async function(response) {
             console.debug(response);
 
             // bypass
-            if(_bypass){
+            if (_bypass) {
                 return response;
             }
 
             // checks response
-            if(response.ok) {
+            if (response.ok) {
                 return response;
             }else{
-                let responseJson = await response.json();
-                console.warn(responseJson);
-                let message = responseJson.message;
-                _alert(message).then();
-                throw Error(message);
+                const contentType = response.headers.get('content-type');
+                let errorMessage;
+                if(contentType === 'application/json'){
+                    let responseJson = await response.json();
+                    errorMessage = responseJson.message;
+                }else{
+                    errorMessage = await response.text();
+                }
+                throw Error(errorMessage);
             }
         })
         .catch((error)=>{
@@ -269,8 +274,9 @@ const _isUrlFormat = function(value) {
  * @param language
  * @private
  */
-function _changeLanguage(language) {
+const _changeLanguage = function(language) {
     if(language) {
+        // reload with language parameter
         let url = new URL(document.location.href);
         url.searchParams.delete('_language');
         url.searchParams.append('_language', language);

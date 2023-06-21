@@ -26,7 +26,7 @@ public class RoleEntity extends SystemFieldEntity {
     private String roleId;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "note")

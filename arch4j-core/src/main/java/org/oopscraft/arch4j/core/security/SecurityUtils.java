@@ -1,11 +1,11 @@
 package org.oopscraft.arch4j.core.security;
 
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.security.exception.AuthenticationFailureException;
-import org.oopscraft.arch4j.core.security.exception.AuthorizationFailureException;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -120,14 +120,14 @@ public class SecurityUtils {
         }
         if(targetSecurityPolicy == SecurityPolicy.AUTHENTICATED) {
             if(!isAuthenticated()) {
-                throw new AuthenticationFailureException();
+                throw new InsufficientAuthenticationException("required authentication");
             }else{
                 return;
             }
         }
         if(targetSecurityPolicy == SecurityPolicy.AUTHORIZED) {
             if(!hasAnyRole(targetRequiredRoles)) {
-                throw new AuthorizationFailureException();
+                throw new AccessDeniedException("access denied");
             }
         }
     }

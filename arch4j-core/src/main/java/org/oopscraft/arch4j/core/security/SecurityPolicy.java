@@ -2,18 +2,10 @@ package org.oopscraft.arch4j.core.security;
 
 public enum SecurityPolicy {
 
-    ANONYMOUS("Anonymous User"),
-    AUTHENTICATED("Authenticated User"),
-    AUTHORIZED("Authorized User");
+    ANONYMOUS,
 
-    private final String label;
+    AUTHENTICATED,
 
-    SecurityPolicy(String label) {
-        this.label = label;
-    }
-
-    public String getLabel() {
-        return this.label;
-    }
+    AUTHORIZED;
 
 }

@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.web.admin;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.*;
 import org.oopscraft.arch4j.core.user.*;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +55,7 @@ public class RoleController {
     @ResponseBody
     public Role getRole(@RequestParam("roleId")String roleId) {
         return roleService.getRole(roleId)
-                .orElseThrow(() -> new DataNotFoundException(roleId));
+                .orElseThrow();
     }
 
     /**
@@ -102,7 +101,7 @@ public class RoleController {
     @ResponseBody
     public Authority getAuthority(@RequestParam("authorityId") String authorityId) {
         return authorityService.getAuthority(authorityId)
-                .orElseThrow(() -> new DataNotFoundException(authorityId));
+                .orElseThrow();
     }
 
     /**

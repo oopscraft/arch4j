@@ -72,14 +72,17 @@ spring:
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
-    enabled: true
+    path: /swagger-ui
     operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
   group-configs:
     - group: version 1.0
       paths-to-match: /api/v1/**
 
 # web
 web:
+  security-policy: ANONYMOUS
   theme: _default
   locales:
     - en_US

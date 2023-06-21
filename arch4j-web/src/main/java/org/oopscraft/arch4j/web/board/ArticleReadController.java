@@ -5,8 +5,6 @@ import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +29,7 @@ public class ArticleReadController {
      */
     @GetMapping("article-read")
     public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
-        Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
+        Board board = boardService.getBoard(boardId).orElseThrow();
         boardService.checkReadPermission(board);
         Article article = articleService.getArticle(articleId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");

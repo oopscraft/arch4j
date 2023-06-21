@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "core_menu")
+@Table(name = "core_menu",
+    indexes = {
+        @Index(name = "ix_parent_menu_id", columnList = "parent_menu_id")
+    }
+)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
@@ -19,10 +23,10 @@ import java.util.List;
 public class MenuEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "menu_id")
+    @Column(name = "menu_id", length = 32)
     private String menuId;
 
-    @Column(name = "parent_menu_id")
+    @Column(name = "parent_menu_id", length = 32)
     private String parentMenuId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -35,7 +39,7 @@ public class MenuEntity extends SystemFieldEntity {
     @Column(name = "link")
     private String link;
 
-    @Column(name = "target")
+    @Column(name = "target", length = 8)
     private String target;
 
     @Column(name = "icon")
@@ -46,6 +50,7 @@ public class MenuEntity extends SystemFieldEntity {
     private Integer sort;
 
     @Column(name = "note")
+    @Lob
     private String note;
 
     @ManyToMany

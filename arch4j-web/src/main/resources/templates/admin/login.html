@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css}">
-    <script th:src="@{/static/nprogress/nprogress.js}"></script>
-    <script th:src="@{/static/chartjs/chart.js}"></script>
-    <script th:src="@{'/static/duice/duice.js?version=' + ${_scriptVersion}}"></script>
-    <script th:src="@{'/static/web.js?version=' + ${_scriptVersion}}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{'/static/web.css?version=' + ${_scriptVersion}}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
         html {
             width: 100%;
@@ -31,7 +30,7 @@
             body {
                 display: grid;
                 grid-template-columns: 100%;
-                grid-template-rows: 100%;
+                grid-template-rows: 75%;
             }
         }
         #login {

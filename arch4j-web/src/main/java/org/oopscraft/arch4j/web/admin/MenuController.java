@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.menu.MenuService;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleSearch;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +55,7 @@ public class MenuController {
     @ResponseBody
     public Menu getMenu(@RequestParam("menuId")String menuId) {
         return menuService.getMenu(menuId)
-                .orElseThrow(() -> new DataNotFoundException(menuId));
+                .orElseThrow();
     }
 
     /**

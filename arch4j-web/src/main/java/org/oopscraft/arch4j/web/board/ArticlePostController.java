@@ -6,9 +6,6 @@ import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
-import org.oopscraft.arch4j.core.security.exception.AuthenticationFailureException;
-import org.oopscraft.arch4j.core.security.exception.AuthorizationFailureException;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +40,7 @@ public class ArticlePostController {
         ModelAndView modelAndView = new ModelAndView("board/article-post.html");
 
         // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow(() -> new DataNotFoundException(boardId));
+        Board board = boardService.getBoard(boardId).orElseThrow();
         modelAndView.addObject("board", board);
 
         // check access permission
@@ -67,7 +64,7 @@ public class ArticlePostController {
 
                 //check password
                 if(!passwordEncoder.matches(password, article.getPassword())) {
-                    throw new AuthorizationFailureException("password not matches");
+                    throw new RuntimeException("password not matches");
                 }
 
                 // append password
@@ -77,11 +74,11 @@ public class ArticlePostController {
             else{
                 // check authenticated
                 if(!SecurityUtils.isAuthenticated()) {
-                    throw new AuthenticationFailureException("not authenticated");
+                    throw new RuntimeException("not authenticated");
                 }
                 // check article writer
                 if(!article.getUserId().equals(SecurityUtils.getCurrentUserId())){
-                    throw new AuthorizationFailureException("not writer");
+                    throw new RuntimeException("not writer");
                 }
             }
         }

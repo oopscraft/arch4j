@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.sample.Sample;
 import org.oopscraft.arch4j.core.sample.SampleSearch;
 import org.oopscraft.arch4j.core.sample.SampleService;
-import org.oopscraft.arch4j.web.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -46,7 +45,7 @@ public class SampleController {
     @ResponseBody
     public Sample getSample(@RequestParam("sampleId") String sampleId) {
         return sampleService.getSample(sampleId)
-                .orElseThrow(() -> new DataNotFoundException("#{core.sample}"));
+                .orElseThrow();
     }
 
     /**

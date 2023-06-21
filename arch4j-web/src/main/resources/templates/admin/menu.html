@@ -40,6 +40,9 @@
                     duice.ArrayProxy.clear(menus);
                     duice.ArrayProxy.assign(menus, data.content);
                     menuSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(menus, menus.findIndex(item => item.menuId === menu.menuId));
                 });
         }
 
@@ -211,7 +214,7 @@
                         </div>
                     </div>
                     <hr/>
-                    <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-toggle-class="selected"
+                    <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
                          data-duice-script="
                     this.dataset.menuId = menu.menuId;
                     if(menu.parentMenuId) {

@@ -1,43 +1,30 @@
 package org.oopscraft.arch4j.web.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.core.message.MessageSource;
-import org.oopscraft.arch4j.core.security.exception.AuthenticationFailureException;
+import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
+import org.oopscraft.arch4j.web.error.ErrorResponse;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.LocaleResolver;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Locale;
 
-/**
- * AuthenticationFailureHandler
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
 
-    private final MessageSource messageSource;
-
-    private final LocaleResolver localeResolver;
-
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final ErrorResponseHandler errorResponseHandler;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        String messageId = String.format("web.error.%s", exception.getClass().getSimpleName());
-        Locale locale = localeResolver.resolveLocale(request);
-        String message = messageSource.getMessage(messageId, null, locale);
-        throw new AuthenticationFailureException(message);
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        int status = HttpServletResponse.SC_UNAUTHORIZED;
+        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, status, exception);
+        errorResponseHandler.sendRestErrorResponse(response, errorResponse);
     }
 
 }

@@ -7,11 +7,10 @@ import org.oopscraft.arch4j.core.user.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -45,6 +44,16 @@ public class WebControllerAdvice {
                     }};
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Return current selected locale
+     * @param request http request
+     * @return current select locale
+     */
+    @ModelAttribute("_locale")
+    public Locale getLocale(HttpServletRequest request) {
+        return Objects.requireNonNull(RequestContextUtils.getLocaleResolver(request)).resolveLocale(request);
     }
 
     /**

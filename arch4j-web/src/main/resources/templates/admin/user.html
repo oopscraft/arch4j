@@ -677,7 +677,7 @@
                 padding: 1.5rem;
             }
         </style>
-        <script>
+        <script th:inline="javascript">
             const roleSelect = {
                 dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
                 alreadySelectedRoleIds : null,
@@ -712,7 +712,7 @@
                     if(page) {
                         this.roleSearch._page = page;
                     }
-                    let url = new URL('[[@{/admin/user/get-roles}]]',document.location.origin);
+                    let url = new URL([[@{/admin/user/get-roles}]],document.location.origin);
                     if(this.roleSearch.key && this.roleSearch.value) {
                         url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
                     }

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
-    <script>
+    <script th:inline="javascript">
         // role search condition
         const roleSearch = new duice.ObjectProxy({
             key: 'roleId',
@@ -40,7 +40,7 @@
             if(page) {
                 roleSearch._page = page;
             }
-            let url = new URL("[[@{/admin/role/get-roles}]]", document.location.origin);
+            let url = new URL([[@{/admin/role/get-roles}]], document.location.origin);
             if (roleSearch.key && roleSearch.value) {
                 url.searchParams.append(roleSearch.key, roleSearch.value);
             }
@@ -71,7 +71,7 @@
          * @param roleId
          */
         function getRole(roleId) {
-            let url = new URL('[[@{/admin/role/get-role}]]', document.location.origin);
+            let url = new URL([[@{/admin/role/get-role}]], document.location.origin);
             url.searchParams.append('roleId', roleId);
             _fetch(url)
                 .then(response => response.json())
@@ -105,19 +105,19 @@
 
             // check blank
             if (!roleId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.Role.roleId})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.role.Role.roleId})}]]);
                 duice.ObjectProxy.focus(authority, 'roleId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL('[[@{/admin/role/get-role}]]', document.location.origin);
+            let url = new URL([[@{/admin/role/get-role}]], document.location.origin);
             url.searchParams.append('roleId', roleId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.Role.roleId})}]]');
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.role.Role.roleId})}]]);
                     return false;
                 }
             }
@@ -140,15 +140,15 @@
 
             // checks name
             if (!role.name || role.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.Role.name})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.role.Role.name})}]]);
                 duice.ObjectProxy.focus(role, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.role.Role})}]]').then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.role.Role})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/role/save-role}]]', document.location.origin);
+                    let url = new URL([[@{/admin/role/save-role}]], document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -157,7 +157,7 @@
                         body: JSON.stringify(role)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.role.Role})}]]').then(() => {
+                            _alert([[#{web.global.saveItemComplete(#{core.role.Role})}]]).then(() => {
                                 getRoles();
                                 getRole(role.roleId);
                             });
@@ -171,13 +171,13 @@
          * deleteRole
          */
         function deleteRole() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.role.Role})}]]').then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.role.Role})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/role/delete-role}]]', document.location.origin);
+                    let url = new URL([[@{/admin/role/delete-role}]], document.location.origin);
                     url.searchParams.append('roleId', role.roleId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.role.Role})}]]').then(() => {
+                            _alert([[#{web.global.deleteItemComplete(#{core.role.Role})}]]).then(() => {
                                 getRoles();
                                 duice.ObjectProxy.clear(role);
                             });
@@ -241,7 +241,7 @@
             if(page) {
                 authoritySearch._size = size;
             }
-            let url = new URL("[[@{/admin/role/get-authorities}]]", document.location.origin);
+            let url = new URL([[@{/admin/role/get-authorities}]], document.location.origin);
             if (authoritySearch.key && authoritySearch.value) {
                 url.searchParams.append(authoritySearch.key, authoritySearch.value);
             }
@@ -272,7 +272,7 @@
          * @param id authority.authorityId
          */
         function getAuthority(id) {
-            let url = new URL('[[@{/admin/role/get-authority}]]', document.location.origin);
+            let url = new URL([[@{/admin/role/get-authority}]], document.location.origin);
             url.searchParams.append('authorityId', id);
             _fetch(url)
                 .then(response => response.json())
@@ -306,19 +306,19 @@
 
             // check blank
             if (!authorityId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.Authority.authorityId})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.authorityId})}]]);
                 duice.ObjectProxy.focus(authority, 'authorityId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL('[[@{/admin/role/get-authority}]]', document.location.origin);
+            let url = new URL([[@{/admin/role/get-authority}]], document.location.origin);
             url.searchParams.append('authorityId', authorityId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.role.Authority.authorityId})}]]');
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.role.Authority.authorityId})}]]);
                     return false;
                 }
             }
@@ -341,15 +341,15 @@
 
             // checks name
             if (!authority.name || authority.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.role.Authority.name})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.name})}]]);
                 duice.ObjectProxy.focus(authority, 'name');
                 return false;
             }
 
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.role.Authority})}]]').then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.role.Authority})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/role/save-authority}]]', document.location.origin);
+                    let url = new URL([[@{/admin/role/save-authority}]], document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -358,7 +358,7 @@
                         body: JSON.stringify(authority)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.role.Authority})}]]').then(() => {
+                            _alert([[#{web.global.saveItemComplete(#{core.role.Authority})}]]).then(() => {
                                 getAuthorities();
                                 getAuthority(authority.authorityId);
                             });
@@ -372,13 +372,13 @@
          * deleteAuthority
          */
         function deleteAuthority() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.role.Authority})}]]').then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.role.Authority})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/role/delete-authority}]]', document.location.origin);
+                    let url = new URL([[@{/admin/role/delete-authority}]], document.location.origin);
                     url.searchParams.append('authorityId', authority.authorityId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.role.Authority})}]]').then(() => {
+                            _alert([[#{web.global.deleteItemComplete(#{core.role.Authority})}]]).then(() => {
                                 getAuthorities();
                                 duice.ObjectProxy.clear(authority);
                             });
@@ -497,7 +497,7 @@
                                     data-duice-onclick="getRoles(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="col-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.global.rows}"></span>
@@ -554,7 +554,9 @@
                                         <th data-th-text="#{core.role.Authority.authorityId}"></th>
                                         <th data-th-text="#{core.role.Authority.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addRoleAuthority();">
+                                            <button onclick="addRoleAuthority();"
+                                                    data-duice-bind="role"
+                                                    data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -586,13 +588,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container margin-1px">
+                    <div class="container margin-top-1em">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                            <button onclick="deleteRole();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                    data-duice-bind="role"
+                                    data-duice-execute="(role.roleId && !role._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button onclick="saveRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                            <button onclick="saveRole();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                    data-duice-bind="role"
+                                    data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>
@@ -611,7 +619,7 @@
                 padding: 1.5rem;
             }
         </style>
-        <script>
+        <script th:inline="javascript">
             const authoritySelect = {
                 dialog: new duice.dialog.Dialog(document.getElementById('authoritySelect')),
                 alreadySelectedAuthorityIds : null,
@@ -646,7 +654,7 @@
                     if(page) {
                         this.authoritySearch._page = page;
                     }
-                    let url = new URL('[[@{/admin/role/get-authorities}]]',document.location.origin);
+                    let url = new URL([[@{/admin/role/get-authorities}]],document.location.origin);
                     if(this.authoritySearch.key && this.authoritySearch.value) {
                         url.searchParams.append(this.authoritySearch.key, this.authoritySearch.value);
                     }
@@ -718,8 +726,7 @@
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
             <span data-th-text="#{core.role.Authority}"></span>
         </h1>
-        <hr/>
-        <div class="container gap-1px margin-1px">
+        <div class="container gap-1px margin-x-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key" class="col-1">
                     <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
@@ -787,7 +794,7 @@
                         data-duice-onclick="authoritySelect.getAuthorities(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right">
+            <div class="col-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>
@@ -829,7 +836,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="container padding-1px">
+        <div class="container margin-top-1em">
             <div class="col-12 justify-right">
                 <button onclick="authoritySelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
@@ -916,7 +923,7 @@
                                     data-duice-onclick="getAuthorities(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="col-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.global.rows}"></span>
@@ -956,13 +963,19 @@
                                       class="width-100 height-100"></textarea>
                         </div>
                     </div>
-                    <div class="container margin-1px">
+                    <div class="container margin-top-1em">
                         <div class="col-12 justify-right">
-                            <button onclick="deleteAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                            <button onclick="deleteAuthority();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                    data-duice-bind="authority"
+                                    data-duice-execute="(authority.authorityId && !authority._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button onclick="saveAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                            <button onclick="saveAuthority();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                    data-duice-bind="authority"
+                                    data-duice-execute="(authority.authorityId || authority._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>

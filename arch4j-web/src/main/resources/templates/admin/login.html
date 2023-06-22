@@ -109,7 +109,6 @@
                     <option>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                 </select>
-                <span data-th-text="${_locale}"></span>
             </div>
             <div class="col-12 justify-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>

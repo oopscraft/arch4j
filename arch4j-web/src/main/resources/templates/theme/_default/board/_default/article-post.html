@@ -60,15 +60,15 @@
     <div class="col-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
-                  data-duice-script="this.dataset.fileId=file.id"
+                  data-duice-execute="this.dataset.fileId=file.id"
                   class="cursor-pointer font-weight-bold"
                   onclick="downloadArticleFile(this.dataset.fileId);">
             </span>
-            <span class="font-size-smaller" data-duice-bind="file" data-duice-script="
+            <span class="font-size-smaller" data-duice-bind="file" data-duice-execute="
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>
-            <span data-duice-bind="file" data-duice-script="this.dataset.index=status.index;"
+            <span data-duice-bind="file" data-duice-execute="this.dataset.index=status.index;"
                   onclick="removeArticleFile(this.dataset.index);" class="link">
                 [<span data-th-text="#{web.global.remove}"></span>]
             </span>

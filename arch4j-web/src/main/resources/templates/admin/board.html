@@ -346,7 +346,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.boardId=board.boardId;
                             " onclick="getBoard(this.dataset.boardId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -354,7 +354,7 @@
                                 <td data-duice-bind="board" data-duice-property="boardId" class="font-weight-bold"></td>
                                 <td data-duice-bind="board" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="boards" data-duice-script="if(boards.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -505,7 +505,7 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeBoardAccessRole(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -513,7 +513,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.accessRoles"
-                                        data-duice-script="if(board.accessRoles.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(board.accessRoles.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center">No Data</td>
                                     </tr>
@@ -561,7 +561,7 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeBoardReadRole(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -569,7 +569,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.readRoles"
-                                        data-duice-script="if(board.readRoles.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(board.readRoles.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center">No Data</td>
                                     </tr>
@@ -617,7 +617,7 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeBoardWriteRole(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -625,7 +625,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.writeRoles"
-                                        data-duice-script="if(board.writeRoles.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(board.writeRoles.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center">No Data</td>
                                     </tr>
@@ -679,7 +679,7 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeBoardCommentRole(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -687,7 +687,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.commentRoles"
-                                        data-duice-script="if(board.commentRoles.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(board.commentRoles.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center">No Data</td>
                                     </tr>
@@ -878,7 +878,7 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="
+                                data-duice-execute="
                             this.dataset.index = status.index;
                             if(role._selected) {
                                 this.disabled = true;
@@ -889,7 +889,7 @@
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.roles"
-                    data-duice-script="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
@@ -935,14 +935,14 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="this.dataset.index = status.index;"
+                                data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                         </button>
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.selectedRoles"
-                    data-duice-script="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>

@@ -54,10 +54,10 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'H2-
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWAGGER-UI');
 
 -- user
-insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('user','User','user@oopscraft.org','010-1111-2222','{noop}user','GENERAL','ACTIVE');
-insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('admin','Administrator','admin@oopscraft.org','010-1111-2222','{noop}admin','GENERAL','ACTIVE');
+insert into `core_user` (`user_id`,`name`,`password`,`type`,`status`) values ('user','User','{noop}user','GENERAL','ACTIVE');
+insert into `core_user` (`user_id`,`name`,`password`,`type`,`status`) values ('admin','Administrator','{noop}admin','GENERAL','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
-insert into `core_user` (`user_id`,`name`,`email`,`mobile`,`password`,`type`,`status`) values ('dev','Developer Account','api@oopscraft.org','010-2222-3333','{noop}dev','SYSTEM','ACTIVE');
+insert into `core_user` (`user_id`,`name`,`password`,`type`,`status`) values ('dev','Developer Account','{noop}dev','SYSTEM','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('dev','DEV');
 
 -- variable

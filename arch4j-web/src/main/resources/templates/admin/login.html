@@ -86,7 +86,7 @@
 
 <main>
     <div id="login">
-        <h1 class="text-align-center">
+        <h1 class="text-align-center padding-bottom-1em">
             <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
         </h1>
         <form onsubmit="return false;" class="container gap-1em">
@@ -107,8 +107,9 @@
                 <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
-                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}"></option>
+                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                 </select>
+                <span data-th-text="${_locale}"></span>
             </div>
             <div class="col-12 justify-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>

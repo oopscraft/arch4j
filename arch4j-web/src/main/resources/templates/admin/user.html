@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
-    <script>
+    <script th:inline="javascript">
         // user search condition
         const userSearch = new duice.ObjectProxy({
             key: 'userId',
@@ -44,7 +44,7 @@
             if(page) {
                 userSearch._page = page;
             }
-            let url = new URL("[[@{/admin/user/get-users}]]", document.location.origin);
+            let url = new URL([[@{/admin/user/get-users}]], document.location.origin);
             if (userSearch.key && userSearch.value) {
                 url.searchParams.append(userSearch.key, userSearch.value);
             }
@@ -81,7 +81,7 @@
          * @param userId
          */
         function getUser(userId) {
-            let url = new URL('[[@{/admin/user/get-user}]]', document.location.origin);
+            let url = new URL([[@{/admin/user/get-user}]], document.location.origin);
             url.searchParams.append('userId', userId);
             _fetch(url)
                 .then(response => response.json())
@@ -102,7 +102,9 @@
         function createUser() {
             duice.ObjectProxy.clear(user);
             duice.ObjectProxy.assign(user, {
-                _new: true
+                _new: true,
+                type: 'GENERAL',
+                status: 'ACTIVE'
             });
             duice.ObjectProxy.setDisableAll(user, false);
             duice.ObjectProxy.setReadonly(user, 'userId', false);
@@ -121,19 +123,19 @@
 
             // check blank
             if (!userId) {
-                await _alert('[[#{web.global.itemEmpty(#{core.user.User.userId})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
                 duice.ObjectProxy.focus(user, 'userId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL('[[@{/admin/user/get-user}]]', document.location.origin);
+            let url = new URL([[@{/admin/user/get-user}]], document.location.origin);
             url.searchParams.append('userId', userId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert('[[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]');
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]);
                     return false;
                 }
             }
@@ -155,35 +157,49 @@
             }
 
             // checks name
-            if (!user.name || user.name.trim().length < 1) {
-                await _alert('[[#{web.global.itemEmpty(#{core.user.User.name})}]]');
+            if (_isEmpty(user.name)) {
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.name})}]]);
                 duice.ObjectProxy.focus(user, 'name');
                 return false;
             }
 
             // checks password
             if (user._new) {
-                if (!user.password || user.password.trim().length < 1) {
-                    await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
+                if (_isEmpty(user.password)) {
+                    await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
-                if (!user.passwordConfirm || user.passwordConfirm.trim().length < 1) {
-                    await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
+                if (_isEmpty(user.passwordConfirm)) {
+                    await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
                     duice.ObjectProxy.focus(user, 'passwordConfirm');
                     return false;
                 }
                 if (user.password !== user.passwordConfirm) {
-                    await _alert('[[#{web.global.itemNotMatch(#{core.user.User.password})}]]');
+                    await _alert([[#{web.global.itemNotMatch(#{core.user.User.password})}]]);
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
             }
 
+            // type
+            if(_isEmpty(user.type)) {
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.type})}]]);
+                duice.ObjectProxy.focus(user, 'type');
+                return false;
+            }
+
+            // status
+            if(_isEmpty(user.status)) {
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.status})}]]);
+                duice.ObjectProxy.focus(user, 'status');
+                return false;
+            }
+
             // call save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.user.User})}]]').then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.user.User})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/user/save-user}]]', document.location.origin);
+                    let url = new URL([[@{/admin/user/save-user}]], document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -192,7 +208,7 @@
                         body: JSON.stringify(user)
                     }).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.user.User})}]]').then(() => {
+                            _alert([[#{web.global.saveItemComplete(#{core.user.User})}]]).then(() => {
                                 getUsers();
                                 getUser(user.userId);
                             });
@@ -206,13 +222,13 @@
          * deleteUser
          */
         function deleteUser() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.user.User})}]]').then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.user.User})}]]).then(result => {
                 if (result) {
-                    let url = new URL('[[@{/admin/user/delete-user}]]', document.location.origin);
+                    let url = new URL([[@{/admin/user/delete-user}]], document.location.origin);
                     url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.user.User})}]]').then(() => {
+                            _alert([[#{web.global.deleteItemComplete(#{core.user.User})}]]).then(() => {
                                 getUsers();
                                 duice.ObjectProxy.clear(user);
                             });
@@ -255,7 +271,7 @@
          * generate user access token
          */
         function generateUserAccessToken() {
-            let url = new URL('[[@{/admin/user/generate-access-token}]]', document.location.origin);
+            let url = new URL([[@{/admin/user/generate-access-token}]], document.location.origin);
             url.searchParams.append('id', user.userId);
             _fetch(url)
                 .then(function(response){
@@ -289,7 +305,7 @@
             if(page) {
                 loginHistorySearch._size = size;
             }
-            let url = new URL("[[@{/admin/user/get-login-histories}]]", document.location.origin);
+            let url = new URL([[@{/admin/user/get-login-histories}]], document.location.origin);
             if (loginHistorySearch.key && loginHistorySearch.value) {
                 url.searchParams.append(loginHistorySearch.key, loginHistorySearch.value);
             }
@@ -416,7 +432,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="users" data-duice-loop="user,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="users" data-duice-loop="user,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.userId=user.userId;
                             " onclick="getUser(this.dataset.userId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -435,7 +451,7 @@
                                     <span data-duice-bind="user" data-duice-property="status"></span>
                                 </td>
                             </tr>
-                            <tr data-duice-bind="users" data-duice-script="if(users.length === 0) this.hidden=false;"
+                            <tr data-duice-bind="users" data-duice-execute="if(users.length === 0) this.hidden=false;"
                                 hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
@@ -453,7 +469,7 @@
                                     data-duice-onclick="getUsers(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="col-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="userSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
@@ -477,14 +493,14 @@
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="user" data-duice-property="userId"
-                                   class="width-100 font-weight-bold"/>
+                                   maxlength="32" class="width-100 font-weight-bold"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.user.User.name}" class="font-weight-bold tag-required"></span>
                         </div>
                         <div class="col-4 col-s-12">
                             <input type="text" data-duice-bind="user" data-duice-property="name"
-                                   class="width-100"/>
+                                   maxlength="32" class="width-100"/>
                         </div>
                         <div id="userDetail_passwordDiv" class="col-12 container gap-1px gap-column-1rem">
                             <div class="col-2 col-s-12">
@@ -492,30 +508,32 @@
                             </div>
                             <div class="col-4 col-s-12">
                                 <input type="password" data-duice-bind="user"
-                                       data-duice-property="password" class="width-100"/>
+                                       maxlength="32" data-duice-property="password" class="width-100"/>
                             </div>
                             <div class="col-2 col-s-12">
                                 <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
                             </div>
                             <div class="col-4 col-s-12">
                                 <input type="password" data-duice-bind="user"
-                                       data-duice-property="passwordConfirm" class="width-100"/>
+                                       maxlength="32" data-duice-property="passwordConfirm" class="width-100"/>
                             </div>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.User.type}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.type}" class="font-weight-bold tag-required"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="user" data-duice-property="type" class="width-100">
+                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="userType:${userTypes}" th:value="${userType}"
                                         th:text="${userType}"></option>
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
-                            <span data-th-text="#{core.user.User.status}" class="font-weight-bold"></span><br>
+                            <span data-th-text="#{core.user.User.status}" class="font-weight-bold tag-required"></span><br>
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="user" data-duice-property="status" class="width-100">
+                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                         th:text="${userStatus}"></option>
                             </select>
@@ -560,7 +578,7 @@
                             <span data-th-text="#{core.user.User.profile}" class="font-weight-bold"></span>
                         </div>
                         <div class="col-10 col-s-12">
-                            <textarea data-duice-bind="user" data-duice-property="profile" rows="4"
+                            <textarea data-duice-bind="user" data-duice-property="profile" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
                         <div class="col-2 col-s-12">
@@ -581,7 +599,9 @@
                                         <th data-th-text="#{core.role.Role.roleId}"></th>
                                         <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addUserRole();">
+                                            <button onclick="addUserRole();"
+                                                    data-duice-bind="user"
+                                                    data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -596,14 +616,14 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeUserRole(this.dataset.index);">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="user.roles"
-                                        data-duice-script="if(user.roles.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(user.roles.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
@@ -612,21 +632,33 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container margin-1px">
+                    <div class="container margin-top-1em">
                         <div class="col-12 justify-right">
-                            <button onclick="changeUserPassword();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="changeUserPassword();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
+                                    data-duice-bind="user"
+                                    data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
                                 <span data-th-text="#{web.admin.user.changePassword}"></span>
                             </button>
-                            <button onclick="generateUserAccessToken();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="generateUserAccessToken();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
+                                    data-duice-bind="user"
+                                    data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}"/>
                                 <span data-th-text="#{web.admin.user.authorizationToken}"></span>
                             </button>
-                            <button onclick="deleteUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="deleteUser();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
+                                    data-duice-bind="user"
+                                    data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button onclick="saveUser();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
+                            <button onclick="saveUser();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
+                                    data-duice-bind="user"
+                                    data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>
@@ -753,7 +785,6 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
@@ -794,7 +825,7 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="
+                                data-duice-execute="
                             this.dataset.index = status.index;
                             if(role._selected) {
                                 this.disabled = true;
@@ -805,7 +836,7 @@
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.roles"
-                    data-duice-script="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
@@ -822,7 +853,7 @@
                     data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right">
+            <div class="col-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>
@@ -851,20 +882,20 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="this.dataset.index = status.index;"
+                                data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                         </button>
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.selectedRoles"
-                    data-duice-script="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="container padding-1px">
+        <div class="container margin-top-1em">
             <div class="col-12 justify-right">
                 <button onclick="roleSelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
@@ -1021,7 +1052,7 @@
                                 <td data-duice-bind="loginHistory" data-duice-property="ipAddress"></td>
                                 <td data-duice-bind="loginHistory" data-duice-property="userAgent"></td>
                             </tr>
-                            <tr data-duice-bind="loginHistories" data-duice-script="if(loginHistories.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="loginHistories" data-duice-execute="if(loginHistories.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -1038,7 +1069,7 @@
                                     data-duice-onclick="getLoginHistories(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="col-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="loginHistorySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.global.rows}"></span>

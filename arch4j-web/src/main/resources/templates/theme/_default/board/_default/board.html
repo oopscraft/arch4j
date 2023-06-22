@@ -32,7 +32,7 @@
             <span>
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="title"
-                      onclick="gotoRead(this.dataset.articleId);" data-duice-script="this.dataset.articleId=article.articleId;"
+                      onclick="gotoRead(this.dataset.articleId);" data-duice-execute="this.dataset.articleId=article.articleId;"
                       class="link font-weight-bold">
                 </span>
             </span>

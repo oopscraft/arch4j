@@ -245,7 +245,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="variables" data-duice-loop="variable,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="variables" data-duice-loop="variable,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.variableId=variable.variableId;
                             " onclick="getVariable(this.dataset.variableId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -253,7 +253,7 @@
                                 <td data-duice-bind="variable" data-duice-property="variableId"></td>
                                 <td data-duice-bind="variable" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="variables" data-duice-script="if(variables.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="variables" data-duice-execute="if(variables.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>

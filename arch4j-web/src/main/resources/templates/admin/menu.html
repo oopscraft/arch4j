@@ -215,13 +215,13 @@
                     </div>
                     <hr/>
                     <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
-                         data-duice-script="
+                         data-duice-execute="
                     this.dataset.menuId = menu.menuId;
                     if(menu.parentMenuId) {
                         this.style.marginLeft=status.depth + 'em';
                     }
                     ">
-                        <div data-duice-bind="menu" data-duice-script="this.dataset.menuId = menu.menuId;"
+                        <div data-duice-bind="menu" data-duice-execute="this.dataset.menuId = menu.menuId;"
                              onclick="getMenu(this.dataset.menuId);" class="link menu-item">
                             <img data-duice-bind="menu" data-duice-property="icon" class="icon"
                                  th:src="@{/static/image/icon-null.svg}"/>
@@ -328,7 +328,7 @@
                                         <td data-duice-bind="role" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="role"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeMenuRole(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -336,7 +336,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="menu.roles"
-                                        data-duice-script="if(menu.roles.length === 0) this.hidden=false;" hidden>
+                                        data-duice-execute="if(menu.roles.length === 0) this.hidden=false;" hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
                                     </tbody>
@@ -432,14 +432,14 @@
         <hr/>
         <div class="overflow-x-scroll">
             <div data-duice-bind="menuSelect.menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId"
-                 data-duice-script="
+                 data-duice-execute="
                     this.dataset.menuId = menu.menuId;
                     if(menu.parentMenuId) {
                         this.style.marginLeft='1rem';
                     }
                 ">
                 <div>
-                    <a href="#" data-duice-bind="menu" data-duice-script="
+                    <a href="#" data-duice-bind="menu" data-duice-execute="
                         this.dataset.menuId = menu.menuId;
                         if(menuSelect.disabledMenuIds.includes(menu.menuId)) {
                             this.style.opacity = '0.5';
@@ -611,7 +611,7 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="
+                                data-duice-execute="
                             this.dataset.index = status.index;
                             if(role._selected) {
                                 this.disabled = true;
@@ -622,7 +622,7 @@
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.roles"
-                    data-duice-script="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
@@ -668,14 +668,14 @@
                     <td data-duice-bind="role" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
-                                data-duice-script="this.dataset.index = status.index;"
+                                data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                         </button>
                     </td>
                 </tr>
                 <tr data-duice-bind="roleSelect.selectedRoles"
-                    data-duice-script="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>

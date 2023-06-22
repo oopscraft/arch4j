@@ -473,14 +473,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.id=role.roleId;
                             " onclick="getRole(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                 <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
                                 <td data-duice-bind="role" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="roles" data-duice-script="if(roles.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="roles" data-duice-execute="if(roles.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -570,14 +570,14 @@
                                         <td data-duice-bind="authority" data-duice-property="name"></td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="authority"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeRoleAuthority(this.dataset.index);">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                             </button>
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="role.authorities"
-                                        data-duice-script="if(role.authorities.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(role.authorities.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
@@ -759,7 +759,7 @@
                     <td data-duice-bind="authority" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="authority"
-                                data-duice-script="
+                                data-duice-execute="
                             this.dataset.index = status.index;
                             if(authority._selected) {
                                 this.disabled = true;
@@ -770,7 +770,7 @@
                     </td>
                 </tr>
                 <tr data-duice-bind="authoritySelect.authorities"
-                    data-duice-script="if(authoritySelect.authorities.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(authoritySelect.authorities.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
@@ -816,14 +816,14 @@
                     <td data-duice-bind="authority" data-duice-property="name"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="authority"
-                                data-duice-script="this.dataset.index = status.index;"
+                                data-duice-execute="this.dataset.index = status.index;"
                                 onclick="authoritySelect.deselectAuthority(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                         </button>
                     </td>
                 </tr>
                 <tr data-duice-bind="authoritySelect.selectedAuthorities"
-                    data-duice-script="if(authoritySelect.selectedAuthorities.length === 0) this.hidden=false;" hidden>
+                    data-duice-execute="if(authoritySelect.selectedAuthorities.length === 0) this.hidden=false;" hidden>
                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                 </tr>
                 </tbody>
@@ -892,14 +892,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.id=authority.authorityId;
                             " onclick="getAuthority(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                 <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
                                 <td data-duice-bind="authority" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="authorities" data-duice-script="if(authorities.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="authorities" data-duice-execute="if(authorities.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>

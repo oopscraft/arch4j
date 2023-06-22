@@ -245,7 +245,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.id=message.messageId;
                             " onclick="getMessage(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -253,7 +253,7 @@
                                 <td data-duice-bind="message" data-duice-property="messageId"></td>
                                 <td data-duice-bind="message" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="messages" data-duice-script="if(messages.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="messages" data-duice-execute="if(messages.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>

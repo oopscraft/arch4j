@@ -53,11 +53,11 @@
     <div class="col-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
-                  data-duice-script="this.dataset.fileId=file.fileId"
+                  data-duice-execute="this.dataset.fileId=file.fileId"
                   class="cursor-pointer font-weight-bold"
                   onclick="downloadArticleFile(this.dataset.fileId);">
             </span>
-            <span class="font-size-smaller" data-duice-bind="file" data-duice-script="
+            <span class="font-size-smaller" data-duice-bind="file" data-duice-execute="
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>
@@ -120,14 +120,14 @@
              data-duice-bind="articleComments"
              data-duice-loop="articleComment,status"
              data-duice-hierarchy="commentId,parentCommentId"
-             data-duice-script="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
+             data-duice-execute="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
             <div class="col-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
-                     data-duice-script="this.hidden=isChildArticleComment(articleComment);"/>
+                     data-duice-execute="this.hidden=isChildArticleComment(articleComment);"/>
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
-                     data-duice-script="this.hidden=!isChildArticleComment(articleComment);"/>
+                     data-duice-execute="this.hidden=!isChildArticleComment(articleComment);"/>
                 <span>
                     <img class="icon"
                          th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
@@ -146,7 +146,7 @@
                 <span class="link"
                       data-duice-bind="articleComment"
                       data-duice-if="return canEditArticleComment(articleComment);"
-                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                       onclick="editArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.board.editComment}"></span>]
                 </span>
@@ -158,13 +158,13 @@
             <div class="col-12">
                 <span class="link"
                       data-duice-bind="articleComment"
-                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                       onclick="addArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.board.replyComment}"></span>]
                 </span>
                 <span class="link"
                       data-duice-bind="articleComment"
-                      data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                      data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                       onclick="likeArticleComment(this.dataset.commentId);">
                     [<span data-th-text="#{web.board.likeComment}"></span>]
                 </span>
@@ -222,7 +222,7 @@
             </button>
             <button data-duice-bind="articleComment"
                     data-duice-if="return canDeleteArticleComment(articleComment);"
-                    data-duice-script="this.dataset.commentId=articleComment.commentId;"
+                    data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                     onclick="deleteArticleComment(this.dataset.commentId);">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.delete}"></span>

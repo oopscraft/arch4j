@@ -260,9 +260,9 @@ var duice;
                 // append to slot
                 this.slot.appendChild(itemHtmlElement);
                 // check if
-                duice.checkIf(itemHtmlElement, context);
+                duice.runIfCode(itemHtmlElement, context);
                 // execute script
-                duice.executeScript(itemHtmlElement, context);
+                duice.runExecuteCode(itemHtmlElement, context);
             }
         }
         /**
@@ -305,9 +305,9 @@ var duice;
             // insert into slot
             this.slot.appendChild(itemHtmlElement);
             // check if clause
-            duice.checkIf(itemHtmlElement, context);
+            duice.runIfCode(itemHtmlElement, context);
             // execute script
-            duice.executeScript(itemHtmlElement, context);
+            duice.runExecuteCode(itemHtmlElement, context);
             // selectable
             itemHtmlElement.addEventListener('click', e => {
                 // selected class
@@ -1074,11 +1074,11 @@ var duice;
             let context = Object.assign({}, this.getContext());
             context['data'] = this.bindData;
             // check if
-            duice.checkIf(this.htmlElement, context);
+            duice.runIfCode(this.htmlElement, context);
             // initialize
             duice.initialize(this.htmlElement, context);
             // execute script
-            duice.executeScript(this.htmlElement, context);
+            duice.runExecuteCode(this.htmlElement, context);
         }
         /**
          * update
@@ -1316,7 +1316,7 @@ var duice;
         checkIf() {
             let context = Object.assign({}, this.getContext());
             context[this.getBindName()] = this.getBindData();
-            duice.checkIf(this.htmlElement, context);
+            duice.runIfCode(this.htmlElement, context);
         }
         /**
          * execute script
@@ -1324,7 +1324,7 @@ var duice;
         executeScript() {
             let context = Object.assign({}, this.getContext());
             context[this.getBindName()] = this.getBindData();
-            duice.executeScript(this.htmlElement, context);
+            duice.runExecuteCode(this.htmlElement, context);
         }
         /**
          * update event received
@@ -1903,7 +1903,7 @@ var duice;
      * @param htmlElement
      * @param context
      */
-    function execute(code, htmlElement, context) {
+    function runCode(code, htmlElement, context) {
         try {
             let args = [];
             let values = [];
@@ -1918,14 +1918,14 @@ var duice;
             throw e;
         }
     }
-    duice.execute = execute;
+    duice.runCode = runCode;
     /**
-     * check if
+     * run if code
      */
-    function checkIf(htmlElement, context) {
+    function runIfCode(htmlElement, context) {
         let ifClause = getElementAttribute(htmlElement, 'if');
         if (ifClause) {
-            let result = execute(ifClause, htmlElement, context);
+            let result = runCode(ifClause, htmlElement, context);
             if (!result) {
                 htmlElement.hidden = true;
             }
@@ -1934,17 +1934,17 @@ var duice;
             }
         }
     }
-    duice.checkIf = checkIf;
+    duice.runIfCode = runIfCode;
     /**
-     * execute script
+     * run execute code
      */
-    function executeScript(htmlElement, context) {
-        let script = getElementAttribute(htmlElement, 'script');
+    function runExecuteCode(htmlElement, context) {
+        let script = getElementAttribute(htmlElement, 'execute');
         if (script) {
-            execute(script, htmlElement, context);
+            runCode(script, htmlElement, context);
         }
     }
-    duice.executeScript = executeScript;
+    duice.runExecuteCode = runExecuteCode;
     /**
      * checks has component attribute
      * @param htmlElement

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.oopscraft.arch4j.core.user.UserType;
@@ -48,10 +49,14 @@ public class UserEntity extends SystemFieldEntity {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @Column(name = "email", length = 64)
+    @Column(name = "email")
+    @Convert(converter = CryptoConverter.class)
+    @Lob
     private String email;
 
-    @Column(name = "mobile", length = 32)
+    @Column(name = "mobile")
+    @Convert(converter = CryptoConverter.class)
+    @Lob
     private String mobile;
 
     @Column(name = "join_datetime")

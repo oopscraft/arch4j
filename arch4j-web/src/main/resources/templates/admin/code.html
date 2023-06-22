@@ -262,7 +262,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-selected-item-class="selected" data-duice-script="
+                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.id=code.codeId;
                             " onclick="getCode(this.dataset.id);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
@@ -270,7 +270,7 @@
                                 <td data-duice-bind="code" data-duice-property="codeId"></td>
                                 <td data-duice-bind="code" data-duice-property="name"></td>
                             </tr>
-                            <tr data-duice-bind="codes" data-duice-script="if(codes.length === 0) this.hidden=false;" hidden>
+                            <tr data-duice-bind="codes" data-duice-execute="if(codes.length === 0) this.hidden=false;" hidden>
                                 <td colspan="100%" class="text-align-center">No Data</td>
                             </tr>
                             </tbody>
@@ -367,7 +367,7 @@
                                         </td>
                                         <td class="text-align-center">
                                             <button data-duice-bind="item"
-                                                    data-duice-script="this.dataset.index=status.index;"
+                                                    data-duice-execute="this.dataset.index=status.index;"
                                                     onclick="removeCodeItem(this.dataset.index);"
                                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -375,7 +375,7 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="code.items"
-                                        data-duice-script="if(code.items.length === 0) this.hidden=false;"
+                                        data-duice-execute="if(code.items.length === 0) this.hidden=false;"
                                         hidden>
                                         <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>

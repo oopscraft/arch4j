@@ -23,11 +23,11 @@ public class WebController {
      */
     @GetMapping
     public ModelAndView index() {
-        // anonymous access allowed
-        if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+        // security policy is not defined
+        if(webProperties.getSecurityPolicy() == null) {
             return new ModelAndView("web.html");
         }
-        // authenticated, authorized
+        // security policy is defined
         else {
             // already login user
             if (SecurityUtils.isAuthenticated()){

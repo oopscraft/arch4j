@@ -25,7 +25,7 @@ public class Menu {
 
     private String link;
 
-    private String target;
+    private MenuTarget target;
 
     private String icon;
 

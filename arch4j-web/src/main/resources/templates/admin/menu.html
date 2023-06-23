@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
-    <script>
+    <script th:inline="javascript">
         // search condition
         const menuSearch = new duice.ObjectProxy({
             key: 'menuId',
@@ -28,7 +28,7 @@
             if(page) {
                 menuSearch._page = page;
             }
-            let url = new URL("[[@{/admin/menu/get-menus}]]", document.location.origin);
+            let url = new URL([[@{/admin/menu/get-menus}]], document.location.origin);
             if (menuSearch.key && menuSearch.value) {
                 url.searchParams.append(menuSearch.key, menuSearch.value);
             }
@@ -59,7 +59,7 @@
          * @param menuId
          */
         function getMenu(menuId) {
-            let url = new URL('[[@{/admin/menu/get-menu}]]', document.location.origin);
+            let url = new URL([[@{/admin/menu/get-menu}]], document.location.origin);
             url.searchParams.append('menuId', menuId);
             _fetch(url)
                 .then(response => response.json())
@@ -67,6 +67,7 @@
                     duice.ObjectProxy.setDisableAll(menu, false);
                     duice.ObjectProxy.assign(menu, data);
                     duice.ObjectProxy.setReadonly(menu, 'menuId', true);
+                    duice.ObjectProxy.setReadonly(menu, 'parentMenuName', true);
                 });
         }
 
@@ -75,7 +76,17 @@
          */
         function createMenu() {
             duice.ObjectProxy.clear(menu);
-            duice.ObjectProxy.assign(menu, {});
+            duice.ObjectProxy.assign(menu, {
+                _new: true
+            });
+        }
+
+        /**
+         * clear parent menu
+         */
+        function clearParentMenu() {
+            menu.parentMenuId = null;
+            menu.parentMenuName = null;
         }
 
         /**
@@ -85,15 +96,15 @@
 
             // check name
             if(_isEmpty(menu.name)) {
-                await _alert('[[#{web.global.itemEmpty(#{core.menu.Menu.name})}]]');
+                await _alert([[#{web.global.itemEmpty(#{core.menu.Menu.name})}]]);
                 duice.ObjectProxy.focus(menu, 'name');
                 return;
             }
 
             // calls save
-            _confirm('[[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]').then(result => {
+            _confirm([[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]).then(result => {
                 if(result) {
-                    let url = new URL('[[@{/admin/menu/save-menu}]]', document.location.origin);
+                    let url = new URL([[@{/admin/menu/save-menu}]], document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -102,7 +113,7 @@
                         body: JSON.stringify(menu)
                     }).then(response => {
                         if(response.ok) {
-                            _alert('[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]').then(() => {
+                            _alert([[#{web.global.saveItemComplete(#{core.menu.Menu})}]]).then(() => {
                                 getMenus();
                             });
                         }
@@ -115,7 +126,7 @@
          * delete menu
          */
         function deleteMenu() {
-            _confirm('[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]').then(result => {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]).then(result => {
                 if(result) {
                     let url = new URL('[[@{/admin/menu/delete-menu}]]', document.location.origin);
                     url.searchParams.append('menuId', menu.id);
@@ -168,7 +179,7 @@
             getMenus();
         });
     </script>
-    <style>
+    <style th:inline="css">
         .menu-item {
             padding-left: 0.5em;
         }
@@ -177,14 +188,14 @@
         }
         .menu-item::before {
             content: "";
-            background-image: url('[[@{/static/image/icon-folder-close.svg}]]');
+            background-image: url([[@{/static/image/icon-folder-close.svg}]]);
             background-size: 1em 1em;
             display: inline-block;
             width: 1em;
             height: 1em;
         }
         .selected > .menu-item::before {
-            background-image: url('[[@{/static/image/icon-folder-open.svg}]]');
+            background-image: url([[@{/static/image/icon-folder-open.svg}]]);
         }
         .selected > .menu-item {
             background-color: #f7f7f7;
@@ -194,7 +205,7 @@
         <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
         <span data-th-text="#{web.admin.menu}"></span>
     </h1>
-    <div class="container gap-column-1rem">
+    <div class="container gap-column-1rem gap-row-1em">
         <div class="col-6 col-s-12">
             <!-- list of menu -->
             <div class="container border-1 padding-1rem margin-bottom-1px">
@@ -213,7 +224,6 @@
                             </button>
                         </div>
                     </div>
-                    <hr/>
                     <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
                          data-duice-execute="
                     this.dataset.menuId = menu.menuId;
@@ -250,10 +260,17 @@
                         </div>
                         <div class="col-4 col-s-12">
                             <div class="container">
-                                <input class="col-11" data-duice-bind="menu" data-duice-property="parentMenuName"
-                                       disabled="disabled"/>
-                                <button class="col-1" onclick="selectParentId();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                <input class="col-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                                <button class="col-1" onclick="selectParentId();"
+                                        th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                        data-duice-bind="menu"
+                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                                </button>
+                                <button class="col-1" onclick="clearParentMenu();"
+                                        data-duice-bind="menu"
+                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                    <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
                                 </button>
                             </div>
                         </div>
@@ -268,8 +285,9 @@
                         </div>
                         <div class="col-10 col-s-12">
                             <select data-duice-bind="menu" data-duice-property="target">
-                                <option>_self</option>
-                                <option value="_blank">_blank</option>
+                                <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
+                                <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
+                                        th:text="${menuTarget}"></option>
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
@@ -279,7 +297,10 @@
                             <img class="icon" th:src="@{/static/image/icon-null.svg}"
                                  data-duice-bind="menu"
                                  data-duice-property="icon"
-                                 data-duice-editable="true"/>
+                                 data-duice-width="32"
+                                 data-duice-height="32"
+                                 data-duice-editable="true"
+                                 style="width:32px; height:32px;"/>
                         </div>
                         <div class="col-2 col-s-12">
                             <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
@@ -313,7 +334,10 @@
                                         <th data-th-text="#{core.role.Role.roleId}"></th>
                                         <th data-th-text="#{core.role.Role.name}"></th>
                                         <th class="text-align-center">
-                                            <button onclick="addMenuRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                            <button onclick="addMenuRole();"
+                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                                    data-duice-bind="menu"
+                                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                             </button>
                                         </th>
@@ -343,12 +367,18 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12 justify-right">
-                            <button onclick="deleteMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                        <div class="col-12 justify-right margin-top-1em">
+                            <button onclick="deleteMenu();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button onclick="saveMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                            <button onclick="saveMenu();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>
@@ -367,7 +397,7 @@
                 padding: 1.5rem;
             }
         </style>
-        <script>
+        <script th:inline="javascript">
             const menuSelect = {
                 dialog: new duice.dialog.Dialog(document.getElementById('menuSelect')),
                 disabledMenuIds : null,
@@ -396,7 +426,7 @@
                  * getMenus
                  */
                 getMenus: function() {
-                    let url = new URL('[[@{/admin/menu/get-menus}]]',document.location.origin);
+                    let url = new URL([[@{/admin/menu/get-menus}]],document.location.origin);
                     _fetch(url)
                         .then(response => response.json())
                         .then(data => {
@@ -429,7 +459,6 @@
             <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
             <span data-th-text="#{core.menu.Menu}"></span>
         </h1>
-        <hr/>
         <div class="overflow-x-scroll">
             <div data-duice-bind="menuSelect.menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId"
                  data-duice-execute="
@@ -462,12 +491,12 @@
                 padding: 1.5rem;
             }
         </style>
-        <script>
+        <script th:inline="javascript">
             const roleSelect = {
                 dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
                 disabledRoleIds : null,
                 roleSearch: new duice.ObjectProxy({
-                    key: 'menuId',
+                    key: 'roleId',
                     value: null,
                     _page: 0,
                     _size: 5,
@@ -497,7 +526,7 @@
                     if(page) {
                         this.roleSearch._page = page;
                     }
-                    let url = new URL('[[@{/admin/menu/get-roles}]]',document.location.origin);
+                    let url = new URL([[@{/admin/menu/get-roles}]],document.location.origin);
                     if(this.roleSearch.key && this.roleSearch.value) {
                         url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
                     }
@@ -570,7 +599,6 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h1>
-        <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
@@ -639,7 +667,7 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right">
+            <div class="col-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>

@@ -72,6 +72,7 @@ spring:
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
+    disable-swagger-default-url: true
     path: /swagger-ui
     operations-sorter: alpha
   api-docs:
@@ -82,7 +83,7 @@ springdoc:
 
 # web
 web:
-  security-policy: ANONYMOUS
+  security-policy: ~
   theme: _default
   locales:
     - en_US

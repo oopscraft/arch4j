@@ -351,7 +351,11 @@
                             " onclick="getBoard(this.dataset.boardId);" class="link">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align-center"></td>
-                                <td data-duice-bind="board" data-duice-property="boardId" class="font-weight-bold"></td>
+                                <td>
+                                    <img data-duice-bind="board" data-duice-property="icon" class="icon"/>
+                                    <span data-duice-bind="board" data-duice-property="boardId"
+                                          class="font-weight-bold"></span>
+                                </td>
                                 <td data-duice-bind="board" data-duice-property="name"></td>
                             </tr>
                             <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
@@ -371,7 +375,7 @@
                                     data-duice-onclick="getBoards(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="col-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="boardSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
@@ -444,7 +448,10 @@
                         </div>
                         <div class="col-4 col-s-12">
                             <select data-duice-bind="board" data-duice-property="skin">
-                                <option value="_default">_default</option>
+                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="skinName:${skinNames}"
+                                        th:value="${skinName}"
+                                        th:text="${skinName}"></option>
                             </select>
                         </div>
                         <div class="col-2 col-s-12">
@@ -513,9 +520,8 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.accessRoles"
-                                        data-duice-execute="if(board.accessRoles.length === 0) this.hidden=false;"
-                                        hidden>
-                                        <td colspan="100%" class="text-align-center">No Data</td>
+                                        data-duice-if="return (board.accessRoles.length < 1);">
+                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -569,9 +575,8 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.readRoles"
-                                        data-duice-execute="if(board.readRoles.length === 0) this.hidden=false;"
-                                        hidden>
-                                        <td colspan="100%" class="text-align-center">No Data</td>
+                                        data-duice-if="return (board.readRoles.length < 1);">
+                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -625,9 +630,9 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.writeRoles"
-                                        data-duice-execute="if(board.writeRoles.length === 0) this.hidden=false;"
+                                        data-duice-if="return (board.writeRoles.length < 1);"
                                         hidden>
-                                        <td colspan="100%" class="text-align-center">No Data</td>
+                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -687,9 +692,9 @@
                                         </td>
                                     </tr>
                                     <tr data-duice-bind="board.commentRoles"
-                                        data-duice-execute="if(board.commentRoles.length === 0) this.hidden=false;"
+                                        data-duice-if="return (board.commentRoles.length < 1);"
                                         hidden>
-                                        <td colspan="100%" class="text-align-center">No Data</td>
+                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -697,18 +702,26 @@
                         </div>
                     </div>
                     <div class="container margin-top-1em">
-                        <div class="col-6 col-s-12">
-                            <button onclick="openBoard();">
+                        <div class="col-6">
+                            <button onclick="openBoard();"
+                                data-duice-bind="board"
+                                data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                                 <span data-th-text="#{web.admin.board.openBoard}"></span>
                             </button>
                         </div>
-                        <div class="col-6 col-s-12 justify-right">
-                            <button onclick="deleteBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                        <div class="col-6 justify-right">
+                            <button onclick="deleteBoard();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
+                                    data-duice-bind="board"
+                                    data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button onclick="saveBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                            <button onclick="saveBoard();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
+                                    data-duice-bind="board"
+                                    data-duice-execute="(board.boardId || board._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>
@@ -837,7 +850,6 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <hr/>
         <div class="container gap-1px margin-1px">
             <form onsubmit="return false;" class="col-12 container gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
@@ -906,7 +918,7 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right">
+            <div class="col-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>

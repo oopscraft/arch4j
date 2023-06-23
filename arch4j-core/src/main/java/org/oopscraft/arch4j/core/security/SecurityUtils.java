@@ -96,16 +96,13 @@ public class SecurityUtils {
      */
     @Deprecated
     public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
-        if(securityPolicy == SecurityPolicy.ANONYMOUS) {
-            return true;
-        }
         if(securityPolicy == SecurityPolicy.AUTHENTICATED) {
             return isAuthenticated();
         }
         if(securityPolicy == SecurityPolicy.AUTHORIZED) {
             return hasAnyRole(requiredRoles);
         }
-        return false;
+        return true;
     }
 
 
@@ -115,9 +112,6 @@ public class SecurityUtils {
      * @param targetRequiredRoles target required roles
      */
     public static void checkPermission(SecurityPolicy targetSecurityPolicy, List<Role> targetRequiredRoles) {
-        if(targetSecurityPolicy == SecurityPolicy.ANONYMOUS) {
-            return;
-        }
         if(targetSecurityPolicy == SecurityPolicy.AUTHENTICATED) {
             if(!isAuthenticated()) {
                 throw new InsufficientAuthenticationException("required authentication");

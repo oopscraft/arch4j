@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardSearch;
 import org.oopscraft.arch4j.core.board.BoardService;
+import org.oopscraft.arch4j.web.WebProperties;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin/board")
@@ -21,13 +31,28 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    private final WebProperties webProperties;
+
+    private final ResourceLoader resourceLoader;
+
     /**
      * index
      * @return model and view
      */
     @GetMapping
-    public ModelAndView index() {
-        return new ModelAndView("admin/board.html");
+    public ModelAndView index() throws IOException {
+        ModelAndView modelAndView = new ModelAndView("admin/board.html");
+
+        // skin names
+        Resource skinDir = resourceLoader.getResource(String.format("classpath:templates/theme/%s/board", webProperties.getTheme()));
+        List<String> skinNames = Arrays.stream(Objects.requireNonNull(skinDir.getFile().listFiles()))
+                .filter(File::isDirectory)
+                .map(File::getName)
+                .collect(Collectors.toList());
+        modelAndView.addObject("skinNames", skinNames);
+
+        // return
+        return modelAndView;
     }
 
     /**

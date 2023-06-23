@@ -3078,7 +3078,11 @@ var duice;
              * return value
              */
             getValue() {
-                return this.getHtmlElement().value;
+                let value = this.getHtmlElement().value;
+                if (!value || value.trim().length < 1) {
+                    value = null;
+                }
+                return value;
             }
             /**
              * set readonly

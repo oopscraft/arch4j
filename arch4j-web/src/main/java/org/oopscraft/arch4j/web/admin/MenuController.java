@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuSearch;
 import org.oopscraft.arch4j.core.menu.MenuService;
+import org.oopscraft.arch4j.core.menu.MenuTarget;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleSearch;
 import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.user.UserStatus;
+import org.oopscraft.arch4j.core.user.UserType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +36,9 @@ public class MenuController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("admin/menu.html");
+        ModelAndView modelAndView = new ModelAndView("admin/menu.html");
+        modelAndView.addObject("menuTargets", MenuTarget.values());
+        return modelAndView;
     }
 
     /**

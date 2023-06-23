@@ -297,7 +297,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
-            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+            if(webProperties.getSecurityPolicy() == null) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();
@@ -326,7 +326,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.authorizeRequests()
                     .antMatchers("/login**")
                     .permitAll();
-            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+            if(webProperties.getSecurityPolicy() == null) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();

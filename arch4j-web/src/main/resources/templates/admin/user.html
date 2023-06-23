@@ -633,7 +633,7 @@
                         </div>
                     </div>
                     <div class="container margin-top-1em">
-                        <div class="col-12 justify-right">
+                        <div class="col-6">
                             <button onclick="changeUserPassword();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                     data-duice-bind="user"
@@ -648,6 +648,8 @@
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}"/>
                                 <span data-th-text="#{web.admin.user.authorizationToken}"></span>
                             </button>
+                        </div>
+                        <div class="col-6 justify-right">
                             <button onclick="deleteUser();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                     data-duice-bind="user"

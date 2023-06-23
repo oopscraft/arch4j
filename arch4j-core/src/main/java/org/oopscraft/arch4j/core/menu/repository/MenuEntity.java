@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.menu.repository;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.menu.MenuTarget;
 import org.oopscraft.arch4j.core.role.repository.RoleEntity;
 
 import javax.persistence.*;
@@ -40,7 +41,7 @@ public class MenuEntity extends SystemFieldEntity {
     private String link;
 
     @Column(name = "target", length = 8)
-    private String target;
+    private MenuTarget target;
 
     @Column(name = "icon")
     @Lob

@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.repository.BoardEntity;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
+@Slf4j
 class BoardServiceTest extends CoreTestSupport {
 
     final BoardService boardService;

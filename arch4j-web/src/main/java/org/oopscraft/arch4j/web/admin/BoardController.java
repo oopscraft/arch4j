@@ -8,6 +8,8 @@ import org.oopscraft.arch4j.web.WebProperties;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,17 +42,26 @@ public class BoardController {
     @GetMapping
     public ModelAndView index() throws IOException {
         ModelAndView modelAndView = new ModelAndView("admin/board.html");
-
-        // skin names
-        Resource skinDir = resourceLoader.getResource(String.format("classpath:templates/theme/%s/board", webProperties.getTheme()));
-        List<String> skinNames = Arrays.stream(Objects.requireNonNull(skinDir.getFile().listFiles()))
-                .filter(File::isDirectory)
-                .map(File::getName)
-                .collect(Collectors.toList());
-        modelAndView.addObject("skinNames", skinNames);
-
-        // return
+        modelAndView.addObject("skinNames", getSkinNames());
         return modelAndView;
+    }
+
+    /**
+     * get skin names
+     * @return skin names
+     */
+    protected Set<String> getSkinNames() throws IOException {
+        Set<String> skinNames = new HashSet<>();
+        String resourcePattern = String.format("classpath*:templates/theme/%s/board/**/board.html", webProperties.getTheme());
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources(resourcePattern);
+        for (Resource resource : resources) {
+            String resourcePath = resource.getURL().getPath();
+            String[] pathParts = resourcePath.split("/");
+            String lastDirectoryName = pathParts[pathParts.length - 2];
+            skinNames.add(lastDirectoryName);
+        }
+        return skinNames;
     }
 
     /**

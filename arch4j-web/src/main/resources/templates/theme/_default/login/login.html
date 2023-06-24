@@ -33,38 +33,38 @@
         <img class="icon" th:src="@{/static/theme/{_theme}/image/logo-arch4j.png(_theme=${_theme})}"/>
     </h1>
     <form onsubmit="return false;" class="container gap-1em">
-        <div class="col-12">
+        <div class="item-12">
             <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
         </div>
-        <div class="col-12">
+        <div class="item-12">
             <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
         </div>
-        <div class="col-6">
+        <div class="item-6">
             <label>
                 <input type="checkbox"/>
                 <span>Remember Me</span>
             </label>
         </div>
-        <div class="col-6 justify-right">
+        <div class="item-6 justify-right">
             <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
             <select onchange="_changeLanguage(this.value);">
                 <option>- language -</option>
                 <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
             </select>
         </div>
-        <div class="col-12 container">
-            <button onclick="processLogin();" class="col-12">
+        <div class="item-12 container">
+            <button onclick="processLogin();" class="item-12">
                 <img class="icon" th:src="@{/static/image/icon-login.svg}">
                 <span data-th-text="#{web.global.login}"></span>
             </button>
         </div>
-        <div class="col-12 justify-center">
+        <div class="item-12 justify-center">
             <span data-duice-bind="login" data-duice-property="message"></span>
         </div>
     </form>
     <hr class="margin-x-1em"/>
     <div class="container gap-1em">
-        <div class="col-12">
+        <div class="item-12">
             <button onclick="loginWithGoogle();">
                 <img class="icon" th:src="@{/static/image/icon-brand-google.svg}"/>
                 <span>Login with Google</span>

@@ -295,18 +295,18 @@
         <span data-th-text="#{web.admin.board}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <!-- list of board -->
             <div class="container border-1 padding-1rem">
-                <div class="col-12">
+                <div class="item-12">
                     <div class="container padding-1px">
-                        <div class="col-8">
+                        <div class="item-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                                 <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="item-4 justify-right">
                             <button onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.global.create}"></span>
@@ -314,18 +314,18 @@
                         </div>
                     </div>
                     <div class="container gap-1px margin-x-1px">
-                        <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-bind="boardSearch" data-duice-property="key" class="col-1 col-s-4">
+                        <form onsubmit="return false;" class="item-12 container gap-1px">
+                            <select data-duice-bind="boardSearch" data-duice-property="key" class="item-1 s-item-4">
                                 <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
                                 <option value="name" th:text="#{core.board.Board.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
-                            <button onclick="getBoards();" class="col-1 col-s-12">
+                                   th:placeholder="#{web.global.keyword}" class="item-2 s-item-8"/>
+                            <button onclick="getBoards();" class="item-1 s-item-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                                 <span data-th-text="#{web.global.search}">Search</span>
                             </button>
-                            <button onclick="resetBoards();" class="col-1 col-s-12">
+                            <button onclick="resetBoards();" class="item-1 s-item-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                                 <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
@@ -365,8 +365,8 @@
                         </table>
                     </div>
                     <div class="container">
-                        <div class="col-4"></div>
-                        <div class="col-4 justify-center">
+                        <div class="item-4"></div>
+                        <div class="item-4 justify-center">
                             <duice-pagination
                                     data-duice-bind="boardSearch"
                                     data-duice-size-property="_size"
@@ -375,7 +375,7 @@
                                     data-duice-onclick="getBoards(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right font-size-smaller">
+                        <div class="item-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="boardSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
@@ -385,49 +385,49 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <!-- board detail -->
             <div class="container border-1 padding-1rem">
-                <div class="col-12">
+                <div class="item-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
                         <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.boardId}" class="font-weight-bold tag-required"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <input type="text" data-duice-bind="board" data-duice-property="boardId"
                                    class="width-100 font-weight-bold"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.name}" class="font-weight-bold tag-required"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <input type="text" data-duice-bind="board" data-duice-property="name"
                                    class="width-100"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.note}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <textarea data-duice-bind="board" data-duice-property="note" rows="3"
                                       class="width-100 height-100"></textarea>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board"
                                  data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
                                  style="width:32px; height:32px;"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.message}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12 container">
-                            <div class="col-12">
+                        <div class="item-10 s-item-12 container">
+                            <div class="item-12">
                                 <label>
                                     <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="PLAIN"/>
                                     <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
@@ -438,15 +438,15 @@
                                     <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
                                 </label>
                             </div>
-                            <div class="col-12" style="height:10em;">
+                            <div class="item-12" style="height:10em;">
                                 <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message" class="width-100 height-100"></textarea>
                                 <duice-markdown-editor data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message" class="border-1 width-100 height-100"/>
                             </div>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.skin}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <select data-duice-bind="board" data-duice-property="skin">
                                 <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="skinName:${skinNames}"
@@ -454,10 +454,10 @@
                                         th:text="${skinName}"></option>
                             </select>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.pageSize}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <select data-duice-bind="board" data-duice-property="pageSize">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
@@ -466,16 +466,16 @@
                                 <option value="50">50</option>
                             </select>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.accessPolicy}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <select data-duice-bind="board" data-duice-property="accessPolicy">
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
@@ -527,10 +527,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.readPolicy}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <select data-duice-bind="board" data-duice-property="readPolicy">
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
@@ -582,10 +582,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.writePolicy}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <select data-duice-bind="board" data-duice-property="writePolicy">
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
@@ -638,16 +638,16 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.commentEnabled}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.board.Board.commentPolicy}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <select data-duice-bind="board" data-duice-property="commentPolicy">
                                 <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
                                 <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
@@ -702,7 +702,7 @@
                         </div>
                     </div>
                     <div class="container margin-top-1em">
-                        <div class="col-6">
+                        <div class="item-6">
                             <button onclick="openBoard();"
                                 data-duice-bind="board"
                                 data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
@@ -710,7 +710,7 @@
                                 <span data-th-text="#{web.admin.board.openBoard}"></span>
                             </button>
                         </div>
-                        <div class="col-6 justify-right">
+                        <div class="item-6 justify-right">
                             <button onclick="deleteBoard();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
                                     data-duice-bind="board"
@@ -851,17 +851,17 @@
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
         <div class="container gap-1px margin-1px">
-            <form onsubmit="return false;" class="col-12 container gap-1px">
-                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
+            <form onsubmit="return false;" class="item-12 container gap-1px">
+                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="item-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
                     <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
-                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
-                <button onclick="roleSelect.getRoles();" class="col-1">
+                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="item-2"/>
+                <button onclick="roleSelect.getRoles();" class="item-1">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                     <span data-th-text="#{web.global.search}">Search</span>
                 </button>
-                <button onclick="roleSelect.resetRoles();" class="col-1">
+                <button onclick="roleSelect.resetRoles();" class="item-1">
                     <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                     <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
@@ -908,8 +908,8 @@
             </table>
         </div>
         <div class="container">
-            <div class="col-4"></div>
-            <div class="col-4 justify-center">
+            <div class="item-4"></div>
+            <div class="item-4 justify-center">
                 <duice-pagination
                         data-duice-bind="roleSelect.roleSearch"
                         data-duice-size-property="_size"
@@ -918,7 +918,7 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right font-size-smaller">
+            <div class="item-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>
@@ -961,7 +961,7 @@
             </table>
         </div>
         <div class="container padding-1px">
-            <div class="col-12 justify-right">
+            <div class="item-12 justify-right">
                 <button onclick="roleSelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
                     <span data-th-text="#{web.global.confirm}"></span>

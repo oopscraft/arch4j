@@ -90,27 +90,27 @@
             <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
         </h1>
         <form onsubmit="return false;" class="container gap-1em">
-            <div class="col-12">
+            <div class="item-12">
                 <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
             </div>
-            <div class="col-12">
+            <div class="item-12">
                 <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
             </div>
-            <div class="col-12 container">
+            <div class="item-12 container">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <button onclick="processLogin();" class="col-12">
+                <button onclick="processLogin();" class="item-12">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
                     <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
-            <div class="col-12">
+            <div class="item-12">
                 <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                 </select>
             </div>
-            <div class="col-12 justify-center">
+            <div class="item-12 justify-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
         </form>

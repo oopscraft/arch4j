@@ -206,18 +206,18 @@
         <span data-th-text="#{web.admin.menu}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1em">
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <!-- list of menu -->
             <div class="container border-1 padding-1rem margin-bottom-1px">
-                <div class="col-12">
+                <div class="item-12">
                     <div class="container padding-1px">
-                        <div class="col-10">
+                        <div class="item-10">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                                 <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
-                        <div class="col-2 justify-right">
+                        <div class="item-2 justify-right">
                             <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.global.create}"></span>
@@ -241,59 +241,59 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <div class="container border-1 padding-1rem margin-bottom-1px">
-                <div class="col-12">
+                <div class="item-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                         <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.name}" class="font-weight-bold tag-required"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight-bold width-100"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <div class="container">
-                                <input class="col-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
-                                <button class="col-1" onclick="selectParentId();"
+                                <input class="item-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                                <button class="item-1" onclick="selectParentId();"
                                         th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                         data-duice-bind="menu"
                                         data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                                 </button>
-                                <button class="col-1" onclick="clearParentMenu();"
+                                <button class="item-1" onclick="clearParentMenu();"
                                         data-duice-bind="menu"
                                         data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                     <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
                                 </button>
                             </div>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.link}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <input type="text" data-duice-bind="menu" data-duice-property="link" class="width-100"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.target}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <select data-duice-bind="menu" data-duice-property="target">
                                 <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
                                 <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
                                         th:text="${menuTarget}"></option>
                             </select>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <img class="icon" th:src="@{/static/image/icon-null.svg}"
                                  data-duice-bind="menu"
                                  data-duice-property="icon"
@@ -302,24 +302,24 @@
                                  data-duice-editable="true"
                                  style="width:32px; height:32px;"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <input type="number" data-duice-bind="menu" data-duice-property="sort"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.note}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                         <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
                                   class="width-100 height-100"></textarea>
                         </div>
 
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
                                 <table class="width-100 border-0">
                                     <colgroup>
@@ -367,7 +367,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12 justify-right margin-top-1em">
+                        <div class="item-12 justify-right margin-top-1em">
                             <button onclick="deleteMenu();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                     data-duice-bind="menu"
@@ -600,17 +600,17 @@
             <span data-th-text="#{core.role.Role}"></span>
         </h1>
         <div class="container gap-1px margin-1px">
-            <form onsubmit="return false;" class="col-12 container gap-1px">
-                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="col-1">
+            <form onsubmit="return false;" class="item-12 container gap-1px">
+                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="item-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
                     <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
-                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="col-2"/>
-                <button onclick="roleSelect.getRoles();" class="col-1">
+                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="item-2"/>
+                <button onclick="roleSelect.getRoles();" class="item-1">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                     <span data-th-text="#{web.global.search}">Search</span>
                 </button>
-                <button onclick="roleSelect.resetRoles();" class="col-1">
+                <button onclick="roleSelect.resetRoles();" class="item-1">
                     <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                     <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
@@ -657,8 +657,8 @@
             </table>
         </div>
         <div class="container">
-            <div class="col-4"></div>
-            <div class="col-4 justify-center">
+            <div class="item-4"></div>
+            <div class="item-4 justify-center">
                 <duice-pagination
                         data-duice-bind="roleSelect.roleSearch"
                         data-duice-size-property="_size"
@@ -667,7 +667,7 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="col-4 justify-right font-size-smaller">
+            <div class="item-4 justify-right font-size-smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>
@@ -710,7 +710,7 @@
             </table>
         </div>
         <div class="container padding-1px">
-            <div class="col-12 justify-right">
+            <div class="item-12 justify-right">
                 <button onclick="roleSelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
                     <span data-th-text="#{web.global.confirm}"></span>

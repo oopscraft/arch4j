@@ -2,7 +2,7 @@
 <!-- start: message                                     -->
 <!-- ================================================== -->
 <div class="container">
-    <div class="col-12">
+    <div class="item-12">
         <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
         <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"/>
     </div>
@@ -16,19 +16,19 @@
 <!-- ================================================== -->
 <div>
     <div class="container border-x-1 font-weight-bold padding-x-1em display-s-none">
-        <div data-th-text="#{web.global.no}" class="col-1 justify-left padding-left-1em col-s-0"></div>
-        <div data-th-text="#{core.board.Article.title}" class="col-9 col-s-12"></div>
-        <span class="col-2 justify-right padding-right-1em col-s-0">
+        <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-item-0"></div>
+        <div data-th-text="#{core.board.Article.title}" class="item-9 s-item-12"></div>
+        <span class="item-2 justify-right padding-right-1em s-item-0">
             <span data-th-text="#{core.board.Article.userName}"></span>
             |
             <span data-th-text="#{core.board.Article.createdAt}"></span>
         </div>
     </div>
     <div data-duice-bind="articles" data-duice-loop="article,status" class="container padding-x-1em" style="border-bottom:dotted 1px lightgray;">
-        <div class="col-1 justify-left padding-left-1em col-s-0">
+        <div class="item-1 justify-left padding-left-1em s-item-0">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
-        <div class="col-9 col-s-12">
+        <div class="item-9 s-item-12">
             <span>
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="title"
@@ -45,7 +45,7 @@
                 <span data-duice-bind="article" data-duice-property="likeCount"></span>
             </span>
         </div>
-        <div class="col-2 justify-right padding-right-1em col-s-12 justify-s-left">
+        <div class="item-2 justify-right padding-right-1em s-item-12 s-justify-left">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
@@ -53,17 +53,17 @@
         </div>
     </div>
     <div class="container padding-1em" data-duice-bind="articles" data-duice-if="return articles.length===0" style="border-bottom:dotted 1px lightgray;" hidden>
-        <div class="col-12 justify-center">
+        <div class="item-12 justify-center">
             Data Not Found
         </div>
     </div>
     <div class="container padding-1em">
-        <div class="col-4 font-size-smaller">
+        <div class="item-4 font-size-smaller">
             <span data-th-text="#{web.global.total}"></span>
             <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
             <span data-th-text="#{web.global.rows}"></span>
         </div>
-        <div class="col-4 justify-center">
+        <div class="item-4 justify-center">
             <duice-pagination
                     data-duice-bind="articleSearch"
                     data-duice-size-property="_size"
@@ -72,7 +72,7 @@
                     data-duice-onclick="getArticles(this.dataset.page);">
             </duice-pagination>
         </div>
-        <div class="col-4"></div>
+        <div class="item-4"></div>
     </div>
 </div>
 <!-- ================================================== -->
@@ -83,19 +83,19 @@
 <!-- start: button                                      -->
 <!-- ================================================== -->
 <div class="container">
-    <form onsubmit="return false;" class="col-8 container gap-column-1px">
-        <select class="col-s-3" data-duice-bind="articleSearch" data-duice-property="key">
+    <form onsubmit="return false;" class="item-8 container gap-column-1px">
+        <select class="s-item-3" data-duice-bind="articleSearch" data-duice-property="key">
             <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
             <option value="title" data-th-text="#{core.board.Article.title}"></option>
             <option value="content" data-th-text="#{core.board.Article.content}"></option>
         </select>
-        <input class="col-s-6" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
-        <button class="col-s-3" onclick="getArticles();">
+        <input class="s-item-6" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
+        <button class="s-item-3" onclick="getArticles();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-search.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.search}"></span>
         </button>
     </form>
-    <div class="col-4 justify-right">
+    <div class="item-4 justify-right">
         <button onclick="gotoPost();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>

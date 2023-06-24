@@ -194,18 +194,18 @@
         <span data-th-text="#{web.admin.variable}"></span>
     </h1>
     <div class="container gap-column-1rem gap-row-1rem">
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <!-- list of variable -->
             <div class="container border-1 padding-1rem">
-                <div class="col-12">
+                <div class="item-12">
                     <div class="container padding-1px">
-                        <div class="col-8">
+                        <div class="item-8">
                             <h2>
                                 <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                                 <span data-th-text="#{web.global.list}"></span>
                             </h2>
                         </div>
-                        <div class="col-4 justify-right">
+                        <div class="item-4 justify-right">
                             <button onclick="createVariable();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                                 <span data-th-text="#{web.global.create}"></span>
@@ -213,18 +213,18 @@
                         </div>
                     </div>
                     <div class="container gap-1px margin-1px">
-                        <form onsubmit="return false;" class="col-12 container gap-1px">
-                            <select data-duice-bind="variableSearch" data-duice-property="key" class="col-1 col-s-4">
+                        <form onsubmit="return false;" class="item-12 container gap-1px">
+                            <select data-duice-bind="variableSearch" data-duice-property="key" class="item-1 s-item-4">
                                 <option value="variableId" th:text="#{core.variable.Variable.variableId}"></option>
                                 <option value="name" th:text="#{core.variable.Variable.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="variableSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="col-2 col-s-8"/>
-                            <button onclick="getVariables();" class="col-1 col-s-12">
+                                   th:placeholder="#{web.global.keyword}" class="item-2 s-item-8"/>
+                            <button onclick="getVariables();" class="item-1 s-item-12">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                                 <span data-th-text="#{web.global.search}">Search</span>
                             </button>
-                            <button onclick="resetVariables();" class="col-1 col-s-12">
+                            <button onclick="resetVariables();" class="item-1 s-item-12">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                                 <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
@@ -260,8 +260,8 @@
                         </table>
                     </div>
                     <div class="container">
-                        <div class="col-4"></div>
-                        <div class="col-4 justify-center">
+                        <div class="item-4"></div>
+                        <div class="item-4 justify-center">
                             <duice-pagination
                                     data-duice-bind="variableSearch"
                                     data-duice-size-property="_size"
@@ -270,7 +270,7 @@
                                     data-duice-onclick="getVariables(this.dataset.page);">
                             </duice-pagination>
                         </div>
-                        <div class="col-4 justify-right font-size-smaller">
+                        <div class="item-4 justify-right font-size-smaller">
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="variableSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
@@ -280,39 +280,39 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-s-12">
+        <div class="item-6 s-item-12">
             <!-- variable detail -->
             <div class="container border-1 padding-1rem">
-                <div class="col-12">
+                <div class="item-12">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                         <span data-th-text="#{web.global.detail}"></span>
                     </h2>
                     <div class="container gap-1px gap-column-1rem">
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.variable.Variable.variableId}" class="font-weight-bold tag-required"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <input type="text" data-duice-bind="variable" data-duice-property="variableId"
                                    class="width-100 font-weight-bold"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.variable.Variable.name}" class="font-weight-bold tag-required"></span>
                         </div>
-                        <div class="col-4 col-s-12">
+                        <div class="item-4 s-item-12">
                             <input type="text" data-duice-bind="variable" data-duice-property="name"
                                    class="width-100"/>
                         </div>
-                        <div class="col-2 col-s-12">
+                        <div class="item-2 s-item-12">
                             <span data-th-text="#{core.variable.Variable.value}" class="font-weight-bold"></span>
                         </div>
-                        <div class="col-10 col-s-12">
+                        <div class="item-10 s-item-12">
                             <textarea data-duice-bind="variable" data-duice-property="value" rows="4"
                                       class="width-100 height-100"></textarea>
                         </div>
                     </div>
                     <div class="container margin-top-1em">
-                        <div class="col-12 justify-right">
+                        <div class="item-12 justify-right">
                             <button onclick="deleteVariable();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
                                     data-duice-bind="variable"

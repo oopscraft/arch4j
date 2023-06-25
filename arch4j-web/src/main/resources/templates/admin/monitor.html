@@ -18,7 +18,7 @@
                 .then(data => {
                     let infoText = convertJsonToText(data);
                     console.log(infoText);
-                    document.getElementById('info').value = infoText;
+                    document.getElementById('infoText').value = infoText;
                 });
         }
 
@@ -261,7 +261,7 @@
 
     </script>
     <style>
-        #info {
+        #infoText {
             padding-top: 0.5em;
             min-height: 15rem;
             line-height: 1.2em;
@@ -269,55 +269,90 @@
             color: white;
         }
     </style>
-    <h1>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
         <img class="icon" th:src="@{/static/image/icon-monitor.svg}"/>
         <span data-th-text="#{web.admin.monitor}"></span>
     </h1>
-    <div class="container gap-column-1rem gap-row-1rem">
-        <div class="item-6 s-item-12">
-            <div class="container border-1 padding-1rem height-100">
-                <div class="item-12" style="display:flex; flex-direction:column; height:100%;">
-                    <h2>
-                        <img class="icon" th:src="@{/static/image/icon-info.svg}"/>
-                        <span data-th-text="#{web.admin.monitor.info}"></span>
-                    </h2>
-                    <textarea id="info" style="flex:1;" readonly="readonly"></textarea>
-                </div>
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: monitorContent              -->
+    <!-- ================================== -->
+    <div id="monitorContent" class="grid template-columns-2 s-template-columns-1 gap-1em">
+
+        <!-- ================================== -->
+        <!-- start: info                        -->
+        <!-- ================================== -->
+        <div id="info" class="column-1">
+            <div class="border-1 padding-1em flex direction-column height-100">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-info.svg}"/>
+                    <span data-th-text="#{web.admin.monitor.info}"></span>
+                </h2>
+                <textarea id="infoText" readonly="readonly" class="width-100 height-100"></textarea>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <h2>
-                        <img class="icon" th:src="@{/static/image/icon-cpu.svg}"/>
-                        <span data-th-text="#{web.admin.monitor.cpu}"></span>
-                    </h2>
-                    <canvas id="cpuChart"></canvas>
-                </div>
+        <!-- ================================== -->
+        <!-- end: info                          -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: cpu                         -->
+        <!-- ================================== -->
+        <div class="column-1">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-cpu.svg}"/>
+                    <span data-th-text="#{web.admin.monitor.cpu}"></span>
+                </h2>
+                <canvas id="cpuChart"></canvas>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <h1>
-                        <img class="icon" th:src="@{/static/image/icon-memory.svg}"/>
-                        <span data-th-text="#{web.admin.monitor.memory}"></span>
-                    </h1>
-                    <canvas id="memoryChart"></canvas>
-                </div>
+        <!-- ================================== -->
+        <!-- end: cpu                           -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: memory                      -->
+        <!-- ================================== -->
+        <div class="column-1">
+            <div class="border-1 padding-1em">
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-memory.svg}"/>
+                    <span data-th-text="#{web.admin.monitor.memory}"></span>
+                </h1>
+                <canvas id="memoryChart"></canvas>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <h1>
-                        <img class="icon" th:src="@{/static/image/icon-disk.svg}"/>
-                        <span data-th-text="#{web.admin.monitor.disk}"></span>
-                    </h1>
-                    <canvas id="diskChart"></canvas>
-                </div>
+        <!-- ================================== -->
+        <!-- end: memory                        -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: disk                        -->
+        <!-- ================================== -->
+        <div class="column-1">
+            <div class="border-1 padding-1em">
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-disk.svg}"/>
+                    <span data-th-text="#{web.admin.monitor.disk}"></span>
+                </h1>
+                <canvas id="diskChart"></canvas>
             </div>
         </div>
+        <!-- ================================== -->
+        <!-- end: disk                          -->
+        <!-- ================================== -->
+
     </div>
+    <!-- ================================== -->
+    <!-- end: monitorContent                -->
+    <!-- ================================== -->
 
 </main>

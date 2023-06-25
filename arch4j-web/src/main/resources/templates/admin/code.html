@@ -215,205 +215,228 @@
             getCodes();
         });
     </script>
-    <h1>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
         <img class="icon" th:src="@{/static/image/icon-code.svg}"/>
         <span data-th-text="#{web.admin.code}"></span>
     </h1>
-    <div class="container gap-column-1rem gap-row-1rem">
-        <div class="item-6 s-item-12">
-            <!-- list of code -->
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <div class="container padding-1px">
-                        <div class="item-8">
-                            <h2>
-                                <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.global.list}"></span>
-                            </h2>
-                        </div>
-                        <div class="item-4 justify-right">
-                            <button onclick="createCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
-                                <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.global.create}"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="container gap-1px margin-1px">
-                        <form onsubmit="return false;" class="item-12 container gap-1px">
-                            <select data-duice-bind="codeSearch" data-duice-property="key" class="item-1 s-item-4">
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: code content                -->
+    <!-- ================================== -->
+    <div id="codeContent" class="grid template-columns-2 s-template-columns-1 gap-1em">
+
+        <!-- ================================== -->
+        <!-- start: code list                   -->
+        <!-- ================================== -->
+        <div id="codeList" class="column-1">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <span data-th-text="#{web.global.list}"></span>
+                </h2>
+                <form onsubmit="return false;" class="grid template-columns-3 s-template-columns-1 gap-1px margin-x-1px">
+                    <div class="column-2 s-column-1 flex gap-1px s-direction-column">
+                        <div class="grid template-columns-3 gap-1px">
+                            <select data-duice-bind="codeSearch" data-duice-property="key" class="column-1">
                                 <option value="codeId" th:text="#{core.code.Code.codeId}"></option>
                                 <option value="name" th:text="#{core.code.Code.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="item-2 s-item-8"/>
-                            <button onclick="getCodes();" class="item-1 s-item-12">
-                                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.global.search}">Search</span>
-                            </button>
-                            <button onclick="resetCodes();" class="item-1 s-item-12">
-                                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.global.reset}">Reset</span>
-                            </button>
-                        </form>
+                                   th:placeholder="#{web.global.keyword}" class="column-2"/>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto border-1">
-                        <table class="border-0">
-                            <colgroup>
-                                <col style="width:5rem;"/>
-                                <col/>
-                                <col/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.code.Code.codeId}"></th>
-                                <th data-th-text="#{core.code.Code.name}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-selected-item-class="selected" data-duice-execute="
+                    <div class="column-1 flex justify-content-end gap-1px s-direction-column">
+                        <button onclick="getCodes();" class="item-1 s-item-12">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button onclick="resetCodes();" class="item-1 s-item-12">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x-auto border-1">
+                    <table class="border-0">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{core.code.Code.codeId}"></th>
+                            <th data-th-text="#{core.code.Code.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="codes" data-duice-loop="code,status" data-duice-selected-item-class="selected" data-duice-execute="
                             this.dataset.id=code.codeId;
                             " onclick="getCode(this.dataset.id);" class="link">
-                                <td data-duice-bind="status" data-duice-property="count"
-                                    class="text-align-center"></td>
-                                <td data-duice-bind="code" data-duice-property="codeId"></td>
-                                <td data-duice-bind="code" data-duice-property="name"></td>
-                            </tr>
-                            <tr data-duice-bind="codes" data-duice-execute="if(codes.length === 0) this.hidden=false;" hidden>
-                                <td colspan="100%" class="text-align-center">No Data</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align-center"></td>
+                            <td data-duice-bind="code" data-duice-property="codeId"></td>
+                            <td data-duice-bind="code" data-duice-property="name"></td>
+                        </tr>
+                        <tr data-duice-bind="codes" data-duice-execute="if(codes.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align-center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid template-columns-3 margin-top-1em">
+                    <div class="column-1 font-size-smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="codeSearch" data-duice-property="_count"
+                              data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="container">
-                        <div class="item-4"></div>
-                        <div class="item-4 justify-center">
-                            <duice-pagination
-                                    data-duice-bind="codeSearch"
-                                    data-duice-size-property="_size"
-                                    data-duice-page-property="_page"
-                                    data-duice-count-property="_count"
-                                    data-duice-onclick="getCodes(this.dataset.page);">
-                            </duice-pagination>
-                        </div>
-                        <div class="item-4 justify-right font-size-smaller">
-                            <span data-th-text="#{web.global.total}"></span>
-                            <span data-duice-bind="codeSearch" data-duice-property="_count"
-                                  data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.global.rows}"></span>
-                        </div>
+                    <div class="column-1 flex justify-content-center">
+                        <duice-pagination
+                                data-duice-bind="codeSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getCodes(this.dataset.page);">
+                        </duice-pagination>
                     </div>
+                    <div class="column-1"></div>
                 </div>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <!-- code detail -->
+        <!-- ================================== -->
+        <!-- end: code list                     -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: code detail                 -->
+        <!-- ================================== -->
+        <div id="codeDetail" class="column-1">
             <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <h2>
-                        <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
-                        <span data-th-text="#{web.global.detail}"></span>
-                    </h2>
-                    <div class="container gap-1px gap-column-1rem">
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.code.Code.codeId}" class="font-weight-bold tag-required"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <input type="text" data-duice-bind="code" data-duice-property="codeId"
-                                   class="width-100 font-weight-bold"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.code.Code.name}" class="font-weight-bold tag-required"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <input type="text" data-duice-bind="code" data-duice-property="name"
-                                   class="width-100"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.code.Code.note}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <textarea data-duice-bind="code" data-duice-property="note" rows="4"
-                                      class="width-100 height-100"></textarea>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.code.Code.items}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:5rem;"/>
-                                        <col/>
-                                        <col/>
-                                        <col/>
-                                        <col style="width:2rem;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.code.CodeItem.itemId}"></th>
-                                        <th data-th-text="#{core.code.CodeItem.name}"></th>
-                                        <th data-th-text="#{core.code.CodeItem.value}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addCodeItem();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="code.items" data-duice-loop="item,status">
-                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td>
-                                            <input type="text" data-duice-bind="item" data-duice-property="itemId" class="width-100 font-weight-bold"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" data-duice-bind="item" data-duice-property="name" class="width-100"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" data-duice-bind="item" data-duice-property="value" class="width-100"/>
-                                        </td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="item"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeCodeItem(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="code.items"
-                                        data-duice-if="return (code.items.length < 1);"
-                                        hidden>
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <span data-th-text="#{web.global.detail}"></span>
+                </h2>
+                <div class="grid template-columns-6 gap-1px column-gap-1em">
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.code.Code.codeId}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="code" data-duice-property="codeId"
+                               class="width-100 font-weight-bold"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.code.Code.name}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="code" data-duice-property="name"
+                               class="width-100"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.code.Code.note}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <textarea data-duice-bind="code" data-duice-property="note" rows="4"
+                                  class="width-100 height-100"></textarea>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.code.Code.items}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:5rem;"/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col style="width:2rem;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.code.CodeItem.itemId}"></th>
+                                    <th data-th-text="#{core.code.CodeItem.name}"></th>
+                                    <th data-th-text="#{core.code.CodeItem.value}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addCodeItem();"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="code.items" data-duice-loop="item,status">
+                                    <td data-duice-bind="status" data-duice-property="count"
+                                        class="text-align-center"></td>
+                                    <td>
+                                        <input type="text" data-duice-bind="item" data-duice-property="itemId"
+                                               class="width-100 font-weight-bold"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" data-duice-bind="item" data-duice-property="name"
+                                               class="width-100"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" data-duice-bind="item" data-duice-property="value"
+                                               class="width-100"/>
+                                    </td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="item"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeCodeItem(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="code.items"
+                                    data-duice-if="return (code.items.length < 1);"
+                                    hidden>
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="container margin-1px">
-                        <div class="item-12 justify-right">
-                            <button onclick="deleteCode();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
-                                    data-duice-bind="code"
-                                    data-duice-execute="(code.codeId && !code._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.global.delete}"></span>
-                            </button>
-                            <button onclick="saveCode();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
-                                    data-duice-bind="code"
-                                    data-duice-execute="(code.codeId || code._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.global.save}"></span>
-                            </button>
-                        </div>
+                </div>
+                <div class="grid template-columns-2 margin-top-1em">
+                    <div class="column-1"></div>
+                    <div class="column-1 flex justify-content-end gap-1px">
+                        <button onclick="deleteCode();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
+                                data-duice-bind="code"
+                                data-duice-execute="(code.codeId && !code._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button onclick="saveCode();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
+                                data-duice-bind="code"
+                                data-duice-execute="(code.codeId || code._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- ================================== -->
+        <!-- end: code detail                   -->
+        <!-- ================================== -->
+
     </div>
+    <!-- ================================== -->
+    <!-- end: code content                  -->
+    <!-- ================================== -->
 
 </main>

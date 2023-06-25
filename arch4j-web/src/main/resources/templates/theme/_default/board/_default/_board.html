@@ -1,14 +1,12 @@
 <!-- ================================================== -->
 <!-- start: title                                       -->
 <!-- ================================================== -->
-<div class="container">
-    <div class="item-12">
-        <h1>
-            <img data-duice-bind="board" data-duice-property="icon" class="icon" th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="board" data-duice-property="name"></span>
-        </h1>
-    </div>
-</div>
+<h1 id="title">
+    <img data-duice-bind="board" data-duice-property="icon" class="icon"
+         th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
+    <span data-duice-bind="board" data-duice-property="name"></span>
+    <hr/>
+</h1>
 <!-- ================================================== -->
 <!-- end: title                                         -->
 <!-- ================================================== -->

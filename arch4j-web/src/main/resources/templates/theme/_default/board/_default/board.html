@@ -1,34 +1,32 @@
 <!-- ================================================== -->
 <!-- start: message                                     -->
 <!-- ================================================== -->
-<div class="container">
-    <div class="item-12">
-        <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
-        <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"/>
-    </div>
+<div id="message" class="padding-1em">
+    <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
+    <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"></duice-markdown-viewer>
 </div>
 <!-- ================================================== -->
 <!-- end: message                                       -->
 <!-- ================================================== -->
 
 <!-- ================================================== -->
-<!-- article list                                       -->
+<!-- start: articles                                    -->
 <!-- ================================================== -->
-<div>
-    <div class="container border-x-1 font-weight-bold padding-x-1em display-s-none">
-        <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-item-0"></div>
-        <div data-th-text="#{core.board.Article.title}" class="item-9 s-item-12"></div>
-        <span class="item-2 justify-right padding-right-1em s-item-0">
+<div id="articles">
+    <div class="grid template-columns-12 border-x-1 font-weight-bold padding-x-1em display-s-none">
+        <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-column-0"></div>
+        <div data-th-text="#{core.board.Article.title}" class="column-9 s-column-12"></div>
+        <span class="column-2 justify-right padding-right-1em s-column-0">
             <span data-th-text="#{core.board.Article.userName}"></span>
             |
             <span data-th-text="#{core.board.Article.createdAt}"></span>
         </div>
     </div>
-    <div data-duice-bind="articles" data-duice-loop="article,status" class="container padding-x-1em" style="border-bottom:dotted 1px lightgray;">
-        <div class="item-1 justify-left padding-left-1em s-item-0">
+    <div data-duice-bind="articles" data-duice-loop="article,status" class="grid template-columns-12 padding-x-1em" style="border-bottom:dotted 1px lightgray;">
+        <div class="column-1 justify-left padding-left-1em s-column-0">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
-        <div class="item-9 s-item-12">
+        <div class="column-9 s-column-12">
             <span>
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="title"
@@ -45,25 +43,25 @@
                 <span data-duice-bind="article" data-duice-property="likeCount"></span>
             </span>
         </div>
-        <div class="item-2 justify-right padding-right-1em s-item-12 s-justify-left">
+        <div class="column-2 justify-right padding-right-1em s-column-12 s-justify-left">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </div>
     </div>
-    <div class="container padding-1em" data-duice-bind="articles" data-duice-if="return articles.length===0" style="border-bottom:dotted 1px lightgray;" hidden>
-        <div class="item-12 justify-center">
+    <div class="grid template-columns-12 padding-1em" data-duice-bind="articles" data-duice-if="return articles.length===0" style="border-bottom:dotted 1px lightgray;" hidden>
+        <div class="column-12 justify-center">
             Data Not Found
         </div>
     </div>
-    <div class="container padding-1em">
-        <div class="item-4 font-size-smaller">
+    <div class="grid template-columns-3 padding-1em">
+        <div class="column-1 font-size-smaller">
             <span data-th-text="#{web.global.total}"></span>
             <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
             <span data-th-text="#{web.global.rows}"></span>
         </div>
-        <div class="item-4 justify-center">
+        <div class="column-1 flex justify-content-center">
             <duice-pagination
                     data-duice-bind="articleSearch"
                     data-duice-size-property="_size"
@@ -72,30 +70,32 @@
                     data-duice-onclick="getArticles(this.dataset.page);">
             </duice-pagination>
         </div>
-        <div class="item-4"></div>
+        <div class="column-1"></div>
     </div>
 </div>
 <!-- ================================================== -->
-<!-- end: article list                                  -->
+<!-- end: articles                                      -->
 <!-- ================================================== -->
 
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="container">
-    <form onsubmit="return false;" class="item-8 container gap-column-1px">
-        <select class="s-item-3" data-duice-bind="articleSearch" data-duice-property="key">
-            <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
-            <option value="title" data-th-text="#{core.board.Article.title}"></option>
-            <option value="content" data-th-text="#{core.board.Article.content}"></option>
-        </select>
-        <input class="s-item-6" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
-        <button class="s-item-3" onclick="getArticles();">
+<div id="button" class="grid template-columns-2 gap-1px">
+    <form onsubmit="return false;" class="column-1 s-column-2 flex gap-1px s-direction-column">
+        <div class="grid template-columns-3 gap-1px">
+            <select class="column-1" data-duice-bind="articleSearch" data-duice-property="key">
+                <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
+                <option value="title" data-th-text="#{core.board.Article.title}"></option>
+                <option value="content" data-th-text="#{core.board.Article.content}"></option>
+            </select>
+            <input class="column-2" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
+        </div>
+        <button onclick="getArticles();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-search.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.search}"></span>
         </button>
     </form>
-    <div class="item-4 justify-right">
+    <div class="column-1 flex justify-content-end s-column-2">
         <button onclick="gotoPost();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>

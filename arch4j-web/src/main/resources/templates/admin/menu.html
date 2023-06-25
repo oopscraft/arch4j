@@ -128,11 +128,11 @@
         function deleteMenu() {
             _confirm([[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]).then(result => {
                 if(result) {
-                    let url = new URL('[[@{/admin/menu/delete-menu}]]', document.location.origin);
+                    let url = new URL([[@{/admin/menu/delete-menu}]], document.location.origin);
                     url.searchParams.append('menuId', menu.id);
                     _fetch(url).then(response => {
                         if(response.ok) {
-                            _alert('[[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]').then(() => {
+                            _alert([[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]).then(() => {
                                 getMenus();
                             });
                         }
@@ -201,29 +201,33 @@
             background-color: #f7f7f7;
         }
     </style>
-    <h1>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
         <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
         <span data-th-text="#{web.admin.menu}"></span>
     </h1>
-    <div class="container gap-column-1rem gap-row-1em">
-        <div class="item-6 s-item-12">
-            <!-- list of menu -->
-            <div class="container border-1 padding-1rem margin-bottom-1px">
-                <div class="item-12">
-                    <div class="container padding-1px">
-                        <div class="item-10">
-                            <h2>
-                                <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.global.list}"></span>
-                            </h2>
-                        </div>
-                        <div class="item-2 justify-right">
-                            <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
-                                <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.global.create}"></span>
-                            </button>
-                        </div>
-                    </div>
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: menu content                -->
+    <!-- ================================== -->
+    <div id="menuContent" class="grid template-columns-2 s-template-columns-1 gap-1em">
+
+        <!-- ================================== -->
+        <!-- start: menu list                   -->
+        <!-- ================================== -->
+        <div id="menuList" class="column-1">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <span data-th-text="#{web.global.list}"></span>
+                </h2>
+                <div>
                     <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
                          data-duice-execute="
                     this.dataset.menuId = menu.menuId;
@@ -239,157 +243,179 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-content-end">
+                    <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                        <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                        <span data-th-text="#{web.global.create}"></span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <div class="container border-1 padding-1rem margin-bottom-1px">
-                <div class="item-12">
-                    <h2>
-                        <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
-                        <span data-th-text="#{web.global.detail}"></span>
-                    </h2>
-                    <div class="container gap-1px gap-column-1rem">
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.name}" class="font-weight-bold tag-required"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight-bold width-100"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <div class="container">
-                                <input class="item-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
-                                <button class="item-1" onclick="selectParentId();"
-                                        th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
-                                        data-duice-bind="menu"
-                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                </button>
-                                <button class="item-1" onclick="clearParentMenu();"
-                                        data-duice-bind="menu"
-                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                    <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.link}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <input type="text" data-duice-bind="menu" data-duice-property="link" class="width-100"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.target}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <select data-duice-bind="menu" data-duice-property="target">
-                                <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
-                                <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
-                                        th:text="${menuTarget}"></option>
-                            </select>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <img class="icon" th:src="@{/static/image/icon-null.svg}"
-                                 data-duice-bind="menu"
-                                 data-duice-property="icon"
-                                 data-duice-width="32"
-                                 data-duice-height="32"
-                                 data-duice-editable="true"
-                                 style="width:32px; height:32px;"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <input type="number" data-duice-bind="menu" data-duice-property="sort"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.note}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                        <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
-                                  class="width-100 height-100"></textarea>
-                        </div>
+        <!-- ================================== -->
+        <!-- end: menu list                     -->
+        <!-- ================================== -->
 
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:70px;"/>
-                                        <col/>
-                                        <col/>
-                                        <col style="width:35px;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.Role.roleId}"></th>
-                                        <th data-th-text="#{core.role.Role.name}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addMenuRole();"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
-                                                    data-duice-bind="menu"
-                                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="menu.roles" data-duice-loop="role,status">
-                                        <td data-duice-bind="status" data-duice-property="count"
-                                            class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="roleId"
-                                            class="font-weight-bold"></td>
-                                        <td data-duice-bind="role" data-duice-property="name"></td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="role"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeMenuRole(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="menu.roles"
-                                        data-duice-execute="if(menu.roles.length === 0) this.hidden=false;" hidden>
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="item-12 justify-right margin-top-1em">
-                            <button onclick="deleteMenu();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
-                                    data-duice-bind="menu"
-                                    data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.global.delete}"></span>
-                            </button>
-                            <button onclick="saveMenu();"
+        <!-- ================================== -->
+        <!-- start: menu detail                 -->
+        <!-- ================================== -->
+        <div id="menuDetail" class="column-1">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <span data-th-text="#{web.global.detail}"></span>
+                </h2>
+                <div class="grid template-columns-6 gap-1px column-gap-1em">
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.name}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight-bold width-100"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <div class="grid template-columns-12">
+                            <input class="column-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                            <button class="column-1" onclick="selectParentId();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                     data-duice-bind="menu"
                                     data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.global.save}"></span>
+                                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            </button>
+                            <button class="column-1" onclick="clearParentMenu();"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
                             </button>
                         </div>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.link}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <input type="text" data-duice-bind="menu" data-duice-property="link" class="width-100"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.target}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <select data-duice-bind="menu" data-duice-property="target">
+                            <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
+                            <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
+                                    th:text="${menuTarget}"></option>
+                        </select>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <img class="icon" th:src="@{/static/image/icon-null.svg}"
+                             data-duice-bind="menu"
+                             data-duice-property="icon"
+                             data-duice-width="32"
+                             data-duice-height="32"
+                             data-duice-editable="true"
+                             style="width:32px; height:32px;"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <input type="number" data-duice-bind="menu" data-duice-property="sort"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.note}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
+                              class="width-100 height-100"></textarea>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:70px;"/>
+                                    <col/>
+                                    <col/>
+                                    <col style="width:35px;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addMenuRole();"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                                data-duice-bind="menu"
+                                                data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="menu.roles" data-duice-loop="role,status">
+                                    <td data-duice-bind="status" data-duice-property="count"
+                                        class="text-align-center"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"
+                                        class="font-weight-bold"></td>
+                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeMenuRole(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="menu.roles"
+                                    data-duice-execute="if(menu.roles.length === 0) this.hidden=false;" hidden>
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid template-columns-2 margin-top-1em">
+                    <div class="column-1"></div>
+                    <div class="column-1 flex justify-content-end">
+                        <button onclick="deleteMenu();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                data-duice-bind="menu"
+                                data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button onclick="saveMenu();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
+                                data-duice-bind="menu"
+                                data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- ================================== -->
+        <!-- end: menu detail                   -->
+        <!-- ================================== -->
 
-    <!-- menuSelect -->
+    </div>
+    <!-- ================================== -->
+    <!-- end: menu content                  -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: menuSelect                  -->
+    <!-- ================================== -->
     <dialog id="menuSelect">
         <style>
             #menuSelect {
@@ -482,8 +508,13 @@
             </div>
         </div>
     </dialog>
+    <!-- ================================== -->
+    <!-- end: menuSelect                    -->
+    <!-- ================================== -->
 
-    <!-- roleSelect -->
+    <!-- ================================== -->
+    <!-- start: roleSelect                  -->
+    <!-- ================================== -->
     <dialog id="roleSelect">
         <style>
             #roleSelect {
@@ -718,5 +749,8 @@
             </div>
         </div>
     </dialog>
+    <!-- ================================== -->
+    <!-- end: roleSelect                    -->
+    <!-- ================================== -->
 
 </main>

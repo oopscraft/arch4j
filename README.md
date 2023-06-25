@@ -2,7 +2,7 @@
 
 ## Demo Site
 
-[https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
+[https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
 
 user/password: admin/admin, dev/dev
 

@@ -342,13 +342,22 @@
             tabFolder.setActive(0);
         });
     </script>
-    <h1>
+
+    <!-- ====================================== -->
+    <!-- start: title                           -->
+    <!-- ====================================== -->
+    <h1 id="title">
         <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
         <span data-th-text="#{web.admin.user}"></span>
     </h1>
+    <!-- ====================================== -->
+    <!-- end: title                             -->
+    <!-- ====================================== -->
 
-    <!-- tab -->
-    <div>
+    <!-- ====================================== -->
+    <!-- start: tab index                       -->
+    <!-- ====================================== -->
+    <div id="tabIndex">
         <button id="userTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
             <span data-th-text="#{core.user.User}"></span>
@@ -357,13 +366,20 @@
             <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
             <span data-th-text="#{core.user.LoginHistory}"></span>
         </button>
+        <hr class="margin-1px"/>
     </div>
-    <hr class="margin-1px"/>
+    <!-- ====================================== -->
+    <!-- end: tab index                         -->
+    <!-- ====================================== -->
 
-    <!-- userTabContent -->
+    <!-- ====================================== -->
+    <!-- start: userTabContent                  -->
+    <!-- ====================================== -->
     <div id="userTabContent" class="grid template-columns-2 s-template-columns-1 gap-1em">
-        <div class="column-1">
-            <!-- list of user -->
+        <!-- ====================================== -->
+        <!-- start: user list                       -->
+        <!-- ====================================== -->
+        <div id="userList" class="column-1">
             <div class="padding-1em border-1">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
@@ -475,9 +491,15 @@
                 </div>
             </div>
         </div>
-        <div class="column-1">
-            <!-- user detail -->
-            <div class="border-1 padding-1rem">
+        <!-- ====================================== -->
+        <!-- end: user list                         -->
+        <!-- ====================================== -->
+
+        <!-- ====================================== -->
+        <!-- start: user detail                     -->
+        <!-- ====================================== -->
+        <div id="userDetail" class="column-1">
+            <div class="border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
@@ -662,9 +684,17 @@
                 </div>
             </div>
         </div>
+        <!-- ====================================== -->
+        <!-- end: user detail                       -->
+        <!-- ====================================== -->
     </div>
+    <!-- ====================================== -->
+    <!-- end: userTabContent                    -->
+    <!-- ====================================== -->
 
-    <!-- roleSelect -->
+    <!-- ====================================== -->
+    <!-- start: roleSelect                      -->
+    <!-- ====================================== -->
     <dialog id="roleSelect">
         <style>
             #roleSelect {
@@ -897,8 +927,13 @@
             </button>
         </div>
     </dialog>
+    <!-- ====================================== -->
+    <!-- end: roleSelect                        -->
+    <!-- ====================================== -->
 
-    <!-- password change -->
+    <!-- ====================================== -->
+    <!-- start: password change                 -->
+    <!-- ====================================== -->
     <dialog id="passwordChange">
         <style>
             #passwordChange {
@@ -992,10 +1027,15 @@
             </button>
         </div>
     </dialog>
+    <!-- ====================================== -->
+    <!-- end: password change                   -->
+    <!-- ====================================== -->
 
-    <!-- loginHistoryTabContent -->
+    <!-- ====================================== -->
+    <!-- start: loginHistoryTabContent          -->
+    <!-- ====================================== -->
     <div id="loginHistoryTabContent">
-        <div>
+        <div id="loginHistoryList">
             <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-direction-column">
                 <div class="grid template-columns-3 gap-1px">
                     <select data-duice-bind="loginHistorySearch" data-duice-property="key" class="column-1">
@@ -1066,5 +1106,8 @@
             </div>
         </div>
     </div>
+    <!-- ====================================== -->
+    <!-- end: loginHistoryTabContent            -->
+    <!-- ====================================== -->
 
 </main>

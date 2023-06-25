@@ -290,447 +290,469 @@
             getBoards();
         });
     </script>
-    <h1>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
         <img class="icon" th:src="@{/static/image/icon-board.svg}"/>
         <span data-th-text="#{web.admin.board}"></span>
     </h1>
-    <div class="container gap-column-1rem gap-row-1rem">
-        <div class="item-6 s-item-12">
-            <!-- list of board -->
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <div class="container padding-1px">
-                        <div class="item-8">
-                            <h2>
-                                <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
-                                <span data-th-text="#{web.global.list}"></span>
-                            </h2>
-                        </div>
-                        <div class="item-4 justify-right">
-                            <button onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                                <span data-th-text="#{web.global.create}"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="container gap-1px margin-x-1px">
-                        <form onsubmit="return false;" class="item-12 container gap-1px">
-                            <select data-duice-bind="boardSearch" data-duice-property="key" class="item-1 s-item-4">
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: boardContent                -->
+    <!-- ================================== -->
+    <div id="boardContent" class="grid template-columns-2 s-template-columns-1 gap-1em">
+
+        <!-- ================================== -->
+        <!-- start: board list                  -->
+        <!-- ================================== -->
+        <div id="boardList" class="column-1">
+            <div class="padding-1em border-1">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <span data-th-text="#{web.global.list}"></span>
+                </h2>
+                <form onsubmit="return false;" class="grid template-columns-3 gap-1px s-template-columns-1 margin-x-1px">
+                    <div class="column-2 s-column-1 flex s-direction-column">
+                        <div class="grid template-columns-3 gap-1px">
+                            <select data-duice-bind="boardSearch" data-duice-property="key" class="column-1">
                                 <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
                                 <option value="name" th:text="#{core.board.Board.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="item-2 s-item-8"/>
-                            <button onclick="getBoards();" class="item-1 s-item-12">
-                                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                                <span data-th-text="#{web.global.search}">Search</span>
-                            </button>
-                            <button onclick="resetBoards();" class="item-1 s-item-12">
-                                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                                <span data-th-text="#{web.global.reset}">Reset</span>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="overflow-x-auto border-1">
-                        <table class="border-0">
-                            <colgroup>
-                                <col style="width:5rem;"/>
-                                <col/>
-                                <col/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                <th data-th-text="#{core.board.Board.boardId}"></th>
-                                <th data-th-text="#{core.board.Board.name}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-execute="
-                            this.dataset.boardId=board.boardId;
-                            " onclick="getBoard(this.dataset.boardId);" class="link">
-                                <td data-duice-bind="status" data-duice-property="count"
-                                    class="text-align-center"></td>
-                                <td>
-                                    <img data-duice-bind="board" data-duice-property="icon" class="icon"/>
-                                    <span data-duice-bind="board" data-duice-property="boardId"
-                                          class="font-weight-bold"></span>
-                                </td>
-                                <td data-duice-bind="board" data-duice-property="name"></td>
-                            </tr>
-                            <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
-                                <td colspan="100%" class="text-align-center">No Data</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="container">
-                        <div class="item-4"></div>
-                        <div class="item-4 justify-center">
-                            <duice-pagination
-                                    data-duice-bind="boardSearch"
-                                    data-duice-size-property="_size"
-                                    data-duice-page-property="_page"
-                                    data-duice-count-property="_count"
-                                    data-duice-onclick="getBoards(this.dataset.page);">
-                            </duice-pagination>
+                                   th:placeholder="#{web.global.keyword}" class="column-2"/>
                         </div>
-                        <div class="item-4 justify-right font-size-smaller">
-                            <span data-th-text="#{web.global.total}"></span>
-                            <span data-duice-bind="boardSearch" data-duice-property="_count"
-                                  data-duice-format="number(0)"></span>
-                            <span data-th-text="#{web.global.rows}"></span>
-                        </div>
+                    </div>
+                    <div class="column-1 flex justify-content-end gap-1px s-direction-column">
+                        <button onclick="getBoards();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button onclick="resetBoards();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x-auto border-1">
+                    <table class="border-0">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{core.board.Board.boardId}"></th>
+                            <th data-th-text="#{core.board.Board.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-execute="
+                        this.dataset.boardId=board.boardId;
+                        " onclick="getBoard(this.dataset.boardId);" class="link">
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align-center"></td>
+                            <td>
+                                <img data-duice-bind="board" data-duice-property="icon" class="icon"/>
+                                <span data-duice-bind="board" data-duice-property="boardId"
+                                      class="font-weight-bold"></span>
+                            </td>
+                            <td data-duice-bind="board" data-duice-property="name"></td>
+                        </tr>
+                        <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align-center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid template-columns-3 margin-top-1em">
+                    <div class="column-1 font-size-smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="boardSearch" data-duice-property="_count"
+                              data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="column-1 flex justify-content-center">
+                        <duice-pagination
+                                data-duice-bind="boardSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getBoards(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
+                    <div class="column-1 flex justify-content-end">
+                        <button onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="item-6 s-item-12">
-            <!-- board detail -->
-            <div class="container border-1 padding-1rem">
-                <div class="item-12">
-                    <h2>
-                        <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
-                        <span data-th-text="#{web.global.detail}"></span>
-                    </h2>
-                    <div class="container gap-1px gap-column-1rem">
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.boardId}" class="font-weight-bold tag-required"></span>
+        <!-- ================================== -->
+        <!-- end: board list                    -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: board detail                -->
+        <!-- ================================== -->
+        <div id="boardDetail" class="column-1">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
+                    <span data-th-text="#{web.global.detail}"></span>
+                </h2>
+                <div class="grid template-columns-6 gap-1px column-gap-1em">
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.boardId}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="board" data-duice-property="boardId"
+                               class="width-100 font-weight-bold"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.name}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="board" data-duice-property="name"
+                               class="width-100"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.note}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <textarea data-duice-bind="board" data-duice-property="note" rows="3"
+                                  class="width-100 height-100"></textarea>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board"
+                             data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
+                             style="width:32px; height:32px;"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.message}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <div>
+                            <label>
+                                <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="PLAIN"/>
+                                <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
+                            </label>
+                            &nbsp;
+                            <label>
+                                <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="MARKDOWN"/>
+                                <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
+                            </label>
                         </div>
-                        <div class="item-4 s-item-12">
-                            <input type="text" data-duice-bind="board" data-duice-property="boardId"
-                                   class="width-100 font-weight-bold"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.name}" class="font-weight-bold tag-required"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <input type="text" data-duice-bind="board" data-duice-property="name"
-                                   class="width-100"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.note}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <textarea data-duice-bind="board" data-duice-property="note" rows="3"
-                                      class="width-100 height-100"></textarea>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.icon}" class="font-weight-bold"></span><br>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board"
-                                 data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
-                                 style="width:32px; height:32px;"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.message}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12 container">
-                            <div class="item-12">
-                                <label>
-                                    <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="PLAIN"/>
-                                    <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
-                                </label>
-                                &nbsp;
-                                <label>
-                                    <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="MARKDOWN"/>
-                                    <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
-                                </label>
-                            </div>
-                            <div class="item-12" style="height:10em;">
-                                <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message" class="width-100 height-100"></textarea>
-                                <duice-markdown-editor data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message" class="border-1 width-100 height-100"/>
-                            </div>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.skin}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="skin">
-                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
-                                <option th:each="skinName:${skinNames}"
-                                        th:value="${skinName}"
-                                        th:text="${skinName}"></option>
-                            </select>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.pageSize}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-4 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="pageSize">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="40">40</option>
-                                <option value="50">50</option>
-                            </select>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.accessPolicy}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="accessPolicy">
-                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
-                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
-                                        th:value="${securityPolicy}"
-                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
-                                </option>
-                            </select>
-                            <div data-duice-bind="board"
-                                 data-duice-if="return board.accessPolicy === 'AUTHORIZED'"
-                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:5rem;"/>
-                                        <col style="width:15rem;"/>
-                                        <col/>
-                                        <col style="width:2rem;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.Role.roleId}"></th>
-                                        <th data-th-text="#{core.role.Role.name}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
-                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                        <td data-duice-bind="role" data-duice-property="name"></td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="role"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeBoardAccessRole(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="board.accessRoles"
-                                        data-duice-if="return (board.accessRoles.length < 1);">
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.readPolicy}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="readPolicy">
-                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
-                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
-                                        th:value="${securityPolicy}"
-                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
-                                </option>
-                            </select>
-                            <div data-duice-bind="board"
-                                 data-duice-if="return board.readPolicy === 'AUTHORIZED'"
-                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:5rem;"/>
-                                        <col style="width:15rem;"/>
-                                        <col/>
-                                        <col style="width:2rem;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.Role.roleId}"></th>
-                                        <th data-th-text="#{core.role.Role.name}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
-                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                        <td data-duice-bind="role" data-duice-property="name"></td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="role"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeBoardReadRole(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="board.readRoles"
-                                        data-duice-if="return (board.readRoles.length < 1);">
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.writePolicy}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="writePolicy">
-                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
-                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
-                                        th:value="${securityPolicy}"
-                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
-                                </option>
-                            </select>
-                            <div data-duice-bind="board"
-                                 data-duice-if="return board.writePolicy === 'AUTHORIZED'"
-                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:5rem;"/>
-                                        <col style="width:15rem;"/>
-                                        <col/>
-                                        <col style="width:2rem;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.Role.roleId}"></th>
-                                        <th data-th-text="#{core.role.Role.name}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
-                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                        <td data-duice-bind="role" data-duice-property="name"></td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="role"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeBoardWriteRole(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="board.writeRoles"
-                                        data-duice-if="return (board.writeRoles.length < 1);"
-                                        hidden>
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.commentEnabled}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
-                        </div>
-                        <div class="item-2 s-item-12">
-                            <span data-th-text="#{core.board.Board.commentPolicy}" class="font-weight-bold"></span>
-                        </div>
-                        <div class="item-10 s-item-12">
-                            <select data-duice-bind="board" data-duice-property="commentPolicy">
-                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
-                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
-                                        th:value="${securityPolicy}"
-                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
-                                </option>
-                            </select>
-                            <div data-duice-bind="board"
-                                 data-duice-if="return board.commentPolicy === 'AUTHORIZED'"
-                                 class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                                <table class="width-100 border-0">
-                                    <colgroup>
-                                        <col style="width:5rem;"/>
-                                        <col style="width:15rem;"/>
-                                        <col/>
-                                        <col style="width:2rem;"/>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                        <th data-th-text="#{core.role.Role.roleId}"></th>
-                                        <th data-th-text="#{core.role.Role.name}"></th>
-                                        <th class="text-align-center">
-                                            <button onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr data-duice-bind="board.commentRoles" data-duice-loop="role,status">
-                                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                                        <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                        <td data-duice-bind="role" data-duice-property="name"></td>
-                                        <td class="text-align-center">
-                                            <button data-duice-bind="role"
-                                                    data-duice-execute="this.dataset.index=status.index;"
-                                                    onclick="removeBoardCommentRole(this.dataset.index);"
-                                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
-                                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr data-duice-bind="board.commentRoles"
-                                        data-duice-if="return (board.commentRoles.length < 1);"
-                                        hidden>
-                                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div style="height:10em;">
+                            <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message" class="width-100 height-100"></textarea>
+                            <duice-markdown-editor data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message" class="border-1 width-100 height-100"/>
                         </div>
                     </div>
-                    <div class="container margin-top-1em">
-                        <div class="item-6">
-                            <button onclick="openBoard();"
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.skin}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="skin">
+                            <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                            <option th:each="skinName:${skinNames}"
+                                    th:value="${skinName}"
+                                    th:text="${skinName}"></option>
+                        </select>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.pageSize}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="pageSize">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.accessPolicy}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="accessPolicy">
+                            <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                            <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                    th:value="${securityPolicy}"
+                                    th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                            </option>
+                        </select>
+                        <div data-duice-bind="board"
+                             data-duice-if="return board.accessPolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:5rem;"/>
+                                    <col style="width:15rem;"/>
+                                    <col/>
+                                    <col style="width:2rem;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
+                                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
+                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeBoardAccessRole(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="board.accessRoles"
+                                    data-duice-if="return (board.accessRoles.length < 1);">
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.readPolicy}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="readPolicy">
+                            <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                            <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                    th:value="${securityPolicy}"
+                                    th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                            </option>
+                        </select>
+                        <div data-duice-bind="board"
+                             data-duice-if="return board.readPolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:5rem;"/>
+                                    <col style="width:15rem;"/>
+                                    <col/>
+                                    <col style="width:2rem;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
+                                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
+                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeBoardReadRole(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="board.readRoles"
+                                    data-duice-if="return (board.readRoles.length < 1);">
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.writePolicy}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="writePolicy">
+                            <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                            <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                    th:value="${securityPolicy}"
+                                    th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                            </option>
+                        </select>
+                        <div data-duice-bind="board"
+                             data-duice-if="return board.writePolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:5rem;"/>
+                                    <col style="width:15rem;"/>
+                                    <col/>
+                                    <col style="width:2rem;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
+                                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
+                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeBoardWriteRole(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="board.writeRoles"
+                                    data-duice-if="return (board.writeRoles.length < 1);"
+                                    hidden>
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.commentEnabled}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.board.Board.commentPolicy}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="column-5 s-column-6">
+                        <select data-duice-bind="board" data-duice-property="commentPolicy">
+                            <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                            <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                    th:value="${securityPolicy}"
+                                    th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                            </option>
+                        </select>
+                        <div data-duice-bind="board"
+                             data-duice-if="return board.commentPolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-0">
+                                <colgroup>
+                                    <col style="width:5rem;"/>
+                                    <col style="width:15rem;"/>
+                                    <col/>
+                                    <col style="width:2rem;"/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th class="text-align-center">
+                                        <button onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="board.commentRoles" data-duice-loop="role,status">
+                                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
+                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td class="text-align-center">
+                                        <button data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeBoardCommentRole(this.dataset.index);"
+                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="board.commentRoles"
+                                    data-duice-if="return (board.commentRoles.length < 1);"
+                                    hidden>
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid template-columns-2 margin-top-1em">
+                    <div class="column-1">
+                        <button onclick="openBoard();"
+                            data-duice-bind="board"
+                            data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                            <span data-th-text="#{web.admin.board.openBoard}"></span>
+                        </button>
+                    </div>
+                    <div class="column-1 flex justify-content-end">
+                        <button onclick="deleteBoard();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
                                 data-duice-bind="board"
                                 data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
-                                <span data-th-text="#{web.admin.board.openBoard}"></span>
-                            </button>
-                        </div>
-                        <div class="item-6 justify-right">
-                            <button onclick="deleteBoard();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
-                                    data-duice-bind="board"
-                                    data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
-                                <span data-th-text="#{web.global.delete}"></span>
-                            </button>
-                            <button onclick="saveBoard();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
-                                    data-duice-bind="board"
-                                    data-duice-execute="(board.boardId || board._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
-                                <span data-th-text="#{web.global.save}"></span>
-                            </button>
-                        </div>
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button onclick="saveBoard();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
+                                data-duice-bind="board"
+                                data-duice-execute="(board.boardId || board._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- ================================== -->
+        <!-- end: board detail                  -->
+        <!-- ================================== -->
+
     </div>
+    <!-- ================================== -->
+    <!-- end: boardContent                  -->
+    <!-- ================================== -->
 
     <!-- ============================== -->
     <!-- start:roleSelect               -->
@@ -742,7 +764,7 @@
                 padding: 1.5rem;
             }
         </style>
-        <script>
+        <script th:inline="javascript">
             const roleSelect = {
                 dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
                 alreadySelectedRoleIds : null,
@@ -777,7 +799,7 @@
                     if(page) {
                         this.roleSearch._page = page;
                     }
-                    let url = new URL('[[@{/admin/user/get-roles}]]',document.location.origin);
+                    let url = new URL([[@{/admin/user/get-roles}]],document.location.origin);
                     if(this.roleSearch.key && this.roleSearch.value) {
                         url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
                     }
@@ -850,23 +872,23 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <div class="container gap-1px margin-1px">
-            <form onsubmit="return false;" class="item-12 container gap-1px">
-                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="item-1">
+        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-direction-column">
+            <div class="grid template-columns-3 gap-1px">
+                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
                     <option value="name" th:text="#{core.role.Role.name}"></option>
                 </select>
-                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="item-2"/>
-                <button onclick="roleSelect.getRoles();" class="item-1">
-                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                    <span data-th-text="#{web.global.search}">Search</span>
-                </button>
-                <button onclick="roleSelect.resetRoles();" class="item-1">
-                    <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                    <span data-th-text="#{web.global.reset}">Reset</span>
-                </button>
-            </form>
-        </div>
+                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="column-2"/>
+            </div>
+            <button onclick="roleSelect.getRoles();">
+                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                <span data-th-text="#{web.global.search}">Search</span>
+            </button>
+            <button onclick="roleSelect.resetRoles();">
+                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                <span data-th-text="#{web.global.reset}">Reset</span>
+            </button>
+        </form>
         <div class="overflow-x-scroll border-1">
             <table class="border-0">
                 <colgroup>
@@ -907,9 +929,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="container">
-            <div class="item-4"></div>
-            <div class="item-4 justify-center">
+        <div class="grid template-columns-3">
+            <div class="column-1 font-size-smaller">
+                <span data-th-text="#{web.global.total}"></span>
+                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                <span data-th-text="#{web.global.rows}"></span>
+            </div>
+            <div class="column-1 flex justify-content-center">
                 <duice-pagination
                         data-duice-bind="roleSelect.roleSearch"
                         data-duice-size-property="_size"
@@ -918,11 +944,7 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="item-4 justify-right font-size-smaller">
-                <span data-th-text="#{web.global.total}"></span>
-                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                <span data-th-text="#{web.global.rows}"></span>
-            </div>
+            <div class="column-1"></div>
         </div>
         <div class="border-1 overflow-x-scroll">
             <table class="border-0">
@@ -960,13 +982,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="container padding-1px">
-            <div class="item-12 justify-right">
-                <button onclick="roleSelect.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                    <span data-th-text="#{web.global.confirm}"></span>
-                </button>
-            </div>
+        <div class="flex justify-content-end margin-top-1em">
+            <button onclick="roleSelect.confirm();">
+                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                <span data-th-text="#{web.global.confirm}"></span>
+            </button>
         </div>
     </dialog>
 

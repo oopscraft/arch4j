@@ -174,6 +174,14 @@
             menu.roles.splice(index, 1);
         }
 
+        /**
+         * open menu
+         */
+        function openMenu() {
+            let url = new URL(menu.link, document.location.origin);
+            window.open(url,'_blank');
+        }
+
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
             getMenus();
@@ -384,7 +392,14 @@
                     </div>
                 </div>
                 <div class="grid template-columns-2 margin-top-1em">
-                    <div class="column-1"></div>
+                    <div class="column-1">
+                        <button onclick="openMenu();"
+                                data-duice-bind="menu"
+                                data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                            <span data-th-text="#{web.admin.menu.openMenu}"></span>
+                        </button>
+                    </div>
                     <div class="column-1 flex justify-content-end gap-1px">
                         <button onclick="deleteMenu();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"

@@ -156,7 +156,7 @@
         const cancelArticleComment = function() {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment,{
-                contentFormat: 'TEXT'
+                contentFormat: 'PLAIN'
             });
             let commentForm = document.getElementById('article-comment-form');
             commentForm.style.marginLeft = 'initial';

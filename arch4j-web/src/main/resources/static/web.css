@@ -583,6 +583,7 @@ hr {
     border-left: var(--web-element-border);
 }
 
+
 /* text-align */
 .text-align-left {
     text-align: left;
@@ -768,7 +769,7 @@ hr {
     display: none;
 }
 @media screen and (max-width: 1023px) {
-    .display-s-none {
+    .s-display-none {
         display: none;
     }
 }

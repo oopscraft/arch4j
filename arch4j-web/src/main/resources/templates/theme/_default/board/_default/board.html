@@ -1,7 +1,7 @@
 <!-- ================================================== -->
 <!-- start: message                                     -->
 <!-- ================================================== -->
-<div id="message" class="padding-1em">
+<div id="message">
     <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
     <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"></duice-markdown-viewer>
 </div>
@@ -13,7 +13,7 @@
 <!-- start: articles                                    -->
 <!-- ================================================== -->
 <div id="articles">
-    <div class="grid template-columns-12 border-x-1 font-weight-bold padding-x-1em display-s-none">
+    <div class="grid template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none">
         <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-column-0"></div>
         <div data-th-text="#{core.board.Article.title}" class="column-9 s-column-12"></div>
         <span class="column-2 justify-right padding-right-1em s-column-0">
@@ -22,7 +22,7 @@
             <span data-th-text="#{core.board.Article.createdAt}"></span>
         </div>
     </div>
-    <div data-duice-bind="articles" data-duice-loop="article,status" class="grid template-columns-12 padding-x-1em" style="border-bottom:dotted 1px lightgray;">
+    <div data-duice-bind="articles" data-duice-loop="article,status" class="grid template-columns-12 padding-x-1em border-top-1">
         <div class="column-1 justify-left padding-left-1em s-column-0">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
@@ -80,8 +80,8 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div id="button" class="grid template-columns-2 gap-1px">
-    <form onsubmit="return false;" class="column-1 s-column-2 flex gap-1px s-direction-column">
+<div id="button" class="grid template-columns-3 gap-1px">
+    <form onsubmit="return false;" class="column-2 flex gap-1px">
         <div class="grid template-columns-3 gap-1px">
             <select class="column-1" data-duice-bind="articleSearch" data-duice-property="key">
                 <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
@@ -95,7 +95,7 @@
             <span data-th-text="#{web.global.search}"></span>
         </button>
     </form>
-    <div class="column-1 flex justify-content-end s-column-2">
+    <div class="column-1 flex justify-content-end">
         <button onclick="gotoPost();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>

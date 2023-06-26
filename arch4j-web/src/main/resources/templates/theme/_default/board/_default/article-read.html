@@ -1,12 +1,12 @@
 <!-- ================================================== -->
 <!-- start: article title                               -->
 <!-- ================================================== -->
-<div class="container margin-top-1em">
-    <h1 class="item-12">
+<div class="grid template-columns-12 margin-top-1em">
+    <h1 class="column-12">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
         <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold"></span>
     </h1>
-    <div class="item-12">
+    <div class="column-12">
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
@@ -32,8 +32,8 @@
 <!-- ================================================== -->
 <!-- start: article content -->
 <!-- ================================================== -->
-<div class="container margin-top-1em">
-    <div class="item-12">
+<div class="grid template-columns-12 margin-top-1em">
+    <div class="column-12">
         <div data-duice-bind="article" data-duice-if="return article.contentFormat === 'PLAIN'" data-duice-property="content"></div>
         <duice-markdown-viewer data-duice-bind="article" data-duice-if="return article.contentFormat ==='MARKDOWN'" data-duice-property="content"/>
     </div>
@@ -45,12 +45,12 @@
 <!-- ================================================== -->
 <!-- start: article file                                -->
 <!-- ================================================== -->
-<div class="container margin-top-1em">
-    <div class="item-12 font-weight-bold">
+<div class="grid template-columns-12 margin-top-1em">
+    <div class="column-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.board.Article.files}"></span>
     </div>
-    <div class="item-12">
+    <div class="column-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-execute="this.dataset.fileId=file.fileId"
@@ -71,8 +71,8 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="container padding-x-1em">
-    <div class="item-12 justify-center">
+<div class="grid template-columns-12 margin-x-1em">
+    <div class="column-12 flex justify-content-center gap-1em">
         <button onclick="gotoListArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-list.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.listArticle}"></span>
@@ -96,8 +96,8 @@
 <!-- ================================================== -->
 <!-- start: article comment title                       -->
 <!-- ================================================== -->
-<div class="container padding-x-1em">
-    <div class="item-12">
+<div class="grid template-columns-12 padding-x-1em">
+    <div class="column-12">
         <h2>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-th-text="#{core.board.ArticleComment}"></span>
@@ -114,14 +114,14 @@
 <!-- ================================================== -->
 <!-- start: article comment list                        -->
 <!-- ================================================== -->
-<div class="container">
-    <div class="item-12">
-        <div class="container margin-top-1em margin-bottom-1rem padding-left-1em border-left-1"
+<div class="grid template-columns-12">
+    <div class="column-12">
+        <div class="grid template-columns-12 margin-top-1em margin-bottom-1rem padding-left-1em border-left-1"
              data-duice-bind="articleComments"
              data-duice-loop="articleComment,status"
              data-duice-hierarchy="commentId,parentCommentId"
              data-duice-execute="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
-            <div class="item-12">
+            <div class="column-12">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
                      data-duice-execute="this.hidden=isChildArticleComment(articleComment);"/>
@@ -151,11 +151,11 @@
                     [<span data-th-text="#{web.board.editComment}"></span>]
                 </span>
             </div>
-            <div class="item-12">
+            <div class="column-12">
                 <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='PLAIN'" data-duice-property="content"></div>
                 <duice-markdown-viewer data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
             </div>
-            <div class="item-12">
+            <div class="column-12">
                 <span class="link"
                       data-duice-bind="articleComment"
                       data-duice-execute="this.dataset.commentId=articleComment.commentId;"
@@ -180,8 +180,8 @@
 <!-- start: article comment form                                -->
 <!-- ================================================== -->
 <div id="article-comment-form-container">
-    <div id="article-comment-form" class="container col-12 gap-row-1px padding-left-1em border-left-1">
-        <div class="item-12" >
+    <div id="article-comment-form" class="column-12 grid template-columns-12 gap-row-1px padding-left-1em border-left-1">
+        <div class="column-12">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                  data-duice-bind="articleComment"
                  data-duice-if="return !isChildArticleComment(articleComment);"/>
@@ -189,7 +189,8 @@
                  data-duice-bind="articleComment"
                  data-duice-if="return isChildArticleComment(articleComment);"/>
             <span data-duice-bind="articleComment"
-                  data-duice-if="return isAnonymousArticleComment(articleComment);">
+                  data-duice-if="return isAnonymousArticleComment(articleComment);"
+                  class="flex gap-1px s-direction-column">
                 <input type="text" data-duice-bind="articleComment" data-duice-property="userName" th:placeholder="#{core.board.ArticleComment.userName}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="password" th:placeholder="#{core.board.ArticleComment.password}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.board.ArticleComment.password}"/>
@@ -200,7 +201,7 @@
                 <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
             </span>
         </div>
-        <div class="item-12">
+        <div class="column-12">
             <label>
                 <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="PLAIN"/>
                 <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
@@ -211,11 +212,11 @@
                 <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
             </label>
         </div>
-        <div class="item-12" style="height:20em;">
+        <div class="column-12" style="height:20em;">
             <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='PLAIN'" data-duice-property="content" class="width-100 height-100"></textarea>
             <duice-markdown-editor data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
         </div>
-        <div class="item-12 justify-center padding-1em">
+        <div class="column-12 flex justify-content-center margin-x-1em gap-1em">
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.cancel}"></span>

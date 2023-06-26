@@ -1,33 +1,33 @@
 <!-- ================================================== -->
 <!-- start: article content                             -->
 <!-- ================================================== -->
-<div class="container gap-1px gap-column-1rem">
+<div class="grid template-columns-12 gap-1px">
 
-    <!-- START: writer name and password -->
+    <!-- start: writer name and password -->
     <th:block sec:authorize="!isAuthenticated()">
-        <div class="col-12">
+        <div class="column-12">
             <span data-th-text="#{core.board.Article.userName}" class="font-weight-bold tag-required"></span>
         </div>
-        <div class="col-12">
+        <div class="column-12">
             <input type="text" data-duice-bind="article" data-duice-property="userName"/>
         </div>
-        <div class="col-12">
+        <div class="column-12">
             <span data-th-text="#{core.board.Article.password}" class="font-weight-bold tag-required"></span>
         </div>
-        <div class="col-12">
+        <div class="column-12">
             <input type="password" data-duice-bind="article" data-duice-property="password"/>
             <input type="password" data-duice-bind="article" data-duice-property="passwordConfirm"/>
         </div>
     </th:block>
-    <!-- END: writer name and password -->
+    <!-- end: writer name and password -->
 
-    <div class="item-12">
+    <div class="column-12">
         <span data-th-text="#{core.board.Article.title}" class="font-weight-bold tag-required"></span>
     </div>
-    <div class="item-12">
+    <div class="column-12">
         <input type="text" data-duice-bind="article" data-duice-property="title" class="width-100 font-weight-bold"/>
     </div>
-    <div class="item-12">
+    <div class="column-12">
         <span data-th-text="#{core.board.Article.content}" class="font-weight-bold tag-required"></span>
         &nbsp;
         <label>
@@ -40,7 +40,7 @@
             <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
         </label>
     </div>
-    <div class="item-12" style="height:40em;">
+    <div class="column-12" style="height:40em;">
         <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='PLAIN'" data-duice-property="content" class="width-100 height-100"></textarea>
         <duice-markdown-editor data-duice-bind="article" data-duice-if="return article.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 height-100"/>
     </div>
@@ -52,12 +52,12 @@
 <!-- ================================================== -->
 <!-- start: file                                        -->
 <!-- ================================================== -->
-<div class="content margin-top-1em">
-    <div class="col-12 font-weight-bold">
+<div class="grid template-columns-12 margin-top-1em">
+    <div class="column-12 font-weight-bold">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.board.Article.files}"></span>
     </div>
-    <div class="col-12">
+    <div class="column-12">
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-execute="this.dataset.fileId=file.id"
@@ -74,7 +74,7 @@
             </span>
         </div>
     </div>
-    <div class="col-12">
+    <div class="column-12">
         <span onclick="addArticleFile();" class="link">
             [<span data-th-text="#{web.global.add}"></span>]
         </span>
@@ -87,8 +87,8 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="container padding-x-1em">
-    <div class="item-12 justify-center">
+<div class="grid template-columns-12 padding-x-1em">
+    <div class="column-12 flex justify-content-center gap-1em">
         <button onclick="gotoCancel();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.cancel}"></span>

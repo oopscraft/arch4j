@@ -1,12 +1,10 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.board.repository.ArticleFileEntity;
-import org.oopscraft.arch4j.core.board.repository.ArticleFileRepository;
-import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
+import org.oopscraft.arch4j.core.board.repository.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.data.ValidationUtils;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.storage.StorageClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,6 +33,8 @@ public class ArticleService {
     private final StorageClient fileService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ArticleVoteRepository articleVoteRepository;
 
     /**
      * saves article
@@ -135,6 +135,8 @@ public class ArticleService {
         article.setFiles(articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(article.getArticleId()).stream()
                 .map(ArticleFile::from)
                 .collect(Collectors.toList()));
+
+        // return
         return Optional.of(article);
     }
 

@@ -2842,7 +2842,7 @@ var duice;
              * @param number
              */
             format(number) {
-                if (!number || isNaN(Number(number))) {
+                if (isNaN(Number(number))) {
                     return '';
                 }
                 number = Number(number);

@@ -31,10 +31,13 @@ public class ArticleResponse {
     private String userIcon;
 
     @Builder.Default
-    private Integer commentCount = 0;
+    private Long commentCount = 0L;
 
     @Builder.Default
-    private Integer likeCount = 0;
+    private Long votePositiveCount = 0L;
+
+    @Builder.Default
+    private Long voteNegativeCount = 0L;
 
     @Builder.Default
     private List<ArticleFileResponse> files = new ArrayList<>();
@@ -54,7 +57,8 @@ public class ArticleResponse {
                 .userId(article.getUserId())
                 .userName(article.getUserName())
                 .commentCount(article.getCommentCount())
-                .likeCount(article.getLikeCount())
+                .votePositiveCount(article.getVotePositiveCount())
+                .voteNegativeCount(article.getVoteNegativeCount())
                 .files(article.getFiles().stream().map(ArticleFileResponse::from).collect(Collectors.toList()))
                 .build();
     }

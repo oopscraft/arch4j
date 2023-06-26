@@ -11,17 +11,25 @@
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </span>
+        &nbsp;
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </span>
+        &nbsp;
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="commentCount"></span>
         </span>
+        &nbsp;
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="article" data-duice-property="likeCount"></span>
+            <span data-duice-bind="article" data-duice-property="votePositiveCount"></span>
+        </span>
+        &nbsp;
+        <span>
+            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
+            <span data-duice-bind="article" data-duice-property="voteNegativeCount"></span>
         </span>
     </div>
 </div>
@@ -54,7 +62,7 @@
         <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
             <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-execute="this.dataset.fileId=file.fileId"
-                  class="cursor-pointer font-weight-bold"
+                  class="cursor-pointer font-size-smaller font-weight-bold"
                   onclick="downloadArticleFile(this.dataset.fileId);">
             </span>
             <span class="font-size-smaller" data-duice-bind="file" data-duice-execute="
@@ -72,7 +80,7 @@
 <!-- start: button                                      -->
 <!-- ================================================== -->
 <div class="grid template-columns-12 margin-x-1em">
-    <div class="column-12 flex justify-content-center gap-1em">
+    <div class="column-12 flex justify-content-center gap-1px">
         <button onclick="gotoListArticle();">
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-list.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.listArticle}"></span>
@@ -81,9 +89,33 @@
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-edit.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.editArticle}"></span>
         </button>
-        <button onclick="gotoListArticle();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.board.likeArticle}"></span>
+        <button onclick="saveArticleVote(1);">
+            <img class="icon"
+                 th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
+                 th:data-default-src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
+                 th:data-active-src="@{/static/theme/{_theme}/image/icon-like-on.svg(_theme=${_theme})}"
+                 data-duice-bind="articleVote"
+                 data-duice-execute="
+                 if(articleVote.point > 0) {
+                    this.src = this.dataset.activeSrc;
+                 }else{
+                    this.src = this.dataset.defaultSrc;
+                 }"/>
+            <span data-duice-bind="articleVote" data-duice-property="positiveCount" data-duice-format="number(0)"></span>
+        </button>
+        <button onclick="saveArticleVote(-1);">
+            <img class="icon"
+                 th:src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
+                 th:data-default-src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
+                 th:data-active-src="@{/static/theme/{_theme}/image/icon-dislike-on.svg(_theme=${_theme})}"
+                 data-duice-bind="articleVote"
+                 data-duice-execute="
+                 if(articleVote.point < 0) {
+                    this.src = this.dataset.activeSrc;
+                 }else{
+                    this.src = this.dataset.defaultSrc;
+                 }"/>
+            <span data-duice-bind="articleVote" data-duice-property="negativeCount" data-duice-format="number(0)"></span>
         </button>
     </div>
 </div>
@@ -216,7 +248,7 @@
             <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='PLAIN'" data-duice-property="content" class="width-100 height-100"></textarea>
             <duice-markdown-editor data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
         </div>
-        <div class="column-12 flex justify-content-center margin-x-1em gap-1em">
+        <div class="column-12 flex justify-content-center margin-x-1em gap-1px">
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.cancel}"></span>

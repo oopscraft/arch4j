@@ -4,9 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
@@ -204,10 +201,18 @@ public class ArticleRestController {
             @Parameter(description = "article ID")
             @PathVariable("articleId") String articleId,
             @Parameter(description = "article", schema = @Schema(type="object", implementation = ArticleRequest.class))
-            @RequestPart("article") ArticleRequest articleRequest,
+            @RequestPart("article") String articleRequestString,
             @Parameter(description = "attachment files")
             @RequestPart(value = "files", required = false) MultipartFile[] files
     ) {
+        // multipart article string to object (converter is not work)
+        ArticleRequest articleRequest;
+        try {
+            articleRequest = this.objectMapper.readValue(articleRequestString, ArticleRequest.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
 

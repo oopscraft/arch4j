@@ -13,7 +13,7 @@
 <!-- start: articles                                    -->
 <!-- ================================================== -->
 <div id="articles">
-    <div class="grid template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none">
+    <div class="grid template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none" style="background-color:#f7f7f7;">
         <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-column-0"></div>
         <div data-th-text="#{core.board.Article.title}" class="column-9 s-column-12"></div>
         <span class="column-2 justify-right padding-right-1em s-column-0">
@@ -34,28 +34,40 @@
                       class="link font-weight-bold">
                 </span>
             </span>
+            &nbsp;
             <span class="font-size-smaller">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
-                <span data-duice-bind="article" data-duice-property="commentCount"></span>
+                <span data-duice-bind="article" data-duice-property="commentCount" data-duice-format="number(0)"></span>
             </span>
+            &nbsp;
             <span class="font-size-smaller">
                 <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
-                <span data-duice-bind="article" data-duice-property="likeCount"></span>
+                <span data-duice-bind="article" data-duice-property="votePositiveCount" data-duice-format="number(0)"></span>
+            </span>
+            &nbsp;
+            <span class="font-size-smaller">
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
+                <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
             </span>
         </div>
         <div class="column-2 justify-right padding-right-1em s-column-12 s-justify-left">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="article" data-duice-property="userName"></span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+            <span>
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
+                <span data-duice-bind="article" data-duice-property="userName"></span>
+            </span>
+            &nbsp;
+            <span>
+                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+                <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
+            </span>
         </div>
     </div>
-    <div class="grid template-columns-12 padding-1em" data-duice-bind="articles" data-duice-if="return articles.length===0" style="border-bottom:dotted 1px lightgray;" hidden>
-        <div class="column-12 justify-center">
+    <div class="grid template-columns-12 padding-x-1em border-top-1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
+        <div class="column-12 flex justify-content-center">
             Data Not Found
         </div>
     </div>
-    <div class="grid template-columns-3 padding-1em">
+    <div class="grid template-columns-3 padding-1em border-top-1">
         <div class="column-1 font-size-smaller">
             <span data-th-text="#{web.global.total}"></span>
             <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>

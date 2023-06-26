@@ -43,10 +43,13 @@ public class Article {
     private String password;
 
     @Builder.Default
-    private Integer commentCount = 0;
+    private Long commentCount = 0L;
 
     @Builder.Default
-    private Integer likeCount = 0;
+    private Long votePositiveCount = 0L;
+
+    @Builder.Default
+    private Long voteNegativeCount = 0L;
 
     @Builder.Default
     private List<ArticleFile> files = new ArrayList<>();
@@ -66,7 +69,8 @@ public class Article {
                 .boardId(articleEntity.getBoardId())
                 .userId(articleEntity.getUserId())
                 .commentCount(articleEntity.getCommentCount())
-                .likeCount(articleEntity.getLikeCount())
+                .votePositiveCount(articleEntity.getVotePositiveCount())
+                .voteNegativeCount(articleEntity.getVoteNegativeCount())
                 .userName(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getName)
                         .orElse(articleEntity.getUserName()))

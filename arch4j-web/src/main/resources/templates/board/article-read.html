@@ -12,6 +12,7 @@
         const articleComment = new duice.ObjectProxy({
             contentFormat: 'PLAIN'
         });
+        const articleVote = new duice.ObjectProxy({});
 
         /**
          * get article
@@ -286,6 +287,46 @@
         }
 
         /**
+         * get article vote
+         */
+        const getArticleVote = function() {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
+            _fetch(url).then(response => response.json())
+            .then(data => {
+                duice.ObjectProxy.clear(articleVote);
+                duice.ObjectProxy.assign(articleVote, data);
+            });
+        }
+
+        /**
+         * save article vote
+         * @param point
+         */
+        const saveArticleVote = function(point) {
+            // toggle point
+            if(point === articleVote.point) {
+                point = 0;
+            }
+
+            // save point
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
+            _fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    articleId: article.articleId,
+                    point: point
+                })
+            }).then(response => {
+                if(response.ok) {
+                    getArticleVote();
+                }
+            });
+        }
+
+        /**
          * goto article edit
          */
         const gotoEditArticle = async function() {
@@ -305,6 +346,7 @@
         document.addEventListener('DOMContentLoaded', event => {
             getArticle();
             getArticleComments();
+            getArticleVote();
         });
     </script>
     <th:block th:replace="|theme/${_theme}/board/${board.skin}/article-read.html|"/>

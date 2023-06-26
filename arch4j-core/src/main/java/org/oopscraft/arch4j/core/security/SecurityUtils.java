@@ -39,6 +39,15 @@ public class SecurityUtils {
     }
 
     /**
+     * check authenticated
+     */
+    public static void checkAuthenticated() {
+        if(!isAuthenticated()) {
+            throw new InsufficientAuthenticationException("required authentication");
+        }
+    }
+
+    /**
      * returns current login user details
      * @return user details
      */

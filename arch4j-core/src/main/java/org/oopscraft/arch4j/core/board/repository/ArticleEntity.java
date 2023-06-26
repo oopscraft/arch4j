@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.board.repository;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.oopscraft.arch4j.core.board.TextFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.user.repository.UserEntity;
@@ -61,11 +62,15 @@ public class ArticleEntity extends SystemFieldEntity {
 
     @Column(name = "comment_count")
     @Builder.Default
-    private Integer commentCount = 0;
+    private Long commentCount = 0L;
 
-    @Column(name = "like_count")
+    @Column(name = "vote_positive_count")
     @Builder.Default
-    private Integer likeCount = 0;
+    private Long votePositiveCount = 0L;
+
+    @Column(name = "vote_negative_count")
+    @Builder.Default
+    private Long voteNegativeCount = 0L;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

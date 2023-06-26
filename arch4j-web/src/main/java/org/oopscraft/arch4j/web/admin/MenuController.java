@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuSearch;
 import org.oopscraft.arch4j.core.menu.MenuService;
@@ -72,7 +73,7 @@ public class MenuController {
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public Menu saveMenu(@RequestBody @Valid Menu menu) {
         if(menu.getMenuId() == null) {
-            menu.setMenuId(UUID.randomUUID().toString());
+            menu.setMenuId(IdGenerator.uuid());
         }
         return menuService.saveMenu(menu);
     }

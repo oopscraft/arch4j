@@ -385,7 +385,7 @@
                 </div>
                 <div class="grid template-columns-2 margin-top-1em">
                     <div class="column-1"></div>
-                    <div class="column-1 flex justify-content-end">
+                    <div class="column-1 flex justify-content-end gap-1px">
                         <button onclick="deleteMenu();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                 data-duice-bind="menu"

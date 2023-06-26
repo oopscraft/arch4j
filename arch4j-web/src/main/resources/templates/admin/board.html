@@ -718,7 +718,7 @@
                     </div>
                 </div>
                 <div class="grid template-columns-2 margin-top-1em">
-                    <div class="column-1">
+                    <div class="column-1 flex gap-1px">
                         <button onclick="openBoard();"
                             data-duice-bind="board"
                             data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
@@ -726,7 +726,7 @@
                             <span data-th-text="#{web.admin.board.openBoard}"></span>
                         </button>
                     </div>
-                    <div class="column-1 flex justify-content-end">
+                    <div class="column-1 flex gap-1px justify-content-end">
                         <button onclick="deleteBoard();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
                                 data-duice-bind="board"

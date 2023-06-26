@@ -609,7 +609,7 @@
                 </div>
                 <div class="grid template-columns-2 margin-top-1em gap-1px">
                     <div class="column-1"></div>
-                    <div class="column-1 flex justify-content-end">
+                    <div class="column-1 flex justify-content-end gap-1px">
                         <button onclick="deleteRole();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
@@ -1000,7 +1000,7 @@
                 </div>
                 <div class="grid template-columns-2 margin-top-1em gap-1px">
                     <div class="column-1"></div>
-                    <div class="column-1 flex justify-content-end">
+                    <div class="column-1 flex justify-content-end gap-1px">
                         <button onclick="deleteAuthority();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"

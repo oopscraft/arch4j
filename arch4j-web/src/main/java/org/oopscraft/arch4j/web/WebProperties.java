@@ -14,9 +14,11 @@ import java.util.List;
 @Getter
 public final class WebProperties {
 
-    private final SecurityPolicy securityPolicy;
-
     private final String theme;
+
+    private final String index;
+
+    private final SecurityPolicy securityPolicy;
 
     private final List<String> locales;
 

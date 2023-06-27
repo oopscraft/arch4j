@@ -7,6 +7,7 @@
     --web-font-family: sans-serif;
     /* element(input,select...) */
     --web-element-border: solid 1px lightgray;
+    --web-element-border-dotted: dotted 1px lightgray;
     --web-element-border-radius: 1px;
     --web-element-focus-border: solid 1px black;
     /* select */
@@ -581,6 +582,29 @@ hr {
 .border-y-1 {
     border-right: var(--web-element-border);
     border-left: var(--web-element-border);
+}
+.border-1-dotted {
+    border: var(--web-element-border-dotted);
+}
+.border-top-1-dotted {
+    border-top: var(--web-element-border-dotted);
+}
+.border-bottom-1-dotted {
+    border-bottom: var(--web-element-border-dotted);
+}
+.border-left-1-dotted {
+    border-left: var(--web-element-border-dotted);
+}
+.border-right-1-dotted {
+    border-right: var(--web-element-border-dotted);
+}
+.border-x-1-dotted {
+    border-top: var(--web-element-border-dotted);
+    border-bottom: var(--web-element-border-dotted);
+}
+.border-y-1-dotted {
+    border-right: var(--web-element-border-dotted);
+    border-left: var(--web-element-border-dotted);
 }
 
 

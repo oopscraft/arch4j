@@ -203,8 +203,8 @@ const _setDarkMode = function(enable) {
  */
 const _openLink = function(linkUrl, linkTarget){
     if(linkUrl) {
-        if(linkTarget === '_blank'){
-            window.open(linkUrl,'_blank');
+        if(linkTarget) {
+            window.open(linkUrl, linkTarget);
         }else{
             window.location.href = linkUrl;
         }

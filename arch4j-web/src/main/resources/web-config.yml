@@ -83,8 +83,9 @@ springdoc:
 
 # web
 web:
-  security-policy: ~
   theme: _default
+  index: ~
+  security-policy: ~
   locales:
     - en_US
     - ko_KR

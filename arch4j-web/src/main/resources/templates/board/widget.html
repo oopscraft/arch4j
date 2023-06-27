@@ -1,0 +1,41 @@
+<script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+<script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
+<script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
+<script th:inline="javascript">
+    const _rootUrl = [[@{/}]].replace('/','');
+    const _apiUrl = [[@{/api}]];
+    const boardId = [[${board.boardId}]];
+    const board = new duice.ObjectProxy([[${board}]]);
+    const articles = new duice.ArrayProxy([]);
+
+    /**
+     * get articles
+     */
+    const getArticles = function() {
+        let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
+        url.searchParams.append('_page', '0');
+        url.searchParams.append('_size', '10');
+        _fetch(url)
+            .then(async response => {
+                return response.json();
+            }).then(data => {
+            duice.ArrayProxy.clear(articles);
+            duice.ArrayProxy.assign(articles, data);
+        });
+    }
+
+    /**
+     * goto article read
+     * @param articleId
+     */
+    const gotoRead = function(articleId) {
+        let url = `${_rootUrl}/board/${boardId}/article-read?articleId=${articleId}`;
+        _openLink(url, '_parent');
+    }
+
+    // on load
+    document.addEventListener('DOMContentLoaded', event => {
+        getArticles();
+    });
+</script>
+<th:block th:replace="|theme/${_theme}/board/${board.skin}/widget.html|"/>

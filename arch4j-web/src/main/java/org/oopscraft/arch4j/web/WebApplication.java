@@ -47,6 +47,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -336,6 +337,7 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                         .authenticated();
             }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+            http.headers().frameOptions().sameOrigin();
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)
                     .accessDeniedHandler(accessDeniedHandler);

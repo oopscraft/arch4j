@@ -1,2 +1,19 @@
-<h1>default/home.html</h1>
+<div class="grid template-columns-2 gap-1em">
+
+    <!-- ================================== -->
+    <!-- start: widgets                     -->
+    <!-- ================================== -->
+    <div th:each="widget : ${widgets}" class="column-1 s-column-2">
+       <iframe th:src="@{/board/anonymous/widget}"
+               onload="initializeWidget(this);"
+               scrolling="no"
+               frameborder="0"
+               class="border-0 width-100">
+       </iframe>
+    </div>
+    <!-- ================================== -->
+    <!-- end: widgets                       -->
+    <!-- ================================== -->
+
+</div>
 

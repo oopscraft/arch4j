@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
@@ -23,22 +28,61 @@ public class WebController {
      */
     @GetMapping
     public ModelAndView index() {
-        // security policy is not defined
-        if(webProperties.getSecurityPolicy() == null) {
-            return new ModelAndView("web.html");
-        }
-        // security policy is defined
-        else {
-            // already login user
-            if (SecurityUtils.isAuthenticated()){
-                return new ModelAndView("web.html");
-            }
-            // not login user
-            else{
+
+        // check security policy
+        if(webProperties.getSecurityPolicy() != null) {
+            if(!SecurityUtils.isAuthenticated()) {
                 RedirectView redirectView = new RedirectView("/login");
                 return new ModelAndView(redirectView);
             }
         }
+
+        // check index page (spring boot bub, yaml ~(null) is converted as empty string)
+        if(webProperties.getIndex() != null && webProperties.getIndex().trim().length() > 0) {
+            RedirectView redirectView = new RedirectView(webProperties.getIndex());
+            return new ModelAndView(redirectView);
+        }
+
+        // default page
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("web.html");
+
+        List<Map<String,Object>> widgets = new ArrayList<>();
+        widgets.add(new HashMap<>(){{
+            put("widgetId", "board_anonymous_1");
+            put("view", "board/widget.html");
+            put("board", new HashMap<String,Object>(){{
+                put("boardId", "anonymous");
+                put("skin", "_default");
+            }});
+        }});
+        widgets.add(new HashMap<>(){{
+            put("widgetId", "board_anonymous_2");
+            put("view", "board/widget.html");
+            put("board", new HashMap<String,Object>(){{
+                put("boardId", "anonymous");
+                put("skin", "_default");
+            }});
+        }});
+        widgets.add(new HashMap<>(){{
+            put("widgetId", "board_anonymous_3");
+            put("view", "board/widget.html");
+            put("board", new HashMap<String,Object>(){{
+                put("boardId", "anonymous");
+                put("skin", "_default");
+            }});
+        }});
+        widgets.add(new HashMap<>(){{
+            put("widgetId", "board_anonymous_4");
+            put("view", "board/widget.html");
+            put("board", new HashMap<String,Object>(){{
+                put("boardId", "anonymous");
+                put("skin", "_default");
+            }});
+        }});
+        modelAndView.addObject("widgets", widgets);
+
+        return modelAndView;
     }
 
 }

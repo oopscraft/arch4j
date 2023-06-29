@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.TextFormat;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 @Data
@@ -17,7 +17,7 @@ public class BoardResponse {
 
     private String icon;
 
-    private TextFormat messageFormat;
+    private ContentFormat messageFormat;
 
     private String message;
 

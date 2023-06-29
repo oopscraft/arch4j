@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.board.repository.ArticleFileEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleFileEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 @Data

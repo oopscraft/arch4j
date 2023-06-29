@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.code;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.code.repository.CodeEntity;
+import org.oopscraft.arch4j.core.code.dao.CodeEntity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.board.TextFormat;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.web.test.WebTestSupport;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +23,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     ArticleRequest testArticleRequest = ArticleRequest.builder()
             .articleId(null)
             .title("test title")
-            .contentFormat(TextFormat.PLAIN)
+            .contentFormat(ContentFormat.TEXT)
             .content("test content")
             .build();
 

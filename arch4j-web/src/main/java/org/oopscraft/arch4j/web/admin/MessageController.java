@@ -36,7 +36,7 @@ public class MessageController {
      */
     @GetMapping("get-messages")
     @ResponseBody
-    public Page<Message> getVariables(MessageSearch messageSearch, Pageable pageable) {
+    public Page<Message> getMessages(MessageSearch messageSearch, Pageable pageable) {
         return messageService.getMessages(messageSearch, pageable);
     }
 

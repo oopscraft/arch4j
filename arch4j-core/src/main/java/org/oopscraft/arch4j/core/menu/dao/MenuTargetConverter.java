@@ -1,0 +1,11 @@
+package org.oopscraft.arch4j.core.menu.dao;
+
+import org.oopscraft.arch4j.core.data.converter.AbstractEnumConverter;
+import org.oopscraft.arch4j.core.menu.MenuTarget;
+
+import javax.persistence.Converter;
+
+@Converter(autoApply = true)
+public class MenuTargetConverter extends AbstractEnumConverter<MenuTarget> {
+
+}

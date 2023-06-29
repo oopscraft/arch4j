@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.message;
 
 import lombok.Builder;
 import lombok.Data;
-import org.oopscraft.arch4j.core.message.repository.MessageI18nEntity;
+import org.oopscraft.arch4j.core.message.dao.MessageI18nEntity;
 
 @Data
 @Builder

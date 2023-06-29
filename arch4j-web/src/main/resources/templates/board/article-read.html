@@ -10,7 +10,7 @@
         });
         const articleComments = new duice.ArrayProxy([]);
         const articleComment = new duice.ObjectProxy({
-            contentFormat: 'PLAIN'
+            contentFormat: 'TEXT'
         });
         const articleVote = new duice.ObjectProxy({});
 
@@ -124,7 +124,7 @@
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment, {
                 parentCommentId: parentCommentId,
-                contentFormat: 'PLAIN'
+                contentFormat: 'TEXT'
             });
             let commentForm = document.getElementById('article-comment-form');
             let parentCommentElement = document.querySelector(`[data-comment-id="${parentCommentId}"]`);
@@ -157,7 +157,7 @@
         const cancelArticleComment = function() {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment,{
-                contentFormat: 'PLAIN'
+                contentFormat: 'TEXT'
             });
             let commentForm = document.getElementById('article-comment-form');
             commentForm.style.marginLeft = 'initial';

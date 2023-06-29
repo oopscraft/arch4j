@@ -1,10 +1,10 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.board.repository.ArticleRepository;
-import org.oopscraft.arch4j.core.board.repository.ArticleVoteEntity;
-import org.oopscraft.arch4j.core.board.repository.ArticleVoteRepository;
+import org.oopscraft.arch4j.core.board.dao.ArticleEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleRepository;
+import org.oopscraft.arch4j.core.board.dao.ArticleVoteEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleVoteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

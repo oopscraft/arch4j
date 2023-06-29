@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.ArticleComment;
-import org.oopscraft.arch4j.core.board.TextFormat;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ public class ArticleCommentResponse {
 
     private LocalDateTime createdAt;
 
-    private TextFormat contentFormat;
+    private ContentFormat contentFormat;
 
     private String content;
 

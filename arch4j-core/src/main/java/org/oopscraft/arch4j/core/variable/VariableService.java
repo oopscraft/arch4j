@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.core.variable;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.variable.repository.VariableEntity;
-import org.oopscraft.arch4j.core.variable.repository.VariableRepository;
-import org.oopscraft.arch4j.core.variable.repository.VariableSpecification;
+import org.oopscraft.arch4j.core.variable.dao.VariableEntity;
+import org.oopscraft.arch4j.core.variable.dao.VariableRepository;
+import org.oopscraft.arch4j.core.variable.dao.VariableSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

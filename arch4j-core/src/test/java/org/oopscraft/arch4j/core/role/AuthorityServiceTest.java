@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.oopscraft.arch4j.core.role.repository.AuthorityEntity;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

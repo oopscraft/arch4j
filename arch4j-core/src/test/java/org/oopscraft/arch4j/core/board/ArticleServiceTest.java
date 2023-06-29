@@ -3,14 +3,11 @@ package org.oopscraft.arch4j.core.board;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.board.repository.ArticleFileEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

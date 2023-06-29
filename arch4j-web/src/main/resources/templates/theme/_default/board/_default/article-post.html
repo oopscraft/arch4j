@@ -31,17 +31,17 @@
         <span data-th-text="#{core.board.Article.content}" class="font-weight-bold tag-required"></span>
         &nbsp;
         <label>
-            <input type="radio" data-duice-bind="article" data-duice-property="contentFormat" value="PLAIN"/>
-            <span data-th-text="#{core.board.TextFormat.PLAIN}" class="font-weight-bold"></span>
+            <input type="radio" data-duice-bind="article" data-duice-property="contentFormat" value="TEXT"/>
+            <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
         </label>
         &nbsp;
         <label>
             <input type="radio" data-duice-bind="article" data-duice-property="contentFormat" value="MARKDOWN"/>
-            <span data-th-text="#{core.board.TextFormat.MARKDOWN}" class="font-weight-bold"></span>
+            <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
         </label>
     </div>
     <div class="column-12" style="height:40em;">
-        <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='PLAIN'" data-duice-property="content" class="width-100 height-100"></textarea>
+        <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
         <duice-markdown-editor data-duice-bind="article" data-duice-if="return article.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 height-100"/>
     </div>
 </div>

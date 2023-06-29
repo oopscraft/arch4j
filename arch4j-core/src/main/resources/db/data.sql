@@ -15,6 +15,8 @@ insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_CODE_EDIT','Y','Code Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_BOARD','Y','Board Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_BOARD_EDIT','Y','Board Edit Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_PAGE','Y','Page Access Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_PAGE_EDIT','Y','Page Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ACTUATOR','Y','Actuator Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('H2-CONSOLE','Y','Actuator Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('SWAGGER-UI','Y','Swagger UI Access Authority');
@@ -37,6 +39,8 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'A
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_CODE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD_EDIT');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_PAGE');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_PAGE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'H2-CONSOLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'SWAGGER-UI');
@@ -49,6 +53,7 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADM
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_PAGE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'H2-CONSOLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWAGGER-UI');
@@ -88,7 +93,7 @@ insert into `core_board` (
 ) values (
     'notice',
     'Notice Board',
-    'PLAIN',
+    'TEXT',
     'Notice Board',
     '_default',
     20,
@@ -154,7 +159,7 @@ insert into `core_board` (
 ) values (
     'member',
     'Member Board',
-    'PLAIN',
+    'TEXT',
     'Member Board',
     '_default',
     20,
@@ -167,7 +172,18 @@ insert into `core_board` (
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABW1JREFUWEe9l2lMVFcUx//nPsCFpglSl0TFXSsVq1XTGqsozow6g1RmQdMPSIxLXVps2qDWjRhs1VaIRuPauFcDzGCdBZkZlaq1torRUms0bY1pVVxQKIICwz3NG0ODsg7avk8v793zP79z7j3n3ksI8NFMMg0lwfGAeIvBXQGuZClukZAnJSPnuMt2IxBJaulgjd4SRcTrAdbW2gSHhDBLCZ/P59dh5hoS2CWFb9mxI0futES7RQAavSlBEPYw0DYyKgpjxo/DwDcGoX1oqN/HwwfFKLx4Cd7cXNy+eQsg3BTguDyH7UJzEM0CaPTm9wBpa9O2Hc2aP5eGDB/eqKaUEkftduRkZqnpKJEs3z7myrnWFESTADF6Yw+F6JeQkJDQlJUrqEevXs0F5P///XcnsXvbNvX11wdF4UMKCrZXN2bYJIBOb9zDRIlJs2dj1NjoFjmvHbR35w6cOp4PBuZ5ndYtAQOMj48Pp0pxp2v3bkrq2jUgana2nvFRWlKKJcnJXFVVfdXrsg4MGEATa04k5j3GaVMxKS4uoOhrB29Oz8DF8+chWQ5obC00GpZWb14L4pRFK1ei74D+rQLwuFzI3H8ADDJ5ndm2hkQaBaid/9UZ6ejUuXOrAH46cwY7Nm0GGAs8LuvmgAC0etMWED5YuWYNukV0bxXAyRMnsG/HThCQ5HZa9wQEoDGYlhKQNu/jhRg6YkSrAKwHD/n7Aog0Hkf2sYAAxsdaRgqWZ0ZFj0HSnDmtAljxaQqKbt180kZUhdvt9oqAAFJTU8WZc4XXleCg7p9npFNYh/CAIC4WFGDz+nR1h8jyOG0JAZehaqDVG5NAtKt3v75Qq0EI0SKI0tISrFqylEsfPmRFocF5duvl1gCQzmCZJSE3EtDmzWHDMDc5GUqQ0iREWdkjfLFiOe7duevfDyAww+Ow5QQEYLFYlJIK3zeASGDmciGojBld+vTri6nTE9Grd596esyMC+fOIXPffn5QXEwM/E5ADwBBYFrncWUvavEa0BlMaQwsleCCGlZiEYpHwRW+r1UgVSSiZ08MjBqEsLAOkLIGd4vuoPDSRS6+d1/t2D4pOc3rsq2aMNkUKSWcUEEIcz0O69bnIeo1orF6S5cg1NwAUbEvuCYy//DhklqjCQbjOClpEQRiAAQ/I0b4G8C3Usq0um1X3VEFQV0DlaI6NMLt3lde164egFZvngPircRIcbusXzaUNt1k0+sscaXOP1+QbBuem3tAhaj3aA3mrwD+hATi3Xbr4SYBdJPMGSx4IRON8zqy8xsBmMISOf2Hj0bl43LcuHwBxHjH7bL+2AiABeDMhoKqlwGdwbSdgVkMGel15tSN8l9trcG4GqDPRpuS8KS8DOeOWsGED70O66aGADSxlneJ5SmA13qctsVNZ6AFABp9fB6R0MXNW4YnFWVw794AYt7rdtmm/x8ApDGY7r/yaliYfnYKgRm2jansq6pq9ODxUjMQM2lKH0Uov3UbEIWRk9/3B3zi0Hbc/+s6VwfXdKhbNbXZeKkAOoN5GoMPDo6eiAEjnp4TL+W7cO38KQhwTJ7TduL5aXipALUlNTZhJjpGPO2If179GWftBwHQYo8ze+1/C6A35pMQ0XELliOkTTu/r/LSh3DtWAciWN0Oq/mFANRbEAgflbcX2h+ysh7XEzMY7ypKcMfohJl4rava6oGiP67hdM5u9Wp2xeO0Rj5vo56wRaXIZcJyr9Oa12QZNlRGdb9p9ab5DN6gKIoYEhNL1ZWVKDztZjBXE9EMtyP7QHMaLwSgGuv0xjEQIouZOz0Vo9sspdGbazsbiHO/ZaAGteMnTpzS06co+wlUUc2UmO/KKmqN1j+PxZs/bL7TnQAAAABJRU5ErkJggg=='
 );
 
-
+-- page
+insert into `core_page` (
+    `page_id`,
+    `name`,
+    `content_format`,
+    `content`
+) values (
+    'home',
+    'Home',
+    'TEXT',
+    'test'
+);
 
 -- menu
 insert into `core_menu` (`menu_id`,`parent_menu_id`,`name`,`link`,`target`,`icon`) values ('board',null,'Board Demo',null,null,'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAM5JREFUWEftlzEOgkAQRR8ewspWa+y04RAYPYgH8SAavYSFNjR09lYewpgxYCYISLK7WYuhI1nmv31b8Dch8pNEzscAtIExcAZmgY/lBmTAQ3I0QA4cA4fX41fAqQmwBvbVigtw9wwzAZbVzA1w6AP4LPAIoTdoAGbADJgBM2AGzMBPAzvg6vFXLKMWwHZoH/Cc/TWu1UAKFMAocPoTmANlsxHJu0BMAwNIKX2HtwHobN3hXJk6O2bfxUR3OFeAzo751wDRj8BV+6Dvo19OX6AXWCE+Gh4hAAAAAElFTkSuQmCC');

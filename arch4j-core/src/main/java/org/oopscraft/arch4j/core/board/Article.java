@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.repository.ArticleEntity;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleEntity;
+import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,7 +26,7 @@ public class Article {
 
     @Builder.Default
     @NotNull(message = "Content format is empty")
-    private TextFormat contentFormat = TextFormat.PLAIN;
+    private ContentFormat contentFormat = ContentFormat.TEXT;
 
     @NotBlank(message = "Content is empty")
     private String content;

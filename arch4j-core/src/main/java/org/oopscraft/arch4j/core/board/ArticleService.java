@@ -1,10 +1,9 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.repository.*;
+import org.oopscraft.arch4j.core.board.dao.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.data.ValidationUtils;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.storage.StorageClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

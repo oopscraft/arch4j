@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.message;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.message.repository.MessageEntity;
+import org.oopscraft.arch4j.core.message.dao.MessageEntity;
 
 import java.util.ArrayList;
 import java.util.List;

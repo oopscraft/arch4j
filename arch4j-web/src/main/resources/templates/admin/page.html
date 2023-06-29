@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<main layout:fragment="_main">
+    <script th:inline="javascript">
+        // page search condition
+        const pageSearch = new duice.ObjectProxy({
+            key: 'pageId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // page list
+        const pages = new duice.ArrayProxy([]);
+
+        // page
+        const page = new duice.ObjectProxy({});
+        duice.ObjectProxy.setDisableAll(page, true);
+        duice.ObjectProxy.onPropertyChanging(page, async event => {
+            if (event.getProperty() === 'pageId') {
+                if (!await validatePageId(event.getValue())) {
+                    duice.ObjectProxy.focus(page, 'pageId');
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        /**
+         * getPages
+         * @param _page page
+         */
+        function getPages(_page) {
+            if(_page) {
+                pageSearch._page = _page;
+            }
+            let url = new URL([[@{/admin/page/get-pages}]], document.location.origin);
+            if (pageSearch.key && pageSearch.value) {
+                url.searchParams.append(pageSearch.key, pageSearch.value);
+            }
+            url.searchParams.append('_page', pageSearch._page);
+            url.searchParams.append('_size', pageSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(pages);
+                    duice.ArrayProxy.assign(pages, data.content);
+                    pageSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(pages, pages.findIndex(item => item.pageId === page.pageId));
+                });
+        }
+
+        /**
+         * resetPages
+         */
+        function resetPages() {
+            duice.ObjectProxy.reset(pageSearch);
+            getPages();
+        }
+
+        /**
+         * getPage
+         * @param pageId page.pageId
+         */
+        function getPage(pageId) {
+            let url = new URL([[@{/admin/page/get-page}]], document.location.origin);
+            url.searchParams.append('pageId', pageId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(page, data);
+                    duice.ObjectProxy.setDisableAll(page, false);
+                    duice.ObjectProxy.setReadonly(page, 'pageId', true);
+                    page._new = false;
+                });
+        }
+
+        /**
+         * createPage
+         */
+        function createPage() {
+            duice.ObjectProxy.clear(page);
+            duice.ObjectProxy.assign(page, {
+                _new: true,
+                contentFormat: 'TEXT'
+            });
+            duice.ObjectProxy.setDisableAll(page, false);
+            duice.ObjectProxy.setReadonly(page, 'pageId', false);
+            duice.ObjectProxy.focus(page, 'pageId');
+        }
+
+        /**
+         * validatePageId
+         * @param pageId page.pageId
+         * @returns {Promise<boolean>}
+         */
+        async function validatePageId(pageId) {
+
+            // check blank
+            if (!pageId) {
+                await _alert([[#{web.global.itemEmpty(#{core.page.Page.pageId})}]]);
+                duice.ObjectProxy.focus(page, 'pageId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL([[@{/admin/page/get-page}]], document.location.origin);
+            url.searchParams.append('pageId', pageId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let page = await response.json();
+                if (page) {
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.page.Page.pageId})}]]);
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
+        }
+
+        /**
+         * savePage
+         */
+        async function savePage() {
+
+            // if new, checks id
+            if (page._new) {
+                if (!await validatePageId(page.pageId)) {
+                    return false;
+                }
+            }
+
+            // checks name
+            if (!page.name || page.name.trim().length < 1) {
+                await _alert([[#{web.global.itemEmpty(#{core.page.Page.name})}]]);
+                duice.ObjectProxy.focus(page, 'name');
+                return false;
+            }
+
+            // call save
+            _confirm([[#{web.global.saveItemConfirm(#{core.page.Page})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/page/save-page}]], document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(page)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.saveItemComplete(#{core.page.Page})}]]).then(() => {
+                                getPages();
+                                getPage(page.pageId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * deletePage
+         */
+        function deletePage() {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.page.Page})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/page/delete-page}]], document.location.origin);
+                    url.searchParams.append('pageId', page.pageId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.deleteItemComplete(#{core.page.Page})}]]).then(() => {
+                                getPages();
+                                duice.ObjectProxy.clear(page);
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        /**
+         * open page
+         */
+        function openPage() {
+            let url = new URL([[@{/page/}]] + page.pageId, document.location.origin);
+            window.open(url,'_blank');
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getPages();
+        });
+    </script>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-page.svg}"/>
+        <span data-th-text="#{web.admin.page}"></span>
+    </h1>
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: page content             -->
+    <!-- ================================== -->
+    <div class="grid template-columns-3 gap-1em">
+
+        <!-- ================================== -->
+        <!-- start: page list                -->
+        <!-- ================================== -->
+        <div id="pageList" class="column-1 s-column-3">
+            <div class="border-1 padding-1rem">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <span data-th-text="#{web.global.list}"></span>
+                </h2>
+                <form onsubmit="return false;" class="grid template-columns-3 gap-1px margin-x-1px s-template-columns-1">
+                    <div class="column-2 s-column-1 flex s-direction-column">
+                        <div class="grid template-columns-3 gap-1px">
+                            <select data-duice-bind="pageSearch" data-duice-property="key" class="column-1">
+                                <option value="pageId" th:text="#{core.page.Page.pageId}"></option>
+                                <option value="name" th:text="#{core.page.Page.name}"></option>
+                            </select>
+                            <input type="text" data-duice-bind="pageSearch" data-duice-property="value"
+                                   th:placeholder="#{web.global.keyword}" class="column-2"/>
+                        </div>
+                    </div>
+                    <div class="column-1 flex justify-content-end gap-1px s-direction-column">
+                        <button onclick="getPages();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button onclick="resetPages();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x-auto border-1">
+                    <table class="border-0">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{core.page.Page.pageId}"></th>
+                            <th data-th-text="#{core.page.Page.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="pages" data-duice-loop="page,status" data-duice-selected-item-class="selected" data-duice-execute="
+                            this.dataset.id=page.pageId;
+                            " onclick="getPage(this.dataset.id);" class="link">
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align-center"></td>
+                            <td data-duice-bind="page" data-duice-property="pageId"></td>
+                            <td data-duice-bind="page" data-duice-property="name"></td>
+                        </tr>
+                        <tr data-duice-bind="pages" data-duice-execute="if(pages.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align-center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid template-columns-3 margin-top-1em">
+                    <div class="column-1 font-size-smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="pageSearch" data-duice-property="_count"
+                              data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="column-1 flex justify-content-center">
+                        <duice-pagination
+                                data-duice-bind="pageSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getPages(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
+                    <div class="column-1 flex justify-content-end">
+                        <button onclick="createPage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: page list                  -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: page detail              -->
+        <!-- ================================== -->
+        <div class="column-2 s-column-3">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <span data-th-text="#{web.global.detail}"></span>
+                </h2>
+                <div class="grid template-columns-6 gap-1px column-gap-1em">
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.page.Page.pageId}"
+                              class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="page" data-duice-property="pageId"
+                               class="width-100 font-weight-bold"/>
+                    </div>
+                    <div class="column-1 s-column-6">
+                        <span data-th-text="#{core.page.Page.name}" class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="column-2 s-column-6">
+                        <input type="text" data-duice-bind="page" data-duice-property="name"
+                               class="width-100"/>
+                    </div>
+                    <div class="column-6 s-column-6">
+                        <span data-th-text="#{core.page.Page.content}" class="font-weight-bold"></span>
+                        &nbsp;
+                        <span>
+                            <label>
+                                <input type="radio" data-duice-bind="page" data-duice-property="contentFormat" value="TEXT"/>
+                                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
+                            </label>
+                            &nbsp;
+                            <label>
+                                <input type="radio" data-duice-bind="page" data-duice-property="contentFormat" value="MARKDOWN"/>
+                                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="column-6 s-column-6">
+                        <textarea data-duice-bind="page" data-duice-property="value" rows="4"
+                                  class="width-100 height-100"></textarea>
+                    </div>
+                </div>
+                <div class="grid template-columns-2 margin-top-1em">
+                    <div class="column-1 flex gap-1px">
+                        <button onclick="openPage();"
+                                data-duice-bind="page"
+                                data-duice-execute="(page.pageId && !page._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                            <span data-th-text="#{web.admin.page.openPage}"></span>
+                        </button>
+                    </div>
+                    <div class="column-1 flex justify-content-end gap-1px">
+                        <button onclick="deletePage();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'"
+                                data-duice-bind="page"
+                                data-duice-execute="(page.pageId && !page._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button onclick="savePage();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'"
+                                data-duice-bind="page"
+                                data-duice-execute="(page.pageId || page._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: page detail                -->
+        <!-- ================================== -->
+
+    </div>
+    <!-- ================================== -->
+    <!-- end: page content               -->
+    <!-- ================================== -->
+
+</main>

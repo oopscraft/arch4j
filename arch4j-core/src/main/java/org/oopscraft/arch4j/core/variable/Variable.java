@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.variable;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.variable.repository.VariableEntity;
+import org.oopscraft.arch4j.core.variable.dao.VariableEntity;
 
 @Data
 @SuperBuilder(toBuilder = true)

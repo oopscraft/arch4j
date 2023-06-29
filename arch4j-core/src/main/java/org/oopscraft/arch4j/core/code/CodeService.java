@@ -1,10 +1,10 @@
 package org.oopscraft.arch4j.core.code;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.code.repository.CodeEntity;
-import org.oopscraft.arch4j.core.code.repository.CodeItemEntity;
-import org.oopscraft.arch4j.core.code.repository.CodeRepository;
-import org.oopscraft.arch4j.core.code.repository.CodeSpecification;
+import org.oopscraft.arch4j.core.code.dao.CodeEntity;
+import org.oopscraft.arch4j.core.code.dao.CodeItemEntity;
+import org.oopscraft.arch4j.core.code.dao.CodeRepository;
+import org.oopscraft.arch4j.core.code.dao.CodeSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

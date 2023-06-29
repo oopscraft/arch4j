@@ -14,9 +14,9 @@ import org.oopscraft.arch4j.batch.sample.tasklet.CompareSampleDataToBackupDataTa
 import org.oopscraft.arch4j.batch.sample.tasklet.CreateSampleDataTasklet;
 import org.oopscraft.arch4j.batch.sample.mapper.SampleBackupVo;
 import org.oopscraft.arch4j.batch.sample.mapper.SampleVo;
-import org.oopscraft.arch4j.core.sample.repository.QSampleEntity;
-import org.oopscraft.arch4j.core.sample.repository.SampleBackupEntity;
-import org.oopscraft.arch4j.core.sample.repository.SampleEntity;
+import org.oopscraft.arch4j.core.sample.dao.QSampleEntity;
+import org.oopscraft.arch4j.core.sample.dao.SampleBackupEntity;
+import org.oopscraft.arch4j.core.sample.dao.SampleEntity;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;

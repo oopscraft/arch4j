@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.repository.*;
+import org.oopscraft.arch4j.core.board.dao.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

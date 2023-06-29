@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.user;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
+import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

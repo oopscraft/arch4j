@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.repository.LoginHistoryEntity;
-import org.oopscraft.arch4j.core.user.repository.LoginHistoryRepository;
-import org.oopscraft.arch4j.core.user.repository.LoginHistorySpecification;
+import org.oopscraft.arch4j.core.user.dao.LoginHistoryEntity;
+import org.oopscraft.arch4j.core.user.dao.LoginHistoryRepository;
+import org.oopscraft.arch4j.core.user.dao.LoginHistorySpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.oopscraft.arch4j.core.board.TextFormat;
+import org.oopscraft.arch4j.core.board.ContentFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class ArticleRequest {
     @Schema(description = "Title")
     private String title;
 
-    @Schema(description = "Content format", defaultValue = "PLAIN")
-    private TextFormat contentFormat;
+    @Schema(description = "Content format", defaultValue = "TEXT")
+    private ContentFormat contentFormat;
 
     @Schema(description = "Content")
     private String content;

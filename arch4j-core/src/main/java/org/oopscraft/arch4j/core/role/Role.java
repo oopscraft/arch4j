@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import java.util.ArrayList;
 import java.util.List;

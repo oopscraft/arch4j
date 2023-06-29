@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
-import org.oopscraft.arch4j.core.user.repository.UserRepository;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.user.dao.UserEntity;
+import org.oopscraft.arch4j.core.user.dao.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

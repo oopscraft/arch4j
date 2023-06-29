@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.repository.ArticleCommentEntity;
-import org.oopscraft.arch4j.core.user.repository.UserEntity;
+import org.oopscraft.arch4j.core.board.dao.ArticleCommentEntity;
+import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class ArticleComment {
 
     private LocalDateTime createdAt;
 
-    private TextFormat contentFormat;
+    private ContentFormat contentFormat;
 
     private String content;
 

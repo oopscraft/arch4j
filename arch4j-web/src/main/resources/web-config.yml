@@ -84,7 +84,7 @@ springdoc:
 # web
 web:
   theme: _default
-  index: ~
+  index: page/home
   security-policy: ~
   locales:
     - en_US

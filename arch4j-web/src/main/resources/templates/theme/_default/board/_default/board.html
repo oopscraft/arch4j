@@ -2,7 +2,7 @@
 <!-- start: message                                     -->
 <!-- ================================================== -->
 <div id="message">
-    <div data-duice-bind="board" data-duice-if="return board.messageFormat==='PLAIN'" data-duice-property="message"></div>
+    <div data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message"></div>
     <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"></duice-markdown-viewer>
 </div>
 <!-- ================================================== -->

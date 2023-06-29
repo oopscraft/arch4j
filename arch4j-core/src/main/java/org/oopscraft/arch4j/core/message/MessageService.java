@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.core.message;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.message.repository.MessageEntity;
-import org.oopscraft.arch4j.core.message.repository.MessageRepository;
-import org.oopscraft.arch4j.core.message.repository.MessageSpecification;
+import org.oopscraft.arch4j.core.message.dao.MessageEntity;
+import org.oopscraft.arch4j.core.message.dao.MessageRepository;
+import org.oopscraft.arch4j.core.message.dao.MessageSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

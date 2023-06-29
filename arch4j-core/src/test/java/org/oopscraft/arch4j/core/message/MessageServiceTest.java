@@ -3,10 +3,7 @@ package org.oopscraft.arch4j.core.message;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.menu.Menu;
-import org.oopscraft.arch4j.core.menu.MenuService;
-import org.oopscraft.arch4j.core.menu.repository.MenuEntity;
-import org.oopscraft.arch4j.core.message.repository.MessageEntity;
+import org.oopscraft.arch4j.core.message.dao.MessageEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;

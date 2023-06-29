@@ -3,15 +3,10 @@ package org.oopscraft.arch4j.core.code;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.code.repository.CodeEntity;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleSearch;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.code.dao.CodeEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

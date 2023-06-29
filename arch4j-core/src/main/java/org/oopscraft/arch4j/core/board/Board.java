@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.repository.BoardEntity;
+import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
@@ -24,7 +24,7 @@ public class Board {
 
     private String icon;
 
-    private TextFormat messageFormat;
+    private ContentFormat messageFormat;
 
     private String message;
 

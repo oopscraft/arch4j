@@ -1,10 +1,10 @@
 package org.oopscraft.arch4j.core.menu;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.menu.repository.MenuEntity;
-import org.oopscraft.arch4j.core.menu.repository.MenuRepository;
-import org.oopscraft.arch4j.core.menu.repository.MenuSpecification;
-import org.oopscraft.arch4j.core.role.repository.RoleEntity;
+import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
+import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
+import org.oopscraft.arch4j.core.menu.dao.MenuSpecification;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

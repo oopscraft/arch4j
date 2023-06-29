@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.role.repository.AuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
 
 /**
  * AuthorityEntity

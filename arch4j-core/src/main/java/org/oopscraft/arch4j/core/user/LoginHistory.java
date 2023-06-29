@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.user.repository.LoginHistoryEntity;
+import org.oopscraft.arch4j.core.user.dao.LoginHistoryEntity;
 
 import java.time.LocalDateTime;
 

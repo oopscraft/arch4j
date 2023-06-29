@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.sample;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.sample.repository.SampleItemEntity;
+import org.oopscraft.arch4j.core.sample.dao.SampleItemEntity;
 import org.oopscraft.arch4j.core.support.ModelMapperFactory;
 
 @Data

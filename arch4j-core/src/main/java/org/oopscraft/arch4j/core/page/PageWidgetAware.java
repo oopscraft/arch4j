@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.page;
 
 import java.util.Properties;
 
-public abstract class PageWidgetSupport {
+public abstract class PageWidgetAware {
 
     public abstract PageWidgetDefinition getDefinition();
 

@@ -115,8 +115,8 @@ public class PageService {
 
     public List<PageWidgetDefinition> getPageWidgetDefinitions() {
         List<PageWidgetDefinition> pageWidgetDefinitions = new ArrayList<>();
-        Map<String, PageWidgetSupport> beansMap = applicationContext.getBeansOfType(PageWidgetSupport.class);
-        for(PageWidgetSupport bean : beansMap.values()){
+        Map<String, PageWidgetAware> beansMap = applicationContext.getBeansOfType(PageWidgetAware.class);
+        for(PageWidgetAware bean : beansMap.values()){
             pageWidgetDefinitions.add(bean.getDefinition());
         }
         return pageWidgetDefinitions;
@@ -127,7 +127,7 @@ public class PageService {
             Class<?> typeClass = Class.forName(pageWidget.getType());
             Properties properties = new Properties();
             properties.load(new StringReader(pageWidget.getProperties()));
-            PageWidgetSupport bean = (PageWidgetSupport) applicationContext.getBean(typeClass);
+            PageWidgetAware bean = (PageWidgetAware) applicationContext.getBean(typeClass);
             return bean.getUrl(properties);
         }catch(Exception e){
             log.warn(e.getMessage());

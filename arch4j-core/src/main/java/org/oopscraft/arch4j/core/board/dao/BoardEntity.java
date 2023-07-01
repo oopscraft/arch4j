@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.board.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.MessageFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
@@ -37,7 +37,7 @@ public class BoardEntity extends SystemFieldEntity {
     private String icon;
 
     @Column(name = "message_format", length = 16)
-    private ContentFormat messageFormat;
+    private MessageFormat messageFormat;
 
     @Column(name = "message")
     @Lob

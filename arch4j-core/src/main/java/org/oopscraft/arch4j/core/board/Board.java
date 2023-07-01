@@ -24,7 +24,7 @@ public class Board {
 
     private String icon;
 
-    private ContentFormat messageFormat;
+    private MessageFormat messageFormat;
 
     private String message;
 
@@ -35,7 +35,6 @@ public class Board {
 
     @Builder.Default
     private boolean fileEnabled = true;
-
 
     @Column(name = "access_policy", length = 16)
     @Builder.Default

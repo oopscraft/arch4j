@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
 import org.oopscraft.arch4j.core.page.PageWidgetDefinition;
-import org.oopscraft.arch4j.core.page.PageWidgetSupport;
+import org.oopscraft.arch4j.core.page.PageWidgetAware;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Properties;
@@ -19,7 +18,7 @@ import java.util.Properties;
 @Controller
 @RequestMapping("/board/{boardId}/widget/latest-articles")
 @RequiredArgsConstructor
-public class LatestArticlesWidgetController extends PageWidgetSupport {
+public class LatestArticlesWidgetController extends PageWidgetAware {
 
     private final BoardService boardService;
 

@@ -5,6 +5,7 @@
     const _rootUrl = [[@{/}]].replace('/','');
     const _apiUrl = [[@{/api}]];
     const boardId = [[${board.boardId}]];
+    const pageSize = [[${pageable.pageSize}]];
     const board = new duice.ObjectProxy([[${board}]]);
     const articles = new duice.ArrayProxy([]);
 
@@ -14,7 +15,7 @@
     const getArticles = function() {
         let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
         url.searchParams.append('_page', '0');
-        url.searchParams.append('_size', '10');
+        url.searchParams.append('_size', pageSize);
         _fetch(url)
             .then(async response => {
                 return response.json();
@@ -38,4 +39,4 @@
         getArticles();
     });
 </script>
-<th:block th:replace="|theme/${_theme}/board/${board.skin}/widget.html|"/>
+<th:block th:replace="|theme/${_theme}/board/${board.skin}/widget/latest-articles.html|"/>

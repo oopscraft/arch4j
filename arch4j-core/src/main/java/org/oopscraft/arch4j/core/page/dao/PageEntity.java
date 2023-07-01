@@ -32,8 +32,8 @@ public class PageEntity extends SystemFieldEntity {
     private String content;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = PageEntity_.PAGE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy(PagePanelEntity_.INDEX)
+    @OrderBy(PageWidgetEntity_.INDEX)
     @Builder.Default
-    private List<PagePanelEntity> panels = new ArrayList<>();
+    private List<PageWidgetEntity> widgets = new ArrayList<>();
 
 }

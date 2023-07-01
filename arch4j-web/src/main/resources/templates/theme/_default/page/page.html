@@ -1,19 +1,36 @@
-<div class="grid template-columns-2 gap-1em">
+<!-- ================================== -->
+<!-- start: content                     -->
+<!-- ================================== -->
+<div>
+    <div data-duice-bind="page"
+         data-duice-property="content"
+         data-duice-if="return page.contentFormat === 'TEXT'">
+    </div>
+    <duice-markdown-viewer
+        data-duice-bind="page"
+        data-duice-property="content"
+        data-duice-if="return page.contentFormat ==='MARKDOWN'">
+    </duice-markdown-viewer>
+</div>
+<!-- ================================== -->
+<!-- end: content                       -->
+<!-- ================================== -->
 
-    <!-- ================================== -->
-    <!-- start: widgets                     -->
-    <!-- ================================== -->
-    <div th:each="widget : ${widgets}" class="column-1 s-column-2">
-       <iframe th:src="@{/board/anonymous/widget}"
+<!-- ================================== -->
+<!-- start: widgets                     -->
+<!-- ================================== -->
+<div class="grid template-columns-2 gap-1em margin-top-1em">
+    <div th:each="widget : ${page.widgets}" class="column-1 s-column-2">
+       <iframe th:src="${widget.url}"
                onload="initializeWidget(this);"
                scrolling="no"
                frameborder="0"
                class="border-0 width-100">
        </iframe>
     </div>
-    <!-- ================================== -->
-    <!-- end: widgets                       -->
-    <!-- ================================== -->
-
 </div>
+<!-- ================================== -->
+<!-- end: widgets                       -->
+<!-- ================================== -->
+
 

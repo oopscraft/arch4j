@@ -64,7 +64,7 @@ public class ArticleRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check access permission
-        boardService.checkReadPermission(board);
+        boardService.checkAccessPermission(board);
 
         // search articles
         ArticleSearch articleSearch = ArticleSearch.builder()

@@ -4,6 +4,21 @@
       layout:decorate="_web.html">
 <main layout:fragment="_main">
     <script th:inline="javascript">
+        const pageId = [[${page.pageId}]];
+        const page = new duice.ObjectProxy({});
+
+        /**
+         * get page
+         */
+        const getPage = function() {
+            let url = new URL(`${_apiUrl}/v1/page/${pageId}`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.clear(page);
+                    duice.ObjectProxy.assign(page, data);
+                });
+        }
 
         /**
          * initialize widget
@@ -15,6 +30,11 @@
                 iframe.style.height = height + 'px';
             });
         }
+
+        // onload
+        document.addEventListener('DOMContentLoaded', event => {
+            getPage();
+        });
 
     </script>
     <th:block th:replace="|theme/${_theme}/page/page.html|"/>

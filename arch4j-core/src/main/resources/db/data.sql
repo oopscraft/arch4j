@@ -99,7 +99,7 @@ insert into `core_board` (
     20,
     'Y',
     'Y',
-    'AUTHENTICATED',
+    null,
     'AUTHENTICATED',
     'AUTHORIZED',
     'AUTHENTICATED',
@@ -165,7 +165,7 @@ insert into `core_board` (
     20,
     'Y',
     'Y',
-    'AUTHENTICATED',
+    null,
     'AUTHENTICATED',
     'AUTHENTICATED',
     'AUTHENTICATED',
@@ -181,8 +181,52 @@ insert into `core_page` (
 ) values (
     'home',
     'Home',
-    'TEXT',
-    'test'
+    'MARKDOWN',
+    '**제어 역전 컨테이너**
+제어 역전(IoC: Inversion of Control) 컨테이너는 스프링의 가장 중요하고 핵심적인 기능으로서 자바의 반영(reflection)을 이용해서 객체의 생명주기를 관리하고 의존성 주입(Dependency Injection)을 통해 각 계층이나 서비스들간의 의존성을 맞춰준다. 이러한 기능들은 주로 환경설정을 담당하는 XML 파일에 의해 설정되고 수행되었으나 현재는 Auto Configuration을 사용한 야믈(YML, YAML)로 구성하기도 한다.
+
+**관점 지향 프로그래밍 프레임워크**
+스프링은 로깅이나 보안, 트랜잭션 등 핵심적인 비지니스 로직과 관련이 없으나 여러 곳에서 공통적으로 쓰이는 기능들을 분리하여 개발하고 실행 시에 서로 조합할 수 있는 관점 지향 프로그래밍(AOP)을 지원한다. 기존에 널리 사용되고 있는 강력한 관점 지향 프로그래밍 프레임워크인 AspectJ도 내부적으로 사용할 수 있으며, 스프링 자체적으로 지원하는 실행시(Runtime)에 조합하는 방식도 지원한다.
+
+**데이터 액세스 프레임워크**
+스프링은 데이터베이스에 접속하고 자료를 저장 및 읽어오기 위한 여러 가지 유명한 라이브러리, 즉 JDBC, iBATIS(MyBatis), 하이버네이트 등에 대한 지원 기능을 제공하여 데이터베이스 프로그래밍을 쉽게 사용할 수 있다.
+'
+);
+insert into `core_page_widget` (
+    `page_id`,
+    `index`,
+    `type`,
+    `properties`
+) values (
+    'home',
+    0,
+    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'boardId=notice
+pageSize=10'
+);
+insert into `core_page_widget` (
+    `page_id`,
+    `index`,
+    `type`,
+    `properties`
+) values (
+    'home',
+    1,
+    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'boardId=anonymous
+pageSize=10'
+);
+insert into `core_page_widget` (
+    `page_id`,
+    `index`,
+    `type`,
+    `properties`
+) values (
+    'home',
+    2,
+    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'boardId=member
+pageSize=10'
 );
 
 -- menu

@@ -300,7 +300,7 @@ var duice;
                 });
             }
             // initializes row element
-            duice.initialize(itemHtmlElement, context);
+            duice.initialize(itemHtmlElement, context, index);
             this.itemHtmlElements.push(itemHtmlElement);
             // insert into slot
             this.slot.appendChild(itemHtmlElement);
@@ -727,7 +727,11 @@ var duice;
                 let arrayHandler = duice.ArrayProxy.getHandler(arrayProxy);
                 let proxyTarget = duice.ArrayProxy.getTarget(arrayProxy);
                 rows.forEach((object, index) => {
-                    rows[index] = new duice.ObjectProxy(object);
+                    let objectProxy = new duice.ObjectProxy(object);
+                    let objectHandler = duice.ObjectProxy.getHandler(objectProxy);
+                    objectHandler.propertyChangingListener = this.propertyChangingListener;
+                    objectHandler.propertyChangedListener = this.propertyChangedListener;
+                    rows[index] = objectProxy;
                 });
                 let event = new duice.event.ItemInsertEvent(this, index, rows);
                 if (yield arrayHandler.checkListener(arrayHandler.rowInsertingListener, event)) {
@@ -1843,7 +1847,7 @@ var duice;
      * @param container
      * @param context
      */
-    function initialize(container, context) {
+    function initialize(container, context, index) {
         // scan DOM tree
         container.querySelectorAll(getElementQuerySelector()).forEach(htmlElement => {
             var _a, _b;
@@ -1852,6 +1856,10 @@ var duice;
                     let bindName = getElementAttribute(htmlElement, 'bind');
                     let bindData = findVariable(context, bindName);
                     (_b = (_a = duice.DataElementRegistry.getFactory(htmlElement, bindData)) === null || _a === void 0 ? void 0 : _a.createElement(htmlElement, bindData, context)) === null || _b === void 0 ? void 0 : _b.render();
+                    // index
+                    if (index !== undefined) {
+                        setElementAttribute(htmlElement, "index", index.toString());
+                    }
                 }
                 catch (e) {
                     console.error(e, htmlElement, container, JSON.stringify(context));
@@ -3237,6 +3245,103 @@ var duice;
 })(duice || (duice = {}));
 var duice;
 (function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemInsertEvent
+         */
+        class ItemInsertEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             * @param items
+             */
+            constructor(source, index, items) {
+                super(source);
+                this.items = [];
+                this.index = index;
+                this.items = items;
+            }
+            /**
+             * return index
+             */
+            getIndex() {
+                return this.index;
+            }
+            /**
+             * return items
+             */
+            getItems() {
+                return this.items;
+            }
+        }
+        event.ItemInsertEvent = ItemInsertEvent;
+    })(event = duice.event || (duice.event = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemDeleteEvent
+         */
+        class ItemDeleteEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             * @param items
+             */
+            constructor(source, index, items) {
+                super(source);
+                this.items = [];
+                this.index = index;
+                this.items = items;
+            }
+            /**
+             * return index
+             */
+            getIndex() {
+                return this.index;
+            }
+            /**
+             * get items
+             */
+            getItems() {
+                return this.items;
+            }
+        }
+        event.ItemDeleteEvent = ItemDeleteEvent;
+    })(event = duice.event || (duice.event = {}));
+})(duice || (duice = {}));
+///<reference path="Event.ts"/>
+var duice;
+(function (duice) {
+    var event;
+    (function (event) {
+        /**
+         * ItemSelectEvent
+         */
+        class ItemSelectEvent extends event.Event {
+            /**
+             * constructor
+             * @param source
+             * @param index
+             */
+            constructor(source, index) {
+                super(source);
+                this.index = index;
+            }
+            getIndex() {
+                return this.index;
+            }
+        }
+        event.ItemSelectEvent = ItemSelectEvent;
+    })(event = duice.event || (duice.event = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
     var format;
     (function (format) {
         /**
@@ -3513,102 +3618,5 @@ var duice;
         }
         tab.TabFolder = TabFolder;
     })(tab = duice.tab || (duice.tab = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var event;
-    (function (event) {
-        /**
-         * ItemInsertEvent
-         */
-        class ItemInsertEvent extends event.Event {
-            /**
-             * constructor
-             * @param source
-             * @param index
-             * @param items
-             */
-            constructor(source, index, items) {
-                super(source);
-                this.items = [];
-                this.index = index;
-                this.items = items;
-            }
-            /**
-             * return index
-             */
-            getIndex() {
-                return this.index;
-            }
-            /**
-             * return items
-             */
-            getItems() {
-                return this.items;
-            }
-        }
-        event.ItemInsertEvent = ItemInsertEvent;
-    })(event = duice.event || (duice.event = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var event;
-    (function (event) {
-        /**
-         * ItemDeleteEvent
-         */
-        class ItemDeleteEvent extends event.Event {
-            /**
-             * constructor
-             * @param source
-             * @param index
-             * @param items
-             */
-            constructor(source, index, items) {
-                super(source);
-                this.items = [];
-                this.index = index;
-                this.items = items;
-            }
-            /**
-             * return index
-             */
-            getIndex() {
-                return this.index;
-            }
-            /**
-             * get items
-             */
-            getItems() {
-                return this.items;
-            }
-        }
-        event.ItemDeleteEvent = ItemDeleteEvent;
-    })(event = duice.event || (duice.event = {}));
-})(duice || (duice = {}));
-///<reference path="Event.ts"/>
-var duice;
-(function (duice) {
-    var event;
-    (function (event) {
-        /**
-         * ItemSelectEvent
-         */
-        class ItemSelectEvent extends event.Event {
-            /**
-             * constructor
-             * @param source
-             * @param index
-             */
-            constructor(source, index) {
-                super(source);
-                this.index = index;
-            }
-            getIndex() {
-                return this.index;
-            }
-        }
-        event.ItemSelectEvent = ItemSelectEvent;
-    })(event = duice.event || (duice.event = {}));
 })(duice || (duice = {}));
 //# sourceMappingURL=duice.js.map

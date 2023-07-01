@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.page;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.page.ContentFormat;
 import org.oopscraft.arch4j.core.page.dao.PageEntity;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Page {
     private String content;
 
     @Builder.Default
-    private List<PagePanel> panels = new ArrayList<>();
+    private List<PageWidget> widgets = new ArrayList<>();
 
     public static Page from(PageEntity pageEntity) {
         return Page.builder()
@@ -32,8 +31,8 @@ public class Page {
                 .name(pageEntity.getName())
                 .contentFormat(pageEntity.getContentFormat())
                 .content(pageEntity.getContent())
-                .panels(pageEntity.getPanels().stream()
-                        .map(PagePanel::from)
+                .widgets(pageEntity.getWidgets().stream()
+                        .map(PageWidget::from)
                         .collect(Collectors.toList()))
                 .build();
     }

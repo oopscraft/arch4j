@@ -2,9 +2,7 @@ package org.oopscraft.arch4j.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.message.Message;
-import org.oopscraft.arch4j.core.page.Page;
-import org.oopscraft.arch4j.core.page.PageSearch;
-import org.oopscraft.arch4j.core.page.PageService;
+import org.oopscraft.arch4j.core.page.*;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin/page")
@@ -28,7 +27,9 @@ public class PageController {
      */
     @GetMapping
     public ModelAndView index() {
-        return new ModelAndView("admin/page.html");
+        ModelAndView modelAndView = new ModelAndView("admin/page.html");
+        modelAndView.addObject("pageWidgetDefinitions", pageService.getPageWidgetDefinitions());
+        return modelAndView;
     }
 
     /**
@@ -74,6 +75,14 @@ public class PageController {
     @PreAuthorize("hasAuthority('ADMIN_PAGE_EDIT')")
     public void deletePage(@RequestParam("pageId")String pageId) {
         pageService.deletePage(pageId);
+    }
+
+    @PostMapping("get-page-widget-url")
+    @ResponseBody
+    public PageWidget getPageWidgetUrl(@RequestBody PageWidget pageWidget) {
+        String url = pageService.getPageWidgetUrl(pageWidget);
+        pageWidget.setUrl(url);
+        return pageWidget;
     }
 
 }

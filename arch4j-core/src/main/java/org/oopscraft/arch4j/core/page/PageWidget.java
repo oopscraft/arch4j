@@ -1,13 +1,13 @@
 package org.oopscraft.arch4j.core.page;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.page.dao.PagePanelEntity;
+import org.oopscraft.arch4j.core.page.dao.PageWidgetEntity;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PagePanel {
+public class PageWidget {
 
     private String pageId;
 
@@ -17,8 +17,10 @@ public class PagePanel {
 
     private String properties;
 
-    public static PagePanel from(PagePanelEntity pagePanelEntity) {
-        return PagePanel.builder()
+    private String url;
+
+    public static PageWidget from(PageWidgetEntity pagePanelEntity) {
+        return PageWidget.builder()
                 .pageId(pagePanelEntity.getPageId())
                 .index(pagePanelEntity.getIndex())
                 .type(pagePanelEntity.getType())

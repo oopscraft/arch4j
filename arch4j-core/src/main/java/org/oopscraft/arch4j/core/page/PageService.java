@@ -1,24 +1,29 @@
 package org.oopscraft.arch4j.core.page;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.page.dao.PageEntity;
-import org.oopscraft.arch4j.core.page.dao.PagePanelEntity;
+import org.oopscraft.arch4j.core.page.dao.PageWidgetEntity;
 import org.oopscraft.arch4j.core.page.dao.PageRepository;
 import org.oopscraft.arch4j.core.page.dao.PageSpecification;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.StringReader;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PageService {
 
     private final PageRepository pageRepository;
+
+    private final ApplicationContext applicationContext;
 
     /**
      * save page
@@ -45,13 +50,15 @@ public class PageService {
         pageEntity.setContent(page.getContent());
 
         // update panels
-        pageEntity.getPanels().clear();
-        for(PagePanel pagePanel : page.getPanels()) {
-            pageEntity.getPanels().add(PagePanelEntity.builder()
+        pageEntity.getWidgets().clear();
+        int index = 0;
+        for(PageWidget pageWidget : page.getWidgets()) {
+            index ++;
+            pageEntity.getWidgets().add(PageWidgetEntity.builder()
                     .pageId(page.getPageId())
-                    .index(pagePanel.getIndex())
-                    .type(pagePanel.getType())
-                    .properties(pagePanel.getProperties())
+                    .index(index)
+                    .type(pageWidget.getType())
+                    .properties(pageWidget.getProperties())
                     .build());
         }
 
@@ -80,6 +87,7 @@ public class PageService {
         List<Page> pages = pageEntityPage.getContent().stream()
                 .map(Page::from)
                 .collect(Collectors.toList());
+        fillUrl(pages);
         long total = pageEntityPage.getTotalElements();
         return new PageImpl<>(pages, pageable, total);
     }
@@ -90,7 +98,41 @@ public class PageService {
      * @return page
      */
     public Optional<Page> getPage(String pageId) {
-        return pageRepository.findById(pageId).map(Page::from);
+        Page page = pageRepository.findById(pageId).map(Page::from).orElseThrow();
+        fillUrl(page);
+        return Optional.of(page);
+    }
+
+    private void fillUrl(final Page page) {
+        page.getWidgets().forEach(pageWidget -> {
+            pageWidget.setUrl(getPageWidgetUrl(pageWidget));
+        });
+    }
+
+    private void fillUrl(final List<Page> pages) {
+        pages.forEach(this::fillUrl);
+    }
+
+    public List<PageWidgetDefinition> getPageWidgetDefinitions() {
+        List<PageWidgetDefinition> pageWidgetDefinitions = new ArrayList<>();
+        Map<String, PageWidgetSupport> beansMap = applicationContext.getBeansOfType(PageWidgetSupport.class);
+        for(PageWidgetSupport bean : beansMap.values()){
+            pageWidgetDefinitions.add(bean.getDefinition());
+        }
+        return pageWidgetDefinitions;
+    }
+
+    public String getPageWidgetUrl(PageWidget pageWidget) {
+        try {
+            Class<?> typeClass = Class.forName(pageWidget.getType());
+            Properties properties = new Properties();
+            properties.load(new StringReader(pageWidget.getProperties()));
+            PageWidgetSupport bean = (PageWidgetSupport) applicationContext.getBean(typeClass);
+            return bean.getUrl(properties);
+        }catch(Exception e){
+            log.warn(e.getMessage());
+            return null;
+        }
     }
 
     /**

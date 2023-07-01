@@ -17,7 +17,9 @@
         const pages = new duice.ArrayProxy([]);
 
         // page
-        const page = new duice.ObjectProxy({});
+        const page = new duice.ObjectProxy({
+            widgets: []
+        });
         duice.ObjectProxy.setDisableAll(page, true);
         duice.ObjectProxy.onPropertyChanging(page, async event => {
             if (event.getProperty() === 'pageId') {
@@ -28,6 +30,23 @@
             }
             return true;
         });
+        duice.ArrayProxy.onPropertyChanged(page.widgets, event => {
+            if(event.getProperty() === 'type') {
+                if(event.getValue()) {
+                    page.widgets[event.getIndex()].properties = pageWidgetDefinitions
+                        .filter(item => item.type === event.getValue())[0]
+                        .propertiesTemplate;
+                }
+            }
+            if(event.getProperty() === 'type' || event.getProperty() === 'properties') {
+                console.log("=============");
+                page.widgets[event.getIndex()].url = '/board/anonymous/widget/latest-articles';
+            }
+            console.log('==>', event);
+        });
+
+        // page widget definition
+        const pageWidgetDefinitions = new duice.ArrayProxy([[${pageWidgetDefinitions}]]);
 
         /**
          * getPages
@@ -163,6 +182,21 @@
                     });
                 }
             });
+        }
+
+        /**
+         * add page widget
+         */
+        function addPageWidget() {
+            page.widgets.push({});
+        }
+
+        /**
+         * remove page widget
+         * @param index
+         */
+        function removePageWidget(index) {
+            page.widgets.shift(index,1);
         }
 
         /**
@@ -345,9 +379,38 @@
                         </span>
                     </div>
                     <div class="column-6 s-column-6">
-                        <textarea data-duice-bind="page" data-duice-property="value" rows="4"
-                                  class="width-100 height-100"></textarea>
+                        <textarea data-duice-bind="page" data-duice-if="return page.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
+                        <duice-markdown-editor data-duice-bind="page" data-duice-if="return page.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
                     </div>
+                    <div class="column-6 grid template-columns-2 gap-1em">
+                        <div data-duice-bind="page.widgets" data-duice-loop="widget,status" data-duice-editable="true" class="column-1 border-1 padding-1em">
+                            <div class="grid template-columns-6 gap-1px">
+                                <span class="column-1">Type</span>
+                                <select class="column-5" data-duice-bind="widget" data-duice-property="type">
+                                    <option value>- select -</option>
+                                    <option th:each="pageWidgetDefinition:${pageWidgetDefinitions}" th:value="${pageWidgetDefinition.type}" th:text="${pageWidgetDefinition.name}"></option></option>
+                                </select>
+                                <span class="column-1">Properties</span>
+                                <textarea data-duice-bind="widget" data-duice-property="properties" class="column-5"></textarea>
+                                <iframe class="column-6 width-100 border-0" sandbox="allow-same-origin allow-scripts"
+                                        data-duice-bind="widget"
+                                        data-duice-execute="this.src=widget.url;">
+                                </iframe>
+                                <div class="column-6 flex justify-content-end">
+                                    <button data-duice-bind="page.widgets" data-duice-exeucte="this.dataset.index = status.index;"
+                                            onclick="removePageWidget(this.dataset.index);">
+                                        - Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column-1">
+                            <button onclick="addPageWidget();">
+                                Add Panel
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="grid template-columns-2 margin-top-1em">
                     <div class="column-1 flex gap-1px">

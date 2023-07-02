@@ -10,4 +10,6 @@ public interface ArticleCommentRepository extends JpaRepository<ArticleCommentEn
 
     List<ArticleCommentEntity> findAllByArticleIdOrderByCreatedAtAsc(String articleId);
 
+    List<ArticleCommentEntity> findAllByArticleIdAndParentCommentId(String articleId, String parentCommentId);
+
 }

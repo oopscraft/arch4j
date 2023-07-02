@@ -98,11 +98,30 @@ public class ArticleCommentService {
                 .articleId(articleId)
                 .commentId(commentId)
                 .build();
-        articleCommentRepository.deleteById(pk);
-        articleCommentRepository.flush();
 
-        // decrease article comment count
-        articleRepository.decreaseCommentCount(articleId);
+        // get article comment
+        ArticleCommentEntity articleCommentEntity = articleCommentRepository.findById(pk).orElseThrow();
+
+        // check reply comment
+        if(articleCommentRepository.findAllByArticleIdAndParentCommentId(articleId, commentId).size() > 0) {
+            // update comment contents
+            articleCommentEntity.setContentFormat(ContentFormat.TEXT);
+            articleCommentEntity.setContent("- This comment has bean deleted. -");
+
+            // save
+            articleCommentRepository.saveAndFlush(articleCommentEntity);
+
+        }
+        // no reply comments
+        else{
+            // delete
+            articleCommentRepository.delete(articleCommentEntity);
+            articleCommentRepository.flush();
+
+            // decrease article comment count
+            articleRepository.decreaseCommentCount(articleId);
+        }
+
     }
 
 }

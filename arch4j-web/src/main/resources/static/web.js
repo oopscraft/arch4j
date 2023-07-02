@@ -161,10 +161,10 @@ const _parseTotalCount = function(response){
 const _isDarkMode = function() {
 
     // checks cookie
-    if(_getCookie('color-scheme') === 'dark') {
+    if(_getCookie('dark-mode') === 'true') {
         return true;
     }
-    if(_getCookie('color-scheme') === 'light') {
+    if(_getCookie('dark-mode') === 'false') {
         return false;
     }
 
@@ -185,16 +185,23 @@ const _isDarkMode = function() {
  */
 const _setDarkMode = function(enable) {
     if(enable){
-        document.documentElement.classList.add('dark');
-        _setCookie('color-scheme', 'dark', 356);
+        document.documentElement.classList.add('dark-mode');
+        _setCookie('dark-mode', 'true', 356);
     }else{
-        document.documentElement.classList.remove('dark');
-        _setCookie('color-scheme', 'light', 356);
+        document.documentElement.classList.remove('dark-mode');
+        _setCookie('dark-mode', 'false', 356);
     }
 }
 
+/**
+ * toggle dark mode
+ */
+const _toggleDarkMode = function() {
+    _setDarkMode(!_isDarkMode());
+}
+
 // set color scheme
-//_setDarkMode(_isDarkMode());
+_setDarkMode(_isDarkMode());
 
 /**
  * Opens link

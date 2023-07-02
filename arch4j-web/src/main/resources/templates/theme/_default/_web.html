@@ -38,7 +38,12 @@
                         '_header-logo _header-menu';
             grid-template-columns: auto auto;
             border-bottom: groove 2px #efefef;
+            background-color: #fafafa;
             padding: 1rem;
+        }
+        .dark-mode header {
+            border-bottom: groove 2px #555555;
+            background-color: #1a1a1a;
         }
         header #_header-logo {
             grid-area: _header-logo;
@@ -101,6 +106,9 @@
             border-bottom: dotted 1px lightgray;
             font-weight: 700;
             transition-duration: 0.3s;
+        }
+        .dark-mode nav #_nav-menu li {
+            border-bottom: dotted 1px #555555;
         }
         nav #_nav-menu li img {
             height: 1.5em;
@@ -179,6 +187,9 @@
                     <img th:src="@{/static/theme/{_theme}/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
                     <span data-th-text="#{web.global.logout}"></span>
                 </span>
+            </li>
+            <li>
+                <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
             </li>
             <li>
                 <img th:src="@{/static/theme/{_theme}/image/icon-language.svg(_theme=${_theme})}" class="icon"/>

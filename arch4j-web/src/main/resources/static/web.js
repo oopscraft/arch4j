@@ -197,7 +197,12 @@ const _setDarkMode = function(enable) {
  * toggle dark mode
  */
 const _toggleDarkMode = function() {
-    _setDarkMode(!_isDarkMode());
+    if(_isDarkMode()) {
+        _setCookie('dark-mode', 'false', 356);
+    }else{
+        _setCookie('dark-mode', 'true', 356);
+    }
+    window.location.reload();
 }
 
 // set color scheme

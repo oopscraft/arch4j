@@ -74,7 +74,7 @@
 </head>
 
 <!-- header -->
-<th:block th:include="|theme/${_theme}/_web.html| :: _header"/>
+<th:block th:include="|_theme/${_theme}/_web.html| :: _header"/>
 
 <!-- auto completion off -->
 <div style="width:0; height:0; overflow:hidden;">
@@ -86,6 +86,6 @@
 <main layout:fragment="_main"/>
 
 <!-- footer -->
-<th:block th:include="|theme/${_theme}/_web.html| :: _footer"/>
+<th:block th:include="|_theme/${_theme}/_web.html| :: _footer"/>
 
 </html>

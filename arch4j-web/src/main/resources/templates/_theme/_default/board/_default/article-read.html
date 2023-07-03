@@ -3,32 +3,32 @@
 <!-- ================================================== -->
 <div class="grid grid-template-columns-12 margin-top-1em">
     <h1 class="grid-column-12">
-        <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
+        <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
         <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold"></span>
     </h1>
     <div class="grid-column-12">
         <span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </span>
         &nbsp;
         <span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </span>
         &nbsp;
         <span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="commentCount"></span>
         </span>
         &nbsp;
         <span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="votePositiveCount"></span>
         </span>
         &nbsp;
         <span>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="voteNegativeCount"></span>
         </span>
     </div>
@@ -55,7 +55,7 @@
 <!-- ================================================== -->
 <div class="grid grid-template-columns-12 margin-top-1em">
     <div class="grid-column-12 font-weight-bold">
-        <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
+        <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.board.Article.files}"></span>
     </div>
     <div class="grid-column-12">
@@ -82,18 +82,18 @@
 <div class="grid grid-template-columns-12 margin-x-1em">
     <div class="grid-column-12 flex justify-content-center gap-1px">
         <button onclick="gotoListArticle();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-list.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-list.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.listArticle}"></span>
         </button>
         <button onclick="gotoEditArticle();">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-edit.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-edit.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.editArticle}"></span>
         </button>
         <button onclick="saveArticleVote(1);">
             <img class="icon"
-                 th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
-                 th:data-default-src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
-                 th:data-active-src="@{/static/theme/{_theme}/image/icon-like-on.svg(_theme=${_theme})}"
+                 th:src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
+                 th:data-default-src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"
+                 th:data-active-src="@{/static/_theme/{_theme}/image/icon-like-on.svg(_theme=${_theme})}"
                  data-duice-bind="articleVote"
                  data-duice-execute="
                  if(articleVote.point > 0) {
@@ -105,9 +105,9 @@
         </button>
         <button onclick="saveArticleVote(-1);">
             <img class="icon"
-                 th:src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
-                 th:data-default-src="@{/static/theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
-                 th:data-active-src="@{/static/theme/{_theme}/image/icon-dislike-on.svg(_theme=${_theme})}"
+                 th:src="@{/static/_theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
+                 th:data-default-src="@{/static/_theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"
+                 th:data-active-src="@{/static/_theme/{_theme}/image/icon-dislike-on.svg(_theme=${_theme})}"
                  data-duice-bind="articleVote"
                  data-duice-execute="
                  if(articleVote.point < 0) {
@@ -131,7 +131,7 @@
 <div class="grid grid-template-columns-12 padding-x-1em">
     <div class="grid-column-12">
         <h2>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-th-text="#{core.board.ArticleComment}"></span>
             <small>
                 (<span data-duice-bind="article" data-duice-property="commentCount"></span>)
@@ -154,25 +154,25 @@
              data-duice-hierarchy="commentId,parentCommentId"
              data-duice-execute="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
             <div class="grid-column-12">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
                      data-duice-execute="this.hidden=isChildArticleComment(articleComment);"/>
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
                      data-duice-execute="this.hidden=!isChildArticleComment(articleComment);"/>
                 <span>
                     <img class="icon"
-                         th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                         th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
                          data-duice-bind="articleComment"
                          data-duice-property="userPhoto"/>
                     <span data-duice-bind="articleComment" data-duice-property="userName"></span>
                 </span>
                 <span>
-                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="articleComment" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
                 </span>
                 <span>
-                    <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="articleComment" data-duice-property="likeCount"></span>
                 </span>
                 <span class="link"
@@ -214,10 +214,10 @@
 <div id="article-comment-form-container">
     <div id="article-comment-form" class="grid-column-12 grid grid-template-columns-12 gap-row-1px padding-left-1em border-left-1">
         <div class="grid-column-12">
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"
                  data-duice-bind="articleComment"
                  data-duice-if="return !isChildArticleComment(articleComment);"/>
-            <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
+            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment-child.svg(_theme=${_theme})}"
                  data-duice-bind="articleComment"
                  data-duice-if="return isChildArticleComment(articleComment);"/>
             <span data-duice-bind="articleComment"
@@ -228,7 +228,7 @@
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.board.ArticleComment.password}"/>
             </span>
             <span sec:authorize="isAuthenticated()">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
                      data-duice-bind="_user" data-duice-property="photo"/>
                 <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
             </span>
@@ -250,18 +250,18 @@
         </div>
         <div class="grid-column-12 flex justify-content-center margin-x-1em gap-1px">
             <button onclick="cancelArticleComment();">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.cancel}"></span>
             </button>
             <button data-duice-bind="articleComment"
                     data-duice-if="return canDeleteArticleComment(articleComment);"
                     data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                     onclick="deleteArticleComment(this.dataset.commentId);">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.delete}"></span>
             </button>
             <button onclick="saveArticleComment();">
-                <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.board.saveComment}"></span>
             </button>
         </div>

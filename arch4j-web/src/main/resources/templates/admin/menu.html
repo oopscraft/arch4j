@@ -194,7 +194,7 @@
             padding-left: 0.5em;
         }
         .menu-item:hover {
-            background-color: #f7f7f7;
+            background-color: var(--web-table-body-hover-background-color);
         }
         .menu-item::before {
             content: "";
@@ -204,11 +204,14 @@
             width: 1em;
             height: 1em;
         }
+        .dark-mode .menu-item::before {
+            filter: invert(1) hue-rotate(180deg);
+        }
         .selected > .menu-item::before {
             background-image: url([[@{/static/image/icon-folder-open.svg}]]);
         }
         .selected > .menu-item {
-            background-color: #f7f7f7;
+            background-color: var(--web-table-body-hover-background-color);
         }
     </style>
 

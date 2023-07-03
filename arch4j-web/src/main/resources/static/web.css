@@ -47,10 +47,10 @@
     --web-button-hover-background: linear-gradient(to bottom, #444444 50%, #777777 100%);
     /* table */
     --web-table-header-border: solid 1px #555;
-    --web-table-header-background-color: #2a2a2a;
+    --web-table-header-background-color: #333;
     --web-table-body-border: dotted 1px #555;
     --web-table-body-background-color: transparent;
-    --web-table-body-hover-background-color: #2a2a2a;
+    --web-table-body-hover-background-color: #333;
     /* dialog */
     --web-dialog-border: solid 1px #777777;
 }

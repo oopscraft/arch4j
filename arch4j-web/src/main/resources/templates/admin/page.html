@@ -408,15 +408,15 @@
                         <!-- ====================================== -->
                         <div data-duice-bind="page.widgets" data-duice-loop="widget,status" data-duice-editable="true" class="grid-column-1 s-grid-column-2 border-1 padding-1em">
                             <div class="grid grid-template-columns-6 grid-gap-1px">
-                                <span class="grid-column-1 font-weight-bold tag-required" data-th-text="#{core.page.PageWidget.type}">
+                                <span class="grid-column-1 s-grid-column-6 font-weight-bold tag-required" data-th-text="#{core.page.PageWidget.type}">
                                 </span>
-                                <select class="grid-column-5 font-weight-bold" data-duice-bind="widget" data-duice-property="type">
+                                <select class="grid-column-5 s-grid-column-6 font-weight-bold" data-duice-bind="widget" data-duice-property="type">
                                     <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                     <option th:each="pageWidgetDefinition:${pageWidgetDefinitions}" th:value="${pageWidgetDefinition.type}" th:text="${pageWidgetDefinition.name}"></option></option>
                                 </select>
-                                <span class="grid-column-1 font-weight-bold" data-th-text="#{core.page.PageWidget.properties}">
+                                <span class="grid-column-1 s-grid-column-6 font-weight-bold" data-th-text="#{core.page.PageWidget.properties}">
                                 </span>
-                                <textarea data-duice-bind="widget" data-duice-property="properties" class="grid-column-5"></textarea>
+                                <textarea data-duice-bind="widget" data-duice-property="properties" class="grid-column-5 s-grid-column-6"></textarea>
                                 <iframe class="grid-column-6 width-100 border-0 margin-x-1em" sandbox="allow-same-origin allow-scripts"
                                         data-duice-bind="widget"
                                         data-duice-execute="this.src=widget.url;">

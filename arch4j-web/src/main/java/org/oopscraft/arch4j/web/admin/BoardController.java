@@ -52,7 +52,7 @@ public class BoardController {
      */
     protected Set<String> getSkinNames() throws IOException {
         Set<String> skinNames = new HashSet<>();
-        String resourcePattern = String.format("classpath*:templates/theme/%s/board/**/board.html", webProperties.getTheme());
+        String resourcePattern = String.format("classpath*:templates/_theme/%s/board/**/board.html", webProperties.getTheme());
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources(resourcePattern);
         for (Resource resource : resources) {

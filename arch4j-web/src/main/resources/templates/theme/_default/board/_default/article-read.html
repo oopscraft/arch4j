@@ -222,7 +222,7 @@
                  data-duice-if="return isChildArticleComment(articleComment);"/>
             <span data-duice-bind="articleComment"
                   data-duice-if="return isAnonymousArticleComment(articleComment);"
-                  class="flex gap-1px s-direction-column">
+                  class="flex gap-1px s-flex-direction-column">
                 <input type="text" data-duice-bind="articleComment" data-duice-property="userName" th:placeholder="#{core.board.ArticleComment.userName}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="password" th:placeholder="#{core.board.ArticleComment.password}"/>
                 <input type="password" data-duice-bind="articleComment" data-duice-property="passwordConfirm" th:placeholder="#{core.board.ArticleComment.password}"/>

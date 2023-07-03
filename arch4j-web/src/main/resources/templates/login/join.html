@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="login/_login.html">
+<th:block layout:fragment="_main">
+    <script th:inline="javascript">
+
+    </script>
+    <th:block th:replace="|theme/${_theme}/login/join.html|"/>
+</th:block>

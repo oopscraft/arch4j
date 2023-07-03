@@ -216,7 +216,7 @@
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
-                    <div class="grid-column-2 s-grid-column-1 flex s-direction-column">
+                    <div class="grid-column-2 s-grid-column-1 flex s-flex-direction-column">
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="messageSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
@@ -226,7 +226,7 @@
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
                         </div>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-direction-column">
+                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-flex-direction-column">
                         <button onclick="getMessages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>

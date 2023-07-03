@@ -1,69 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css}">
-    <script th:src="@{/static/nprogress/nprogress.js}"></script>
-    <script th:src="@{/static/chartjs/chart.js}"></script>
-    <script th:src="@{'/static/duice/duice.js?version=' + ${_scriptVersion}}"></script>
-    <script th:src="@{'/static/web.js?version=' + ${_scriptVersion}}"></script>
-    <script>
-        const login = new duice.ObjectProxy({
-            username: null,
-            password: null,
-            message: null
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="login/_login.html">
+<th:block layout:fragment="_main">
+    <script th:inline="javascript">
+    const login = new duice.ObjectProxy({
+        username: null,
+        password: null,
+        message: null
+    });
+
+    /**
+     * process login
+     * @returns {Promise<boolean>}
+     */
+    const processLogin = async function() {
+        if(_isEmpty(login.username)){
+            await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
+            duice.ObjectProxy.focus(login, 'username');
+            return false;
+        }
+        if(_isEmpty(login.password)){
+            await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+            duice.ObjectProxy.focus(login, 'password');
+            return false;
+        }
+
+        // request login
+        let url = new URL([[@{/login/process}]], document.location.origin);
+        let payload = new URLSearchParams();
+        payload.append('username', login.username);
+        payload.append('password', login.password);
+        _fetch(url, {
+            method: 'POST',
+            body: payload
+        }, true).then(async function (response) {
+            if (response.ok) {
+                document.location.href = [[@{/}]];
+            } else {
+                let json = await response.json();
+                login.message = json.message;
+                duice.ObjectProxy.focus(login, 'usernmae');
+            }
         });
+    }
 
-        /**
-         * process login
-         * @returns {Promise<boolean>}
-         */
-        const processLogin = async function() {
-            if(_isEmpty(login.username)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.User.userId})}]]');
-                duice.ObjectProxy.focus(login, 'username');
-                return false;
-            }
-            if(_isEmpty(login.password)){
-                await _alert('[[#{web.global.itemEmpty(#{core.user.User.password})}]]');
-                duice.ObjectProxy.focus(login, 'password');
-                return false;
-            }
-
-            // request login
-            let url = new URL('[[@{/login/process}]]', document.location.origin);
-            let payload = new URLSearchParams();
-            payload.append('username', login.username);
-            payload.append('password', login.password);
-            _fetch(url, {
-                method: 'POST',
-                body: payload
-            }, true).then(async function (response) {
-                if (response.ok) {
-                    document.location.href = '[[@{/}]]';
-                } else {
-                    let json = await response.json();
-                    login.message = json.message;
-                    duice.ObjectProxy.focus(login, 'usernmae');
-                }
-            });
-        }
-
-        /**
-         * login with Google
-         */
-        const loginWithGoogle = function() {
-            alert("not ready yet");
-        }
-
+    /**
+     * login with Google
+     */
+    const loginWithGoogle = function() {
+        alert("not ready yet");
+    }
     </script>
-</head>
-<body>
-<main>
     <th:block th:replace="|theme/${_theme}/login/login.html|"/>
-</main>
-</body>
-</html>
+</th:block>
+

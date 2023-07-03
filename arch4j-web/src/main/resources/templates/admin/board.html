@@ -319,7 +319,7 @@
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px s-grid-template-columns-1 margin-x-1px">
-                    <div class="grid-column-2 s-grid-column-1 flex s-direction-column">
+                    <div class="grid-column-2 s-grid-column-1 flex s-flex-direction-column">
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="boardSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
@@ -329,7 +329,7 @@
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
                         </div>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end grid-gap-1px s-direction-column">
+                    <div class="grid-column-1 flex justify-content-flex-end grid-gap-1px s-flex-direction-column">
                         <button onclick="getBoards();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -875,7 +875,7 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-direction-column">
+        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-flex-direction-column">
             <div class="grid grid-template-columns-3 grid-gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>

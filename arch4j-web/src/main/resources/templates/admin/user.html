@@ -386,7 +386,7 @@
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
-                    <div class="grid-column-2 flex gap-1px s-grid-column-1 s-direction-column">
+                    <div class="grid-column-2 flex gap-1px s-grid-column-1 s-flex-direction-column">
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select class="grid-column-1" data-duice-bind="userSearch" data-duice-property="key">
                                 <option value="userId" th:text="#{core.user.User.userId}"></option>
@@ -408,7 +408,7 @@
                                     th:text="${userStatus}"></option>
                         </select>
                     </div>
-                    <div class="grid-column-1 flex gap-1px justify-content-flex-end s-direction-column">
+                    <div class="grid-column-1 flex gap-1px justify-content-flex-end s-flex-direction-column">
                         <button onclick="getUsers();" class="s-width-100">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -810,7 +810,7 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-direction-column">
+        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-flex-direction-column">
             <div class="grid grid-template-columns-3 grid-gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
@@ -1036,7 +1036,7 @@
     <!-- ====================================== -->
     <div id="loginHistoryTabContent">
         <div id="loginHistoryList">
-            <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-direction-column">
+            <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-flex-direction-column">
                 <div class="grid grid-template-columns-3 grid-gap-1px">
                     <select data-duice-bind="loginHistorySearch" data-duice-property="key" class="grid-column-1">
                         <option value="userId" th:text="#{core.user.LoginHistory.userId}"></option>

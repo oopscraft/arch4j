@@ -19,8 +19,8 @@
 <!-- ================================== -->
 <!-- start: widgets                     -->
 <!-- ================================== -->
-<div class="grid template-columns-2 gap-1em margin-top-1em">
-    <div th:each="widget : ${page.widgets}" class="column-1 s-column-2">
+<div class="grid grid-template-columns-2 grid-gap-1em margin-top-1em">
+    <div th:each="widget : ${page.widgets}" class="grid-column-1 s-grid-column-2">
        <iframe th:src="${widget.url}"
                onload="initializeWidget(this);"
                scrolling="no"

@@ -36,7 +36,6 @@
         #login {
             width: 300px;
             padding: 1em;
-            border: solid 1px darkgray;
         }
     </style>
     <script th:inline="javascript">
@@ -91,32 +90,34 @@
     <!-- ================================== -->
     <!-- start: login                       -->
     <!-- ================================== -->
-    <div id="login">
-        <h1 class="text-align-center padding-bottom-1em">
+    <div id="login" class="border-1">
+        <h1 class="text-align-center margin-bottom-1em">
             <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
         </h1>
-        <form onsubmit="return false;" class="grid gap-1em">
+        <form onsubmit="return false;" class="grid grid-gap-1em">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <div class="column-1">
+            <div class="grid-column-1">
                 <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
             </div>
-            <div class="column-1">
+            <div class="grid-column-1">
                 <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
             </div>
-            <div class="column-1">
+            <div class="grid-column-1">
                 <button onclick="processLogin();" class="width-100">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
                     <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
-            <div class="column-1">
+            <div class="grid-column-1">
+                <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
+                &nbsp;
                 <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                 </select>
             </div>
-            <div class="column-1">
+            <div class="grid-column-1">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
         </form>

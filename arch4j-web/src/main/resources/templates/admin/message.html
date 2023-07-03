@@ -204,29 +204,29 @@
     <!-- ================================== -->
     <!-- start: message content             -->
     <!-- ================================== -->
-    <div class="grid template-columns-2 s-template-columns-1 gap-1em">
+    <div class="grid grid-template-columns-2 s-grid-template-columns-1 grid-gap-1em">
 
         <!-- ================================== -->
         <!-- start: message list                -->
         <!-- ================================== -->
-        <div id="messageList" class="column-1">
+        <div id="messageList" class="grid-column-1">
             <div class="border-1 padding-1rem">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid template-columns-3 gap-1px margin-x-1px s-template-columns-1">
-                    <div class="column-2 s-column-1 flex s-direction-column">
-                        <div class="grid template-columns-3 gap-1px">
-                            <select data-duice-bind="messageSearch" data-duice-property="key" class="column-1">
+                <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
+                    <div class="grid-column-2 s-grid-column-1 flex s-direction-column">
+                        <div class="grid grid-template-columns-3 grid-gap-1px">
+                            <select data-duice-bind="messageSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
                                 <option value="name" th:text="#{core.message.Message.name}"></option>
                             </select>
                             <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="column-2"/>
+                                   th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
                         </div>
                     </div>
-                    <div class="column-1 flex justify-content-end gap-1px s-direction-column">
+                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-direction-column">
                         <button onclick="getMessages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -266,14 +266,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid template-columns-3 margin-top-1em">
-                    <div class="column-1 font-size-smaller">
+                <div class="grid grid-template-columns-3 margin-top-1em">
+                    <div class="grid-column-1 font-size-smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="messageSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="column-1 flex justify-content-center">
+                    <div class="grid-column-1 flex justify-content-center">
                         <duice-pagination
                                 data-duice-bind="messageSearch"
                                 data-duice-size-property="_size"
@@ -282,7 +282,7 @@
                                 data-duice-onclick="getMessages(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="column-1 flex justify-content-end">
+                    <div class="grid-column-1 flex justify-content-flex-end">
                         <button onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -298,39 +298,39 @@
         <!-- ================================== -->
         <!-- start: message detail              -->
         <!-- ================================== -->
-        <div class="column-1">
+        <div class="grid-column-1">
             <div class="border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <div class="grid template-columns-6 gap-1px column-gap-1em">
-                    <div class="column-1 s-column-6">
+                <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
+                    <div class="grid-column-1 s-grid-column-6">
                         <span data-th-text="#{core.message.Message.messageId}"
                               class="font-weight-bold tag-required"></span>
                     </div>
-                    <div class="column-2 s-column-6">
+                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="message" data-duice-property="messageId"
                                class="width-100 font-weight-bold"/>
                     </div>
-                    <div class="column-1 s-column-6">
+                    <div class="grid-column-1 s-grid-column-6">
                         <span data-th-text="#{core.message.Message.name}" class="font-weight-bold tag-required"></span>
                     </div>
-                    <div class="column-2 s-column-6">
+                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="message" data-duice-property="name"
                                class="width-100"/>
                     </div>
-                    <div class="column-1 s-column-6">
+                    <div class="grid-column-1 s-grid-column-6">
                         <span data-th-text="#{core.message.Message.value}" class="font-weight-bold"></span>
                     </div>
-                    <div class="column-5 s-column-6">
+                    <div class="grid-column-5 s-grid-column-6">
                         <textarea data-duice-bind="message" data-duice-property="value" rows="4"
                                   class="width-100 height-100"></textarea>
                     </div>
                 </div>
-                <div class="grid template-columns-2 margin-top-1em">
-                    <div class="column-1"></div>
-                    <div class="column-1 flex justify-content-end gap-1px">
+                <div class="grid grid-template-columns-2 margin-top-1em">
+                    <div class="grid-column-1"></div>
+                    <div class="grid-column-1 flex justify-content-flex-end gap-1px">
                         <button onclick="deleteMessage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="message"

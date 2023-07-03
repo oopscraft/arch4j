@@ -25,46 +25,47 @@
     #login {
         width: 300px;
         padding: 1em;
-        border: solid 1px darkgray;
     }
 </style>
-<div id="login">
-    <h1 class="text-align-center">
+<div id="login" class="border-1">
+    <h1 class="text-align-center margin-bottom-1em">
         <img class="icon" th:src="@{/static/theme/{_theme}/image/logo-arch4j.png(_theme=${_theme})}"/>
     </h1>
-    <form onsubmit="return false;" class="grid template-columns-12 gap-1em">
-        <div class="column-12">
+    <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
+        <div class="grid-column-12">
             <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
         </div>
-        <div class="column-12">
+        <div class="grid-column-12">
             <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
         </div>
-        <div class="column-6">
+        <div class="grid-column-6">
             <label>
                 <input type="checkbox"/>
                 <span>Remember Me</span>
             </label>
         </div>
-        <div class="column-6 flex justify-content-end">
+        <div class="grid-column-6 flex justify-content-flex-end align-items-center">
+            <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
+            &nbsp;
             <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
             <select onchange="_changeLanguage(this.value);">
                 <option>- language -</option>
                 <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
             </select>
         </div>
-        <div class="column-12">
+        <div class="grid-column-12">
             <button onclick="processLogin();" class="width-100">
                 <img class="icon" th:src="@{/static/image/icon-login.svg}">
                 <span data-th-text="#{web.global.login}"></span>
             </button>
         </div>
-        <div class="column-12 flex justify-content-center">
+        <div class="grid-column-12 flex justify-content-center">
             <span data-duice-bind="login" data-duice-property="message"></span>
         </div>
     </form>
     <hr class="margin-x-1em"/>
-    <div class="grid template-columns-12 gap-1em">
-        <div class="column-12">
+    <div class="grid grid-template-columns-12 grid-gap-1em">
+        <div class="grid-column-12">
             <button onclick="loginWithGoogle();">
                 <img class="icon" th:src="@{/static/image/icon-brand-google.svg}"/>
                 <span>Login with Google</span>

@@ -9,10 +9,12 @@
 <!-- ====================================== -->
 <!-- start: title                           -->
 <!-- ====================================== -->
-<h1 id="title">
-    <img data-duice-bind="board" data-duice-property="icon" class="icon"
-         th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
-    <span data-duice-bind="board" data-duice-property="name"></span>
+<h1 id="title" class="column-1">
+    <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" target="_parent">
+        <img data-duice-bind="board" data-duice-property="icon" class="icon"
+             th:src="@{/static/theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
+        <span data-duice-bind="board" data-duice-property="name"></span>
+    </a>
 </h1>
 <!-- ====================================== -->
 <!-- end: title                             -->
@@ -21,7 +23,7 @@
 <!-- ====================================== -->
 <!-- start: articles                        -->
 <!-- ====================================== -->
-<div id="articles" data-duice-bind="articles" data-duice-loop="article,status" class="padding-1px border-top-1-dotted">
+<div id="articles" data-duice-bind="articles" data-duice-loop="article,status" class="padding-1px border-top-1">
     <div>
         <span>
             <img class="icon" th:src="@{/static/theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
@@ -58,7 +60,7 @@
         </span>
     </div>
 </div>
-<div class="padding-1px border-top-1-dotted" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
+<div class="padding-1px border-top-1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
     <span>
         Data Not Found
     </span>

@@ -227,13 +227,11 @@
                         body: JSON.stringify(articleComment)
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.board.ArticleComment})}]]).then(()=> {
-                                cancelArticleComment();
-                                getArticleComments();
-                                if(!commentId) {
-                                    article.commentCount ++;
-                                }
-                            });
+                            cancelArticleComment();
+                            getArticleComments();
+                            if(!commentId) {
+                                article.commentCount ++;
+                            }
                         }
                     });
                 }

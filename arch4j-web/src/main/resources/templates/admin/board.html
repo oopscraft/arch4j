@@ -92,7 +92,9 @@
         function createBoard() {
             duice.ObjectProxy.clear(board);
             duice.ObjectProxy.assign(board, {
-                _new: true
+                _new: true,
+                messageFormat: 'TEXT',
+                pageSize: 10
             });
             duice.ObjectProxy.setDisableAll(board, false);
             duice.ObjectProxy.setReadonly(board, 'boardId', false);
@@ -475,6 +477,7 @@
                     </div>
                     <div class="column-2 s-column-6">
                         <select data-duice-bind="board" data-duice-property="pageSize">
+                            <option value th:text="'- '+#{web.global.select}+' -'"></option>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>

@@ -2,14 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="error/_error.html">
-<main layout:fragment="_main" style="display:flex; height:80vh; justify-content:center; align-items:center;">
-    <div style="text-align:center;">
-        <div style="font-weight:bold;">
-            <span th:text="${status}" style="font-size:x-large;"></span><br/>
-            <span th:text="${error}" style="font-weight:bold;"></span><br/>
-        </div>
-        <div>
-            <span th:text="${message}"></span><br/>
-        </div>
-    </div>
-</main>
+<th:block layout:fragment="_main">
+    <th:block th:replace="|theme/${_theme}/error/403.html|"/>
+</th:block>

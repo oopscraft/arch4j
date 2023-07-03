@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title></title>
     <script th:src="@{/static/duice/duice.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice.css}">
     <script th:src="@{/static/web.js}"></script>
 </head>
 <body>
-    <main layout:fragment="_main">
-    </main>
+    <th:block th:replace="|theme/${_theme}/error/_error.html|"/>
+    <th:block layout:fragment="_main"/>
 </body>
 </html>

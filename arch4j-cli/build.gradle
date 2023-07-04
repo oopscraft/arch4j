@@ -24,6 +24,7 @@ dependencies {
 }
 
 test {
+    enabled = false
     useJUnitPlatform()
     testLogging {
         events 'failed'

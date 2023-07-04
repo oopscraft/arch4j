@@ -8,7 +8,7 @@ public class CliApplicationTest {
     public void getSchema() {
         CliApplication.main(new String[]{
                 "database",
-                "get-schema"
+                "create-schema"
         });
     }
 }

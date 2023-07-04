@@ -84,4 +84,15 @@ public class VariableService {
         return new PageImpl<>(properties, pageable, total);
     }
 
+    /**
+     * return variable value
+     * @param variableId variable id
+     * @return variable value
+     */
+    public String getVariableValue(String variableId) {
+        return getVariable(variableId)
+                .map(Variable::getValue)
+                .orElse(null);
+    }
+
 }

@@ -49,14 +49,12 @@ public class UserEntity extends SystemFieldEntity {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @Column(name = "email")
+    @Column(name = "email", length = 1024)
     @Convert(converter = CryptoConverter.class)
-    @Lob
     private String email;
 
-    @Column(name = "mobile")
+    @Column(name = "mobile", length = 1024)
     @Convert(converter = CryptoConverter.class)
-    @Lob
     private String mobile;
 
     @Column(name = "join_datetime")

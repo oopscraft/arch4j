@@ -1,42 +1,41 @@
 <main class="border-1 padding-1em">
-    <h1 class="text-align-center">
-        회원가입
+    <h1 class="text-align-center" data-th-text="#{web.login.join}">
     </h1>
     <div class="grid grid-template-columns-12 grid-gap-1em margin-top-1em">
         <div class="grid-column-3">
-            <span>ID</span>
+            <span data-th-text="#{web.login.join.userId}"></span>
         </div>
         <div class="grid-column-9">
             <input type="text" class="width-100"/>
         </div>
         <div class="grid-column-3">
-            <span>Name</span>
+            <span data-th-text="#{web.login.join.name}"></span>
         </div>
         <div class="grid-column-9">
             <input type="text" class="width-100"/>
         </div>
         <div class="grid-column-3">
-            <span>Email</span>
+            <span data-th-text="#{web.login.join.email}"></span>
         </div>
         <div class="grid-column-9 grid grid-template-columns-12 grid-gap-1px">
             <input type="text" class="grid-column-9"/>
-            <button class="grid-column-3">Send</button>
+            <button class="grid-column-3" data-th-text="#{web.login.join.send}"></button>
         </div>
         <div class="grid-column-3">
-            <span>인증번호</span>
+            <span data-th-text="#{web.login.join.verificationCode}">인증번호</span>
         </div>
         <div class="grid-column-9 grid grid-template-columns-12 grid-gap-1px">
             <input type="text" class="grid-column-9"/>
-            <button class="grid-column-3">확인</button>
+            <button class="grid-column-3" data-th-text="#{web.login.join.confirm}">확인</button>
         </div>
         <div class="grid-column-3">
-            <span>비밀번호</span>
+            <span data-th-text="#{web.login.join.password}"></span>
         </div>
         <div class="grid-column-9">
             <input type="password" class="width-100"/>
         </div>
         <div class="grid-column-3">
-            <span>비밀번호 확인</span>
+            <span data-th-text="#{web.login.join.passwordConfirm}"></span>
         </div>
         <div class="grid-column-9">
             <input type="password" class="width-100"/>
@@ -44,7 +43,7 @@
     </div>
     <div>
         <button class="width-100 margin-top-1em">
-            가입
+            <span data-th-text="#{web.login.join}"></span>
         </button>
     </div>
 </main>

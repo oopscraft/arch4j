@@ -24,7 +24,7 @@ spring:
       driver-class-Name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       jdbc-url: jdbc:log4jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=FALSE;
       username: sa
-      password: ENC(PqzV2jMKXZSYEE/AREcemQ==)
+      password: sa
   sql:
     init:
       mode: embedded
@@ -46,6 +46,14 @@ spring:
     fallback-to-system-locale: false
     use-code-as-default-message: true
     cache-duration: 10
+  mail:
+    host: smtp.freesmtpservers.com
+    port: 25
+    username: ~
+    password: ~
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enaled: true
 
 # mybatis
 mybatis:
@@ -59,7 +67,7 @@ mybatis:
 jasypt:
   encryptor:
     bean: jasyptEncryptorBean
-    password: password
+    password: 9gaFqKeH8RhYDY29z8WtvgBy7PpyYw6SWdHzuqhr67L8z23zcqRTqhPMVYv82SkI
 
 # core
 core:

@@ -42,5 +42,4 @@ public class WebTestSupport {
     @Getter
     protected ObjectMapper objectMapper;
 
-
 }

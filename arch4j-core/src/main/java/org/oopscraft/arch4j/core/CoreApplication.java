@@ -89,7 +89,7 @@ public class CoreApplication implements EnvironmentPostProcessor {
      * @return PBE string encryptor
      */
     @Bean
-    public StringEncryptor jasyptEncryptorBean(ConfigurableEnvironment environment) {
+    public StandardPBEStringEncryptor jasyptEncryptorBean(ConfigurableEnvironment environment) {
         StandardPBEStringEncryptor pbeEncryptor = new StandardPBEStringEncryptor();
         EnvironmentStringPBEConfig pbeConfig = new EnvironmentStringPBEConfig();
         String password = environment.getProperty("jasypt.encryptor.password");

@@ -6,6 +6,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'com.google.cloud.tools.jib' version '3.2.0'
+    id 'application'
 }
 
 dependencies {
@@ -99,4 +100,22 @@ jib {
     }
 }
 
+distTar {
+    enabled = false
+}
 
+distZip {
+    enabled = false
+}
+
+bootDistZip {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
+}
+
+bootDistTar {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
+}

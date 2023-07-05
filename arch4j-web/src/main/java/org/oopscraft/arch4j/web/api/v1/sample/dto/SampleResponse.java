@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1.sample;
+package org.oopscraft.arch4j.web.api.v1.sample.dto;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.sample.SampleItem;

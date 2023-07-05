@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.page;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.page.Page;
 import org.oopscraft.arch4j.core.page.PageService;
-import org.springframework.beans.factory.annotation.Required;
+import org.oopscraft.arch4j.web.api.v1.page.dto.PageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

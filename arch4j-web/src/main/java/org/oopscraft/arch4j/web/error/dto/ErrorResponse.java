@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.error;
+package org.oopscraft.arch4j.web.error.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

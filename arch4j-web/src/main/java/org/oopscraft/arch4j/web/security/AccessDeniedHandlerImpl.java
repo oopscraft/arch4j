@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
-import org.oopscraft.arch4j.web.error.ErrorResponse;
+import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

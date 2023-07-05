@@ -11,7 +11,7 @@ class PbeCommandTest extends CliTestSupport {
 
     @Test
     public void encrypt() {
-        pbeCommand.encrypt("test_value");
+        pbeCommand.encrypt("test");
     }
 
 }

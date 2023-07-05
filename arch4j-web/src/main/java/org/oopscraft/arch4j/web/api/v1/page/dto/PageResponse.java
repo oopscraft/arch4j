@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1.page;
+package org.oopscraft.arch4j.web.api.v1.page.dto;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.page.ContentFormat;

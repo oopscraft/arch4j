@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
+import org.oopscraft.arch4j.web.api.v1.board.dto.BoardResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;

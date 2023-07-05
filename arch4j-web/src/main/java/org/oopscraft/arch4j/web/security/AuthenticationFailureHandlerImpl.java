@@ -1,10 +1,9 @@
 package org.oopscraft.arch4j.web.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
-import org.oopscraft.arch4j.web.error.ErrorResponse;
+import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

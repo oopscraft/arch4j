@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
-import org.oopscraft.arch4j.web.error.ErrorResponse;
+import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

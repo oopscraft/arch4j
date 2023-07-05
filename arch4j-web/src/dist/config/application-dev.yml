@@ -11,23 +11,23 @@ spring:
     hikari:
       driver-class-Name: org.mariadb.jdbc.Driver
       jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j
-      username: arch4j
-      password: arch4j
+      username: ENC(iqTD9xHUch57rODDJr163Q==)
+      password: ENC(iqTD9xHUch57rODDJr163Q==)
       minimum-idle: 10
       maximum-pool-size: 20
   mail:
-    host: smtp.mailtrap.io
-    port: 25
-    username: 987a77fac40349
-    password: cfad266492f5fa
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(38lyjb6uZqGnbQkfdGtkvff7W8CZ3BLd)
+    password: ENC(Ecj4lg42odfEAjJ71SlBbro+uTKTlqsa6Wj0rpTA8go=)
     properties:
       mail.smtp.auth: true
-      mail.smtp.starttls.enaled: true
+      mail.smtp.starttls.enable: true
 
 # jasypt
 jasypt:
   encryptor:
-    password: 9gaFqKeH8RhYDY29z8WtvgBy7PpyYw6SWdHzuqhr67L8z23zcqRTqhPMVYv82SkI
+    password: ~
 
 # core
 core:
@@ -35,11 +35,11 @@ core:
     crypto:
       crypto-key-provider:
         properties:
-          password: EgBeF!SBkZZm^vTTEzy)^)3b$v*+T#av%DFnk9yvE$jJVP+hB6(VSWkP$Xr%X(NY
-          salt: 6c0b434f8ba833bca4340687c1ec8b70
+          password: ENC(QyzCISjurYg1lGaTDNUfPP4/DtbMkM5Z3UTCInz5daqp3mJ0/O7RiR5DzkALIJKpOFO5Hn2FnTetAVJOQ1eYXl57VQUjC0PAAC2B8RhoXEA=)
+          salt: ENC(BfWWzNsezrykOn0EFRPCHPkwEcMnEvbAoSBe4yFP9SQ9XApGgUEjZD76RBuIt/4S)
   security:
     authentication-token:
-      signing-key: ahD3N&nctCE&aDenBKHu)tav7FyqMw6vPHXRtw7)WbWIvX8Xdtrs4fu*E9UXN58L
+      signing-key: ENC(GgF+YM6Oc307CxjpiHf/6HsH6mo2Y7JJY03ai2nHQy4LpTQsSryiFzwKTPfXyt50cCWA/zaOcrCpX5Hqo6InUXxRdqtVui643lnVW7SwFq0=)
   storage:
     storage-client:
       properties:

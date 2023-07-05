@@ -22,9 +22,4 @@ public class JoinController {
         return new ModelAndView("login/join.html");
     }
 
-    @PostMapping("send-verification-code")
-    public void sendVerificationCode(@RequestParam("email")String email) {
-
-    }
-
 }

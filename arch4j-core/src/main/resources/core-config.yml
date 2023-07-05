@@ -48,13 +48,13 @@ spring:
     use-code-as-default-message: true
     cache-duration: 10
   mail:
-    host: smtp.freesmtpservers.com
-    port: 25
+    host: 127.0.0.1
+    port: 3025
     username: ~
     password: ~
     properties:
       mail.smtp.auth: false
-      mail.smtp.starttls.enaled: true
+      mail.smtp.starttls.enable: true
 
 # mybatis
 mybatis:

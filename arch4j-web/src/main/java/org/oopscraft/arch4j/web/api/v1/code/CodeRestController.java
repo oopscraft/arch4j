@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
 import org.oopscraft.arch4j.core.code.CodeService;
+import org.oopscraft.arch4j.web.api.v1.code.dto.CodeResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;

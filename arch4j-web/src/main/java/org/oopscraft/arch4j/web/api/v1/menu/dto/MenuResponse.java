@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.api.v1.menu;
+package org.oopscraft.arch4j.web.api.v1.menu.dto;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.menu.Menu;

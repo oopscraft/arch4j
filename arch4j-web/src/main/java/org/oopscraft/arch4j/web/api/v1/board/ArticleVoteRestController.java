@@ -3,6 +3,8 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleVoteRequest;
+import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleVoteResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

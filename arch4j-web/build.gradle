@@ -95,6 +95,7 @@ jib {
     container {
         format = 'OCI'
         creationTime = "USE_CURRENT_TIMESTAMP"
+        workingDirectory = '/app'
         ports = ['8080']
         jvmFlags = ["-Dfile.encoding=UTF-8"]
     }

@@ -46,7 +46,7 @@ public class MockSmtpServer implements InitializingBean, DisposableBean {
     private boolean isPortOpen() {
         try (Socket socket = new Socket()) {
             InetSocketAddress socketAddress = new InetSocketAddress("127.0.0.1", port);
-            socket.connect(socketAddress, 1000);
+            socket.connect(socketAddress, 3000);
             return true;
         } catch (IOException e) {
             return false;

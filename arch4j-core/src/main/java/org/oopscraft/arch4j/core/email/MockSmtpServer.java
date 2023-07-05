@@ -9,6 +9,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 @Component
 @Lazy(false)
 @ConditionalOnProperty(prefix="spring.mail", name = "host", havingValue="127.0.0.1")
@@ -23,12 +27,31 @@ public class MockSmtpServer implements InitializingBean, DisposableBean {
     public void afterPropertiesSet() throws Exception {
         ServerSetup serverSetup = new ServerSetup(port,null, ServerSetup.PROTOCOL_SMTP);
         greenMail = new GreenMail(serverSetup);
-        greenMail.start();
+        if(!greenMail.isRunning() && isPortOpen()) {
+            greenMail.start();
+        }
     }
 
     @Override
     public void destroy() throws Exception {
-        greenMail.stop();
+        if(greenMail != null && greenMail.isRunning()) {
+            greenMail.stop();
+        }
     }
+
+    /**
+     * check port open
+     * @return port open
+     */
+    private boolean isPortOpen() {
+        try (Socket socket = new Socket()) {
+            InetSocketAddress socketAddress = new InetSocketAddress("127.0.0.1", port);
+            socket.connect(socketAddress, 1000);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
 
 }

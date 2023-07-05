@@ -1,17 +1,17 @@
 package org.oopscraft.arch4j.cli.command;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.cli.CliApplication;
+import org.oopscraft.arch4j.cli.test.CliTestSupport;
 
-class PbeCommandTest {
+@RequiredArgsConstructor
+class PbeCommandTest extends CliTestSupport {
+
+    private final PbeCommand pbeCommand;
 
     @Test
     public void encrypt() {
-        CliApplication.main(new String[]{
-                "pbe",
-                "encrypt",
-                "test_value"
-        });
+        pbeCommand.encrypt("test_value");
     }
 
 }

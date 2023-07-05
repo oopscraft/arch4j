@@ -56,8 +56,8 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
      */
     public static void main(String[] args) {
 
-        // database create-schema
-        if("database".equals(args[0]) && "create-schema".equals(args[1])) {
+        // install
+        if("install".equals(args[0])) {
 
             // confirms install
             try (Scanner scanner = new Scanner(System.in)) {

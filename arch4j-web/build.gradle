@@ -98,6 +98,14 @@ jib {
         ports = ['8080']
         jvmFlags = ["-Dfile.encoding=UTF-8"]
     }
+    extraDirectories {
+        paths {
+            path {
+                from = file('src/dist')
+                into = '/app'
+            }
+        }
+    }
 }
 
 distTar {
@@ -110,12 +118,12 @@ distZip {
 
 bootDistZip {
     into("${project.name}-boot-${project.version}") {
-        from 'src/dist/'
+        from 'src/dist'
     }
 }
 
 bootDistTar {
     into("${project.name}-boot-${project.version}") {
-        from 'src/dist/'
+        from 'src/dist'
     }
 }

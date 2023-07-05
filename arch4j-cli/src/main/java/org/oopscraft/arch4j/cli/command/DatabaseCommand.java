@@ -29,15 +29,6 @@ public class DatabaseCommand {
     private final EntityManagerFactory entityManagerFactory;
 
     /**
-     * create schema
-     * @return exit value
-     */
-    @CommandLine.Command(name = "create-schema")
-    public Integer createSchema() {
-        return 0;
-    }
-
-    /**
      * get schema
      * @param outFile out file path
      * @return exit value

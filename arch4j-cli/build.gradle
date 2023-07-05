@@ -4,6 +4,7 @@ plugins {
     id 'io.freefair.lombok' version '8.0.0-rc2'
     id 'org.springframework.boot' version '2.7.9'
     id 'idea'
+    id 'application'
 }
 
 dependencies {
@@ -24,7 +25,6 @@ dependencies {
 }
 
 test {
-    enabled = false
     useJUnitPlatform()
     testLogging {
         events 'failed'
@@ -45,4 +45,24 @@ bootJar {
 
 springBoot {
     buildInfo()
+}
+
+distTar {
+    enabled = false
+}
+
+distZip {
+    enabled = false
+}
+
+bootDistZip {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
+}
+
+bootDistTar {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
 }

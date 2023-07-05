@@ -27,14 +27,14 @@ public class MockSmtpServer implements InitializingBean, DisposableBean {
     public void afterPropertiesSet() throws Exception {
         ServerSetup serverSetup = new ServerSetup(port,null, ServerSetup.PROTOCOL_SMTP);
         greenMail = new GreenMail(serverSetup);
-        if(!greenMail.isRunning() && isPortOpen()) {
+        if(!isPortOpen()) {
             greenMail.start();
         }
     }
 
     @Override
     public void destroy() throws Exception {
-        if(greenMail != null && greenMail.isRunning()) {
+        if(greenMail != null) {
             greenMail.stop();
         }
     }

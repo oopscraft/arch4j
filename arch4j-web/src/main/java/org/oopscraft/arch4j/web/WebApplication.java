@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
@@ -363,7 +364,10 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
     @Configuration
     @OpenAPIDefinition(
             info = @Info(title = "REST API"),
-            security = { @SecurityRequirement(name = "Authorization") }
+            security = { @SecurityRequirement(name = "Authorization") },
+            servers = {
+                    @Server(url = "/", description = "Default Server URL")
+            }
     )
     @SecurityScheme(
             name = "Authorization",

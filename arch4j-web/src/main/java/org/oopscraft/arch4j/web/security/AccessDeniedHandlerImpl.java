@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.security;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
 import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        int status = HttpServletResponse.SC_FORBIDDEN;
-        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, status, accessDeniedException);
+        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, HttpStatus.FORBIDDEN, accessDeniedException);
         if (errorResponseHandler.isRestRequest(request)) {
             errorResponseHandler.sendRestErrorResponse(response, errorResponse);
         }else{

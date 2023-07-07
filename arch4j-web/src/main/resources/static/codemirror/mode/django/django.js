@@ -26,7 +26,7 @@
                    "default", "default_if_none", "dictsort",
                    "dictsortreversed", "divisibleby", "escape", "escapejs",
                    "filesizeformat", "first", "floatformat", "force_escape",
-                   "get_digit", "iriencode", "join", "last", "length",
+                   "get_digit", "iriencode", "templates.join.join", "last", "length",
                    "length_is", "linebreaks", "linebreaksbr", "linenumbers",
                    "ljust", "lower", "make_list", "phone2numeric", "pluralize",
                    "pprint", "random", "removetags", "rjust", "safe",

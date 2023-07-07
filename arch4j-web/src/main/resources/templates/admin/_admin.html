@@ -273,6 +273,10 @@
                 <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
                 <span data-th-text="#{web.admin.menu}"></span>
             </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/email}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAIL'')')}?'locked'">
+                <img class="icon" th:src="@{/static/image/icon-email.svg}"/>
+                <span data-th-text="#{web.admin.email}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-message.svg}"/>
                 <span data-th-text="#{web.admin.message}"></span>

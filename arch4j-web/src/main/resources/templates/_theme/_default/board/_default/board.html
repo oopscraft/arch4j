@@ -28,7 +28,7 @@
         </div>
         <div class="grid-column-9 s-grid-column-12">
             <span>
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="title"
                       onclick="gotoRead(this.dataset.articleId);" data-duice-execute="this.dataset.articleId=article.articleId;"
                       class="link font-weight-bold">
@@ -36,28 +36,28 @@
             </span>
             &nbsp;
             <span class="font-size-smaller">
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="commentCount" data-duice-format="number(0)"></span>
             </span>
             &nbsp;
             <span class="font-size-smaller">
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-like.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="votePositiveCount" data-duice-format="number(0)"></span>
             </span>
             &nbsp;
             <span class="font-size-smaller">
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-dislike.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
             </span>
         </div>
         <div class="grid-column-2 justify-right padding-right-1em s-grid-column-12 s-justify-left">
             <span>
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="userName"></span>
             </span>
             &nbsp;
             <span>
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-created-at.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
             </span>
         </div>
@@ -103,13 +103,13 @@
             <input class="grid-column-2" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
         </div>
         <button onclick="getArticles();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-search.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-search.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.search}"></span>
         </button>
     </form>
     <div class="grid-column-1 flex justify-content-flex-end">
         <button onclick="gotoPost();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-post.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>
         </button>
     </div>

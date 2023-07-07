@@ -327,8 +327,11 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         @Order(99)
         public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                    .antMatchers("/login**")
+                    .antMatchers("/login**", "/join**")
                     .permitAll();
+            http.authorizeRequests()
+                    .antMatchers("/user**")
+                    .authenticated();
             if(webProperties.getSecurityPolicy() == null) {
                 http.authorizeRequests()
                         .anyRequest()

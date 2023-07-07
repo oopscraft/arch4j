@@ -42,7 +42,7 @@ CodeMirror.defineMode('powershell', function() {
   var wordOperators = buildRegexp([
     'f',
     /b?not/,
-    /[ic]?split/, 'join',
+    /[ic]?split/, 'templates.join.join',
     /is(not)?/, 'as',
     /[ic]?(eq|ne|[gl][te])/,
     /[ic]?(not)?(like|match|contains)/,

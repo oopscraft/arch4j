@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="board/_board.html">
-<th:block layout:fragment="_main_board">
+<th:block layout:fragment="_board_content">
     <script th:inline="javascript">
         const articleId = [[${param.articleId}]];
         const article = new duice.ObjectProxy({

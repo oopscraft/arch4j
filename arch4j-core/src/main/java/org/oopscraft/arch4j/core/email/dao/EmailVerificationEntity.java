@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.verification.dao;
+package org.oopscraft.arch4j.core.email.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,17 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity(name = "core_verification")
+@Entity(name = "core_email_verification")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class VerificationEntity extends SystemFieldEntity {
+public class EmailVerificationEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "issue_id", length = 32)
-    private String issueId;
+    @Column(name = "email", length = 64)
+    private String email;
 
     @Column(name = "issued_at")
     private LocalDateTime issuedAt;

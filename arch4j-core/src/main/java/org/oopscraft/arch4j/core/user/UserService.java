@@ -68,6 +68,18 @@ public class UserService {
     }
 
     /**
+     * get user by email
+     * @param email email address
+     * @return user
+     */
+    public Optional<User> getUserByEmail(String email) {
+        User user = Optional.ofNullable(userRepository.findFirstByEmail(email))
+                .map(User::from)
+                .orElse(null);
+        return Optional.ofNullable(user);
+    }
+
+    /**
      * delete user
      * @param id user id
      */

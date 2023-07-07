@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="join/_join.html">
+<th:block layout:fragment="_join_content">
+    <script th:inline="javascript">
+        const join = new duice.ObjectProxy({});
+        duice.ObjectProxy.onPropertyChanged(join, async event => {
+            if(event.getProperty() === 'userId') {
+                if(!await validateUserId(event.getProperty())) {
+                    duice.ObjectProxy.focus(join, 'userId');
+                    return false;
+                }
+            }
+        });
+
+        const validateUserId = function(userId) {
+
+            // check blank
+            if (!userId) {
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
+                duice.ObjectProxy.focus(join, 'userId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL(`${_apiUrl}/v1/login/${boardId}/article/${articleId}`, document.location.origin);
+            url.searchParams.append('templateId', templateId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let emailTemplate = await response.json();
+                if (emailTemplate) {
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.email.EmailTemplate.templateId})}]]);
+                    return false;
+                }
+            }
+        }
+
+        const validateEmail = function(email) {
+
+        }
+
+        const validateEmailCheckAnswer = function(email, answer) {
+
+        }
+
+        const processJoin = function() {
+
+        }
+
+    </script>
+    <th:block th:replace="|_theme/${_theme}/join/join.html|"/>
+</th:block>

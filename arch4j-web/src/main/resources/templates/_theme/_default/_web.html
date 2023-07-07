@@ -1,4 +1,10 @@
-<th:block th:fragment="_header">
+<html>
+<head>
+
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_script">
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
         html {
@@ -11,9 +17,9 @@
             position: relative;
             display: grid;
             grid-template-areas:
-                    '_header _header _header'
-                    '_nav _main _aside'
-                    '_footer _footer _footer';
+                '_header _header _header'
+                '_nav _main _aside'
+                '_footer _footer _footer';
             grid-template-columns: 3fr 20fr 1fr;
             grid-template-rows: auto 1fr 1rem;
         }
@@ -21,11 +27,11 @@
             body {
                 display: grid;
                 grid-template-areas:
-                        '_header'
-                        '_nav'
-                        '_main'
-                        '_aside'
-                        '_footer';
+                    '_header'
+                    '_nav'
+                    '_main'
+                    '_aside'
+                    '_footer';
                 grid-template-columns: 100%;
                 grid-template-rows: auto auto 1fr auto auto;
                 grid-gap: 0.5rem 0.5rem;
@@ -35,7 +41,7 @@
             grid-area: _header;
             display: grid;
             grid-template-areas:
-                        '_header-logo _header-menu';
+                    '_header-logo _header-menu';
             grid-template-columns: auto auto;
             border-bottom: groove 2px #efefef;
             background-color: #fafafa;
@@ -69,8 +75,8 @@
             header {
                 display: grid;
                 grid-template-areas:
-                        '_header-logo _header-menuButton'
-                        '_header-menu _header-menu';
+                    '_header-logo _header-menuButton'
+                    '_header-menu _header-menu';
             }
             header #_header-menuButton {
                 display: flex;
@@ -92,7 +98,7 @@
             grid-area: _nav;
             display: grid;
             grid-template-areas:
-                    '_nav-menu';
+                '_nav-menu';
             padding: 1rem;
         }
         nav #_nav-menu {
@@ -152,39 +158,45 @@
             document.querySelector('header #_header-menu').classList.toggle('open');
             document.querySelector('nav').classList.toggle('open');
         }
-
     </script>
-    <body>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+
+</head>
+<body>
 
     <!-- ====================================== -->
-    <!-- start: header                          -->
+    <!-- start: _header                         -->
     <!-- ====================================== -->
+    <th:block th:fragment="_header">
     <header>
         <div id="_header-logo">
             <h1 onclick="_home();" class="link">
-                <img class="icon" th:src="@{/static/_theme/{_theme}/image/logo-arch4j.png(_theme=${_theme})}"/>
+                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/logo-arch4j.png(_theme=${_theme})}"/>
             </h1>
         </div>
         <div id="_header-menuButton">
-            <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/image/icon-menu.svg(_theme=${_theme})}" class="icon link"/>
+            <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link"/>
         </div>
         <ul id="_header-menu">
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_login();" class="link">
-                    <img th:src="@{/static/_theme/{_theme}/image/icon-login.svg(_theme=${_theme})}" class="icon"/>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-login.svg(_theme=${_theme})}" class="icon"/>
                     <span data-th-text="#{web.global.login}"></span>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span>
-                    <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                          data-duice-bind="_user" data-duice-property="photo"/>
                     <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_logout();" class="link">
-                    <img th:src="@{/static/_theme/{_theme}/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
                     <span data-th-text="#{web.global.logout}"></span>
                 </span>
             </li>
@@ -192,7 +204,7 @@
                 <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
             </li>
             <li>
-                <img th:src="@{/static/_theme/{_theme}/image/icon-language.svg(_theme=${_theme})}" class="icon"/>
+                <img th:src="@{/static/_theme/{_theme}/static/image/icon-language.svg(_theme=${_theme})}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
                     <option>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
@@ -200,13 +212,6 @@
             </li>
         </ul>
     </header>
-    <!-- ====================================== -->
-    <!-- end: header                            -->
-    <!-- ====================================== -->
-
-    <!-- ====================================== -->
-    <!-- start: nav                             -->
-    <!-- ====================================== -->
     <nav>
         <ul id="_nav-menu">
             <li data-duice-bind="_menus"
@@ -226,32 +231,26 @@
             </li>
         </ul>
     </nav>
+    <main>
+    </th:block>
     <!-- ====================================== -->
-    <!-- end: nav                               -->
+    <!-- end: _header                           -->
     <!-- ====================================== -->
 
-</th:block>
-
-<th:block th:fragment="_footer">
-
     <!-- ====================================== -->
-    <!-- start: aside                           -->
+    <!-- start: _footer                         -->
     <!-- ====================================== -->
+    <th:block th:fragment="_footer">
+    </main>
     <aside>
     </aside>
-    <!-- ====================================== -->
-    <!-- end: aside                             -->
-    <!-- ====================================== -->
-
-    <!-- ====================================== -->
-    <!-- start: footer                          -->
-    <!-- ====================================== -->
     <footer>
-        <img th:src="@{/static/_theme/{_theme}/image/copyright.png(_theme=${_theme})}" class="icon"/>
+        <img th:src="@{/static/_theme/{_theme}/static/image/copyright.png(_theme=${_theme})}" class="icon"/>
     </footer>
+    </th:block>
     <!-- ====================================== -->
-    <!-- end: footer                            -->
+    <!-- end: _footer                           -->
     <!-- ====================================== -->
 
-    </body>
-</th:block>
+</body>
+</html>

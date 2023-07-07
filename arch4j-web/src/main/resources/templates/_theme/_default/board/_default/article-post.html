@@ -54,7 +54,7 @@
 <!-- ================================================== -->
 <div class="grid grid-template-columns-12 margin-top-1em">
     <div class="grid-column-12 font-weight-bold">
-        <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-file.svg(_theme=${_theme})}"/>
+        <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-file.svg(_theme=${_theme})}"/>
         <span data-th-text="#{core.board.Article.files}"></span>
     </div>
     <div class="grid-column-12">
@@ -90,15 +90,15 @@
 <div class="grid grid-template-columns-12 padding-x-1em">
     <div class="grid-column-12 flex justify-content-center gap-1px">
         <button onclick="gotoCancel();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-cancel.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.cancel}"></span>
         </button>
         <button onclick="deleteArticle();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-delete.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-delete.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.deleteArticle}"></span>
         </button>
         <button onclick="saveArticle();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-save.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-save.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.saveArticle}"></span>
         </button>
     </div>

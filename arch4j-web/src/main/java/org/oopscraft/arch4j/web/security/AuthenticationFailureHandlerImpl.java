@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
 import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,7 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        int status = HttpServletResponse.SC_UNAUTHORIZED;
-        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, status, exception);
+        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, HttpStatus.UNAUTHORIZED, exception);
         errorResponseHandler.sendRestErrorResponse(response, errorResponse);
     }
 

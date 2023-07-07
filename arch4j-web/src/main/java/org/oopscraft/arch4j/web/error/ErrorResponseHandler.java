@@ -41,7 +41,7 @@ public class ErrorResponseHandler {
         return false;
     }
 
-    public ErrorResponse createErrorResponse(HttpServletRequest request, int status, Exception exception) {
+    public ErrorResponse createErrorResponse(HttpServletRequest request, HttpStatus status, Exception exception) {
         String messageId = String.format("web.error.%s", exception.getClass().getSimpleName());
         Locale locale = localeResolver.resolveLocale(request);
         String message = messageSource.getMessage(messageId, null, locale);
@@ -53,17 +53,16 @@ public class ErrorResponseHandler {
 
     public void sendRestErrorResponse(HttpServletResponse response, ErrorResponse errorResponse) throws IOException {
         response.setHeader("Content-Type", "application/json");
-        response.sendError(errorResponse.getStatus(), errorResponse.getMessage());
+        response.sendError(errorResponse.getStatus().value(), errorResponse.getMessage());
     }
 
     public void sendErrorResponse(HttpServletResponse response, ErrorResponse errorResponse) throws IOException {
-        response.sendError(errorResponse.getStatus(), errorResponse.getMessage());
+        response.sendError(errorResponse.getStatus().value(), errorResponse.getMessage());
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public void handleNoSuchElementException(HttpServletRequest request, HttpServletResponse response, NoSuchElementException exception) throws IOException {
-        int status = HttpStatus.NOT_FOUND.value();
-        ErrorResponse errorResponse = createErrorResponse(request, status, exception);
+        ErrorResponse errorResponse = createErrorResponse(request, HttpStatus.NOT_FOUND, exception);
         if(isRestRequest(request)) {
             sendRestErrorResponse(response, errorResponse);
         }else{

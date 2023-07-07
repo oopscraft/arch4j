@@ -12,7 +12,7 @@
 <h1 id="title" class="grid-column-1">
     <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" target="_parent">
         <img data-duice-bind="board" data-duice-property="icon" class="icon"
-             th:src="@{/static/_theme/{_theme}/image/icon-board.svg(_theme=${_theme})}"/>
+             th:src="@{/static/_theme/{_theme}/static/image/icon-board.svg(_theme=${_theme})}"/>
         <span data-duice-bind="board" data-duice-property="name"></span>
     </a>
 </h1>
@@ -26,7 +26,7 @@
 <div id="articles" data-duice-bind="articles" data-duice-loop="article,status" class="padding-1px border-top-1">
     <div>
         <span>
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-title.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="title"
                   onclick="gotoRead(this.dataset.articleId);" data-duice-execute="this.dataset.articleId=article.articleId;"
                   class="link font-weight-bold">
@@ -34,28 +34,28 @@
         </span>
         &nbsp;
         <span class="font-size-smaller">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-comment.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="commentCount" data-duice-format="number(0)"></span>
         </span>
         &nbsp;
         <span class="font-size-smaller">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-like.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-like.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="votePositiveCount" data-duice-format="number(0)"></span>
         </span>
         &nbsp;
         <span class="font-size-smaller">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-dislike.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-dislike.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
         </span>
     </div>
     <div>
         <span>
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-user.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
         </span>
         &nbsp;
         <span>
-            <img class="icon" th:src="@{/static/_theme/{_theme}/image/icon-created-at.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-created-at.svg(_theme=${_theme})}"/>
             <span data-duice-bind="article" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
         </span>
     </div>

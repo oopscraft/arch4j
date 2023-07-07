@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:inline="javascript">
+        /**
+         * goto article post
+         */
+        const gotoJoin = function() {
+            document.location.href = [[@{/login/join}]];
+        }
+    </script>
+</head>
+<body>
+    <th:block th:replace="|_theme/${_theme}/user/_user.html|"/>
+    <th:block layout:fragment="_main"/>
+</body>
+</html>

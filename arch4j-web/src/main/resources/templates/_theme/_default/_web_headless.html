@@ -1,0 +1,62 @@
+<html>
+<head>
+
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_script">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 75%;
+        }
+        main {
+            justify-self: center;
+            align-self: center;
+        }
+        @media screen and (max-width: 1023px) {
+            body {
+                display: grid;
+                grid-template-columns: 100%;
+                grid-template-rows: 100%;
+            }
+        }
+    </style>
+    <script th:inline="javascript">
+    </script>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+
+</head>
+<body>
+    <!-- ====================================== -->
+    <!-- start: _header                         -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_header">
+    <main>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- start: _header                         -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: _footer                         -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_footer">
+    </main>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- start: _footer                         -->
+    <!-- ====================================== -->
+</body>
+</html>

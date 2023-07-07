@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<main layout:fragment="_main">
+    <script th:inline="javascript">
+        // emailTemplate search condition
+        const emailTemplateSearch = new duice.ObjectProxy({
+            key: 'templateId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // emailTemplate list
+        const emailTemplates = new duice.ArrayProxy([]);
+
+        // emailTemplate
+        const emailTemplate = new duice.ObjectProxy({});
+        duice.ObjectProxy.setDisableAll(emailTemplate, true);
+        duice.ObjectProxy.onPropertyChanging(emailTemplate, async event => {
+            if (event.getProperty() === 'templateId') {
+                if (!await validateEmailTemplateId(event.getValue())) {
+                    duice.ObjectProxy.focus(emailTemplate, 'templateId');
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        /**
+         * getEmailTemplates
+         * @param page page
+         */
+        function getEmailTemplates(page) {
+            if(page) {
+                emailTemplateSearch._page = page;
+            }
+            let url = new URL([[@{/admin/email/get-email-templates}]], document.location.origin);
+            if (emailTemplateSearch.key && emailTemplateSearch.value) {
+                url.searchParams.append(emailTemplateSearch.key, emailTemplateSearch.value);
+            }
+            url.searchParams.append('_page', emailTemplateSearch._page);
+            url.searchParams.append('_size', emailTemplateSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(emailTemplates);
+                    duice.ArrayProxy.assign(emailTemplates, data.content);
+                    emailTemplateSearch._count = data.totalElements;
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(emailTemplates, emailTemplates.findIndex(item => item.templateId === emailTemplate.templateId));
+                });
+        }
+
+        /**
+         * resetEmailTemplates
+         */
+        function resetEmailTemplates() {
+            duice.ObjectProxy.reset(emailTemplateSearch);
+            getEmailTemplates();
+        }
+
+        /**
+         * getEmailTemplate
+         * @param templateId emailTemplate.templateId
+         */
+        function getEmailTemplate(templateId) {
+            let url = new URL([[@{/admin/email/get-email-template}]], document.location.origin);
+            url.searchParams.append('templateId', templateId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(emailTemplate, data);
+                    duice.ObjectProxy.setDisableAll(emailTemplate, false);
+                    duice.ObjectProxy.setReadonly(emailTemplate, 'templateId', true);
+                    emailTemplate._new = false;
+                });
+        }
+
+        /**
+         * createEmailTemplate
+         */
+        function createEmailTemplate() {
+            duice.ObjectProxy.clear(emailTemplate);
+            duice.ObjectProxy.assign(emailTemplate, {
+                _new: true
+            });
+            duice.ObjectProxy.setDisableAll(emailTemplate, false);
+            duice.ObjectProxy.setReadonly(emailTemplate, 'templateId', false);
+            duice.ObjectProxy.focus(emailTemplate, 'templateId');
+        }
+
+        /**
+         * validateEmailTemplateId
+         * @param templateId emailTemplate.templateId
+         * @returns {Promise<boolean>}
+         */
+        async function validateEmailTemplateId(templateId) {
+
+            // check blank
+            if (!templateId) {
+                await _alert([[#{web.global.itemEmpty(#{core.email.EmailTemplate.templateId})}]]);
+                duice.ObjectProxy.focus(emailTemplate, 'templateId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL([[@{/admin/email/get-email-template}]], document.location.origin);
+            url.searchParams.append('templateId', templateId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let emailTemplate = await response.json();
+                if (emailTemplate) {
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.email.EmailTemplate.templateId})}]]);
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
+        }
+
+        /**
+         * saveEmailTemplate
+         */
+        async function saveEmailTemplate() {
+
+            // if new, checks id
+            if (emailTemplate._new) {
+                if (!await validateEmailTemplateId(emailTemplate.templateId)) {
+                    return false;
+                }
+            }
+
+            // checks name
+            if (!emailTemplate.templateName || emailTemplate.templateName.trim().length < 1) {
+                await _alert([[#{web.global.itemEmpty(#{core.email.EmailTemplate.templateName})}]]);
+                duice.ObjectProxy.focus(emailTemplate, 'templateName');
+                return false;
+            }
+
+            // call save
+            _confirm([[#{web.global.saveItemConfirm(#{core.email.EmailTemplate})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/email/save-email-template}]], document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(emailTemplate)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.saveItemComplete(#{core.email.EmailTemplate})}]]).then(() => {
+                                getEmailTemplates();
+                                getEmailTemplate(emailTemplate.templateId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * deleteEmailTemplate
+         */
+        function deleteEmailTemplate() {
+            _confirm([[#{web.global.deleteItemConfirm(#{core.email.EmailTemplate})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/email/delete-email-template}]], document.location.origin);
+                    url.searchParams.append('templateId', emailTemplate.templateId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.deleteItemComplete(#{core.email.EmailTemplate})}]]).then(() => {
+                                getEmailTemplates();
+                                duice.ObjectProxy.clear(emailTemplate);
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getEmailTemplates();
+        });
+    </script>
+
+    <!-- ====================================== -->
+    <!-- start: title                           -->
+    <!-- ====================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-email.svg}"/>
+        <span data-th-text="#{web.admin.email}"></span>
+    </h1>
+    <!-- ====================================== -->
+    <!-- end: title                             -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: emailTemplate content           -->
+    <!-- ====================================== -->
+    <div id="emailTemplateContent" class="grid grid-template-columns-3 grid-gap-1em">
+
+        <!-- ====================================== -->
+        <!-- start: emailTemplate list                   -->
+        <!-- ====================================== -->
+        <div id="emailTemplateList" class="grid-column-1 s-grid-column-3">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <span data-th-text="#{web.global.list}"></span>
+                </h2>
+                <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
+                    <div class="grid-column-2 s-grid-column-1 flex gap-1px s-flex-direction-column">
+                        <div class="grid grid-template-columns-3 grid-gap-1px">
+                            <select data-duice-bind="emailTemplateSearch" data-duice-property="key" class="grid-column-1">
+                                <option value="templateId" th:text="#{core.email.EmailTemplate.templateId}"></option>
+                                <option value="name" th:text="#{core.email.EmailTemplate.templateName}"></option>
+                            </select>
+                            <input type="text" data-duice-bind="emailTemplateSearch" data-duice-property="value"
+                                   th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
+                        </div>
+                    </div>
+                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-flex-direction-column">
+                        <button onclick="getEmailTemplates();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button onclick="resetEmailTemplates();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x-auto border-1">
+                    <table class="border-0">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{core.email.EmailTemplate.templateId}"></th>
+                            <th data-th-text="#{core.email.EmailTemplate.templateName}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="emailTemplates" data-duice-loop="emailTemplate,status"
+                            data-duice-selected-item-class="selected" data-duice-execute="
+                        this.dataset.templateId=emailTemplate.templateId;
+                        " onclick="getEmailTemplate(this.dataset.templateId);" class="link">
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align-center"></td>
+                            <td data-duice-bind="emailTemplate" data-duice-property="templateId" class="font-weight-bold"></td>
+                            <td data-duice-bind="emailTemplate" data-duice-property="templateName"></td>
+                        </tr>
+                        <tr data-duice-bind="emailTemplates"
+                            data-duice-execute="if(emailTemplates.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align-center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid grid-template-columns-3 margin-top-1em">
+                    <div class="grid-column-1 font-size-smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="emailTemplateSearch" data-duice-property="_count"
+                              data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="grid-column-1 flex justify-content-center">
+                        <duice-pagination
+                                data-duice-bind="emailTemplateSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getEmailTemplates(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
+                    <div class="grid-column-1 flex justify-content-flex-end">
+                        <button onclick="createEmailTemplate();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: emailTemplate list                     -->
+        <!-- ====================================== -->
+
+        <!-- ====================================== -->
+        <!-- start: emailTemplate detail                 -->
+        <!-- ====================================== -->
+        <div id="emailTemplateDetail" class="grid-column-2 s-grid-column-3">
+            <div class="border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <span data-th-text="#{web.global.detail}"></span>
+                </h2>
+                <div class="grid grid-template-columns-12 grid-gap-1px grid-column-gap-1em">
+                    <div class="grid-column-2 s-grid-column-12">
+                        <span data-th-text="#{core.email.EmailTemplate.templateId}"
+                              class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="grid-column-4 s-grid-column-12">
+                        <input type="text" data-duice-bind="emailTemplate" data-duice-property="templateId"
+                               class="width-100 font-weight-bold"/>
+                    </div>
+                    <div class="grid-column-2 s-grid-column-12">
+                        <span data-th-text="#{core.email.EmailTemplate.templateName}"
+                              class="font-weight-bold tag-required"></span>
+                    </div>
+                    <div class="grid-column-4 s-grid-column-12">
+                        <input type="text" data-duice-bind="emailTemplate" data-duice-property="templateName"
+                               class="width-100"/>
+                    </div>
+                    <div class="grid-column-12 s-grid-column-12">
+                        <span data-th-text="#{core.email.EmailTemplate.subject}"></span>
+                    </div>
+                    <div class="grid-column-12 s-grid-column-12">
+                        <input type="text" data-duice-bind="emailTemplate" data-duice-property="subject" class="width-100"/>
+                    </div>
+                    <div class="grid-column-12 s-grid-column-12">
+                        <span data-th-text="#{core.email.EmailTemplate.content}" class="font-weight-bold"></span>
+                    </div>
+                    <div class="grid-column-12 s-grid-column-12">
+                            <textarea data-duice-bind="emailTemplate" data-duice-property="content" rows="4"
+                                      class="width-100 height-100"></textarea>
+                    </div>
+                </div>
+                <div class="grid grid-template-columns-2 margin-top-1em">
+                    <div class="grid-column-1"></div>
+                    <div class="grid-column-1 flex justify-content-flex-end gap-1px">
+                        <button onclick="deleteEmailTemplate();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
+                                data-duice-bind="emailTemplate"
+                                data-duice-execute="(emailTemplate.templateId && !emailTemplate._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button onclick="saveEmailTemplate();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
+                                data-duice-bind="emailTemplate"
+                                data-duice-execute="(emailTemplate.templateId || emailTemplate._new) ? this.disabled=false : this.disabled=true;">
+
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: emailTemplate detail                   -->
+        <!-- ====================================== -->
+
+    </div>
+    <!-- ====================================== -->
+    <!-- end: emailTemplate content                  -->
+    <!-- ====================================== -->
+
+</main>

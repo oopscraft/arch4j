@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("login/social/google")
+@RequestMapping("user/login/social/google")
 public class GoogleController {
 
     @GetMapping

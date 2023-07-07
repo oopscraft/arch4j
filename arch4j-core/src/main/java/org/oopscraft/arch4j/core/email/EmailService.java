@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.core.email;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.email.dao.EmailTemplateEntity;
-import org.oopscraft.arch4j.core.email.dao.EmailTemplateRepository;
-import org.oopscraft.arch4j.core.email.dao.EmailTemplateSpecification;
+import org.oopscraft.arch4j.core.email.dao.*;
+import org.oopscraft.arch4j.core.message.MessageSource;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,25 +11,43 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailService implements InitializingBean {
 
     private final EmailTemplateRepository emailTemplateRepository;
 
+    private final EmailVerificationRepository emailVerificationRepository;
+
     private final JavaMailSender javaMailSender;
+
+    private final MessageSource messageSource;
+
+    private SpringTemplateEngine templateEngine;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateEngineMessageSource(messageSource);
+        templateEngine.setMessageSource(messageSource);
+        templateEngine.setEnableSpringELCompiler(true);
+        StringTemplateResolver templateResolver = new StringTemplateResolver();
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateEngine.setTemplateResolver(templateResolver);
+    }
 
     /**
      * save email template
@@ -47,7 +65,7 @@ public class EmailService {
                     .build();
         }
 
-        emailTemplateEntity.setTemplateId(emailTemplate.getTemplateName());
+        emailTemplateEntity.setTemplateName(emailTemplate.getTemplateName());
         emailTemplateEntity.setSubject(emailTemplate.getSubject());
         emailTemplateEntity.setContent(emailTemplate.getContent());
 
@@ -100,30 +118,16 @@ public class EmailService {
     }
 
     /**
-     * process template
-     * @param template template content
-     * @param variables bind variables
-     * @return processed content
-     */
-    private String processTemplate(String template, Map<String,Object> variables) {
-        TemplateEngine templateEngine = new TemplateEngine();
-        StringTemplateResolver templateResolver = new StringTemplateResolver();
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateEngine.setTemplateResolver(templateResolver);
-        Context context = new Context();
-        variables.forEach(context::setVariable);
-        return templateEngine.process(template, context);
-    }
-
-    /**
      * send email with email template
      * @param to to email address
      * @param emailTemplate email template object
      * @throws EmailException email exception
      */
     public void sendEmailWidthTemplate(String to, EmailTemplate emailTemplate) throws EmailException {
-        String subject = processTemplate(emailTemplate.getSubject(), emailTemplate.getVariables());
-        String content = processTemplate(emailTemplate.getContent(), emailTemplate.getVariables());
+        Context context = new Context();
+        emailTemplate.getVariables().forEach(context::setVariable);
+        String subject = templateEngine.process(emailTemplate.getSubject(), context);
+        String content = templateEngine.process(emailTemplate.getContent(), context);
         sendEmail(to, subject, content);
     }
 
@@ -145,6 +149,51 @@ public class EmailService {
             throw new EmailException(e.getMessage(), e);
         }
         javaMailSender.send(mimeMessage);
+    }
+
+    /**
+     * issue email verification
+     * @param email email
+     */
+    public void issueEmailVerification(String email) {
+
+        // answer
+        SecureRandom random = new SecureRandom();
+        String answer = String.valueOf(100000 + random.nextInt(89999));
+
+        // send email
+        EmailTemplate emailTemplate = getEmailTemplate("VERIFICATION").orElseThrow();
+        emailTemplate.addVariable("answer", answer);
+        try {
+            sendEmailWidthTemplate(email, emailTemplate);
+        } catch (Throwable t) {
+            try {
+                sendEmail(email, "Email Verification Answer", answer);
+            } catch (EmailException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        // save entity
+        EmailVerificationEntity emailVerificationEntity = EmailVerificationEntity.builder()
+                .email(email)
+                .issuedAt(LocalDateTime.now())
+                .answer(answer)
+                .build();
+        emailVerificationRepository.saveAndFlush(emailVerificationEntity);
+    }
+
+    /**
+     * check email verification
+     * @param email email
+     * @param answer answer
+     */
+    public void checkEmailVerification(String email, String answer) {
+        EmailVerificationEntity emailVerificationEntity = emailVerificationRepository.findById(email).orElseThrow();
+        if(answer.contentEquals(emailVerificationEntity.getAnswer())) {
+            return;
+        }
+        throw new RuntimeException("answer is correct");
     }
 
 }

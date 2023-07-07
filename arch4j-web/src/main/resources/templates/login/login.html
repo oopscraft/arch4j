@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="login/_login.html">
-<th:block layout:fragment="_main">
+<th:block layout:fragment="_login_content">
     <script th:inline="javascript">
     const login = new duice.ObjectProxy({
         username: null,

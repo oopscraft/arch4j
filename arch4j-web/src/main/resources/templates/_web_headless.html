@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/codemirror.css?version={version}(version=${_scriptVersion})}">
+    <script th:src="@{/static/codemirror/codemirror.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/markdown/markdown.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:inline="javascript">
+        const _rootUrl = [[@{/}]].replace('/','');
+        const _apiUrl = [[@{/api}]];
+        const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
+        const _user = new duice.ObjectProxy({
+            userId: [[${_user.userId}]],
+            name: [[${_user.name}]],
+            photo: [[${_user.photo}]]
+        });
+        const _locales = new duice.ArrayProxy([[${_locales}]]);
+        const _menus = new duice.ArrayProxy([]);
+
+        /**
+         * home
+         */
+        function _home() {
+            document.location.href = [[@{/}]];
+        }
+
+        /**
+         * login
+         * @private
+         */
+        function _login() {
+            document.location.href = [[@{/login}]];
+        }
+
+        /**
+         * logout
+         */
+        function _logout() {
+            document.location.href = [[@{/logout}]];
+        }
+
+        /**
+         * get menus
+         * @private
+         */
+        function _getMenus() {
+            let url = new URL(`${_apiUrl}/v1/menu`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(_menus);
+                    duice.ArrayProxy.assign(_menus, data);
+                });
+        }
+
+        // on load
+        document.addEventListener('DOMContentLoaded', event => {
+            _getMenus();
+        });
+    </script>
+    <!-- ============================================== -->
+    <!-- start: fragment::_script                       -->
+    <!-- ============================================== -->
+    <th:block th:include="|_theme/${_theme}/_web_headless.html| :: _script"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_script                         -->
+    <!-- ============================================== -->
+</head>
+<body>
+    <!-- ============================================== -->
+    <!-- start: fragment::_header                       -->
+    <!-- ============================================== -->
+    <th:block th:replace="|_theme/${_theme}/_web_headless.html| :: _header"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_header                         -->
+    <!-- ============================================== -->
+
+    <!-- ============================================== -->
+    <!-- start: fragment::_content                      -->
+    <!-- ============================================== -->
+    <div layout:fragment="_content"></div>
+    <!-- ============================================== -->
+    <!-- end: fragment::_content                        -->
+    <!-- ============================================== -->
+
+    <!-- ============================================== -->
+    <!-- end: fragment::_footer                         -->
+    <!-- ============================================== -->
+    <th:block th:replace="|_theme/${_theme}/_web_headless.html| :: _footer"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_footer                         -->
+    <!-- ============================================== -->
+</body>
+</html>

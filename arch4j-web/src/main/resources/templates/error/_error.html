@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
-    <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_web_headless.html">
+<th:block layout:fragment="_content">
     <th:block th:replace="|_theme/${_theme}/error/_error.html|"/>
-    <th:block layout:fragment="_main"/>
-</body>
-</html>
+    <th:block layout:fragment="_error_content"/>
+</th:block>

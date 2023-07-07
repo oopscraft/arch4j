@@ -69,23 +69,38 @@
         document.addEventListener('DOMContentLoaded', event => {
             _getMenus();
         });
-
     </script>
+    <!-- ============================================== -->
+    <!-- start: fragment::_script                       -->
+    <!-- ============================================== -->
+    <th:block th:include="|_theme/${_theme}/_web.html| :: _script"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_script                         -->
+    <!-- ============================================== -->
 </head>
+<body>
+    <!-- ============================================== -->
+    <!-- start: fragment::_header                       -->
+    <!-- ============================================== -->
+    <th:block th:replace="|_theme/${_theme}/_web.html| :: _header"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_header                         -->
+    <!-- ============================================== -->
 
-<!-- header -->
-<th:block th:include="|_theme/${_theme}/_web.html| :: _header"/>
+    <!-- ============================================== -->
+    <!-- start: fragment::_content                      -->
+    <!-- ============================================== -->
+    <div layout:fragment="_content"></div>
+    <!-- ============================================== -->
+    <!-- end: fragment::_content                        -->
+    <!-- ============================================== -->
 
-<!-- auto completion off -->
-<div style="width:0; height:0; overflow:hidden;">
-    <input type="text"/>
-    <input type="password"/>
-</div>
-
-<!-- main -->
-<main layout:fragment="_main"/>
-
-<!-- footer -->
-<th:block th:include="|_theme/${_theme}/_web.html| :: _footer"/>
-
+    <!-- ============================================== -->
+    <!-- end: fragment::_footer                         -->
+    <!-- ============================================== -->
+    <th:block th:replace="|_theme/${_theme}/_web.html| :: _footer"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_footer                         -->
+    <!-- ============================================== -->
+</body>
 </html>

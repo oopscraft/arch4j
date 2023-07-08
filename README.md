@@ -19,13 +19,9 @@ Access the system administration console by visiting /admin.
 
 Theming functionality based on Thymeleaf templates.
 
-### Users
+### User/Role/Authority with Spring Security
 
-User-related functionality integrated with Spring Security.
-
-### Role Groups/Roles
-
-Dynamic role group/role information functionality integrated with Spring Security.
+Database-based User, Role, Authority functionality with Spring Security.
 
 ### Multiple Bulletin Boards
 

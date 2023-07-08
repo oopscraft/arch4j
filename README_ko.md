@@ -10,21 +10,17 @@ user/password: admin/admin, dev/dev
 
 제공되는 주요기능은 다음과 같다.
 
-## 관리자 웹콘솔 기능
+### 관리자 웹콘솔 기능
 
 /admin 으로 접속 시 시스템 관리콘솔 접속
 
-## 테마기능
+### 테마기능
 
 Thymeleaf 템플릿 기반 테마 기능
 
-### 사용자
+### 사용자/권한그룹/권한 기능
 
-Spring Security 연동 사용자 관련 기능
-
-### 권한그룹/권한
-
-Spring Security 연동 동적 권한그룹/권한 정보 기능
+데이터베이스 + Spring Security 기반 사용자, 역할, 권한 기능
 
 ### 다중 게시판
 

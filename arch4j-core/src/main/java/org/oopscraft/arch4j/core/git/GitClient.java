@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -15,18 +17,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GitClient {
 
-
     private final GitProperties gitProperties;
 
-    /**
-     * return git local directory path
-     * @param git git info
-     * @return git directory path
-     */
-    public String getGitLocalDirectoryPath(Git git) {
-        return gitProperties.getLocation()
-                + File.separator
-                + git.getGitId();
+    public String getDirectoryName(Git git) {
+        return IdGenerator.md5(git.getUrl() + '#' + git.getBranch());
+    }
+
+    public File getDirectory(Git git) {
+        return new File(gitProperties.getLocation() + getDirectoryName(git));
     }
 
     /**
@@ -34,12 +32,11 @@ public class GitClient {
      * @param git git info
      */
     public void gitClone(Git git) {
-        File directory = new File(gitProperties.getLocation() + File.separator + git.getGitId());
         try {
             org.eclipse.jgit.api.Git.cloneRepository()
                     .setURI(git.getUrl())
                     .setBranch(git.getBranch())
-                    .setDirectory(new File(getGitLocalDirectoryPath(git)))
+                    .setDirectory(getDirectory(git))
                     .call();
         } catch (GitAPIException e) {
             throw new RuntimeException(e);
@@ -54,7 +51,9 @@ public class GitClient {
      */
     public void gitPull(Git git) throws IOException, GitAPIException {
         FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
-        Repository repository = repositoryBuilder.setGitDir(new File(getGitLocalDirectoryPath(git) + "/.git"))
+        File gitDir = new File(getDirectory(git).getAbsolutePath() + File.separator + ".git");
+        Repository repository = repositoryBuilder
+                .setGitDir(gitDir)
                 .readEnvironment()
                 .findGitDir()
                 .build();

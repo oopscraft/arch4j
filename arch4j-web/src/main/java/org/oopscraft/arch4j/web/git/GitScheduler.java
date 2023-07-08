@@ -31,7 +31,7 @@ public class GitScheduler {
     /**
      * synchronize git repositories
      */
-    @Scheduled(fixedDelay = 1000*10, initialDelay = 1000*10)
+    @Scheduled(fixedDelay = 1000*10)
     public void synchronizeGits() {
         List<Git> gits = gitService.getGits();
         for(Git git : gits) {
@@ -44,7 +44,7 @@ public class GitScheduler {
 
         // delete data not existing
         getExistingGitLocalDirectories().forEach(gitLocalDirectory -> {
-            if(gits.stream().noneMatch(git->git.getGitId().equals(gitLocalDirectory.getName()))) {
+            if(gits.stream().noneMatch(git -> gitClient.getDirectoryName(git).equals(gitLocalDirectory.getName()))) {
                 try {
                     FileUtils.deleteDirectory(gitLocalDirectory);
                 } catch (IOException e) {
@@ -60,7 +60,7 @@ public class GitScheduler {
      * @throws Exception exception
      */
     private void synchronizeGit(Git git) throws Exception {
-        String gitDirectory = gitClient.getGitLocalDirectoryPath(git);
+        String gitDirectory = gitProperties.getLocation() + gitClient.getDirectoryName(git);
         if(!new File(gitDirectory).exists()) {
             gitClient.gitClone(git);
         }else{

@@ -84,7 +84,7 @@ springdoc:
 # web
 web:
   theme: _default
-  index: page/home
+  index: git/arch4j/README.md
   security-policy: ~
   locales:
     - en_US

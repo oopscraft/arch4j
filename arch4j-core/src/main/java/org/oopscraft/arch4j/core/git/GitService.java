@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.git;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.git.dao.GitEntity;
 import org.oopscraft.arch4j.core.git.dao.GitRepository;
 import org.springframework.data.domain.Page;

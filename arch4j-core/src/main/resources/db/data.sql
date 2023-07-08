@@ -89,7 +89,7 @@ insert into `core_code` (`code_id`,`name`,`note`) values ('test2','test code 2',
 insert into `core_code` (`code_id`,`name`,`note`) values ('test3','test code 3','test code 3');
 
 -- git
-insert into `core_git` (`git_id`,`git_name`,`note`,`url`,`branch`) values ('test', 'Test', 'Test repository','https://github.com/chomookun/note.git', 'main');
+insert into `core_git` (`git_id`,`git_name`,`note`,`url`,`branch`) values ('arch4j', 'arch4j repository', 'Arch4j Github Repository','https://github.com/oopscraft/arch4j.git', null);
 
 -- board
 insert into `core_board` (

@@ -2,8 +2,11 @@ package org.oopscraft.arch4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -20,6 +23,26 @@ public class IdGenerator {
      */
     public static String uuid() {
         return UUID.randomUUID().toString().replaceAll("-","");
+    }
+
+    /**
+     * md5
+     * @param value plain value
+     * @return md5 hash string
+     */
+    public static String md5(String value) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(value.getBytes(StandardCharsets.UTF_8));
+            BigInteger number = new BigInteger(1, messageDigest);
+            StringBuilder md5Hash = new StringBuilder(number.toString(16));
+            while (md5Hash.length() < 32) {
+                md5Hash.insert(0, '0');
+            }
+            return md5Hash.toString();
+        } catch(NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

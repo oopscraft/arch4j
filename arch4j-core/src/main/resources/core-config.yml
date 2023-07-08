@@ -88,9 +88,9 @@ core:
     storage-client:
       bean: defaultStorageClient
       properties:
-        location: ./.tmp/storage
+        location: ./.tmp/storage/
   git:
-    location: ./.tmp/git
+    location: ./.tmp/git/
 
 
 

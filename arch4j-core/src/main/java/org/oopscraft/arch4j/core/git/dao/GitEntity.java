@@ -33,7 +33,4 @@ public class GitEntity extends SystemFieldEntity {
     @Column(name = "branch", length = 32)
     private String branch;
 
-    @Column(name = "path")
-    private String path;
-
 }

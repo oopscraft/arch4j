@@ -136,10 +136,6 @@ small {
     font-size: smaller;
 }
 
-a {
-    text-decoration: none;
-}
-
 /* input */
 input {
     border: var(--web-element-border);

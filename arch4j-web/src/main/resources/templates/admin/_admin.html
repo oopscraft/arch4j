@@ -234,7 +234,7 @@
             <li>
                 <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
                 <select onchange="_changeLanguage(this.value);">
-                    <option>- language -</option>
+                    <option value>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                 </select>
             </li>

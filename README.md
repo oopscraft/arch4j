@@ -25,7 +25,7 @@ Database-based User, Role, Authority functionality with Spring Security.
 
 ### Multiple Bulletin Boards
 
-Multiple bulletin board functionality with file attachments and comments.
+Multiple bulletin board functionality with skin, file attachments and comments.
 
 ### Dynamic Page Composition
 

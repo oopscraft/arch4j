@@ -14,6 +14,7 @@ logging:
     jdbc.sqlonly: OFF
     jdbc.resultsettable: OFF
     faker: OFF
+    org.eclipse.jgit.internal.storage.file.FileSnapshot: INFO
 
 # spring
 spring:
@@ -87,8 +88,9 @@ core:
     storage-client:
       bean: defaultStorageClient
       properties:
-        location: ./tmp
-
+        location: ./.tmp/storage
+  git:
+    location: ./.tmp/git
 
 
 

@@ -17,6 +17,8 @@ insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_BOARD_EDIT','Y','Board Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_PAGE','Y','Page Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_PAGE_EDIT','Y','Page Edit Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_GIT','Y','Git Access Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_GIT_EDIT','Y','Git Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_EMAIL','Y','Email Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ADMIN_EMAIL_EDIT','Y','Email Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`name`) values ('ACTUATOR','Y','Actuator Access Authority');
@@ -43,6 +45,8 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'A
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_BOARD_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_PAGE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_PAGE_EDIT');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_GIT');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_GIT_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_EMAIL');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_EMAIL_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ACTUATOR');
@@ -58,6 +62,7 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADM
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_PAGE');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_GIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_EMAIL');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'H2-CONSOLE');
@@ -82,6 +87,9 @@ insert into `core_variable` (`variable_id`,`name`,`value`) values ('test3', 'tes
 insert into `core_code` (`code_id`,`name`,`note`) values ('test1','test code 1','test code 1');
 insert into `core_code` (`code_id`,`name`,`note`) values ('test2','test code 2','test code 2');
 insert into `core_code` (`code_id`,`name`,`note`) values ('test3','test code 3','test code 3');
+
+-- git
+insert into `core_git` (`git_id`,`git_name`,`note`,`url`,`branch`) values ('test', 'Test', 'Test repository','https://github.com/chomookun/note.git', 'main');
 
 -- board
 insert into `core_board` (

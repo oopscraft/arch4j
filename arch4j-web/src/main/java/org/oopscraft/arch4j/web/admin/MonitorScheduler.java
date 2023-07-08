@@ -27,7 +27,7 @@ public class MonitorScheduler {
     /**
      * collect cpu info
      */
-    @Scheduled(fixedRate = 1000*10)
+    @Scheduled(fixedDelay = 1000*10)
     public void collectCpu() {
         Map<String,Object> cpu = new LinkedHashMap<>();
         cpu.put("time", System.currentTimeMillis());
@@ -42,7 +42,7 @@ public class MonitorScheduler {
     /**
      * collect memory info
      */
-    @Scheduled(fixedRate = 1000*10)
+    @Scheduled(fixedDelay = 1000*10)
     public void collectMemory() {
         Map<String,Object> memory = new LinkedHashMap<>();
         memory.put("time", System.currentTimeMillis());
@@ -59,7 +59,7 @@ public class MonitorScheduler {
     /**
      * collect disk info
      */
-    @Scheduled(fixedRate = 1000*10)
+    @Scheduled(fixedDelay = 1000*10)
     public void collectDisk() {
         Map<String,Object> disk = new LinkedHashMap<>();
         disk.put("time", System.currentTimeMillis());

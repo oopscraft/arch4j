@@ -79,6 +79,9 @@ dependencies {
     // mail
     api 'com.icegreen:greenmail'
 
+    // jgit
+    api 'org.eclipse.jgit:org.eclipse.jgit'
+
 }
 
 test {

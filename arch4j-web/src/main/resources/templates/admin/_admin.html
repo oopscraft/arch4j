@@ -269,6 +269,10 @@
                 <img class="icon" th:src="@{/static/image/icon-page.svg}"/>
                 <span data-th-text="#{web.admin.page}"></span>
             </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/git}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_GIT'')')}?'locked'">
+                <img class="icon" th:src="@{/static/image/icon-git.svg}"/>
+                <span data-th-text="#{web.admin.git}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/menu}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
                 <span data-th-text="#{web.admin.menu}"></span>

@@ -95,15 +95,14 @@ jib {
     container {
         format = 'OCI'
         creationTime = "USE_CURRENT_TIMESTAMP"
-        workingDirectory = '/app'
         ports = ['8080']
         jvmFlags = ["-Dfile.encoding=UTF-8"]
     }
     extraDirectories {
         paths {
             path {
-                from = file('src/dist')
-                into = '/app'
+                from = file('src/dist/config')
+                into = '/config'
             }
         }
     }

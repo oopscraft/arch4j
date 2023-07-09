@@ -5,6 +5,8 @@
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
     --web-font-family: sans-serif;
+    --web-font-weight-bold: 500;
+    --web-ancher-color: blue;
     /* element(input,select...) */
     --web-element-border: solid 1px lightgray;
     --web-element-border-radius: 1px;
@@ -33,6 +35,8 @@
     /* global */
     --web-background-color: #202124;
     --web-font-color: #eeeeee;
+    --web-font-weight-bold: 700;
+    --web-ancher-color: #a9b8f6;
     /* element(input,select...) */
     --web-element-border: solid 1px #555;
     --web-element-focus-border: solid 1px #aaa;
@@ -114,20 +118,17 @@ body {
 
 /* anchor */
 a {
-    color: blue;
-    font-weight: 600;
+    color: var(--web-ancher-color);
+    font-weight: var(--web-font-weight-bold);
     text-decoration: underline;
     cursor: pointer;
-}
-a:visited {
-    color: purple; /* 방문한 링크의 텍스트 색상 */
 }
 
 /* heading */
 h1,h2,h3,h4,h5,h6 {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    font-weight: var(--web-font-weight-bold);
 }
 h1 {
     font-size: 1.7rem;
@@ -813,7 +814,7 @@ hr {
 
 /* font */
 .font-weight-bold {
-    font-weight: 600 !important;
+    font-weight: var(--web-font-weight-bold) !important;
 }
 .font-weight-normal {
     font-weight: 400 !important;

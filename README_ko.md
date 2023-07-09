@@ -2,7 +2,9 @@
 
 ## 데모 사이트
 
-[https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
+* 서비스 페이지: [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
+
+* 관리자 콘솔: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
 
 user/password: dev/dev
 

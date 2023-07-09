@@ -43,7 +43,7 @@ core:
   storage:
     storage-client:
       properties:
-        location: /nfs/arch4j/storage
+        location: /nfs/arch4j/storage/
   git:
-    location: /nfs/arch4j/git
+    location: /.tmp/arch4j/git/
 

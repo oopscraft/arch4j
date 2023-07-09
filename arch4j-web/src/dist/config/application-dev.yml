@@ -45,5 +45,5 @@ core:
       properties:
         location: /nfs/arch4j/storage/
   git:
-    location: /nfs/arch4j/git/
+    location: /.tmp/arch4j/git/
 

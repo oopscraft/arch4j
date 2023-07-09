@@ -11,12 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class LoginController {
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView login() {
         return new ModelAndView("admin/login.html");
     }
 

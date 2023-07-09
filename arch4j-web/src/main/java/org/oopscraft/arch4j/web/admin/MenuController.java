@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,32 +32,19 @@ public class MenuController {
 
     private final RoleService roleService;
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView menu() {
         ModelAndView modelAndView = new ModelAndView("admin/menu.html");
         modelAndView.addObject("menuTargets", MenuTarget.values());
         return modelAndView;
     }
 
-    /**
-     * get menus
-     * @return menus
-     */
     @GetMapping("get-menus")
     @ResponseBody
     public Page<Menu> getMenus(MenuSearch menuSearch, Pageable pageable) {
         return menuService.getMenus(menuSearch, pageable);
     }
 
-    /**
-     * get menu
-     * @param menuId menu id
-     * @return menu
-     */
     @GetMapping("get-menu")
     @ResponseBody
     public Menu getMenu(@RequestParam("menuId")String menuId) {
@@ -64,12 +52,9 @@ public class MenuController {
                 .orElseThrow();
     }
 
-    /**
-     * saves menu
-     * @param menu menu info
-     */
     @PostMapping("save-menu")
     @ResponseBody
+    @Transactional
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public Menu saveMenu(@RequestBody @Valid Menu menu) {
         if(menu.getMenuId() == null) {
@@ -78,22 +63,14 @@ public class MenuController {
         return menuService.saveMenu(menu);
     }
 
-    /**
-     * deletes menu
-     * @param menuId menu id
-     */
     @GetMapping("delete-menu")
     @ResponseBody
+    @Transactional
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public void deleteMenu(@RequestParam("menuId")String menuId) {
         menuService.deleteMenu(menuId);
     }
 
-    /**
-     * get roles
-     * @param roleSearch role search condition
-     * @param pageable page info
-     */
     @GetMapping("get-roles")
     @ResponseBody
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,15 +40,17 @@ public class GitController {
     }
 
     @PostMapping("save-git")
-    @PreAuthorize("hasAuthority('ADMIN_GIT')")
     @ResponseBody
+    @Transactional
+    @PreAuthorize("hasAuthority('ADMIN_GIT')")
     public Git saveGit(@RequestBody @Valid Git git) {
         return gitService.saveGit(git);
     }
 
     @GetMapping("delete-git")
-    @PreAuthorize("hasAuthority('ADMIN_GIT_EDIT')")
     @ResponseBody
+    @Transactional
+    @PreAuthorize("hasAuthority('ADMIN_GIT_EDIT')")
     public void deleteGit(@RequestParam("gitId")String gitId) {
         gitService.deleteGit(gitId);
     }

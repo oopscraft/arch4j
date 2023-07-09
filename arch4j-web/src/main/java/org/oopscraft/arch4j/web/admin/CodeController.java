@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,30 +20,17 @@ public class CodeController {
 
     private final CodeService codeService;
 
-    /**
-     * index
-     * @return view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView code() {
         return new ModelAndView("admin/code.html");
     }
 
-    /**
-     * get code
-     * @return code list
-     */
     @GetMapping("get-codes")
     @ResponseBody
     public Page<Code> getCodes(CodeSearch codeSearch, Pageable pageable) {
         return codeService.getCodes(codeSearch, pageable);
     }
 
-    /**
-     * get property
-     * @param codeId code id
-     * @return code
-     */
     @GetMapping("get-code")
     @ResponseBody
     public Code getCode(@RequestParam("codeId")String codeId) {
@@ -50,24 +38,18 @@ public class CodeController {
                 .orElseThrow();
     }
 
-    /**
-     * saves code
-     * @param code code info
-     */
     @PostMapping("save-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
+    @Transactional
     public Code saveCode(@RequestBody Code code) {
         return codeService.saveCode(code);
     }
 
-    /**
-     * deletes code
-     * @param codeId code id
-     */
     @GetMapping("delete-code")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_CODE_EDIT')")
+    @Transactional
     public void deleteCode(@RequestParam("codeId")String codeId) {
         codeService.deleteCode(codeId);
     }

@@ -16,14 +16,14 @@
     <div class="grid grid-template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none">
         <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-grid-column-0"></div>
         <div data-th-text="#{core.board.Article.title}" class="grid-column-9 s-grid-column-12"></div>
-        <span class="grid-column-2 justify-right padding-right-1em s-grid-column-0">
+        <span class="grid-column-2 padding-right-1em">
             <span data-th-text="#{core.board.Article.userName}"></span>
             |
             <span data-th-text="#{core.board.Article.createdAt}"></span>
         </div>
     </div>
     <div data-duice-bind="articles" data-duice-loop="article,status" class="grid grid-template-columns-12 padding-x-1em border-top-1">
-        <div class="grid-column-1 justify-left padding-left-1em s-grid-column-0">
+        <div class="grid-column-1 justify-left padding-left-1em s-display-none">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
         <div class="grid-column-9 s-grid-column-12">
@@ -50,7 +50,7 @@
                 <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
             </span>
         </div>
-        <div class="grid-column-2 justify-right padding-right-1em s-grid-column-12 s-justify-left">
+        <div class="grid-column-2 padding-right-1em s-grid-column-12">
             <span>
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="userName"></span>

@@ -4,7 +4,7 @@
 <div class="grid grid-template-columns-12 margin-top-1em">
     <h1 class="grid-column-12">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}"/>
-        <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold"></span>
+        <span data-duice-bind="article" data-duice-property="title"></span>
     </h1>
     <div class="grid-column-12">
         <span>
@@ -123,12 +123,10 @@
 <!-- end: button                                        -->
 <!-- ================================================== -->
 
-<hr/>
-
 <!-- ================================================== -->
 <!-- start: article comment title                       -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 padding-x-1em">
+<div class="grid grid-template-columns-12 padding-x-1em border-top-1">
     <div class="grid-column-12">
         <h2>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}"/>

@@ -55,6 +55,8 @@
             grid-area: _header-logo;
             display: flex;
             justify-content: start;
+            align-items: center;
+            font-size: 2rem;
         }
         header #_header-menuButton {
             display: none;
@@ -63,6 +65,7 @@
             grid-area: _header-menu;
             display: flex;
             justify-content: end;
+            align-items: center;
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -110,7 +113,7 @@
         nav #_nav-menu li {
             padding: 0.5rem;
             border-bottom: dotted 1px lightgray;
-            font-weight: 700;
+            font-weight: 600;
             transition-duration: 0.3s;
         }
         .dark-mode nav #_nav-menu li {
@@ -173,9 +176,9 @@
     <th:block th:fragment="_header">
     <header>
         <div id="_header-logo">
-            <h1 onclick="_home();" class="link">
+            <span onclick="_home();" class="link">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/logo-arch4j.png(_theme=${_theme})}"/>
-            </h1>
+            </span>
         </div>
         <div id="_header-menuButton">
             <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link"/>

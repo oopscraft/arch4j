@@ -26,6 +26,14 @@
     }
 
     /**
+     * goto board
+     */
+    const gotoBoard = function() {
+        let url = `${_rootUrl}/board/${boardId}`;
+        _openLink(url, '_parent');
+    }
+
+    /**
      * goto article read
      * @param articleId
      */

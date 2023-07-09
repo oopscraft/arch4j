@@ -9,12 +9,10 @@
 <!-- ====================================== -->
 <!-- start: title                           -->
 <!-- ====================================== -->
-<h1 id="title" class="grid-column-1">
-    <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" target="_parent">
-        <img data-duice-bind="board" data-duice-property="icon" class="icon"
-             th:src="@{/static/_theme/{_theme}/static/image/icon-board.svg(_theme=${_theme})}"/>
-        <span data-duice-bind="board" data-duice-property="name"></span>
-    </a>
+<h1 id="title" class="grid-column-1 link" onclick="gotoBoard();">
+    <img data-duice-bind="board" data-duice-property="icon" class="icon"
+         th:src="@{/static/_theme/{_theme}/static/image/icon-board.svg(_theme=${_theme})}"/>
+    <span data-duice-bind="board" data-duice-property="name"></span>
 </h1>
 <!-- ====================================== -->
 <!-- end: title                             -->

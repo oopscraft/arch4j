@@ -112,12 +112,28 @@ body {
     background: #555;
 }
 
+/* anchor */
+a {
+    color: blue;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+a:visited {
+    color: purple; /* 방문한 링크의 텍스트 색상 */
+}
+
 /* heading */
+h1,h2,h3,h4,h5,h6 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
 h1 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
 h2 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 }
 h3 {
     font-size: 1.3rem;
@@ -229,7 +245,7 @@ button.locked::after {
 button.tab {
     border-bottom: none;
     padding: 0.2rem 1rem;
-    font-weight: bold;
+    font-weight: 600;
 }
 button.tab:hover {
     border-bottom: none;
@@ -255,7 +271,7 @@ table thead tr th {
     border-right: var(--web-table-header-border);
     border-bottom: var(--web-table-header-border);
     background-color: var(--web-table-header-background-color);
-    font-weight: bold;
+    font-weight: 600;
     padding: 2px 0.5rem;
     text-align: left;
     vertical-align: middle;
@@ -917,7 +933,7 @@ hr {
 /* tag */
 .tag-required:after {
     font-size: smaller;
-    font-weight: bold;
+    font-weight: 600;
     color: steelblue;
     content: ' # '
 }

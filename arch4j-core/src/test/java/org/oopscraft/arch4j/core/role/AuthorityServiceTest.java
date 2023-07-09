@@ -18,7 +18,7 @@ class AuthorityServiceTest extends CoreTestSupport {
 
     Authority testAuthority = Authority.builder()
             .authorityId("role_id")
-            .name("role_name")
+            .authorityName("role_name")
             .build();
 
     @Test
@@ -49,10 +49,10 @@ class AuthorityServiceTest extends CoreTestSupport {
     void getAuthorities() {
         Authority savedAuthority = authorityService.saveAuthority(testAuthority);
         AuthoritySearch authoritySearch = AuthoritySearch.builder()
-                .name(savedAuthority.getName())
+                .authorityName(savedAuthority.getAuthorityName())
                 .build();
         Page<Authority> rolePage = authorityService.getAuthorities(authoritySearch, PageRequest.of(0,10));
-        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getName().contains(authoritySearch.getName())));
+        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getAuthorityName().contains(authoritySearch.getAuthorityName())));
     }
 
 }

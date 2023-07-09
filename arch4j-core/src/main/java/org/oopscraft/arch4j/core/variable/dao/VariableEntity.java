@@ -22,11 +22,11 @@ public class VariableEntity extends SystemFieldEntity {
     @Column(name = "variable_id", length = 32)
     private String variableId;
 
-    @Column(name = "value")
-    private String value;
+    @Column(name = "variable_name")
+    private String variableName;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "value", length = 1024)
+    private String value;
 
     @Column(name = "note")
     @Lob

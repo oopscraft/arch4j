@@ -9,7 +9,7 @@ public class UserSearch {
 
     private String userId;
 
-    private String name;
+    private String userName;
 
     private UserType type;
 
@@ -18,6 +18,5 @@ public class UserSearch {
     private String email;
 
     private String mobile;
-
 
 }

@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Menu {
 
     private String menuId;
 
+    private String menuName;
+
     private String parentMenuId;
 
     private String parentMenuName;
-
-    private String name;
 
     private String link;
 
@@ -36,28 +36,28 @@ public class Menu {
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
-    /**
-     * factory method from menu entity
-     * @param menuEntity menu entity
-     * @return menu
-     */
     public static Menu from(MenuEntity menuEntity) {
-        return Menu.builder()
+        MenuBuilder menuBuilder = Menu.builder()
                 .menuId(menuEntity.getMenuId())
+                .menuName(menuEntity.getMenuName())
                 .parentMenuId(menuEntity.getParentMenuId())
-                .parentMenuName(Optional.ofNullable(menuEntity.getParentMenu())
-                        .map(MenuEntity::getName)
-                        .orElse(null))
-                .name(menuEntity.getName())
                 .link(menuEntity.getLink())
                 .target(menuEntity.getTarget())
                 .icon(menuEntity.getIcon())
                 .sort(menuEntity.getSort())
-                .note(menuEntity.getNote())
-                .roles(menuEntity.getRoles().stream()
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
-                .build();
+                .note(menuEntity.getNote());
+
+        MenuEntity parentMenuEntity = menuEntity.getParentMenu();
+        if (parentMenuEntity != null) {
+            menuBuilder.parentMenuName(parentMenuEntity.getMenuName());
+        }
+
+        List<Role> roles = menuEntity.getRoles().stream()
+                .map(Role::from)
+                .collect(Collectors.toList());
+        menuBuilder.roles(roles);
+
+        return menuBuilder.build();
     }
 
 }

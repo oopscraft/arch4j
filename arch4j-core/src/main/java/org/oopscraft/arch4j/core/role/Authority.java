@@ -1,34 +1,24 @@
 package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
 
-/**
- * AuthorityEntity
- */
 @Data
-@SuperBuilder(toBuilder = true)
-@EqualsAndHashCode(callSuper=false)
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Authority {
 
     private String authorityId;
 
-    private String name;
+    private String authorityName;
 
     private String note;
 
-    /**
-     * factory method
-     * @param authorityEntity authority entity
-     * @return authority
-     */
     public static Authority from(AuthorityEntity authorityEntity) {
         return Authority.builder()
                 .authorityId(authorityEntity.getAuthorityId())
-                .name(authorityEntity.getName())
+                .authorityName(authorityEntity.getAuthorityName())
                 .note(authorityEntity.getNote())
                 .build();
     }

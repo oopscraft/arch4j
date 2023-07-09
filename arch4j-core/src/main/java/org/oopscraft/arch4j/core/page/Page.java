@@ -15,7 +15,7 @@ public class Page {
 
     private String pageId;
 
-    private String name;
+    private String pageName;
 
     @Builder.Default
     private ContentFormat contentFormat = ContentFormat.TEXT;
@@ -28,7 +28,7 @@ public class Page {
     public static Page from(PageEntity pageEntity) {
         return Page.builder()
                 .pageId(pageEntity.getPageId())
-                .name(pageEntity.getName())
+                .pageName(pageEntity.getPageName())
                 .contentFormat(pageEntity.getContentFormat())
                 .content(pageEntity.getContent())
                 .widgets(pageEntity.getWidgets().stream()

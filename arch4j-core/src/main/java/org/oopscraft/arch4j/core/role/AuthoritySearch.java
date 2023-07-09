@@ -9,6 +9,6 @@ public class AuthoritySearch {
 
     private String authorityId;
 
-    private String name;
+    private String authorityName;
 
 }

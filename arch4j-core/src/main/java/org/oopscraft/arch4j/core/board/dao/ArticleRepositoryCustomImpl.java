@@ -17,7 +17,7 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<ArticleEntity> findArticles(ArticleSearch articleSearch, Pageable pageable) {
+    public Page<ArticleEntity> findAll(ArticleSearch articleSearch, Pageable pageable) {
 
         // query
         QArticleEntity qArticleEntity = QArticleEntity.articleEntity;

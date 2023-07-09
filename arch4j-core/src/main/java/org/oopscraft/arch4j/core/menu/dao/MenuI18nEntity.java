@@ -12,9 +12,9 @@ import java.io.Serializable;
 @IdClass(MenuI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuI18nEntity extends SystemFieldEntity {
 
     @Data
@@ -34,8 +34,8 @@ public class MenuI18nEntity extends SystemFieldEntity {
     @Column(name = "language", length = 8)
     private String language;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "menu_name")
+    private String menuName;
 
 }
 

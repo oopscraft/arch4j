@@ -44,7 +44,7 @@ public class CodeRestController {
     ) {
         CodeSearch codeSearch = CodeSearch.builder()
                 .codeId(codeId)
-                .name(name)
+                .codeName(name)
                 .build();
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);
         List<CodeResponse> codeResponses = codePage.stream()

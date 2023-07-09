@@ -17,7 +17,7 @@ class RoleServiceTest extends CoreTestSupport {
 
     Role testRole = Role.builder()
             .roleId("role_id")
-            .name("role_name")
+            .roleName("role_name")
             .build();
 
     @Test
@@ -49,10 +49,10 @@ class RoleServiceTest extends CoreTestSupport {
     void getRoles() {
         Role savedRole = roleService.saveRole(testRole);
         RoleSearch roleSearch = RoleSearch.builder()
-                .name(savedRole.getName())
+                .roleName(savedRole.getRoleName())
                 .build();
         Page<Role> rolePage = roleService.getRoles(roleSearch, PageRequest.of(0,10));
-        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getName().contains(roleSearch.getName())));
+        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getRoleName().contains(roleSearch.getRoleName())));
     }
 
 }

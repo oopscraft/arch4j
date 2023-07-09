@@ -21,23 +21,12 @@ public class ArticleVoteService {
 
     private final ArticleVoteRepository articleVoteRepository;
 
-    /**
-     * get article votes
-     * @param articleId article id
-     * @return votes
-     */
     public List<ArticleVote> getArticleVotes(String articleId) {
         return articleVoteRepository.findAllByArticleId(articleId).stream()
                 .map(ArticleVote::from)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * get article vote
-     * @param articleId article id
-     * @param userId user id
-     * @return article vote
-     */
     public Optional<ArticleVote> getArticleVote(String articleId, String userId) {
         ArticleVoteEntity.Pk pk = ArticleVoteEntity.Pk.builder()
                 .articleId(articleId)
@@ -47,10 +36,6 @@ public class ArticleVoteService {
                 .map(ArticleVote::from);
     }
 
-    /**
-     * save article vote
-     * @param articleVote article vote
-     */
     @Transactional
     public ArticleVote saveArticleVote(ArticleVote articleVote) {
 

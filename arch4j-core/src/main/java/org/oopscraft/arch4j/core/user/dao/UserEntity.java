@@ -18,7 +18,7 @@ import java.util.List;
 @Table(
     name = "core_user",
     indexes = {
-        @Index(name = "ix_name", columnList = "name"),
+        @Index(name = "ix_name", columnList = "user_name"),
         @Index(name = "ix_email", columnList = "email"),
         @Index(name = "ix_mobile", columnList = "mobile")
     }
@@ -34,8 +34,8 @@ public class UserEntity extends SystemFieldEntity {
     @Column(name = "user_id", length = 32)
     private String userId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "user_name")
+    private String userName;
 
     @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -57,11 +57,11 @@ public class UserEntity extends SystemFieldEntity {
     @Convert(converter = CryptoConverter.class)
     private String mobile;
 
-    @Column(name = "join_datetime")
-    private LocalDateTime joinDateTime;
+    @Column(name = "join_at")
+    private LocalDateTime joinAt;
 
-    @Column(name = "close_datetime")
-    private LocalDateTime closeDateTime;
+    @Column(name = "close_at")
+    private LocalDateTime closeAt;
 
     @Column(name = "photo")
     @Lob

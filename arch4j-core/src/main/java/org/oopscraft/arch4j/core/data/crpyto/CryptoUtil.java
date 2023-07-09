@@ -22,10 +22,6 @@ public class CryptoUtil implements ApplicationContextAware {
 
     private final TextEncryptor encryptor;
 
-    /**
-     * return instance
-     * @return instance
-     */
     public synchronized static CryptoUtil getInstance() {
         synchronized (CryptoUtil.class) {
             if (instance == null) {
@@ -35,11 +31,6 @@ public class CryptoUtil implements ApplicationContextAware {
         }
     }
 
-    /**
-     * return instance
-     * @param cryptoKeyProvider crypto key provider
-     * @return instance
-     */
     public synchronized static CryptoUtil getInstance(CryptoKeyProvider cryptoKeyProvider) {
         synchronized (CryptoUtil.class) {
             if(instance == null) {
@@ -49,20 +40,17 @@ public class CryptoUtil implements ApplicationContextAware {
         }
     }
 
-    /**
-     * constructor
-     * @param cryptoKeyProvider crypto key provider
-     */
     @Autowired
     private CryptoUtil(CryptoKeyProvider cryptoKeyProvider) {
         encryptor = Encryptors.delux(cryptoKeyProvider.getPassword(), cryptoKeyProvider.getSalt());
     }
 
-    /**
-     * encrypt
-     * @param rawText raw text
-     * @return cipher text
-     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        CryptoKeyProvider cryptoKeyProvider = applicationContext.getBean(CryptoKeyProvider.class);
+        instance = CryptoUtil.getInstance(cryptoKeyProvider);
+    }
+
     public String encrypt(String rawText) {
         if(rawText == null) {
             return null;
@@ -70,11 +58,6 @@ public class CryptoUtil implements ApplicationContextAware {
         return encryptor.encrypt(rawText);
     }
 
-    /**
-     * decrypt
-     * @param cipherText cipher text
-     * @return raw text
-     */
     public String decrypt(String cipherText) {
         if(cipherText == null) {
             return null;
@@ -82,10 +65,6 @@ public class CryptoUtil implements ApplicationContextAware {
         return encryptor.decrypt(cipherText);
     }
 
-    /**
-     * encrypt object field
-     * @param object object
-     */
     public void encryptObject(Object object) {
         Field[] fields = object.getClass().getDeclaredFields();
         for(Field field : fields) {
@@ -103,10 +82,6 @@ public class CryptoUtil implements ApplicationContextAware {
         }
     }
 
-    /**
-     * decrypt object filed
-     * @param object object
-     */
     public void decryptObject(Object object) {
         Field[] fields = object.getClass().getDeclaredFields();
         for(Field field : fields) {
@@ -122,12 +97,6 @@ public class CryptoUtil implements ApplicationContextAware {
                 }
             }
         }
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        CryptoKeyProvider cryptoKeyProvider = applicationContext.getBean(CryptoKeyProvider.class);
-        instance = CryptoUtil.getInstance(cryptoKeyProvider);
     }
 
 }

@@ -5,6 +5,7 @@ import org.oopscraft.arch4j.core.board.dao.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,62 +22,37 @@ public class ArticleCommentService {
 
     private final ArticleRepository articleRepository;
 
-    /**
-     * save article comment
-     * @param articleComment article comment
-     * @return article comment
-     */
+    @Transactional
     public ArticleComment saveArticleComment(ArticleComment articleComment) {
         ArticleCommentEntity.Pk pk = ArticleCommentEntity.Pk.builder()
                 .articleId(articleComment.getArticleId())
                 .commentId(articleComment.getCommentId())
                 .build();
-        ArticleCommentEntity articleCommentEntity = articleCommentRepository.findById(pk).orElse(null);
-
-        // create new article comment
-        if(articleCommentEntity == null) {
-            articleCommentEntity = ArticleCommentEntity.builder()
-                    .articleId(articleComment.getArticleId())
-                    .commentId(IdGenerator.uuid())
-                    .parentCommentId(articleComment.getParentCommentId())
-                    .createdAt(LocalDateTime.now())
-                    .userId(articleComment.getUserId())
-                    .password(Optional.ofNullable(articleComment.getPassword())
-                            .map(passwordEncoder::encode)
-                            .orElse(null))
-                    .build();
-        }
-
-        // save
+        ArticleCommentEntity articleCommentEntity = articleCommentRepository.findById(pk).orElse(
+                ArticleCommentEntity.builder()
+                        .articleId(articleComment.getArticleId())
+                        .commentId(IdGenerator.uuid())
+                        .parentCommentId(articleComment.getParentCommentId())
+                        .createdAt(LocalDateTime.now())
+                        .userId(articleComment.getUserId())
+                        .password(Optional.ofNullable(articleComment.getPassword())
+                                .map(passwordEncoder::encode)
+                                .orElse(null))
+                        .build());
         articleCommentEntity.setUserName(articleComment.getUserName());
         articleCommentEntity.setContentFormat(articleComment.getContentFormat());
         articleCommentEntity.setContent(articleComment.getContent());
         articleCommentEntity = articleCommentRepository.saveAndFlush(articleCommentEntity);
-
-        // increase article comment count
         articleRepository.increaseCommentCount(articleComment.getArticleId());
-
-        // return
         return ArticleComment.from(articleCommentEntity);
     }
 
-    /**
-     * return article comments by article id
-     * @param articleId article id
-     * @return article comment list
-     */
     public List<ArticleComment> getArticleComments(String articleId) {
         return articleCommentRepository.findAllByArticleIdOrderByCreatedAtAsc(articleId).stream()
                 .map(ArticleComment::from)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * return article comment
-     * @param articleId article id
-     * @param commentId comment id
-     * @return article comment
-     */
     public Optional<ArticleComment> getArticleComment(String articleId, String commentId) {
         ArticleCommentEntity.Pk pk = ArticleCommentEntity.Pk.builder()
                 .articleId(articleId)
@@ -86,39 +62,25 @@ public class ArticleCommentService {
                 .map(ArticleComment::from);
     }
 
-    /**
-     * delete article comment
-     * @param articleId article id
-     * @param commentId comment id
-     */
+    @Transactional
     public void deleteArticleComment(String articleId, String commentId) {
-
-        // delete article comment
         ArticleCommentEntity.Pk pk = ArticleCommentEntity.Pk.builder()
                 .articleId(articleId)
                 .commentId(commentId)
                 .build();
-
-        // get article comment
         ArticleCommentEntity articleCommentEntity = articleCommentRepository.findById(pk).orElseThrow();
 
-        // check reply comment
+        // check reply comment, update content
         if(articleCommentRepository.findAllByArticleIdAndParentCommentId(articleId, commentId).size() > 0) {
-            // update comment contents
             articleCommentEntity.setContentFormat(ContentFormat.TEXT);
             articleCommentEntity.setContent("- This comment has bean deleted. -");
-
-            // save
             articleCommentRepository.saveAndFlush(articleCommentEntity);
 
         }
-        // no reply comments
+        // no reply comments, delete
         else{
-            // delete
             articleCommentRepository.delete(articleCommentEntity);
             articleCommentRepository.flush();
-
-            // decrease article comment count
             articleRepository.decreaseCommentCount(articleId);
         }
 

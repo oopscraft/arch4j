@@ -143,10 +143,10 @@
                 }
             }
 
-            // checks name
-            if (!board.name || board.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.board.Board.name})}]]);
-                duice.ObjectProxy.focus(board, 'name');
+            // checks board name
+            if(_isEmpty(board.boardName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.board.Board.boardName})}]]);
+                duice.ObjectProxy.focus(board, 'boardName');
                 return false;
             }
 
@@ -323,7 +323,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="boardSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
-                                <option value="name" th:text="#{core.board.Board.name}"></option>
+                                <option value="boardName" th:text="#{core.board.Board.boardName}"></option>
                             </select>
                             <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -351,7 +351,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.board.Board.boardId}"></th>
-                            <th data-th-text="#{core.board.Board.name}"></th>
+                            <th data-th-text="#{core.board.Board.boardName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -365,7 +365,7 @@
                                 <span data-duice-bind="board" data-duice-property="boardId"
                                       class="font-weight-bold"></span>
                             </td>
-                            <td data-duice-bind="board" data-duice-property="name"></td>
+                            <td data-duice-bind="board" data-duice-property="boardName"></td>
                         </tr>
                         <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -420,10 +420,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.board.Board.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.board.Board.boardName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="board" data-duice-property="name"
+                        <input type="text" data-duice-bind="board" data-duice-property="boardName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
@@ -516,7 +516,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -528,7 +528,7 @@
                                 <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
                                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -571,7 +571,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -583,7 +583,7 @@
                                 <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
                                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -626,7 +626,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -638,7 +638,7 @@
                                 <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
                                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -688,7 +688,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -700,7 +700,7 @@
                                 <tr data-duice-bind="board.commentRoles" data-duice-loop="role,status">
                                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -879,7 +879,7 @@
             <div class="grid grid-template-columns-3 grid-gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.Role.name}"></option>
+                    <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="grid-column-2"/>
             </div>
@@ -904,7 +904,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -912,7 +912,7 @@
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="
@@ -961,7 +961,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -969,7 +969,7 @@
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="this.dataset.index = status.index;"

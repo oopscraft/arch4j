@@ -22,12 +22,6 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
 
     private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-    /**
-     * refreshProperties
-     * @param filename filename
-     * @param propHolder property holder
-     * @return property holder
-     */
     @Override
     protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
         if (filename.startsWith(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX)) {
@@ -37,12 +31,6 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
         }
     }
 
-    /**
-     * refreshClassPathProperties
-     * @param filename filename
-     * @param propHolder property holder
-     * @return property holder
-     */
     private PropertiesHolder refreshClassPathProperties(String filename, PropertiesHolder propHolder) {
         Properties properties = new Properties();
         long lastModified = -1;
@@ -60,10 +48,6 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
         return new PropertiesHolder(properties, lastModified);
     }
 
-    /**
-     * Resolves the given message code as key in the retrieved bundle files,
-     * returning the value found in the bundle as-is (without MessageFormat parsing).
-     */
     @Override
     protected String resolveCodeWithoutArguments(String code, Locale locale) {
         String result = super.resolveCodeWithoutArguments(code, locale);
@@ -76,10 +60,6 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
         return result;
     }
 
-    /**
-     * Resolves the given message code as key in the retrieved bundle files,
-     * using a cached MessageFormat instance per message code.
-     */
     @Override
     @Nullable
     protected MessageFormat resolveCode(String code, Locale locale) {

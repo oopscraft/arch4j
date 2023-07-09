@@ -22,8 +22,8 @@ public class CodeEntity extends SystemFieldEntity {
 	@Column(name = "code_id", length = 32)
 	private String codeId;
 	
-	@Column(name = "name", nullable = false)
-	private String name;
+	@Column(name = "code_name", nullable = false)
+	private String codeName;
 	
 	@Column(name = "note")
 	@Lob

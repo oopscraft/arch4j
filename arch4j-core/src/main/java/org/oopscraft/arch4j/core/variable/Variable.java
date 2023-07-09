@@ -13,9 +13,9 @@ public class Variable {
 
     private String variableId;
 
-    private String value;
+    private String variableName;
 
-    private String name;
+    private String value;
 
     private String note;
 
@@ -23,7 +23,7 @@ public class Variable {
         return Variable.builder()
                 .variableId(variableEntity.getVariableId())
                 .value(variableEntity.getValue())
-                .name(variableEntity.getName())
+                .variableName(variableEntity.getVariableName())
                 .note(variableEntity.getNote())
                 .build();
     }

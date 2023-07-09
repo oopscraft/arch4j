@@ -18,14 +18,17 @@ import java.util.List;
 )
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuEntity extends SystemFieldEntity {
 
     @Id
     @Column(name = "menu_id", length = 32)
     private String menuId;
+
+    @Column(name = "menu_name")
+    private String menuName;
 
     @Column(name = "parent_menu_id", length = 32)
     private String parentMenuId;
@@ -33,9 +36,6 @@ public class MenuEntity extends SystemFieldEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MenuEntity parentMenu;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "link")
     private String link;

@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.dao.CodeEntity;
 import org.oopscraft.arch4j.core.code.dao.CodeItemEntity;
 import org.oopscraft.arch4j.core.code.dao.CodeRepository;
-import org.oopscraft.arch4j.core.code.dao.CodeSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,22 +21,16 @@ public class CodeService {
 
     private final CodeRepository codeRepository;
 
-    /**
-     * saves code
-     * @param code code info
-     * @return code
-     */
+    @Transactional
     public Code saveCode(Code code) {
-        CodeEntity codeEntity = codeRepository.findById(code.getCodeId()).orElse(null);
-        if(codeEntity == null) {
-            codeEntity = CodeEntity.builder()
+        CodeEntity codeEntity = codeRepository.findById(code.getCodeId())
+                .orElse(CodeEntity.builder()
                     .codeId(code.getCodeId())
-                    .build();
-        }
-        codeEntity.setName(code.getName());
+                    .build());
+
+        codeEntity.setCodeName(code.getCodeName());
         codeEntity.setNote(code.getNote());
 
-        // replace items
         List<CodeItemEntity> items = codeEntity.getItems();
         items.clear();
         AtomicInteger sort = new AtomicInteger();
@@ -45,52 +38,28 @@ public class CodeService {
                 .codeId(code.getCodeId())
                 .itemId(item.getItemId())
                 .sort(sort.getAndIncrement())
-                .name(item.getName())
+                .itemName(item.getItemName())
                 .value(item.getValue())
                 .build()));
 
-        // save and flush
         codeEntity = codeRepository.saveAndFlush(codeEntity);
+
         return Code.from(codeEntity);
     }
 
-    /**
-     * returns codes
-     * @param codeSearch code search condition
-     * @param pageable pagination info
-     * @return codes
-     */
     public Page<Code> getCodes(CodeSearch codeSearch, Pageable pageable) {
-
-        Specification<CodeEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(codeSearch.getCodeId() != null) {
-            specification = specification.and(CodeSpecification.likeCodeId(codeSearch.getCodeId()));
-        }
-        if(codeSearch.getName() != null) {
-            specification = specification.and(CodeSpecification.likeName(codeSearch.getName()));
-        }
-
-        Page<CodeEntity> codeEntityPage = codeRepository.findAll(specification, pageable);
+        Page<CodeEntity> codeEntityPage = codeRepository.findAll(codeSearch, pageable);
         List<Code> codes = codeEntityPage.getContent().stream()
                 .map(Code::from)
                 .collect(Collectors.toList());
-        long total = codeEntityPage.getTotalElements();
-        return new PageImpl<>(codes, pageable, total);
+        return new PageImpl<>(codes, pageable, codeEntityPage.getTotalElements());
     }
 
-    /**
-     * returns code
-     * @param codeId code id
-     * @return code info
-     */
     public Optional<Code> getCode(String codeId) {
         return codeRepository.findById(codeId).map(Code::from);
     }
 
-    /**
-     * deletes code
-     * @param codeId code id
-     */
+    @Transactional
     public void deleteCode(String codeId) {
         codeRepository.deleteById(codeId);
         codeRepository.flush();

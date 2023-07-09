@@ -24,8 +24,8 @@
             roles:[]
         });
         duice.ObjectProxy.setDisableAll(user, true);
-        duice.ObjectProxy.setReadonly(user, 'joinDateTime', true);
-        duice.ObjectProxy.setReadonly(user, 'closeDateTime', true);
+        duice.ObjectProxy.setReadonly(user, 'joinAt', true);
+        duice.ObjectProxy.setReadonly(user, 'closeAt', true);
         duice.ObjectProxy.onPropertyChanging(user, async event => {
             if (event.getProperty() === 'userId') {
                 if (!await validateUserId(event.getValue())) {
@@ -153,10 +153,10 @@
                 }
             }
 
-            // checks name
-            if (_isEmpty(user.name)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.name})}]]);
-                duice.ObjectProxy.focus(user, 'name');
+            // checks user name
+            if (_isEmpty(user.userName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.user.User.userName})}]]);
+                duice.ObjectProxy.focus(user, 'userName');
                 return false;
             }
 
@@ -283,7 +283,7 @@
         }
 
         // login history search condition
-        const loginHistorySearch = new duice.ObjectProxy({
+        const userLoginSearch = new duice.ObjectProxy({
             key: 'userId',
             value: null,
             _page: 0,
@@ -298,31 +298,31 @@
          * getLoginHistories
          * @param page page
          */
-        function getLoginHistories(page) {
+        function getUserLogins(page) {
             if(page) {
-                loginHistorySearch._size = size;
+                userLoginSearch._size = size;
             }
-            let url = new URL([[@{/admin/user/get-login-histories}]], document.location.origin);
-            if (loginHistorySearch.key && loginHistorySearch.value) {
-                url.searchParams.append(loginHistorySearch.key, loginHistorySearch.value);
+            let url = new URL([[@{/admin/user/get-user-logins}]], document.location.origin);
+            if (userLoginSearch.key && userLoginSearch.value) {
+                url.searchParams.append(userLoginSearch.key, userLoginSearch.value);
             }
-            url.searchParams.append('_page', loginHistorySearch._page);
-            url.searchParams.append('_size', loginHistorySearch._size);
+            url.searchParams.append('_page', userLoginSearch._page);
+            url.searchParams.append('_size', userLoginSearch._size);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ArrayProxy.clear(loginHistories);
                     duice.ArrayProxy.assign(loginHistories, data.content);
-                    loginHistorySearch._count = data.totalElements;
+                    userLoginSearch._count = data.totalElements;
                 });
         }
 
         /**
          * resetLoginHistories
          */
-        function resetLoginHistories() {
-            duice.ObjectProxy.reset(loginHistorySearch);
-            getLoginHistories();
+        function resetUserLogins() {
+            duice.ObjectProxy.reset(userLoginSearch);
+            getUserLogins();
         }
 
         // DOM content loaded listener
@@ -333,10 +333,10 @@
                     () => {
                         getUsers();
                     }),
-                duice.tabItem(document.getElementById('loginHistoryTabButton'),
-                    document.getElementById('loginHistoryTabContent'),
+                duice.tabItem(document.getElementById('userLoginTabButton'),
+                    document.getElementById('userLoginTabContent'),
                     () => {
-                        getLoginHistories();
+                        getUserLogins();
                     })
             );
             tabFolder.setActive(0);
@@ -362,7 +362,7 @@
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
             <span data-th-text="#{core.user.User}"></span>
         </button>
-        <button id="loginHistoryTabButton" class="tab">
+        <button id="userLoginTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
             <span data-th-text="#{core.user.LoginHistory}"></span>
         </button>
@@ -390,7 +390,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select class="grid-column-1" data-duice-bind="userSearch" data-duice-property="key">
                                 <option value="userId" th:text="#{core.user.User.userId}"></option>
-                                <option value="name" th:text="#{core.user.User.name}"></option>
+                                <option value="name" th:text="#{core.user.User.userName}"></option>
                                 <option value="email" th:text="#{core.user.User.email}"></option>
                                 <option value="mobile" th:text="#{core.user.User.mobile}"></option>
                             </select>
@@ -432,7 +432,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.user.User.userId}"></th>
-                            <th data-th-text="#{core.user.User.name}"></th>
+                            <th data-th-text="#{core.user.User.userName}"></th>
                             <th data-th-text="#{core.user.User.type}"></th>
                             <th data-th-text="#{core.user.User.status}"></th>
                         </tr>
@@ -450,7 +450,7 @@
                                 <span data-duice-bind="user" data-duice-property="userId"
                                       class="font-weight-bold"></span>
                             </td>
-                            <td data-duice-bind="user" data-duice-property="name"></td>
+                            <td data-duice-bind="user" data-duice-property="userName"></td>
                             <td>
                                 <span data-duice-bind="user" data-duice-property="type"></span>
                             </td>
@@ -513,10 +513,10 @@
                                maxlength="32" class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.user.User.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.user.User.userName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="user" data-duice-property="name" maxlength="32" class="width-100"/>
+                        <input type="text" data-duice-bind="user" data-duice-property="userName" maxlength="32" class="width-100"/>
                     </div>
                     <div data-duice-bind="user" data-duice-if="return user._new;" class="grid-column-6 grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
                         <div class="grid-column-1 s-grid-column-6">
@@ -569,18 +569,18 @@
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.user.User.joinDateTime}" class="font-weight-bold"></span>
+                        <span data-th-text="#{core.user.User.joinAt}" class="font-weight-bold"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
                         <input type="datetime-local" data-duice-bind="user"
-                               data-duice-property="joinDateTime" readonly class="width-100"/>
+                               data-duice-property="joinAt" readonly class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.user.User.closeDateTime}" class="font-weight-bold"></span>
+                        <span data-th-text="#{core.user.User.closeAt}" class="font-weight-bold"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
                         <input type="datetime-local" data-duice-bind="user"
-                               data-duice-property="closeDateTime" readonly class="width-100"/>
+                               data-duice-property="closeAt" readonly class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
                         <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
@@ -613,7 +613,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addUserRole();"
                                                 data-duice-bind="user"
@@ -629,7 +629,7 @@
                                         class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"
                                         class="font-weight-bold"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -814,7 +814,7 @@
             <div class="grid grid-template-columns-3 grid-gap-1px">
                 <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.Role.name}"></option>
+                    <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                 </select>
                 <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="grid-column-2"/>
             </div>
@@ -839,7 +839,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -847,7 +847,7 @@
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="
@@ -896,7 +896,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -904,7 +904,7 @@
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="this.dataset.index = status.index;"
@@ -1032,24 +1032,24 @@
     <!-- ====================================== -->
 
     <!-- ====================================== -->
-    <!-- start: loginHistoryTabContent          -->
+    <!-- start: userLoginTabContent          -->
     <!-- ====================================== -->
-    <div id="loginHistoryTabContent">
-        <div id="loginHistoryList">
+    <div id="userLoginTabContent">
+        <div id="userLoginList">
             <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-flex-direction-column">
                 <div class="grid grid-template-columns-3 grid-gap-1px">
-                    <select data-duice-bind="loginHistorySearch" data-duice-property="key" class="grid-column-1">
+                    <select data-duice-bind="userLoginSearch" data-duice-property="key" class="grid-column-1">
                         <option value="userId" th:text="#{core.user.LoginHistory.userId}"></option>
                         <option value="ipAddress" th:text="#{core.user.LoginHistory.ipAddress}"></option>
                     </select>
-                    <input type="text" data-duice-bind="loginHistorySearch" data-duice-property="value"
+                    <input type="text" data-duice-bind="userLoginSearch" data-duice-property="value"
                            th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
                 </div>
-                <button onclick="getLoginHistories();">
+                <button onclick="getUserLogins();">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                     <span data-th-text="#{web.global.search}">Search</span>
                 </button>
-                <button onclick="resetLoginHistories();">
+                <button onclick="resetUserLogins();">
                     <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                     <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
@@ -1067,18 +1067,18 @@
                     <tr>
                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                         <th data-th-text="#{core.user.LoginHistory.userId}"></th>
-                        <th data-th-text="#{core.user.LoginHistory.loginDateTime}"></th>
+                        <th data-th-text="#{core.user.LoginHistory.loginAt}"></th>
                         <th data-th-text="#{core.user.LoginHistory.ipAddress}"></th>
                         <th data-th-text="#{core.user.LoginHistory.userAgent}"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-duice-bind="loginHistories" data-duice-loop="loginHistory,status">
+                    <tr data-duice-bind="loginHistories" data-duice-loop="userLogin,status">
                         <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                        <td data-duice-bind="loginHistory" data-duice-property="userId" class="font-weight-bold"></td>
-                        <td data-duice-bind="loginHistory" data-duice-property="loginDateTime" class="font-weight-bold"></td>
-                        <td data-duice-bind="loginHistory" data-duice-property="ipAddress"></td>
-                        <td data-duice-bind="loginHistory" data-duice-property="userAgent"></td>
+                        <td data-duice-bind="userLogin" data-duice-property="userId" class="font-weight-bold"></td>
+                        <td data-duice-bind="userLogin" data-duice-property="loginAt" class="font-weight-bold"></td>
+                        <td data-duice-bind="userLogin" data-duice-property="ipAddress"></td>
+                        <td data-duice-bind="userLogin" data-duice-property="userAgent"></td>
                     </tr>
                     <tr data-duice-bind="loginHistories" data-duice-execute="if(loginHistories.length === 0) this.hidden=false;" hidden>
                         <td colspan="100%" class="text-align-center">No Data</td>
@@ -1089,12 +1089,12 @@
             <div class="grid grid-template-columns-3">
                 <div class="grid-column-1 font-size-smaller">
                     <span data-th-text="#{web.global.total}"></span>
-                    <span data-duice-bind="loginHistorySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                    <span data-duice-bind="userLoginSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                     <span data-th-text="#{web.global.rows}"></span>
                 </div>
                 <div class="grid-column-1 flex justify-content-center">
                     <duice-pagination
-                            data-duice-bind="loginHistorySearch"
+                            data-duice-bind="userLoginSearch"
                             data-duice-size-property="_size"
                             data-duice-page-property="_page"
                             data-duice-count-property="_count"
@@ -1107,7 +1107,7 @@
         </div>
     </div>
     <!-- ====================================== -->
-    <!-- end: loginHistoryTabContent            -->
+    <!-- end: userLoginTabContent            -->
     <!-- ====================================== -->
 
 </main>

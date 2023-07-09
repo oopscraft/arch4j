@@ -13,7 +13,7 @@ public class BoardResponse {
 
     private String boardId;
 
-    private String name;
+    private String boardName;
 
     private String icon;
 
@@ -45,7 +45,7 @@ public class BoardResponse {
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
                 .boardId(board.getBoardId())
-                .name(board.getName())
+                .boardName(board.getBoardName())
                 .icon(board.getIcon())
                 .messageFormat(board.getMessageFormat())
                 .message(board.getMessage())

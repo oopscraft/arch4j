@@ -17,13 +17,16 @@ class CodeServiceTest extends CoreTestSupport {
 
     Code testCode = Code.builder()
             .codeId("code_id")
-            .name("role_name")
+            .codeName("role_name")
             .build();
 
     @Test
     @Order(1)
     void saveCode() {
+        // when
         Code savedCode = codeService.saveCode(testCode);
+
+        // then
         assertNotNull(savedCode);
         assertNotNull(entityManager.find(CodeEntity.class, savedCode.getCodeId()));
     }
@@ -31,28 +34,44 @@ class CodeServiceTest extends CoreTestSupport {
     @Test
     @Order(2)
     void getCode() {
+        // given
         Code savedCode = codeService.saveCode(testCode);
+
+        // when
         Code code = codeService.getCode(savedCode.getCodeId()).orElse(null);
+
+        // then
         assertNotNull(code);
     }
 
     @Test
     @Order(3)
     void deleteCode() {
+        // given
         Code savedCode = codeService.saveCode(testCode);
+
+        // when
         codeService.deleteCode(savedCode.getCodeId());
+
+        // then
         assertNull(entityManager.find(CodeEntity.class, testCode.getCodeId()));
     }
 
     @Test
     @Order(4)
     void getRoles() {
+        // given
         Code savedCode = codeService.saveCode(testCode);
+
+        // when
         CodeSearch codeSearch = CodeSearch.builder()
-                .name(savedCode.getName())
+                .codeName(savedCode.getCodeName())
                 .build();
         Page<Code> codePage = codeService.getCodes(codeSearch, PageRequest.of(0,10));
-        assertTrue(codePage.getContent().stream().anyMatch(e -> e.getName().contains(codeSearch.getName())));
+
+        // then
+        assertTrue(codePage.getContent().stream()
+                .anyMatch(e -> e.getCodeName().contains(codeSearch.getCodeName())));
     }
 
 }

@@ -194,7 +194,7 @@
                 <span>
                     <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                          data-duice-bind="_user" data-duice-property="photo"/>
-                    <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
+                    <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">
@@ -230,7 +230,7 @@
                 onclick="_openLink(this.dataset.link,this.dataset.target);"
                 class="link">
                 <img class="icon" data-duice-bind="menu" data-duice-property="icon"/>
-                <span data-duice-bind="menu" data-duice-property="name"></span>
+                <span data-duice-bind="menu" data-duice-property="menuName"></span>
             </li>
         </ul>
     </nav>

@@ -12,9 +12,9 @@ import java.io.Serializable;
 @IdClass(MessageI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageI18nEntity extends SystemFieldEntity {
 
     @Data

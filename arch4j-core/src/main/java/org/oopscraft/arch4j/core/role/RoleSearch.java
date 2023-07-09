@@ -9,6 +9,6 @@ public class RoleSearch {
 
     private String roleId;
 
-    private String name;
+    private String roleName;
 
 }

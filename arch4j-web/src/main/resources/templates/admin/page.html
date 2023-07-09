@@ -166,10 +166,10 @@
                 }
             }
 
-            // checks name
-            if (!page.name || page.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.page.Page.name})}]]);
-                duice.ObjectProxy.focus(page, 'name');
+            // checks page name
+            if (_isEmpty(page.pageName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.page.Page.pageName})}]]);
+                duice.ObjectProxy.focus(page, 'pageName');
                 return false;
             }
 
@@ -283,7 +283,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="pageSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="pageId" th:text="#{core.page.Page.pageId}"></option>
-                                <option value="name" th:text="#{core.page.Page.name}"></option>
+                                <option value="pageName" th:text="#{core.page.Page.pageName}"></option>
                             </select>
                             <input type="text" data-duice-bind="pageSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -311,7 +311,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.page.Page.pageId}"></th>
-                            <th data-th-text="#{core.page.Page.name}"></th>
+                            <th data-th-text="#{core.page.Page.pageName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -321,7 +321,7 @@
                             <td data-duice-bind="status" data-duice-property="count"
                                 class="text-align-center"></td>
                             <td data-duice-bind="page" data-duice-property="pageId" class="font-weight-bold"></td>
-                            <td data-duice-bind="page" data-duice-property="name"></td>
+                            <td data-duice-bind="page" data-duice-property="pageName"></td>
                         </tr>
                         <tr data-duice-bind="pages" data-duice-execute="if(pages.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -377,10 +377,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.page.Page.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.page.Page.pageName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="page" data-duice-property="name"
+                        <input type="text" data-duice-bind="page" data-duice-property="pageName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-6 s-grid-column-6">

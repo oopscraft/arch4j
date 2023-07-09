@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "core_role")
 @Data
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoleEntity extends SystemFieldEntity {
@@ -26,8 +26,8 @@ public class RoleEntity extends SystemFieldEntity {
     private String roleId;
 
     @NotNull
-    @Column(name = "name")
-    private String name;
+    @Column(name = "role_name")
+    private String roleName;
 
     @Column(name = "note")
     @Lob

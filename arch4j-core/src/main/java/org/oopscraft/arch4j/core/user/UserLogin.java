@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.user.dao.LoginHistoryEntity;
+import org.oopscraft.arch4j.core.user.dao.UserLoginEntity;
 
 import java.time.LocalDateTime;
 
@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class LoginHistory {
+public class UserLogin {
 
     private String userId;
 
-    private LocalDateTime loginDateTime;
+    private LocalDateTime loginAt;
 
     private String ipAddress;
 
@@ -24,10 +24,10 @@ public class LoginHistory {
      * @param loginHistoryEntity login history entity
      * @return login history
      */
-    public static LoginHistory from(LoginHistoryEntity loginHistoryEntity) {
-        return LoginHistory.builder()
+    public static UserLogin from(UserLoginEntity loginHistoryEntity) {
+        return UserLogin.builder()
                 .userId(loginHistoryEntity.getUserId())
-                .loginDateTime(loginHistoryEntity.getLoginDateTime())
+                .loginAt(loginHistoryEntity.getLoginAt())
                 .ipAddress(loginHistoryEntity.getIpAddress())
                 .userAgent(loginHistoryEntity.getUserAgent())
                 .build();

@@ -10,18 +10,15 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-    name = "core_login_history",
-    indexes = {
-        @Index(columnList = "login_datetime")
-    }
+    name = "core_user_login"
 )
-@IdClass(LoginHistoryEntity.Pk.class)
+@IdClass(UserLoginEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginHistoryEntity extends SystemFieldEntity {
+public class UserLoginEntity extends SystemFieldEntity {
 
     @Data
     @Builder
@@ -29,7 +26,7 @@ public class LoginHistoryEntity extends SystemFieldEntity {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Pk implements Serializable {
         private String userId;
-        private LocalDateTime loginDateTime;
+        private LocalDateTime loginAt;
     }
 
     @Id
@@ -37,8 +34,8 @@ public class LoginHistoryEntity extends SystemFieldEntity {
     private String userId;
 
     @Id
-    @Column(name = "login_datetime")
-    private LocalDateTime loginDateTime;
+    @Column(name = "login_at")
+    private LocalDateTime loginAt;
 
     @Column(name = "ip_address")
     private String ipAddress;

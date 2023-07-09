@@ -17,7 +17,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<UserEntity> findUsers(UserSearch userSearch, Pageable pageable) {
+    public Page<UserEntity> findAll(UserSearch userSearch, Pageable pageable) {
 
         // query
         QUserEntity qUserEntity = QUserEntity.userEntity;
@@ -26,8 +26,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         if(userSearch.getUserId() != null) {
             query.where(qUserEntity.userId.contains(userSearch.getUserId()));
         }
-        if(userSearch.getName() != null) {
-            query.where(qUserEntity.name.contains(userSearch.getName()));
+        if(userSearch.getUserName() != null) {
+            query.where(qUserEntity.userName.contains(userSearch.getUserName()));
         }
         if(userSearch.getType() != null) {
             query.where(qUserEntity.type.eq(userSearch.getType()));
@@ -36,7 +36,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             query.where(qUserEntity.status.eq(userSearch.getStatus()));
         }
         if(userSearch.getEmail() != null) {
-            query.where(qUserEntity.email.contains(userSearch.getName()));
+            query.where(qUserEntity.email.contains(userSearch.getUserName()));
         }
         if(userSearch.getMobile() != null) {
             query.where(qUserEntity.mobile.contains(userSearch.getMobile()));

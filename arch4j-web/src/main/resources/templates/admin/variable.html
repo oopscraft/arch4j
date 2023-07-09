@@ -135,10 +135,10 @@
                 }
             }
 
-            // checks name
-            if (!variable.name || variable.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.variable.Variable.name})}]]);
-                duice.ObjectProxy.focus(variable, 'name');
+            // checks variable name
+            if(_isEmpty(variable.variableName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.variable.Variable.variableName})}]]);
+                duice.ObjectProxy.focus(variable, 'variableName');
                 return false;
             }
 
@@ -220,7 +220,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="variableSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="variableId" th:text="#{core.variable.Variable.variableId}"></option>
-                                <option value="name" th:text="#{core.variable.Variable.name}"></option>
+                                <option value="variableName" th:text="#{core.variable.Variable.variableName}"></option>
                             </select>
                             <input type="text" data-duice-bind="variableSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -248,7 +248,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.variable.Variable.variableId}"></th>
-                            <th data-th-text="#{core.variable.Variable.name}"></th>
+                            <th data-th-text="#{core.variable.Variable.variableName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -259,7 +259,7 @@
                             <td data-duice-bind="status" data-duice-property="count"
                                 class="text-align-center"></td>
                             <td data-duice-bind="variable" data-duice-property="variableId"></td>
-                            <td data-duice-bind="variable" data-duice-property="name"></td>
+                            <td data-duice-bind="variable" data-duice-property="variableName"></td>
                         </tr>
                         <tr data-duice-bind="variables"
                             data-duice-execute="if(variables.length === 0) this.hidden=false;" hidden>
@@ -317,11 +317,11 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.variable.Variable.name}"
+                        <span data-th-text="#{core.variable.Variable.variableName}"
                               class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="variable" data-duice-property="name"
+                        <input type="text" data-duice-bind="variable" data-duice-property="variableName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">

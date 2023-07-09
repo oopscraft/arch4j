@@ -27,7 +27,7 @@ public class UserController {
 
     private final AuthenticationTokenService accessTokenEncoder;
 
-    private final LoginHistoryService loginHistoryService;
+    private final UserLoginService userLoginService;
 
     /**
      * index
@@ -121,15 +121,15 @@ public class UserController {
     }
 
     /**
-     * get login history
-     * @param loginHistorySearch search condition
+     * get user login history
+     * @param userLoginSearch search condition
      * @param pageable pageable
      * @return list of login history
      */
-    @GetMapping("get-login-histories")
+    @GetMapping("get-user-logins")
     @ResponseBody
-    public Page<LoginHistory> getLoginHistories(LoginHistorySearch loginHistorySearch, Pageable pageable) {
-        return loginHistoryService.getLoginHistories(loginHistorySearch, pageable);
+    public Page<UserLogin> getUserLogins(UserLoginSearch userLoginSearch, Pageable pageable) {
+        return userLoginService.getUserLogins(userLoginSearch, pageable);
     }
 
 }

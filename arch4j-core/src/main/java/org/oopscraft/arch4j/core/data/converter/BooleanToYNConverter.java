@@ -3,9 +3,6 @@ package org.oopscraft.arch4j.core.data.converter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-/**
- * jpa converter for boolean to Y/N
- */
 @Converter
 public class BooleanToYNConverter implements AttributeConverter<Boolean, String> {
 	

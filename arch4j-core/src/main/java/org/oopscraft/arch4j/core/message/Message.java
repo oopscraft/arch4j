@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Message extends SystemFieldEntity {
 
     private String messageId;
 
-    private String name;
+    private String messageName;
 
     private String value;
 
@@ -28,11 +28,6 @@ public class Message extends SystemFieldEntity {
     @Builder.Default
     private List<MessageI18n> i18ns = new ArrayList<>();
 
-    /**
-     * return value
-     * @param locale locale
-     * @return message value
-     */
     public String getValue(Locale locale) {
         return i18ns.stream()
                 .filter(el -> el.getLanguage().equals(locale.getLanguage()))
@@ -41,15 +36,10 @@ public class Message extends SystemFieldEntity {
                 .orElse(this.value);
     }
 
-    /**
-     * factory method
-     * @param messageEntity message entity
-     * @return message
-     */
     public static Message from(MessageEntity messageEntity) {
         return Message.builder()
                 .messageId(messageEntity.getMessageId())
-                .name(messageEntity.getName())
+                .messageName(messageEntity.getMessageName())
                 .value(messageEntity.getValue())
                 .note(messageEntity.getNote())
                 .i18ns(messageEntity.getI18ns().stream()

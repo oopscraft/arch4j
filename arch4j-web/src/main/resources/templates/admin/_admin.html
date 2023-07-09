@@ -222,7 +222,7 @@
             <li sec:authorize="isAuthenticated()">
                 <span>
                     <img th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" class="icon"/>
-                    <span data-th-text="${_user.name}" class="font-weight-bold"></span>
+                    <span data-th-text="${_user.userName}" class="font-weight-bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">

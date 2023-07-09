@@ -3,13 +3,11 @@ package org.oopscraft.arch4j.core.board;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
-import org.oopscraft.arch4j.core.board.dao.BoardSpecification;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,19 +20,12 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    /**
-     * saves board info
-     * @param board board info
-     * @return board
-     */
     public Board saveBoard(Board board) {
-        BoardEntity boardEntity = boardRepository.findById(board.getBoardId()).orElse(null);
-        if(boardEntity == null) {
-            boardEntity = BoardEntity.builder()
+        BoardEntity boardEntity = boardRepository.findById(board.getBoardId()).orElse(
+                BoardEntity.builder()
                     .boardId(board.getBoardId())
-                    .build();
-        }
-        boardEntity.setName(board.getName());
+                    .build());
+        boardEntity.setBoardName(board.getBoardName());
         boardEntity.setNote(board.getNote());
         boardEntity.setIcon(board.getIcon());
         boardEntity.setMessageFormat(board.getMessageFormat());
@@ -73,40 +64,18 @@ public class BoardService {
         return Board.from(boardEntity);
     }
 
-    /**
-     * returns board
-     * @param boardId board id
-     * @return board info
-     */
     public Optional<Board> getBoard(String boardId) {
         return boardRepository.findById(boardId)
                 .map(Board::from);
     }
 
-    /**
-     * deletes board
-     * @param boardId board id
-     */
     public void deleteBoard(String boardId) {
         boardRepository.deleteById(boardId);
         boardRepository.flush();
     }
 
-    /**
-     * return list of board
-     * @param boardSearch board search condition
-     * @param pageable pagination info
-     * @return board list
-     */
     public Page<Board> getBoards(BoardSearch boardSearch, Pageable pageable) {
-        Specification<BoardEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(boardSearch.getBoardId() != null) {
-            specification = specification.and(BoardSpecification.likeBoardId(boardSearch.getBoardId()));
-        }
-        if(boardSearch.getName() != null) {
-            specification = specification.and(BoardSpecification.likeName(boardSearch.getName()));
-        }
-        Page<BoardEntity> boardEntityPage = boardRepository.findAll(specification, pageable);
+        Page<BoardEntity> boardEntityPage = boardRepository.findAll(boardSearch, pageable);
         List<Board> boards = boardEntityPage.getContent().stream()
                 .map(Board::from)
                 .collect(Collectors.toList());

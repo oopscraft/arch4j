@@ -21,7 +21,7 @@ class BoardServiceTest extends CoreTestSupport {
 
     Board testBoard = Board.builder()
             .boardId(UUID.randomUUID().toString())
-            .name("test board")
+            .boardName("test board")
             .build();
 
     @Test
@@ -52,10 +52,10 @@ class BoardServiceTest extends CoreTestSupport {
     void getBoard() {
         Board savedBoard = boardService.saveBoard(testBoard);
         BoardSearch boardSearch = BoardSearch.builder()
-                .name(savedBoard.getName())
+                .boardName(savedBoard.getBoardName())
                 .build();
         Page<Board> boardPage = boardService.getBoards(boardSearch, PageRequest.of(0,10));
-        assertTrue(boardPage.getContent().stream().anyMatch(e -> e.getName().contains(boardSearch.getName())));
+        assertTrue(boardPage.getContent().stream().anyMatch(e -> e.getBoardName().contains(boardSearch.getBoardName())));
     }
 
 }

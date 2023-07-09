@@ -14,7 +14,7 @@ logging:
     jdbc.sqlonly: OFF
     jdbc.resultsettable: OFF
     faker: OFF
-    org.eclipse.jgit.internal.storage.file.FileSnapshot: INFO
+    org.eclipse.jgit: INFO
 
 # spring
 spring:

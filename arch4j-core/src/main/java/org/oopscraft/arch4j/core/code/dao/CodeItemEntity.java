@@ -19,6 +19,9 @@ import java.io.Serializable;
 public class CodeItemEntity extends SystemFieldEntity {
 
 	@Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class Pk implements Serializable {
 		private String codeId;
 		private String itemId;
@@ -32,11 +35,11 @@ public class CodeItemEntity extends SystemFieldEntity {
 	@Column(name = "item_id")
 	private String itemId;
 
-	@Column(name = "sort")
+    @Column(name = "item_name")
+    private String itemName;
+
+    @Column(name = "sort")
 	private int sort;
-	
-	@Column(name = "name")
-	private String name;
 
     @Column(name = "value")
     private String value;

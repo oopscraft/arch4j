@@ -14,11 +14,6 @@ public class MessageI18n {
 
     private String value;
 
-    /**
-     * factory method
-     * @param messageI18nEntity messageI18Entity
-     * @return messageI18nEntity
-     */
     public static MessageI18n from(MessageI18nEntity messageI18nEntity) {
         return MessageI18n.builder()
                 .messageId(messageI18nEntity.getMessageId())

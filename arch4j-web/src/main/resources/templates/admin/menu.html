@@ -80,7 +80,7 @@
                 _new: true
             });
             duice.ObjectProxy.setDisableAll(menu, false);
-            duice.ObjectProxy.focus(menu, 'name');
+            duice.ObjectProxy.focus(menu, 'menuName');
         }
 
         /**
@@ -96,10 +96,10 @@
          */
         async function saveMenu() {
 
-            // check name
-            if(_isEmpty(menu.name)) {
-                await _alert([[#{web.global.itemEmpty(#{core.menu.Menu.name})}]]);
-                duice.ObjectProxy.focus(menu, 'name');
+            // check menu name
+            if(_isEmpty(menu.menuName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.menu.Menu.menuName})}]]);
+                duice.ObjectProxy.focus(menu, 'menuName');
                 return;
             }
 
@@ -150,7 +150,7 @@
             let disabledMenuIds = [ menu.menuId ];
             menuSelect.open(disabledMenuIds).then(selectedMenu => {
                 menu.parentMenuId = selectedMenu.menuId;
-                menu.parentMenuName = selectedMenu.name;
+                menu.parentMenuName = selectedMenu.menuName;
             });
         }
 
@@ -252,7 +252,7 @@
                              onclick="getMenu(this.dataset.menuId);" class="link menu-item">
                             <img data-duice-bind="menu" data-duice-property="icon" class="icon"
                                  th:src="@{/static/image/icon-null.svg}"/>
-                            <span data-duice-bind="menu" data-duice-property="name" class="font-weight-bold"></span>
+                            <span data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold"></span>
                         </div>
                     </div>
                 </div>
@@ -279,10 +279,10 @@
                 </h2>
                 <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.menu.Menu.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.menu.Menu.menuName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight-bold width-100"/>
+                        <input type="text" data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
                         <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
@@ -360,7 +360,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.name}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addMenuRole();"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
@@ -377,7 +377,7 @@
                                         class="text-align-center"></td>
                                     <td data-duice-bind="role" data-duice-property="roleId"
                                         class="font-weight-bold"></td>
-                                    <td data-duice-bind="role" data-duice-property="name"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -522,7 +522,7 @@
                         }
                         " onclick="menuSelect.selectMenu(this.dataset.menuId);">
                         <img data-duice-bind="menu" data-duice-property="icon" class="icon" th:src="@{/static/image/icon-null.svg}"/>
-                        <span data-duice-bind="menu" data-duice-property="name" class="font-weight-bold"></span>
+                        <span data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold"></span>
                     </a>
                 </div>
             </div>
@@ -650,23 +650,23 @@
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h1>
-        <div class="grid grid-gap-1px margin-1px">
-            <form onsubmit="return false;" class="grid-column-12 grid grid-gap-1px">
-                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="item-1">
+        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-flex-direction-column">
+            <div class="grid grid-template-columns-3 grid-gap-1px">
+                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                    <option value="name" th:text="#{core.role.Role.name}"></option>
+                    <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                 </select>
-                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="item-2"/>
-                <button onclick="roleSelect.getRoles();" class="item-1">
-                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                    <span data-th-text="#{web.global.search}">Search</span>
-                </button>
-                <button onclick="roleSelect.resetRoles();" class="item-1">
-                    <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                    <span data-th-text="#{web.global.reset}">Reset</span>
-                </button>
-            </form>
-        </div>
+                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="grid-column-2"/>
+            </div>
+            <button onclick="roleSelect.getRoles();">
+                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                <span data-th-text="#{web.global.search}">Search</span>
+            </button>
+            <button onclick="roleSelect.resetRoles();">
+                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                <span data-th-text="#{web.global.reset}">Reset</span>
+            </button>
+        </form>
         <div class="overflow-x-scroll border-1">
             <table class="border-0">
                 <colgroup>
@@ -679,7 +679,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -687,7 +687,7 @@
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="
@@ -736,7 +736,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.name}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -744,7 +744,7 @@
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="name"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="role"
                                 data-duice-execute="this.dataset.index = status.index;"
@@ -760,13 +760,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="container padding-1px">
-            <div class="item-12 justify-right">
-                <button onclick="roleSelect.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                    <span data-th-text="#{web.global.confirm}"></span>
-                </button>
-            </div>
+        <div class="flex justify-content-flex-end margin-top-1em">
+            <button onclick="roleSelect.confirm();">
+                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                <span data-th-text="#{web.global.confirm}"></span>
+            </button>
         </div>
     </dialog>
     <!-- ================================== -->

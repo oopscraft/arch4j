@@ -18,11 +18,11 @@ import java.util.List;
 public class PageEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "pageId", length = 32)
+    @Column(name = "page_id", length = 32)
     private String pageId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "page_name")
+    private String pageName;
 
     @Column(name = "content_format", length = 16)
     private ContentFormat contentFormat;

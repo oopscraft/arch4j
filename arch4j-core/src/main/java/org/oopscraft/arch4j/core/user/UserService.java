@@ -30,30 +30,26 @@ public class UserService {
      */
     @Transactional
     public User saveUser(User user) {
-        UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(null);
-        if(userEntity == null) {
-            userEntity = UserEntity.builder()
-                    .userId(user.getUserId())
-                    .password(passwordEncoder.encode(user.getPassword()))
-                    .joinDateTime(LocalDateTime.now())
-                    .build();
-        }
-        userEntity = userEntity.toBuilder()
-                .name(user.getName())
-                .type(user.getType())
-                .status(user.getStatus())
-                .email(user.getEmail())
-                .mobile(user.getMobile())
-                .photo(user.getPhoto())
-                .profile(user.getProfile())
-                .roles(user.getRoles().stream()
-                        .map(role -> RoleEntity.builder()
-                                    .roleId(role.getRoleId())
-                                    .name(role.getName())
-                                    .note(role.getNote())
-                                    .build())
-                        .collect(Collectors.toList()))
-                .build();
+        UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(
+                UserEntity.builder()
+                        .userId(user.getUserId())
+                        .password(passwordEncoder.encode(user.getPassword()))
+                        .joinAt(LocalDateTime.now())
+                        .build());
+        userEntity.setUserName(user.getUserName());
+        userEntity.setType(user.getType());
+        userEntity.setStatus(user.getStatus());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setMobile(user.getMobile());
+        userEntity.setPhoto(user.getPhoto());
+        userEntity.setProfile(user.getProfile());
+        userEntity.setRoles(user.getRoles().stream()
+                .map(role -> RoleEntity.builder()
+                            .roleId(role.getRoleId())
+                            .roleName(role.getRoleName())
+                            .note(role.getNote())
+                            .build())
+                .collect(Collectors.toList()));
         userEntity = userRepository.saveAndFlush(userEntity);
         return User.from(userEntity);
     }
@@ -95,12 +91,11 @@ public class UserService {
      * @return users
      */
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
-        Page<UserEntity> userEntityPage = userRepository.findUsers(userSearch, pageable);
+        Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
         List<User> users = userEntityPage.getContent().stream()
                 .map(User::from)
                 .collect(Collectors.toList());
-        long total = userEntityPage.getTotalElements();
-        return new PageImpl<>(users, pageable, total);
+        return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 
     /**

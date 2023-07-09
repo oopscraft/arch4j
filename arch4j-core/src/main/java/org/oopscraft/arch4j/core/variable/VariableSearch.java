@@ -9,6 +9,6 @@ public class VariableSearch {
 
     private String variableId;
 
-    private String name;
+    private String variableName;
 
 }

@@ -20,17 +20,17 @@ class VariableServiceTest extends CoreTestSupport {
 
     Variable testProperty = Variable.builder()
                 .variableId("test")
-                .name("test name")
+                .variableName("test name")
                 .build();
 
     @Test
     @Order(1)
     public void saveProperty() {
 
-        // save
+        // when
         propertyService.saveVariable(testProperty);
 
-        // check data
+        // then
         assertNotNull(entityManager.find(VariableEntity.class, testProperty.getVariableId()));
     }
 
@@ -38,43 +38,44 @@ class VariableServiceTest extends CoreTestSupport {
     @Order(2)
     public void getProperties() {
 
-        // save test property
+        // given
         saveProperty();
 
-        // get properties by condition
+        // when
         VariableSearch propertySearch = VariableSearch.builder()
                 .variableId(testProperty.getVariableId())
                 .build();
         Pageable pageable = PageRequest.of(0, 10);
         Page<Variable> page = propertyService.getVariables(propertySearch, pageable);
 
-        // must be existed same id
-        assertTrue(page.getContent().stream().anyMatch(e -> e.getVariableId().equals(propertySearch.getVariableId())));
+        // then
+        assertTrue(page.getContent().stream()
+                .anyMatch(e -> e.getVariableId().equals(propertySearch.getVariableId())));
     }
 
     @Test
     @Order(3)
     public void getProperty() {
-        // save
+        // given
         saveProperty();
 
-        // get property
+        // when
         Variable property = propertyService.getVariable(testProperty.getVariableId()).orElse(null);
 
-        // test property must be not null
+        // then
         assertNotNull(property);
     }
 
     @Test
     @Order(4)
     public void deleteProperty() {
-        // save test property
+        // given
         saveProperty();
 
-        // delete test property
+        // when
         propertyService.deleteVariable(testProperty.getVariableId());
 
-        // test property must be null
+        // then
         assertNull(entityManager.find(VariableEntity.class, testProperty.getVariableId()));
     }
 

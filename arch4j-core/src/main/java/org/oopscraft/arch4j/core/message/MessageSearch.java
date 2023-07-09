@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder(toBuilder = true)
+@Builder
 public class MessageSearch {
 
     private String messageId;
 
-    private String name;
+    private String messageName;
 
 }

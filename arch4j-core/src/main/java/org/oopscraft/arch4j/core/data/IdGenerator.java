@@ -10,26 +10,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.UUID;
 
-/**
- * ID generator helper
- */
 @Slf4j
 public class IdGenerator {
 
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    /**
-     * generates UUID
-     */
     public static String uuid() {
         return UUID.randomUUID().toString().replaceAll("-","");
     }
 
-    /**
-     * md5
-     * @param value plain value
-     * @return md5 hash string
-     */
     public static String md5(String value) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -45,9 +34,6 @@ public class IdGenerator {
         }
     }
 
-    /**
-     * encode base64
-     */
     public static String encodeBase64(String plainValue) {
         if(plainValue == null) {
             return null;
@@ -56,9 +42,6 @@ public class IdGenerator {
         return new String(bytes, CHARSET);
     }
 
-    /**
-     * decode base64
-     */
     public static String decodeBase64(String encodedValue) {
         if(encodedValue == null) {
             return null;

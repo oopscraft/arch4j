@@ -10,6 +10,6 @@ public class BoardSearch {
 
     private String boardId;
 
-    private String name;
+    private String boardName;
 
 }

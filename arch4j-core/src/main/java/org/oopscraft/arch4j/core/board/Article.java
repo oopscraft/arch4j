@@ -54,11 +54,6 @@ public class Article {
     @Builder.Default
     private List<ArticleFile> files = new ArrayList<>();
 
-    /**
-     * factory method
-     * @param articleEntity article entity
-     * @return article info
-     */
     public static Article from(ArticleEntity articleEntity) {
         return Article.builder()
                 .articleId(articleEntity.getArticleId())
@@ -72,7 +67,7 @@ public class Article {
                 .votePositiveCount(articleEntity.getVotePositiveCount())
                 .voteNegativeCount(articleEntity.getVoteNegativeCount())
                 .userName(Optional.ofNullable(articleEntity.getUser())
-                        .map(UserEntity::getName)
+                        .map(UserEntity::getUserName)
                         .orElse(articleEntity.getUserName()))
                 .userIcon(Optional.ofNullable(articleEntity.getUser())
                         .map(UserEntity::getPhoto)

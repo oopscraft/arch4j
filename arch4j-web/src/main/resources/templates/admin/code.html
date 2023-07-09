@@ -137,10 +137,10 @@
                 }
             }
 
-            // checks name
-            if (!code.name || code.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.code.Code.name})}]]);
-                duice.ObjectProxy.focus(code, 'name');
+            // checks code name
+            if(_isEmpty(code.codeName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.code.Code.codeName})}]]);
+                duice.ObjectProxy.focus(code, 'codeName');
                 return false;
             }
 
@@ -246,7 +246,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="codeSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="codeId" th:text="#{core.code.Code.codeId}"></option>
-                                <option value="name" th:text="#{core.code.Code.name}"></option>
+                                <option value="codeName" th:text="#{core.code.Code.codeName}"></option>
                             </select>
                             <input type="text" data-duice-bind="codeSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -274,7 +274,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.code.Code.codeId}"></th>
-                            <th data-th-text="#{core.code.Code.name}"></th>
+                            <th data-th-text="#{core.code.Code.codeName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -284,7 +284,7 @@
                             <td data-duice-bind="status" data-duice-property="count"
                                 class="text-align-center"></td>
                             <td data-duice-bind="code" data-duice-property="codeId"></td>
-                            <td data-duice-bind="code" data-duice-property="name"></td>
+                            <td data-duice-bind="code" data-duice-property="codeName"></td>
                         </tr>
                         <tr data-duice-bind="codes" data-duice-execute="if(codes.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -334,10 +334,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.code.Code.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.code.Code.codeName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="code" data-duice-property="name"
+                        <input type="text" data-duice-bind="code" data-duice-property="codeName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
@@ -364,7 +364,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.code.CodeItem.itemId}"></th>
-                                    <th data-th-text="#{core.code.CodeItem.name}"></th>
+                                    <th data-th-text="#{core.code.CodeItem.itemName}"></th>
                                     <th data-th-text="#{core.code.CodeItem.value}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addCodeItem();"
@@ -383,7 +383,7 @@
                                                class="width-100 font-weight-bold"/>
                                     </td>
                                     <td>
-                                        <input type="text" data-duice-bind="item" data-duice-property="name"
+                                        <input type="text" data-duice-bind="item" data-duice-property="itemName"
                                                class="width-100"/>
                                     </td>
                                     <td>

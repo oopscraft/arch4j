@@ -3,13 +3,13 @@ package org.oopscraft.arch4j.core.menu;
 import lombok.*;
 
 @Data
-@Builder(toBuilder = true)
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuSearch {
 
     private String menuId;
 
-    private String name;
+    private String menuName;
 
 }

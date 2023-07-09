@@ -12,7 +12,7 @@ public class PageResponse {
 
     private String pageId;
 
-    private String name;
+    private String pageName;
 
     private ContentFormat contentFormat;
 
@@ -21,7 +21,7 @@ public class PageResponse {
     public static PageResponse from(Page page) {
         return PageResponse.builder()
                 .pageId(page.getPageId())
-                .name(page.getName())
+                .pageName(page.getPageName())
                 .contentFormat(page.getContentFormat())
                 .content(page.getContent())
                 .build();

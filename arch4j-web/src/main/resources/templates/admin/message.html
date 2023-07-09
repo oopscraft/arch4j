@@ -135,10 +135,10 @@
                 }
             }
 
-            // checks name
-            if (!message.name || message.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.message.Message.name})}]]);
-                duice.ObjectProxy.focus(message, 'name');
+            // checks message name
+            if(_isEmpty(message.messageName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.message.Message.messageName})}]]);
+                duice.ObjectProxy.focus(message, 'messageName');
                 return false;
             }
 
@@ -220,7 +220,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="messageSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
-                                <option value="name" th:text="#{core.message.Message.name}"></option>
+                                <option value="messageName" th:text="#{core.message.Message.messageName}"></option>
                             </select>
                             <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -248,7 +248,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.message.Message.messageId}"></th>
-                            <th data-th-text="#{core.message.Message.name}"></th>
+                            <th data-th-text="#{core.message.Message.messageName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -258,7 +258,7 @@
                             <td data-duice-bind="status" data-duice-property="count"
                                 class="text-align-center"></td>
                             <td data-duice-bind="message" data-duice-property="messageId"></td>
-                            <td data-duice-bind="message" data-duice-property="name"></td>
+                            <td data-duice-bind="message" data-duice-property="messageName"></td>
                         </tr>
                         <tr data-duice-bind="messages" data-duice-execute="if(messages.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -314,10 +314,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.message.Message.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.message.Message.messageName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="message" data-duice-property="name"
+                        <input type="text" data-duice-bind="message" data-duice-property="messageName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">

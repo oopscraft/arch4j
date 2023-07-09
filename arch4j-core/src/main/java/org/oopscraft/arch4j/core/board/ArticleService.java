@@ -35,48 +35,29 @@ public class ArticleService {
 
     private final ArticleVoteRepository articleVoteRepository;
 
-    /**
-     * saves article
-     * @param article article info
-     * @return article
-     */
     @Transactional
     public Article saveArticle(Article article, MultipartFile[] files) {
-
-        // validate
         ValidationUtils.validate(article);
-
-        // find previous article entity
         ArticleEntity articleEntity = Optional.ofNullable(article.getArticleId())
-                .flatMap(articleRepository::findById)
-                .orElse(null);
-
-        // create new article
-        if(articleEntity == null) {
-            articleEntity = ArticleEntity.builder()
-                    .articleId(IdGenerator.uuid())
-                    .createdAt(LocalDateTime.now())
-                    .userId(article.getUserId())
-                    .userName(article.getUserName())
-                    .build();
-        }
-
-        // password
+                .flatMap(articleRepository::findById).orElse(
+                        ArticleEntity.builder()
+                                .articleId(IdGenerator.uuid())
+                                .createdAt(LocalDateTime.now())
+                                .userId(article.getUserId())
+                                .userName(article.getUserName())
+                                .build());
+        // anonymous writer
         if(article.getUserId() == null) {
             Assert.notNull(article.getPassword(), "password is required");
             articleEntity.setPassword(passwordEncoder.encode(article.getPassword()));
         }
-
-        // set article property
         articleEntity.setTitle(article.getTitle());
         articleEntity.setContentFormat(article.getContentFormat());
         articleEntity.setContent(article.getContent());
         articleEntity.setBoardId(article.getBoardId());
-
-        // save article entity
         articleEntity = articleRepository.saveAndFlush(articleEntity);
 
-        // files (new file)
+        // new file
         for(ArticleFile articleFile : article.getFiles()) {
             ArticleFileEntity.Pk pk = ArticleFileEntity.Pk.builder()
                     .articleId(articleEntity.getArticleId())
@@ -105,7 +86,7 @@ public class ArticleService {
             }
         }
 
-        // file (deleted file)
+        // deleted file
         for(ArticleFileEntity articleFileEntity : articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(articleEntity.getArticleId())) {
             if(article.getFiles().stream().noneMatch(e -> articleFileEntity.getFilename().equals(e.getFilename()))){
                 articleFileRepository.delete(articleFileEntity);
@@ -124,25 +105,14 @@ public class ArticleService {
         return article;
     }
 
-    /**
-     * returns article info
-     * @param articleId article id
-     * @return article info
-     */
     public Optional<Article> getArticle(String articleId) {
         Article article = articleRepository.findById(articleId).map(Article::from).orElseThrow();
         article.setFiles(articleFileRepository.findAllByArticleIdOrderByCreatedAtAsc(article.getArticleId()).stream()
                 .map(ArticleFile::from)
                 .collect(Collectors.toList()));
-
-        // return
         return Optional.of(article);
     }
 
-    /**
-     * deletes article
-     * @param articleId article id
-     */
     @Transactional
     public void deleteArticle(String articleId) {
         articleFileRepository.deleteByArticleId(articleId);
@@ -151,14 +121,8 @@ public class ArticleService {
         articleRepository.flush();
     }
 
-    /**
-     * returns articles
-     * @param articleSearch article search condition
-     * @param pageable pagination info
-     * @return list of article
-     */
     public Page<Article> getArticles(ArticleSearch articleSearch, Pageable pageable) {
-        Page<ArticleEntity> articleEntityPage = articleRepository.findArticles(articleSearch, pageable);
+        Page<ArticleEntity> articleEntityPage = articleRepository.findAll(articleSearch, pageable);
         List<Article> articles = articleEntityPage.getContent().stream()
                 .map(Article::from)
                 .collect(Collectors.toList());
@@ -166,22 +130,11 @@ public class ArticleService {
         return new PageImpl<>(articles, pageable, total);
     }
 
-    /**
-     * return article file
-     * @param articleId article id
-     * @param fileId file id
-     * @return article file info
-     */
     public Optional<ArticleFile> getArticleFile(String articleId, String fileId) {
         return articleFileRepository.findById(new ArticleFileEntity.Pk(articleId, fileId))
                 .map(ArticleFile::from);
     }
 
-    /**
-     * get article file input stream
-     * @param articleFile article file
-     * @return article file input stream
-     */
     public InputStream getArticleFileInputStream(ArticleFile articleFile) {
         return fileService.download("board", articleFile.getFileId());
     }

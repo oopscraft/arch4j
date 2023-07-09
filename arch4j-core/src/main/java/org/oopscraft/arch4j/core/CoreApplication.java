@@ -58,11 +58,6 @@ import java.util.Properties;
 )
 public class CoreApplication implements EnvironmentPostProcessor {
 
-    /**
-     * postProcessEnvironment
-     * @param environment environment
-     * @param application application
-     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 
@@ -83,11 +78,6 @@ public class CoreApplication implements EnvironmentPostProcessor {
         }
     }
 
-    /**
-     * PBE encryption bean
-     * @param environment environment
-     * @return PBE string encryptor
-     */
     @Bean
     public StandardPBEStringEncryptor jasyptEncryptorBean(ConfigurableEnvironment environment) {
         StandardPBEStringEncryptor pbeEncryptor = new StandardPBEStringEncryptor();
@@ -98,20 +88,12 @@ public class CoreApplication implements EnvironmentPostProcessor {
         return pbeEncryptor;
     }
 
-    /**
-     * message properties
-     * @return message properties
-     */
     @Bean
     @ConfigurationProperties(prefix = "spring.messages")
     public MessageSourceProperties messageSourceProperties() {
         return new MessageSourceProperties();
     }
 
-    /**
-     * messageSource
-     * @return message source
-     */
     @Bean
     public MessageSource messageSource(MessageSourceProperties messageProperties, MessageService messageService) {
         MessageSource messageSource = new MessageSource(messageService);
@@ -134,20 +116,11 @@ public class CoreApplication implements EnvironmentPostProcessor {
         return messageSource;
     }
 
-    /**
-     * JPAQueryFactory for query DSL
-     * @param entityManager entity manager
-     * @return jpa query factory
-     */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
     }
 
-    /**
-     * spring security password encoder
-     * @return password encoder
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

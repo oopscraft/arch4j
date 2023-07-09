@@ -13,16 +13,13 @@ import java.util.stream.Collectors;
 @Builder
 public class CodeResponse {
 
-    private String id;
+    private String codeId;
 
-    private String name;
+    private String codeName;
 
     @Builder.Default
     private List<Item> items = new ArrayList<>();
 
-    /**
-     * Item
-     */
     @Data
     @Builder
     public static class Item {
@@ -36,7 +33,7 @@ public class CodeResponse {
         static Item from(CodeItem codeItem) {
             return Item.builder()
                     .id(codeItem.getItemId())
-                    .name(codeItem.getName())
+                    .name(codeItem.getItemName())
                     .value(codeItem.getValue())
                     .build();
         }
@@ -44,8 +41,8 @@ public class CodeResponse {
 
     public static CodeResponse from(Code code){
          return CodeResponse.builder()
-                .id(code.getCodeId())
-                .name(code.getName())
+                .codeId(code.getCodeId())
+                .codeName(code.getCodeName())
                 .items(code.getItems().stream().map(Item::from).collect(Collectors.toList()))
                 .build();
     }

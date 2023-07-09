@@ -45,7 +45,7 @@ public class ArticleComment {
                 .content(articleCommentEntity.getContent())
                 .userId(articleCommentEntity.getUserId())
                 .userName(Optional.ofNullable(articleCommentEntity.getUser())
-                        .map(UserEntity::getName)
+                        .map(UserEntity::getUserName)
                         .orElse(articleCommentEntity.getUserName()))
                 .userIcon(Optional.ofNullable(articleCommentEntity.getUser())
                         .map(UserEntity::getPhoto)

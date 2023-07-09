@@ -19,7 +19,7 @@ public class User {
 
     private String userId;
 
-    private String name;
+    private String userName;
 
     private String password;
 
@@ -33,9 +33,9 @@ public class User {
 
     private String mobile;
 
-    private LocalDateTime joinDateTime;
+    private LocalDateTime joinAt;
 
-    private LocalDateTime loginDateTime;
+    private LocalDateTime loginAt;
 
     private String photo;
 
@@ -47,14 +47,14 @@ public class User {
     public static User from(UserEntity userEntity) {
         return User.builder()
                 .userId(userEntity.getUserId())
-                .name(userEntity.getName())
+                .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
                 .type(userEntity.getType())
                 .status(userEntity.getStatus())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
-                .joinDateTime(userEntity.getJoinDateTime())
-                .loginDateTime(userEntity.getCloseDateTime())
+                .joinAt(userEntity.getJoinAt())
+                .loginAt(userEntity.getCloseAt())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()

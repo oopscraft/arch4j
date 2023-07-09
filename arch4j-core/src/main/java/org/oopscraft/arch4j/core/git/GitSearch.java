@@ -12,6 +12,4 @@ public class GitSearch {
 
     private String gitName;
 
-    private String url;
-
 }

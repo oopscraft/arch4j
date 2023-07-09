@@ -106,7 +106,7 @@
             // check blank
             if (!roleId) {
                 await _alert([[#{web.global.itemEmpty(#{core.role.Role.roleId})}]]);
-                duice.ObjectProxy.focus(authority, 'roleId');
+                duice.ObjectProxy.focus(role, 'roleId');
                 return false;
             }
 
@@ -138,10 +138,10 @@
                 }
             }
 
-            // checks name
-            if (!role.name || role.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Role.name})}]]);
-                duice.ObjectProxy.focus(role, 'name');
+            // checks role name
+            if (_isEmpty(role.roleName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.role.Role.roleName})}]]);
+                duice.ObjectProxy.focus(role, 'roleName');
                 return false;
             }
 
@@ -239,7 +239,7 @@
          */
         function getAuthorities(page) {
             if(page) {
-                authoritySearch._size = size;
+                authoritySearch._page = page;
             }
             let url = new URL([[@{/admin/role/get-authorities}]], document.location.origin);
             if (authoritySearch.key && authoritySearch.value) {
@@ -280,7 +280,7 @@
                     duice.ObjectProxy.assign(authority, data);
                     duice.ObjectProxy.setDisableAll(authority, false);
                     duice.ObjectProxy.setReadonly(authority, 'authorityId', true);
-                    role._new = false;
+                    authority._new = false;
                 });
         }
 
@@ -340,9 +340,9 @@
             }
 
             // checks name
-            if (!authority.name || authority.name.trim().length < 1) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.name})}]]);
-                duice.ObjectProxy.focus(authority, 'name');
+            if(_isEmpty(authority.authorityName)) {
+                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.authorityName})}]]);
+                duice.ObjectProxy.focus(authority, 'authorityName');
                 return false;
             }
 
@@ -451,7 +451,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="roleSearch" data-duice-property="key" class="grid-column-1">
                                 <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                                <option value="name" th:text="#{core.role.Role.name}"></option>
+                                <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                             </select>
                             <input type="text" data-duice-bind="roleSearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -479,7 +479,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.role.Role.roleId}"></th>
-                            <th data-th-text="#{core.role.Role.name}"></th>
+                            <th data-th-text="#{core.role.Role.roleName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -488,7 +488,7 @@
                         " onclick="getRole(this.dataset.id);" class="link">
                             <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                             <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                            <td data-duice-bind="role" data-duice-property="name"></td>
+                            <td data-duice-bind="role" data-duice-property="roleName"></td>
                         </tr>
                         <tr data-duice-bind="roles" data-duice-execute="if(roles.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -542,10 +542,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.role.Role.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.role.Role.roleName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="role" data-duice-property="name"
+                        <input type="text" data-duice-bind="role" data-duice-property="roleName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
@@ -571,7 +571,7 @@
                                 <tr>
                                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                                     <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                                    <th data-th-text="#{core.role.Authority.name}"></th>
+                                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addRoleAuthority();"
                                                 data-duice-bind="role"
@@ -588,7 +588,7 @@
                                         class="text-align-center"></td>
                                     <td data-duice-bind="authority" data-duice-property="authorityId"
                                         class="font-weight-bold"></td>
-                                    <td data-duice-bind="authority" data-duice-property="name"></td>
+                                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="authority"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -757,7 +757,7 @@
             <div class="grid grid-template-columns-3 grid-gap-1px">
                 <select data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key" class="grid-column-1">
                     <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
-                    <option value="name" th:text="#{core.role.Authority.name}"></option>
+                    <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
                 </select>
                 <input type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value" class="grid-column-2"/>
             </div>
@@ -782,7 +782,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                    <th data-th-text="#{core.role.Authority.name}"></th>
+                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -790,7 +790,7 @@
                 <tr data-duice-bind="authoritySelect.authorities" data-duice-loop="authority,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
-                    <td data-duice-bind="authority" data-duice-property="name"></td>
+                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="authority"
                                 data-duice-execute="
@@ -840,7 +840,7 @@
                 <tr>
                     <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                     <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                    <th data-th-text="#{core.role.Authority.name}"></th>
+                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
                     <th class="text-align-center">-</th>
                 </tr>
                 </thead>
@@ -848,7 +848,7 @@
                 <tr data-duice-bind="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
                     <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                     <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
-                    <td data-duice-bind="authority" data-duice-property="name"></td>
+                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                     <td class="text-align-center">
                         <button data-duice-bind="authority"
                                 data-duice-execute="this.dataset.index = status.index;"
@@ -893,7 +893,7 @@
                         <div class="grid grid-template-columns-3 grid-gap-1px">
                             <select data-duice-bind="authoritySearch" data-duice-property="key" class="grid-column-1">
                                 <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
-                                <option value="name" th:text="#{core.role.Authority.name}"></option>
+                                <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
                             </select>
                             <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
                                    th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -921,7 +921,7 @@
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.role.Role.roleId}"></th>
-                            <th data-th-text="#{core.role.Role.name}"></th>
+                            <th data-th-text="#{core.role.Role.roleName}"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -930,7 +930,7 @@
                         " onclick="getAuthority(this.dataset.id);" class="link">
                             <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
                             <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
-                            <td data-duice-bind="authority" data-duice-property="name"></td>
+                            <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                         </tr>
                         <tr data-duice-bind="authorities" data-duice-execute="if(authorities.length === 0) this.hidden=false;" hidden>
                             <td colspan="100%" class="text-align-center">No Data</td>
@@ -984,10 +984,10 @@
                                class="width-100 font-weight-bold"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.role.Authority.name}" class="font-weight-bold tag-required"></span>
+                        <span data-th-text="#{core.role.Authority.authorityName}" class="font-weight-bold tag-required"></span>
                     </div>
                     <div class="grid-column-2 s-grid-column-6">
-                        <input type="text" data-duice-bind="authority" data-duice-property="name"
+                        <input type="text" data-duice-bind="authority" data-duice-property="authorityName"
                                class="width-100"/>
                     </div>
                     <div class="grid-column-1 s-grid-column-6">

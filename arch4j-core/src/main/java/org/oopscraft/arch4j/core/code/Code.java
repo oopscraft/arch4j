@@ -16,7 +16,7 @@ public class Code {
 	
 	private String codeId;
 	
-	private String name;
+	private String codeName;
 	
 	private String note;
 
@@ -26,7 +26,7 @@ public class Code {
     static Code from(CodeEntity codeEntity) {
         return Code.builder()
                 .codeId(codeEntity.getCodeId())
-                .name(codeEntity.getName())
+                .codeName(codeEntity.getCodeName())
                 .note(codeEntity.getNote())
                 .items(codeEntity.getItems().stream()
                         .map(CodeItem::from)

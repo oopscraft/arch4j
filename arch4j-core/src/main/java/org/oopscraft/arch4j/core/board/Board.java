@@ -18,7 +18,7 @@ public class Board {
 
     private String boardId;
 
-    private String name;
+    private String boardName;
 
     private String note;
 
@@ -66,15 +66,10 @@ public class Board {
     @Builder.Default
     private List<Role> commentRoles = new ArrayList<>();
 
-    /**
-     * factory method
-     * @param boardEntity board entity
-     * @return board info
-     */
     public static Board from(BoardEntity boardEntity) {
         return Board.builder()
                 .boardId(boardEntity.getBoardId())
-                .name(boardEntity.getName())
+                .boardName(boardEntity.getBoardName())
                 .note(boardEntity.getNote())
                 .icon(boardEntity.getIcon())
                 .messageFormat(boardEntity.getMessageFormat())

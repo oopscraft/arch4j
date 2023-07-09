@@ -5,11 +5,6 @@ import java.util.Set;
 
 public class ValidationUtils {
 
-    /**
-     * validate
-     * @param target target
-     * @param <T> type
-     */
     public static <T> void validate(T target) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();

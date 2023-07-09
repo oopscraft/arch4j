@@ -25,8 +25,8 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "board_id", length = 64)
     private String boardId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "board_name")
+    private String boardName;
 
     @Column(name = "note")
     @Lob

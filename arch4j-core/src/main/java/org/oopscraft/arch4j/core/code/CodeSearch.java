@@ -8,6 +8,6 @@ public class CodeSearch {
 
     private String codeId;
 
-    private String name;
+    private String codeName;
 
 }

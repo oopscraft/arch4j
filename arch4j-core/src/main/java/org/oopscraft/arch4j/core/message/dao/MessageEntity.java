@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "core_message")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageEntity extends SystemFieldEntity {
@@ -21,8 +21,8 @@ public class MessageEntity extends SystemFieldEntity {
     @Column(name = "message_id", length = 64)
     private String messageId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "message_name")
+    private String messageName;
 
     @Column(name = "value")
     @Lob
@@ -35,6 +35,5 @@ public class MessageEntity extends SystemFieldEntity {
     @OneToMany(mappedBy = MessageI18nEntity_.MESSAGE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MessageI18nEntity> i18ns = new ArrayList<>();
-
 
 }

@@ -18,14 +18,14 @@ public class CodeEntityTest extends CoreTestSupport {
         // persist
         CodeEntity codeEntity = CodeEntity.builder()
                 .codeId("test id")
-                .name("test name")
+                .codeName("test name")
                 .build();
 
         codeEntity.setItems(IntStream.range(0,10)
                 .mapToObj(i -> CodeItemEntity.builder()
                         .codeId(codeEntity.getCodeId())
                         .itemId(String.format("item %s",i))
-                        .name(String.format("name %d", i))
+                        .itemName(String.format("name %d", i))
                         .build())
                 .collect(Collectors.toList()));
 

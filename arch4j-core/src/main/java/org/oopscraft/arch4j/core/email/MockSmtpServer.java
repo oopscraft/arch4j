@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/**
+ * SMTP mocking server for test
+ */
 @Component
 @Lazy(false)
 @ConditionalOnProperty(prefix="spring.mail", name = "host", havingValue="127.0.0.1")
@@ -27,6 +30,8 @@ public class MockSmtpServer implements InitializingBean, DisposableBean {
     public void afterPropertiesSet() throws Exception {
         ServerSetup serverSetup = new ServerSetup(port,null, ServerSetup.PROTOCOL_SMTP);
         greenMail = new GreenMail(serverSetup);
+
+        // only start, if port is open
         if(!isPortOpen()) {
             greenMail.start();
         }
@@ -39,10 +44,6 @@ public class MockSmtpServer implements InitializingBean, DisposableBean {
         }
     }
 
-    /**
-     * check port open
-     * @return port open
-     */
     private boolean isPortOpen() {
         try (Socket socket = new Socket()) {
             InetSocketAddress socketAddress = new InetSocketAddress("127.0.0.1", port);

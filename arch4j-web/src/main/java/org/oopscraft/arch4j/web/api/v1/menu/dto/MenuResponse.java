@@ -12,9 +12,9 @@ public class MenuResponse {
 
     private String menuId;
 
-    private String parentMenuId;
+    private String menuName;
 
-    private String name;
+    private String parentMenuId;
 
     private String link;
 
@@ -24,16 +24,11 @@ public class MenuResponse {
 
     private Integer sort;
 
-    /**
-     * factory method
-     * @param menu menu
-     * @return menu response
-     */
     public static MenuResponse from(Menu menu) {
         return MenuResponse.builder()
                 .menuId(menu.getMenuId())
+                .menuName(menu.getMenuName())
                 .parentMenuId(menu.getParentMenuId())
-                .name(menu.getName())
                 .link(menu.getLink())
                 .target(menu.getTarget())
                 .icon(menu.getIcon())

@@ -4,7 +4,7 @@
 
 [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
 
-user/password: admin/admin, dev/dev
+user/password: dev/dev
 
 
 ## Main Features
@@ -15,7 +15,7 @@ The main features provided are as follows.
 
 Access the system administration console by visiting /admin.
 
-### Theme Functionality
+### Design Theme Functionality
 
 Theming functionality based on Thymeleaf templates.
 
@@ -31,7 +31,7 @@ Multiple bulletin board functionality with skin, file attachments and comments.
 
 Database-based dynamic content page composition functionality.
 
-### Markdown Content Service with Git Integration
+### Markdown Content with Git Integration
 
 Markdown page service with Git integration for content management.
 

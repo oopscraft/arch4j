@@ -32,7 +32,7 @@ public class JoinRestController {
     public ResponseEntity<?> join(@RequestBody JoinRequest joinRequest) {
         User user = User.builder()
                 .userId(joinRequest.getUserId())
-                .name(joinRequest.getName())
+                .userName(joinRequest.getName())
                 .email(joinRequest.getEmail())
                 .password(joinRequest.getPassword())
                 .type(UserType.GENERAL)

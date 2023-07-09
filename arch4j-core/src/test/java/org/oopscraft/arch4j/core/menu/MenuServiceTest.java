@@ -15,7 +15,7 @@ class MenuServiceTest extends CoreTestSupport {
     Menu testMenu = Menu.builder()
             .menuId("test_menu")
             .parentMenuId(null)
-            .name("test_name")
+            .menuName("test_name")
             .link("test_link")
             .target(MenuTarget._self)
             .build();

@@ -8,19 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * RoleEntity(group of authorities)
- */
 @Data
-@SuperBuilder(toBuilder = true)
-@EqualsAndHashCode(callSuper=false)
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Role {
 
     private String roleId;
 
-    private String name;
+    private String roleName;
 
     private String note;
 
@@ -30,7 +26,7 @@ public class Role {
     public static Role from(RoleEntity roleEntity){
         return Role.builder()
                 .roleId(roleEntity.getRoleId())
-                .name(roleEntity.getName())
+                .roleName(roleEntity.getRoleName())
                 .note(roleEntity.getNote())
                 .authorities(roleEntity.getAuthorities().stream()
                         .map(Authority::from)

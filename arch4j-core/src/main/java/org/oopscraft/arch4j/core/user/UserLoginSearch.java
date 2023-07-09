@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LoginHistorySearch {
+public class UserLoginSearch {
 
     private String userId;
 

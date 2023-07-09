@@ -2,8 +2,8 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.core.user.LoginHistory;
-import org.oopscraft.arch4j.core.user.LoginHistoryService;
+import org.oopscraft.arch4j.core.user.UserLogin;
+import org.oopscraft.arch4j.core.user.UserLoginService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
-    private final LoginHistoryService loginHistoryService;
+    private final UserLoginService loginHistoryService;
 
     @Override
     @Transactional
@@ -31,16 +31,16 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         // save login history
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String userId = userDetails.getUsername();
-        LocalDateTime loginDateTime = LocalDateTime.now();
+        LocalDateTime loginAt = LocalDateTime.now();
         String ipAddress = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
-        LoginHistory loginHistory = LoginHistory.builder()
+        UserLogin userLogin = UserLogin.builder()
                 .userId(userId)
-                .loginDateTime(loginDateTime)
+                .loginAt(loginAt)
                 .ipAddress(ipAddress)
                 .userAgent(userAgent)
                 .build();
-        loginHistoryService.saveLoginHistory(loginHistory);
+        loginHistoryService.saveUserLogin(userLogin);
     }
 
 }

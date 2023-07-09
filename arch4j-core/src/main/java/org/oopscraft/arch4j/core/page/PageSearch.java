@@ -10,6 +10,6 @@ public class PageSearch {
 
     private String pageId;
 
-    private String name;
+    private String pageName;
 
 }

@@ -1,16 +1,19 @@
 package org.oopscraft.arch4j.core.email;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.email.dao.*;
+import org.oopscraft.arch4j.core.email.dao.EmailTemplateEntity;
+import org.oopscraft.arch4j.core.email.dao.EmailTemplateRepository;
+import org.oopscraft.arch4j.core.email.dao.EmailVerificationEntity;
+import org.oopscraft.arch4j.core.email.dao.EmailVerificationRepository;
 import org.oopscraft.arch4j.core.message.MessageSource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -49,21 +52,13 @@ public class EmailService implements InitializingBean {
         templateEngine.setTemplateResolver(templateResolver);
     }
 
-    /**
-     * save email template
-     * @param emailTemplate email template
-     * @return saved email template
-     */
+    @Transactional
     public EmailTemplate saveEmailTemplate(EmailTemplate emailTemplate) {
         EmailTemplateEntity emailTemplateEntity = Optional.ofNullable(emailTemplate.getTemplateId())
                 .flatMap(emailTemplateRepository::findById)
-                .orElse(null);
-
-        if(emailTemplateEntity == null) {
-            emailTemplateEntity = EmailTemplateEntity.builder()
+                .orElse(EmailTemplateEntity.builder()
                     .templateId(emailTemplate.getTemplateId())
-                    .build();
-        }
+                    .build());
 
         emailTemplateEntity.setTemplateName(emailTemplate.getTemplateName());
         emailTemplateEntity.setSubject(emailTemplate.getSubject());
@@ -73,56 +68,26 @@ public class EmailService implements InitializingBean {
         return EmailTemplate.from(emailTemplateEntity);
     }
 
-    /**
-     * search email template
-     * @param emailTemplateSearch search condition
-     * @param pageable pagination info
-     * @return list of email template
-     */
     public Page<EmailTemplate> getEmailTemplates(EmailTemplateSearch emailTemplateSearch, Pageable pageable) {
-
-        Specification<EmailTemplateEntity> specification = (root, query, criteriaBuilder) -> null;
-        if(emailTemplateSearch.getTemplateId() != null) {
-            specification = specification.and(EmailTemplateSpecification.likeTemplateId(emailTemplateSearch.getTemplateId()));
-        }
-        if(emailTemplateSearch.getTemplateName() != null) {
-            specification = specification.and(EmailTemplateSpecification.likeTemplateName(emailTemplateSearch.getTemplateName()));
-        }
-
-        Page<EmailTemplateEntity> emailTemplatePage = emailTemplateRepository.findAll(specification, pageable);
+        Page<EmailTemplateEntity> emailTemplatePage = emailTemplateRepository.findAll(emailTemplateSearch, pageable);
         List<EmailTemplate> emailTemplates = emailTemplatePage.getContent().stream()
                         .map(EmailTemplate::from)
                         .collect(Collectors.toList());
-        long total = emailTemplatePage.getTotalElements();
-
-        return new PageImpl<>(emailTemplates, pageable, total);
+        return new PageImpl<>(emailTemplates, pageable, emailTemplatePage.getTotalElements());
     }
 
-    /**
-     * delete email template
-     * @param templateId template id
-     * @return email template
-     */
     public Optional<EmailTemplate> getEmailTemplate(String templateId) {
         return emailTemplateRepository.findById(templateId)
                 .map(EmailTemplate::from);
     }
 
-    /**
-     * delete email template
-     * @param templateId template id
-     */
+    @Transactional
     public void deleteEmailTemplate(String templateId) {
         emailTemplateRepository.deleteById(templateId);
         emailTemplateRepository.flush();
     }
 
-    /**
-     * send email with email template
-     * @param to to email address
-     * @param emailTemplate email template object
-     * @throws EmailException email exception
-     */
+    @Transactional
     public void sendEmailWidthTemplate(String to, EmailTemplate emailTemplate) throws EmailException {
         Context context = new Context();
         emailTemplate.getVariables().forEach(context::setVariable);
@@ -131,13 +96,7 @@ public class EmailService implements InitializingBean {
         sendEmail(to, subject, content);
     }
 
-    /**
-     * send email plain text
-     * @param to to email address
-     * @param subject subject
-     * @param content content
-     * @throws EmailException email exception
-     */
+    @Transactional
     public void sendEmail(String to, String subject, String content) throws EmailException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
@@ -151,10 +110,7 @@ public class EmailService implements InitializingBean {
         javaMailSender.send(mimeMessage);
     }
 
-    /**
-     * issue email verification
-     * @param email email
-     */
+    @Transactional
     public void issueEmailVerification(String email) {
 
         // answer
@@ -183,11 +139,6 @@ public class EmailService implements InitializingBean {
         emailVerificationRepository.saveAndFlush(emailVerificationEntity);
     }
 
-    /**
-     * check email verification
-     * @param email email
-     * @param answer answer
-     */
     public void checkEmailVerification(String email, String answer) {
         EmailVerificationEntity emailVerificationEntity = emailVerificationRepository.findById(email).orElseThrow();
         if(answer.contentEquals(emailVerificationEntity.getAnswer())) {

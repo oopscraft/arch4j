@@ -18,7 +18,7 @@ class UserServiceTest extends CoreTestSupport {
     User testUser = User.builder()
             .userId("test_user")
             .password("password1234!@#$")
-            .name("user name")
+            .userName("user name")
             .mobile("010-1234-5678")
             .email("lion@xxx.com")
             .profile("profile")
@@ -53,10 +53,10 @@ class UserServiceTest extends CoreTestSupport {
     void getUsers() {
         User savedUser = userService.saveUser(testUser);
         UserSearch userSearch = UserSearch.builder()
-                .name(savedUser.getName())
+                .userName(savedUser.getUserName())
                 .build();
         Page<User> userPage = userService.getUsers(userSearch, PageRequest.of(0, 10));
-        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getName().contains(userSearch.getName())));
+        assertTrue(userPage.getContent().stream().anyMatch(e -> e.getUserName().contains(userSearch.getUserName())));
     }
 
 }

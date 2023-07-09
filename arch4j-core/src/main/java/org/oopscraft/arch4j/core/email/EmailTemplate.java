@@ -2,9 +2,7 @@ package org.oopscraft.arch4j.core.email;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.email.dao.EmailTemplateEntity;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

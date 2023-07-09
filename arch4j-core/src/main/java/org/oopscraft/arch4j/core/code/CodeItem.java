@@ -14,9 +14,9 @@ public class CodeItem {
 
     private String itemId;
 
-    private int sort;
+    private String itemName;
 
-    private String name;
+    private int sort;
 
     private String value;
 
@@ -24,8 +24,8 @@ public class CodeItem {
         return CodeItem.builder()
                 .codeId(codeItemEntity.getCodeId())
                 .itemId(codeItemEntity.getItemId())
+                .itemName(codeItemEntity.getItemName())
                 .sort(codeItemEntity.getSort())
-                .name(codeItemEntity.getName())
                 .value(codeItemEntity.getValue())
                 .build();
     }

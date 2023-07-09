@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserRepositoryCustom {
 
-    Page<UserEntity> findUsers(UserSearch userSearch, Pageable pageable);
+    Page<UserEntity> findAll(UserSearch userSearch, Pageable pageable);
 
 }

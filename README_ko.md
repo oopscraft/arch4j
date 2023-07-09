@@ -6,7 +6,7 @@
 
 * 관리자 콘솔: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
 
-user/password: dev/dev
+테스트 계정: dev/dev
 
 ## 주요 기능
 

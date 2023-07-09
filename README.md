@@ -5,9 +5,8 @@
 * Service Page: [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
 
 * Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
-
-user/password: dev/dev
-
+  
+Test Account: dev/dev
 
 ## Main Features
 

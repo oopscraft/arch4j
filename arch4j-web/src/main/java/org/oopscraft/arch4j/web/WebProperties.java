@@ -16,6 +16,8 @@ public final class WebProperties {
 
     private final String theme;
 
+    private final String brand;
+
     private final String index;
 
     private final SecurityPolicy securityPolicy;

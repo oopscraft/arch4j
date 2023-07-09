@@ -84,6 +84,7 @@ springdoc:
 # web
 web:
   theme: _default
+  brand: Arch4j CMS Demo
   index: git/arch4j/README.md
   security-policy: ~
   locales:

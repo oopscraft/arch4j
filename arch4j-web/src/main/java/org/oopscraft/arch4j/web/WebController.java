@@ -58,6 +58,11 @@ public class WebController {
         return webProperties.getTheme();
     }
 
+    @ModelAttribute("_brand")
+    public String brand() {
+        return webProperties.getBrand();
+    }
+
     @ModelAttribute("_locales")
     public List<Map<String,String>> locales() {
         return webProperties.getLocales().stream()

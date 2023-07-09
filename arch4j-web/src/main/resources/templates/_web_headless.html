@@ -23,7 +23,7 @@
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = new duice.ObjectProxy({
             userId: [[${_user.userId}]],
-            name: [[${_user.name}]],
+            name: [[${_user.userName}]],
             photo: [[${_user.photo}]]
         });
         const _locales = new duice.ArrayProxy([[${_locales}]]);

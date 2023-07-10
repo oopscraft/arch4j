@@ -308,6 +308,11 @@ table thead th:has(button,input,select,textarea,table),
 table tbody td:has(button,input,select,textarea,table) {
     padding: 1px;
 }
+@media screen and (max-width: 1023px) {
+    table tbody tr td {
+        white-space: unset;
+    }
+}
 
 /* ul,ol,li */
 ul, menu, dir {

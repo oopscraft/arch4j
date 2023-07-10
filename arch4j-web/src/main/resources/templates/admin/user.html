@@ -364,7 +364,7 @@
         </button>
         <button id="userLoginTabButton" class="tab">
             <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
-            <span data-th-text="#{core.user.LoginHistory}"></span>
+            <span data-th-text="#{core.user.UserLogin}"></span>
         </button>
         <hr class="margin-1px"/>
     </div>
@@ -1039,8 +1039,8 @@
             <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-flex-direction-column">
                 <div class="grid grid-template-columns-3 grid-gap-1px">
                     <select data-duice-bind="userLoginSearch" data-duice-property="key" class="grid-column-1">
-                        <option value="userId" th:text="#{core.user.LoginHistory.userId}"></option>
-                        <option value="ipAddress" th:text="#{core.user.LoginHistory.ipAddress}"></option>
+                        <option value="userId" th:text="#{core.user.UserLogin.userId}"></option>
+                        <option value="ipAddress" th:text="#{core.user.UserLogin.ipAddress}"></option>
                     </select>
                     <input type="text" data-duice-bind="userLoginSearch" data-duice-property="value"
                            th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
@@ -1066,10 +1066,10 @@
                     <thead>
                     <tr>
                         <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                        <th data-th-text="#{core.user.LoginHistory.userId}"></th>
-                        <th data-th-text="#{core.user.LoginHistory.loginAt}"></th>
-                        <th data-th-text="#{core.user.LoginHistory.ipAddress}"></th>
-                        <th data-th-text="#{core.user.LoginHistory.userAgent}"></th>
+                        <th data-th-text="#{core.user.UserLogin.userId}"></th>
+                        <th data-th-text="#{core.user.UserLogin.loginAt}"></th>
+                        <th data-th-text="#{core.user.UserLogin.ipAddress}"></th>
+                        <th data-th-text="#{core.user.UserLogin.userAgent}"></th>
                     </tr>
                     </thead>
                     <tbody>

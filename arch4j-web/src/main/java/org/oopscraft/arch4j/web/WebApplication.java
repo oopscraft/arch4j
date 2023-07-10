@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
+import org.oopscraft.arch4j.web.install.WebInstaller;
 import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -60,6 +61,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -73,6 +75,15 @@ import java.util.Properties;
 public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigurer {
 
     public static void main(String[] args) {
+
+        // install
+        if(Arrays.asList(args).contains("install")) {
+            WebInstaller webInstaller = new WebInstaller(args);
+            webInstaller.install();
+            System.exit(0);
+        }
+
+        // run web application
         new SpringApplicationBuilder(WebApplication.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.SERVLET)

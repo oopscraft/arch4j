@@ -34,7 +34,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage("test + build") {
+        stage("test,build") {
             environment {
                 MAVEN_CREDENTIALS = credentials('MAVEN_CREDENTIALS')
             }

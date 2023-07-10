@@ -72,10 +72,6 @@ import java.util.Properties;
 @EnableConfigurationProperties(WebProperties.class)
 public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigurer {
 
-    /**
-     * main
-     * @param args main arguments
-     */
     public static void main(String[] args) {
         new SpringApplicationBuilder(WebApplication.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())

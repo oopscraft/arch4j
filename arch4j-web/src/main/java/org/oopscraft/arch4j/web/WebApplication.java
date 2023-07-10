@@ -165,10 +165,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
 
         private final  AuthenticationTokenService authenticationTokenService;
 
-        /**
-         * creates authentication token filter
-         * @return filter
-         */
         private AuthenticationTokenFilter authenticationTokenFilter() {
             return AuthenticationTokenFilter.builder()
                     .authenticationTokenService(authenticationTokenService)
@@ -181,13 +177,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                     .antMatchers("/static/**");
         }
 
-        /**
-         * admin security filter chain
-         *
-         * @param http http security
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(1)
         public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -215,13 +204,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             return http.build();
         }
 
-        /**
-         * Actuator security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(2)
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -232,13 +214,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             return http.build();
         }
 
-        /**
-         * H2 console security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(3)
         public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -249,13 +224,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             return http.build();
         }
 
-        /**
-         * H2 console security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(4)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -266,13 +234,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             return http.build();
         }
 
-        /**
-         * API security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -293,13 +254,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             return http.build();
         }
 
-        /**
-         * default security filter chain
-         *
-         * @param http http
-         * @return security filter chain
-         * @throws Exception exception
-         */
         @Bean
         @Order(99)
         public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -338,9 +292,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         }
     }
 
-    /**
-     * OpenApiConfiguration
-     */
     @Configuration
     @OpenAPIDefinition(
             info = @Info(title = "REST API"),

@@ -82,4 +82,12 @@ jib {
         ports = ['8080']
         jvmFlags = ["-Dfile.encoding=UTF-8"]
     }
+    extraDirectories {
+        paths {
+            path {
+                from = file('src/dist/config')
+                into = '/config'
+            }
+        }
+    }
 }

@@ -63,9 +63,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Properties;
 
-/**
- * WebApplication
- */
 @Configuration
 @Import(CoreApplication.class)
 @ComponentScan(
@@ -87,11 +84,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 .run(args);
     }
 
-    /**
-     * postProcessEnvironment
-     * @param environment spring environment
-     * @param application spring application
-     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Resource resource = new DefaultResourceLoader().getResource("classpath:web-config.yml");
@@ -103,10 +95,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
-    /**
-     * creates locale resolver
-     * @return locale resolver
-     */
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
@@ -116,10 +104,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         return localeResolver;
     }
 
-    /**
-     * creates interceptor registry
-     * @param interceptorRegistry interceptor registry
-     */
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
@@ -128,10 +112,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 .order(Ordered.HIGHEST_PRECEDENCE);
     }
 
-    /**
-     * customizes java.time.* Serializer/Deserializer
-     * @return jackson customizer
-     */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
@@ -166,9 +146,6 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
                 });
     }
 
-    /**
-     * spring security configuration
-     */
     @Slf4j
     @Configuration
     @EnableWebSecurity

@@ -24,12 +24,6 @@ public class MenuRestController {
 
     private final MenuService menuService;
 
-    /**
-     * return list of menu
-     * @param menuSearch menu search condition
-     * @param pageable pagination info
-     * @return menu list
-     */
     @GetMapping
     public ResponseEntity<List<MenuResponse>> getMenus(MenuSearch menuSearch, Pageable pageable) {
         Page<Menu> menuPage = menuService.getMenus(menuSearch, pageable);

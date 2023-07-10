@@ -25,14 +25,8 @@ public class ArticlePostController {
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * index
-     * @param boardId board id
-     * @param articleId article id
-     * @return model and view
-     */
     @RequestMapping(value = "article-post", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView index(
+    public ModelAndView articlePost(
         @PathVariable("boardId") String boardId,
         @RequestParam(value = "articleId", required = false) String articleId,
         @RequestParam(value = "password", required = false) String password

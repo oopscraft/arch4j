@@ -20,12 +20,6 @@ public class ArticleVoteRestController {
 
     private final BoardService boardService;
 
-    /**
-     * get article vote
-     * @param boardId board id
-     * @param articleId article id
-     * @return article vote response
-     */
     @GetMapping
     public ResponseEntity<ArticleVoteResponse> getArticleVote(
             @PathVariable("boardId") String boardId,
@@ -66,13 +60,6 @@ public class ArticleVoteRestController {
                 .body(articleVoteResponse);
     }
 
-    /**
-     * save article vote
-     * @param boardId board id
-     * @param articleId article id
-     * @param articleVoteRequest article vote request
-     * @return void
-     */
     @PostMapping
     @Transactional
     public ResponseEntity<Void> saveArticleVote(

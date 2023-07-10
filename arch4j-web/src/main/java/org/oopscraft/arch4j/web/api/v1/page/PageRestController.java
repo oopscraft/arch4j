@@ -17,11 +17,6 @@ public class PageRestController {
 
     private final PageService pageService;
 
-    /**
-     * return page
-     * @param pageId page id
-     * @return page response
-     */
     @GetMapping("{pageId}")
     public ResponseEntity<PageResponse> getPage(@PathVariable("pageId")String pageId) {
         Page page = pageService.getPage(pageId).orElseThrow();

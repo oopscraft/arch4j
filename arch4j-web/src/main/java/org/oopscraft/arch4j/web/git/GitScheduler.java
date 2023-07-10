@@ -28,9 +28,6 @@ public class GitScheduler {
 
     private final GitProperties gitProperties;
 
-    /**
-     * synchronize git repositories
-     */
     @Scheduled(fixedDelay = 1000*10)
     public void synchronizeGits() {
         List<Git> gits = gitService.getGits();
@@ -54,11 +51,6 @@ public class GitScheduler {
         });
     }
 
-    /**
-     * synchronize single git repository
-     * @param git git info
-     * @throws Exception exception
-     */
     private void synchronizeGit(Git git) throws Exception {
         String gitDirectory = gitProperties.getLocation() + gitClient.getDirectoryName(git);
         if(!new File(gitDirectory).exists()) {
@@ -68,10 +60,6 @@ public class GitScheduler {
         }
     }
 
-    /**
-     * get git local directory names
-     * @return local git directory names
-     */
     private List<File> getExistingGitLocalDirectories() {
         File locationDirectory = new File(gitProperties.getLocation());
         return Arrays.stream(Optional.ofNullable(locationDirectory.listFiles(File::isDirectory)).orElse(new File[]{}))

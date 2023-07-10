@@ -44,12 +44,6 @@ public class ArticleRestController {
 
     private final ObjectMapper objectMapper;
 
-    /**
-     * returns board article list
-     * @param boardId board id
-     * @param pageable pagination info
-     * @return article list
-     */
     @GetMapping
     @Operation(summary = "get list of articles")
     @PageableAsQueryParam
@@ -84,12 +78,6 @@ public class ArticleRestController {
                 .body(articleResponses);
     }
 
-    /**
-     * return article
-     * @param boardId board id
-     * @param articleId article id
-     * @return article
-     */
     @GetMapping("{articleId}")
     @Operation(summary = "get article")
     public ResponseEntity<ArticleResponse> getArticle(
@@ -112,11 +100,6 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleResponse);
     }
 
-    /**
-     * create article
-     * @param boardId board id
-     * @param articleRequestString article info
-     */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
     @Operation(summary = "create article")
@@ -188,13 +171,6 @@ public class ArticleRestController {
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
-    /**
-     * edit article
-     * @param boardId board id
-     * @param articleId article id
-     * @param articleRequest article request
-     * @return saved article
-     */
     @PutMapping("{articleId}")
     @Transactional
     @Operation(summary = "edit article")
@@ -263,12 +239,6 @@ public class ArticleRestController {
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
-    /**
-     * get article file
-     * @param articleId article id
-     * @param fileId file id
-     * @param response http servlet response
-     */
     @GetMapping("{articleId}/file/{fileId}")
     @Operation(description = "get article file")
     public ResponseEntity<Void> getArticleFile(
@@ -298,13 +268,6 @@ public class ArticleRestController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * delete article
-     * @param boardId board id
-     * @param articleId article id
-     * @param articleDeleteRequest article delete request
-     * @return void
-     */
     @DeleteMapping("{articleId}")
     @Transactional
     @Operation(description = "delete article")

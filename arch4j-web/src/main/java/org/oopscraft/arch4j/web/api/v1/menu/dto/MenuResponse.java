@@ -34,7 +34,6 @@ public class MenuResponse {
                 .icon(menu.getIcon())
                 .sort(menu.getSort())
                 .build();
-
     }
 
 }

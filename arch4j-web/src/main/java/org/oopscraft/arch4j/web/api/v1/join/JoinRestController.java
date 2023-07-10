@@ -24,10 +24,6 @@ public class JoinRestController {
 
     private final SpringTemplateEngine templateEngine;
 
-    /**
-     * join
-     * @param joinRequest join request
-     */
     @PostMapping
     public ResponseEntity<?> join(@RequestBody JoinRequest joinRequest) {
         User user = User.builder()
@@ -75,12 +71,6 @@ public class JoinRestController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * validate email verification answer
-     * @param email email
-     * @param answer answer
-     * @return response
-     */
     @GetMapping("validate-email/{email}/check-answer/{answer}")
     public ResponseEntity<?> checkVerification(@PathVariable("email")String email, @PathVariable("answer")String answer) {
         try {
@@ -93,6 +83,5 @@ public class JoinRestController {
         }
         return ResponseEntity.ok().build();
     }
-
 
 }

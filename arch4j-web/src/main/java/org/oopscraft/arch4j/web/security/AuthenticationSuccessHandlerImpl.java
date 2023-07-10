@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
-/**
- * AuthenticationSuccessHandler
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor

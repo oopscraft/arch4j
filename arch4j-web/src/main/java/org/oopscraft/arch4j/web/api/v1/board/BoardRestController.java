@@ -22,13 +22,6 @@ public class BoardRestController {
 
     private final BoardService boardService;
 
-
-    /**
-     * returns list of board
-     * @param boardSearch search condition
-     * @param pageable pagination info
-     * @return list of board
-     */
     @GetMapping
     @Operation(summary = "get list of board", description = "returns board list")
     @PageableAsQueryParam
@@ -42,11 +35,6 @@ public class BoardRestController {
                 .body(boardResponses);
     }
 
-    /**
-     * return board info
-     * @param boardId board id
-     * @return board info
-     */
     @GetMapping("{boardId}")
     @Operation(summary = "get board info", description = "returns board information")
     public ResponseEntity<BoardResponse> getBoard(@PathVariable("boardId") String boardId) {
@@ -55,7 +43,5 @@ public class BoardRestController {
                 .orElseThrow();
         return ResponseEntity.ok(boardResponse);
     }
-
-
 
 }

@@ -21,14 +21,8 @@ public class ArticleReadController {
 
     private final ArticleService articleService;
 
-    /**
-     * read article
-     * @param boardId board id
-     * @param articleId article id
-     * @return model and view
-     */
     @GetMapping("article-read")
-    public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
+    public ModelAndView articleRead(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         boardService.checkReadPermission(board);
         Article article = articleService.getArticle(articleId).orElseThrow();
@@ -37,6 +31,5 @@ public class ArticleReadController {
         modelAndView.addObject("article", article);
         return modelAndView;
     }
-
 
 }

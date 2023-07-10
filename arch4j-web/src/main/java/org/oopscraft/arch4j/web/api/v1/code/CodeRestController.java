@@ -27,13 +27,6 @@ public class CodeRestController {
 
     private final CodeService codeService;
 
-    /**
-     * return list of code
-     * @param codeId code id
-     * @param name name
-     * @param pageable pageable
-     * @return code list
-     */
     @GetMapping
     @Operation(summary = "Gets list of CodeEntity", description = "returns code list")
     @PageableAsQueryParam

@@ -42,11 +42,6 @@ public class ArticleResponse {
     @Builder.Default
     private List<ArticleFileResponse> files = new ArrayList<>();
 
-    /**
-     * factory method
-     * @param article article
-     * @return article response
-     */
     public static ArticleResponse from(Article article) {
         return ArticleResponse.builder()
                 .articleId(article.getArticleId())

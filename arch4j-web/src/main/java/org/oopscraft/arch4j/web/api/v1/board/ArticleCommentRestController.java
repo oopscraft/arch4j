@@ -29,12 +29,6 @@ public class ArticleCommentRestController {
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * return comment list
-     * @param boardId board id
-     * @param articleId article id
-     * @return comment list
-     */
     @GetMapping
     @Operation(summary = "get article comments")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
@@ -56,13 +50,6 @@ public class ArticleCommentRestController {
         return ResponseEntity.ok(commentResponses);
     }
 
-    /**
-     * return comment specified
-     * @param boardId board id
-     * @param articleId article id
-     * @param commentId comment id
-     * @return comment info
-     */
     @GetMapping("{commentId}")
     @Operation(summary = "get article comment")
     public ResponseEntity<ArticleCommentResponse> getArticleComment(
@@ -86,13 +73,6 @@ public class ArticleCommentRestController {
         return ResponseEntity.ok(commentResponse);
     }
 
-    /**
-     * save article comment
-     * @param boardId board id
-     * @param articleId article id
-     * @param articleCommentRequest comment request
-     * @return void
-     */
     @PostMapping
     @Transactional
     @Operation(summary = "creates article comment")
@@ -146,13 +126,6 @@ public class ArticleCommentRestController {
         return ResponseEntity.ok(articleComment);
     }
 
-    /**
-     * edit comment
-     * @param boardId board id
-     * @param articleId article id
-     * @param commentId comment id
-     * @return modified comment
-     */
     @PutMapping("{commentId}")
     @Transactional
     @Operation(summary = "edit article comment")
@@ -194,13 +167,6 @@ public class ArticleCommentRestController {
         return ResponseEntity.ok(ArticleCommentResponse.from(articleComment));
     }
 
-    /**
-     * delete comment
-     * @param boardId board id
-     * @param articleId article id
-     * @param commentId comment id
-     * @return void
-     */
     @DeleteMapping("{commentId}")
     @Transactional
     @Operation(summary = "delete article comment")

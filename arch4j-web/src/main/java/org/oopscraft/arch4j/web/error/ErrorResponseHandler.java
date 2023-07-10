@@ -26,11 +26,6 @@ public class ErrorResponseHandler {
 
     private final ObjectMapper objectMapper;
 
-    /**
-     * isRestRequest
-     * @param request request
-     * @return result
-     */
     public boolean isRestRequest(HttpServletRequest request) {
         if("application/json".equals(request.getHeader("Content-Type"))){
             return true;
@@ -69,6 +64,5 @@ public class ErrorResponseHandler {
             sendErrorResponse(response, errorResponse);
         }
     }
-
 
 }

@@ -19,7 +19,7 @@ public class PageController {
     private final PageService pageService;
 
     @GetMapping("{pageId}")
-    public ModelAndView index(@PathVariable("pageId")String pageId) {
+    public ModelAndView page(@PathVariable("pageId")String pageId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("page/page.html");
         Page page = pageService.getPage(pageId).orElseThrow();

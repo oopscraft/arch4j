@@ -33,11 +33,6 @@ public class ArticleCommentResponse {
     @Builder.Default
     private Long likeCount = 0L;
 
-    /**
-     * factory method
-     * @param articleComment article comment
-     * @return article comment response
-     */
     public static ArticleCommentResponse from(ArticleComment articleComment) {
         return ArticleCommentResponse.builder()
                 .articleId(articleComment.getArticleId())

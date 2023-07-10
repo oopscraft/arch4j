@@ -37,11 +37,6 @@ public class BoardResponse {
 
     private SecurityPolicy commentPolicy;
 
-    /**
-     * factory method
-     * @param board board info
-     * @return board response
-     */
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
                 .boardId(board.getBoardId())

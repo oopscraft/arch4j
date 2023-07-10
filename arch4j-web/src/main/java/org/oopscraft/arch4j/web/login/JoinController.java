@@ -11,10 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class JoinController {
 
-    /**
-     * join
-     * @return model and view
-     */
     @GetMapping
     public ModelAndView join() {
         return new ModelAndView("join/join.html");

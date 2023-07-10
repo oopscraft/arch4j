@@ -1,36 +1,44 @@
-package org.oopscraft.arch4j.web.install;
+package org.oopscraft.arch4j.cli.install;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.oopscraft.arch4j.cli.utils.InteractiveUtils;
 import org.oopscraft.arch4j.core.CoreApplication;
-import org.oopscraft.arch4j.core.install.CoreInstaller;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-import java.util.Properties;
+import java.util.Arrays;
+import java.util.concurrent.Callable;
 
-public class WebInstaller extends CoreInstaller {
+public class InstallCommand implements Callable<Integer> {
 
-    public WebInstaller(String[] args) {
-        super(args);
+    private final ApplicationArguments applicationArguments;
+
+    public InstallCommand(ApplicationArguments applicationArguments) {
+        this.applicationArguments = applicationArguments;
     }
 
     @Override
-    public void install() {
-
+    public Integer call() throws Exception {
         // create schema
-        String driverClassName = askInput("Driver Class Name");
-        String jdbcUrl = askInput("Jdbc Url");
-        String username = askInput("Username");
-        String password = askInput("Password");
-        askConfirm("Continue to create schema?");
+        String driverClassName = InteractiveUtils.askInput("Driver Class Name");
+        String jdbcUrl = InteractiveUtils.askInput("Jdbc Url");
+        String username = InteractiveUtils.askInput("Username");
+        String password = InteractiveUtils.askInput("Password");
+        InteractiveUtils.askConfirm("Continue to create schema?");
         createSchema(driverClassName, jdbcUrl, username, password);
+
+        // safety equipment
+        System.exit(0);
+        return 0;
     }
 
     public void createSchema(String driverClassName, String jdbcUrl, String username, String password) {
-        String[] args = cloneArgs();
+        // origin args
+        String[] args = Arrays.copyOf(applicationArguments.getSourceArgs(), applicationArguments.getSourceArgs().length);
 
         // data source properties
         args = ArrayUtils.add(args, String.format("--spring.datasource.hikari.driver-class-name=%s", driverClassName));

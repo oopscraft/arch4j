@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.cli.command;
+package org.oopscraft.arch4j.cli.pbe;
 
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;

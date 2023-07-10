@@ -1,15 +1,12 @@
 package org.oopscraft.arch4j.cli;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.oopscraft.arch4j.cli.command.DatabaseCommand;
-import org.oopscraft.arch4j.cli.command.PbeCommand;
+import org.oopscraft.arch4j.cli.database.DatabaseCommand;
+import org.oopscraft.arch4j.cli.pbe.PbeCommand;
+import org.oopscraft.arch4j.cli.install.InstallCommand;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.boot.Banner;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -27,7 +24,6 @@ import picocli.CommandLine;
 
 import java.util.Optional;
 import java.util.Properties;
-import java.util.Scanner;
 
 /**
  * BatchApplication
@@ -46,7 +42,9 @@ import java.util.Scanner;
 )
 public class CliApplication implements EnvironmentPostProcessor, ApplicationContextAware, CommandLineRunner {
 
-    private ApplicationContext applicationContext;
+    private static ApplicationArguments applicationArguments;
+
+    private static ApplicationContext applicationContext;
 
     private static int exitCode;
 
@@ -54,31 +52,13 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
      * main
      * @param args main arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        // install
-        if("install".equals(args[0])) {
-
-            // confirms install
-            try (Scanner scanner = new Scanner(System.in)) {
-                System.out.print("Application data is initialized.Would you like to proceed?[Y/n]: ");
-                String answer = scanner.nextLine();
-                if (!"Y".equals(answer)) {
-                    System.out.println("Creation schema Stopped");
-                    System.exit(0);
-                }
-            }
-
-            // sets spring boot properties for initialization
-            args = ArrayUtils.add(args, "--logging.level.root=DEBUG");
-            args = ArrayUtils.add(args, "--logging.pattern.console=%msg%n");
-            args = ArrayUtils.add(args, "--spring.sql.init.mode=always");
-            args = ArrayUtils.add(args, "--spring.jpa.hibernate.ddl-auto=create");
-
-            // creates jdbc session table
-            args = ArrayUtils.add(args, "--spring.main.web-application-type=servlet");
-            args = ArrayUtils.add(args, "--spring.session.store-type=jdbc");
-            args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
+        // install command
+        applicationArguments = new DefaultApplicationArguments(args);
+        if(applicationArguments.getNonOptionArgs().contains("install")) {
+            new InstallCommand(applicationArguments).call();
+            System.exit(0);
         }
 
         // launch spring boot application
@@ -116,12 +96,12 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
 
     /**
      * set application context
-     * @param applicationContext application context
+     * @param applicationContextInstance application context
      * @throws BeansException beans exception
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public void setApplicationContext(ApplicationContext applicationContextInstance) throws BeansException {
+        applicationContext = applicationContextInstance;
     }
 
     /**

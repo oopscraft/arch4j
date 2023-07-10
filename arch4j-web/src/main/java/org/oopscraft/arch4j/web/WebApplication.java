@@ -18,8 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreApplication;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
-import org.oopscraft.arch4j.web.install.WebInstaller;
 import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -49,13 +47,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -75,15 +71,6 @@ import java.util.Properties;
 public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigurer {
 
     public static void main(String[] args) {
-
-        // install
-        if(Arrays.asList(args).contains("install")) {
-            WebInstaller webInstaller = new WebInstaller(args);
-            webInstaller.install();
-            System.exit(0);
-        }
-
-        // run web application
         new SpringApplicationBuilder(WebApplication.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.SERVLET)

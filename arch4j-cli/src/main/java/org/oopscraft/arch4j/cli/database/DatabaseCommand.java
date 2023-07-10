@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.cli.command;
+package org.oopscraft.arch4j.cli.database;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.boot.Metadata;

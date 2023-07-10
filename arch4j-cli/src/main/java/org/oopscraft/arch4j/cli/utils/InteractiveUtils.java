@@ -1,24 +1,11 @@
-package org.oopscraft.arch4j.core.install;
+package org.oopscraft.arch4j.cli.utils;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
-public abstract class CoreInstaller {
+public class InteractiveUtils {
 
-    private final String[] args;
-
-    public CoreInstaller(String[] args) {
-        this.args = args;
-    }
-
-    public final String[] cloneArgs() {
-        return Arrays.copyOf(this.args, this.args.length);
-    }
-
-    public abstract void install();
-
-    public final String askInput(String question) {
+    public static String askInput(String question) {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.print(question + ':');
@@ -29,7 +16,7 @@ public abstract class CoreInstaller {
         }
     }
 
-    public final String askSelect(String question, Map<String,String> options) {
+    public static String askSelect(String question, Map<String,String> options) {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.println(question);
@@ -45,7 +32,7 @@ public abstract class CoreInstaller {
         }
     }
 
-    public void askConfirm(String message) {
+    public static void askConfirm(String message) {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.print(message + "[Y/n]:");

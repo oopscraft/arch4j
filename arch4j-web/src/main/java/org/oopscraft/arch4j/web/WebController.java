@@ -28,10 +28,6 @@ public class WebController {
 
     private final WebProperties webProperties;
 
-    /**
-     * FIXME index
-     * @return model and view
-     */
     @GetMapping
     public ModelAndView index() {
 
@@ -78,20 +74,11 @@ public class WebController {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Return current selected locale
-     * @param request http request
-     * @return current select locale
-     */
     @ModelAttribute("_locale")
     public Locale getLocale(HttpServletRequest request) {
         return Objects.requireNonNull(RequestContextUtils.getLocaleResolver(request)).resolveLocale(request);
     }
 
-    /**
-     * Returns current login user
-     * @return current login user info
-     */
     @ModelAttribute("_user")
     @Transactional(readOnly = true)
     public User getUser() {

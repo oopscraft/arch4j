@@ -24,7 +24,6 @@ This archetype has Basic CMS(Content Management System) functionality.
 | **Admin Web Console**                                                              | Provide Web-based administration console(/admin)                                                             |
 | **Design Theme**                                                                   | Customizable design theme (with Thymeleaf)                                                                   |
 | **User/Role/Authority with Spring Security**                                       | Database-based User, Role, Authority (with Spring Security)                                                  |
-| **Data Encryption**                                                                | Database Encyption/Decryption (spring-data-jpa, mybatis with spring-security)                                |
 | **Multiple Bulletin Boards**                                                       | Multiple bulletin board with skin, file attachments and comments.                                            |
 | **Dynamic Page Composition**                                                       | Database-based dynamic content page publishing.                                                              |
 | **Markdown Content with Git Integration**                                          | Git integrated Markdown page publishing.                                                                     |

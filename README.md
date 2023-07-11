@@ -15,7 +15,7 @@ This archetype has Basic CMS(Content Management System) functionality.
 
 * Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
   
-* Test Account: dev/dev
+* Test Account: **dev/dev**
 
 ## Main Features
 

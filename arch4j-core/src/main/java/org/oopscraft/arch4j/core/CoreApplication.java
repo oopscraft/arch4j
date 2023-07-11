@@ -57,7 +57,6 @@ import java.util.Properties;
         annotationClass = Mapper.class,
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
-@EnableAsync
 public class CoreApplication implements EnvironmentPostProcessor {
 
     @Override

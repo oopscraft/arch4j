@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.email;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.email.dao.EmailTemplateEntity;
 import org.oopscraft.arch4j.core.email.dao.EmailTemplateRepository;
 import org.oopscraft.arch4j.core.email.dao.EmailVerificationEntity;
@@ -26,10 +27,15 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService implements InitializingBean {
 
     private final EmailTemplateRepository emailTemplateRepository;
@@ -41,6 +47,8 @@ public class EmailService implements InitializingBean {
     private final MessageSource messageSource;
 
     private SpringTemplateEngine templateEngine;
+
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -97,19 +105,21 @@ public class EmailService implements InitializingBean {
         sendEmail(to, subject, content);
     }
 
-    @Async
     @Transactional
     public void sendEmail(String to, String subject, String content) throws EmailException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(to);
-            mimeMessageHelper.setSubject(subject);
-            mimeMessageHelper.setText(content);
-        } catch (MessagingException e) {
-            throw new EmailException(e.getMessage(), e);
-        }
-        javaMailSender.send(mimeMessage);
+        executorService.submit(() -> {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            try {
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+                mimeMessageHelper.setTo(to);
+                mimeMessageHelper.setSubject(subject);
+                mimeMessageHelper.setText(content);
+                javaMailSender.send(mimeMessage);
+            } catch (MessagingException e) {
+                log.error(e.getMessage(), e);
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        });
     }
 
     @Transactional

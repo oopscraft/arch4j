@@ -1,5 +1,9 @@
 # ARCH4J (Application Archetype for Java) 
 
+spring-boot-based archetype for wab application, batch application, CLI(Command Line Interface) application.
+
+This archetype has Basic CMS(Content Management System) functionality.
+
 ## Git and Website
 
 * Git Repository: [https://github.com/oopscraft/arch4j](https://github.com/oopscraft/arch4j)
@@ -11,14 +15,14 @@
 
 * Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
   
-Test Account: dev/dev
+* Test Account: dev/dev
 
 ## Main Features
 
 | Functionality                                                                      | Description                                                                                                  |
 |------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | **Admin Web Console**                                                              | Provide Web-based administration console(/admin)                                                             |
-| **Degisn Theme**                                                                   | Customizable design theme (with Thymeleaf)                                                                   |
+| **Design Theme**                                                                   | Customizable design theme (with Thymeleaf)                                                                   |
 | **User/Role/Authority with Spring Security**                                       | Database-based User, Role, Authority (with Spring Security)                                                  |
 | **Data Encryption**                                                                | Database Encyption/Decryption (spring-data-jpa, mybatis with spring-security)                                |
 | **Multiple Bulletin Boards**                                                       | Multiple bulletin board with skin, file attachments and comments.                                            |
@@ -29,17 +33,22 @@ Test Account: dev/dev
 | **Message, Variable, and Common Code Management for Additional Development Needs** | Common functionality for managing messages, variables, and common codes for additional business development. |
 
 
+## Local Test
 
-## Create database
+```shell
+# download source
+git clone https://github.com/oopscraft/arch4j.git
 
-### Mysql
-
-```sql
--- create admin account
-create database [database];
-create user [usernmae]@'%' identified by [password];
-grant all privileges on [database].* to [username]@'%';
+# run application
+./gradlew :arch4j-web:bootRun
 
 ```
+connect to http://localhost:8080
 
+
+## Documentation
+
+[1.Installation](doc/01.installation/index.md)
+
+[2.Configuration](doc/02.configuration/index.md)
 

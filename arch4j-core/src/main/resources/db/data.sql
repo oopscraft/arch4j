@@ -79,8 +79,7 @@ insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) value
 insert into `core_user_role` (`user_id`,`role_id`) values ('dev','DEV');
 
 -- email
-insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('VERIFICATION','Verification Email', 'Verification Code: [[${answer}]]', 'Verification Code: [[${answer}]]');
-insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('FIND_PASSWORD', 'Find Password Email', 'Find Password', 'Find Password: [[callbackUrl]]');
+insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('VERIFICATION','Verification Email', 'Verification Answer: [[${answer}]]', 'Verification Answer: [[${answer}]]');
 
 -- variable
 insert into `core_variable` (`variable_id`,`variable_name`,`value`) values ('test1', 'test property 1','test_value_1');

@@ -25,9 +25,6 @@ import picocli.CommandLine;
 import java.util.Optional;
 import java.util.Properties;
 
-/**
- * BatchApplication
- */
 @Configuration
 @Import(CoreApplication.class)
 @ComponentScan(
@@ -48,10 +45,6 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
 
     private static int exitCode;
 
-    /**
-     * main
-     * @param args main arguments
-     */
     public static void main(String[] args) throws Exception {
 
         // install command
@@ -78,11 +71,6 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
         System.exit(exitCode);
     }
 
-    /**
-     * postProcessEnvironment
-     * @param environment spring environment
-     * @param application spring application
-     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Resource resource = new DefaultResourceLoader().getResource("classpath:cli-config.yml");
@@ -94,21 +82,11 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
-    /**
-     * set application context
-     * @param applicationContextInstance application context
-     * @throws BeansException beans exception
-     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContextInstance) throws BeansException {
         applicationContext = applicationContextInstance;
     }
 
-    /**
-     * runs command
-     * @param args command arguments
-     * @throws Exception exception
-     */
     @Override
     public void run(String... args) throws Exception {
         CliApplication cliApplication = applicationContext.getBean(CliApplication.class);

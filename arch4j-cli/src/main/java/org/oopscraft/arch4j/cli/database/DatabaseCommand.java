@@ -28,11 +28,6 @@ public class DatabaseCommand {
 
     private final EntityManagerFactory entityManagerFactory;
 
-    /**
-     * get schema
-     * @param outFile out file path
-     * @return exit value
-     */
     @CommandLine.Command(name = "get-schema")
     @Transactional
     public Integer getSchema(

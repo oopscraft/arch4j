@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -97,6 +98,7 @@ public class EmailService implements InitializingBean {
     }
 
     @Transactional
+    @Async
     public void sendEmail(String to, String subject, String content) throws EmailException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {

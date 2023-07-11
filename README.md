@@ -55,7 +55,7 @@ connect to http://localhost:8080
 ## License
 
 Licence: LGPL(GNU Lesser General Public License version 3)
-Copyright (C) 2017 arch4j.oopscraft.org
+Copyright (C) 2016 oopscraft.org
 
 - Anyone can use it freely.
 - Modify the source or allow re-creation. However, you must state that you have the original creator.

@@ -17,19 +17,11 @@ public class SampleController {
 
     private final SampleService sampleService;
 
-    /**
-     * index page
-     * @return model and view
-     */
     @GetMapping
     public ModelAndView index() {
         return new ModelAndView("sample.html");
     }
 
-    /**
-     * save sample
-     * @param sample sample
-     */
     @PostMapping("save-sample")
     @ResponseBody
     public Sample saveSample(@RequestBody Sample sample) {

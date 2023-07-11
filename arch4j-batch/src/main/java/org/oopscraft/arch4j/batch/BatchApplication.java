@@ -23,9 +23,6 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.Properties;
 
-/**
- * BatchApplication
- */
 @Configuration
 @Import(CoreApplication.class)
 @ComponentScan(
@@ -42,10 +39,6 @@ import java.util.Properties;
 )
 public class BatchApplication implements EnvironmentPostProcessor {
 
-    /**
-     * batch application main
-     * @param args arguments
-     */
     public static void main(String[] args) {
 
         // batch configuration
@@ -64,11 +57,6 @@ public class BatchApplication implements EnvironmentPostProcessor {
                 .run(args);
     }
 
-    /**
-     * postProcessEnvironment
-     * @param environment spring environment
-     * @param application spring application
-     */
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Resource resource = new DefaultResourceLoader().getResource("classpath:batch-config.yml");
@@ -80,12 +68,6 @@ public class BatchApplication implements EnvironmentPostProcessor {
         environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
-
-    /**
-     * jobRegistryBeanPostProcessor
-     * @param jobRegistry job registry
-     * @return jobRegistryBeanPostProcessor
-     */
     @Bean
     public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
         JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();

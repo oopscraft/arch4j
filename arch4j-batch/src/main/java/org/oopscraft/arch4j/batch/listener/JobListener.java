@@ -22,10 +22,6 @@ public class JobListener implements JobExecutionListener {
         return new JobListener();
     }
 
-    /**
-     * beforeJob
-     * @param jobExecution job execution
-     */
     @BeforeJob
     @Override
     public final void beforeJob(JobExecution jobExecution) {
@@ -40,10 +36,6 @@ public class JobListener implements JobExecutionListener {
         log.info("=".repeat(80));
     }
 
-    /**
-     * afterJob
-     * @param jobExecution job execution
-     */
     @AfterJob
     @Override
     public final void afterJob(JobExecution jobExecution) {

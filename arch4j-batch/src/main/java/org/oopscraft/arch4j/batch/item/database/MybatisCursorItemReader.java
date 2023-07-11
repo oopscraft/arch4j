@@ -23,10 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * MybatisCursorItemReader
- * @param <T>
- */
 @Slf4j
 public class MybatisCursorItemReader<T> extends AbstractItemCountingItemStreamItemReader<T> {
 

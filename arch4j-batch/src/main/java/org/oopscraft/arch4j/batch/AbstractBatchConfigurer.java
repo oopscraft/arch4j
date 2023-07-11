@@ -51,22 +51,12 @@ public abstract class AbstractBatchConfigurer {
     @Getter
     private SqlSessionFactory sqlSessionFactory;
 
-    /**
-     * get job builder
-     * @param jobName job name
-     * @return job builder
-     */
     protected final JobBuilder getJobBuilder(String jobName) {
         return jobBuilderFactory
                 .get(jobName)
                 .listener(new JobListener());
     }
 
-    /**
-     * get step builder
-     * @param stepName step name
-     * @return step builder
-     */
     protected final StepBuilder getStepBuilder(String stepName) {
         return stepBuilderFactory
                 .get(stepName)

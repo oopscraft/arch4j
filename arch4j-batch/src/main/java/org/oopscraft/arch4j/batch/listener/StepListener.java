@@ -10,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/**
- * StepListener
- */
 @Slf4j
 public class StepListener implements StepExecutionListener, ChunkListener {
 
@@ -24,9 +21,6 @@ public class StepListener implements StepExecutionListener, ChunkListener {
 
     private final StopWatch chunkStopWatch = new StopWatch();
 
-    /**
-     * toObject
-     */
     public static Object toObject() {
         return new StepListener();
     }
@@ -91,6 +85,5 @@ public class StepListener implements StepExecutionListener, ChunkListener {
         log.info("-".repeat(80));
         return stepExecution.getExitStatus();
     }
-
 
 }

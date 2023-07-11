@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.web.login;
+package org.oopscraft.arch4j.web.join;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

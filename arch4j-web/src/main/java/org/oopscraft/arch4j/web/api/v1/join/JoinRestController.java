@@ -10,6 +10,7 @@ import org.oopscraft.arch4j.web.api.v1.join.dto.JoinRequest;
 import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -25,10 +26,31 @@ public class JoinRestController {
     private final SpringTemplateEngine templateEngine;
 
     @PostMapping
-    public ResponseEntity<?> join(@RequestBody JoinRequest joinRequest) {
-        User user = User.builder()
+    public ResponseEntity<?> join(@RequestBody @Validated JoinRequest joinRequest) {
+
+        // checks already existing user
+        User user = userService.getUser(joinRequest.getUserId()).orElse(null);
+        if(user != null) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .message("duplicated user id")
+                    .build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        }
+
+        // check answer code
+        try {
+            emailService.validateEmailVerification(joinRequest.getEmail(), joinRequest.getAnswer());
+        } catch (Throwable t) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .message(t.getMessage())
+                    .build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        }
+
+        // save user
+        user = User.builder()
                 .userId(joinRequest.getUserId())
-                .userName(joinRequest.getName())
+                .userName(joinRequest.getUserName())
                 .email(joinRequest.getEmail())
                 .password(joinRequest.getPassword())
                 .type(UserType.GENERAL)
@@ -71,10 +93,10 @@ public class JoinRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("validate-email/{email}/check-answer/{answer}")
-    public ResponseEntity<?> checkVerification(@PathVariable("email")String email, @PathVariable("answer")String answer) {
+    @GetMapping("validate-email/{email}/answer/{answer}")
+    public ResponseEntity<?> validateEmailAnswer(@PathVariable("email")String email, @PathVariable("answer")String answer) {
         try {
-            emailService.checkEmailVerification(email, answer);
+            emailService.validateEmailVerification(email, answer);
         } catch (Throwable t) {
             ErrorResponse errorResponse = ErrorResponse.builder()
                     .message(t.getMessage())

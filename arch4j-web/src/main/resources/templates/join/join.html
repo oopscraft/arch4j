@@ -4,48 +4,136 @@
       layout:decorate="join/_join.html">
 <th:block layout:fragment="_join_content">
     <script th:inline="javascript">
-        const join = new duice.ObjectProxy({});
-        duice.ObjectProxy.onPropertyChanged(join, async event => {
+        const join = new duice.ObjectProxy({
+            userId: null,
+            email: null,
+            answer: null
+        });
+        duice.ObjectProxy.onPropertyChanging(join, async event => {
             if(event.getProperty() === 'userId') {
-                if(!await validateUserId(event.getProperty())) {
+                if(!await validateUserId(event.getValue())) {
                     duice.ObjectProxy.focus(join, 'userId');
                     return false;
                 }
             }
+            return true;
         });
 
-        const validateUserId = function(userId) {
-
-            // check blank
-            if (!userId) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
+        const validateUserId = async function(userId) {
+            if(_isEmpty(userId)) {
+                await _alert([[#{web.global.itemEmpty(#{web.join.userId})}]]);
                 duice.ObjectProxy.focus(join, 'userId');
                 return false;
             }
 
-            // check duplicated id
-            let url = new URL(`${_apiUrl}/v1/login/${boardId}/article/${articleId}`, document.location.origin);
-            url.searchParams.append('templateId', templateId);
+            let url = new URL(`${_apiUrl}/v1/join/validate-user-id/${userId}`, document.location.origin);
             let response = await _fetch(url, {}, true);
-            if (response.ok) {
-                let emailTemplate = await response.json();
-                if (emailTemplate) {
-                    await _alert([[#{web.global.itemAlreadyExist(#{core.email.EmailTemplate.templateId})}]]);
-                    return false;
-                }
+            if(response.ok) {
+                return true;
+            }else {
+                await _alert([[#{web.global.itemAlreadyExist(#{web.join.userId})}]]);
+                duice.ObjectProxy.focus(join, 'userId');
+                return false;
             }
         }
 
-        const validateEmail = function(email) {
+        const validateEmail = async function() {
+            if(_isEmpty(join.email)) {
+                await _alert([[#{web.global.itemEmpty(#{web.join.email})}]]);
+                duice.ObjectProxy.focus(join, 'email');
+                return false;
+            }
 
+            if(!_isEmailFormat(join.email)) {
+                await _alert([[#{web.global.itemInvalidFormat(#{web.join.email})}]]);
+                duice.ObjectProxy.focus(join, 'email');
+                return false;
+            }
+
+            let url = new URL(`${_apiUrl}/v1/join/validate-email/${join.email}`, document.location.origin);
+            let response = await _fetch(url, {}, true);
+            if(response.ok) {
+                await _alert([[#{web.join.sendComplete}]])
+                return true;
+            }else {
+                let json = await response.json();
+                await _alert(json.message);
+                duice.ObjectProxy.focus(join, 'email');
+                return false;
+            }
         }
 
-        const validateEmailCheckAnswer = function(email, answer) {
+        const validateEmailAnswer = async function() {
 
+            if(_isEmpty(join.email)) {
+                await _alert([[#{web.global.itemEmpty(#{web.join.email})}]]);
+                return false;
+            }
+
+            if(_isEmpty(join.answer)) {
+                await _alert([[#{web.global.itemEmpty(#{web.join.answer})}]]);
+                return false;
+            }
+
+            let url = new URL(`${_apiUrl}/v1/join/validate-email/${join.email}/answer/${join.answer}`, document.location.origin);
+            let response = await _fetch(url, {}, true);
+            if(response.ok) {
+                return true;
+            }else {
+                let json = await response.json();
+                await _alert(json.message);
+                return false;
+            }
         }
 
-        const processJoin = function() {
+        const validatePassword = async function() {
+            if(_isEmpty(join.password)) {
+                await _alert([[#{web.global.itemEmpty(#{web.join.password})}]]);
+                duice.ObjetProxy.focus(join, 'password');
+                return false;
+            }
 
+            if(!_isPasswordFormat(join.password)) {
+                await _alert([[#{web.global.itemInvalidFormat(#{web.join.password})}]]);
+                join.password = null;
+                join.passwordConfirm = null;
+                duice.ObjectProxy.focus(join, 'password');
+                return false;
+            }
+
+            if(join.password !== join.passwordConfirm) {
+                await _alert([[#{web.global.itemNotMatch(#{web.join.password})}]]);
+                join.password = null;
+                join.passwordConfirm = null;
+                duice.ObjectProxy.focus(join, 'password');
+                return false;
+            }
+
+            // default true
+            return true;
+        }
+
+        const requestJoin = async function() {
+            if(!await validateUserId(join.userId)) {
+                return false;
+            }
+
+            if(!await validatePassword()) {
+                return false;
+            }
+
+            let url = new URL(`${_apiUrl}/v1/join`, document.location.origin);
+            _fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(join)
+            }).then(response => {
+                if(response.ok) {
+                    document.location.href = [[@{/login}]];
+                }
+            });
         }
 
     </script>

@@ -42,7 +42,7 @@ public class CryptoUtil implements ApplicationContextAware {
 
     @Autowired
     private CryptoUtil(CryptoKeyProvider cryptoKeyProvider) {
-        encryptor = Encryptors.delux(cryptoKeyProvider.getPassword(), cryptoKeyProvider.getSalt());
+        encryptor = Encryptors.queryableText(cryptoKeyProvider.getPassword(), cryptoKeyProvider.getSalt());
     }
 
     @Override

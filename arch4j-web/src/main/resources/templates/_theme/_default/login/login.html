@@ -1,6 +1,7 @@
 <style th:inline="css">
     #login {
         width: 300px;
+        max-width: 100%;
         padding: 1em;
     }
 </style>
@@ -41,11 +42,11 @@
         </div>
         <div class="grid-column-12">
             <div class="text-align-right">
-                <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.join}">
+                <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.join}">
                 </span>
             </div>
             <div class="text-align-right">
-                <span class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.findPassword}">
+                <span onclick="gotoResetPassword();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.resetPassword}">
                 </span>
             </div>
         </div>

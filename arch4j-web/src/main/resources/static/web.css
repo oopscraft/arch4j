@@ -5,7 +5,7 @@
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
     --web-font-family: sans-serif;
-    --web-font-weight-bold: 500;
+    --web-font-weight-bold: 600;
     --web-ancher-color: blue;
     /* element(input,select...) */
     --web-element-border: solid 1px lightgray;
@@ -131,10 +131,11 @@ h1,h2,h3,h4,h5,h6 {
     font-weight: var(--web-font-weight-bold);
 }
 h1 {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 h3 {
     font-size: 1.3rem;

@@ -73,13 +73,14 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWA
 
 -- user
 insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('user','User','{noop}user','GENERAL','ACTIVE');
-insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('admin','Administrator','{noop}admin','GENERAL','ACTIVE');
+insert into `core_user` (`user_id`,`user_name`,`email`,`password`,`type`,`status`) values ('admin','Administrator',null,'{noop}admin','GENERAL','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
 insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('dev','Developer Account','{noop}dev','SYSTEM','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('dev','DEV');
 
 -- email
-insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('VERIFICATION','Verification Email', 'Verification Code: [[${answer}]]', 'Verification Code: <b>[[${answer}]]</b>');
+insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('VERIFICATION','Verification Email', 'Verification Code: [[${answer}]]', 'Verification Code: [[${answer}]]');
+insert into `core_email_template` (`template_id`,`template_name`,`subject`,`content`) values ('FIND_PASSWORD', 'Find Password Email', 'Find Password', 'Find Password: [[callbackUrl]]');
 
 -- variable
 insert into `core_variable` (`variable_id`,`variable_name`,`value`) values ('test1', 'test property 1','test_value_1');

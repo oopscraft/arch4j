@@ -139,12 +139,15 @@ public class EmailService implements InitializingBean {
         emailVerificationRepository.saveAndFlush(emailVerificationEntity);
     }
 
-    public void checkEmailVerification(String email, String answer) {
-        EmailVerificationEntity emailVerificationEntity = emailVerificationRepository.findById(email).orElseThrow();
-        if(answer.contentEquals(emailVerificationEntity.getAnswer())) {
-            return;
+    public void validateEmailVerification(String email, String answer) {
+        EmailVerificationEntity emailVerificationEntity = emailVerificationRepository.findById(email)
+                .orElseThrow(() -> new RuntimeException("email verification request is not found."));
+        if(!answer.contentEquals(emailVerificationEntity.getAnswer())) {
+            throw new RuntimeException("answer is incorrect");
         }
-        throw new RuntimeException("answer is correct");
+        if(emailVerificationEntity.getIssuedAt().isBefore(LocalDateTime.now().minusMinutes(10))) {
+            throw new RuntimeException("verification is expired");
+        }
     }
 
 }

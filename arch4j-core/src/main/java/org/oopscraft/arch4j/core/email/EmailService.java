@@ -97,8 +97,8 @@ public class EmailService implements InitializingBean {
         sendEmail(to, subject, content);
     }
 
-    @Transactional
     @Async
+    @Transactional
     public void sendEmail(String to, String subject, String content) throws EmailException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {

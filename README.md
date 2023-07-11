@@ -54,7 +54,7 @@ connect to http://localhost:8080
 
 ## License
 
-Licence: LGPL(GNU Lesser General Public License version 3)
+LGPL(GNU Lesser General Public License version 3)
 Copyright (C) 2016 oopscraft.org
 
 - Anyone can use it freely.

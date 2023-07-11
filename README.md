@@ -51,3 +51,12 @@ connect to http://localhost:8080
 
 [2.Configuration](doc/02.configuration/index.md)
 
+
+## License
+
+Licence: LGPL(GNU Lesser General Public License version 3)
+Copyright (C) 2017 arch4j.oopscraft.org
+
+- Anyone can use it freely.
+- Modify the source or allow re-creation. However, you must state that you have the original creator.
+- However, we can not grant patents or licenses for reproductives. (Modifications or reproductions must be shared with the public.)

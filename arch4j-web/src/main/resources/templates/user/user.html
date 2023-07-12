@@ -1,1 +1,50 @@
-User.html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="user/_user.html">
+<th:block layout:fragment="_user_content">
+    <script th:inline="javascript">
+        const currentUser = new duice.ObjectProxy({});
+        duice.ObjectProxy.setReadonly(currentUser, 'userId', true);
+        duice.ObjectProxy.setReadonly(currentUser, 'type', true);
+        duice.ObjectProxy.setReadonly(currentUser, 'status', true);
+        duice.ObjectProxy.setReadonly(currentUser, 'joinAt', true);
+
+        const getCurrentUser = function() {
+            let url = new URL(`${_apiUrl}/v1/current-user`, document.location.origin);
+            _fetch(url, {
+                method: 'GET'
+            }).then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(currentUser, data);
+                });
+        }
+
+        const saveCurrentUser = async function() {
+            if(await _confirm([[#{web.user.user.saveCurrentUserConfirm}]])) {
+                let url = new URL(`${_apiUrl}/v1/current-user`, document.location.origin);
+                _fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                }).then(response => response.json()).then(data => {
+                    _alert([[#{web.user.user.saveCurrentUserComplete}]]).then(()=>{
+                        duice.ObjectProxy.assign(currentUser, data);
+                    });
+                });
+            }
+        }
+
+        const gotoChangePassword = function() {
+            document.location.href = [[@{/user/change-password}]];
+        }
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            getCurrentUser();
+        });
+
+    </script>
+    <th:block th:replace="|_theme/${_theme}/user/user.html|"/>
+</th:block>

@@ -24,10 +24,6 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * saves user
-     * @param user user info
-     */
     @Transactional
     public User saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(
@@ -54,20 +50,10 @@ public class UserService {
         return User.from(userEntity);
     }
 
-    /**
-     * get user
-     * @param id id
-     * @return user
-     */
-    public Optional<User> getUser(String id) {
-        return userRepository.findById(id).map(User::from);
+    public Optional<User> getUser(String userId) {
+        return userRepository.findById(userId).map(User::from);
     }
 
-    /**
-     * get user by email
-     * @param email email address
-     * @return user
-     */
     public Optional<User> getUserByEmail(String email) {
         User user = Optional.ofNullable(userRepository.findFirstByEmail(email))
                 .map(User::from)
@@ -75,21 +61,11 @@ public class UserService {
         return Optional.ofNullable(user);
     }
 
-    /**
-     * delete user
-     * @param id user id
-     */
     public void deleteUser(String id) {
         userRepository.deleteById(id);
         userRepository.flush();
     }
 
-    /**
-     * find users
-     * @param userSearch search condition
-     * @param pageable pageable
-     * @return users
-     */
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
         List<User> users = userEntityPage.getContent().stream()
@@ -98,14 +74,14 @@ public class UserService {
         return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 
-    /**
-     * update password
-     * @param userId user id
-     * @param password password
-     */
-    public void changePassword(String userId, String password) {
+    public boolean isPasswordMatched(String userId, String password) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+        return passwordEncoder.matches(password, userEntity.getPassword());
+    }
+
+    public void changePassword(String userId, String newPassword) {
         userRepository.findById(userId).ifPresent(userEntity -> {
-            userEntity.setPassword(passwordEncoder.encode(password));
+            userEntity.setPassword(passwordEncoder.encode(newPassword));
             userRepository.saveAndFlush(userEntity);
         });
     }

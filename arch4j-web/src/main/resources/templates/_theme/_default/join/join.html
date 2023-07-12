@@ -7,49 +7,41 @@
 </style>
 <div id="join" class="border-1 padding-1em">
     <h1 class="text-align-center">
-        <div class="text-align-center" data-th-text="#{web.join}">
-        </div>
+        <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-join.svg(_theme=${_theme})}"/>
+        <span class="text-align-center" data-th-text="#{web.join.join}"></span>
     </h1>
-    <div class="grid grid-template-columns-12 grid-gap-1px">
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.userId}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
+    <form class="grid grid-template-columns-12 grid-gap-1em padding-1em">
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.userId}" class="font-weight-bold"></span>
             <input type="text" data-duice-bind="join" data-duice-property="userId" class="width-100"/>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.userName}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.userName}" class="font-weight-bold"></span>
             <input type="text" data-duice-bind="join" data-duice-property="userName" class="width-100"/>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.email}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12 grid grid-template-columns-12 grid-gap-1px">
-            <input type="text" data-duice-bind="join" data-duice-property="email" class="grid-column-9"/>
-            <button class="grid-column-3" data-th-text="#{web.join.validateEmail}" onclick="validateEmail();"></button>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.answer}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12 grid grid-template-columns-12 grid-gap-1px">
-            <input type="text" data-duice-bind="join" data-duice-property="answer" class="grid-column-9"/>
-            <button class="grid-column-3" data-th-text="#{web.join.validateEmailAnswer}" onclick="validateEmailAnswer();"></button>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.password}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.email}" class="font-weight-bold"></span>
+            <div class="width-100 grid grid-template-columns-12 grid-gap-1em">
+                <input type="text" data-duice-bind="join" data-duice-property="email" class="grid-column-9"/>
+                <button class="grid-column-3" data-th-text="#{web.join.join.validateEmail}" onclick="validateEmail();"></button>
+            </div>
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.answer}" class="font-weight-bold"></span>
+            <div class="width-100 grid grid-template-columns-12 grid-gap-1em">
+                <input type="text" data-duice-bind="join" data-duice-property="answer" class="grid-column-9"/>
+                <button class="grid-column-3" data-th-text="#{web.join.join.validateEmailAnswer}" onclick="validateEmailAnswer();"></button>
+            </div>
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.password}" class="font-weight-bold"></span>
             <input type="password" data-duice-bind="join" data-duice-property="password" class="width-100"/>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.join.passwordConfirm}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.join.join.passwordConfirm}" class="font-weight-bold"></span>
             <input type="password" data-duice-bind="join" data-duice-property="passwordConfirm" class="width-100"/>
-        </div>
-    </div>
+        </label>
+    </form>
     <div class="text-align-center margin-top-1em">
         <button onclick="history.back();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
@@ -57,7 +49,7 @@
         </button>
         <button onclick="requestJoin();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-confirm.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.join.requestJoin}"></span>
+            <span data-th-text="#{web.join.join.requestJoin}"></span>
         </button>
     </div>
 </div>

@@ -21,7 +21,7 @@ public class JoinRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "web.join.answer")
+    @NotBlank(message = "web.join.join.answer")
     private String answer;
 
     @NotBlank(message = "Password is required")

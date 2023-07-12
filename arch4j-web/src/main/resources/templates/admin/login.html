@@ -51,11 +51,7 @@
             message: null
         });
 
-        /**
-         * process login
-         * @returns {Promise<boolean>}
-         */
-        async function processLogin() {
+        async function requestLogin() {
             if(_isEmpty(login.username)){
                 await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
                 duice.ObjectProxy.focus(login, 'username');
@@ -97,42 +93,39 @@
     <!-- start: login                       -->
     <!-- ================================== -->
     <div id="login" class="border-1">
-        <h1 class="text-align-center margin-bottom-1em">
+        <h1 class="text-align-center">
             <div id="_brand">
                 <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
             </div>
         </h1>
-        <form onsubmit="return false;" class="grid grid-gap-1em">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <div class="grid-column-1">
-                <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{core.user.User.userId}" class="width-100 text-align-center font-weight-bold"/>
+        <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
+            <label class="grid-column-12">
+                <span data-th-text="#{web.admin.login.userId}" class="font-weight-bold tag-required"></span>
+                <input type='text' data-duice-bind="login" data-duice-property="username" class="width-100 text-align-center font-weight-bold"/>
+            </label>
+            <label class="grid-column-12">
+                <span data-th-text="#{web.admin.login.password}" class="font-weight-bold tag-required"></span>
+                <input type='password' data-duice-bind="login" data-duice-property='password' class="width-100 text-align-center"/>
+            </label>
+            <div class="grid-column-12 text-align-right">
+                <label>
+                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
             </div>
-            <div class="grid-column-1">
-                <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{core.user.User.password}" class="width-100 text-align-center"/>
-            </div>
-            <div class="grid-column-1">
-                <button onclick="processLogin();" class="width-100">
+            <div class="grid-column-12">
+                <button onclick="requestLogin();" class="width-100">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
                     <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
-            <div class="grid-column-1">
-                <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
-                &nbsp;
-                <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                <select onchange="_changeLanguage(this.value);">
-                    <option>- language -</option>
-                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                </select>
-            </div>
-            <div class="grid-column-1">
+            <div class="grid-column-12 text-align-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
         </form>
-        <hr/>
-        <div>
-            <img class="icon" th:src="@{/static/image/copyright.png}"/>
-        </div>
     </div>
     <!-- ================================== -->
     <!-- end: login                         -->

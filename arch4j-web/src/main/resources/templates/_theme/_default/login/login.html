@@ -12,20 +12,16 @@
             </span>
         </div>
     </h1>
-    <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1px">
-        <div class="grid-column-12">
-            <span data-th-text="#{web.login.userId}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
-            <input type='text' data-duice-bind="login" data-duice-property="username" th:placeholder="#{web.login.userId}" class="width-100 text-align-center font-weight-bold"/>
-        </div>
-        <div class="grid-column-12">
-            <span data-th-text="#{web.login.password}" class="font-weight-bold"></span>
-        </div>
-        <div class="grid-column-12">
-            <input type='password' data-duice-bind="login" data-duice-property='password' th:placeholder="#{web.login.password}" class="width-100 text-align-center"/>
-        </div>
-        <div class="grid-column-12 grid grid-template-columns-12 margin-x-1px padding-x-1px">
+    <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
+        <label class="grid-column-12">
+            <span data-th-text="#{web.login.login.userId}" class="font-weight-bold tag-required"></span>
+            <input type='text' data-duice-bind="login" data-duice-property="username" class="width-100 font-weight-bold text-align-center"/>
+        </label>
+        <label class="grid-column-12">
+            <span data-th-text="#{web.login.login.password}" class="font-weight-bold tag-required"></span>
+            <input type='password' data-duice-bind="login" data-duice-property='password' class="width-100 font-weight-bold text-align-center"/>
+        </label>
+        <div class="grid-column-12 flex justify-content-space-between">
             <div class="grid-column-6">
                 <label>
                     <input type="checkbox"/>
@@ -33,13 +29,13 @@
                 </label>
             </div>
             <div class="grid-column-6 flex justify-content-flex-end align-items-center">
-                <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
-                &nbsp;
-                <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                <select onchange="_changeLanguage(this.value);">
-                    <option>- language -</option>
-                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                </select>
+                <label>
+                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
             </div>
         </div>
         <div class="grid-column-12">
@@ -53,22 +49,13 @@
         </div>
         <div class="grid-column-12">
             <div class="text-align-right">
-                <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.join}">
+                <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.login.join}">
                 </span>
             </div>
             <div class="text-align-right">
-                <span onclick="gotoResetPassword();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.resetPassword}">
+                <span onclick="gotoResetPassword();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.login.resetPassword}">
                 </span>
             </div>
         </div>
     </form>
-    <hr class="margin-x-1em"/>
-    <div class="grid grid-template-columns-12 grid-gap-1em">
-        <div class="grid-column-12">
-            <button onclick="loginWithGoogle();">
-                <img class="icon" th:src="@{/static/image/icon-brand-google.svg}"/>
-                <span>Login with Google</span>
-            </button >
-        </div>
-    </div>
 </div>

@@ -21,7 +21,7 @@
 
         const validateUserId = async function(userId) {
             if(_isEmpty(userId)) {
-                await _alert([[#{web.global.itemEmpty(#{web.join.userId})}]]);
+                await _alert([[#{web.global.itemEmpty(#{web.join.join.userId})}]]);
                 duice.ObjectProxy.focus(join, 'userId');
                 return false;
             }
@@ -31,7 +31,7 @@
             if(response.ok) {
                 return true;
             }else {
-                await _alert([[#{web.global.itemAlreadyExist(#{web.join.userId})}]]);
+                await _alert([[#{web.global.itemAlreadyExist(#{web.join.join.userId})}]]);
                 duice.ObjectProxy.focus(join, 'userId');
                 return false;
             }
@@ -39,13 +39,13 @@
 
         const validateEmail = async function() {
             if(_isEmpty(join.email)) {
-                await _alert([[#{web.global.itemEmpty(#{web.join.email})}]]);
+                await _alert([[#{web.global.itemEmpty(#{web.join.join.email})}]]);
                 duice.ObjectProxy.focus(join, 'email');
                 return false;
             }
 
             if(!_isEmailFormat(join.email)) {
-                await _alert([[#{web.global.itemInvalidFormat(#{web.join.email})}]]);
+                await _alert([[#{web.global.itemInvalidFormat(#{web.join.join.email})}]]);
                 duice.ObjectProxy.focus(join, 'email');
                 return false;
             }
@@ -53,7 +53,7 @@
             let url = new URL(`${_apiUrl}/v1/join/validate-email/${join.email}`, document.location.origin);
             let response = await _fetch(url, {}, true);
             if(response.ok) {
-                await _alert([[#{web.join.validateEmailComplete}]])
+                await _alert([[#{web.join.join.validateEmailComplete}]])
                 return true;
             }else {
                 let json = await response.json();
@@ -66,12 +66,12 @@
         const validateEmailAnswer = async function() {
 
             if(_isEmpty(join.email)) {
-                await _alert([[#{web.global.itemEmpty(#{web.join.email})}]]);
+                await _alert([[#{web.global.itemEmpty(#{web.join.join.email})}]]);
                 return false;
             }
 
             if(_isEmpty(join.answer)) {
-                await _alert([[#{web.global.itemEmpty(#{web.join.answer})}]]);
+                await _alert([[#{web.global.itemEmpty(#{web.join.join.answer})}]]);
                 return false;
             }
 
@@ -88,13 +88,13 @@
 
         const validatePassword = async function() {
             if(_isEmpty(join.password)) {
-                await _alert([[#{web.global.itemEmpty(#{web.join.password})}]]);
+                await _alert([[#{web.global.itemEmpty(#{web.join.join.password})}]]);
                 duice.ObjetProxy.focus(join, 'password');
                 return false;
             }
 
             if(!_isPasswordFormat(join.password)) {
-                await _alert([[#{web.global.itemInvalidFormat(#{web.join.password})}]]);
+                await _alert([[#{web.global.itemInvalidFormat(#{web.join.join.password})}]]);
                 join.password = null;
                 join.passwordConfirm = null;
                 duice.ObjectProxy.focus(join, 'password');
@@ -102,7 +102,7 @@
             }
 
             if(join.password !== join.passwordConfirm) {
-                await _alert([[#{web.global.itemNotMatch(#{web.join.password})}]]);
+                await _alert([[#{web.global.itemNotMatch(#{web.join.join.password})}]]);
                 join.password = null;
                 join.passwordConfirm = null;
                 duice.ObjectProxy.focus(join, 'password');

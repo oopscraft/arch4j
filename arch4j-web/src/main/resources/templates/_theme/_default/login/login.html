@@ -7,10 +7,9 @@
 </style>
 <div id="login" class="border-1">
     <h1 class="text-align-center">
-        <div onclick="_gotoHome()" class="link">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/logo-arch4j.png(_theme=${_theme})}"/>
-        </div>
-        <div class="text-align-center" data-th-text="#{web.login}">
+        <div>
+            <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}">
+            </span>
         </div>
     </h1>
     <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1px">

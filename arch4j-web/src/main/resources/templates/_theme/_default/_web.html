@@ -58,6 +58,12 @@
             align-items: center;
             font-size: 2rem;
         }
+        #_brand,
+        #_brand * {
+            height: 2rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
         header #_header-menuButton {
             display: none;
         }
@@ -176,8 +182,7 @@
     <th:block th:fragment="_header">
     <header>
         <div id="_header-logo">
-            <span onclick="_gotoHome();" class="link">
-                <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/logo-arch4j.png(_theme=${_theme})}"/>
+            <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}">
             </span>
         </div>
         <div id="_header-menuButton">

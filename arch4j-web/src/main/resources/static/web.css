@@ -313,6 +313,10 @@ table tbody td:has(button,input,select,textarea,table) {
     table tbody tr td {
         white-space: unset;
     }
+    .overflow-x-scroll > table tbody tr td,
+    .overflow-y-scroll > table tbody tr td {
+        white-space: nowrap;
+    }
 }
 
 /* ul,ol,li */

@@ -17,7 +17,7 @@
     <script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
-    <style>
+    <style th:inline="css">
         html {
             width: 100%;
             height: 100%;
@@ -68,6 +68,12 @@
             justify-content: start;
             align-items: center;
             font-size: 2rem;
+        }
+        #_brand,
+        #_brand * {
+            height: 2rem;
+            vertical-align: middle;
+            font-weight: bold;
         }
         header #_header-menuButton {
             display: none;
@@ -164,34 +170,20 @@
             text-align: center;
         }
     </style>
-    <script>
-
-        /**
-         * home
-         */
-        function _home() {
-            document.location.href = '/admin';
+    <script th:inline="javascript">
+        const _gotoIndex = function() {
+            document.location.href = [[@{/admin}]];
         }
 
-        /**
-         * login
-         * @private
-         */
-        function _login() {
-            document.location.href = '/admin/login';
+        const _gotoLogin = function() {
+            document.location.href = [[@{/admin/login}]];
         }
 
-        /**
-         * logout
-         */
-        function _logout() {
-            document.location.href = '/admin/logout';
+        const _gotoLogout = function() {
+            document.location.href = [[@{/admin/logout}]];
         }
 
-        /**
-         * open menu
-         */
-        function _openMenu() {
+        const _openMenu = function() {
             document.querySelector('header #_header-menu').classList.toggle('open');
             document.querySelector('nav').classList.toggle('open');
         }
@@ -205,7 +197,7 @@
     <!-- ====================================== -->
     <header>
         <div id="_header-logo">
-            <span onclick="_home();" class="link">
+            <span id="_brand" onclick="_gotoIndex();" class="link">
                 <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
             </span>
         </div>
@@ -214,7 +206,7 @@
         </div>
         <ul id="_header-menu">
             <li sec:authorize="!isAuthenticated()">
-                <div onclick="_login();" class="link">
+                <div onclick="_gotoLogin();" class="link">
                     <img th:src="@{/static/image/icon-login.svg}" class="icon"/>
                     <span data-th-text="#{web.global.login}"></span>
                 </div>
@@ -226,7 +218,7 @@
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">
-                <span onclick="_logout();" class="link">
+                <span onclick="_gotoLogout();" class="link">
                     <img th:src="@{/static/image/icon-logout.svg}" class="icon"/>
                     <span data-th-text="#{web.global.logout}"></span>
                 </span>

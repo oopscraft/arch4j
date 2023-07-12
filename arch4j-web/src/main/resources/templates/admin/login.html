@@ -33,6 +33,12 @@
                 grid-template-rows: 100%;
             }
         }
+        #_brand,
+        #_brand * {
+            height: 2rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
         #login {
             width: 300px;
             padding: 1em;
@@ -92,7 +98,9 @@
     <!-- ================================== -->
     <div id="login" class="border-1">
         <h1 class="text-align-center margin-bottom-1em">
-            <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
+            <div id="_brand">
+                <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
+            </div>
         </h1>
         <form onsubmit="return false;" class="grid grid-gap-1em">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

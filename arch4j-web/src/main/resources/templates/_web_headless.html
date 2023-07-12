@@ -27,48 +27,27 @@
             photo: [[${_user.photo}]]
         });
         const _locales = new duice.ArrayProxy([[${_locales}]]);
-        const _menus = new duice.ArrayProxy([]);
 
-        /**
-         * home
-         */
-        function _home() {
+        const _gotoHome = function() {
             document.location.href = [[@{/}]];
         }
 
-        /**
-         * login
-         * @private
-         */
-        function _login() {
+        const _gotoLogin = function() {
             document.location.href = [[@{/login}]];
         }
 
-        /**
-         * logout
-         */
-        function _logout() {
+        const _gotoLogout = function() {
             document.location.href = [[@{/logout}]];
         }
 
-        /**
-         * get menus
-         * @private
-         */
-        function _getMenus() {
-            let url = new URL(`${_apiUrl}/v1/menu`, document.location.origin);
-            _fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    duice.ArrayProxy.clear(_menus);
-                    duice.ArrayProxy.assign(_menus, data);
-                });
+        const _gotoJoin = function() {
+            document.location.href = [[@{/join}]];
         }
 
-        // on load
-        document.addEventListener('DOMContentLoaded', event => {
-            _getMenus();
-        });
+        const _gotoUser = function() {
+            document.location.href = [[@{/user}]];
+        }
+
     </script>
     <!-- ============================================== -->
     <!-- start: fragment::_script                       -->

@@ -10,11 +10,7 @@
         message: null
     });
 
-    /**
-     * process login
-     * @returns {Promise<boolean>}
-     */
-    const processLogin = async function() {
+    const requestLogin = async function() {
         if(_isEmpty(login.username)){
             await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
             duice.ObjectProxy.focus(login, 'username');
@@ -45,9 +41,14 @@
         });
     }
 
-    /**
-     * login with Google
-     */
+    const gotoJoin = function() {
+        _gotoJoin();
+    }
+
+    const gotoResetPassword = function() {
+        document.location.href = [[@{/login/reset-password}]];
+    }
+
     const loginWithGoogle = function() {
         alert("not ready yet");
     }

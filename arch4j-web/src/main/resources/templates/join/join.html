@@ -53,7 +53,7 @@
             let url = new URL(`${_apiUrl}/v1/join/validate-email/${join.email}`, document.location.origin);
             let response = await _fetch(url, {}, true);
             if(response.ok) {
-                await _alert([[#{web.join.sendComplete}]])
+                await _alert([[#{web.join.validateEmailComplete}]])
                 return true;
             }else {
                 let json = await response.json();

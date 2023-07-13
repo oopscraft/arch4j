@@ -191,7 +191,7 @@
     </script>
     <style th:inline="css">
         .menu-item {
-            padding-left: 0.5em;
+            padding: 0.2em;
         }
         .menu-item:hover {
             background-color: var(--web-table-body-hover-background-color);
@@ -235,12 +235,12 @@
         <!-- start: menu list                   -->
         <!-- ================================== -->
         <div id="menuList" class="grid-column-1">
-            <div class="border-1 padding-1em">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <div>
+                <div class="padding-y-1em s-padding-y-0">
                     <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
                          data-duice-execute="
                     this.dataset.menuId = menu.menuId;
@@ -248,19 +248,22 @@
                         this.style.marginLeft=status.depth + 'em';
                     }
                     ">
-                        <div data-duice-bind="menu" data-duice-execute="this.dataset.menuId = menu.menuId;"
-                             onclick="getMenu(this.dataset.menuId);" class="link menu-item">
+                        <div class="link menu-item" data-duice-bind="menu" data-duice-execute="this.dataset.menuId = menu.menuId;"
+                             onclick="getMenu(this.dataset.menuId);">
                             <img data-duice-bind="menu" data-duice-property="icon" class="icon"
                                  th:src="@{/static/image/icon-null.svg}"/>
                             <span data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold"></span>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-content-flex-end">
-                    <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
-                        <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
-                        <span data-th-text="#{web.global.create}"></span>
-                    </button>
+                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <div class="grid-column-1"></div>
+                    <div class="grid-column-1 justify-self-end">
+                        <button onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -272,95 +275,79 @@
         <!-- start: menu detail                 -->
         <!-- ================================== -->
         <div id="menuDetail" class="grid-column-1">
-            <div class="border-1 padding-1em">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
-                    <div class="grid-column-1 s-grid-column-6">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.menu.Menu.menuName}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold width-100"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
-                        <div class="grid grid-template-columns-12">
-                            <input class="grid-column-10" data-duice-bind="menu" data-duice-property="parentMenuName"/>
-                            <button class="grid-column-1" onclick="selectParentId();"
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 flex gap-1em justify-content-space-between align-items-flex-end">
+                        <label>
+                            <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
+                            <input class="width-100" data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                        </label>
+                        <div>
+                            <button onclick="selectParentId();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                     data-duice-bind="menu"
                                     data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             </button>
-                            <button class="grid-column-1" onclick="clearParentMenu();"
+                            <button onclick="clearParentMenu();"
                                     data-duice-bind="menu"
                                     data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
                             </button>
                         </div>
                     </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    <label class="grid-column-12">
+                        <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
+                        <div class="width-100">
+                            <img class="icon" th:src="@{/static/image/icon-null.svg}"
+                                 data-duice-bind="menu"
+                                 data-duice-property="icon"
+                                 data-duice-width="32"
+                                 data-duice-height="32"
+                                 data-duice-editable="true"
+                                 style="width:32px; height:32px;"/>
+                        </div>
+                    </label>
+                    <label class="grid-column-12">
                         <span data-th-text="#{core.menu.Menu.link}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
                         <input type="text" data-duice-bind="menu" data-duice-property="link" class="width-100"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.menu.Menu.target}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <select data-duice-bind="menu" data-duice-property="target">
+                        <select class="width-100" data-duice-bind="menu" data-duice-property="target">
                             <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
                             <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
                                     th:text="${menuTarget}"></option>
                         </select>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
-                        <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <img class="icon" th:src="@{/static/image/icon-null.svg}"
-                             data-duice-bind="menu"
-                             data-duice-property="icon"
-                             data-duice-width="32"
-                             data-duice-height="32"
-                             data-duice-editable="true"
-                             style="width:32px; height:32px;"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.menu.Menu.sort}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <input type="number" data-duice-bind="menu" data-duice-property="sort"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                        <input class="width-100" type="number" data-duice-bind="menu" data-duice-property="sort"/>
+                    </label>
+                    <div class="grid-column-12">
                         <span data-th-text="#{core.menu.Menu.note}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
                         <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
-                              class="width-100 height-100"></textarea>
+                              class="width-100"></textarea>
                     </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    <div class="grid-column-12">
                         <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <div class="overflow-y-scroll border-1" style="max-height:calc(10rem - 2px);">
-                            <table class="width-100 border-0">
+                        <div class="overflow-y-scroll" style="max-height:calc(10rem - 2px);">
+                            <table>
                                 <colgroup>
-                                    <col style="width:70px;"/>
-                                    <col/>
-                                    <col/>
                                     <col style="width:35px;"/>
+                                    <col/>
+                                    <col/>
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addMenuRole();"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
@@ -369,15 +356,12 @@
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-duice-bind="menu.roles" data-duice-loop="role,status">
-                                    <td data-duice-bind="status" data-duice-property="count"
-                                        class="text-align-center"></td>
-                                    <td data-duice-bind="role" data-duice-property="roleId"
-                                        class="font-weight-bold"></td>
-                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -386,6 +370,9 @@
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"
+                                        class="font-weight-bold"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                 </tr>
                                 <tr data-duice-bind="menu.roles"
                                     data-duice-execute="if(menu.roles.length === 0) this.hidden=false;" hidden>
@@ -395,8 +382,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="grid grid-template-columns-2 margin-top-1em">
+                </form>
+                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1">
                         <button onclick="openMenu();"
                                 data-duice-bind="menu"
@@ -405,7 +392,7 @@
                             <span data-th-text="#{web.admin.menu.openMenu}"></span>
                         </button>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end gap-1px">
+                    <div class="grid-column-1 justify-self-end">
                         <button onclick="deleteMenu();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                 data-duice-bind="menu"

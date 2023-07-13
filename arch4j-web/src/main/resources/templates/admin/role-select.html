@@ -1,0 +1,238 @@
+<!-- ====================================== -->
+<!-- start: roleSelect                      -->
+<!-- ====================================== -->
+<dialog id="roleSelect">
+    <style>
+        #roleSelect {
+            width: 700px;
+            padding: 1.5rem;
+        }
+    </style>
+    <script th:inline="javascript">
+        const roleSelect = {
+            dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
+            alreadySelectedRoleIds : null,
+            roleSearch: new duice.ObjectProxy({
+                key: 'roleId',
+                value: null,
+                _page: 0,
+                _size: 5,
+                _count: 0
+            }),
+            roles: new duice.ArrayProxy([]),
+            selectedRoles: new duice.ArrayProxy([]),
+            /**
+             * open
+             * @param alreadySelectedRoleIds
+             */
+            open: async function(alreadySelectedRoleIds) {
+                if(alreadySelectedRoleIds) {
+                    this.alreadySelectedRoleIds = alreadySelectedRoleIds;
+                }else{
+                    this.alreadySelectedRoleIds = [];
+                }
+                duice.ArrayProxy.clear(this.selectedRoles);
+                this.getRoles(0);
+                return this.dialog.open();
+            },
+            /**
+             * getRoles
+             * @param page
+             */
+            getRoles: function(page) {
+                if(page) {
+                    this.roleSearch._page = page;
+                }
+                let url = new URL([[@{/admin/role/get-roles}]],document.location.origin);
+                if(this.roleSearch.key && this.roleSearch.value) {
+                    url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
+                }
+                url.searchParams.append('_page', this.roleSearch._page);
+                url.searchParams.append('_size', this.roleSearch._size);
+                _fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        duice.ArrayProxy.clear(this.roles);
+                        duice.ArrayProxy.assign(this.roles, data.content);
+                        this.roleSearch._count = data.totalElements;
+                        // check already selected
+                        this.roles.forEach(role => {
+                            if(this.alreadySelectedRoleIds.includes(role.roleId)){
+                                role['_selected'] = true;
+                            }
+                            this.selectedRoles.forEach(element => {
+                                if(element.roleId === role.roleId) {
+                                    role['_selected'] = true;
+                                }
+                            });
+                        });
+                    });
+            },
+            /**
+             * resetRoles
+             */
+            resetRoles: function() {
+                duice.ObjectProxy.reset(this.roleSearch);
+                this.getRoles();
+            },
+            /**
+             * select role
+             * @param index
+             */
+            selectRole: function(index) {
+                console.log('== index', index);
+                let role = JSON.parse(JSON.stringify(this.roles[index]));
+                this.selectedRoles.push(role);
+                this.roles.forEach(element => {
+                    if(element.roleId === role.roleId) {
+                        element['_selected'] = true;
+                        return false;
+                    }
+                });
+            },
+            /**
+             * deselect role
+             * @param index
+             */
+            deselectRole: async function(index) {
+                let role = this.selectedRoles[index];
+                this.selectedRoles.splice(index, 1);
+                this.roles.forEach(element => {
+                    if(element.roleId === role.roleId) {
+                        element['_selected'] = false;
+                        return false;
+                    }
+                });
+            },
+            /**
+             * confirm
+             */
+            confirm: function() {
+                this.dialog.resolve(this.selectedRoles);
+            }
+        }
+    </script>
+    <div class="grid grid-gap-1em">
+        <h2>
+            <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
+            <span data-th-text="#{core.role.Role}"></span>
+        </h2>
+        <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
+            <label class="grid-column-2 s-grid-column-4">
+                <select class="width-100" data-duice-bind="roleSelect.roleSearch" data-duice-property="key">
+                    <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                    <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
+                </select>
+            </label>
+            <label class="grid-column-4 s-grid-column-8">
+                <input class="width-100" type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value"/>
+            </label>
+            <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                <button onclick="roleSelect.getRoles();">
+                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                    <span data-th-text="#{web.global.search}">Search</span>
+                </button>
+                <button onclick="roleSelect.resetRoles();">
+                    <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                    <span data-th-text="#{web.global.reset}">Reset</span>
+                </button>
+            </div>
+        </form>
+        <div class="overflow-x-scroll">
+            <table>
+                <colgroup>
+                    <col style="width:35px;"/>
+                    <col/>
+                    <col/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-align-center">-</th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
+                    <td class="text-align-center">
+                        <button data-duice-bind="role"
+                                data-duice-execute="
+                        this.dataset.index = status.index;
+                        if(role._selected) {
+                            this.disabled = true;
+                        }"
+                                onclick="roleSelect.selectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                        </button>
+                    </td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
+                </tr>
+                <tr data-duice-bind="roleSelect.roles"
+                    data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="grid grid-template-columns-3">
+            <div class="grid-column-1 flex font-size-smaller">
+                <span data-th-text="#{web.global.total}"></span>
+                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                <span data-th-text="#{web.global.rows}"></span>
+            </div>
+            <div class="grid-column-1 flex justify-content-center">
+                <duice-pagination
+                        data-duice-bind="roleSelect.roleSearch"
+                        data-duice-size-property="_size"
+                        data-duice-page-property="_page"
+                        data-duice-count-property="_count"
+                        data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
+                </duice-pagination>
+            </div>
+            <div class="grid-column-1"></div>
+        </div>
+        <div class="overflow-x-scroll">
+            <table>
+                <colgroup>
+                    <col style="width:35px;"/>
+                    <col/>
+                    <col/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-align-center">-</th>
+                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                    <th data-th-text="#{core.role.Role.roleName}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
+                    <td class="text-align-center">
+                        <button data-duice-bind="role"
+                                data-duice-execute="this.dataset.index = status.index;"
+                                onclick="roleSelect.deselectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                        </button>
+                    </td>
+                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
+                    <td data-duice-bind="role" data-duice-property="roleName"></td>
+                </tr>
+                <tr data-duice-bind="roleSelect.selectedRoles"
+                    data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-content-flex-end">
+            <button onclick="roleSelect.confirm();">
+                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                <span data-th-text="#{web.global.confirm}"></span>
+            </button>
+        </div>
+    </div>
+</dialog>
+<!-- ====================================== -->
+<!-- end: roleSelect                        -->
+<!-- ====================================== -->

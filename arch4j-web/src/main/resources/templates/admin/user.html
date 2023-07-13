@@ -11,7 +11,7 @@
             type: null,
             status: null,
             _page: 0,
-            _size: 20,
+            _size: 15,
             _count: 0
         });
 
@@ -363,7 +363,7 @@
             <span data-th-text="#{core.user.User}"></span>
         </button>
         <button id="userLoginTabButton" class="tab">
-            <img class="icon" th:src="@{/static/image/icon-login-history.svg}"/>
+            <img class="icon" th:src="@{/static/image/icon-user-login.svg}"/>
             <span data-th-text="#{core.user.UserLogin}"></span>
         </button>
         <hr class="margin-1px"/>
@@ -380,47 +380,50 @@
         <!-- start: user list                       -->
         <!-- ====================================== -->
         <div id="userList" class="grid-column-1">
-            <div class="padding-1em border-1">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
-                    <div class="grid-column-2 flex gap-1px s-grid-column-1 s-flex-direction-column">
-                        <div class="grid grid-template-columns-3 grid-gap-1px">
-                            <select class="grid-column-1" data-duice-bind="userSearch" data-duice-property="key">
-                                <option value="userId" th:text="#{core.user.User.userId}"></option>
-                                <option value="name" th:text="#{core.user.User.userName}"></option>
-                                <option value="email" th:text="#{core.user.User.email}"></option>
-                                <option value="mobile" th:text="#{core.user.User.mobile}"></option>
-                            </select>
-                            <input class="grid-column-2" type="text" data-duice-bind="userSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}"/>
-                        </div>
-                        <select data-duice-bind="userSearch" data-duice-property="type">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-2 s-grid-column-4">
+                        <select class="width-100" data-duice-bind="userSearch" data-duice-property="key">
+                            <option value="userId" th:text="#{core.user.User.userId}"></option>
+                            <option value="name" th:text="#{core.user.User.userName}"></option>
+                            <option value="email" th:text="#{core.user.User.email}"></option>
+                            <option value="mobile" th:text="#{core.user.User.mobile}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column-4 s-grid-column-8">
+                        <input class="width-100" type="text" data-duice-bind="userSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
+                        <select class="width-100" data-duice-bind="userSearch" data-duice-property="type">
                             <option value data-th-text="'- '+#{core.user.User.type}+' -'"></option>
                             <option th:each="userType:${userTypes}" th:value="${userType}"
                                     th:text="${userType}"></option>
                         </select>
-                        <select data-duice-bind="userSearch" data-duice-property="status">
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
+                        <select class="width-100" data-duice-bind="userSearch" data-duice-property="status">
                             <option value data-th-text="'- '+#{core.user.User.status}+' -'"></option>
                             <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                     th:text="${userStatus}"></option>
                         </select>
-                    </div>
-                    <div class="grid-column-1 flex gap-1px justify-content-flex-end s-flex-direction-column">
-                        <button onclick="getUsers();" class="s-width-100">
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                        <button onclick="getUsers();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetUsers();" class="s-width-100">
+                        <button onclick="resetUsers();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto border-1">
-                    <table class="border-0">
+                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
+                    <table>
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -439,9 +442,8 @@
                         </thead>
                         <tbody>
                         <tr data-duice-bind="users" data-duice-loop="user,status"
-                            data-duice-selected-item-class="selected" data-duice-execute="
-                    this.dataset.userId=user.userId;
-                    " onclick="getUser(this.dataset.userId);" class="link">
+                            data-duice-selected-item-class="selected" data-duice-execute="this.dataset.userId=user.userId;"
+                            onclick="getUser(this.dataset.userId);" class="link">
                             <td data-duice-bind="status" data-duice-property="count"
                                 class="text-align-center"></td>
                             <td>
@@ -465,7 +467,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 margin-top-1em">
+                <div class="grid grid-template-columns-3 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1 font-size-smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="userSearch" data-duice-property="_count"
@@ -499,12 +501,12 @@
         <!-- start: user detail                     -->
         <!-- ====================================== -->
         <div id="userDetail" class="grid-column-1">
-            <div class="border-1 padding-1em">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
                     <label class="grid-column-2 s-grid-column-12">
                         <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
                         <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
@@ -573,19 +575,15 @@
                     </label>
                     <div class="grid-column-12">
                         <span data-th-text="#{core.user.User.roles}" class="font-weight-bold"></span>
-                        <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                            <table class="width-100 border-0">
+                        <div class="overflow-x-auto border-x-1">
+                            <table class="border-x-0">
                                 <colgroup>
-                                    <col style="width:70px;"/>
-                                    <col/>
-                                    <col/>
                                     <col style="width:35px;"/>
+                                    <col/>
+                                    <col/>
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addUserRole();"
                                                 data-duice-bind="user"
@@ -593,15 +591,12 @@
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
+                                    <th data-th-text="#{core.role.Role.roleId}"></th>
+                                    <th data-th-text="#{core.role.Role.roleName}"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-duice-bind="user.roles" data-duice-loop="role,status">
-                                    <td data-duice-bind="status" data-duice-property="count"
-                                        class="text-align-center"></td>
-                                    <td data-duice-bind="role" data-duice-property="roleId"
-                                        class="font-weight-bold"></td>
-                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -609,6 +604,9 @@
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"
+                                        class="font-weight-bold"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
                                 </tr>
                                 <tr data-duice-bind="user.roles"
                                     data-duice-execute="if(user.roles.length === 0) this.hidden=false;"
@@ -620,8 +618,8 @@
                         </div>
                     </div>
                 </form>
-                <div class="flex justify-content-space-between padding-1em">
-                    <div class="text-align-right">
+                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <div class="grid-column-1 flex align-items-flex-start flex-wrap gap-1px">
                         <button onclick="changeUserPassword();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
@@ -637,7 +635,7 @@
                             <span data-th-text="#{web.admin.user.authorizationToken}"></span>
                         </button>
                     </div>
-                    <div class="text-align-right">
+                    <div class="grid-column-1 flex justify-content-flex-end align-items-flex-start flex-wrap gap-1px">
                         <button onclick="deleteUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
@@ -662,245 +660,6 @@
     </div>
     <!-- ====================================== -->
     <!-- end: userTabContent                    -->
-    <!-- ====================================== -->
-
-    <!-- ====================================== -->
-    <!-- start: roleSelect                      -->
-    <!-- ====================================== -->
-    <dialog id="roleSelect">
-        <style>
-            #roleSelect {
-                width: 700px;
-                padding: 1.5rem;
-            }
-        </style>
-        <script th:inline="javascript">
-            const roleSelect = {
-                dialog: new duice.dialog.Dialog(document.getElementById('roleSelect')),
-                alreadySelectedRoleIds : null,
-                roleSearch: new duice.ObjectProxy({
-                    key: 'roleId',
-                    value: null,
-                    _page: 0,
-                    _size: 5,
-                    _count: 0
-                }),
-                roles: new duice.ArrayProxy([]),
-                selectedRoles: new duice.ArrayProxy([]),
-                /**
-                 * open
-                 * @param alreadySelectedRoleIds
-                 */
-                open: async function(alreadySelectedRoleIds) {
-                    if(alreadySelectedRoleIds) {
-                        this.alreadySelectedRoleIds = alreadySelectedRoleIds;
-                    }else{
-                        this.alreadySelectedRoleIds = [];
-                    }
-                    duice.ArrayProxy.clear(this.selectedRoles);
-                    this.getRoles(0);
-                    return this.dialog.open();
-                },
-                /**
-                 * getRoles
-                 * @param page
-                 */
-                getRoles: function(page) {
-                    if(page) {
-                        this.roleSearch._page = page;
-                    }
-                    let url = new URL([[@{/admin/user/get-roles}]],document.location.origin);
-                    if(this.roleSearch.key && this.roleSearch.value) {
-                        url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
-                    }
-                    url.searchParams.append('_page', this.roleSearch._page);
-                    url.searchParams.append('_size', this.roleSearch._size);
-                    _fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        duice.ArrayProxy.clear(this.roles);
-                        duice.ArrayProxy.assign(this.roles, data.content);
-                        this.roleSearch._count = data.totalElements;
-                        // check already selected
-                        this.roles.forEach(role => {
-                            if(this.alreadySelectedRoleIds.includes(role.roleId)){
-                                role['_selected'] = true;
-                            }
-                            this.selectedRoles.forEach(element => {
-                                if(element.roleId === role.roleId) {
-                                    role['_selected'] = true;
-                                }
-                            });
-                        });
-                    });
-                },
-                /**
-                 * resetRoles
-                 */
-                resetRoles: function() {
-                    duice.ObjectProxy.reset(this.roleSearch);
-                    this.getRoles();
-                },
-                /**
-                 * select role
-                 * @param index
-                 */
-                selectRole: function(index) {
-                    console.log('== index', index);
-                    let role = JSON.parse(JSON.stringify(this.roles[index]));
-                    this.selectedRoles.push(role);
-                    this.roles.forEach(element => {
-                        if(element.roleId === role.roleId) {
-                            element['_selected'] = true;
-                            return false;
-                        }
-                    });
-                },
-                /**
-                 * deselect role
-                 * @param index
-                 */
-                deselectRole: async function(index) {
-                    let role = this.selectedRoles[index];
-                    this.selectedRoles.splice(index, 1);
-                    this.roles.forEach(element => {
-                        if(element.roleId === role.roleId) {
-                            element['_selected'] = false;
-                            return false;
-                        }
-                    });
-                },
-                /**
-                 * confirm
-                 */
-                confirm: function() {
-                    this.dialog.resolve(this.selectedRoles);
-                }
-            }
-        </script>
-        <h2>
-            <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-            <span data-th-text="#{core.role.Role}"></span>
-        </h2>
-        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-flex-direction-column">
-            <div class="grid grid-template-columns-3 grid-gap-1px">
-                <select data-duice-bind="roleSelect.roleSearch" data-duice-property="key" class="grid-column-1">
-                    <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                    <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
-                </select>
-                <input type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value" class="grid-column-2"/>
-            </div>
-            <button onclick="roleSelect.getRoles();">
-                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                <span data-th-text="#{web.global.search}">Search</span>
-            </button>
-            <button onclick="roleSelect.resetRoles();">
-                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                <span data-th-text="#{web.global.reset}">Reset</span>
-            </button>
-        </form>
-        <div class="overflow-x-scroll border-1">
-            <table class="border-0">
-                <colgroup>
-                    <col style="width:10%;"/>
-                    <col style="width:30%;"/>
-                    <col/>
-                    <col style="width:35px;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.roleName}"></th>
-                    <th class="text-align-center">-</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
-                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="roleName"></td>
-                    <td class="text-align-center">
-                        <button data-duice-bind="role"
-                                data-duice-execute="
-                            this.dataset.index = status.index;
-                            if(role._selected) {
-                                this.disabled = true;
-                            }"
-                                onclick="roleSelect.selectRole(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-duice-bind="roleSelect.roles"
-                    data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="grid grid-template-columns-3">
-            <div class="grid-column-1 flex font-size-smaller">
-                <span data-th-text="#{web.global.total}"></span>
-                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                <span data-th-text="#{web.global.rows}"></span>
-            </div>
-            <div class="grid-column-1 flex justify-content-center">
-                <duice-pagination
-                    data-duice-bind="roleSelect.roleSearch"
-                    data-duice-size-property="_size"
-                    data-duice-page-property="_page"
-                    data-duice-count-property="_count"
-                    data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
-                </duice-pagination>
-            </div>
-            <div class="grid-column-1"></div>
-        </div>
-        <div class="border-1 overflow-x-scroll">
-            <table class="border-0">
-                <colgroup>
-                    <col style="width:10%;"/>
-                    <col style="width:30%;"/>
-                    <col/>
-                    <col style="width:35px;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                    <th data-th-text="#{core.role.Role.roleName}"></th>
-                    <th class="text-align-center">-</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
-                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
-                    <td data-duice-bind="role" data-duice-property="roleName"></td>
-                    <td class="text-align-center">
-                        <button data-duice-bind="role"
-                                data-duice-execute="this.dataset.index = status.index;"
-                                onclick="roleSelect.deselectRole(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-duice-bind="roleSelect.selectedRoles"
-                    data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="flex justify-content-flex-end margin-top-1em">
-            <button onclick="roleSelect.confirm();">
-                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                <span data-th-text="#{web.global.confirm}"></span>
-            </button>
-        </div>
-    </dialog>
-    <!-- ====================================== -->
-    <!-- end: roleSelect                        -->
     <!-- ====================================== -->
 
     <!-- ====================================== -->
@@ -1008,78 +767,88 @@
     <!-- ====================================== -->
     <div id="userLoginTabContent">
         <div id="userLoginList">
-            <form onsubmit="return false;" class="flex gap-1px margin-x-1px s-flex-direction-column">
-                <div class="grid grid-template-columns-3 grid-gap-1px">
-                    <select data-duice-bind="userLoginSearch" data-duice-property="key" class="grid-column-1">
-                        <option value="userId" th:text="#{core.user.UserLogin.userId}"></option>
-                        <option value="ipAddress" th:text="#{core.user.UserLogin.ipAddress}"></option>
-                    </select>
-                    <input type="text" data-duice-bind="userLoginSearch" data-duice-property="value"
-                           th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
-                </div>
-                <button onclick="getUserLogins();">
-                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                    <span data-th-text="#{web.global.search}">Search</span>
-                </button>
-                <button onclick="resetUserLogins();">
-                    <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                    <span data-th-text="#{web.global.reset}">Reset</span>
-                </button>
+            <div class="grid grid-gap-1em border-1 padding-1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-user-login.svg}"/>
+                    <span data-th-text="#{core.user.UserLogin}"></span>
+                </h2>
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-2 s-grid-column-4">
+                        <select class="width-100" data-duice-bind="userLoginSearch" data-duice-property="key">
+                            <option value="userId" th:text="#{core.user.UserLogin.userId}"></option>
+                            <option value="ipAddress" th:text="#{core.user.UserLogin.ipAddress}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column-4 s-grid-column-8">
+                        <input class="width-100" type="text" data-duice-bind="userLoginSearch" data-duice-property="value"
+                               th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                        <button onclick="getUserLogins();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button onclick="resetUserLogins();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
                 </form>
-            <div class="overflow-x-auto border-1">
-                <table class="border-0">
-                    <colgroup>
-                        <col style="width:5rem;"/>
-                        <col/>
-                        <col/>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                        <th data-th-text="#{core.user.UserLogin.userId}"></th>
-                        <th data-th-text="#{core.user.UserLogin.loginAt}"></th>
-                        <th data-th-text="#{core.user.UserLogin.ipAddress}"></th>
-                        <th data-th-text="#{core.user.UserLogin.userAgent}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-duice-bind="loginHistories" data-duice-loop="userLogin,status">
-                        <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                        <td data-duice-bind="userLogin" data-duice-property="userId" class="font-weight-bold"></td>
-                        <td data-duice-bind="userLogin" data-duice-property="loginAt" class="font-weight-bold"></td>
-                        <td data-duice-bind="userLogin" data-duice-property="ipAddress"></td>
-                        <td data-duice-bind="userLogin" data-duice-property="userAgent"></td>
-                    </tr>
-                    <tr data-duice-bind="loginHistories" data-duice-execute="if(loginHistories.length === 0) this.hidden=false;" hidden>
-                        <td colspan="100%" class="text-align-center">No Data</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
+                    <table>
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{core.user.UserLogin.userId}"></th>
+                            <th data-th-text="#{core.user.UserLogin.loginAt}"></th>
+                            <th data-th-text="#{core.user.UserLogin.ipAddress}"></th>
+                            <th data-th-text="#{core.user.UserLogin.userAgent}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="loginHistories" data-duice-loop="userLogin,status">
+                            <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                            <td data-duice-bind="userLogin" data-duice-property="userId" class="font-weight-bold"></td>
+                            <td data-duice-bind="userLogin" data-duice-property="loginAt" class="font-weight-bold"></td>
+                            <td data-duice-bind="userLogin" data-duice-property="ipAddress"></td>
+                            <td data-duice-bind="userLogin" data-duice-property="userAgent"></td>
+                        </tr>
+                        <tr data-duice-bind="loginHistories" data-duice-execute="if(loginHistories.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align-center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
+                    <div class="grid-column-1 font-size-smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="userLoginSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="grid-column-1 flex justify-content-center">
+                        <duice-pagination
+                                data-duice-bind="userLoginSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getLoginHistories(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
             </div>
-            <div class="grid grid-template-columns-3">
-                <div class="grid-column-1 font-size-smaller">
-                    <span data-th-text="#{web.global.total}"></span>
-                    <span data-duice-bind="userLoginSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                    <span data-th-text="#{web.global.rows}"></span>
-                </div>
-                <div class="grid-column-1 flex justify-content-center">
-                    <duice-pagination
-                            data-duice-bind="userLoginSearch"
-                            data-duice-size-property="_size"
-                            data-duice-page-property="_page"
-                            data-duice-count-property="_count"
-                            data-duice-onclick="getLoginHistories(this.dataset.page);">
-                    </duice-pagination>
-                </div>
-
-                <div class="grid-column-1"></div>
             </div>
         </div>
     </div>
     <!-- ====================================== -->
-    <!-- end: userLoginTabContent            -->
+    <!-- end: userLoginTabContent               -->
     <!-- ====================================== -->
+
+    <th:block th:include="admin/role-select.html"></th:block>
 
 </main>

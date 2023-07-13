@@ -9,7 +9,7 @@
             key: 'roleId',
             value: null,
             _page: 0,
-            _size: 20,
+            _size: 15,
             _count: 0
         });
 
@@ -214,7 +214,7 @@
             key: 'authorityId',
             value: null,
             _page: 0,
-            _size: 20,
+            _size: 15,
             _count: 0
         });
 
@@ -441,23 +441,23 @@
         <!-- start: role list                       -->
         <!-- ====================================== -->
         <div id="roleList" class="grid-column-1">
-            <div class="padding-1em border-1">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
-                    <div class="grid-column-2 s-grid-column-1 flex grid-gap-1px s-flex-direction-column">
-                        <div class="grid grid-template-columns-3 grid-gap-1px">
-                            <select data-duice-bind="roleSearch" data-duice-property="key" class="grid-column-1">
-                                <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
-                                <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
-                            </select>
-                            <input type="text" data-duice-bind="roleSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
-                        </div>
-                    </div>
-                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-flex-direction-column">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-2 s-grid-column-4">
+                        <select class="width-100" data-duice-bind="roleSearch" data-duice-property="key">
+                            <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
+                            <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column-4 s-grid-column-8">
+                        <input class="width-100" type="text" data-duice-bind="roleSearch" data-duice-property="value"
+                               th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button onclick="getRoles();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -468,8 +468,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto border-1">
-                    <table class="border-0">
+                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
+                    <table>
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -496,7 +496,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 margin-top-1em">
+                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1 font-size-smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
@@ -528,50 +528,38 @@
         <!-- start: role detail                     -->
         <!-- ====================================== -->
         <div id="roleDetail" class="grid-column-1">
-            <div class="border-1 padding-1em">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
-                    <div class="grid-column-1 s-grid-column-6">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.role.Role.roleId}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="role" data-duice-property="roleId"
                                class="width-100 font-weight-bold"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.role.Role.roleName}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="role" data-duice-property="roleName"
                                class="width-100"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-12">
                         <span data-th-text="#{core.role.Role.note}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <textarea data-duice-bind="role" data-duice-property="note" rows="3"
-                                  class="width-100 height-100"></textarea>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                        <textarea data-duice-bind="role" data-duice-property="note" rows="5"
+                                  class="width-100"></textarea>
+                    </label>
+                    <div class="grid-column-12">
                         <span data-th-text="#{core.role.Role.authorities}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <div class="overflow-y-scroll border-1" style="max-height:calc(40rem - 2px);">
-                            <table class="width-100 border-0">
+                        <div class="overflow-x-auto border-x-1" style="max-height:400px;">
+                            <table class="border-x-0">
                                 <colgroup>
-                                    <col style="width:5rem;"/>
-                                    <col/>
-                                    <col/>
                                     <col style="width:2rem;"/>
+                                    <col/>
+                                    <col/>
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
                                     <th class="text-align-center">
                                         <button onclick="addRoleAuthority();"
                                                 data-duice-bind="role"
@@ -579,16 +567,13 @@
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
+                                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-duice-bind="role.authorities"
                                     data-duice-loop="authority,status">
-                                    <td data-duice-bind="status" data-duice-property="count"
-                                        class="text-align-center"></td>
-                                    <td data-duice-bind="authority" data-duice-property="authorityId"
-                                        class="font-weight-bold"></td>
-                                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                                     <td class="text-align-center">
                                         <button data-duice-bind="authority"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -596,6 +581,9 @@
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
+                                    <td data-duice-bind="authority" data-duice-property="authorityId"
+                                        class="font-weight-bold"></td>
+                                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
                                 </tr>
                                 <tr data-duice-bind="role.authorities"
                                     data-duice-execute="if(role.authorities.length === 0) this.hidden=false;"
@@ -606,8 +594,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="grid grid-template-columns-2 margin-top-1em grid-gap-1px">
+                </form>
+                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 flex justify-content-flex-end gap-1px">
                         <button onclick="deleteRole();"
@@ -640,7 +628,7 @@
     <!-- start: authoritySelect                 -->
     <!-- ====================================== -->
     <dialog id="authoritySelect">
-        <style>
+        <style th:inline="css">
             #authoritySelect {
                 width: 700px;
                 padding: 1.5rem;
@@ -749,126 +737,126 @@
                 }
             }
         </script>
-        <h1>
-            <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
-            <span data-th-text="#{core.role.Authority}"></span>
-        </h1>
-        <form onsubmit="return false;" class="flex margin-x-1px gap-1px s-flex-direction-column">
-            <div class="grid grid-template-columns-3 grid-gap-1px">
-                <select data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key" class="grid-column-1">
-                    <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
-                    <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
-                </select>
-                <input type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value" class="grid-column-2"/>
-            </div>
-            <button onclick="authoritySelect.getAuthorities();">
-                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                <span data-th-text="#{web.global.search}">Search</span>
-            </button>
-            <button onclick="authoritySelect.resetAuthorities();">
-                <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
-                <span data-th-text="#{web.global.reset}">Reset</span>
-            </button>
-        </form>
-        <div class="overflow-x-scroll border-1">
-            <table class="border-0">
-                <colgroup>
-                    <col style="width:5rem;"/>
-                    <col style="width:20rem;"/>
-                    <col/>
-                    <col style="width:2rem;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
-                    <th class="text-align-center">-</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-duice-bind="authoritySelect.authorities" data-duice-loop="authority,status">
-                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
-                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
-                    <td class="text-align-center">
-                        <button data-duice-bind="authority"
-                                data-duice-execute="
+        <div class="grid grid-gap-1em">
+            <h1>
+                <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
+                <span data-th-text="#{core.role.Authority}"></span>
+            </h1>
+            <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
+                <label class="grid-column-2 s-grid-column-4">
+                    <select class="width-100" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key">
+                        <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
+                        <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
+                    </select>
+                </label>
+                <label class="grid-column-4 s-grid-column-8">
+                    <input class="width-100" type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value"/>
+                </label>
+                <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                    <button onclick="authoritySelect.getAuthorities();">
+                        <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                        <span data-th-text="#{web.global.search}">Search</span>
+                    </button>
+                    <button onclick="authoritySelect.resetAuthorities();">
+                        <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                        <span data-th-text="#{web.global.reset}">Reset</span>
+                    </button>
+                </div>
+            </form>
+            <div class="overflow-x-scroll">
+                <table>
+                    <colgroup>
+                        <col style="width:2rem;"/>
+                        <col style="width:20rem;"/>
+                        <col/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="text-align-center">-</th>
+                        <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                        <th data-th-text="#{core.role.Authority.authorityName}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-duice-bind="authoritySelect.authorities" data-duice-loop="authority,status">
+                        <td class="text-align-center">
+                            <button data-duice-bind="authority"
+                                    data-duice-execute="
                             this.dataset.index = status.index;
                             if(authority._selected) {
                                 this.disabled = true;
                             }"
-                                onclick="authoritySelect.selectAuthority(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-duice-bind="authoritySelect.authorities"
-                    data-duice-execute="if(authoritySelect.authorities.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="grid grid-template-columns-3">
-            <div class="grid-column-1 font-size-smaller">
-                <span data-th-text="#{web.global.total}"></span>
-                <span data-duice-bind="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                <span data-th-text="#{web.global.rows}"></span>
+                                    onclick="authoritySelect.selectAuthority(this.dataset.index);">
+                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                            </button>
+                        </td>
+                        <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
+                        <td data-duice-bind="authority" data-duice-property="authorityName"></td>
+                    </tr>
+                    <tr data-duice-bind="authoritySelect.authorities"
+                        data-duice-execute="if(authoritySelect.authorities.length === 0) this.hidden=false;" hidden>
+                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="grid-column-1 flex justify-content-center">
-                <duice-pagination
-                        data-duice-bind="authoritySelect.authoritySearch"
-                        data-duice-size-property="_size"
-                        data-duice-page-property="_page"
-                        data-duice-count-property="_count"
-                        data-duice-onclick="authoritySelect.getAuthorities(this.dataset.page);">
-                </duice-pagination>
+            <div class="grid grid-template-columns-3">
+                <div class="grid-column-1 font-size-smaller">
+                    <span data-th-text="#{web.global.total}"></span>
+                    <span data-duice-bind="authoritySelect.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                    <span data-th-text="#{web.global.rows}"></span>
+                </div>
+                <div class="grid-column-1 justify-self-center">
+                    <duice-pagination
+                            data-duice-bind="authoritySelect.authoritySearch"
+                            data-duice-size-property="_size"
+                            data-duice-page-property="_page"
+                            data-duice-count-property="_count"
+                            data-duice-onclick="authoritySelect.getAuthorities(this.dataset.page);">
+                    </duice-pagination>
+                </div>
+                <div class="grid-column-1">
+                </div>
             </div>
-            <div class="grid-column-1 flex justify-content-flex-end">
+            <div class="overflow-x-scroll">
+                <table>
+                    <colgroup>
+                        <col style="width:2rem;"/>
+                        <col style="width:20rem;"/>
+                        <col/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="text-align-center">-</th>
+                        <th data-th-text="#{core.role.Authority.authorityId}"></th>
+                        <th data-th-text="#{core.role.Authority.authorityName}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-duice-bind="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
+                        <td class="text-align-center">
+                            <button data-duice-bind="authority"
+                                    data-duice-execute="this.dataset.index = status.index;"
+                                    onclick="authoritySelect.deselectAuthority(this.dataset.index);">
+                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                            </button>
+                        </td>
+                        <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
+                        <td data-duice-bind="authority" data-duice-property="authorityName"></td>
+                    </tr>
+                    <tr data-duice-bind="authoritySelect.selectedAuthorities"
+                        data-duice-execute="if(authoritySelect.selectedAuthorities.length === 0) this.hidden=false;" hidden>
+                        <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div class="border-1 overflow-x-scroll">
-            <table class="border-0">
-                <colgroup>
-                    <col style="width:5rem;"/>
-                    <col style="width:20rem;"/>
-                    <col/>
-                    <col style="width:2rem;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th data-th-text="#{web.global.no}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Authority.authorityId}"></th>
-                    <th data-th-text="#{core.role.Authority.authorityName}"></th>
-                    <th class="text-align-center">-</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-duice-bind="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
-                    <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
-                    <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
-                    <td data-duice-bind="authority" data-duice-property="authorityName"></td>
-                    <td class="text-align-center">
-                        <button data-duice-bind="authority"
-                                data-duice-execute="this.dataset.index = status.index;"
-                                onclick="authoritySelect.deselectAuthority(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-duice-bind="authoritySelect.selectedAuthorities"
-                    data-duice-execute="if(authoritySelect.selectedAuthorities.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="flex justify-content-flex-end margin-top-1em">
-            <button onclick="authoritySelect.confirm();">
-                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                <span data-th-text="#{web.global.confirm}"></span>
-            </button>
+            <div class="flex justify-content-flex-end">
+                <button onclick="authoritySelect.confirm();">
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                    <span data-th-text="#{web.global.confirm}"></span>
+                </button>
+            </div>
         </div>
     </dialog>
     <!-- ====================================== -->
@@ -883,35 +871,35 @@
         <!-- start: authority list                  -->
         <!-- ====================================== -->
         <div id="authorityList" class="grid-column-1">
-           <div class="padding-1em border-1">
+           <div class="grid grid-gap-1em padding-1em border-1">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-3 s-grid-template-columns-1 margin-x-1px row-gap-1px">
-                    <div class="grid-column-2 s-grid-column-1 flex s-flex-direction-column">
-                        <div class="grid grid-template-columns-3 grid-gap-1px">
-                            <select data-duice-bind="authoritySearch" data-duice-property="key" class="grid-column-1">
-                                <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
-                                <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
-                            </select>
-                            <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
-                        </div>
-                    </div>
-                    <div class="grid-column-1 flex justify-content-flex-end s-flex-direction-column gap-1px">
-                        <button onclick="getAuthorities();" class="item-1 s-item-12">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-2 s-grid-column-4">
+                        <select class="width-100" data-duice-bind="authoritySearch" data-duice-property="key">
+                            <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
+                            <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column-4 s-grid-column-8">
+                        <input class="width-100" type="text" data-duice-bind="authoritySearch" data-duice-property="value"
+                               th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                        <button onclick="getAuthorities();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetAuthorities();" class="item-1 s-item-12">
+                        <button onclick="resetAuthorities();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto border-1">
-                    <table class="border-0">
+                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
+                    <table>
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -938,13 +926,13 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 margin-top-1em">
+                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1 font-size-smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 flex justify-content-center">
+                    <div class="grid-column-1 justify-self-center">
                         <duice-pagination
                                 data-duice-bind="authoritySearch"
                                 data-duice-size-property="_size"
@@ -953,7 +941,7 @@
                                 data-duice-onclick="getAuthorities(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end">
+                    <div class="grid-column-1 justify-self-end">
                         <button onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -970,35 +958,29 @@
         <!-- start: authority detail                -->
         <!-- ====================================== -->
         <div id="authorityDetail" class="grid-column-1">
-            <div class="border-1 padding-1rem">
+            <div class="grid grid-gap-1em border-1 padding-1rem">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
-                    <div class="grid-column-1 s-grid-column-6">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.role.Authority.authorityId}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="authority" data-duice-property="authorityId"
                                class="width-100 font-weight-bold"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.role.Authority.authorityName}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="authority" data-duice-property="authorityName"
                                class="width-100"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-12">
                         <span data-th-text="#{core.role.Authority.note}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
-                        <textarea data-duice-bind="authority" data-duice-property="note" rows="3"
-                                  class="width-100 height-100"></textarea>
-                    </div>
-                </div>
-                <div class="grid grid-template-columns-2 margin-top-1em grid-gap-1px">
+                        <textarea data-duice-bind="authority" data-duice-property="note" rows="5"
+                                  class="width-100"></textarea>
+                    </label>
+                </form>
+                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 flex justify-content-flex-end gap-1px">
                         <button onclick="deleteAuthority();"

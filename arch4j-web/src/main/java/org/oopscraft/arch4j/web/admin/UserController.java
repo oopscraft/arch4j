@@ -29,45 +29,26 @@ public class UserController {
 
     private final UserLoginService userLoginService;
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView user() {
         ModelAndView modelAndView = new ModelAndView("admin/user.html");
         modelAndView.addObject("userTypes", UserType.values());
         modelAndView.addObject("userStatuses", UserStatus.values());
         return modelAndView;
     }
 
-    /**
-     * returns list of user
-     * @param userSearch user search condition
-     * @param pageable pagination info
-     * @return list of user
-     */
     @GetMapping("get-users")
     @ResponseBody
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         return userService.getUsers(userSearch, pageable);
     }
 
-    /**
-     * returns user info
-     * @param userId user id
-     * @return user info
-     */
     @GetMapping("get-user")
     @ResponseBody
     public User getUser(@RequestParam("userId") String userId) {
         return userService.getUser(userId).orElseThrow();
     }
 
-    /**
-     * saves user info
-     * @param user user info
-     */
     @PostMapping("save-user")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
@@ -75,10 +56,6 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    /**
-     * deletes user
-     * @param userId user id
-     */
     @GetMapping("delete-user")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
@@ -86,32 +63,12 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    /**
-     * get roles
-     * @param roleSearch role search condition
-     * @param pageable pageable
-     * @return roles
-     */
-    @GetMapping("get-roles")
-    @ResponseBody
-    public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
-        return roleService.getRoles(roleSearch, pageable);
-    }
-
-    /**
-     * change password
-     * @param payload payload
-     */
     @PostMapping("change-password")
     @ResponseBody
     public void changePassword(@RequestBody Map<String,String> payload) {
         userService.changePassword(payload.get("userId"), payload.get("password"));
     }
 
-    /**
-     * generate access token
-     * @param userId
-     */
     @GetMapping("generate-access-token")
     @ResponseBody
     public String generateAccessToken(@RequestParam("userId")String userId) {
@@ -120,12 +77,6 @@ public class UserController {
         return accessTokenEncoder.encodeAuthenticationToken(userDetails);
     }
 
-    /**
-     * get user login history
-     * @param userLoginSearch search condition
-     * @param pageable pageable
-     * @return list of login history
-     */
     @GetMapping("get-user-logins")
     @ResponseBody
     public Page<UserLogin> getUserLogins(UserLoginSearch userLoginSearch, Pageable pageable) {

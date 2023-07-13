@@ -10,7 +10,7 @@
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-join.svg(_theme=${_theme})}"/>
         <span class="text-align-center" data-th-text="#{web.join.join}"></span>
     </h1>
-    <form class="grid grid-template-columns-12 grid-gap-1em padding-1em">
+    <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
         <label class="grid-column-12">
             <span data-th-text="#{web.join.join.userId}" class="font-weight-bold"></span>
             <input type="text" data-duice-bind="join" data-duice-property="userId" class="width-100"/>

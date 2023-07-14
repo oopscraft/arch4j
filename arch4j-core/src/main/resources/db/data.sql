@@ -55,6 +55,7 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'S
 insert into `core_role` (`role_id`,`system_required`,`role_name`) values ('DEV','Y','Developer Role');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_USER');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_ROLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');

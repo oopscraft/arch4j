@@ -561,7 +561,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addRoleAuthority();"
+                                        <button type="button"
+                                                onclick="addRoleAuthority();"
                                                 data-duice-bind="role"
                                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -575,7 +576,8 @@
                                 <tr data-duice-bind="role.authorities"
                                     data-duice-loop="authority,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="authority"
+                                        <button type="button"
+                                                data-duice-bind="authority"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeRoleAuthority(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -657,6 +659,7 @@
                     }else{
                         this.alreadySelectedAuthorityIds = [];
                     }
+                    duice.ObjectProxy.reset(this.authoritySearch);
                     duice.ArrayProxy.clear(this.selectedAuthorities);
                     this.getAuthorities(0);
                     return this.dialog.open();

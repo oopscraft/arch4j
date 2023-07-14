@@ -269,13 +269,13 @@
          */
         function generateUserAccessToken() {
             let url = new URL([[@{/admin/user/generate-access-token}]], document.location.origin);
-            url.searchParams.append('id', user.userId);
+            url.searchParams.append('userId', user.userId);
             _fetch(url)
                 .then(function(response){
                     return response.text();
                 })
                 .then(function(data){
-                    let html = "<textarea style='width:400px; border:solid 1px #ccc;' rows='10'>"
+                    let html = "<textarea style='width:400px; border:solid 1px #ccc;' rows='5'>"
                         + data
                         + "</textarea>";
                     _alert(html);
@@ -389,7 +389,7 @@
                     <label class="grid-column-2 s-grid-column-4">
                         <select class="width-100" data-duice-bind="userSearch" data-duice-property="key">
                             <option value="userId" th:text="#{core.user.User.userId}"></option>
-                            <option value="name" th:text="#{core.user.User.userName}"></option>
+                            <option value="userName" th:text="#{core.user.User.userName}"></option>
                             <option value="email" th:text="#{core.user.User.email}"></option>
                             <option value="mobile" th:text="#{core.user.User.mobile}"></option>
                         </select>
@@ -506,7 +506,7 @@
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                <form class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
                     <label class="grid-column-2 s-grid-column-12">
                         <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
                         <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
@@ -585,7 +585,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addUserRole();"
+                                        <button type="button"
+                                                onclick="addUserRole();"
                                                 data-duice-bind="user"
                                                 data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -598,7 +599,8 @@
                                 <tbody>
                                 <tr data-duice-bind="user.roles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="role"
+                                        <button type="button"
+                                                data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeUserRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -676,22 +678,15 @@
             const passwordChange = {
                 dialog: new duice.dialog.Dialog(document.getElementById('passwordChange')),
                 data: new duice.ObjectProxy({
-                    id: null,
+                    userId: null,
                     password: null,
                     passwordConfirm: null
                 }),
-                /**
-                 * open
-                 * @param id user id
-                 */
-                open: async function(id) {
+                open: async function(userId) {
                     duice.ObjectProxy.clear(this.data);
-                    this.data.id = id;
+                    this.data.userId = userId;
                     return this.dialog.open();
                 },
-                /**
-                 * confirm
-                 */
                 confirm: async function() {
 
                     // checks password
@@ -733,29 +728,27 @@
                 }
             }
         </script>
-        <h2>
-            <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
-            <span data-th-text="#{web.admin.user.changePassword}"></span>
-        </h2>
-        <div class="grid grid-template-columns-3 grid-gap-1px padding-1px">
-            <div class="grid-column-1">
-                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
+        <div class="grid grid-gap-1em">
+            <h2>
+                <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
+                <span data-th-text="#{web.admin.user.changePassword}"></span>
+            </h2>
+            <form class="grid grid-template-columns-12 grid-gap-1em">
+                <div class="grid-column-12">
+                    <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
+                    <input type="password" data-duice-bind="passwordChange.data" data-duice-property="password" class="width-100"/>
+                </div>
+                <div class="grid-column-12">
+                    <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
+                    <input type="password" data-duice-bind="passwordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
+                </div>
+            </form>
+            <div class="text-align-right">
+                <button onclick="passwordChange.confirm();">
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                    <span data-th-text="#{web.global.confirm}"></span>
+                </button>
             </div>
-            <div class="grid-column-2">
-                <input type="password" data-duice-bind="passwordChange.data" data-duice-property="password" class="width-100"/>
-            </div>
-            <div class="grid-column-1">
-                <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
-            </div>
-            <div class="grid-column-2">
-                <input type="password" data-duice-bind="passwordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
-            </div>
-        </div>
-        <div class="flex justify-content-flex-end margin-top-1em">
-            <button onclick="passwordChange.confirm();">
-                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
-                <span data-th-text="#{web.global.confirm}"></span>
-            </button>
         </div>
     </dialog>
     <!-- ====================================== -->

@@ -11,7 +11,8 @@
     --web-element-border: solid 1px lightgray;
     --web-element-border-radius: 1px;
     --web-element-focus-border: solid 1px gray;
-    --web-element-padding: 0.3em 0.3em;
+    --web-element-padding: 0.3em 0.5em;
+    --web-element-transition: all .2s ease-out;
     /* select */
     --web-select-icon: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='10' height='10' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='darkgray'/></g></svg>");
     /* button */
@@ -22,12 +23,14 @@
     --web-button-box-shadow: 1px 1px 0px 0px #eeeeee;
     --web-button-hover-border: solid 1px #000;
     --web-button-hover-background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    --web-button-transition: all .2s ease-out;
     /* table */
     --web-table-header-border: solid 1px #ccc;
     --web-table-header-background-color: #f7f7f7;
     --web-table-body-border: dotted 1px #ccc;
     --web-table-body-background-color: transparent;
     --web-table-body-hover-background-color: #f7f7f7;
+    --web-table-transition: all .2s ease-out;
     /* dialog */
     --web-dialog-border: solid 1px gray;
 }
@@ -162,6 +165,11 @@ input {
     border-bottom: var(--web-element-border);
     background-color: transparent;
     padding: var(--web-element-padding);
+    -webkit-transition: var(--web-element-transition);
+    -moz-transition: var(--web-element-transition);
+    -ms-transition: var(--web-element-transition);
+    -o-transition: var(--web-element-transition);
+    transition: var(--web-element-transition);
 }
 input:focus {
     outline: 0;
@@ -185,6 +193,11 @@ textarea {
     white-space: pre-line;
     overflow-y: auto;
     resize: none;
+    -webkit-transition: var(--web-element-transition);
+    -moz-transition: var(--web-element-transition);
+    -ms-transition: var(--web-element-transition);
+    -o-transition: var(--web-element-transition);
+    transition: var(--web-element-transition);
 }
 textarea:focus {
     outline: 0;
@@ -205,6 +218,11 @@ select {
     background-image: var(--web-select-icon);
     background-repeat: no-repeat;
     background-position: right 0.2rem center;
+    -webkit-transition: var(--web-element-transition);
+    -moz-transition: var(--web-element-transition);
+    -ms-transition: var(--web-element-transition);
+    -o-transition: var(--web-element-transition);
+    transition: var(--web-element-transition);
 }
 select:focus {
     outline: 0;
@@ -220,6 +238,11 @@ button {
     background: var(--web-button-background);
     box-shadow: var(--web-button-box-shadow);
     padding: var(--web-button-padding);
+    -webkit-transition: var(--web-button-transition);
+    -moz-transition: var(--web-button-transition);
+    -ms-transition: var(--web-button-transition);
+    -o-transition: var(--web-button-transition);
+    transition: var(--web-button-transition);
     white-space: nowrap;
 }
 button:has(img.icon) > span {
@@ -283,6 +306,13 @@ table thead tr th {
 }
 table thead tr th:last-of-type {
     border-right: none;
+}
+table tbody tr {
+    -webkit-transition: var(--web-table-transition);
+    -moz-transition: var(--web-table-transition);
+    -ms-transition: var(--web-table-transition);
+    -o-transition: var(--web-table-transition);
+    transition: var(--web-table-transition);
 }
 table tbody tr:hover {
     background-color: var(--web-table-body-hover-background-color);

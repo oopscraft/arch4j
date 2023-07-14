@@ -36,10 +36,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             query.where(qUserEntity.status.eq(userSearch.getStatus()));
         }
         if(userSearch.getEmail() != null) {
-            query.where(qUserEntity.email.contains(userSearch.getUserName()));
+            query.where(qUserEntity.email.eq(userSearch.getEmail()));
         }
         if(userSearch.getMobile() != null) {
-            query.where(qUserEntity.mobile.contains(userSearch.getMobile()));
+            query.where(qUserEntity.mobile.eq(userSearch.getMobile()));
         }
 
         // content

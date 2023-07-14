@@ -39,7 +39,6 @@ public class CodeService {
                 .itemId(item.getItemId())
                 .sort(sort.getAndIncrement())
                 .itemName(item.getItemName())
-                .value(item.getValue())
                 .build()));
 
         codeEntity = codeRepository.saveAndFlush(codeEntity);

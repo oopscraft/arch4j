@@ -34,7 +34,6 @@ public class CodeResponse {
             return Item.builder()
                     .id(codeItem.getItemId())
                     .name(codeItem.getItemName())
-                    .value(codeItem.getValue())
                     .build();
         }
     }

@@ -41,7 +41,4 @@ public class CodeItemEntity extends SystemFieldEntity {
     @Column(name = "sort")
 	private int sort;
 
-    @Column(name = "value")
-    private String value;
-	
 }

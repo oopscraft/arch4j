@@ -18,15 +18,12 @@ public class CodeItem {
 
     private int sort;
 
-    private String value;
-
     static CodeItem from(CodeItemEntity codeItemEntity) {
         return CodeItem.builder()
                 .codeId(codeItemEntity.getCodeId())
                 .itemId(codeItemEntity.getItemId())
                 .itemName(codeItemEntity.getItemName())
                 .sort(codeItemEntity.getSort())
-                .value(codeItemEntity.getValue())
                 .build();
     }
 

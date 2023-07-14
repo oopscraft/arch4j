@@ -9,7 +9,7 @@
             key: 'templateId',
             value: null,
             _page: 0,
-            _size: 15,
+            _size: 20,
             _count: 0
         });
 
@@ -219,7 +219,7 @@
                     <label class="grid-column-4">
                         <select class="width-100" data-duice-bind="emailTemplateSearch" data-duice-property="key">
                             <option value="templateId" th:text="#{core.email.EmailTemplate.templateId}"></option>
-                            <option value="name" th:text="#{core.email.EmailTemplate.templateName}"></option>
+                            <option value="templateName" th:text="#{core.email.EmailTemplate.templateName}"></option>
                         </select>
                     </label>
                     <label class="grid-column-8">
@@ -227,11 +227,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-12 justify-self-end">
-                        <button onclick="getEmailTemplates();">
+                        <button type="submit" onclick="getEmailTemplates();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetEmailTemplates();">
+                        <button type="button" onclick="resetEmailTemplates();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -285,7 +285,8 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createEmailTemplate();"
+                        <button type="button"
+                                onclick="createEmailTemplate();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -333,18 +334,17 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteEmailTemplate();"
+                        <button type="button" onclick="deleteEmailTemplate();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
                                 data-duice-bind="emailTemplate"
                                 data-duice-execute="(emailTemplate.templateId && !emailTemplate._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveEmailTemplate();"
+                        <button type="button" onclick="saveEmailTemplate();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
                                 data-duice-bind="emailTemplate"
                                 data-duice-execute="(emailTemplate.templateId || emailTemplate._new) ? this.disabled=false : this.disabled=true;">
-
                             <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
                             <span data-th-text="#{web.global.save}"></span>
                         </button>

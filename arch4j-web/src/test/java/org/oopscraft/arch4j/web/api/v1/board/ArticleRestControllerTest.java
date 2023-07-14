@@ -40,7 +40,7 @@ class ArticleRestControllerTest extends WebTestSupport {
         );
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/board/anonymous/article")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/boards/anonymous/articles")
                         .file(article)
                         .param("some-random", "4"))
                 .andDo(print())
@@ -51,7 +51,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     @Order(2)
     void getArticles() throws Exception {
         saveArticle();
-        this.mockMvc.perform(get("/api/v1/board/anonymous/article"))
+        this.mockMvc.perform(get("/api/v1/boards/anonymous/articles"))
                 .andDo(print()).andExpect(status().isOk());
     }
 

@@ -135,10 +135,17 @@
                 }
             }
 
-            // checks name
+            // checks git name
             if (_isEmpty(git.gitName)) {
                 await _alert([[#{web.global.itemEmpty(#{core.git.Git.gitName})}]]);
                 duice.ObjectProxy.focus(git, 'gitName');
+                return false;
+            }
+
+            // check url
+            if (_isEmpty(git.url)) {
+                await _alert([[#{web.global.itemEmpty(#{core.git.Git.url})}]]);
+                duice.ObjectProxy.focus(git, 'url');
                 return false;
             }
 

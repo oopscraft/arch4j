@@ -4,19 +4,16 @@
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
     <script th:inline="javascript">
-        // message search condition
         const messageSearch = new duice.ObjectProxy({
             key: 'messageId',
             value: null,
             _page: 0,
-            _size: 15,
+            _size: 20,
             _count: 0
         });
 
-        // message list
         const messages = new duice.ArrayProxy([]);
 
-        // message
         const message = new duice.ObjectProxy({});
         duice.ObjectProxy.setDisableAll(message, true);
         duice.ObjectProxy.onPropertyChanging(message, async event => {
@@ -29,10 +26,6 @@
             return true;
         });
 
-        /**
-         * getMessages
-         * @param page page
-         */
         function getMessages(page) {
             if(page) {
                 messageSearch._page = page;
@@ -55,18 +48,11 @@
                 });
         }
 
-        /**
-         * resetMessages
-         */
         function resetMessages() {
             duice.ObjectProxy.reset(messageSearch);
             getMessages();
         }
 
-        /**
-         * getMessage
-         * @param messageId message.messageId
-         */
         function getMessage(messageId) {
             let url = new URL([[@{/admin/message/get-message}]], document.location.origin);
             url.searchParams.append('messageId', messageId);
@@ -80,9 +66,6 @@
                 });
         }
 
-        /**
-         * createMessage
-         */
         function createMessage() {
             duice.ObjectProxy.clear(message);
             duice.ObjectProxy.assign(message, {
@@ -93,11 +76,6 @@
             duice.ObjectProxy.focus(message, 'messageId');
         }
 
-        /**
-         * validateMessageId
-         * @param messageId message.messageId
-         * @returns {Promise<boolean>}
-         */
         async function validateMessageId(messageId) {
 
             // check blank
@@ -123,9 +101,6 @@
             return true;
         }
 
-        /**
-         * saveMessage
-         */
         async function saveMessage() {
 
             // if new, checks id
@@ -164,9 +139,6 @@
             });
         }
 
-        /**
-         * deleteMessage
-         */
         function deleteMessage() {
             _confirm([[#{web.global.deleteItemConfirm(#{core.message.Message})}]]).then(result => {
                 if (result) {
@@ -184,7 +156,6 @@
             });
         }
 
-        // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
             getMessages();
         });
@@ -227,11 +198,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getMessages();">
+                        <button type="submit" onclick="getMessages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetMessages();">
+                        <button type="button" onclick="resetMessages();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -283,7 +254,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -325,14 +296,14 @@
                 <div class="grid grid-template-columns-2 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteMessage();"
+                        <button type="button" onclick="deleteMessage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="message"
                                 data-duice-execute="(message.messageId && !message._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveMessage();"
+                        <button type="button" onclick="saveMessage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="message"
                                 data-duice-execute="(message.messageId || message._new) ? this.disabled=false : this.disabled=true;">

@@ -227,11 +227,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getVariables();">
+                        <button type="submit" onclick="getVariables();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetVariables();">
+                        <button type="button" onclick="resetVariables();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -285,7 +285,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createVariable();"
+                        <button type="button" onclick="createVariable();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -329,14 +329,14 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteVariable();"
+                        <button type="button" onclick="deleteVariable();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
                                 data-duice-bind="variable"
                                 data-duice-execute="(variable.variableId && !variable._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveVariable();"
+                        <button type="button" onclick="saveVariable();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
                                 data-duice-bind="variable"
                                 data-duice-execute="(variable.variableId || variable._new) ? this.disabled=false : this.disabled=true;">

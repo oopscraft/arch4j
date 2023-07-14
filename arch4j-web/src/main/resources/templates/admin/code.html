@@ -9,7 +9,7 @@
             key: 'codeId',
             value: null,
             _page: 0,
-            _size: 15,
+            _size: 20,
             _count: 0
         });
 
@@ -253,11 +253,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getCodes();">
+                        <button type="submit" onclick="getCodes();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetCodes();">
+                        <button type="button" onclick="resetCodes();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -309,7 +309,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createCode();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -358,7 +358,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addCodeItem();"
+                                        <button type="button" onclick="addCodeItem();"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
@@ -370,7 +370,8 @@
                                 <tbody>
                                 <tr data-duice-bind="code.items" data-duice-loop="item,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="item"
+                                        <button type="button"
+                                                data-duice-bind="item"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeCodeItem(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'">
@@ -397,14 +398,14 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteCode();"
+                        <button type="button" onclick="deleteCode();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
                                 data-duice-bind="code"
                                 data-duice-execute="(code.codeId && !code._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveCode();"
+                        <button type="button" onclick="saveCode();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
                                 data-duice-bind="code"
                                 data-duice-execute="(code.codeId || code._new) ? this.disabled=false : this.disabled=true;">

@@ -21,30 +21,17 @@ public class VariableController {
 
     private final VariableService variableService;
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView variable() {
         return new ModelAndView("admin/variable.html");
     }
 
-    /**
-     * get variables
-     * @return variables
-     */
     @GetMapping("get-variables")
     @ResponseBody
     public Page<Variable> getVariables(VariableSearch variableSearch, Pageable pageable) {
         return variableService.getVariables(variableSearch, pageable);
     }
 
-    /**
-     * get variable
-     * @param variableId variable id
-     * @return variable
-     */
     @GetMapping("get-variable")
     @ResponseBody
     public Variable getVariable(@RequestParam("variableId")String variableId) {
@@ -52,10 +39,6 @@ public class VariableController {
                 .orElseThrow();
     }
 
-    /**
-     * saves variable
-     * @param variable variable info
-     */
     @PostMapping("save-variable")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_VARIABLE_EDIT')")
@@ -63,10 +46,6 @@ public class VariableController {
         return variableService.saveVariable(variable);
     }
 
-    /**
-     * deletes variable
-     * @param variableId variable id
-     */
     @GetMapping("delete-variable")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_VARIABLE_EDIT')")

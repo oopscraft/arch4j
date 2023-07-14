@@ -7,11 +7,8 @@
         const pageId = [[${page.pageId}]];
         const page = new duice.ObjectProxy({});
 
-        /**
-         * get page
-         */
         const getPage = function() {
-            let url = new URL(`${_apiUrl}/v1/page/${pageId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/pages/${pageId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -20,10 +17,6 @@
                 });
         }
 
-        /**
-         * initialize widget
-         * @param iframe
-         */
         const initializeWidget = function(iframe) {
             iframe.contentDocument.addEventListener('DOMSubtreeModified', function(){
                 let height = iframe.contentWindow.document.body.scrollHeight;
@@ -31,7 +24,6 @@
             });
         }
 
-        // onload
         document.addEventListener('DOMContentLoaded', event => {
             getPage();
         });

@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.web.api.v1.board;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.web.api.v1.board.dto.BoardResponse;
@@ -16,8 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/board")
+@RequestMapping("api/v1/boards")
 @RequiredArgsConstructor
+@Tag(name = "board", description = "Board")
 public class BoardRestController {
 
     private final BoardService boardService;

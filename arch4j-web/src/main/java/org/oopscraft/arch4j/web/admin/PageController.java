@@ -21,32 +21,19 @@ public class PageController {
 
     private final PageService pageService;
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView page() {
         ModelAndView modelAndView = new ModelAndView("admin/page.html");
         modelAndView.addObject("pageWidgetDefinitions", pageService.getPageWidgetDefinitions());
         return modelAndView;
     }
 
-    /**
-     * get page list
-     * @return variables
-     */
     @GetMapping("get-pages")
     @ResponseBody
     public PageImpl<Page> getPages(PageSearch pageSearch, Pageable pageable) {
         return pageService.getPages(pageSearch, pageable);
     }
 
-    /**
-     * get page
-     * @param pageId page id
-     * @return message
-     */
     @GetMapping("get-page")
     @ResponseBody
     public Page getPage(@RequestParam("pageId")String pageId) {
@@ -54,11 +41,6 @@ public class PageController {
                 .orElseThrow();
     }
 
-    /**
-     * save page
-     * @param page page info
-     * @return page
-     */
     @PostMapping("save-page")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_PAGE_EDIT')")
@@ -66,10 +48,6 @@ public class PageController {
         return pageService.savePage(page);
     }
 
-    /**
-     * delete page
-     * @param pageId page id
-     */
     @GetMapping("delete-page")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_PAGE_EDIT')")

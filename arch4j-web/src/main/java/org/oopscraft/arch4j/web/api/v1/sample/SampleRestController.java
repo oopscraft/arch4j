@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.web.api.v1.sample;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.oopscraft.arch4j.core.sample.Sample;
@@ -25,8 +26,9 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("api/v1/sample")
+@RequestMapping("api/v1/samples")
 @RequiredArgsConstructor
+@Tag(name = "sample", description = "Sample")
 public class SampleRestController {
 
     private final SampleService sampleService;

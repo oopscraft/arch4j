@@ -4,34 +4,34 @@
       layout:decorate="user/_user.html">
 <th:block layout:fragment="_user_content">
     <script th:inline="javascript">
-        const currentUser = new duice.ObjectProxy({});
-        duice.ObjectProxy.setReadonly(currentUser, 'userId', true);
-        duice.ObjectProxy.setReadonly(currentUser, 'type', true);
-        duice.ObjectProxy.setReadonly(currentUser, 'status', true);
-        duice.ObjectProxy.setReadonly(currentUser, 'joinAt', true);
+        const user = new duice.ObjectProxy({});
+        duice.ObjectProxy.setReadonly(user, 'userId', true);
+        duice.ObjectProxy.setReadonly(user, 'type', true);
+        duice.ObjectProxy.setReadonly(user, 'status', true);
+        duice.ObjectProxy.setReadonly(user, 'joinAt', true);
 
         const getCurrentUser = function() {
-            let url = new URL(`${_apiUrl}/v1/current-user`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/users/${_user.userId}`, document.location.origin);
             _fetch(url, {
                 method: 'GET'
             }).then(response => response.json())
                 .then(data => {
-                    duice.ObjectProxy.assign(currentUser, data);
+                    duice.ObjectProxy.assign(user, data);
                 });
         }
 
         const saveCurrentUser = async function() {
             if(await _confirm([[#{web.user.user.saveCurrentUserConfirm}]])) {
-                let url = new URL(`${_apiUrl}/v1/current-user`, document.location.origin);
+                let url = new URL(`${_apiUrl}/v1/users/${_user.userId}`, document.location.origin);
                 _fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(currentUser)
+                    body: JSON.stringify(user)
                 }).then(response => response.json()).then(data => {
                     _alert([[#{web.user.user.saveCurrentUserComplete}]]).then(()=>{
-                        duice.ObjectProxy.assign(currentUser, data);
+                        duice.ObjectProxy.assign(user, data);
                     });
                 });
             }

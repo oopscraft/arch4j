@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.web.api.v1.page;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.page.Page;
 import org.oopscraft.arch4j.core.page.PageService;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/page")
+@RequestMapping("api/v1/pages")
 @RequiredArgsConstructor
+@Tag(name = "page", description = "Page")
 public class PageRestController {
 
     private final PageService pageService;

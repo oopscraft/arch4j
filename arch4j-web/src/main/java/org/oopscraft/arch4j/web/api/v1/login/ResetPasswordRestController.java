@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.web.api.v1.login;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.email.EmailService;
 import org.oopscraft.arch4j.core.user.User;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("api/v1/login/reset-password")
 @RequiredArgsConstructor
+@Tag(name = "login")
 public class ResetPasswordRestController {
 
     private final UserService userService;

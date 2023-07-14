@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.web.api.v1.join;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.email.EmailService;
 import org.oopscraft.arch4j.core.user.User;
@@ -12,18 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @RestController
 @RequestMapping("api/v1/join")
 @RequiredArgsConstructor
+@Tag(name = "join", description = "Join")
 public class JoinRestController {
 
     private final UserService userService;
 
     private final EmailService emailService;
-
-    private final SpringTemplateEngine templateEngine;
 
     @PostMapping
     public ResponseEntity<?> join(@RequestBody @Validated JoinRequest joinRequest) {

@@ -12,12 +12,8 @@
         });
         const files = [];
 
-        /**
-         * get article
-         * @param articleId
-         */
         const getArticle = function(articleId) {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -32,9 +28,6 @@
                 });
         }
 
-        /**
-         * add article file
-         */
         const addArticleFile = function() {
             let input = document.createElement('input');
             input.setAttribute('type', 'file');
@@ -50,18 +43,10 @@
             input.click();
         }
 
-        /**
-         * remove article file
-         * @param index
-         */
         const removeArticleFile = function(index) {
             article.files.splice(index,1);
         }
 
-        /**
-         * detect article is anonymous
-         * @returns {boolean}
-         */
         const isAnonymousArticle = function() {
             // new article
             if(!article.articleId) {
@@ -84,9 +69,6 @@
             }
         }
 
-        /**
-         * check valid article password
-         */
         const isValidArticlePassword = function() {
             if(_isEmpty(article.password)) {
                 _alert('enter password');
@@ -103,9 +85,6 @@
             return true;
         }
 
-        /**
-         * save article
-         */
         const saveArticle = function() {
 
             // if anonymous article, check password.
@@ -122,16 +101,15 @@
                     let method;
                     // modify article
                     if(articleId) {
-                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
                         method = 'PUT';
                     }
                     // create article
                     else{
-                        url =new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
+                        url =new URL(`${_apiUrl}/v1/boards/${boardId}/articles`, document.location.origin);
                         method = 'POST';
                     }
                     let formData = new FormData();
-                    //formData.append("article", new Blob([JSON.stringify(article)], {type:'application/json'}));
                     formData.append('article', JSON.stringify(article));
                     files.forEach(file => {
                         formData.append("files", file);
@@ -154,10 +132,6 @@
             });
         }
 
-        /**
-         * delete article
-         * @returns {boolean}
-         */
         const deleteArticle = function() {
 
             // if anonymous article, check password.
@@ -170,7 +144,7 @@
             // fire confirm message and save
             _confirm([[#{web.global.deleteItemConfirm(#{core.board.Article})}]]).then(result => {
                 if(result) {
-                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}`;
+                    let url = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`;
                     _fetch(url, {
                         method: 'DELETE',
                         headers: {
@@ -188,9 +162,6 @@
             });
         }
 
-        /**
-         * goto read
-         */
         const gotoCancel = function() {
             if(articlePassword) {
                 history.go(-2);
@@ -199,7 +170,6 @@
             }
         }
 
-        // onload
         document.addEventListener('DOMContentLoaded',() => {
             if(articleId) {
                 getArticle(articleId);

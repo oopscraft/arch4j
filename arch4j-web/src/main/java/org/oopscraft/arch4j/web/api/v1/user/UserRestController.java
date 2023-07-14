@@ -1,56 +1,63 @@
 package org.oopscraft.arch4j.web.api.v1.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
-import org.oopscraft.arch4j.web.api.v1.user.dto.ChangePasswordRequest;
-import org.oopscraft.arch4j.web.api.v1.user.dto.CurrentUserRequest;
-import org.oopscraft.arch4j.web.api.v1.user.dto.CurrentUserResponse;
-import org.oopscraft.arch4j.web.api.v1.user.dto.UserResponse;
+import org.oopscraft.arch4j.web.api.v1.user.dto.*;
 import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "user", description = "User")
 public class UserRestController {
 
     private final UserService userService;
 
-    @GetMapping("current-user")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> getCurrentUser() {
-        String currentUserId = SecurityUtils.getCurrentUserId();
-        CurrentUserResponse currentUserResponse = userService.getUser(currentUserId)
-                .map(CurrentUserResponse::from)
+    @GetMapping("{userId}")
+    public ResponseEntity<?> getUser(@PathVariable("userId")String userId) {
+        UserResponse userResponse = userService.getUser(userId)
+                .map(UserResponse::from)
                 .orElseThrow();
-        return ResponseEntity.ok(currentUserResponse);
+        return ResponseEntity.ok(userResponse);
     }
 
-    @PutMapping("current-user")
+    @PutMapping("{userId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> modifyCurrentUser(@RequestBody CurrentUserRequest currentUserRequest) {
+    public ResponseEntity<?> modifyUser(@PathVariable("userId")String userId, @RequestBody UserRequest userRequest) {
         String currentUserId = SecurityUtils.getCurrentUserId();
+        if(!userId.equals(currentUserId)) {
+            throw new AccessDeniedException("Not login user");
+        }
         User currentUser = userService.getUser(currentUserId).orElseThrow();
-        currentUser.setUserName(currentUserRequest.getUserName());
-        currentUser.setEmail(currentUserRequest.getEmail());
-        currentUser.setMobile(currentUserRequest.getMobile());
-        currentUser.setPhoto(currentUserRequest.getPhoto());
-        currentUser.setProfile(currentUserRequest.getProfile());
+        currentUser.setUserName(userRequest.getUserName());
+        currentUser.setEmail(userRequest.getEmail());
+        currentUser.setMobile(userRequest.getMobile());
+        currentUser.setPhoto(userRequest.getPhoto());
+        currentUser.setProfile(userRequest.getProfile());
         currentUser = userService.saveUser(currentUser);
-        return ResponseEntity.ok(CurrentUserResponse.from(currentUser));
+        return ResponseEntity.ok(UserResponse.from(currentUser));
     }
 
-    @PostMapping("current-user/change-password")
+    @PutMapping("{userId}/password")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<?> changeUserPassword(
+            @PathVariable("userId")String userId,
+            @RequestBody ChangePasswordRequest changePasswordRequest
+    ) {
         String currentUserId = SecurityUtils.getCurrentUserId();
+        if(!userId.equals(currentUserId)) {
+            throw new AccessDeniedException("Not login user");
+        }
         if(userService.isPasswordMatched(currentUserId, changePasswordRequest.getCurrentPassword())){
             userService.changePassword(currentUserId, changePasswordRequest.getNewPassword());
         }else{
@@ -63,14 +70,6 @@ public class UserRestController {
                     .body(errorResponse);
         }
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("user/{userId}")
-    public ResponseEntity<?> getUser(@PathVariable("userId")String userId) {
-        UserResponse userResponse = userService.getUser(userId)
-                .map(UserResponse::from)
-                .orElseThrow();
-        return ResponseEntity.ok(userResponse);
     }
 
 }

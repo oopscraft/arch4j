@@ -21,6 +21,10 @@ public class UserResponse {
 
     private UserStatus status;
 
+    private String email;
+
+    private String mobile;
+
     private String photo;
 
     private String profile;
@@ -31,6 +35,8 @@ public class UserResponse {
                 .userName(user.getUserName())
                 .type(user.getType())
                 .status(user.getStatus())
+                .email(user.getEmail())
+                .mobile(user.getMobile())
                 .photo(user.getPhoto())
                 .profile(user.getProfile())
                 .build();

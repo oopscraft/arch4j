@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
@@ -32,8 +33,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/board/{boardId}/article")
+@RequestMapping("api/v1/boards/{boardId}/articles")
 @RequiredArgsConstructor
+@Tag(name = "board")
 public class ArticleRestController {
 
     private final BoardService boardService;
@@ -76,28 +78,6 @@ public class ArticleRestController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
                 .body(articleResponses);
-    }
-
-    @GetMapping("{articleId}")
-    @Operation(summary = "get article")
-    public ResponseEntity<ArticleResponse> getArticle(
-            @Parameter(description = "board ID")
-            @PathVariable("boardId")String boardId,
-            @Parameter(description = "article ID")
-            @PathVariable("articleId")String articleId
-    ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        boardService.checkAccessPermission(board);
-        boardService.checkReadPermission(board);
-
-        // return article
-        ArticleResponse articleResponse = articleService.getArticle(articleId)
-                .map(ArticleResponse::from)
-                .orElseThrow();
-        return ResponseEntity.ok(articleResponse);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -145,13 +125,13 @@ public class ArticleRestController {
                 .boardId(boardId)
                 .files(articleRequest.getFiles().stream()
                         .map(articleFileRequest ->
-                            ArticleFile.builder()
-                                    .articleId(articleFileRequest.getArticleId())
-                                    .fileId(articleFileRequest.getFileId())
-                                    .filename(articleFileRequest.getFilename())
-                                    .contentType(articleFileRequest.getContentType())
-                                    .length(articleFileRequest.getLength())
-                                    .build()
+                                ArticleFile.builder()
+                                        .articleId(articleFileRequest.getArticleId())
+                                        .fileId(articleFileRequest.getFileId())
+                                        .filename(articleFileRequest.getFilename())
+                                        .contentType(articleFileRequest.getContentType())
+                                        .length(articleFileRequest.getLength())
+                                        .build()
                         ).collect(Collectors.toList()))
                 .build();
 
@@ -169,6 +149,28 @@ public class ArticleRestController {
         // save
         article = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(article));
+    }
+
+    @GetMapping("{articleId}")
+    @Operation(summary = "get article")
+    public ResponseEntity<ArticleResponse> getArticle(
+            @Parameter(description = "board ID")
+            @PathVariable("boardId")String boardId,
+            @Parameter(description = "article ID")
+            @PathVariable("articleId")String articleId
+    ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
+
+        // return article
+        ArticleResponse articleResponse = articleService.getArticle(articleId)
+                .map(ArticleResponse::from)
+                .orElseThrow();
+        return ResponseEntity.ok(articleResponse);
     }
 
     @PutMapping("{articleId}")
@@ -239,35 +241,6 @@ public class ArticleRestController {
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
-    @GetMapping("{articleId}/file/{fileId}")
-    @Operation(description = "get article file")
-    public ResponseEntity<Void> getArticleFile(
-            @Parameter(description = "board ID")
-            @PathVariable("boardId") String boardId,
-            @Parameter(description = "article ID")
-            @PathVariable("articleId") String articleId,
-            @Parameter(description = "file ID")
-            @PathVariable("fileId") String fileId,
-            HttpServletResponse response
-    ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        boardService.checkAccessPermission(board);
-        boardService.checkReadPermission(board);
-
-        // response
-        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
-        response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));
-        try (InputStream inputStream = articleService.getArticleFileInputStream(articleFile)) {
-            StreamUtils.copy(inputStream, response.getOutputStream());
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping("{articleId}")
     @Transactional
     @Operation(description = "delete article")
@@ -307,5 +280,36 @@ public class ArticleRestController {
         articleService.deleteArticle(articleId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("{articleId}/file/{fileId}")
+    @Operation(description = "get article file")
+    public ResponseEntity<Void> getArticleFile(
+            @Parameter(description = "board ID")
+            @PathVariable("boardId") String boardId,
+            @Parameter(description = "article ID")
+            @PathVariable("articleId") String articleId,
+            @Parameter(description = "file ID")
+            @PathVariable("fileId") String fileId,
+            HttpServletResponse response
+    ) {
+        // get board info
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkAccessPermission(board);
+        boardService.checkReadPermission(board);
+
+        // response
+        ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
+        response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));
+        try (InputStream inputStream = articleService.getArticleFileInputStream(articleFile)) {
+            StreamUtils.copy(inputStream, response.getOutputStream());
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }

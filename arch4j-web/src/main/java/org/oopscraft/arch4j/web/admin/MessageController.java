@@ -21,30 +21,17 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    /**
-     * index
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView message() {
         return new ModelAndView("admin/message.html");
     }
 
-    /**
-     * get messages
-     * @return variables
-     */
     @GetMapping("get-messages")
     @ResponseBody
     public Page<Message> getMessages(MessageSearch messageSearch, Pageable pageable) {
         return messageService.getMessages(messageSearch, pageable);
     }
 
-    /**
-     * get message
-     * @param messageId message id
-     * @return message
-     */
     @GetMapping("get-message")
     @ResponseBody
     public Message getMessage(@RequestParam("messageId")String messageId) {
@@ -52,11 +39,6 @@ public class MessageController {
                 .orElseThrow();
     }
 
-    /**
-     * saves message
-     * @param message message info
-     * @return message
-     */
     @PostMapping("save-message")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")
@@ -64,10 +46,6 @@ public class MessageController {
         return messageService.saveMessage(message);
     }
 
-    /**
-     * deletes message
-     * @param messageId message id
-     */
     @GetMapping("delete-message")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_MESSAGE_EDIT')")

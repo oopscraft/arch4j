@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.web.api.v1.code;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.code.Code;
 import org.oopscraft.arch4j.core.code.CodeSearch;
@@ -21,8 +22,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/code")
+@RequestMapping("api/v1/codes")
 @RequiredArgsConstructor
+@Tag(name = "board", description = "Board")
 public class CodeRestController {
 
     private final CodeService codeService;

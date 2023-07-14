@@ -13,15 +13,11 @@
         });
         const articles = new duice.ArrayProxy([]);
 
-        /**
-         * get articles
-         * @param page
-         */
         const getArticles = function(page) {
             if(page) {
                 articleSearch._page = page;
             }
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles`, document.location.origin);
             if(articleSearch.key && articleSearch.value) {
                 url.searchParams.append(articleSearch.key, articleSearch.value);
             }
@@ -37,22 +33,14 @@
             });
         }
 
-        /**
-         * goto article read
-         * @param articleId
-         */
         const gotoRead = function(articleId) {
             document.location.href = `${_rootUrl}/board/${boardId}/article-read?articleId=${articleId}`;
         }
 
-        /**
-         * goto article post
-         */
         const gotoPost = function() {
             document.location.href = `${_rootUrl}/board/${boardId}/article-post`;
         }
 
-        // on load
         document.addEventListener('DOMContentLoaded', event => {
             getArticles();
         });

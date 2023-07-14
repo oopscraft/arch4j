@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.web.api.v1.board;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
-@RequestMapping("api/v1/board/{boardId}/article/{articleId}/vote")
+@RequestMapping("api/v1/boards/{boardId}/articles/{articleId}/vote")
 @RequiredArgsConstructor
+@Tag(name = "board")
 public class ArticleVoteRestController {
 
     private final ArticleVoteService articleVoteService;

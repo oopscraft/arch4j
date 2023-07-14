@@ -24,49 +24,29 @@ public class MonitorController {
 
     private final MonitorScheduler monitorScheduler;
 
-    /**
-     * monitor page
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView monitor() {
         return new ModelAndView("admin/monitor.html");
     }
 
-    /**
-     * returns info
-     * @return info
-     */
     @GetMapping("get-info")
     @ResponseBody
     public Map<String,Object> getInfo() {
         return infoEndpoint.info();
     }
 
-    /**
-     * return cpu info
-     * @return cpu info
-     */
     @GetMapping("get-cpu")
     @ResponseBody
     public List<Map<String,Object>> getCpu() {
         return monitorScheduler.getCpu();
     }
 
-    /**
-     * returns memory info
-     * @return memory info
-     */
     @GetMapping("get-memory")
     @ResponseBody
     public List<Map<String,Object>> getMemory() {
         return monitorScheduler.getMemory();
     }
 
-    /**
-     * returns disk info
-     * @return disk info
-     */
     @GetMapping("get-disk")
     @ResponseBody
     public List<Map<String,Object>> getDisk() {

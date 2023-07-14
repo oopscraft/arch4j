@@ -288,7 +288,7 @@
                 <img class="icon" th:src="@{/static/image/icon-code.svg}"/>
                 <span data-th-text="#{web.admin.code}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/swagger-ui}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''SWAGGER-UI'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''SWAGGER-UI'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-api.svg}"/>
                 <span data-th-text="#{web.admin.api}"></span>
             </li>

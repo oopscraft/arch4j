@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.web.api.v1.menu;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuSearch;
@@ -18,8 +19,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/menu")
+@RequestMapping("api/v1/menus")
 @RequiredArgsConstructor
+@Tag(name = "menu", description = "Menu")
 public class MenuRestController {
 
     private final MenuService menuService;

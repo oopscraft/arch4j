@@ -14,11 +14,8 @@
         });
         const articleVote = new duice.ObjectProxy({});
 
-        /**
-         * get article
-         */
         const getArticle = function() {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -27,11 +24,8 @@
                 });
         }
 
-        /**
-         * get comments
-         */
         const getArticleComments = function() {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -40,11 +34,6 @@
                 });
         }
 
-        /**
-         * is child article comment
-         * @param articleComment
-         * @returns {boolean}
-         */
         const isChildArticleComment = function(articleComment) {
             if(articleComment.parentCommentId) {
                 return true;
@@ -52,11 +41,6 @@
             return false;
         }
 
-        /**
-         * can edit article comment
-         * @param articleComment
-         * @returns {boolean}
-         */
         const canEditArticleComment = function(articleComment) {
             // target exists
             if(!articleComment.commentId) {
@@ -81,19 +65,10 @@
             }
         }
 
-        /**
-         * can delete article comment
-         * @param articleComment
-         * @returns {boolean}
-         */
         const canDeleteArticleComment = function(articleComment) {
             return canEditArticleComment(articleComment);
         }
 
-        /**
-         * detect article comment is anonymous
-         * @param articleComment
-         */
         const isAnonymousArticleComment = function(articleComment) {
             // new comment
             if(!articleComment.commentId) {
@@ -116,10 +91,6 @@
             }
         }
 
-        /**
-         * add article comment
-         * @param parentCommentId parent comment id
-         */
         const addArticleComment = function(parentCommentId) {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment, {
@@ -131,12 +102,8 @@
             parentCommentElement.appendChild(commentForm);
         }
 
-        /**
-         * edit article comment
-         * @param commentId comment id
-         */
         const editArticleComment = function(commentId) {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -213,10 +180,10 @@
                     let url;
                     let method;
                     if(commentId) {
-                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`, document.location.origin);
                         method = 'PUT';
                     }else{
-                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments`, document.location.origin);
                         method = 'POST';
                     }
                     _fetch(url, {
@@ -254,7 +221,7 @@
             // fire confirm message and save
             _confirm([[#{web.global.deleteItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
                 if(result) {
-                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
+                    let url = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`;
                     _fetch(url, {
                         method: 'DELETE',
                         headers: {
@@ -274,21 +241,14 @@
             });
         }
 
-        /**
-         * download file
-         * @param fileId
-         */
         const downloadArticleFile = function(fileId) {
             let link = document.createElement('a');
-            link.href = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/file/${fileId}`;
+            link.href = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/files/${fileId}`;
             link.click();
         }
 
-        /**
-         * get article vote
-         */
         const getArticleVote = function() {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/vote`, document.location.origin);
             _fetch(url).then(response => response.json())
             .then(data => {
                 duice.ObjectProxy.clear(articleVote);
@@ -296,10 +256,6 @@
             });
         }
 
-        /**
-         * save article vote
-         * @param point
-         */
         const saveArticleVote = function(point) {
             // toggle point
             if(point === articleVote.point) {
@@ -307,7 +263,7 @@
             }
 
             // save point
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/vote`, document.location.origin);
             _fetch(url, {
                 method: 'POST',
                 headers: {
@@ -324,23 +280,16 @@
             });
         }
 
-        /**
-         * goto article edit
-         */
         const gotoEditArticle = async function() {
             let url = new URL(`${_rootUrl}/board/${boardId}/article-post`, document.location.origin);
             url.searchParams.append('articleId', articleId);
             document.location.href = url.toString();
         }
 
-        /**
-         * goto article list
-         */
         const gotoListArticle = function() {
             document.location.href = `${_rootUrl}/board/${boardId}`;
         }
 
-        // onload
         document.addEventListener('DOMContentLoaded', event => {
             getArticle();
             getArticleComments();

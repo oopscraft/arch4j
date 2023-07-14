@@ -22,35 +22,20 @@ public class RoleController {
 
     private final AuthorityService authorityService;
 
-    /**
-     * page
-     * @return model and view
-     */
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView role() {
         ModelAndView modelAndView = new ModelAndView("admin/role.html");
         modelAndView.addObject("userTypes", UserType.values());
         modelAndView.addObject("userStatuses", UserStatus.values());
         return modelAndView;
     }
 
-    /**
-     * get roles
-     * @param roleSearch role search condition
-     * @param pageable pageable
-     * @return roles
-     */
     @GetMapping("get-roles")
     @ResponseBody
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
         return roleService.getRoles(roleSearch, pageable);
     }
 
-    /**
-     * returns role
-     * @param roleId role id
-     * @return role
-     */
     @GetMapping("get-role")
     @ResponseBody
     public Role getRole(@RequestParam("roleId")String roleId) {
@@ -58,10 +43,6 @@ public class RoleController {
                 .orElseThrow();
     }
 
-    /**
-     * saves role
-     * @param role role
-     */
     @PostMapping("save-role")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
@@ -69,10 +50,6 @@ public class RoleController {
         return roleService.saveRole(role);
     }
 
-    /**
-     * deletes role
-     * @param roleId role id
-     */
     @GetMapping("delete-role")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
@@ -80,23 +57,12 @@ public class RoleController {
         roleService.deleteRole(roleId);
     }
 
-    /**
-     * gets authorities
-     * @param authoritySearch authority search condition
-     * @param pageable pageable
-     * @return authorities
-     */
     @GetMapping("get-authorities")
     @ResponseBody
     public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {
         return authorityService.getAuthorities(authoritySearch, pageable);
     }
 
-    /**
-     * returns authority
-     * @param authorityId authority id
-     * @return authority info
-     */
     @GetMapping("get-authority")
     @ResponseBody
     public Authority getAuthority(@RequestParam("authorityId") String authorityId) {
@@ -104,10 +70,6 @@ public class RoleController {
                 .orElseThrow();
     }
 
-    /**
-     * saves authority
-     * @param authority authority info
-     */
     @PostMapping("save-authority")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")
@@ -115,10 +77,6 @@ public class RoleController {
         return authorityService.saveAuthority(authority);
     }
 
-    /**
-     * deletes authority
-     * @param authorityId authority id
-     */
     @GetMapping("delete-authority")
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN_ROLE_EDIT')")

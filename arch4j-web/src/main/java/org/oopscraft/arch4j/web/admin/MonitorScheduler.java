@@ -24,9 +24,6 @@ public class MonitorScheduler {
 
     private final List<Map<String,Object>> disk = new CopyOnWriteArrayList<>();
 
-    /**
-     * collect cpu info
-     */
     @Scheduled(fixedDelay = 1000*10)
     public void collectCpu() {
         Map<String,Object> cpu = new LinkedHashMap<>();
@@ -39,9 +36,6 @@ public class MonitorScheduler {
         this.cpu.add(cpu);
     }
 
-    /**
-     * collect memory info
-     */
     @Scheduled(fixedDelay = 1000*10)
     public void collectMemory() {
         Map<String,Object> memory = new LinkedHashMap<>();
@@ -56,9 +50,6 @@ public class MonitorScheduler {
         this.memory.add(memory);
     }
 
-    /**
-     * collect disk info
-     */
     @Scheduled(fixedDelay = 1000*10)
     public void collectDisk() {
         Map<String,Object> disk = new LinkedHashMap<>();
@@ -75,11 +66,6 @@ public class MonitorScheduler {
         this.disk.add(disk);
     }
 
-    /**
-     * get metric value
-     * @param name metric name
-     * @return metric value
-     */
     private Double getMetricValue (String name) {
         return metricsEndpoint.metric(name, null)
                 .getMeasurements()

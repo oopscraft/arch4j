@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
@@ -19,8 +20,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/board/{boardId}/article/{articleId}/comment")
+@RequestMapping("api/v1/boards/{boardId}/articles/{articleId}/comments")
 @RequiredArgsConstructor
+@Tag(name = "board")
 public class ArticleCommentRestController {
 
     private final BoardService boardService;
@@ -48,29 +50,6 @@ public class ArticleCommentRestController {
                 .map(ArticleCommentResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(commentResponses);
-    }
-
-    @GetMapping("{commentId}")
-    @Operation(summary = "get article comment")
-    public ResponseEntity<ArticleCommentResponse> getArticleComment(
-            @Parameter(description = "board ID")
-            @PathVariable("boardId") String boardId,
-            @Parameter(description =  "article ID")
-            @PathVariable("articleId") String articleId,
-            @Parameter(description = "comment ID")
-            @PathVariable("commentId") String commentId
-    ) {
-        // get board
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        boardService.checkReadPermission(board);
-
-        // return article comment
-        ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
-                .map(ArticleCommentResponse::from)
-                .orElseThrow();
-        return ResponseEntity.ok(commentResponse);
     }
 
     @PostMapping
@@ -126,10 +105,33 @@ public class ArticleCommentRestController {
         return ResponseEntity.ok(articleComment);
     }
 
+    @GetMapping("{commentId}")
+    @Operation(summary = "get article comment")
+    public ResponseEntity<ArticleCommentResponse> getArticleComment(
+            @Parameter(description = "board ID")
+            @PathVariable("boardId") String boardId,
+            @Parameter(description =  "article ID")
+            @PathVariable("articleId") String articleId,
+            @Parameter(description = "comment ID")
+            @PathVariable("commentId") String commentId
+    ) {
+        // get board
+        Board board = boardService.getBoard(boardId).orElseThrow();
+
+        // check permission
+        boardService.checkReadPermission(board);
+
+        // return article comment
+        ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
+                .map(ArticleCommentResponse::from)
+                .orElseThrow();
+        return ResponseEntity.ok(commentResponse);
+    }
+
     @PutMapping("{commentId}")
     @Transactional
     @Operation(summary = "edit article comment")
-    public ResponseEntity<ArticleCommentResponse> editArticleComment(
+    public ResponseEntity<ArticleCommentResponse> modifyArticleComment(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId,
             @PathVariable("commentId") String commentId,

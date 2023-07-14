@@ -215,6 +215,12 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.authorizeRequests().anyRequest().hasAuthority("SWAGGER-UI");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            http.formLogin()
+                    .loginPage("/admin/login")
+                    .loginProcessingUrl("/admin/login/process")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+                    .permitAll();
             return http.build();
         }
 
@@ -225,6 +231,12 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
             http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            http.formLogin()
+                    .loginPage("/admin/login")
+                    .loginProcessingUrl("/admin/login/process")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+                    .permitAll();
             return http.build();
         }
 

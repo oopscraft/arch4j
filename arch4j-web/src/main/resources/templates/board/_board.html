@@ -7,11 +7,8 @@
         const boardId = [[${board.boardId}]];
         const board = new duice.ObjectProxy({});
 
-        /**
-         * get article
-         */
         const getBoard = function() {
-            let url = new URL(`${_apiUrl}/v1/board/${boardId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/boards/${boardId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -19,7 +16,6 @@
                 });
         }
 
-        // on load
         document.addEventListener('DOMContentLoaded', event => {
             getBoard();
         });

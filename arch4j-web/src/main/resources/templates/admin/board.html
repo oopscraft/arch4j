@@ -330,11 +330,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-12 justify-self-end">
-                        <button onclick="getBoards();">
+                        <button type="submit" onclick="getBoards();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetBoards();">
+                        <button type="button" onclick="resetBoards();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -390,7 +390,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createBoard();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -496,7 +496,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -507,7 +507,8 @@
                                 <tbody>
                                 <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="role"
+                                        <button type="button"
+                                                data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardAccessRole(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -548,7 +549,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -559,7 +560,8 @@
                                 <tbody>
                                 <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="role"
+                                        <button type="button"
+                                                data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardReadRole(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -600,7 +602,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -611,7 +613,8 @@
                                 <tbody>
                                 <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="role"
+                                        <button type="button"
+                                                data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardWriteRole(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -664,7 +667,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -675,7 +678,8 @@
                                 <tbody>
                                 <tr data-duice-bind="board.commentRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button data-duice-bind="role"
+                                        <button type="button"
+                                                data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardCommentRole(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
@@ -697,7 +701,7 @@
                 </form>
                 <div class="grid grid-template-columns-2 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1">
-                        <button onclick="openBoard();"
+                        <button type="button" onclick="openBoard();"
                             data-duice-bind="board"
                             data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
@@ -705,14 +709,14 @@
                         </button>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteBoard();"
+                        <button type="button" onclick="deleteBoard();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
                                 data-duice-bind="board"
                                 data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveBoard();"
+                        <button type="button" onclick="saveBoard();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'"
                                 data-duice-bind="board"
                                 data-duice-execute="(board.boardId || board._new) ? this.disabled=false : this.disabled=true;">

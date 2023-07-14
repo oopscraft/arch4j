@@ -418,11 +418,11 @@
     <!-- start: tab index                       -->
     <!-- ====================================== -->
     <div id="tabIndex">
-        <button id="roleTabButton" class="tab">
+        <button id="roleTabButton" type="button" class="tab">
             <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
             <span data-th-text="#{core.role.Role}"></span>
         </button>
-        <button id="authorityTabButton" class="tab">
+        <button id="authorityTabButton" type="button" class="tab">
             <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
             <span data-th-text="#{core.role.Authority}"></span>
         </button>
@@ -458,11 +458,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getRoles();">
+                        <button type="submit" onclick="getRoles();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetRoles();">
+                        <button type="button" onclick="resetRoles();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -512,7 +512,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -600,14 +600,14 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deleteRole();"
+                        <button type="button" onclick="deleteRole();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId && !role._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveRole();"
+                        <button type="button" onclick="saveRole();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
@@ -756,11 +756,11 @@
                     <input class="width-100" type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value"/>
                 </label>
                 <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                    <button onclick="authoritySelect.getAuthorities();">
+                    <button type="submit" onclick="authoritySelect.getAuthorities();">
                         <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                         <span data-th-text="#{web.global.search}">Search</span>
                     </button>
-                    <button onclick="authoritySelect.resetAuthorities();">
+                    <button type="button" onclick="authoritySelect.resetAuthorities();">
                         <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                         <span data-th-text="#{web.global.reset}">Reset</span>
                     </button>
@@ -783,7 +783,8 @@
                     <tbody>
                     <tr data-duice-bind="authoritySelect.authorities" data-duice-loop="authority,status">
                         <td class="text-align-center">
-                            <button data-duice-bind="authority"
+                            <button type="button"
+                                    data-duice-bind="authority"
                                     data-duice-execute="
                             this.dataset.index = status.index;
                             if(authority._selected) {
@@ -838,7 +839,8 @@
                     <tbody>
                     <tr data-duice-bind="authoritySelect.selectedAuthorities" data-duice-loop="authority,status">
                         <td class="text-align-center">
-                            <button data-duice-bind="authority"
+                            <button type="button"
+                                    data-duice-bind="authority"
                                     data-duice-execute="this.dataset.index = status.index;"
                                     onclick="authoritySelect.deselectAuthority(this.dataset.index);">
                                 <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
@@ -855,7 +857,7 @@
                 </table>
             </div>
             <div class="flex justify-content-flex-end">
-                <button onclick="authoritySelect.confirm();">
+                <button type="button" onclick="authoritySelect.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
                     <span data-th-text="#{web.global.confirm}"></span>
                 </button>
@@ -891,11 +893,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getAuthorities();">
+                        <button type="submit" onclick="getAuthorities();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetAuthorities();">
+                        <button type="button" onclick="resetAuthorities();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -945,7 +947,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -986,14 +988,14 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 flex justify-content-flex-end gap-1px">
-                        <button onclick="deleteAuthority();"
+                        <button type="button" onclick="deleteAuthority();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId && !authority._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveAuthority();"
+                        <button type="button" onclick="saveAuthority();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId || authority._new) ? this.disabled=false : this.disabled=true;">

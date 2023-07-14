@@ -358,11 +358,11 @@
     <!-- start: tab index                       -->
     <!-- ====================================== -->
     <div id="tabIndex">
-        <button id="userTabButton" class="tab">
+        <button id="userTabButton" type="button" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
             <span data-th-text="#{core.user.User}"></span>
         </button>
-        <button id="userLoginTabButton" class="tab">
+        <button id="userLoginTabButton" type="button" class="tab">
             <img class="icon" th:src="@{/static/image/icon-user-login.svg}"/>
             <span data-th-text="#{core.user.UserLogin}"></span>
         </button>
@@ -412,11 +412,11 @@
                         </select>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getUsers();">
+                        <button type="submit" onclick="getUsers();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetUsers();">
+                        <button type="button" onclick="resetUsers();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -484,7 +484,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createUser();"
+                        <button type="button" onclick="createUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -622,14 +622,14 @@
                 </form>
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1 flex align-items-flex-start flex-wrap gap-1px">
-                        <button onclick="changeUserPassword();"
+                        <button type="button" onclick="changeUserPassword();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
                             <span data-th-text="#{web.admin.user.changePassword}"></span>
                         </button>
-                        <button onclick="generateUserAccessToken();"
+                        <button type="button" onclick="generateUserAccessToken();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
@@ -638,14 +638,14 @@
                         </button>
                     </div>
                     <div class="grid-column-1 flex justify-content-flex-end align-items-flex-start flex-wrap gap-1px">
-                        <button onclick="deleteUser();"
+                        <button type="button" onclick="deleteUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="saveUser();"
+                        <button type="button" onclick="saveUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
@@ -744,7 +744,7 @@
                 </div>
             </form>
             <div class="text-align-right">
-                <button onclick="passwordChange.confirm();">
+                <button type="button" onclick="passwordChange.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
                     <span data-th-text="#{web.global.confirm}"></span>
                 </button>
@@ -777,11 +777,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
-                        <button onclick="getUserLogins();">
+                        <button type="submit" onclick="getUserLogins();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetUserLogins();">
+                        <button type="button" onclick="resetUserLogins();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>

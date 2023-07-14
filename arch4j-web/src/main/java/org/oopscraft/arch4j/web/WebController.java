@@ -59,6 +59,11 @@ public class WebController {
         return webProperties.getBrand();
     }
 
+    @ModelAttribute("_copyright")
+    public String copyright() {
+        return "Copyright (C) 2016 oopscraft.org.\nunder Apache License, Version 2.0";
+    }
+
     @ModelAttribute("_locales")
     public List<Map<String,String>> locales() {
         return webProperties.getLocales().stream()

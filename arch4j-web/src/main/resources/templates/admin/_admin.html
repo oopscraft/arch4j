@@ -31,8 +31,8 @@
                     '_header _header _header'
                     '_nav _main _aside'
                     '_footer _footer _footer';
-            grid-template-columns: 3fr 20fr 1fr;
-            grid-template-rows: auto 1fr 1rem;
+            grid-template-columns: 18rem 1fr 5rem;
+            grid-template-rows: auto 1fr 3rem;
         }
         @media screen and (max-width: 1023px) {
             body {
@@ -44,7 +44,7 @@
                         '_aside'
                         '_footer';
                 grid-template-columns: 100%;
-                grid-template-rows: auto auto 1fr auto auto;
+                grid-template-rows: auto auto auto auto auto;
                 grid-gap: 0.5rem 0.5rem;
             }
         }
@@ -86,7 +86,6 @@
             list-style-type: none;
             margin: 0;
             padding: 0;
-
         }
         header #_header-menu li {
             margin: 0 0.5rem;
@@ -165,9 +164,13 @@
         }
         footer {
             grid-area: _footer;
-            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border-top: dotted 1px lightgray;
-            text-align: center;
+            background-color: #fafafa;
+            font-size: smaller;
+            color: #ccc;
         }
     </style>
     <script th:inline="javascript">
@@ -320,7 +323,7 @@
     <!-- start: footer                          -->
     <!-- ====================================== -->
     <footer>
-        <img th:src="@{/static/image/copyright.png}"/>
+        <span data-th-text="${_copyright}"></span>
     </footer>
     <!-- ====================================== -->
     <!-- end: footer                            -->

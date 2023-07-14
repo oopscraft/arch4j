@@ -290,11 +290,11 @@
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
                     <div class="grid-column-12 justify-self-end">
-                        <button onclick="getPages();">
+                        <button type="submit" onclick="getPages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
-                        <button onclick="resetPages();">
+                        <button type="button" onclick="resetPages();">
                             <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
@@ -422,7 +422,7 @@
                                     data-duice-execute="this.src=widget.url;">
                             </iframe>
                             <div class="grid-column-6 flex justify-content-flex-end">
-                                <button data-duice-bind="page.widgets" data-duice-exeucte="this.dataset.index = status.index;"
+                                <button type="button" data-duice-bind="page.widgets" data-duice-exeucte="this.dataset.index = status.index;"
                                         onclick="removePageWidget(this.dataset.index);">
                                     <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                     <span data-th-text="#{web.global.remove}"></span>
@@ -433,7 +433,8 @@
                         <!-- end: page widget                       -->
                         <!-- ====================================== -->
                         <div class="grid-column-1">
-                            <button onclick="addPageWidget();"
+                            <button type="button"
+                                    onclick="addPageWidget();"
                                     data-duice-bind="page"
                                     data-duice-execute="(page.pageId || page._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
@@ -444,7 +445,8 @@
                 </form>
                 <div class="grid grid-template-columns-2 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1">
-                        <button onclick="openPage();"
+                        <button type="button"
+                                onclick="openPage();"
                                 data-duice-bind="page"
                                 data-duice-execute="(page.pageId && !page._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
@@ -452,14 +454,16 @@
                         </button>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="deletePage();"
+                        <button type="button"
+                                onclick="deletePage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="page"
                                 data-duice-execute="(page.pageId && !page._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
-                        <button onclick="savePage();"
+                        <button type="button"
+                                onclick="savePage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="page"
                                 data-duice-execute="(page.pageId || page._new) ? this.disabled=false : this.disabled=true;">

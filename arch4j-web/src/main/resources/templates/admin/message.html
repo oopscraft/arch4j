@@ -9,7 +9,7 @@
             key: 'messageId',
             value: null,
             _page: 0,
-            _size: 20,
+            _size: 15,
             _count: 0
         });
 
@@ -210,23 +210,23 @@
         <!-- start: message list                -->
         <!-- ================================== -->
         <div id="messageList" class="grid-column-1">
-            <div class="border-1 padding-1rem">
+            <div class="grid grid-gap-1em border-1 padding-1rem">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
                     <span data-th-text="#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-3 grid-gap-1px margin-x-1px s-grid-template-columns-1">
-                    <div class="grid-column-2 s-grid-column-1 flex s-flex-direction-column">
-                        <div class="grid grid-template-columns-3 grid-gap-1px">
-                            <select data-duice-bind="messageSearch" data-duice-property="key" class="grid-column-1">
-                                <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
-                                <option value="messageName" th:text="#{core.message.Message.messageName}"></option>
-                            </select>
-                            <input type="text" data-duice-bind="messageSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}" class="grid-column-2"/>
-                        </div>
-                    </div>
-                    <div class="grid-column-1 flex justify-content-flex-end gap-1px s-flex-direction-column">
+                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-0">
+                    <label class="grid-column-2 s-grid-column-4">
+                        <select class="width-100" data-duice-bind="messageSearch" data-duice-property="key">
+                            <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
+                            <option value="messageName" th:text="#{core.message.Message.messageName}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column-4 s-grid-column-8">
+                        <input class="width-100" type="text" data-duice-bind="messageSearch" data-duice-property="value"
+                               th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button onclick="getMessages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -237,8 +237,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto border-1">
-                    <table class="border-0">
+                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
+                    <table>
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -266,14 +266,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 margin-top-1em">
+                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1 font-size-smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="messageSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 flex justify-content-center">
+                    <div class="grid-column-1 justify-self-center">
                         <duice-pagination
                                 data-duice-bind="messageSearch"
                                 data-duice-size-property="_size"
@@ -282,7 +282,7 @@
                                 data-duice-onclick="getMessages(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end">
+                    <div class="grid-column-1 justify-self-end">
                         <button onclick="createMessage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -299,38 +299,32 @@
         <!-- start: message detail              -->
         <!-- ================================== -->
         <div class="grid-column-1">
-            <div class="border-1 padding-1em">
+            <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                     <span data-th-text="#{web.global.detail}"></span>
                 </h2>
-                <div class="grid grid-template-columns-6 grid-gap-1px grid-column-gap-1em">
-                    <div class="grid-column-1 s-grid-column-6">
+                <form class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.message.Message.messageId}"
                               class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="message" data-duice-property="messageId"
-                               class="width-100 font-weight-bold"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                               class="width-100"/>
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.message.Message.messageName}" class="font-weight-bold tag-required"></span>
-                    </div>
-                    <div class="grid-column-2 s-grid-column-6">
                         <input type="text" data-duice-bind="message" data-duice-property="messageName"
                                class="width-100"/>
-                    </div>
-                    <div class="grid-column-1 s-grid-column-6">
+                    </label>
+                    <label class="grid-column-12">
                         <span data-th-text="#{core.message.Message.value}" class="font-weight-bold"></span>
-                    </div>
-                    <div class="grid-column-5 s-grid-column-6">
                         <textarea data-duice-bind="message" data-duice-property="value" rows="4"
-                                  class="width-100 height-100"></textarea>
-                    </div>
-                </div>
-                <div class="grid grid-template-columns-2 margin-top-1em">
+                                  class="width-100"></textarea>
+                    </label>
+                </form>
+                <div class="grid grid-template-columns-2 padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
-                    <div class="grid-column-1 flex justify-content-flex-end gap-1px">
+                    <div class="grid-column-1 justify-self-end">
                         <button onclick="deleteMessage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE_EDIT'')')}?'locked'"
                                 data-duice-bind="message"

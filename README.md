@@ -62,5 +62,5 @@ Copyright (C) 2016 oopscraft.org
 - However, we can not grant patents or licenses for reproductives. (Modifications or reproductions must be shared with the public.)
 
 ## Contact
-* email: chomookun@gmailcom
-* linkedin: https://www.linkedin.com/in/chomookun
+* email: [chomookun@gmailcom](mailto:chomookun@gmail.com)
+* linkedin: [https://www.linkedin.com/in/chomookun](https://www.linkedin.com/in/chomookun)

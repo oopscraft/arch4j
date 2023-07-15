@@ -92,22 +92,19 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div id="button" class="grid grid-template-columns-3 grid-gap-1px">
-    <form onsubmit="return false;" class="grid-column-2 flex grid-gap-1px">
-        <div class="grid grid-template-columns-3 grid-gap-1px">
-            <select class="grid-column-1" data-duice-bind="articleSearch" data-duice-property="key">
-                <option data-th-text="'- ' + #{web.global.search} + ' -'"></option>
-                <option value="title" data-th-text="#{core.board.Article.title}"></option>
-                <option value="content" data-th-text="#{core.board.Article.content}"></option>
-            </select>
-            <input class="grid-column-2" type="text" data-duice-bind="articleSearch" data-duice-property="value"/>
-        </div>
-        <button onclick="getArticles();">
+<div id="button" class="grid grid-template-columns-2">
+    <form onsubmit="return false;" class="grid-column-1 flex flex-wrap gap-1em">
+        <select class="" data-duice-bind="articleSearch" data-duice-property="key">
+            <option value="title" data-th-text="#{core.board.Article.title}"></option>
+            <option value="content" data-th-text="#{core.board.Article.content}"></option>
+        </select>
+        <input class="" type="text" data-duice-bind="articleSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
+        <button type="submit" onclick="getArticles();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-search.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.search}"></span>
         </button>
     </form>
-    <div class="grid-column-1 flex justify-content-flex-end">
+    <div class="grid-column-1 justify-self-end">
         <button onclick="gotoPost();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>

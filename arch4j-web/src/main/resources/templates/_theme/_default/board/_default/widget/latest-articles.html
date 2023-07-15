@@ -2,6 +2,14 @@
 <!-- start: css                             -->
 <!-- ====================================== -->
 <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
+<style>
+    .article {
+        cursor: pointer;
+    }
+    .article:hover {
+        background-color: #fafafa;
+    }
+</style>
 <!-- ====================================== -->
 <!-- end: css                               -->
 <!-- ====================================== -->
@@ -21,13 +29,16 @@
 <!-- ====================================== -->
 <!-- start: articles                        -->
 <!-- ====================================== -->
-<div id="articles" data-duice-bind="articles" data-duice-loop="article,status" class="padding-1px border-top-1">
+<div id="articles"
+     data-duice-bind="articles"
+     data-duice-loop="article,status"
+     data-duice-execute="this.dataset.articleId=article.articleId;"
+     onclick="gotoRead(this.dataset.articleId);"
+     class="article padding-1px border-top-1">
     <div>
         <span>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}"/>
-            <span data-duice-bind="article" data-duice-property="title"
-                  onclick="gotoRead(this.dataset.articleId);" data-duice-execute="this.dataset.articleId=article.articleId;"
-                  class="link font-weight-bold">
+            <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold">
             </span>
         </span>
         &nbsp;

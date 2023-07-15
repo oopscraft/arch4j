@@ -103,7 +103,6 @@ public class SecurityUtils {
      * @param requiredRoles roles
      * @return result
      */
-    @Deprecated
     public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
         if(securityPolicy == SecurityPolicy.AUTHENTICATED) {
             return isAuthenticated();

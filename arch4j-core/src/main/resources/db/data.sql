@@ -521,41 +521,42 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
 INSERT INTO core_article
 (article_id, system_required, system_updated_by, system_updated_at, board_id, comment_count, vote_positive_count, vote_negative_count, content, content_format, created_at, password, title, user_id, user_name)
-VALUES('7b70bab4b58d4265b18b7d5859efbb62', 'N', 'admin', '2023-06-18 17:14:36.236', 'anonymous', 0, 0, 0, '# Java 프로세스를 통해 PDF 문서의 페이지를 삭제하는 방법
-PDF 파일은 신뢰성이 높기 때문에 계약서나 저작권 성명 등 중요한 내용을 보관하는데 자주 사용됩니다. 그러나 때로는 중복 페이지를 삭제하거나 파일 크기를 줄이기 위해 중요하지 않은 내용을 삭제해야 할 수도 있습니다. 이를 위해 PDF 문서를 Word 문서로 변환할 수 있지만, Free Spire.PDF for Java프로그래밍 라이브러리를 사용하여 프로그래밍 방식으로 PDF 파일에서 지정된 페이지를 빠르게 제거할 수도 있습니다. 아래는 구체적인 튜토리얼입니다.
+VALUES('7b70bab4b58d4265b18b7d5859efbb62', 'N', 'admin', '2023-06-18 17:14:36.236', 'anonymous', 0, 0, 0, 'We are uncovering better ways of developing software by doing it and helping others do it.
+Through this work we have come to value:
 
-## 프로그램 환경
-IntelliJ IDEA 2018 (jdk 1.8.0)
+Individuals and interactions over processes and tools
+Working software over comprehensive documentation
+Customer collaboration over contract negotiation
+Responding to change over following a plan
 
-먼저Free Spire.PDF for Java를 설치하십시오.
+That is, while there is value in the items on the right, we value the items on the left more.
+© 2001, the Agile Manifesto authors
+This declaration may be freely copied in any form, but only in its entirety through this notice.
 
-이 링크에서  Free Spire.PDF for Java를 다운로드하고 패키지의 압축을 풀 수 있습니다.그런 다음 IDEA에서 새 프로젝트를 만들고 차례로 "파일" - "프로젝트 구조" - "모듈" - "의존성"을 클릭합니다. 오른쪽 초록색 플러스 아래에있는 "JAR 또는 디렉토리"를 선택하고, 압축 해제 된 패키지의 lib 폴더에서 "Spire.PDF.jar"를 찾아 프로젝트로 가져옵니다.
+1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
 
-```java
-import com.spire.pdf.*;
+2. Welcome changing requirements, even late in development. Agile processes harness change for the customer’s competitive advantage.
 
-public class DeletePage {
-    public static void main(String[] args) {
+3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.
 
-        //PdfDocument 인스턴스 만들기
-        PdfDocument pdf = new PdfDocument();
+4. Business people and developers must work together daily throughout the project.
 
-        //PDF 문서 로드
-        pdf.loadFromFile("sample.pdf");
+5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.
 
-        //두 번째 페이지 삭제
-        pdf.getPages().removeAt(1);
+6. The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.
 
-        //문서를 다른 파일에 저장
-        pdf.saveToFile("output/result.pdf");
-        pdf.close();
-    }
-}
-```
+7. Working software is the primary measure of progress.
 
-먼저 PdfDocument 객체를 인스턴스화합니다. 그런 다음 pdf.loadFromFile() 메서드를 사용하여 PDF 문서를 로드합니다. pdf.getPages().removeAt() 메서드를 통해 PDF 문서의 페이지 컬렉션을 가져와 지정된 페이지를 삭제합니다. 마지막으로 수정된 PDF 문서가 다른 파일 "result.pdf"에 저장됩니다.
+8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.
 
-이 코드는 PDF 파일에서 지정된 페이지를 삭제하는 방법을 보여줍니다. 이 외에도 Free Spire.PDF for Java는 "PDF에 페이지 추가", "PDF 파일의 페이지 크기 변경"도 지원합니다.','MARKDOWN', '2023-06-18 17:14:36.231', NULL, 'Java 프로세스를 통해 PDF 문서의 페이지를 삭제하는 방법', 'admin', NULL);
+9. Continuous attention to technical excellence and good design enhances agility.
+
+10. Simplicity–the art of maximizing the amount of work not done–is essential.
+
+11. The best architectures, requirements, and designs emerge from self-organizing teams.
+
+12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
+','MARKDOWN', '2023-06-18 17:14:36.231', NULL, 'The 12 Principles behind the Agile Manifesto(from agilealliance.org)', 'admin', NULL);
 
 
 

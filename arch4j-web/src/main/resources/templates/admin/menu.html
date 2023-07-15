@@ -7,7 +7,7 @@
         const menus = new duice.ArrayProxy([]);
         const menu = new duice.ObjectProxy({
             parentMenu: {},
-            roles: []
+            viewRoles: []
         });
         duice.ObjectProxy.setDisableAll(menu, true);
 
@@ -86,9 +86,6 @@
             });
         }
 
-        /**
-         * delete menu
-         */
         function deleteMenu() {
             _confirm([[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]).then(result => {
                 if(result) {
@@ -105,9 +102,6 @@
             });
         }
 
-        /**
-         * select parent id
-         */
         function selectParentId() {
             let disabledMenuIds = [ menu.menuId ];
             menuSelect.open(disabledMenuIds).then(selectedMenu => {
@@ -116,37 +110,26 @@
             });
         }
 
-        /**
-         * adds menu role
-         */
-        async function addMenuRole() {
+        async function addMenuViewRole() {
             let disabledRoleIds = [];
-            menu.roles.forEach(role=>{
+            menu.viewRoles.forEach(role=>{
                 disabledRoleIds.push(role.roleId);
             });
             let selectedRoles = await roleSelect.open(disabledRoleIds);
             selectedRoles.forEach(role => {
-                menu.roles.push(role);
+                menu.viewRoles.push(role);
             });
         }
 
-        /**
-         * removes menu role
-         * @param index
-         */
-        function removeMenuRole(index) {
-            menu.roles.splice(index, 1);
+        function removeMenuViewRole(index) {
+            menu.viewRoles.splice(index, 1);
         }
 
-        /**
-         * open menu
-         */
         function openMenu() {
             let url = new URL(menu.link, document.location.origin);
             window.open(url,'_blank');
         }
 
-        // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
             getMenus();
         });
@@ -300,21 +283,29 @@
                               class="width-100"></textarea>
                     </div>
                     <div class="grid-column-12">
-                        <span data-th-text="#{core.menu.Menu.roles}" class="font-weight-bold"></span>
-                        <div class="overflow-y-scroll" style="max-height:calc(10rem - 2px);">
-                            <table>
+                        <label>
+                            <span data-th-text="#{core.menu.Menu.viewPolicy}" class="font-weight-bold"></span>
+                            <select class="width-100" data-duice-bind="menu" data-duice-property="viewPolicy">
+                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                        th:value="${securityPolicy}"
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                                </option>
+                            </select>
+                        </label>
+                        <div data-duice-bind="menu"
+                             data-duice-if="return menu.viewPolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll" style="max-height:calc(40rem - 2px);">
+                            <table class="border-top-0">
                                 <colgroup>
-                                    <col style="width:35px;"/>
+                                    <col style="width:3em;"/>
                                     <col/>
                                     <col/>
                                 </colgroup>
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addMenuRole();"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
-                                                data-duice-bind="menu"
-                                                data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                        <button type="button" onclick="addMenuViewRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -323,22 +314,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-duice-bind="menu.roles" data-duice-loop="role,status">
+                                <tr data-duice-bind="menu.viewRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeMenuRole(this.dataset.index);"
+                                                onclick="removeMenuViewRole(this.dataset.index);"
                                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
-                                    <td data-duice-bind="role" data-duice-property="roleId"
-                                        class="font-weight-bold"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
                                     <td data-duice-bind="role" data-duice-property="roleName"></td>
                                 </tr>
-                                <tr data-duice-bind="menu.roles"
-                                    data-duice-execute="if(menu.roles.length === 0) this.hidden=false;" hidden>
+                                <tr data-duice-bind="menu.viewRoles"
+                                    data-duice-if="return (menu.viewRoles.length < 1);">
                                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                 </tr>
                                 </tbody>

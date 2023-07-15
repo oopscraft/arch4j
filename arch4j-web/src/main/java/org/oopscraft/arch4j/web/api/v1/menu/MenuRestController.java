@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuSearch;
 import org.oopscraft.arch4j.core.menu.MenuService;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.menu.dto.MenuResponse;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,10 @@ public class MenuRestController {
     @GetMapping
     public ResponseEntity<List<MenuResponse>> getMenus() {
         List<MenuResponse> menuResponses = menuService.getMenus().stream()
+                .filter(menu -> SecurityUtils.hasPermission(menu.getViewPolicy(), menu.getViewRoles()))
                 .map(MenuResponse::from)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("menu",  null, menuResponses.size()))
                 .body(menuResponses);

@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -54,16 +55,19 @@ public class MenuEntity extends SystemFieldEntity {
     @Lob
     private String note;
 
+    @Column(name = "view_policy", length = 16)
+    public SecurityPolicy viewPolicy;
+
     @ManyToMany
     @JoinTable(
-            name = "core_menu_role",
+            name = "core_menu_role_view",
             joinColumns = @JoinColumn(name = "menu_id"),
             foreignKey = @ForeignKey(name = "none"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             inverseForeignKey = @ForeignKey(name = "none")
     )
     @Builder.Default
-    List<RoleEntity> roles = new ArrayList<>();
+    List<RoleEntity> viewRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = MenuI18nEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

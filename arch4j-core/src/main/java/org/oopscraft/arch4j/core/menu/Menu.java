@@ -3,10 +3,10 @@ package org.oopscraft.arch4j.core.menu;
 import lombok.*;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -33,8 +33,10 @@ public class Menu {
 
     private String note;
 
+    private SecurityPolicy viewPolicy;
+
     @Builder.Default
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> viewRoles = new ArrayList<>();
 
     public static Menu from(MenuEntity menuEntity) {
         MenuBuilder menuBuilder = Menu.builder()
@@ -45,17 +47,18 @@ public class Menu {
                 .target(menuEntity.getTarget())
                 .icon(menuEntity.getIcon())
                 .sort(menuEntity.getSort())
-                .note(menuEntity.getNote());
+                .note(menuEntity.getNote())
+                .viewPolicy(menuEntity.getViewPolicy());
 
         MenuEntity parentMenuEntity = menuEntity.getParentMenu();
         if (parentMenuEntity != null) {
             menuBuilder.parentMenuName(parentMenuEntity.getMenuName());
         }
 
-        List<Role> roles = menuEntity.getRoles().stream()
+        List<Role> viewRoles = menuEntity.getViewRoles().stream()
                 .map(Role::from)
                 .collect(Collectors.toList());
-        menuBuilder.roles(roles);
+        menuBuilder.viewRoles(viewRoles);
 
         return menuBuilder.build();
     }

@@ -5,9 +5,6 @@ import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity_;
 import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,14 +34,15 @@ public class MenuService {
         menuEntity.setSort(menu.getSort());
         menuEntity.setNote(menu.getNote());
 
-        List<RoleEntity> roleEntities = menu.getRoles().stream()
+        menuEntity.setViewPolicy(menu.getViewPolicy());
+        List<RoleEntity> roleEntities = menu.getViewRoles().stream()
                 .map(role -> RoleEntity.builder()
                         .roleId(role.getRoleId())
                         .roleName(role.getRoleName())
                         .note(role.getNote())
                         .build())
                 .collect(Collectors.toList());
-        menuEntity.setRoles(roleEntities);
+        menuEntity.setViewRoles(roleEntities);
 
         menuEntity = menuRepository.saveAndFlush(menuEntity);
 

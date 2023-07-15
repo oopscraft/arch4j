@@ -12,7 +12,7 @@
 <!-- ================================================== -->
 <!-- start: message                                     -->
 <!-- ================================================== -->
-<div id="message">
+<div id="message" class="margin-x-1em">
     <div data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message"></div>
     <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"></duice-markdown-viewer>
 </div>
@@ -24,7 +24,7 @@
 <!-- start: articles                                    -->
 <!-- ================================================== -->
 <div id="articles">
-    <div class="articles-header grid grid-template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none">
+    <div class="articles-header grid grid-template-columns-12 font-weight-bold padding-x-1em s-display-none border-top-1">
         <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-grid-column-0"></div>
         <div data-th-text="#{core.board.Article.title}" class="grid-column-8 s-grid-column-12"></div>
         <span class="grid-column-3 padding-right-1em">

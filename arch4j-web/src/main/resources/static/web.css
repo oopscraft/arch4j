@@ -339,11 +339,6 @@ table thead th:has(button,input,select,textarea,table),
 table tbody td:has(button,input,select,textarea,table) {
     padding: 1px;
 }
-/*@media screen and (max-width: 1023px) {*/
-/*    *:has(table) {*/
-/*        overflow-x: scroll;*/
-/*    }*/
-/*}*/
 
 /* ul,ol,li */
 ul, menu, dir {

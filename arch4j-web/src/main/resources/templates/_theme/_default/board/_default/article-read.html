@@ -79,7 +79,7 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="flex gap-1em justify-content-center margin-x-1em">
+<div class="flex gap-1em justify-content-center margin-x-1em s-gap-1px">
     <button onclick="gotoListArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-list.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.listArticle}"></span>
@@ -220,7 +220,7 @@
             <span sec:authorize="isAuthenticated()">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                      data-duice-bind="_user" data-duice-property="photo"/>
-                <span data-duice-bind="_user" data-duice-property="name" class="font-weight-bold"></span>
+                <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
             </span>
         </div>
         <div class="grid-column-12">
@@ -238,7 +238,7 @@
             <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
             <duice-markdown-editor data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
         </div>
-        <div class="grid-column-12 flex gap-1em margin-x-1em">
+        <div class="grid-column-12 flex margin-x-1px gap-1px">
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
                 <span data-th-text="#{web.global.cancel}"></span>

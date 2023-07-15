@@ -218,6 +218,7 @@ select {
     background-image: var(--web-select-icon);
     background-repeat: no-repeat;
     background-position: right 0.2rem center;
+    padding-right: 2em;
     -webkit-transition: var(--web-element-transition);
     -moz-transition: var(--web-element-transition);
     -ms-transition: var(--web-element-transition);
@@ -326,8 +327,6 @@ table tbody tr td {
     padding: var(--web-element-padding);
     text-align: left;
     vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 table tbody tr td:last-of-type {
     border-right: none;
@@ -338,6 +337,11 @@ table tbody tr:last-of-type td {
 table thead th:has(button,input,select,textarea,table),
 table tbody td:has(button,input,select,textarea,table) {
     padding: 1px;
+}
+.overflow-x-auto > table tbody tr td,
+.overflow-x-scroll > table tbody tr td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* ul,ol,li */
@@ -633,6 +637,21 @@ hr {
     align-items: flex-end;
 }
 @media screen and (max-width: 1023px) {
+    .s-flex-wrap {
+        flex-wrap: wrap;
+    }
+    .s-flex-nowrap {
+        flex-wrap: nowrap;
+    }
+    .s-gap-1px {
+        gap: 1px;
+    }
+    .s-gap-1rem {
+        gap: 1rem;
+    }
+    .s-gap-1em {
+        gap: 1em;
+    }
     .s-flex-direction-row {
         flex-direction: row;
     }

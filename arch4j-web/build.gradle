@@ -16,7 +16,7 @@ dependencies {
     annotationProcessor platform(project(":arch4j-platform"))
 
     // subproject
-    implementation project(":arch4j-core")
+    api project(":arch4j-core")
 
     // spring boot starter
     api 'org.springframework.boot:spring-boot-starter-web'

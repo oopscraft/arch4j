@@ -5,7 +5,7 @@
 <th:block layout:fragment="_board_content">
     <script th:inline="javascript">
         const articleSearch = new duice.ObjectProxy({
-            key: null,
+            key: 'title',
             value: null,
             _page: 0,
             _size: [[${board.pageSize}]],

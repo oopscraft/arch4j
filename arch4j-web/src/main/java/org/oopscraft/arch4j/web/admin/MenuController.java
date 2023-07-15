@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -41,8 +42,8 @@ public class MenuController {
 
     @GetMapping("get-menus")
     @ResponseBody
-    public Page<Menu> getMenus(MenuSearch menuSearch, Pageable pageable) {
-        return menuService.getMenus(menuSearch, pageable);
+    public List<Menu> getMenus() {
+        return menuService.getMenus();
     }
 
     @GetMapping("get-menu")

@@ -27,13 +27,12 @@ public class MenuRestController {
     private final MenuService menuService;
 
     @GetMapping
-    public ResponseEntity<List<MenuResponse>> getMenus(MenuSearch menuSearch, Pageable pageable) {
-        Page<Menu> menuPage = menuService.getMenus(menuSearch, pageable);
-        List<MenuResponse> menuResponses = menuPage.getContent().stream()
+    public ResponseEntity<List<MenuResponse>> getMenus() {
+        List<MenuResponse> menuResponses = menuService.getMenus().stream()
                 .map(MenuResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("menu",  pageable, menuPage.getTotalElements()))
+                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("menu",  null, menuResponses.size()))
                 .body(menuResponses);
     }
 

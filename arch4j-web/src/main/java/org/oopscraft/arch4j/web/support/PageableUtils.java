@@ -3,18 +3,43 @@ package org.oopscraft.arch4j.web.support;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public class PageableUtils {
 
-    public static String toContentRange(String unit, Pageable pageable, long totalSize) {
-        return new StringBuffer()
-                .append(unit)
-                .append(" ")
-                .append(pageable.getOffset())
-                .append("-")
-                .append(pageable.getOffset() + pageable.getPageSize())
-                .append("/")
-                .append(totalSize)
-                .toString();
+    public static String toContentRange(String unit, Pageable pageable, Long totalSize) {
+        StringBuilder contentRange = new StringBuilder("");
+
+        // unit
+        contentRange.append(Optional.ofNullable(unit).orElse("unit"));
+
+        // range
+        contentRange.append(" ");
+        if(pageable == null || pageable.isUnpaged()) {
+            contentRange.append("*");
+        }else{
+            contentRange.append(pageable.getOffset())
+                    .append("-")
+                    .append(pageable.getOffset() + pageable.getPageSize());
+        }
+
+        // size
+        contentRange.append("/");
+        if(totalSize == null) {
+            contentRange.append("*");
+        }else{
+            contentRange.append(totalSize);
+        }
+
+        return contentRange.toString();
+    }
+
+    public static String toContentRange(String unit, Pageable pageable, Integer totalSize) {
+        return toContentRange(unit,
+                pageable,
+                Optional.ofNullable(totalSize)
+                        .map(Long::valueOf)
+                        .orElse(null));
     }
 
 }

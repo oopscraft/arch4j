@@ -2,11 +2,13 @@ package org.oopscraft.arch4j.core.menu;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
+import org.oopscraft.arch4j.core.menu.dao.MenuEntity_;
 import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +62,12 @@ public class MenuService {
         menuRepository.flush();
     }
 
-    public Page<Menu> getMenus(MenuSearch menuSearch, Pageable pageable) {
-        Page<MenuEntity> menuEntityPage = menuRepository.findAll(menuSearch, pageable);
-        List<Menu> menus = menuEntityPage.getContent().stream()
+    public List<Menu> getMenus() {
+        Sort sort = Sort.by(Sort.Order.asc(MenuEntity_.SORT).nullsLast()); // bug: nullsLast not work
+        List<MenuEntity> menuEntities = menuRepository.findAll(sort);
+        return menuEntities.stream()
                 .map(Menu::from)
                 .collect(Collectors.toList());
-        return new PageImpl<>(menus, pageable, menuEntityPage.getTotalElements());
     }
 
 }

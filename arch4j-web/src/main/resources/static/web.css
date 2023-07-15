@@ -159,6 +159,10 @@ small {
     font-size: smaller;
 }
 
+img {
+    max-width: 100%;
+}
+
 /* input */
 input {
     border: none;

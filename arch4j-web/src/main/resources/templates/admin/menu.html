@@ -4,16 +4,6 @@
       layout:decorate="admin/_admin.html">
 <main layout:fragment="_main">
     <script th:inline="javascript">
-        // search condition
-        const menuSearch = new duice.ObjectProxy({
-            key: 'menuId',
-            value: null,
-            _page: 0,
-            _size: 1024,
-            _count: 0
-        });
-
-        // data
         const menus = new duice.ArrayProxy([]);
         const menu = new duice.ObjectProxy({
             parentMenu: {},
@@ -21,43 +11,24 @@
         });
         duice.ObjectProxy.setDisableAll(menu, true);
 
-        /**
-         * getMenus
-         */
-        function getMenus(page) {
-            if(page) {
-                menuSearch._page = page;
-            }
+        function getMenus() {
             let url = new URL([[@{/admin/menu/get-menus}]], document.location.origin);
-            if (menuSearch.key && menuSearch.value) {
-                url.searchParams.append(menuSearch.key, menuSearch.value);
-            }
-            url.searchParams.append('_page', menuSearch._page);
-            url.searchParams.append('_size', menuSearch._size);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     duice.ArrayProxy.clear(menus);
-                    duice.ArrayProxy.assign(menus, data.content);
-                    menuSearch._count = data.totalElements;
+                    duice.ArrayProxy.assign(menus, data);
 
                     // select current item
                     duice.ArrayProxy.selectItem(menus, menus.findIndex(item => item.menuId === menu.menuId));
                 });
         }
 
-        /**
-         * resetMenus
-         */
         function resetMenus() {
             duice.ObjectProxy.reset(menuSearch);
             getMenus();
         }
 
-        /**
-         * getMenu
-         * @param menuId
-         */
         function getMenu(menuId) {
             let url = new URL([[@{/admin/menu/get-menu}]], document.location.origin);
             url.searchParams.append('menuId', menuId);
@@ -71,9 +42,6 @@
                 });
         }
 
-        /**
-         * creates menu
-         */
         function createMenu() {
             duice.ObjectProxy.clear(menu);
             duice.ObjectProxy.assign(menu, {
@@ -83,17 +51,11 @@
             duice.ObjectProxy.focus(menu, 'menuName');
         }
 
-        /**
-         * clear parent menu
-         */
         function clearParentMenu() {
             menu.parentMenuId = null;
             menu.parentMenuName = null;
         }
 
-        /**
-         * save menu
-         */
         async function saveMenu() {
 
             // check menu name

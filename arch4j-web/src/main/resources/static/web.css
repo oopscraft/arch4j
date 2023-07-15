@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
 :root {
     /* global */
     --web-background-color: white;
     --web-font-size: 12px;
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
-    --web-font-family: sans-serif;
+    --web-font-family: 'Open Sans', sans-serif;
     --web-font-weight-bold: 600;
     --web-ancher-color: blue;
     /* element(input,select...) */

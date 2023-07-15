@@ -100,12 +100,16 @@
         </h1>
         <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
             <label class="grid-column-12">
-                <span data-th-text="#{web.admin.login.userId}" class="font-weight-bold tag-required"></span>
-                <input type='text' data-duice-bind="login" data-duice-property="username" class="width-100 text-align-center font-weight-bold"/>
+                <input type="text" autocomplete="off"
+                       data-duice-bind="login" data-duice-property="username"
+                       class="width-100 text-align-center font-weight-bold"
+                       th:placeholder="#{web.admin.login.userId}"/>
             </label>
             <label class="grid-column-12">
-                <span data-th-text="#{web.admin.login.password}" class="font-weight-bold tag-required"></span>
-                <input type='password' data-duice-bind="login" data-duice-property='password' class="width-100 text-align-center"/>
+                <input type="password" autocomplete="off"
+                       data-duice-bind="login" data-duice-property='password'
+                       class="width-100 text-align-center"
+                       th:placeholder="#{web.admin.login.password}"/>
             </label>
             <div class="grid-column-12 text-align-right">
                 <label>

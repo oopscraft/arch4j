@@ -1,32 +1,31 @@
 <!-- ================================================== -->
 <!-- start: article content                             -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 grid-gap-1px">
+<div class="grid grid-template-columns-12 grid-gap-1em">
 
     <!-- start: writer name and password -->
     <th:block sec:authorize="!isAuthenticated()">
-        <div class="grid-column-12">
+        <label class="grid-column-2 s-grid-column-12">
             <span data-th-text="#{core.board.Article.userName}" class="font-weight-bold tag-required"></span>
-        </div>
-        <div class="grid-column-12">
-            <input type="text" data-duice-bind="article" data-duice-property="userName"/>
-        </div>
-        <div class="grid-column-12">
+            <input class="width-100" type="text" data-duice-bind="article" data-duice-property="userName"/>
+        </label>
+        <label class="grid-column-2 s-grid-column-12">
             <span data-th-text="#{core.board.Article.password}" class="font-weight-bold tag-required"></span>
-        </div>
-        <div class="grid-column-12">
-            <input type="password" data-duice-bind="article" data-duice-property="password"/>
-            <input type="password" data-duice-bind="article" data-duice-property="passwordConfirm"/>
-        </div>
+            <input class="width-100" type="password" data-duice-bind="article" data-duice-property="password"/>
+        </label>
+        <label class="grid-column-2 s-grid-column-12">
+            (*)
+            <span data-th-text="#{core.board.Article.password}" class="font-weight-bold tag-required"></span>
+            <input class="width-100" type="password" data-duice-bind="article" data-duice-property="passwordConfirm"/>
+        </label>
+        <div class="grid-column-6"></div>
     </th:block>
     <!-- end: writer name and password -->
 
-    <div class="grid-column-12">
+    <label class="grid-column-12">
         <span data-th-text="#{core.board.Article.title}" class="font-weight-bold tag-required"></span>
-    </div>
-    <div class="grid-column-12">
         <input type="text" data-duice-bind="article" data-duice-property="title" class="width-100 font-weight-bold"/>
-    </div>
+    </label>
     <div class="grid-column-12">
         <span data-th-text="#{core.board.Article.content}" class="font-weight-bold tag-required"></span>
         &nbsp;
@@ -40,7 +39,7 @@
             <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
         </label>
     </div>
-    <div class="grid-column-12" style="height:40em;">
+    <div class="grid-column-12" style="height:50em;">
         <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
         <duice-markdown-editor data-duice-bind="article" data-duice-if="return article.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 height-100"/>
     </div>
@@ -87,8 +86,7 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 padding-x-1em">
-    <div class="grid-column-12 flex justify-content-center gap-1px">
+<div class="flex justify-content-center gap-1em">
         <button onclick="gotoCancel();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.global.cancel}"></span>
@@ -101,7 +99,6 @@
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-save.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.saveArticle}"></span>
         </button>
-    </div>
 </div>
 <!-- ================================================== -->
 <!-- end: button                                        -->

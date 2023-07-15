@@ -14,12 +14,14 @@
     </h1>
     <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
         <label class="grid-column-12">
-            <span data-th-text="#{web.login.login.userId}" class="font-weight-bold tag-required"></span>
-            <input type='text' data-duice-bind="login" data-duice-property="username" class="width-100 font-weight-bold text-align-center"/>
+            <input type="text" th:placeholder="#{web.login.login.userId}"
+                   data-duice-bind="login" data-duice-property="username"
+                   class="width-100 font-weight-bold text-align-center"/>
         </label>
         <label class="grid-column-12">
-            <span data-th-text="#{web.login.login.password}" class="font-weight-bold tag-required"></span>
-            <input type='password' data-duice-bind="login" data-duice-property='password' class="width-100 font-weight-bold text-align-center"/>
+            <input type="password" th:placeholder="#{web.login.login.password}"
+                   data-duice-bind="login" data-duice-property="password"
+                   class="width-100 font-weight-bold text-align-center"/>
         </label>
         <div class="grid-column-12 flex justify-content-space-between">
             <div class="grid-column-6">

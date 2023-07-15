@@ -15,23 +15,24 @@
 <div id="articles">
     <div class="grid grid-template-columns-12 font-weight-bold padding-x-1em border-top-1 s-display-none">
         <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-grid-column-0"></div>
-        <div data-th-text="#{core.board.Article.title}" class="grid-column-9 s-grid-column-12"></div>
-        <span class="grid-column-2 padding-right-1em">
+        <div data-th-text="#{core.board.Article.title}" class="grid-column-8 s-grid-column-12"></div>
+        <span class="grid-column-3 padding-right-1em">
             <span data-th-text="#{core.board.Article.userName}"></span>
             |
             <span data-th-text="#{core.board.Article.createdAt}"></span>
-        </div>
+        </span>
     </div>
     <div data-duice-bind="articles" data-duice-loop="article,status" class="grid grid-template-columns-12 padding-x-1em border-top-1">
         <div class="grid-column-1 justify-left padding-left-1em s-display-none">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
-        <div class="grid-column-9 s-grid-column-12">
+        <div class="grid-column-8 s-grid-column-12 link"
+             data-duice-bind="article"
+             data-duice-execute="this.dataset.articleId=article.articleId;"
+             onclick="gotoRead(this.dataset.articleId);">
             <span>
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}"/>
-                <span data-duice-bind="article" data-duice-property="title"
-                      onclick="gotoRead(this.dataset.articleId);" data-duice-execute="this.dataset.articleId=article.articleId;"
-                      class="link font-weight-bold">
+                <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold">
                 </span>
             </span>
             &nbsp;
@@ -50,7 +51,7 @@
                 <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
             </span>
         </div>
-        <div class="grid-column-2 padding-right-1em s-grid-column-12">
+        <div class="grid-column-3 padding-right-1em s-grid-column-12">
             <span>
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"/>
                 <span data-duice-bind="article" data-duice-property="userName"></span>
@@ -92,19 +93,27 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div id="button" class="grid grid-template-columns-2">
-    <form onsubmit="return false;" class="grid-column-1 flex flex-wrap gap-1em">
-        <select class="" data-duice-bind="articleSearch" data-duice-property="key">
-            <option value="title" data-th-text="#{core.board.Article.title}"></option>
-            <option value="content" data-th-text="#{core.board.Article.content}"></option>
-        </select>
-        <input class="" type="text" data-duice-bind="articleSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
-        <button type="submit" onclick="getArticles();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-search.svg(_theme=${_theme})}"/>
-            <span data-th-text="#{web.global.search}"></span>
-        </button>
-    </form>
-    <div class="grid-column-1 justify-self-end">
+<div id="button" class="grid grid-template-columns-2 grid-gap-1em">
+    <div class="grid-column-1 s-grid-column-2 s-justify-self-end">
+        <form onsubmit="return false;" class="flex gap-1em">
+            <label>
+                <select "width-100" data-duice-bind="articleSearch" data-duice-property="key">
+                    <option value="title" data-th-text="#{core.board.Article.title}"></option>
+                    <option value="content" data-th-text="#{core.board.Article.content}"></option>
+                </select>
+            </label>
+            <label>
+                <input class="width-100" type="text" data-duice-bind="articleSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
+            </label>
+            <label>
+                <button type="submit" onclick="getArticles();">
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-search.svg(_theme=${_theme})}"/>
+                    <span data-th-text="#{web.global.search}"></span>
+                </button>
+            </label>
+        </form>
+    </div>
+    <div class="grid-column-1 justify-self-end s-grid-column-2">
         <button onclick="gotoPost();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-post.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.postArticle}"></span>

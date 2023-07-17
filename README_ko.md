@@ -31,7 +31,7 @@
 | **Message, Variable, and Common Code Management for Additional Development Needs** | Common functionality for managing messages, variables, and common codes for additional business development. |
 
 
-## 빠른 로컬 테스트
+## 로컬 테스트
 
 ```shell
 # download source

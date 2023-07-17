@@ -5,12 +5,12 @@
 이 아키타입은 기본적인 CMS(Content Management System) 기능을 가지고 있습니다.
 
 
-## Git and Website
+## Git 저장소 및 웹사이트
 
 * Git Repository: [https://github.com/oopscraft/arch4j](https://github.com/oopscraft/arch4j)
 * Website: [https://arch4j.oopscraft.org](https://arch4j.oopscraft.org)
 
-## Demo Site
+## 데모 사이트
 
 * Service Page: [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
 * Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
@@ -31,7 +31,7 @@
 | **Message, Variable, and Common Code Management for Additional Development Needs** | Common functionality for managing messages, variables, and common codes for additional business development. |
 
 
-## Quick Local Test
+## 빠른 로컬 테스트
 
 ```shell
 # download source
@@ -44,14 +44,14 @@ git clone https://github.com/oopscraft/arch4j.git
 connect to http://localhost:8080
 
 
-## Documentation
+## 문서
 
 [1.Installation](doc/01.installation/index.md)
 
 [2.Configuration](doc/02.configuration/index.md)
 
 
-## License
+## 라이센스
 
 ARCH4J (Application Archetype for Java)
 Copyright (C) 2016 oopscraft.org
@@ -69,6 +69,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-## Contact
+## 연락처
 * email: [chomookun@gmailcom](mailto:chomookun@gmail.com)
 * linkedin: [https://www.linkedin.com/in/chomookun](https://www.linkedin.com/in/chomookun)

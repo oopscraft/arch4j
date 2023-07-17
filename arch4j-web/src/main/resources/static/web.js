@@ -4,6 +4,7 @@
  * @returns {*}
  */
 const _alert = function(message) {
+    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-alert.svg"/><br/>' + message + '<br/>';
     return duice.alert(message);
 }
 
@@ -13,6 +14,7 @@ const _alert = function(message) {
  * @returns {*}
  */
 const _confirm = function(message) {
+    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-confirm.svg"/><br/>' + message + '<br/>';
     return duice.confirm(message);
 }
 
@@ -23,6 +25,7 @@ const _confirm = function(message) {
  * @returns {*}
  */
 const _prompt = function(message, type) {
+    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-prompt.svg"/><br/>' + message + '<br/>';
     return duice.prompt(message, type);
 }
 

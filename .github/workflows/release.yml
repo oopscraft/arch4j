@@ -26,18 +26,6 @@ jobs:
         run: |
           ./gradlew clean bootDistZip -x test
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: build/libs/*.jar
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          body: |
-            Release notes for version ${{ github.ref }}.
-
       - name: Upload Additional Files
         uses: actions/upload-artifact@v3
         with:
@@ -45,3 +33,21 @@ jobs:
           path: |
             ${{ github.workspace }}/arch4j-web/build/distributions/
 
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release 1.0.0
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          asset_path: build/my-artifact.zip
+          asset_name: my-artifact.zip
+          asset_content_type: application/zip
+        if: steps.create_release.outputs.release_id

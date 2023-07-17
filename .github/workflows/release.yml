@@ -72,7 +72,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload Release Asset Batch
-        id: upload-release-asset-cli
+        id: upload-release-asset-batch
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

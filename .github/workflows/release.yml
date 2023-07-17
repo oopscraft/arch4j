@@ -34,8 +34,9 @@ jobs:
         with:
           name: my-artifact
           path: |
-            ${{ github.workspace }}/arch4j-cli/build/distribution/arch4j-web-cli-${{ env.RELEASE_VERSION }}.zip
-            ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-root-${{ env.RELEASE_VERSION }}.zip
+            ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-boot-${{ env.RELEASE_VERSION }}.zip
+            ${{ github.workspace }}/arch4j-cli/build/distribution/arch4j-cli-boot-${{ env.RELEASE_VERSION }}.zip
+            ${{ github.workspace }}/arch4j-batch/build/distribution/arch4j-batch-boot-${{ env.RELEASE_VERSION }}.zip
 
       - name: Create Release
         id: create_release
@@ -48,13 +49,35 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset 1
-        id: upload-release-asset
+      - name: Upload Release Asset Web
+        id: upload-release-asset-web
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-boot-${{ env.RELEASE_VERSION }}.zip
           asset_name: arch4j-web-boot-${{ env.RELEASE_VERSION }}.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset Cli
+        id: upload-release-asset-cli
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/arch4j-cli/build/distributions/arch4j-cli-boot-${{ env.RELEASE_VERSION }}.zip
+          asset_name: arch4j-cli-boot-${{ env.RELEASE_VERSION }}.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset Batch
+        id: upload-release-asset-cli
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/arch4j-batch/build/distributions/arch4j-batch-boot-${{ env.RELEASE_VERSION }}.zip
+          asset_name: arch4j-batch-boot-${{ env.RELEASE_VERSION }}.zip
           asset_content_type: application/zip

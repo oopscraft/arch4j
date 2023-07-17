@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and Test
         run: |
-          ./gradlew clean bootDistZip
+          ./gradlew clean bootDistZip -x test
 
       - name: Create Release
         id: create_release

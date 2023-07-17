@@ -1,15 +1,7 @@
 # Configuration
 
 
-## Creating Database Schema
+## Configuration File
 
-download CLI application from []()
-
-```shell
-java -jar arch4j-cli-*.jar install
-
-```
-
-## Edit Configuration File
 
 

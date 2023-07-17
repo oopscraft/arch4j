@@ -44,17 +44,6 @@ public class BoardService {
         boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
 
-        // access policy
-        boardEntity.setAccessPolicy(board.getAccessPolicy());
-        boardEntity.getAccessRoles().clear();
-        board.getAccessRoles().stream()
-                .map(role -> BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(role.getRoleId())
-                        .type("ACCESS")
-                        .build())
-                .forEach(boardEntity.getAccessRoles()::add);
-
         // read policy
         boardEntity.setReadPolicy(board.getReadPolicy());
         boardEntity.getReadRoles().clear();

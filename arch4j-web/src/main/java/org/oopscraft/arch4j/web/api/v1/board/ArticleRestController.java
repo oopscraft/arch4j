@@ -39,8 +39,6 @@ import java.util.stream.Collectors;
 @Tag(name = "board")
 public class ArticleRestController {
 
-    private final BoardService boardService;
-
     private final ArticleService articleService;
 
     private final PasswordEncoder passwordEncoder;
@@ -49,7 +47,7 @@ public class ArticleRestController {
 
     @GetMapping
     @Operation(summary = "get list of articles")
-    @PreAuthorize("@boardPermissionEvaluator.canReadArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
     @PageableAsQueryParam
     public ResponseEntity<List<ArticleResponse>> getArticles(
             @Parameter(description = "board ID")
@@ -61,12 +59,6 @@ public class ArticleRestController {
             @Parameter(hidden = true)
             Pageable pageable
     ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check access permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-
         // search articles
         ArticleSearch articleSearch = ArticleSearch.builder()
                 .boardId(boardId)
@@ -83,7 +75,7 @@ public class ArticleRestController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
     @Transactional
     @Operation(summary = "create article")
     public ResponseEntity<ArticleResponse> createArticle(
@@ -101,9 +93,6 @@ public class ArticleRestController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
@@ -150,7 +139,7 @@ public class ArticleRestController {
     }
 
     @GetMapping("{articleId}")
-    @PreAuthorize("@boardPermissionEvaluator.canReadArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
     @Operation(summary = "get article")
     public ResponseEntity<ArticleResponse> getArticle(
             @Parameter(description = "board ID")
@@ -158,33 +147,14 @@ public class ArticleRestController {
             @Parameter(description = "article ID")
             @PathVariable("articleId")String articleId
     ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-
         Article article = articleService.getArticle(articleId).orElseThrow();
         ArticleResponse articleResponse = ArticleResponse.from(article);
-
-        // set permission
-        if(article.getUserId() != null) {   // authenticated user
-            if(article.getUserId().equals(SecurityUtils.getCurrentUserId())) {
-                articleResponse.setCanModify(true);
-                articleResponse.setCanDelete(true);
-            }
-        }else{                              // anonymous user
-            articleResponse.setCanModify(true);
-            articleResponse.setCanDelete(true);
-        }
-
         return ResponseEntity.ok(articleResponse);
     }
 
     @PutMapping("{articleId}")
     @Transactional
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
     @Operation(summary = "modify article")
     public ResponseEntity<ArticleResponse> modifyArticle(
             @Parameter(description = "board ID")
@@ -203,14 +173,6 @@ public class ArticleRestController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-        SecurityUtils.checkPermission(board.getWritePolicy(), board.getWriteRoles());
 
         // get article
         Article article = articleService.getArticle(articleId).orElseThrow();
@@ -253,7 +215,7 @@ public class ArticleRestController {
 
     @DeleteMapping("{articleId}")
     @Transactional
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
     @Operation(description = "delete article")
     public ResponseEntity<Void> deleteArticle(
             @Parameter(description = "board ID")
@@ -263,14 +225,6 @@ public class ArticleRestController {
             @Parameter(description = "article delete request", schema = @Schema(type = "object", implementation = ArticleDeleteRequest.class))
             @RequestBody ArticleDeleteRequest articleDeleteRequest
     ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-        SecurityUtils.checkPermission(board.getWritePolicy(), board.getWriteRoles());
-
         // get target article
         Article article = articleService.getArticle(articleId).orElseThrow();
 
@@ -303,13 +257,6 @@ public class ArticleRestController {
             @PathVariable("fileId") String fileId,
             HttpServletResponse response
     ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-
         // response
         ArticleFile articleFile = articleService.getArticleFile(articleId, fileId).orElseThrow();
         response.setHeader("Content-Disposition",String.format("attachment; filename=\"%s\";", articleFile.getFilename()));

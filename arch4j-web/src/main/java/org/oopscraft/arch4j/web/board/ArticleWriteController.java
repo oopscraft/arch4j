@@ -27,7 +27,7 @@ public class ArticleWriteController {
     private final PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "article-write", method = {RequestMethod.GET, RequestMethod.POST})
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
     public ModelAndView articleWrite(
         @PathVariable("boardId") String boardId,
         @RequestParam(value = "articleId", required = false) String articleId,

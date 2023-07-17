@@ -33,7 +33,6 @@ public class ArticleCommentRestController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
-    @PreAuthorize("@boardPermissionEvaluator.canReadArticleComment(#boardId)")
     @Operation(summary = "get article comments")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
             @Parameter(description = "board ID")
@@ -56,7 +55,7 @@ public class ArticleCommentRestController {
 
     @PostMapping
     @Transactional
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasCommentPermission(#boardId)")
     @Operation(summary = "creates article comment")
     public ResponseEntity<ArticleComment> createArticleComment(
             @Parameter(description = "board ID")
@@ -109,7 +108,6 @@ public class ArticleCommentRestController {
     }
 
     @GetMapping("{commentId}")
-    @PreAuthorize("@boardPermissionEvaluator.canReadArticleComment(#boardId)")
     @Operation(summary = "get article comment")
     public ResponseEntity<ArticleCommentResponse> getArticleComment(
             @Parameter(description = "board ID")
@@ -134,7 +132,7 @@ public class ArticleCommentRestController {
 
     @PutMapping("{commentId}")
     @Transactional
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasCommentPermission(#boardId)")
     @Operation(summary = "edit article comment")
     public ResponseEntity<ArticleCommentResponse> modifyArticleComment(
             @PathVariable("boardId") String boardId,
@@ -176,7 +174,7 @@ public class ArticleCommentRestController {
 
     @DeleteMapping("{commentId}")
     @Transactional
-    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasCommentPermission(#boardId)")
     @Operation(summary = "delete article comment")
     public ResponseEntity<Void> deleteArticleComment(
             @Parameter(description = "board ID")

@@ -10,52 +10,19 @@ public class BoardPermissionEvaluator {
 
     private final BoardService boardService;
 
-    public boolean canAccessBoard(String boardId) {
+    public boolean hasReadPermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
-        return canAccessBoard(board);
+        return board.hasReadPermission();
     }
 
-    public boolean canAccessBoard(Board board) {
-        return SecurityUtils.hasPermission(board.getAccessPolicy(), board.getAccessRoles());
-    }
-
-    public boolean canReadArticle(String boardId) {
+    public boolean hasWritePermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
-        return canReadArticle(board);
+        return board.hasWritePermission();
     }
 
-    public boolean canReadArticle(Board board) {
-        return canAccessBoard(board)
-                && SecurityUtils.hasPermission(board.getReadPolicy(), board.getReadRoles());
-    }
-
-    public boolean canWriteArticle(String boardId) {
+    public boolean hasCommentPermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
-        return canWriteArticle(board);
-    }
-
-    public boolean canWriteArticle(Board board) {
-        return canReadArticle(board)
-                && SecurityUtils.hasPermission(board.getWritePolicy(), board.getWriteRoles());
-    }
-
-    public boolean canReadArticleComment(String boardId) {
-        Board board = boardService.getBoard(boardId).orElseThrow();
-        return canReadArticleComment(board);
-    }
-
-    public boolean canReadArticleComment(Board board) {
-        return canReadArticle(board);       // has read article permission, can read article comment.
-    }
-
-    public boolean canWriteArticleComment(String boardId) {
-        Board board = boardService.getBoard(boardId).orElseThrow();
-        return canWriteArticleComment(board);
-    }
-
-    public boolean canWriteArticleComment(Board board) {
-        return canWriteArticle(board)
-                && SecurityUtils.hasPermission(board.getCommentPolicy(), board.getCommentRoles());
+        return board.hasCommentPermission();
     }
 
 }

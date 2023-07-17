@@ -85,8 +85,8 @@
         <span data-th-text="#{web.board.listArticle}"></span>
     </button>
     <button data-duice-bind="article"
-            data-duice-if="return article.canModify;"
-            onclick="gotoModifyArticle();">
+            data-duice-if="return article.canEdit;"
+            onclick="gotoEditArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-edit.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.editArticle}"></span>
     </button>
@@ -169,25 +169,25 @@
                     <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-created-at.svg(_theme=${_theme})}"/>
                     <span data-duice-bind="articleComment" data-duice-property="createdAt" data-duice-format="date('yyyy-MM-dd HH:mm')"></span>
                 </span>
-                <span class="link"
+                <button type="button" class="small"
                       data-duice-bind="articleComment"
-                      data-duice-if="return canEditArticleComment(articleComment);"
+                      data-duice-if="return articleComment.canEdit;"
                       data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                       onclick="editArticleComment(this.dataset.commentId);">
-                    [<span data-th-text="#{web.board.editComment}"></span>]
-                </span>
+                    <span data-th-text="#{web.board.editComment}"></span>
+                </button>
             </div>
             <div class="grid-column-12">
                 <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content"></div>
                 <duice-markdown-viewer data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
             </div>
             <div class="grid-column-12">
-                <span class="link"
+                <button type="button" class="small"
                       data-duice-bind="articleComment"
                       data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                       onclick="addArticleComment(this.dataset.commentId);">
-                    [<span data-th-text="#{web.board.replyComment}"></span>]
-                </span>
+                    <span data-th-text="#{web.board.replyComment}"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -242,7 +242,7 @@
                 <span data-th-text="#{web.global.cancel}"></span>
             </button>
             <button data-duice-bind="articleComment"
-                    data-duice-if="return canDeleteArticleComment(articleComment);"
+                    data-duice-if="return articleComment.canEdit;"
                     data-duice-execute="this.dataset.commentId=articleComment.commentId;"
                     onclick="deleteArticleComment(this.dataset.commentId);">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-delete.svg(_theme=${_theme})}"/>

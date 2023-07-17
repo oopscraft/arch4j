@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.ArticleEntity;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -53,6 +54,10 @@ public class Article {
 
     @Builder.Default
     private List<ArticleFile> files = new ArrayList<>();
+
+    public boolean canEdit() {
+        return userId == null || userId.equals(SecurityUtils.getCurrentUserId());
+    }
 
     public static Article from(ArticleEntity articleEntity) {
         return Article.builder()

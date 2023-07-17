@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.ArticleCommentEntity;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,10 @@ public class ArticleComment {
     private String password;
 
     private Long likeCount;
+
+    public boolean canEdit() {
+        return userId == null || userId.equals(SecurityUtils.getCurrentUserId());
+    }
 
     public static ArticleComment from(ArticleCommentEntity articleCommentEntity) {
         return ArticleComment.builder()

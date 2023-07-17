@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +39,6 @@ public class Board {
     private boolean fileEnabled = true;
 
     @Builder.Default
-    public SecurityPolicy accessPolicy = SecurityPolicy.AUTHENTICATED;
-
-    @Builder.Default
-    private List<Role> accessRoles = new ArrayList<>();
-
-    @Builder.Default
     public SecurityPolicy readPolicy = SecurityPolicy.AUTHENTICATED;
 
     @Builder.Default
@@ -64,6 +59,18 @@ public class Board {
     @Builder.Default
     private List<Role> commentRoles = new ArrayList<>();
 
+    public boolean hasReadPermission() {
+        return SecurityUtils.hasPermission(readPolicy, readRoles);
+    }
+
+    public boolean hasWritePermission() {
+        return SecurityUtils.hasPermission(writePolicy, writeRoles);
+    }
+
+    public boolean hasCommentPermission() {
+        return SecurityUtils.hasPermission(commentPolicy, commentRoles);
+    }
+
     public static Board from(BoardEntity boardEntity) {
         return Board.builder()
                 .boardId(boardEntity.getBoardId())
@@ -75,12 +82,6 @@ public class Board {
                 .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
                 .fileEnabled(boardEntity.isFileEnabled())
-                // access policy,role
-                .accessPolicy(boardEntity.getAccessPolicy())
-                .accessRoles(boardEntity.getAccessRoles().stream()
-                        .map(BoardRoleEntity::getRole)
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
                 // read policy,role
                 .readPolicy(boardEntity.getReadPolicy())
                 .readRoles(boardEntity.getReadRoles().stream()
@@ -93,7 +94,7 @@ public class Board {
                         .map(BoardRoleEntity::getRole)
                         .map(Role::from)
                         .collect(Collectors.toList()))
-                // comment
+                // comment policy,role
                 .commentEnabled(boardEntity.isCommentEnabled())
                 .commentPolicy(boardEntity.getCommentPolicy())
                 .commentRoles(boardEntity.getCommentRoles().stream()

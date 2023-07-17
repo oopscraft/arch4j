@@ -23,7 +23,7 @@ public class ArticleReadController {
     private final ArticleService articleService;
 
     @GetMapping("article-read")
-    @PreAuthorize("@boardPermissionEvaluator.canReadArticle(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
     public ModelAndView articleRead(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         Article article = articleService.getArticle(articleId).orElseThrow();

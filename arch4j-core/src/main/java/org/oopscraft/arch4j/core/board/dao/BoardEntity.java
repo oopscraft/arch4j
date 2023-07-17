@@ -72,11 +72,6 @@ public class BoardEntity extends SystemFieldEntity {
     public SecurityPolicy commentPolicy;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Where(clause = "type = 'ACCESS'")
-    @Builder.Default
-    private List<BoardRoleEntity> accessRoles = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Where(clause = "type = 'READ'")
     @Builder.Default
     private List<BoardRoleEntity> readRoles = new ArrayList<>();

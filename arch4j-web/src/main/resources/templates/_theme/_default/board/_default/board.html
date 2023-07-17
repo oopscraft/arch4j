@@ -126,7 +126,7 @@
         </form>
     </div>
     <div class="grid-column-1 justify-self-end s-grid-column-2">
-        <button onclick="gotoWrite();" data-duice-bind="board" data-duice-if="return board.canWriteArticle;">
+        <button onclick="gotoWrite();" data-duice-bind="board" data-duice-if="return board.hasWritePermission;">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-write.svg(_theme=${_theme})}"/>
             <span data-th-text="#{web.board.writeArticle}"></span>
         </button>

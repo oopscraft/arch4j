@@ -16,6 +16,10 @@
                 });
         }
 
+        const gotoBoard = function() {
+            document.location.href = `${_rootUrl}/board/${boardId}`;
+        }
+
         document.addEventListener('DOMContentLoaded', event => {
             getBoard();
         });

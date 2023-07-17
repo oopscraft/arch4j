@@ -20,20 +20,11 @@ public class ArticleVoteRestController {
 
     private final ArticleVoteService articleVoteService;
 
-    private final BoardService boardService;
-
     @GetMapping
     public ResponseEntity<ArticleVoteResponse> getArticleVote(
             @PathVariable("boardId") String boardId,
             @PathVariable("articleId") String articleId
     ) {
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-
         // get article vote
         String userId = SecurityUtils.getCurrentUserId();
         ArticleVoteResponse articleVoteResponse = articleVoteService.getArticleVote(articleId, userId)
@@ -71,13 +62,6 @@ public class ArticleVoteRestController {
     ) {
         // check authenticated
         SecurityUtils.checkAuthenticated();
-
-        // get board info
-        Board board = boardService.getBoard(boardId).orElseThrow();
-
-        // check permission
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
 
         // save
         ArticleVote articleVote = ArticleVote.builder()

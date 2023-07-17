@@ -19,7 +19,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping
-    @PreAuthorize("@boardPermissionEvaluator.canAccessBoard(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
     public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/board.html");

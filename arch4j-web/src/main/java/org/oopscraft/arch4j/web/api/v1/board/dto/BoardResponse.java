@@ -37,11 +37,13 @@ public class BoardResponse {
 
     private SecurityPolicy commentPolicy;
 
-    private boolean canReadArticle;
+    private boolean hasAccessPermission;
 
-    private boolean canWriteArticle;
+    private boolean hasReadPermission;
 
-    private boolean canWriteArticleComment;
+    private boolean hasWritePermission;
+
+    private boolean hasCommentPermission;
 
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
@@ -53,11 +55,14 @@ public class BoardResponse {
                 .skin(board.getSkin())
                 .pageSize(board.getPageSize())
                 .fileEnabled(board.isFileEnabled())
-                .accessPolicy(board.getAccessPolicy())
                 .readPolicy(board.getReadPolicy())
                 .writePolicy(board.getWritePolicy())
                 .commentEnabled(board.isCommentEnabled())
                 .commentPolicy(board.getCommentPolicy())
+                // permission
+                .hasReadPermission(board.hasReadPermission())
+                .hasWritePermission(board.hasWritePermission())
+                .hasCommentPermission(board.hasCommentPermission())
                 .build();
     }
 

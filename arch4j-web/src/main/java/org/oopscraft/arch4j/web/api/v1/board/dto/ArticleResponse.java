@@ -39,9 +39,7 @@ public class ArticleResponse {
     @Builder.Default
     private Long voteNegativeCount = 0L;
 
-    private boolean canModify;
-
-    private boolean canDelete;
+    private boolean canEdit;
 
     @Builder.Default
     private List<ArticleFileResponse> files = new ArrayList<>();
@@ -59,6 +57,7 @@ public class ArticleResponse {
                 .votePositiveCount(article.getVotePositiveCount())
                 .voteNegativeCount(article.getVoteNegativeCount())
                 .files(article.getFiles().stream().map(ArticleFileResponse::from).collect(Collectors.toList()))
+                .canEdit(article.canEdit())
                 .build();
     }
 

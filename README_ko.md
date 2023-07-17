@@ -1,6 +1,6 @@
 # ARCH4J (Application Archetype for Java) 
 
-웹 애플리케이션, 배치 애플리케이션, CLI(Command Line Interface) 애플리케이션을 위한 spring-boot 기반 아키타입.
+웹 애플리케이션, 배치 애플리케이션, CLI(Command Line Interface) 애플리케이션을 위한 spring-boot 기반 아키타입 입니다.
 
 이 아키타입은 기본적인 CMS(Content Management System) 기능을 가지고 있습니다.
 

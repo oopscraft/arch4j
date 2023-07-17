@@ -76,7 +76,7 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWA
 insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('user','User','{noop}user','GENERAL','ACTIVE');
 insert into `core_user` (`user_id`,`user_name`,`email`,`password`,`type`,`status`) values ('admin','Administrator',null,'{noop}admin','GENERAL','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('admin','ADMIN');
-insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('dev','Developer Account','{noop}dev','SYSTEM','ACTIVE');
+insert into `core_user` (`user_id`,`user_name`,`password`,`type`,`status`) values ('dev','Developer','{noop}dev','SYSTEM','ACTIVE');
 insert into `core_user_role` (`user_id`,`role_id`) values ('dev','DEV');
 
 -- email

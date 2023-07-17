@@ -30,7 +30,7 @@ This archetype has Basic CMS(Content Management System) functionality.
 | **Message, Variable, and Common Code Management for Additional Development Needs** | Common functionality for managing messages, variables, and common codes for additional business development. |
 
 
-## Local Test
+## Quick Local Test
 
 ```shell
 # download source

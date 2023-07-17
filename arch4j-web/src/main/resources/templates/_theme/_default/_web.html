@@ -70,15 +70,16 @@
         header #_header-menu {
             grid-area: _header-menu;
             display: flex;
+            flex-wrap: wrap;
             justify-content: end;
             align-items: center;
             list-style-type: none;
             margin: 0;
             padding: 0;
-
         }
         header #_header-menu li {
             margin: 0 0.5rem;
+            white-space: nowrap;
         }
         @media screen and (max-width: 1023px) {
             header {

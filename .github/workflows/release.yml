@@ -39,9 +39,8 @@ jobs:
             Release notes for version ${{ github.ref }}.
 
       - name: Upload Additional Files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: additional-files
           path: |
-            build/distributions/
+            ${{ github.workspace }}/build/distributions/
 

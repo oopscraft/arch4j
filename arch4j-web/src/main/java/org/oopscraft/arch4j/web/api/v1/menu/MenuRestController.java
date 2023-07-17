@@ -27,6 +27,12 @@ public class MenuRestController {
     public ResponseEntity<List<MenuResponse>> getMenus() {
         List<MenuResponse> menuResponses = menuService.getMenus().stream()
                 .filter(menu -> SecurityUtils.hasPermission(menu.getViewPolicy(), menu.getViewRoles()))
+                .peek(menu -> {
+                    if (!SecurityUtils.hasPermission(menu.getLinkPolicy(), menu.getLinkRoles())) {
+                        menu.setLink(null);
+                        menu.setTarget(null);
+                    }
+                })
                 .map(MenuResponse::from)
                 .collect(Collectors.toList());
 

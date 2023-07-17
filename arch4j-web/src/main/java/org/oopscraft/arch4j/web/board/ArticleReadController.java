@@ -5,6 +5,7 @@ import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +23,9 @@ public class ArticleReadController {
     private final ArticleService articleService;
 
     @GetMapping("article-read")
+    @PreAuthorize("@boardPermissionEvaluator.canReadArticle(#boardId)")
     public ModelAndView articleRead(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
-        boardService.checkReadPermission(board);
         Article article = articleService.getArticle(articleId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");
         modelAndView.addObject("board", board);

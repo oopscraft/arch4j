@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,9 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping
+    @PreAuthorize("@boardPermissionEvaluator.canAccessBoard(#boardId)")
     public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
-        boardService.checkAccessPermission(board);
         ModelAndView modelAndView = new ModelAndView("board/board.html");
         modelAndView.addObject("board", board);
         return modelAndView;

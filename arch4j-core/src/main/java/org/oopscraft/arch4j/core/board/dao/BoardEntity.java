@@ -2,6 +2,8 @@ package org.oopscraft.arch4j.core.board.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLInsert;
+import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.board.MessageFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
@@ -69,60 +71,24 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "comment_policy", length = 16)
     public SecurityPolicy commentPolicy;
 
-    /**
-     * board access roles
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_board_role_access",
-            joinColumns = @JoinColumn(name = "board_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'ACCESS'")
     @Builder.Default
-    private List<RoleEntity> accessRoles = new ArrayList<>();
+    private List<BoardRoleEntity> accessRoles = new ArrayList<>();
 
-    /**
-     * board read roles
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_board_role_read",
-            joinColumns = @JoinColumn(name = "board_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'READ'")
     @Builder.Default
-    private List<RoleEntity> readRoles = new ArrayList<>();
+    private List<BoardRoleEntity> readRoles = new ArrayList<>();
 
-    /**
-     * board write roles
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_board_role_write",
-            joinColumns = @JoinColumn(name = "board_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'WRITE'")
     @Builder.Default
-    private List<RoleEntity> writeRoles = new ArrayList<>();
+    private List<BoardRoleEntity> writeRoles = new ArrayList<>();
 
-    /**
-     * board write roles
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_board_role_comment",
-            joinColumns = @JoinColumn(name = "board_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'COMMENT'")
     @Builder.Default
-    private List<RoleEntity> commentRoles = new ArrayList<>();
+    private List<BoardRoleEntity> commentRoles = new ArrayList<>();
 
 }

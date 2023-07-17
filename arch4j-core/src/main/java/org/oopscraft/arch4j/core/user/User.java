@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
+import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class User {
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .roles(userEntity.getRoles().stream()
+                        .map(UserRoleEntity::getRole)
                         .map(Role::from)
                         .collect(Collectors.toList()))
                 .build();

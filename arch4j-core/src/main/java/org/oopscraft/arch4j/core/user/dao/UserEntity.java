@@ -71,18 +71,8 @@ public class UserEntity extends SystemFieldEntity {
     @Lob
     private String profile;
 
-    /**
-     * roles
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "core_user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @OneToMany(mappedBy = UserRoleEntity_.USER_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    List<RoleEntity> roles = new ArrayList<>();
+    private List<UserRoleEntity> roles = new ArrayList<>();
 
 }

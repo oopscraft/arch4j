@@ -31,8 +31,8 @@ public class ArticleVoteRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkAccessPermission(board);
-        boardService.checkReadPermission(board);
+        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
+        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
 
         // get article vote
         String userId = SecurityUtils.getCurrentUserId();
@@ -76,8 +76,8 @@ public class ArticleVoteRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkAccessPermission(board);
-        boardService.checkReadPermission(board);
+        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
+        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
 
         // save
         ArticleVote articleVote = ArticleVote.builder()

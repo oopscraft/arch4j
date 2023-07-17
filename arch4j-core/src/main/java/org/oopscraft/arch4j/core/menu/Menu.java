@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.core.menu;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
+import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
@@ -38,8 +39,13 @@ public class Menu {
     @Builder.Default
     private List<Role> viewRoles = new ArrayList<>();
 
+    private SecurityPolicy linkPolicy;
+
+    @Builder.Default
+    private List<Role> linkRoles = new ArrayList<>();
+
     public static Menu from(MenuEntity menuEntity) {
-        MenuBuilder menuBuilder = Menu.builder()
+        Menu menu = Menu.builder()
                 .menuId(menuEntity.getMenuId())
                 .menuName(menuEntity.getMenuName())
                 .parentMenuId(menuEntity.getParentMenuId())
@@ -48,19 +54,30 @@ public class Menu {
                 .icon(menuEntity.getIcon())
                 .sort(menuEntity.getSort())
                 .note(menuEntity.getNote())
-                .viewPolicy(menuEntity.getViewPolicy());
+                .viewPolicy(menuEntity.getViewPolicy())
+                .build();
 
         MenuEntity parentMenuEntity = menuEntity.getParentMenu();
         if (parentMenuEntity != null) {
-            menuBuilder.parentMenuName(parentMenuEntity.getMenuName());
+            menu.setParentMenuName(parentMenuEntity.getMenuName());
         }
 
-        List<Role> viewRoles = menuEntity.getViewRoles().stream()
+        // view role
+        menu.setViewPolicy(menuEntity.getViewPolicy());
+        menu.setViewRoles(menuEntity.getViewRoles().stream()
+                .map(MenuRoleEntity::getRole)
                 .map(Role::from)
-                .collect(Collectors.toList());
-        menuBuilder.viewRoles(viewRoles);
+                .collect(Collectors.toList()));
 
-        return menuBuilder.build();
+        // link role
+        menu.setLinkPolicy(menuEntity.getLinkPolicy());
+        menu.setLinkRoles(menuEntity.getLinkRoles().stream()
+                .map(MenuRoleEntity::getRole)
+                .map(Role::from)
+                .collect(Collectors.toList()));
+
+        // return
+        return menu;
     }
 
 }

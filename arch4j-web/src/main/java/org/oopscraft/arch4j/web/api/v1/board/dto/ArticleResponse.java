@@ -39,6 +39,10 @@ public class ArticleResponse {
     @Builder.Default
     private Long voteNegativeCount = 0L;
 
+    private boolean canModify;
+
+    private boolean canDelete;
+
     @Builder.Default
     private List<ArticleFileResponse> files = new ArrayList<>();
 

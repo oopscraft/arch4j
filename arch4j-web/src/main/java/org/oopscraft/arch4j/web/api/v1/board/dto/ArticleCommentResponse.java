@@ -33,6 +33,10 @@ public class ArticleCommentResponse {
     @Builder.Default
     private Long likeCount = 0L;
 
+    private boolean canModify;
+
+    private boolean canDelete;
+
     public static ArticleCommentResponse from(ArticleComment articleComment) {
         return ArticleCommentResponse.builder()
                 .articleId(articleComment.getArticleId())

@@ -1,15 +1,21 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
+import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.core.role.dao.RoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +26,11 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
+    private final RoleRepository roleRepository;
+
+    private final EntityManager entityManager;
+
+    @Transactional
     public Board saveBoard(Board board) {
         BoardEntity boardEntity = boardRepository.findById(board.getBoardId()).orElse(
                 BoardEntity.builder()
@@ -32,36 +43,62 @@ public class BoardService {
         boardEntity.setMessage(board.getMessage());
         boardEntity.setSkin(board.getSkin());
         boardEntity.setPageSize(board.getPageSize());
-        boardEntity.setFileEnabled(board.isFileEnabled());
+
+        // access policy
         boardEntity.setAccessPolicy(board.getAccessPolicy());
-        boardEntity.setAccessRoles(board.getAccessRoles().stream()
-                .map(role -> RoleEntity.builder()
+        boardEntity.getAccessRoles().clear();
+        board.getAccessRoles().stream()
+                .map(role -> BoardRoleEntity.builder()
+                        .boardId(boardEntity.getBoardId())
                         .roleId(role.getRoleId())
+                        .type("ACCESS")
                         .build())
-                .collect(Collectors.toList()));
+                .forEach(boardEntity.getAccessRoles()::add);
+
+        // read policy
         boardEntity.setReadPolicy(board.getReadPolicy());
-        boardEntity.setReadRoles(board.getReadRoles().stream()
-                .map(role -> RoleEntity.builder()
+        boardEntity.getReadRoles().clear();
+        board.getReadRoles().stream()
+                .map(role -> BoardRoleEntity.builder()
+                        .boardId(boardEntity.getBoardId())
                         .roleId(role.getRoleId())
+                        .type("READ")
                         .build())
-                .collect(Collectors.toList()));
+                .forEach(boardEntity.getReadRoles()::add);
+
+        // write policy
         boardEntity.setWritePolicy(board.getWritePolicy());
-        boardEntity.setWriteRoles(board.getWriteRoles().stream()
-                .map(role -> RoleEntity.builder()
+        board.getWriteRoles().stream()
+                .map(role -> BoardRoleEntity.builder()
+                        .boardId(boardEntity.getBoardId())
                         .roleId(role.getRoleId())
+                        .type("WRITE")
                         .build())
-                .collect(Collectors.toList()));
+                .forEach(boardEntity.getReadRoles()::add);
+
+        // file
+        boardEntity.setFileEnabled(board.isFileEnabled());
+
+        // comment
         boardEntity.setCommentEnabled(board.isCommentEnabled());
         boardEntity.setCommentPolicy(board.getCommentPolicy());
-        boardEntity.setCommentRoles(board.getCommentRoles().stream()
-                .map(role -> RoleEntity.builder()
+        boardEntity.getCommentRoles().clear();
+        board.getCommentRoles().stream()
+                .map(role -> BoardRoleEntity.builder()
+                        .boardId(boardEntity.getBoardId())
                         .roleId(role.getRoleId())
+                        .type("COMMENT")
                         .build())
-                .collect(Collectors.toList()));
+                .forEach(boardEntity.getCommentRoles()::add);
 
         // save
-        boardEntity = boardRepository.saveAndFlush(boardEntity);
-        return Board.from(boardEntity);
+        BoardEntity savedBoardEntity = boardRepository.saveAndFlush(boardEntity);
+        entityManager.clear();
+
+        // return
+        return boardRepository.findById(savedBoardEntity.getBoardId())
+                .map(Board::from)
+                .orElseThrow();
     }
 
     public Optional<Board> getBoard(String boardId) {
@@ -81,22 +118,6 @@ public class BoardService {
                 .collect(Collectors.toList());
         long total = boardEntityPage.getTotalElements();
         return new PageImpl<>(boards, pageable, total);
-    }
-
-    public void checkAccessPermission(Board board) {
-        SecurityUtils.checkPermission(board.getAccessPolicy(), board.getAccessRoles());
-    }
-
-    public void checkReadPermission(Board board) {
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
-    }
-
-    public void checkWritePermission(Board board) {
-        SecurityUtils.checkPermission(board.getWritePolicy(), board.getWriteRoles());
-    }
-
-    public void checkCommentPermission(Board board) {
-        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
     }
 
 }

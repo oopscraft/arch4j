@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.board.ArticleService;
 import org.oopscraft.arch4j.core.board.Board;
 import org.oopscraft.arch4j.core.board.BoardService;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/board/{boardId}")
 @RequiredArgsConstructor
-public class ArticlePostController {
+public class ArticleWriteController {
 
     private final BoardService boardService;
 
@@ -25,20 +26,18 @@ public class ArticlePostController {
 
     private final PasswordEncoder passwordEncoder;
 
-    @RequestMapping(value = "article-post", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView articlePost(
+    @RequestMapping(value = "article-write", method = {RequestMethod.GET, RequestMethod.POST})
+    @PreAuthorize("@boardPermissionEvaluator.canWriteArticle(#boardId)")
+    public ModelAndView articleWrite(
         @PathVariable("boardId") String boardId,
         @RequestParam(value = "articleId", required = false) String articleId,
         @RequestParam(value = "password", required = false) String password
     ){
-        ModelAndView modelAndView = new ModelAndView("board/article-post.html");
+        ModelAndView modelAndView = new ModelAndView("board/article-write.html");
 
         // get board info
         Board board = boardService.getBoard(boardId).orElseThrow();
         modelAndView.addObject("board", board);
-
-        // check access permission
-        boardService.checkWritePermission(board);
 
         // when edit article
         if(articleId != null) {

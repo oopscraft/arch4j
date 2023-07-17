@@ -84,7 +84,9 @@
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-list.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.listArticle}"></span>
     </button>
-    <button onclick="gotoEditArticle();">
+    <button data-duice-bind="article"
+            data-duice-if="return article.canModify;"
+            onclick="gotoModifyArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-edit.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.editArticle}"></span>
     </button>

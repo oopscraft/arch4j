@@ -280,8 +280,8 @@
             });
         }
 
-        const gotoEditArticle = async function() {
-            let url = new URL(`${_rootUrl}/board/${boardId}/article-post`, document.location.origin);
+        const gotoModifyArticle = async function() {
+            let url = new URL(`${_rootUrl}/board/${boardId}/article-write`, document.location.origin);
             url.searchParams.append('articleId', articleId);
             document.location.href = url.toString();
         }

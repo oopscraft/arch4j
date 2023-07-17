@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,6 +35,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -149,6 +152,8 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
 
         private final WebProperties webProperties;
 
+        private final ApplicationContext applicationContext;
+
         private final AuthenticationEntryPoint authenticationEntryPoint;
 
         private final AccessDeniedHandler accessDeniedHandler;
@@ -169,6 +174,13 @@ public class WebApplication implements EnvironmentPostProcessor, WebMvcConfigure
         public WebSecurityCustomizer webSecurityCustomizer() {
             return (web) -> web.ignoring()
                     .antMatchers("/static/**");
+        }
+
+        @Bean
+        protected MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
+            DefaultMethodSecurityExpressionHandler methodSecurityExpressionHandler = new DefaultMethodSecurityExpressionHandler();
+            methodSecurityExpressionHandler.setApplicationContext(applicationContext);
+            return methodSecurityExpressionHandler;
         }
 
         @Bean

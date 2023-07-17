@@ -205,17 +205,10 @@
             });
         }
 
-        /**
-         * removeBoardAccessRole
-         * @param index
-         */
         function removeBoardAccessRole(index) {
             board.accessRoles.splice(index, 1);
         }
 
-        /**
-         * addBoardReadRole
-         */
         async function addBoardReadRole() {
             let disabledRoleIds = [];
             board.readRoles.forEach(role => {
@@ -227,17 +220,10 @@
             });
         }
 
-        /**
-         * removeBoardReadRole
-         * @param index
-         */
         function removeBoardReadRole(index) {
             board.readRoles.splice(index, 1);
         }
 
-        /**
-         * addBoardWriteRole
-         */
         async function addBoardWriteRole() {
             let disabledRoleIds = [];
             board.writeRoles.forEach(role => {
@@ -249,17 +235,10 @@
             });
         }
 
-        /**
-         * removeBoardWriteRole
-         * @param index
-         */
         function removeBoardWriteRole(index) {
             board.writeRoles.splice(index, 1);
         }
 
-        /**
-         * addBoardCommentRole
-         */
         async function addBoardCommentRole() {
             let disabledRoleIds = [];
             board.commentRoles.forEach(role => {

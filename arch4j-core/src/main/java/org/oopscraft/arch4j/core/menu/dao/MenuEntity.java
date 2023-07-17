@@ -2,9 +2,9 @@ package org.oopscraft.arch4j.core.menu.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
@@ -58,16 +58,18 @@ public class MenuEntity extends SystemFieldEntity {
     @Column(name = "view_policy", length = 16)
     public SecurityPolicy viewPolicy;
 
-    @ManyToMany
-    @JoinTable(
-            name = "core_menu_role_view",
-            joinColumns = @JoinColumn(name = "menu_id"),
-            foreignKey = @ForeignKey(name = "none"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            inverseForeignKey = @ForeignKey(name = "none")
-    )
+    @Column(name = "link_policy", length = 16)
+    public SecurityPolicy linkPolicy;
+
+    @OneToMany(mappedBy = MenuRoleEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'VIEW'")
     @Builder.Default
-    List<RoleEntity> viewRoles = new ArrayList<>();
+    private List<MenuRoleEntity> viewRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = MenuRoleEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "type = 'LINK'")
+    @Builder.Default
+    private List<MenuRoleEntity> linkRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = MenuI18nEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

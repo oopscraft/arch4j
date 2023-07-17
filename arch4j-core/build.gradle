@@ -36,6 +36,7 @@ dependencies {
 
     // javax.annotation-api
     api 'javax.annotation:javax.annotation-api'
+    api 'com.google.code.findbugs:jsr305'
 
     // mybatis
     api 'org.mybatis.spring.boot:mybatis-spring-boot-starter'

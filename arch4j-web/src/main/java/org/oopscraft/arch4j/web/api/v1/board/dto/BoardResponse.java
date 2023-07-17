@@ -37,6 +37,12 @@ public class BoardResponse {
 
     private SecurityPolicy commentPolicy;
 
+    private boolean canReadArticle;
+
+    private boolean canWriteArticle;
+
+    private boolean canWriteArticleComment;
+
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
                 .boardId(board.getBoardId())

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRepository;
+import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final EntityManager entityManager;
 
     private final UserRepository userRepository;
 
@@ -39,15 +43,24 @@ public class UserService {
         userEntity.setMobile(user.getMobile());
         userEntity.setPhoto(user.getPhoto());
         userEntity.setProfile(user.getProfile());
-        userEntity.setRoles(user.getRoles().stream()
-                .map(role -> RoleEntity.builder()
-                            .roleId(role.getRoleId())
-                            .roleName(role.getRoleName())
-                            .note(role.getNote())
-                            .build())
-                .collect(Collectors.toList()));
-        userEntity = userRepository.saveAndFlush(userEntity);
-        return User.from(userEntity);
+
+        // roles
+        userEntity.getRoles().clear();
+        user.getRoles().stream()
+                .map(role -> UserRoleEntity.builder()
+                        .userId(user.getUserId())
+                        .roleId(role.getRoleId())
+                        .build())
+                .forEach(userEntity.getRoles()::add);
+
+        // save
+        userRepository.saveAndFlush(userEntity);
+        entityManager.clear();
+
+        // return
+        return userRepository.findById(user.getUserId())
+                .map(User::from)
+                .orElseThrow();
     }
 
     public Optional<User> getUser(String userId) {

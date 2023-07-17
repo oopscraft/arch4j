@@ -11,6 +11,7 @@ import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentDeleteRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class ArticleCommentRestController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
+    @PreAuthorize("@boardPermissionEvaluator.canReadArticleComment(#boardId)")
     @Operation(summary = "get article comments")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
             @Parameter(description = "board ID")
@@ -43,7 +45,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkReadPermission(board);
+        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
 
         // return article responses
         List<ArticleCommentResponse> commentResponses = articleCommentService.getArticleComments(articleId).stream()
@@ -54,6 +56,7 @@ public class ArticleCommentRestController {
 
     @PostMapping
     @Transactional
+    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
     @Operation(summary = "creates article comment")
     public ResponseEntity<ArticleComment> createArticleComment(
             @Parameter(description = "board ID")
@@ -67,7 +70,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkCommentPermission(board);
+        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
 
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
@@ -106,6 +109,7 @@ public class ArticleCommentRestController {
     }
 
     @GetMapping("{commentId}")
+    @PreAuthorize("@boardPermissionEvaluator.canReadArticleComment(#boardId)")
     @Operation(summary = "get article comment")
     public ResponseEntity<ArticleCommentResponse> getArticleComment(
             @Parameter(description = "board ID")
@@ -119,7 +123,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkReadPermission(board);
+        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
 
         // return article comment
         ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
@@ -130,6 +134,7 @@ public class ArticleCommentRestController {
 
     @PutMapping("{commentId}")
     @Transactional
+    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
     @Operation(summary = "edit article comment")
     public ResponseEntity<ArticleCommentResponse> modifyArticleComment(
             @PathVariable("boardId") String boardId,
@@ -141,7 +146,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkCommentPermission(board);
+        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
 
         // get target article comment
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();
@@ -171,6 +176,7 @@ public class ArticleCommentRestController {
 
     @DeleteMapping("{commentId}")
     @Transactional
+    @PreAuthorize("@boardPermissionEvaluator.canWriteArticleComment(#boardId)")
     @Operation(summary = "delete article comment")
     public ResponseEntity<Void> deleteArticleComment(
             @Parameter(description = "board ID")
@@ -186,7 +192,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        boardService.checkCommentPermission(board);
+        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
 
         // get target article comment to delete
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();

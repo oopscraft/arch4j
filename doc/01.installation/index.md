@@ -31,14 +31,3 @@ download binary distributions from [https://github.com/oopscraft/arch4j/releases
 
 ```
 
-
-## Creating Database Schema
-
-download CLI application from []()
-
-```shell
-java -jar arch4j-cli-*.jar install
-
-```
-
-

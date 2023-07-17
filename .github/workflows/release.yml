@@ -41,6 +41,7 @@ jobs:
       - name: Upload Additional Files
         uses: actions/upload-artifact@v3
         with:
+          name: my-artifact
           path: |
             ${{ github.workspace }}/arch4j-web/build/distributions/
 

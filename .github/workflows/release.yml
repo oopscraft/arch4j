@@ -42,5 +42,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            ${{ github.workspace }}/build/distributions/
+            ${{ github.workspace }}/arch4j-web/build/distributions/
 

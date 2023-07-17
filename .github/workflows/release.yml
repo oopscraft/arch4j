@@ -10,6 +10,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
 
+    env:
+      RELEASE_VERSION: 1.0.0-SNAPSHOT
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -31,7 +34,8 @@ jobs:
         with:
           name: my-artifact
           path: |
-            ${{ github.workspace }}/arch4j-web/build/distributions/
+            ${{ github.workspace }}/arch4j-cli/build/distribution/arch4j-web-cli-${{ env.RELEASE_VERSION }}.zip
+            ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-root-${{ env.RELEASE_VERSION }}.zip
 
       - name: Create Release
         id: create_release
@@ -44,13 +48,13 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
+      - name: Upload Release Asset 1
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-boot-1.0.0-SNAPSHOT.zip
-          asset_name: my-artifact.zip
+          asset_path: ${{ github.workspace }}/arch4j-web/build/distributions/arch4j-web-boot-${{ env.RELEASE_VERSION }}.zip
+          asset_name: arch4j-web-boot-${{ env.RELEASE_VERSION }}.zip
           asset_content_type: application/zip

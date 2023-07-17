@@ -1,8 +1,9 @@
 # ARCH4J (Application Archetype for Java) 
 
-spring-boot-based archetype for web application, batch application, CLI(Command Line Interface) application.
+웹 애플리케이션, 배치 애플리케이션, CLI(Command Line Interface) 애플리케이션을 위한 spring-boot 기반 아키타입.
 
-This archetype has Basic CMS(Content Management System) functionality.
+이 아키타입은 기본적인 CMS(Content Management System) 기능을 가지고 있습니다.
+
 
 ## Git and Website
 
@@ -15,7 +16,7 @@ This archetype has Basic CMS(Content Management System) functionality.
 * Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
 * Test Account: **dev/dev**
 
-## Main Features
+## 주요 기능
 
 | Functionality                                                                      | Description                                                                                                  |
 |------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|

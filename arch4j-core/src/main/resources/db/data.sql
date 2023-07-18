@@ -63,11 +63,8 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADM
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_GIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_EMAIL');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MESSAGE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_VARIABLE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_CODE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'H2-CONSOLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'SWAGGER-UI');

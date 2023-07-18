@@ -346,7 +346,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button onclick="createPage();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'">
+                        <button onclick="createPage();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -432,7 +432,7 @@
                         <!-- ====================================== -->
                         <!-- end: page widget                       -->
                         <!-- ====================================== -->
-                        <div class="grid-column-1">
+                        <div class="grid-column-6 s-grid-column-12">
                             <button type="button"
                                     onclick="addPageWidget();"
                                     data-duice-bind="page"

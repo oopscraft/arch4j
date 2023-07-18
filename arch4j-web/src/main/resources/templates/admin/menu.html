@@ -220,7 +220,7 @@
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
-                        <button type="button" onclick="createMenu();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createMenu();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -253,7 +253,6 @@
                         </label>
                         <div>
                             <button type="button" onclick="selectParentId();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'"
                                     data-duice-bind="menu"
                                     data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}"/>

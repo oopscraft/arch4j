@@ -512,7 +512,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button type="button" onclick="createRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createRole();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
@@ -769,8 +769,8 @@
             <div class="overflow-x-scroll">
                 <table>
                     <colgroup>
-                        <col style="width:2rem;"/>
-                        <col style="width:20rem;"/>
+                        <col style="width:3rem;"/>
+                        <col/>
                         <col/>
                     </colgroup>
                     <thead>
@@ -825,8 +825,8 @@
             <div class="overflow-x-scroll">
                 <table>
                     <colgroup>
-                        <col style="width:2rem;"/>
-                        <col style="width:20rem;"/>
+                        <col style="width:3rem;"/>
+                        <col/>
                         <col/>
                     </colgroup>
                     <thead>
@@ -947,7 +947,7 @@
                         </duice-pagination>
                     </div>
                     <div class="grid-column-1 justify-self-end">
-                        <button type="button" onclick="createAuthority();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'">
+                        <button type="button" onclick="createAuthority();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>

@@ -335,14 +335,14 @@
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="deleteEmailTemplate();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAIL_EDIT'')')}?'locked'"
                                 data-duice-bind="emailTemplate"
                                 data-duice-execute="(emailTemplate.templateId && !emailTemplate._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveEmailTemplate();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAIL_EDIT'')')}?'locked'"
                                 data-duice-bind="emailTemplate"
                                 data-duice-execute="(emailTemplate.templateId || emailTemplate._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-save.svg}"/>

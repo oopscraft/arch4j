@@ -41,7 +41,6 @@ import java.util.Properties;
 @EnableAutoConfiguration(
         exclude = {
                 DataSourceAutoConfiguration.class
-//                ,DataSourceTransactionManagerAutoConfiguration.class
         }
 )
 @EnableConfigurationProperties(BatchProperties.class)

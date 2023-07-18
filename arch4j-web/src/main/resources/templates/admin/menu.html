@@ -320,7 +320,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addMenuViewRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addMenuViewRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -334,8 +334,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeMenuViewRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                                onclick="removeMenuViewRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
@@ -373,7 +372,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addMenuLinkRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addMenuLinkRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -387,8 +386,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeMenuLinkRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU_EDIT'')')}?'locked'">
+                                                onclick="removeMenuLinkRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>

@@ -475,7 +475,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addBoardAccessRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardAccessRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -489,8 +489,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeBoardAccessRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                                onclick="removeBoardAccessRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
@@ -528,7 +527,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addBoardReadRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardReadRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -542,8 +541,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeBoardReadRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                                onclick="removeBoardReadRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
@@ -581,7 +579,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addBoardWriteRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardWriteRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -595,8 +593,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeBoardWriteRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                                onclick="removeBoardWriteRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
@@ -646,7 +643,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addBoardCommentRole();" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                        <button type="button" onclick="addBoardCommentRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
@@ -660,8 +657,7 @@
                                         <button type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
-                                                onclick="removeBoardCommentRole(this.dataset.index);"
-                                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD_EDIT'')')}?'locked'">
+                                                onclick="removeBoardCommentRole(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>

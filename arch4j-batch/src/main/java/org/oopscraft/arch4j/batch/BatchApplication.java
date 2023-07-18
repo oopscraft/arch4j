@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.batch;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.CoreApplication;
@@ -49,9 +50,18 @@ import java.util.Properties;
         annotationClass = Mapper.class,
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+@Slf4j
 public class BatchApplication implements EnvironmentPostProcessor {
 
     public static void main(String[] args) {
+
+        // check args
+        if(args == null || args.length < 1) {
+            String errorMessage = "Usages: BatchClassName name=value ...";
+            System.err.println(errorMessage);
+            log.error(errorMessage);
+            System.exit(-1);
+        }
 
         // batch configuration
         Class<?> batchClass;

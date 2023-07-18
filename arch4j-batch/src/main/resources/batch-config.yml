@@ -8,9 +8,25 @@ spring:
   main:
     web-applition-type: none
     lazy-initialization: true
+  datasource:
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 3
   batch:
     initialize-schema: embedded
+    jdbc:
+      initialize-schema: embedded
     job:
       enabled: false
       names: ~
+
+# batch
+batch:
+  datasource:
+    driver-class-name: org.h2.Driver
+    jdbc-url: jdbc:h2:mem:arch4j_batch;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=FALSE;
+    username: arch4j_batch
+    password: arch4j_batch
+    minimum-idle: 1
+    maximum-pool-size: 3
 

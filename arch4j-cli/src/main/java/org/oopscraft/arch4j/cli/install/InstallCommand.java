@@ -58,13 +58,14 @@ public class InstallCommand implements Callable<Integer> {
         args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
 
         // launch spring boot application
-        ConfigurableApplicationContext context = new SpringApplicationBuilder(CoreApplication.class)
+        ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(CoreApplication.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF)
                 .registerShutdownHook(true)
                 .run(args);
-        context.close();
+        coreContext.close();
+
     }
 
 }

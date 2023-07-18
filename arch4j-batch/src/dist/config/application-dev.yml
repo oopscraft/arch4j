@@ -44,3 +44,12 @@ core:
     storage-client:
       properties:
         location: /nfs
+
+# batch
+batch:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j_batch?characterEncoding=utf-8
+    username: arch4j_batch
+    password: arch4j_batch
+

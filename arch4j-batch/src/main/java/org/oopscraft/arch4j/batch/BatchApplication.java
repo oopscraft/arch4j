@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.batch;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.CoreApplication;
@@ -10,16 +11,21 @@ import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.batch.BatchDataSource;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
-import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import javax.sql.DataSource;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -31,7 +37,13 @@ import java.util.Properties;
                 type = FilterType.ANNOTATION, classes=Configuration.class
         )
 )
-@EnableAutoConfiguration
+@EnableAutoConfiguration(
+        exclude = {
+                DataSourceAutoConfiguration.class
+//                ,DataSourceTransactionManagerAutoConfiguration.class
+        }
+)
+@EnableConfigurationProperties(BatchProperties.class)
 @EnableBatchProcessing
 @MapperScan(
         annotationClass = Mapper.class,
@@ -73,6 +85,25 @@ public class BatchApplication implements EnvironmentPostProcessor {
         JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
         jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
         return jobRegistryBeanPostProcessor;
+    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    public DataSource dataSource(DataSourceProperties dataSourceProperties) {
+        HikariDataSource dataSource = (HikariDataSource) dataSourceProperties.initializeDataSourceBuilder()
+                .type(dataSourceProperties.getType())
+                .build();
+        if (StringUtils.hasText(dataSourceProperties.getName())) {
+            dataSource.setPoolName(dataSourceProperties.getName());
+        }
+        return dataSource;
+    }
+
+    @Bean
+    @BatchDataSource
+    public DataSource batchDataSource(BatchProperties batchProperties) {
+        return new HikariDataSource(batchProperties.getDatasource());
     }
 
 }

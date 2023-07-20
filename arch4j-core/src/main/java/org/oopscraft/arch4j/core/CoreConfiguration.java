@@ -37,9 +37,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
 
-/**
- * CoreConfiguration
- */
 @Slf4j
 @Configuration
 @ComponentScan(

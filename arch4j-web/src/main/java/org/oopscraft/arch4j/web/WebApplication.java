@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-@SpringBootApplication
 public class WebApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(WebApplication.class)
+        new SpringApplicationBuilder(WebConfiguration.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.SERVLET)
                 .registerShutdownHook(true)

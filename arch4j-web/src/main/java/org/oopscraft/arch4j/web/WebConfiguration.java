@@ -21,8 +21,10 @@ import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -71,7 +73,6 @@ import java.util.Properties;
 @EnableAutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
 public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigurer {
-
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

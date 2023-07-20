@@ -3,6 +3,9 @@ package org.oopscraft.arch4j.core.role;
 import lombok.*;
 import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,6 +24,12 @@ public class Authority {
                 .authorityName(authorityEntity.getAuthorityName())
                 .note(authorityEntity.getNote())
                 .build();
+    }
+
+    public static List<Authority> from(List<AuthorityEntity> authorityEntities) {
+        return authorityEntities.stream()
+                .map(Authority::from)
+                .collect(Collectors.toList());
     }
 
 }

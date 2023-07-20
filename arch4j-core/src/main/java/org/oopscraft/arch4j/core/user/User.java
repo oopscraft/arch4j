@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@SuperBuilder(toBuilder = true)
-@EqualsAndHashCode(callSuper=false)
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
 
     private String userId;
@@ -63,6 +62,12 @@ public class User {
                         .map(Role::from)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public static List<User> from(List<UserEntity> userEntities) {
+        return userEntities.stream()
+                .map(User::from)
+                .collect(Collectors.toList());
     }
 
 }

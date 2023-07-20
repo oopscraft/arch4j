@@ -33,5 +33,11 @@ public class Role {
                         .collect(Collectors.toList()))
                 .build();
     }
+
+    public static List<Role> from(List<RoleEntity> roleEntities) {
+        return roleEntities.stream()
+                .map(Role::from)
+                .collect(Collectors.toList());
+    }
     
 }

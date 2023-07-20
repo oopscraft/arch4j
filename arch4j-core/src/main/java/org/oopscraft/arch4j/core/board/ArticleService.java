@@ -123,9 +123,7 @@ public class ArticleService {
 
     public Page<Article> getArticles(ArticleSearch articleSearch, Pageable pageable) {
         Page<ArticleEntity> articleEntityPage = articleRepository.findAll(articleSearch, pageable);
-        List<Article> articles = articleEntityPage.getContent().stream()
-                .map(Article::from)
-                .collect(Collectors.toList());
+        List<Article> articles = Article.from(articleEntityPage.getContent());
         long total = articleEntityPage.getTotalElements();
         return new PageImpl<>(articles, pageable, total);
     }

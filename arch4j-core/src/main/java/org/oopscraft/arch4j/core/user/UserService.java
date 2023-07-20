@@ -81,9 +81,7 @@ public class UserService {
 
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
-        List<User> users = userEntityPage.getContent().stream()
-                .map(User::from)
-                .collect(Collectors.toList());
+        List<User> users = User.from(userEntityPage.getContent());
         return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 

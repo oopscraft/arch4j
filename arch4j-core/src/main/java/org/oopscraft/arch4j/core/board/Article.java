@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -79,6 +80,12 @@ public class Article {
                         .orElse(null))
                 .password(articleEntity.getPassword())
                 .build();
+    }
+
+    public static List<Article> from(List<ArticleEntity> articleEntities) {
+        return articleEntities.stream()
+                .map(Article::from)
+                .collect(Collectors.toList());
     }
 
 }

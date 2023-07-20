@@ -1,2 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.oopscraft.arch4j.batch.BatchApplication
+org.springframework.boot.env.EnvironmentPostProcessor=org.oopscraft.arch4j.batch.BatchConfiguration
 

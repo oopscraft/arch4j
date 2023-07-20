@@ -22,6 +22,6 @@ public class ArticleVote {
                 .userId(articleVoteEntity.getUserId())
                 .point(articleVoteEntity.getPoint())
                 .build();
-   }
+    }
 
 }

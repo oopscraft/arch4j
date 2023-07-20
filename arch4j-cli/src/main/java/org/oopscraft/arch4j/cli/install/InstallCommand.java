@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.cli.install;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.oopscraft.arch4j.cli.utils.InteractiveUtils;
-import org.oopscraft.arch4j.core.CoreApplication;
+import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
@@ -58,7 +58,7 @@ public class InstallCommand implements Callable<Integer> {
         args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
 
         // launch spring boot application
-        ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(CoreApplication.class)
+        ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(CoreConfiguration.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF)

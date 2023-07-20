@@ -5,6 +5,9 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.dao.ArticleFileEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -31,6 +34,12 @@ public class ArticleFile extends SystemFieldEntity {
                 .contentType(articleFileEntity.getContentType())
                 .length(articleFileEntity.getLength())
                 .build();
+   }
+
+   public static List<ArticleFile> from(List<ArticleFileEntity> articleFileEntities) {
+        return articleFileEntities.stream()
+                .map(ArticleFile::from)
+                .collect(Collectors.toList());
    }
 
 }

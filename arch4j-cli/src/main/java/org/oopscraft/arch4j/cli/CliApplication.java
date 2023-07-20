@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.cli;
 import org.oopscraft.arch4j.cli.database.DatabaseCommand;
 import org.oopscraft.arch4j.cli.pbe.PbeCommand;
 import org.oopscraft.arch4j.cli.install.InstallCommand;
-import org.oopscraft.arch4j.core.CoreApplication;
+import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.*;
@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 @Configuration
-@Import(CoreApplication.class)
+@Import(CoreConfiguration.class)
 @ComponentScan(
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )

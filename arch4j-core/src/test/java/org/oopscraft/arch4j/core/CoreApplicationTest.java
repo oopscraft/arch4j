@@ -11,7 +11,7 @@ public class CoreApplicationTest {
      * @param args
      */
     public static void main(String[] args) {
-        new SpringApplicationBuilder(CoreApplication.class)
+        new SpringApplicationBuilder(CoreConfiguration.class)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.NONE)
                 .registerShutdownHook(true)

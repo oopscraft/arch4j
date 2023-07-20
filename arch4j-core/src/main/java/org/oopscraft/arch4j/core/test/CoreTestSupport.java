@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.test;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.oopscraft.arch4j.core.CoreApplication;
+import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Slf4j
 @SpringBootTest(
-        classes = CoreApplication.class,
+        classes = CoreConfiguration.class,
         properties = {
                 "spring.main.lazy-initialization=true",
                 "spring.main.web-application-type=none"

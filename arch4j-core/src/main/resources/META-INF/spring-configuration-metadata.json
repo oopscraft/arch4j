@@ -1,0 +1,52 @@
+{
+  "properties": [
+    {
+      "name": "core.data.crypto.crypto-key-provider.bean",
+      "type": "java.lang.String",
+      "description": "The bean for the crypto key provider in the data crypto.",
+      "sourceType": "org.oopscraft.arch4j.core.data.crpyto.CryptoKeyProviderProperties"
+    },
+    {
+      "name": "core.data.crypto.crypto-key-provider.properties.password",
+      "type": "java.lang.String",
+      "description": "The password property for the crypto key provider in the data crypto.",
+      "sourceType": "org.oopscraft.arch4j.core.data.crpyto.CryptoKeyProviderProperties"
+    },
+    {
+      "name": "core.data.crypto.crypto-key-provider.properties.salt",
+      "type": "java.lang.String",
+      "description": "The salt property for the crypto key provider in the data crypto.",
+      "sourceType": "org.oopscraft.arch4j.core.data.crpyto.CryptoKeyProviderProperties"
+    },
+    {
+      "name": "core.security.authentication-token.signing-key",
+      "type": "java.lang.String",
+      "description": "The signing key for the authentication token in the security.",
+      "sourceType": "org.oopscraft.arch4j.core.security.AuthenticationTokenProperties"
+    },
+    {
+      "name": "core.security.authentication-token.expire-minutes",
+      "type": "java.lang.Integer",
+      "description": "The expire minutes for the authentication token in the security.",
+      "sourceType": "org.oopscraft.arch4j.core.security.AuthenticationTokenProperties"
+    },
+    {
+      "name": "core.storage.storage-client.bean",
+      "type": "java.lang.String",
+      "description": "The bean for the storage client in the storage.",
+      "sourceType": "org.oopscraft.arch4j.core.storage.StorageClientProperties"
+    },
+    {
+      "name": "core.storage.storage-client.properties",
+      "type": "java.lang.String",
+      "description": "The location property for the storage client in the storage.",
+      "sourceType": "org.oopscraft.arch4j.core.storage.StorageClientProperties"
+    },
+    {
+      "name": "core.git.location",
+      "type": "java.lang.String",
+      "description": "The location for the git.",
+      "sourceType": "org.oopscraft.arch4j.core.git.GitProperties"
+    }
+  ]
+}

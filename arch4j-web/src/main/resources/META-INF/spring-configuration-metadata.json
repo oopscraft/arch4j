@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "web.theme",
+      "type": "java.lang.String",
+      "description": "The theme for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
+      "name": "web.brand",
+      "type": "java.lang.String",
+      "description": "The brand for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
+      "name": "web.index",
+      "type": "java.lang.String",
+      "description": "The index for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
+      "name": "web.security-policy",
+      "type": "java.lang.String",
+      "description": "The security policy for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
+      "name": "web.locales",
+      "type": "java.util.List<java.lang.String>",
+      "description": "The list of locales for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    }
+  ]
+}

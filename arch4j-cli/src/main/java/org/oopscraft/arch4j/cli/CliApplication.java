@@ -1,62 +1,31 @@
 package org.oopscraft.arch4j.cli;
 
-import org.oopscraft.arch4j.cli.database.DatabaseCommand;
-import org.oopscraft.arch4j.cli.pbe.PbeCommand;
-import org.oopscraft.arch4j.cli.install.InstallCommand;
-import org.oopscraft.arch4j.core.CoreConfiguration;
+import org.apache.commons.lang3.ArrayUtils;
+import org.oopscraft.arch4j.cli.utils.InteractiveUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.PropertiesPropertySource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import picocli.CommandLine;
 
-import java.util.Optional;
-import java.util.Properties;
-
-@Configuration
-@Import(CoreConfiguration.class)
-@ComponentScan(
-        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
-@EnableAutoConfiguration
-@CommandLine.Command(
-        subcommands = {
-                PbeCommand.class,
-                DatabaseCommand.class
-        }
-)
-public class CliApplication implements EnvironmentPostProcessor, ApplicationContextAware, CommandLineRunner {
-
-    private static ApplicationArguments applicationArguments;
+public class CliApplication implements ApplicationContextAware, CommandLineRunner {
 
     private static ApplicationContext applicationContext;
 
     private static int exitCode;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
-        // install command
-        applicationArguments = new DefaultApplicationArguments(args);
-        if(applicationArguments.getNonOptionArgs().contains("install")) {
-            new InstallCommand(applicationArguments).call();
-            System.exit(0);
+        // install
+        if("install".equals(args[0])) {
+            args = addInstallationArguments(args);
         }
 
         // launch spring boot application
         try {
-            new SpringApplicationBuilder(CliApplication.class)
+            new SpringApplicationBuilder(CliApplication.class, CliConfiguration.class)
                     .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                     .web(WebApplicationType.NONE)
                     .bannerMode(Banner.Mode.OFF)
@@ -66,20 +35,7 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
             t.printStackTrace(System.err);
             System.exit(-1);
         }
-
-        // system exit
         System.exit(exitCode);
-    }
-
-    @Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        Resource resource = new DefaultResourceLoader().getResource("classpath:cli-config.yml");
-        YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
-        factory.setResources(resource);
-        factory.afterPropertiesSet();
-        Properties properties = Optional.ofNullable(factory.getObject()).orElseThrow(RuntimeException::new);
-        PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("cli-config", properties);
-        environment.getPropertySources().addLast(propertiesPropertySource);
     }
 
     @Override
@@ -89,11 +45,49 @@ public class CliApplication implements EnvironmentPostProcessor, ApplicationCont
 
     @Override
     public void run(String... args) throws Exception {
-        CliApplication cliApplication = applicationContext.getBean(CliApplication.class);
-        CommandLine.IFactory factory = applicationContext.getBean(CommandLine.IFactory.class);
-        CommandLine commandLine = new CommandLine(cliApplication, factory);
-        commandLine.setUnmatchedArgumentsAllowed(true);
-        exitCode = commandLine.execute(args);
+        exitCode = runCommand(applicationContext, CliConfiguration.class, args);
     }
+
+    public static String[] addInstallationArguments(String[] args) {
+        if(!args[0].equals("install")) {
+            return args;
+        }
+
+        // create schema
+        String driverClassName = InteractiveUtils.askInput("Driver Class Name");
+        String jdbcUrl = InteractiveUtils.askInput("Jdbc Url");
+        String username = InteractiveUtils.askInput("Username");
+        String password = InteractiveUtils.askInput("Password");
+        InteractiveUtils.askConfirm("Continue to create schema?");
+
+        // data source properties
+        args = ArrayUtils.add(args, String.format("--spring.datasource.hikari.driver-class-name=%s", driverClassName));
+        args = ArrayUtils.add(args, String.format("--spring.datasource.hikari.jdbc-url=%s", jdbcUrl));
+        args = ArrayUtils.add(args, String.format("--spring.datasource.hikari.username=%s", username));
+        args = ArrayUtils.add(args, String.format("--spring.datasource.hikari.password=%s", password));
+
+        // sets spring boot properties for initialization
+        args = ArrayUtils.add(args, "--logging.level.root=DEBUG");
+        args = ArrayUtils.add(args, "--logging.pattern.console=%msg%n");
+        args = ArrayUtils.add(args, "--spring.sql.init.mode=always");
+        args = ArrayUtils.add(args, "--spring.jpa.hibernate.ddl-auto=create");
+
+        // creates jdbc session table
+        args = ArrayUtils.add(args, "--spring.main.web-application-type=servlet");
+        args = ArrayUtils.add(args, "--spring.session.store-type=jdbc");
+        args = ArrayUtils.add(args, "--spring.session.jdbc.initialize-schema=always");
+
+        // return
+        return args;
+    }
+
+    public static int runCommand(ApplicationContext applicationContext, Class<?> configurationClass, String[] args) {
+        Object configurationObject = applicationContext.getBean(configurationClass);
+        CommandLine.IFactory factory = applicationContext.getBean(CommandLine.IFactory.class);
+        CommandLine commandLine = new CommandLine(configurationObject, factory);
+        commandLine.setUnmatchedArgumentsAllowed(true);
+        return commandLine.execute(args);
+    }
+
 
 }

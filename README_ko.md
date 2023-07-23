@@ -44,31 +44,18 @@ git clone https://github.com/oopscraft/arch4j.git
 connect to http://localhost:8080
 
 
-## 문서
+## Documentation
 
 [1.Installation](doc/01.installation/index.md)
 
 [2.Configuration](doc/02.configuration/index.md)
 
 
-## 라이센스
+## License
 
-ARCH4J (Application Archetype for Java)
-Copyright (C) 2016 oopscraft.org
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+[LICENSE](LICENSE)
 
 
-## 연락처
+## Contact
 * email: [chomookun@gmailcom](mailto:chomookun@gmail.com)
 * linkedin: [https://www.linkedin.com/in/chomookun](https://www.linkedin.com/in/chomookun)

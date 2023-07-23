@@ -216,7 +216,7 @@
          * @param index
          */
         function removePageWidget(index) {
-            page.widgets.shift(index,1);
+            page.widgets.splice(index,1);
         }
 
         /**
@@ -422,7 +422,7 @@
                                     data-duice-execute="this.src=widget.url;">
                             </iframe>
                             <div class="grid-column-6 flex justify-content-flex-end">
-                                <button type="button" data-duice-bind="page.widgets" data-duice-exeucte="this.dataset.index = status.index;"
+                                <button type="button" data-duice-bind="page.widgets" data-duice-execute="this.dataset.index = status.index;"
                                         onclick="removePageWidget(this.dataset.index);">
                                     <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                     <span data-th-text="#{web.global.remove}"></span>

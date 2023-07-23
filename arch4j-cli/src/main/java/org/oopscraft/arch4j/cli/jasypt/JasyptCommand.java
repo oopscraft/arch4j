@@ -1,17 +1,16 @@
-package org.oopscraft.arch4j.cli.pbe;
+package org.oopscraft.arch4j.cli.jasypt;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "pbe")
+@CommandLine.Command(name = "jasypt")
 @Component
 @RequiredArgsConstructor
-public class PbeCommand {
+public class JasyptCommand {
 
     private final StandardPBEStringEncryptor stringEncryptor;
 

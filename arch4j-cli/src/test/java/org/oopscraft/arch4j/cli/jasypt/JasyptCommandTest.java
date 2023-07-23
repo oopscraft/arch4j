@@ -1,14 +1,13 @@
-package org.oopscraft.arch4j.cli.command;
+package org.oopscraft.arch4j.cli.jasypt;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.cli.pbe.PbeCommand;
 import org.oopscraft.arch4j.cli.test.CliTestSupport;
 
 @RequiredArgsConstructor
-class PbeCommandTest extends CliTestSupport {
+class JasyptCommandTest extends CliTestSupport {
 
-    private final PbeCommand pbeCommand;
+    private final JasyptCommand pbeCommand;
 
     @Test
     public void encrypt() {

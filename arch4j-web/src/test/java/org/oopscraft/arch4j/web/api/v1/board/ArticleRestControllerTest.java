@@ -13,9 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -40,7 +38,7 @@ class ArticleRestControllerTest extends WebTestSupport {
         );
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/boards/anonymous/articles")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/board/anonymous/article")
                         .file(article)
                         .param("some-random", "4"))
                 .andDo(print())
@@ -51,7 +49,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     @Order(2)
     void getArticles() throws Exception {
         saveArticle();
-        this.mockMvc.perform(get("/api/v1/boards/anonymous/articles"))
+        this.mockMvc.perform(get("/api/v1/board/anonymous/article"))
                 .andDo(print()).andExpect(status().isOk());
     }
 

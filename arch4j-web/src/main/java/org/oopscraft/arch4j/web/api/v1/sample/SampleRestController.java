@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("api/v1/samples")
+@RequestMapping("api/v1/sample")
 @RequiredArgsConstructor
 @Tag(name = "sample", description = "Sample")
 public class SampleRestController {

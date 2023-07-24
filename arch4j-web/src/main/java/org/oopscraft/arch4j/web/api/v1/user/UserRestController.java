@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/user")
 @RequiredArgsConstructor
 @Tag(name = "user", description = "User")
 public class UserRestController {

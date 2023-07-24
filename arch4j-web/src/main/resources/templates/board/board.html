@@ -17,7 +17,7 @@
             if(page) {
                 articleSearch._page = page;
             }
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
             if(articleSearch.key && articleSearch.value) {
                 url.searchParams.append(articleSearch.key, articleSearch.value);
             }

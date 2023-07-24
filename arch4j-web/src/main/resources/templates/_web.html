@@ -50,7 +50,7 @@
         }
 
         const _getMenus = function() {
-            let url = new URL(`${_apiUrl}/v1/menus`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/menu`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {

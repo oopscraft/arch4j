@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/boards/{boardId}/articles/{articleId}/comments")
+@RequestMapping("api/v1/board/{boardId}/article/{articleId}/comment")
 @RequiredArgsConstructor
 @Tag(name = "board")
 public class ArticleCommentRestController {

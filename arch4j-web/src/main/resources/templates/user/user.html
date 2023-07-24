@@ -22,7 +22,7 @@
 
         const saveCurrentUser = async function() {
             if(await _confirm([[#{web.user.user.saveCurrentUserConfirm}]])) {
-                let url = new URL(`${_apiUrl}/v1/users/${_user.userId}`, document.location.origin);
+                let url = new URL(`${_apiUrl}/v1/user/${_user.userId}`, document.location.origin);
                 _fetch(url, {
                     method: 'PUT',
                     headers: {

@@ -10,7 +10,7 @@
     const articles = new duice.ArrayProxy([]);
 
     const getArticles = function() {
-        let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles`, document.location.origin);
+        let url = new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
         url.searchParams.append('_page', '0');
         url.searchParams.append('_size', pageSize);
         _fetch(url)

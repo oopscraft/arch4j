@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/codes")
+@RequestMapping("api/v1/code")
 @RequiredArgsConstructor
 @Tag(name = "board", description = "Board")
 public class CodeRestController {

@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/boards/{boardId}/articles")
+@RequestMapping("api/v1/board/{boardId}/article")
 @RequiredArgsConstructor
 @Tag(name = "board")
 public class ArticleRestController {

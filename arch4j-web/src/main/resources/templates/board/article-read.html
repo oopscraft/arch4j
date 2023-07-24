@@ -15,7 +15,7 @@
         const articleVote = new duice.ObjectProxy({});
 
         const getArticle = function() {
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -25,7 +25,7 @@
         }
 
         const getArticleComments = function() {
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -75,7 +75,7 @@
         }
 
         const editArticleComment = function(commentId) {
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -152,10 +152,10 @@
                     let url;
                     let method;
                     if(commentId) {
-                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`, document.location.origin);
                         method = 'PUT';
                     }else{
-                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment`, document.location.origin);
                         method = 'POST';
                     }
                     _fetch(url, {
@@ -193,7 +193,7 @@
             // fire confirm message and save
             _confirm([[#{web.global.deleteItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
                 if(result) {
-                    let url = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/comments/${commentId}`;
+                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
                     _fetch(url, {
                         method: 'DELETE',
                         headers: {
@@ -215,12 +215,12 @@
 
         const downloadArticleFile = function(fileId) {
             let link = document.createElement('a');
-            link.href = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/files/${fileId}`;
+            link.href = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/file/${fileId}`;
             link.click();
         }
 
         const getArticleVote = function() {
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/vote`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
             _fetch(url).then(response => response.json())
             .then(data => {
                 duice.ObjectProxy.clear(articleVote);
@@ -235,7 +235,7 @@
             }
 
             // save point
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}/vote`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}/vote`, document.location.origin);
             _fetch(url, {
                 method: 'POST',
                 headers: {

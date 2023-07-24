@@ -13,7 +13,7 @@
         const files = [];
 
         const getArticle = function(articleId) {
-            let url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -101,12 +101,12 @@
                     let method;
                     // modify article
                     if(articleId) {
-                        url = new URL(`${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`, document.location.origin);
+                        url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
                         method = 'PUT';
                     }
                     // create article
                     else{
-                        url =new URL(`${_apiUrl}/v1/boards/${boardId}/articles`, document.location.origin);
+                        url =new URL(`${_apiUrl}/v1/board/${boardId}/article`, document.location.origin);
                         method = 'POST';
                     }
                     let formData = new FormData();
@@ -143,7 +143,7 @@
             // fire confirm message and save
             _confirm([[#{web.global.deleteItemConfirm(#{core.board.Article})}]]).then(result => {
                 if(result) {
-                    let url = `${_apiUrl}/v1/boards/${boardId}/articles/${articleId}`;
+                    let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}`;
                     _fetch(url, {
                         method: 'DELETE',
                         headers: {

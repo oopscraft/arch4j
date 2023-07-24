@@ -50,12 +50,6 @@ var duice;
     var extension;
     (function (extension) {
         class MarkdownViewer extends duice.ObjectElement {
-            /**
-             * constructor
-             * @param element
-             * @param bindData
-             * @param context
-             */
             constructor(element, bindData, context) {
                 super(element, bindData, context);
                 // creates child div
@@ -69,10 +63,6 @@ var duice;
                     gfm: true
                 };
             }
-            /**
-             * set value
-             * @param value
-             */
             setValue(value) {
                 value = value ? value : '';
                 value = marked.parse(value, this.config);
@@ -94,18 +84,11 @@ var duice;
         class Pagination extends duice.CustomElement {
             constructor(htmlElement, bindData, context) {
                 super(htmlElement, bindData, context);
-            }
-            setPageProperty(value) {
-                this.pageProperty = value;
-            }
-            setSizeProperty(value) {
-                this.sizeProperty = value;
-            }
-            setCountProperty(value) {
-                this.countProperty = value;
-            }
-            onclick(listener) {
-                this.onclickListener = listener;
+                // attributes
+                this.pageProperty = duice.getElementAttribute(htmlElement, 'page-property');
+                this.sizeProperty = duice.getElementAttribute(htmlElement, 'size-property');
+                this.countProperty = duice.getElementAttribute(htmlElement, 'count-property');
+                this.onclick = new Function(duice.getElementAttribute(htmlElement, 'onclick'));
             }
             doRender(object) {
                 // optional
@@ -129,7 +112,7 @@ var duice;
                 prev.classList.add(`${duice.getNamespace()}-pagination__item-prev`);
                 prev.dataset.page = String(Math.max(startPageIndex - 10, 0));
                 prev.addEventListener('click', () => {
-                    this.onclickListener.call(prev);
+                    this.onclick.call(prev);
                 });
                 if (page < 10) {
                     prev.classList.add(`${duice.getNamespace()}-pagination__item--disable`);
@@ -145,7 +128,7 @@ var duice;
                         item.classList.add(`${duice.getNamespace()}-pagination__item--active`);
                     }
                     item.addEventListener('click', () => {
-                        this.onclickListener.call(item);
+                        this.onclick.call(item);
                     });
                     pagination.appendChild(item);
                 }
@@ -155,20 +138,23 @@ var duice;
                 next.classList.add(`${duice.getNamespace()}-pagination__item-next`);
                 next.dataset.page = String(Math.min(endPageIndex + 1, totalPage));
                 next.addEventListener('click', () => {
-                    this.onclickListener.call(next);
+                    this.onclick.call(next);
                 });
                 if (endPageIndex >= (totalPage - 1)) {
                     next.classList.add(`${duice.getNamespace()}-pagination__item--disable`);
                 }
                 pagination.appendChild(next);
                 // returns
-                return pagination;
+                this.getHtmlElement().innerHTML = '';
+                this.getHtmlElement().appendChild(this.createStyle());
+                this.getHtmlElement().appendChild(pagination);
             }
             doUpdate(object) {
                 this.render();
             }
-            doStyle(object) {
-                return `
+            createStyle() {
+                let style = document.createElement('style');
+                style.innerHTML = `
                 .${duice.getNamespace()}-pagination {
                     list-style: none;
                     display: flex;
@@ -197,7 +183,8 @@ var duice;
                 .${duice.getNamespace()}-pagination__item--disable {
                     pointer-events: none;
                 }
-           `;
+            `;
+                return style;
             }
         }
         extension.Pagination = Pagination;
@@ -211,28 +198,40 @@ var duice;
         class Workflow extends duice.CustomElement {
             constructor(htmlElement, bindData, context) {
                 super(htmlElement, bindData, context);
-                this.paperElement = document.createElement('div');
-                this.htmlElementTemplate = this.getHtmlElement().innerHTML;
-                console.log(this.htmlElementTemplate);
-                // mark initialized (not using after clone as templates)
-                duice.markInitialized(htmlElement);
+                this.elementItems = [];
+                this.linkItems = [];
+                this.isDragging = false;
                 // parse attribute
+                this.idProperty = duice.getElementAttribute(this.getHtmlElement(), 'id-property');
                 let positionProperty = duice.getElementAttribute(this.getHtmlElement(), 'position-property');
                 let positionPropertyParts = positionProperty.split(',');
                 this.positionXProperty = positionPropertyParts[0];
                 this.positionYProperty = positionPropertyParts[1];
-                // creates paper
+                this.link = duice.findVariable(this.getContext(), duice.getElementAttribute(this.getHtmlElement(), 'link'));
+                this.linkSourceProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-source-property');
+                this.linkTargetProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-target-property');
+                // mark initialized (not using after clone as templates)
+                this.htmlElementTemplate = this.getHtmlElement().innerHTML;
+                duice.markInitialized(htmlElement);
+                this.getHtmlElement().innerHTML = '';
+                // create paper
+                this.createPaper();
+                // define element shape
+                this.defineElementShape();
+            }
+            createPaper() {
+                let paperContainer = document.createElement('div');
+                this.getHtmlElement().appendChild(paperContainer); // for fix link position
                 this.namespace = joint.shapes;
                 this.graph = new joint.dia.Graph();
                 this.paper = new joint.dia.Paper({
-                    el: this.paperElement,
+                    el: paperContainer,
                     model: this.graph,
                     width: '100%',
-                    height: 2048,
+                    height: '100%',
                     gridSize: 10,
-                    drawGrid: true,
                     background: {
-                        color: 'rbga(0,255,0,0.3)'
+                        color: 'rgba(0, 255, 0, 0.0)'
                     },
                     cellViewNamespace: this.namespace,
                     linkPinning: false,
@@ -255,10 +254,40 @@ var duice;
                         return magnet.getAttribute('magnet') !== 'passive';
                     },
                     guard: function (evt) {
-                        let inputs = ['INPUT', 'SELECT', 'TEXTAREA'];
+                        let inputs = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
                         return inputs.indexOf(evt.target.tagName.toUpperCase()) > -1;
+                    },
+                });
+                // Register events
+                this.paper.on('link:mouseenter', (linkView) => {
+                    this.showLinkTools(linkView);
+                });
+                this.paper.on('link:mouseleave', (linkView) => {
+                    linkView.removeTools();
+                });
+                this.paper.on('element:pointerdown', () => {
+                    this.isDragging = true;
+                });
+                this.paper.on('element:pointerup', (elementView, event) => {
+                    this.isDragging = false;
+                    if (elementView && elementView.model) {
+                        elementView.model.trigger('change:position', elementView.model, elementView.model.get('position'), {});
+                        this.paper.fitToContent();
                     }
                 });
+                this.paper.on('link:connect', (linkView, evt, elementView) => {
+                    const linkItem = linkView.model;
+                    const sourceElement = linkItem.getSourceElement();
+                    const targetElement = linkItem.getTargetElement();
+                    let linkData = {};
+                    linkData[this.linkSourceProperty] = sourceElement.attributes.data[this.idProperty];
+                    linkData[this.linkTargetProperty] = targetElement.attributes.data[this.idProperty];
+                    linkItem.prop('data', linkData);
+                    this.link.push(linkData);
+                    console.debug('linked', 'sourceElement:', sourceElement, 'targetElement:', targetElement);
+                });
+            }
+            defineElementShape() {
                 let portsIn = {
                     position: {
                         name: 'top'
@@ -267,7 +296,7 @@ var duice;
                         portBody: {
                             magnet: true,
                             r: 10,
-                            fill: '#023047',
+                            fill: 'gray',
                             stroke: '#023047'
                         }
                     },
@@ -295,7 +324,7 @@ var duice;
                         portBody: {
                             magnet: true,
                             r: 10,
-                            fill: '#E6A502',
+                            fill: 'lightgray',
                             stroke: '#023047'
                         }
                     },
@@ -315,9 +344,8 @@ var duice;
                             selector: 'portBody'
                         }]
                 };
-                console.log(this.htmlElement);
                 // define item shape
-                this.itemShape = joint.dia.Element.define('example.Form', {
+                this.elementShape = joint.dia.Element.define('org.oopscraft.duice.workflow', {
                     attrs: {
                         foreignObject: {
                             width: 'calc(w)',
@@ -331,94 +359,90 @@ var duice;
                         }
                     }
                 }, {
-                    markup: joint.util.svg /* xml */ `
-            <foreignObject style="border:solid 1px #aaaaaa; padding:1em; background-color:#fefefe;">
-            </foreignObject>
-        `
-                });
-                // Register events
-                this.paper.on('link:mouseenter', (linkView) => {
-                    this.showLinkTools(linkView);
-                });
-                this.paper.on('link:mouseleave', (linkView) => {
-                    linkView.removeTools();
+                    markup: joint.util.svg /* xml */ `<foreignObject></foreignObject>`
                 });
             }
             doRender(array) {
+                console.debug("doRender:", array);
+                this.graph.clear();
+                this.elementItems.length = 0;
+                this.linkItems.length = 0;
                 for (let i = 0; i < array.length; i++) {
                     let object = array[i];
-                    this.createItem(object);
+                    this.createElementItem(object);
                 }
-                return this.paperElement;
+                // creates link
+                for (let i = 0; i < this.link.length; i++) {
+                    this.createLinkItem(this.link[i]);
+                }
+                // fit to content
+                this.paper.fitToContent();
             }
             doUpdate(array) {
-                console.log("== array", array);
-                this.graph.clear();
+                console.debug("doUpdate:", array);
                 this.doRender(array);
             }
-            doStyle(object) {
-                return `
-                .${duice.getNamespace()}-pagination {
-                    list-style: none;
-                    display: flex;
-                    padding-left: 0;
-                    margin: 0;
-                }
-           `;
-            }
-            createItem(object) {
-                let model = new this.itemShape();
-                model.addPorts([
-                    {
+            createElementItem(object) {
+                console.debug("createElementItem:", object);
+                let elementItem = new this.elementShape();
+                elementItem.prop("data", object);
+                elementItem.addPorts([{
                         group: 'in',
                         id: 'in',
                         attrs: { label: { text: 'in' } }
-                    },
-                    {
+                    }, {
                         group: 'out',
                         id: 'out',
                         attrs: { label: { text: 'out' } }
+                    }]);
+                // position
+                let x = object[this.positionXProperty];
+                let y = object[this.positionYProperty];
+                if (!x || !y) {
+                    let lastElementItem = this.elementItems.length == 0 ? null : this.elementItems[this.elementItems.length - 1];
+                    if (lastElementItem) {
+                        let position = lastElementItem.position();
+                        let size = lastElementItem.size();
+                        x = position.x;
+                        y = position.y + size.height + 20;
                     }
-                ]);
-                try {
-                    model.position(object[this.positionXProperty], object[this.positionYProperty]);
                 }
-                catch (e) {
-                    model.position(20, 20);
-                    console.log(e);
-                }
-                model.resize(200, 100);
-                model.addTo(this.graph);
-                let foreignObject = this.paper.findViewByModel(model).$el.get(0).querySelector('foreignObject');
+                elementItem.position(x, y);
+                elementItem.addTo(this.graph);
+                this.elementItems.push(elementItem);
+                let foreignObject = this.paper.findViewByModel(elementItem).$el.get(0).querySelector('foreignObject');
                 let div = document.createElement('div');
                 div.innerHTML = this.htmlElementTemplate;
                 let context = Object.assign({}, this.getContext());
                 context['task'] = object;
-                console.log("========= context", context);
                 duice.initialize(div, context, 0);
                 foreignObject.appendChild(div);
-                model.on('change:position', (element, position) => {
-                    console.log("=== change:position", element, position);
-                    console.log("== object", object);
-                    object[this.positionXProperty] = position.x;
-                    object[this.positionYProperty] = position.y;
+                // resize for fit to content
+                let width = foreignObject.scrollWidth;
+                let height = foreignObject.scrollHeight;
+                elementItem.resize(width, height);
+                elementItem.on('change:position', (element, position) => {
+                    if (!this.isDragging) {
+                        console.debug("change:position", element, position, object);
+                        object[this.positionXProperty] = position.x;
+                        object[this.positionYProperty] = position.y;
+                        return;
+                    }
                 });
-                // unfreeze
-                this.paper.unfreeze();
             }
             showLinkTools(linkView) {
                 let tools = new joint.dia.ToolsView({
                     tools: [
-                        new joint.linkTools.Remove({
+                        new joint.linkTools.Button({
                             distance: '50%',
                             markup: [{
                                     tagName: 'circle',
                                     selector: 'button',
                                     attributes: {
-                                        'r': 7,
+                                        'r': 12,
                                         'fill': '#f6f6f6',
-                                        'stroke': '#ff5148',
-                                        'stroke-width': 2,
+                                        'stroke': 'darkgray',
+                                        'stroke-width': 1,
                                         'cursor': 'pointer'
                                     }
                                 }, {
@@ -427,15 +451,74 @@ var duice;
                                     attributes: {
                                         'd': 'M -3 -3 3 3 M -3 3 3 -3',
                                         'fill': 'none',
-                                        'stroke': '#ff5148',
+                                        'stroke': 'darkgray',
                                         'stroke-width': 2,
                                         'pointer-events': 'none'
-                                    }
-                                }]
+                                    },
+                                }],
+                            action: (evt) => {
+                                console.debug(linkView.model);
+                                let linkItem = linkView.model;
+                                this.removeLinkItem(linkItem);
+                                linkItem.remove();
+                                evt.stopPropagation();
+                            }
                         })
                     ]
                 });
                 linkView.addTools(tools);
+            }
+            createLinkItem(object) {
+                console.debug('createLinkItem', object);
+                if (object == null) {
+                    object = {};
+                    object[this.linkSourceProperty] = '';
+                    object[this.linkTargetProperty] = '';
+                }
+                let sourceId = object[this.linkSourceProperty];
+                let targetId = object[this.linkTargetProperty];
+                let sourceElementItem = this.findElementItemById(sourceId);
+                let targetElementItem = this.findElementItemById(targetId);
+                let linkItem = new joint.shapes.standard.Link();
+                linkItem.prop("data", object);
+                linkItem.source(sourceElementItem, { port: 'out' });
+                linkItem.target(targetElementItem, { port: 'in' });
+                linkItem.addTo(this.graph);
+                // Register an event listener when a link's source node changes
+                linkItem.on('change:source', (link, source, opt) => {
+                    console.debug('link source is changed.');
+                    object[this.linkSourceProperty] = source.attributes[this.idProperty];
+                });
+                // Register an event listener when the link's destination node changes
+                linkItem.on('change:target', (link, target, opt) => {
+                    console.log('link target is changed.');
+                    object[this.linkTargetProperty] = target.attributes[this.idProperty];
+                });
+                this.linkItems.push(linkItem);
+            }
+            findElementItemById(id) {
+                console.debug("== findElementItemById", id);
+                for (let item of this.elementItems) {
+                    if (item.attributes.data[this.idProperty] === id) {
+                        return item;
+                    }
+                }
+                console.error(`id[${id} not found`);
+                return;
+            }
+            removeLinkItem(linkItem) {
+                console.debug("removeLinkItem", linkItem);
+                let data = linkItem.attributes.data;
+                let sourceId = data[this.linkSourceProperty];
+                let targetId = data[this.linkTargetProperty];
+                let itemToRemove = this.link.filter(item => {
+                    return item[this.linkSourceProperty] === sourceId
+                        && item[this.linkTargetProperty] === targetId;
+                })[0];
+                let indexToRemove = this.link.indexOf(itemToRemove);
+                if (indexToRemove > -1) {
+                    this.link.splice(indexToRemove, 1);
+                }
             }
         }
         extension.Workflow = Workflow;
@@ -446,7 +529,7 @@ var duice;
     var extension;
     (function (extension) {
         class MarkdownEditorFactory extends duice.ObjectElementFactory {
-            doCreateElement(htmlElement, bindData, context) {
+            createElement(htmlElement, bindData, context) {
                 return new extension.MarkdownEditor(htmlElement, bindData, context);
             }
         }
@@ -460,7 +543,7 @@ var duice;
     var extension;
     (function (extension) {
         class MarkdownViewerFactory extends duice.ObjectElementFactory {
-            doCreateElement(htmlElement, bindData, context) {
+            createElement(htmlElement, bindData, context) {
                 return new extension.MarkdownViewer(htmlElement, bindData, context);
             }
         }
@@ -475,12 +558,7 @@ var duice;
     (function (extension) {
         class PaginationFactory extends duice.CustomElementFactory {
             doCreateElement(htmlElement, bindData, context) {
-                let pagination = new extension.Pagination(htmlElement, bindData, context);
-                pagination.setPageProperty(duice.getElementAttribute(htmlElement, 'page-property'));
-                pagination.setSizeProperty(duice.getElementAttribute(htmlElement, 'size-property'));
-                pagination.setCountProperty(duice.getElementAttribute(htmlElement, 'count-property'));
-                pagination.onclick(new Function(duice.getElementAttribute(htmlElement, 'onclick')));
-                return pagination;
+                return new extension.Pagination(htmlElement, bindData, context);
             }
         }
         extension.PaginationFactory = PaginationFactory;

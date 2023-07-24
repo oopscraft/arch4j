@@ -294,7 +294,6 @@ button.tab:focus {
 /* table */
 table {
     table-layout: auto;
-    width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     border-top: var(--web-element-border);

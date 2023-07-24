@@ -52,6 +52,14 @@ springBoot {
     buildInfo()
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
 distTar {
     enabled = false
 }

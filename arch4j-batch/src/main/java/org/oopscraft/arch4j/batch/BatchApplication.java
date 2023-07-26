@@ -4,11 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+import org.springframework.context.annotation.Import;
 
 @Slf4j
 public class BatchApplication {
@@ -32,7 +29,7 @@ public class BatchApplication {
         }
 
         // launch spring boot application
-        new SpringApplicationBuilder(BatchConfiguration.class, batchClass)
+        new SpringApplicationBuilder(BatchApplication.class, batchClass)
                 .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                 .web(WebApplicationType.NONE)
                 .registerShutdownHook(true)

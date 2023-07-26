@@ -25,7 +25,7 @@ public class CliApplication implements ApplicationContextAware, CommandLineRunne
 
         // launch spring boot application
         try {
-            new SpringApplicationBuilder(CliApplication.class, CliConfiguration.class)
+            new SpringApplicationBuilder(CliApplication.class)
                     .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
                     .web(WebApplicationType.NONE)
                     .bannerMode(Banner.Mode.OFF)

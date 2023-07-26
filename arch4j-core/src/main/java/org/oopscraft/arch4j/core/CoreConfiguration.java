@@ -12,6 +12,7 @@ import org.oopscraft.arch4j.core.message.MessageSource;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -42,7 +43,9 @@ import java.util.Properties;
 @ComponentScan(
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
-@EnableAutoConfiguration
+@EnableAutoConfiguration(
+        exclude = {MessageSourceAutoConfiguration.class}
+)
 @ConfigurationPropertiesScan
 @EnableEncryptableProperties
 @EnableJpaRepositories

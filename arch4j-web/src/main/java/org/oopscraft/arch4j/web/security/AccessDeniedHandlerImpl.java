@@ -1,8 +1,8 @@
-package org.oopscraft.arch4j.core.security;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.error.ErrorResponse;
-import org.oopscraft.arch4j.core.error.ErrorResponseHandler;
+import org.oopscraft.arch4j.web.error.ErrorResponse;
+import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

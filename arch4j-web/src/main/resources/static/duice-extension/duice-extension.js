@@ -202,6 +202,7 @@ var duice;
                 this.linkItems = [];
                 this.isDragging = false;
                 // parse attribute
+                this.loop = duice.getElementAttribute(this.getHtmlElement(), 'loop');
                 this.idProperty = duice.getElementAttribute(this.getHtmlElement(), 'id-property');
                 let positionProperty = duice.getElementAttribute(this.getHtmlElement(), 'position-property');
                 let positionPropertyParts = positionProperty.split(',');
@@ -295,7 +296,7 @@ var duice;
                     attrs: {
                         portBody: {
                             magnet: true,
-                            r: 10,
+                            r: 7,
                             fill: 'gray',
                             stroke: '#023047'
                         }
@@ -303,7 +304,7 @@ var duice;
                     label: {
                         position: {
                             name: 'top',
-                            args: { y: -15 }
+                            args: { y: -10 }
                         },
                         markup: [{
                                 tagName: 'text',
@@ -323,7 +324,7 @@ var duice;
                     attrs: {
                         portBody: {
                             magnet: true,
-                            r: 10,
+                            r: 7,
                             fill: 'lightgray',
                             stroke: '#023047'
                         }
@@ -331,7 +332,7 @@ var duice;
                     label: {
                         position: {
                             name: 'bottom',
-                            args: { y: 15 }
+                            args: { y: 10 }
                         },
                         markup: [{
                                 tagName: 'text',
@@ -363,17 +364,31 @@ var duice;
                 });
             }
             doRender(array) {
+                var _a;
                 console.debug("doRender:", array);
                 this.graph.clear();
                 this.elementItems.length = 0;
                 this.linkItems.length = 0;
-                for (let i = 0; i < array.length; i++) {
-                    let object = array[i];
-                    this.createElementItem(object);
+                // create element
+                let loopArgs = this.loop.split(',');
+                let itemName = loopArgs[0].trim();
+                let statusName = (_a = loopArgs[1]) === null || _a === void 0 ? void 0 : _a.trim();
+                for (let index = 0; index < array.length; index++) {
+                    let object = array[index];
+                    let context = Object.assign({}, this.getContext());
+                    context[itemName] = object;
+                    context[statusName] = new duice.ObjectProxy({
+                        index: index,
+                        count: index + 1,
+                        size: array.length,
+                        first: (index === 0),
+                        last: (array.length == index + 1)
+                    });
+                    this.createElementItem(object, context);
                 }
                 // creates link
-                for (let i = 0; i < this.link.length; i++) {
-                    this.createLinkItem(this.link[i]);
+                for (let index = 0; index < this.link.length; index++) {
+                    this.createLinkItem(this.link[index]);
                 }
                 // fit to content
                 this.paper.fitToContent();
@@ -382,7 +397,7 @@ var duice;
                 console.debug("doUpdate:", array);
                 this.doRender(array);
             }
-            createElementItem(object) {
+            createElementItem(object, context) {
                 console.debug("createElementItem:", object);
                 let elementItem = new this.elementShape();
                 elementItem.prop("data", object);
@@ -404,7 +419,11 @@ var duice;
                         let position = lastElementItem.position();
                         let size = lastElementItem.size();
                         x = position.x;
-                        y = position.y + size.height + 20;
+                        y = position.y + size.height + 50;
+                    }
+                    else {
+                        x = 10;
+                        y = 10;
                     }
                 }
                 elementItem.position(x, y);
@@ -413,8 +432,6 @@ var duice;
                 let foreignObject = this.paper.findViewByModel(elementItem).$el.get(0).querySelector('foreignObject');
                 let div = document.createElement('div');
                 div.innerHTML = this.htmlElementTemplate;
-                let context = Object.assign({}, this.getContext());
-                context['task'] = object;
                 duice.initialize(div, context, 0);
                 foreignObject.appendChild(div);
                 // resize for fit to content

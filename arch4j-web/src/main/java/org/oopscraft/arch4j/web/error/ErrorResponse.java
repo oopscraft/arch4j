@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.error;
+package org.oopscraft.arch4j.web.error;
 
 import lombok.Builder;
 import lombok.Getter;

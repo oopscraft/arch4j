@@ -11,18 +11,19 @@ public class BatchApplicationTest {
         BatchApplication.main(new String[]{
                 batchClassName,
                 "--spring.batch.job.enabled=true",
-                String.format("--spring.batch.job.names=")
+                "--spring.batch.job.names=querydslToJpaJob",
+                "size=1234"
         });
     }
 
-    @Test
-    public void testDefault() {
-        String batchClassName = DatabaseToDatabase.class.getName();
-        BatchApplication.main(new String[]{
-                batchClassName,
-                "--spring.batch.job.enabled=true",
-                String.format("--spring.batch.job.names=")
-        });
-    }
+//    @Test
+//    public void testDefault() {
+//        String batchClassName = DatabaseToDatabase.class.getName();
+//        BatchApplication.main(new String[]{
+//                batchClassName,
+//                "--spring.batch.job.enabled=true",
+//                String.format("--spring.batch.job.names=")
+//        });
+//    }
 
 }

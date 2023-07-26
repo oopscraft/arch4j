@@ -1,8 +1,8 @@
-package org.oopscraft.arch4j.web.security;
+package org.oopscraft.arch4j.core.security;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.web.error.ErrorResponseHandler;
-import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
+import org.oopscraft.arch4j.core.error.ErrorResponse;
+import org.oopscraft.arch4j.core.error.ErrorResponseHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

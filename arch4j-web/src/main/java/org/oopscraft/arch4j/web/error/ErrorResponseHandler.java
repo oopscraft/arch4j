@@ -1,10 +1,9 @@
-package org.oopscraft.arch4j.web.error;
+package org.oopscraft.arch4j.core.error;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.web.error.dto.ErrorResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

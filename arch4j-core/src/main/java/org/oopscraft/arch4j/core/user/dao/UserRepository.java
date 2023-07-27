@@ -12,9 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- * UserEntity repository
- */
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSpecificationExecutor<UserEntity>, UserRepositoryCustom {
 

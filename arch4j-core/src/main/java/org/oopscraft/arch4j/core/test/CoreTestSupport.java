@@ -6,6 +6,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import javax.persistence.PersistenceContext;
                 "spring.main.web-application-type=none"
         }
 )
+@Import(CoreConfiguration.class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional

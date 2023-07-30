@@ -293,6 +293,9 @@ var duice;
             }
             this.notifyObservers(new duice.event.Event(this));
         }
+        isReadonlyAll() {
+            return this.readonlyAll;
+        }
         setReadonly(property, readonly) {
             if (readonly) {
                 this.readonly.add(property);
@@ -311,6 +314,9 @@ var duice;
                 this.disable.clear();
             }
             this.notifyObservers(new duice.event.Event(this));
+        }
+        isDisableAll() {
+            return this.disableAll;
         }
         setDisable(property, disable) {
             if (disable) {
@@ -673,6 +679,24 @@ var duice;
             for (let index = 0; index >= this.length; index++) {
                 duice.ObjectProxy.setReadonlyAll(this[index], readonly);
             }
+        }
+        static isReadonlyAll(arrayProxy) {
+            return this.getHandler(arrayProxy).isReadonlyAll();
+        }
+        static setDisable(arrayProxy, property, disable) {
+            this.getHandler(arrayProxy).setDisable(property, disable);
+        }
+        static isDisable(arrayProxy, property) {
+            return this.getHandler(arrayProxy).isDisable(property);
+        }
+        static setDisableAll(arrayProxy, disable) {
+            this.getHandler(arrayProxy).setDisableAll(disable);
+            for (let index = 0; index >= this.length; index++) {
+                duice.ObjectProxy.setDisableAll(this[index], disable);
+            }
+        }
+        static isDisableAll(arrayProxy) {
+            return this.getHandler(arrayProxy).isDisableAll();
         }
         static selectItem(arrayProxy, index) {
             return this.getHandler(arrayProxy).selectItem(index);
@@ -1150,6 +1174,9 @@ var duice;
         static setReadonlyAll(objectProxy, readonly) {
             this.getHandler(objectProxy).setReadonlyAll(readonly);
         }
+        static isReadonlyAll(objectProxy) {
+            return this.getHandler(objectProxy).isReadonlyAll();
+        }
         static setDisable(objectProxy, property, disable) {
             this.getHandler(objectProxy).setDisable(property, disable);
         }
@@ -1158,6 +1185,9 @@ var duice;
         }
         static setDisableAll(objectProxy, disable) {
             this.getHandler(objectProxy).setDisableAll(disable);
+        }
+        static isDisableAll(objectProxy) {
+            return this.getHandler(objectProxy).isDisableAll();
         }
         static focus(objectProxy, property) {
             this.getHandler(objectProxy).focus(property);

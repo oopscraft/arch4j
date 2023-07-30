@@ -11,7 +11,7 @@
         duice.ObjectProxy.setReadonly(user, 'joinAt', true);
 
         const getCurrentUser = function() {
-            let url = new URL(`${_apiUrl}/v1/users/${_user.userId}`, document.location.origin);
+            let url = new URL(`${_apiUrl}/v1/user/${_user.userId}`, document.location.origin);
             _fetch(url, {
                 method: 'GET'
             }).then(response => response.json())

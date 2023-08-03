@@ -3,6 +3,9 @@
 :root {
     /* global */
     --web-background-color: white;
+    --web-background-color-red: darkorange;
+    --web-background-color-green: mediumspringgreen;
+    --web-background-color-blue: lightskyblue;
     --web-font-size: 12px;
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
@@ -696,6 +699,20 @@ hr {
     }
 }
 
+/* background-color */
+.background-color {
+    background-color: var(--web-background-color);
+}
+.background-color-red {
+    background-color: var(--web-background-color-red);
+}
+.background-color-green {
+    background-color: var(--web-background-color-green);
+}
+.background-color-blue {
+    background-color: var(--web-background-color-blue);
+}
+
 /* border */
 .border-0 {
     border: none;
@@ -1275,4 +1292,10 @@ hr {
     content: ' # '
 }
 
-
+/* blink */
+@keyframes blink-effect {
+    50% { opacity: 0; }
+}
+.blink {
+    animation: blink-effect 1s linear infinite;
+}

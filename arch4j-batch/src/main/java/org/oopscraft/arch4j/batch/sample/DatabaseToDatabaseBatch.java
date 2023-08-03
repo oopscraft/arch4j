@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class DatabaseToDatabase extends AbstractBatchConfigurer {
+public class DatabaseToDatabaseBatch extends AbstractBatchConfigurer {
 
     private final ModelMapper modelMapper;
 

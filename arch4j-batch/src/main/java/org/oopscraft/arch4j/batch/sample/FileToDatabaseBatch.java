@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class FileToDatabase extends AbstractBatchConfigurer {
+public class FileToDatabaseBatch extends AbstractBatchConfigurer {
 
     private final JobBuilderFactory jobBuilderFactory;
 

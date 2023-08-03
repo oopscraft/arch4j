@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class DatabaseToFile extends AbstractBatchConfigurer {
+public class DatabaseToFileBatch extends AbstractBatchConfigurer {
 
     @Bean
     public Job job() {

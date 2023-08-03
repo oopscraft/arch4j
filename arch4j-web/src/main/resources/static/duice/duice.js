@@ -864,13 +864,25 @@ var duice;
         checkIf() {
             let context = Object.assign({}, this.getContext());
             let bind = duice.getElementAttribute(this.getHtmlElement(), 'bind');
-            context[bind] = this.getBindData();
+            let bindSplit = bind.split('.');
+            if (bindSplit.length > 1) {
+                context[bindSplit[0]] = duice.findVariable(context, bindSplit[0]);
+            }
+            else {
+                context[bind] = this.getBindData();
+            }
             duice.runIfCode(this.htmlElement, context);
         }
         executeScript() {
             let context = Object.assign({}, this.getContext());
             let bind = duice.getElementAttribute(this.getHtmlElement(), 'bind');
-            context[bind] = this.getBindData();
+            let bindSplit = bind.split('.');
+            if (bindSplit.length > 1) {
+                context[bindSplit[0]] = duice.findVariable(context, bindSplit[0]);
+            }
+            else {
+                context[bind] = this.getBindData();
+            }
             duice.runExecuteCode(this.htmlElement, context);
         }
         update(observable, event) {
@@ -2073,11 +2085,29 @@ var duice;
         class SelectElement extends duice.ObjectElement {
             constructor(element, bindData, context) {
                 super(element, bindData, context);
+                this.defaultOptions = [];
                 // adds event listener
                 this.getHtmlElement().addEventListener('change', () => {
                     let event = new duice.event.PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
                     this.notifyObservers(event);
                 }, true);
+                // stores default option
+                for (let i = 0; i < this.getHtmlElement().options.length; i++) {
+                    this.defaultOptions.push(this.getHtmlElement().options[i]);
+                }
+                // option property
+                let optionName = duice.getElementAttribute(this.getHtmlElement(), 'option');
+                if (optionName) {
+                    this.option = duice.findVariable(this.getContext(), optionName);
+                    this.optionValueProperty = duice.getElementAttribute(this.getHtmlElement(), 'option-value-property');
+                    this.optionTextProperty = duice.getElementAttribute(this.getHtmlElement(), 'option-text-property');
+                    this.option.forEach(data => {
+                        let option = document.createElement('option');
+                        option.value = data[this.optionValueProperty];
+                        option.appendChild(document.createTextNode(data[this.optionTextProperty]));
+                        this.getHtmlElement().appendChild(option);
+                    });
+                }
             }
             setValue(value) {
                 this.getHtmlElement().value = value;

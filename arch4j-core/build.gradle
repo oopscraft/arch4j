@@ -68,9 +68,13 @@ dependencies {
     // apache commons
     api 'commons-io:commons-io'
     api 'org.apache.httpcomponents:httpclient'
+    api 'org.apache.commons:commons-exec'
 
     // model mapper
     api "org.modelmapper:modelmapper"
+
+    // reflections
+    api 'org.reflections:reflections:0.10.2'
 
     // ascii table
     api "de.vandermeer:asciitable"

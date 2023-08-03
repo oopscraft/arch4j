@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class FileToFile extends AbstractMethodError {
+public class FileToFileBatch extends AbstractMethodError {
 
     private final JobBuilderFactory jobBuilderFactory;
 

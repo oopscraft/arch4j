@@ -7,19 +7,17 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 
 import javax.batch.runtime.BatchStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-@ContextConfiguration(classes= DatabaseToDatabase.class)
-public class DatabaseToDatabaseTest extends BatchTestSupport {
+@ContextConfiguration(classes= DatabaseToDatabaseBatch.class)
+public class DatabaseToDatabaseBatchTest extends BatchTestSupport {
 
     @Autowired
     @Qualifier("querydslToJpaJob")

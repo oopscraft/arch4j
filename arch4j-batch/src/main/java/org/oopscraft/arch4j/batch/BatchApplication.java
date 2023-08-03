@@ -45,6 +45,9 @@ public class BatchApplication {
                 .web(WebApplicationType.NONE)
                 .registerShutdownHook(true)
                 .run(args);
+
+        // exit
+        System.exit(0);
     }
 
 }

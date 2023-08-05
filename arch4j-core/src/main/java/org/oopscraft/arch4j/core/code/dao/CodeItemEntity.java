@@ -28,17 +28,17 @@ public class CodeItemEntity extends SystemFieldEntity {
 	}
 
 	@Id
-	@Column(name = "code_id", length = 64)
+	@Column(name = "code_id", length = 32)
 	private String codeId;
 	
 	@Id
-	@Column(name = "item_id")
+	@Column(name = "item_id", length = 32)
 	private String itemId;
 
-    @Column(name = "item_name")
+    @Column(name = "item_name", length = 128)
     private String itemName;
 
     @Column(name = "sort")
-	private int sort;
+	private Integer sort;
 
 }

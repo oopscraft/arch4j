@@ -17,16 +17,12 @@ public class UserLoginService {
 
     private final UserLoginRepository userLoginRepository;
 
-    /**
-     * saves user login history
-     * @param userLogin login history
-     * @return login history
-     */
     public UserLogin saveUserLogin(UserLogin userLogin) {
         UserLoginEntity.Pk pk = UserLoginEntity.Pk.builder()
                 .userId(userLogin.getUserId())
                 .loginAt(userLogin.getLoginAt())
                 .build();
+
         UserLoginEntity loginHistoryEntity = userLoginRepository.findById(pk).orElse(
                 UserLoginEntity.builder()
                     .userId(userLogin.getUserId())
@@ -34,16 +30,11 @@ public class UserLoginService {
                     .build());
         loginHistoryEntity.setIpAddress(userLogin.getIpAddress());
         loginHistoryEntity.setUserAgent(userLogin.getUserAgent());
+
         loginHistoryEntity = userLoginRepository.saveAndFlush(loginHistoryEntity);
         return UserLogin.from(loginHistoryEntity);
     }
 
-    /**
-     * returns user login histories
-     * @param userLoginSearch search condition
-     * @param pageable pagination info
-     * @return list of login history
-     */
     public Page<UserLogin> getUserLogins(UserLoginSearch userLoginSearch, Pageable pageable) {
         Page<UserLoginEntity> loginHistoryEntityPage = userLoginRepository.findAll(userLoginSearch, pageable);
         List<UserLogin> userLogins = loginHistoryEntityPage.stream()

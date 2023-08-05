@@ -6,6 +6,7 @@ allprojects {
         resolutionStrategy {
             cacheChangingModulesFor 0, 'seconds'
         }
+        exclude group: 'junit', module: 'junit'
     }
 
     repositories {

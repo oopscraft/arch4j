@@ -14,45 +14,86 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor
 class AuthorityServiceTest extends CoreTestSupport {
 
-    final AuthorityService authorityService;
+    private final AuthorityService authorityService;
 
-    Authority testAuthority = Authority.builder()
-            .authorityId("role_id")
-            .authorityName("role_name")
-            .build();
+    private Authority getTestAuthority() {
+        return Authority.builder()
+                .authorityId("role_id")
+                .authorityName("role_name")
+                .build();
+    }
+
+    private Authority createTestAuthority() {
+        Authority testAuthority = getTestAuthority();
+        return authorityService.saveAuthority(testAuthority);
+    }
 
     @Test
     @Order(1)
     void saveAuthority() {
+        // given
+        Authority testAuthority = getTestAuthority();
+
+        // when
         authorityService.saveAuthority(testAuthority);
-        assertNotNull(entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId()));
+
+        // then
+        AuthorityEntity authorityEntity = entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId());
+        assertNotNull(authorityEntity);
     }
 
     @Test
     @Order(2)
     void getAuthority() {
-        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
-        Authority authority = authorityService.getAuthority(savedAuthority.getAuthorityId()).orElse(null);
-        assertNotNull(authority);
+        // given
+        Authority testAuthority = createTestAuthority();
+
+        // when
+        Authority authority = authorityService.getAuthority(testAuthority.getAuthorityId())
+                .orElseThrow();
+
+        // then
+        assertEquals(
+                testAuthority.getAuthorityId(),
+                authority.getAuthorityId()
+        );
     }
 
     @Test
     @Order(3)
-    void deleteAuthority() {
-        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
-        authorityService.deleteAuthority(savedAuthority.getAuthorityId());
-        assertNull(entityManager.find(RoleEntity.class, savedAuthority.getAuthorityId()));
+    void getAuthorities() {
+        // given
+        Authority testAuthority = createTestAuthority();
+
+        // when
+        AuthoritySearch authoritySearch = AuthoritySearch.builder()
+                .authorityId(testAuthority.getAuthorityId())
+                .build();
+        Page<Authority> rolePage = authorityService.getAuthorities(authoritySearch, PageRequest.of(0,10));
+
+        // then
+        assertTrue(rolePage.getContent().stream()
+                .anyMatch(e ->
+                        e.getAuthorityId().contains(authoritySearch.getAuthorityId())
+                )
+        );
     }
+
+
 
     @Test
     @Order(4)
-    void getAuthorities() {
-        Authority savedAuthority = authorityService.saveAuthority(testAuthority);
-        AuthoritySearch authoritySearch = AuthoritySearch.builder()
-                .authorityName(savedAuthority.getAuthorityName())
-                .build();
-        Page<Authority> rolePage = authorityService.getAuthorities(authoritySearch, PageRequest.of(0,10));
-        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getAuthorityName().contains(authoritySearch.getAuthorityName())));
+    void deleteAuthority() {
+        // given
+        Authority testAuthority = createTestAuthority();
+
+        // when
+        authorityService.deleteAuthority(testAuthority.getAuthorityId());
+
+        // then
+        AuthorityEntity authorityEntity = entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId());
+        assertNull(authorityEntity);
     }
+
 
 }

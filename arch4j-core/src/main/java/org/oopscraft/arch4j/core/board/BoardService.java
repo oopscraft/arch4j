@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleRepository;
+import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.role.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +23,12 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    private final EntityManager entityManager;
+    private final RoleService roleService;
 
     @Transactional
     public Board saveBoard(Board board) {
-        BoardEntity boardEntity = boardRepository.findById(board.getBoardId()).orElse(
-                BoardEntity.builder()
+        BoardEntity boardEntity = boardRepository.findById(board.getBoardId())
+                .orElse(BoardEntity.builder()
                     .boardId(board.getBoardId())
                     .build());
         boardEntity.setBoardName(board.getBoardName());
@@ -40,24 +41,26 @@ public class BoardService {
 
         // read policy
         boardEntity.setReadPolicy(board.getReadPolicy());
-        boardEntity.getReadRoles().clear();
-        board.getReadRoles().stream()
-                .map(role -> BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(role.getRoleId())
-                        .type("READ")
-                        .build())
-                .forEach(boardEntity.getReadRoles()::add);
+        boardEntity.getReadBoardRoleEntities().clear();
+        board.getReadRoles().forEach(readRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                            .boardId(boardEntity.getBoardId())
+                            .roleId(readRole.getRoleId())
+                            .type("READ")
+                            .build();
+            boardEntity.getReadBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // write policy
         boardEntity.setWritePolicy(board.getWritePolicy());
-        board.getWriteRoles().stream()
-                .map(role -> BoardRoleEntity.builder()
+        board.getWriteRoles().forEach(writeRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
                         .boardId(boardEntity.getBoardId())
-                        .roleId(role.getRoleId())
+                        .roleId(writeRole.getRoleId())
                         .type("WRITE")
-                        .build())
-                .forEach(boardEntity.getReadRoles()::add);
+                        .build();
+            boardEntity.getWriteBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // file
         boardEntity.setFileEnabled(board.isFileEnabled());
@@ -65,28 +68,73 @@ public class BoardService {
         // comment
         boardEntity.setCommentEnabled(board.isCommentEnabled());
         boardEntity.setCommentPolicy(board.getCommentPolicy());
-        boardEntity.getCommentRoles().clear();
-        board.getCommentRoles().stream()
-                .map(role -> BoardRoleEntity.builder()
+        boardEntity.getCommentBoardRoleEntities().clear();
+        board.getCommentRoles().forEach(commentRole -> {
+           BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
                         .boardId(boardEntity.getBoardId())
-                        .roleId(role.getRoleId())
+                        .roleId(commentRole.getRoleId())
                         .type("COMMENT")
-                        .build())
-                .forEach(boardEntity.getCommentRoles()::add);
+                        .build();
+           boardEntity.getCommentBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // save
         BoardEntity savedBoardEntity = boardRepository.saveAndFlush(boardEntity);
-        entityManager.clear();
 
         // return
-        return boardRepository.findById(savedBoardEntity.getBoardId())
-                .map(Board::from)
+        return this.getBoard(savedBoardEntity.getBoardId())
                 .orElseThrow();
     }
 
     public Optional<Board> getBoard(String boardId) {
         return boardRepository.findById(boardId)
-                .map(Board::from);
+                .map(this::mapToBoard);
+    }
+
+    public Board mapToBoard(BoardEntity boardEntity) {
+        Board board = Board.builder()
+                .boardId(boardEntity.getBoardId())
+                .boardName(boardEntity.getBoardName())
+                .note(boardEntity.getNote())
+                .icon(boardEntity.getIcon())
+                .messageFormat(boardEntity.getMessageFormat())
+                .message(boardEntity.getMessage())
+                .skin(boardEntity.getSkin())
+                .pageSize(boardEntity.getPageSize())
+                .fileEnabled(boardEntity.isFileEnabled())
+                .build();
+
+        // read policy
+        board.setReadPolicy(boardEntity.getReadPolicy());
+        boardEntity.getReadBoardRoleEntities().forEach(boardRoleEntity -> {
+            Role role = roleService.getRole(boardRoleEntity.getRoleId())
+                    .orElse(Role.builder()
+                            .roleId(boardRoleEntity.getRoleId())
+                            .build());
+            board.getReadRoles().add(role);
+        });
+
+        // write policy
+        board.setWritePolicy(boardEntity.getWritePolicy());
+        boardEntity.getWriteBoardRoleEntities().forEach(boardRoleEntity -> {
+            Role role = roleService.getRole(boardRoleEntity.getRoleId())
+                    .orElse(Role.builder()
+                            .roleId(boardRoleEntity.getRoleId())
+                            .build());
+            board.getWriteRoles().add(role);
+        });
+
+        // comment policy
+        board.setCommentPolicy(boardEntity.getCommentPolicy());
+        boardEntity.getCommentBoardRoleEntities().forEach(boardRoleEntity -> {
+            Role role = roleService.getRole(boardRoleEntity.getRoleId())
+                    .orElse(Role.builder()
+                            .roleId(boardRoleEntity.getRoleId())
+                            .build());
+            board.getCommentRoles().add(role);
+        });
+
+        return board;
     }
 
     public void deleteBoard(String boardId) {
@@ -97,7 +145,7 @@ public class BoardService {
     public Page<Board> getBoards(BoardSearch boardSearch, Pageable pageable) {
         Page<BoardEntity> boardEntityPage = boardRepository.findAll(boardSearch, pageable);
         List<Board> boards = boardEntityPage.getContent().stream()
-                .map(Board::from)
+                .map(this::mapToBoard)
                 .collect(Collectors.toList());
         long total = boardEntityPage.getTotalElements();
         return new PageImpl<>(boards, pageable, total);

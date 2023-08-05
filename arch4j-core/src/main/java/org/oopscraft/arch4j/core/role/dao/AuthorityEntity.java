@@ -6,9 +6,6 @@ import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
 
-/**
- * AuthorityEntity
- */
 @Entity
 @Table(name = "core_authority")
 @Data
@@ -16,6 +13,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Cacheable
 public class AuthorityEntity extends SystemFieldEntity {
 
     @Id

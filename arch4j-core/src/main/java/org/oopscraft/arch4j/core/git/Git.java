@@ -20,14 +20,4 @@ public class Git {
 
     private String branch;
 
-    public static Git from(GitEntity gitEntity) {
-        return Git.builder()
-                .gitId(gitEntity.getGitId())
-                .gitName(gitEntity.getGitName())
-                .note(gitEntity.getNote())
-                .url(gitEntity.getUrl())
-                .branch(gitEntity.getBranch())
-                .build();
-    }
-
 }

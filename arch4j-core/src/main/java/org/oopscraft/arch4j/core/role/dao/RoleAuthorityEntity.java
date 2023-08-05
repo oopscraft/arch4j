@@ -1,43 +1,37 @@
-package org.oopscraft.arch4j.core.board.dao;
+package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "core_board_role")
-@IdClass(BoardRoleEntity.Pk.class)
+@Table(name = "core_role_authority")
+@IdClass(RoleAuthorityEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BoardRoleEntity extends SystemFieldEntity {
+public class RoleAuthorityEntity extends SystemFieldEntity {
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Pk implements Serializable {
-        private String boardId;
         private String roleId;
-        private String type;
+        private String authorityId;
     }
-
-    @Id
-    @Column(name = "board_id")
-    private String boardId;
 
     @Id
     @Column(name = "role_id")
     private String roleId;
 
     @Id
-    @Column(name = "type", length = 16)
-    private String type;
+    @Column(name = "authority_id")
+    private String authorityId;
 
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class GitService {
 
     private final GitRepository gitRepository;
 
+    @Transactional
     public Git saveGit(Git git) {
         GitEntity gitEntity = gitRepository.findById(git.getGitId()).orElse(
                 GitEntity.builder()
@@ -28,33 +30,45 @@ public class GitService {
         gitEntity.setUrl(git.getUrl());
         gitEntity.setBranch(git.getBranch());
         gitEntity = gitRepository.saveAndFlush(gitEntity);
-        return Git.from(gitEntity);
+        return getGit(gitEntity.getGitId()).orElseThrow();
+    }
+
+    public Optional<Git> getGit(String gitId) {
+        return Optional.of(gitRepository.findById(gitId)
+                .map(this::mapToGit)
+                .orElseThrow());
+    }
+
+    private Git mapToGit(GitEntity gitEntity) {
+        return Git.builder()
+                .gitId(gitEntity.getGitId())
+                .gitName(gitEntity.getGitName())
+                .note(gitEntity.getNote())
+                .url(gitEntity.getUrl())
+                .branch(gitEntity.getBranch())
+                .build();
+    }
+
+    @Transactional
+    public void deleteGit(String gitId) {
+        gitRepository.deleteById(gitId);
+        gitRepository.flush();
+    }
+
+    public List<Git> getGits() {
+        return gitRepository.findAll().stream()
+                .map(this::mapToGit)
+                .collect(Collectors.toList());
     }
 
     public Page<Git> getGits(GitSearch gitSearch, Pageable pageable) {
         Page<GitEntity> gitEntityPage = gitRepository.findAll(gitSearch, pageable);
         List<Git> gits = gitEntityPage.getContent().stream()
-                .map(Git::from)
+                .map(this::mapToGit)
                 .collect(Collectors.toList());
         return new PageImpl<>(gits, pageable, gitEntityPage.getTotalElements());
     }
 
-    public List<Git> getGits() {
-        return gitRepository.findAll().stream()
-                .map(Git::from)
-                .collect(Collectors.toList());
-    }
-
-    public Optional<Git> getGit(String gitId) {
-        return Optional.of(gitRepository.findById(gitId)
-                .map(Git::from)
-                .orElseThrow());
-    }
-
-    public void deleteGit(String gitId) {
-        gitRepository.deleteById(gitId);
-        gitRepository.flush();
-    }
 
 
 }

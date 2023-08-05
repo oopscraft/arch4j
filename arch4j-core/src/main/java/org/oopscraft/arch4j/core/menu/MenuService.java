@@ -5,6 +5,8 @@ import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity_;
 import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
 import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
+import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.role.RoleService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class MenuService {
     private final EntityManager entityManager;
 
     private final MenuRepository menuRepository;
+
+    private final RoleService roleService;
 
     @Transactional
     public Menu saveMenu(Menu menu) {
@@ -39,53 +43,91 @@ public class MenuService {
 
         // view role
         menuEntity.setViewPolicy(menu.getViewPolicy());
-        menuEntity.getViewRoles().clear();
-        menu.getViewRoles().stream()
-                .map(role -> MenuRoleEntity.builder()
-                        .menuId(menuEntity.getMenuId())
-                        .roleId(role.getRoleId())
-                        .type("VIEW")
-                        .build())
-                .forEach(menuEntity.getViewRoles()::add);
+        menuEntity.getViewMenuRoleEntities().clear();
+        menu.getViewRoles().forEach(viewRole -> {
+            MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
+                    .menuId(menuEntity.getMenuId())
+                    .roleId(viewRole.getRoleId())
+                    .type("VIEW")
+                    .build();
+            menuEntity.getViewMenuRoleEntities().add(menuRoleEntity);
+        });
 
         // link role
         menuEntity.setLinkPolicy(menu.getLinkPolicy());
-        menuEntity.getLinkRoles().clear();
-        menu.getLinkRoles().stream()
-                .map(role -> MenuRoleEntity.builder()
-                        .menuId(menuEntity.getMenuId())
-                        .roleId(role.getRoleId())
-                        .type("LINK")
-                        .build())
-                .forEach(menuEntity.getLinkRoles()::add);
+        menuEntity.getLinkMenuRoleEntities().clear();
+        menu.getLinkRoles().forEach(linkRole -> {
+            MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
+                    .menuId(menuEntity.getMenuId())
+                    .roleId(linkRole.getRoleId())
+                    .type("LINK")
+                    .build();
+            menuEntity.getLinkMenuRoleEntities().add(menuRoleEntity);
+        });
 
         // save
-        MenuEntity savedMenuEntity = menuRepository.saveAndFlush(menuEntity);
-        entityManager.clear();
-
-        // return
-        return menuRepository.findById(savedMenuEntity.getMenuId())
-                .map(Menu::from)
-                .orElseThrow();
+        MenuEntity savedMenu = menuRepository.saveAndFlush(menuEntity);
+        return getMenu(savedMenu.getMenuId()).orElseThrow();
     }
 
     public Optional<Menu> getMenu(String menuId) {
         return menuRepository.findById(menuId)
-                .map(Menu::from);
+                .map(this::mapToMenu);
     }
 
-    @Transactional
-    public void deleteMenu(String menuId) {
-        menuRepository.deleteById(menuId);
-        menuRepository.flush();
+    public Menu mapToMenu(MenuEntity menuEntity) {
+        Menu menu = Menu.builder()
+                .menuId(menuEntity.getMenuId())
+                .menuName(menuEntity.getMenuName())
+                .parentMenuId(menuEntity.getParentMenuId())
+                .link(menuEntity.getLink())
+                .target(menuEntity.getTarget())
+                .icon(menuEntity.getIcon())
+                .sort(menuEntity.getSort())
+                .note(menuEntity.getNote())
+                .build();
+
+        MenuEntity parentMenuEntity = menuEntity.getParentMenu();
+        if (parentMenuEntity != null) {
+            menu.setParentMenuName(parentMenuEntity.getMenuName());
+        }
+
+        // view role
+        menu.setViewPolicy(menuEntity.getViewPolicy());
+        menu.setViewRoles(menuEntity.getViewMenuRoleEntities().stream()
+                .map(viewMenuRoleEntity ->
+                    roleService.getRole(viewMenuRoleEntity.getRoleId())
+                            .orElse(Role.builder()
+                                    .roleId(viewMenuRoleEntity.getRoleId())
+                                    .build()))
+                .collect(Collectors.toList()));
+
+        // link role
+        menu.setLinkPolicy(menuEntity.getLinkPolicy());
+        menu.setLinkRoles(menuEntity.getLinkMenuRoleEntities().stream()
+                .map(linkMenuRoleEntity ->
+                        roleService.getRole(linkMenuRoleEntity.getRoleId())
+                                .orElse(Role.builder()
+                                        .roleId(linkMenuRoleEntity.getRoleId())
+                                        .build()))
+                .collect(Collectors.toList()));
+
+        // return
+        return menu;
     }
 
     public List<Menu> getMenus() {
         Sort sort = Sort.by(Sort.Order.asc(MenuEntity_.SORT).nullsLast()); // bug: nullsLast not work
         List<MenuEntity> menuEntities = menuRepository.findAll(sort);
         return menuEntities.stream()
-                .map(Menu::from)
+                .map(this::mapToMenu)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteMenu(String menuId) {
+        menuRepository.deleteById(menuId);
+        menuRepository.flush();
     }
 
 }

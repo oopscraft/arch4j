@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.oopscraft.arch4j.core.user.UserType;
 
@@ -25,19 +24,20 @@ import java.util.List;
 )
 @Data
 @EqualsAndHashCode(callSuper=false)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserEntity extends SystemFieldEntity {
 
     @Id
     @Column(name = "user_id", length = 32)
+    @Setter(AccessLevel.PRIVATE)
     private String userId;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", length = 128)
     private String userName;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 256)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -49,11 +49,11 @@ public class UserEntity extends SystemFieldEntity {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @Column(name = "email", length = 1024)
+    @Column(name = "email", length = 128)
     @Convert(converter = CryptoConverter.class)
     private String email;
 
-    @Column(name = "mobile", length = 1024)
+    @Column(name = "mobile", length = 64)
     @Convert(converter = CryptoConverter.class)
     private String mobile;
 
@@ -71,8 +71,14 @@ public class UserEntity extends SystemFieldEntity {
     @Lob
     private String profile;
 
-    @OneToMany(mappedBy = UserRoleEntity_.USER_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "user_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Builder.Default
-    private List<UserRoleEntity> roles = new ArrayList<>();
+    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 
 }

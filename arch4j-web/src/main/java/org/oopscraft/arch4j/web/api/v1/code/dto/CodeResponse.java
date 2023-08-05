@@ -42,7 +42,7 @@ public class CodeResponse {
          return CodeResponse.builder()
                 .codeId(code.getCodeId())
                 .codeName(code.getCodeName())
-                .items(code.getItems().stream().map(Item::from).collect(Collectors.toList()))
+                .items(code.getCodeItems().stream().map(Item::from).collect(Collectors.toList()))
                 .build();
     }
 

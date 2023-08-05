@@ -1,10 +1,11 @@
 package org.oopscraft.arch4j.core.role;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoleSearch {
 
     private String roleId;

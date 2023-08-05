@@ -1,11 +1,11 @@
 package org.oopscraft.arch4j.core.user;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserSearch {
 
     private String userId;

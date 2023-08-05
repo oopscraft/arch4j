@@ -19,11 +19,6 @@ public class UserLogin {
 
     private String userAgent;
 
-    /**
-     * factory method
-     * @param loginHistoryEntity login history entity
-     * @return login history
-     */
     public static UserLogin from(UserLoginEntity loginHistoryEntity) {
         return UserLogin.builder()
                 .userId(loginHistoryEntity.getUserId())

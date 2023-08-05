@@ -9,9 +9,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * RoleEntity(group of authorities)
- */
 @Entity
 @Table(name = "core_role")
 @Data
@@ -19,6 +16,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Cacheable
 public class RoleEntity extends SystemFieldEntity {
 
     @Id
@@ -32,16 +30,15 @@ public class RoleEntity extends SystemFieldEntity {
     @Column(name = "note")
     @Lob
     private String note;
-    
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name = "core_role_authority",
-		joinColumns = @JoinColumn(name = "role_id"), 
-		foreignKey = @ForeignKey(name = "none"),
-		inverseJoinColumns = @JoinColumn(name = "authority_id"),
-		inverseForeignKey = @ForeignKey(name = "none")
-	)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "role_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Builder.Default
-	List<AuthorityEntity> authorities = new ArrayList<>();
-    
+    private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
+
 }

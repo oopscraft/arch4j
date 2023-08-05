@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -23,21 +24,4 @@ public class Role {
     @Builder.Default
 	private List<Authority> authorities = new ArrayList<>();
 
-    public static Role from(RoleEntity roleEntity){
-        return Role.builder()
-                .roleId(roleEntity.getRoleId())
-                .roleName(roleEntity.getRoleName())
-                .note(roleEntity.getNote())
-                .authorities(roleEntity.getAuthorities().stream()
-                        .map(Authority::from)
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static List<Role> from(List<RoleEntity> roleEntities) {
-        return roleEntities.stream()
-                .map(Role::from)
-                .collect(Collectors.toList());
-    }
-    
 }

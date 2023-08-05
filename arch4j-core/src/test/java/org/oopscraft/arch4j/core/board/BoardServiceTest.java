@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
+import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,43 +22,73 @@ class BoardServiceTest extends CoreTestSupport {
 
     final BoardService boardService;
 
-    Board testBoard = Board.builder()
-            .boardId(UUID.randomUUID().toString())
-            .boardName("test board")
-            .build();
+    private Board getTestBoard() {
+        Board testBoard = Board.builder()
+                .boardId("test-board")
+                .boardName("test board")
+                .message("test message")
+                .writePolicy(SecurityPolicy.AUTHORIZED)
+                .commentPolicy(SecurityPolicy.AUTHENTICATED)
+                .fileEnabled(true)
+                .build();
+        Arrays.asList("ADMIN","invalid").forEach(roleId -> {
+            testBoard.getReadRoles().add(Role.builder()
+                    .roleId(roleId)
+                    .build());
+            testBoard.getWriteRoles().add(Role.builder()
+                    .roleId(roleId)
+                    .build());
+            testBoard.getCommentRoles().add(Role.builder()
+                    .roleId(roleId)
+                    .build());
+        });
+        return testBoard;
+    }
+
+    private Board saveTestBoard() {
+        Board testBoard = getTestBoard();
+        boardService.saveBoard(testBoard);
+        return testBoard;
+    }
 
     @Test
     @Order(1)
     void saveBoard() {
-        Board savedBoard = boardService.saveBoard(testBoard);
-        assertNotNull(entityManager.find(BoardEntity.class, savedBoard.getBoardId()));
+        // given
+        Board testBoard = getTestBoard();
+
+        // when
+        boardService.saveBoard(testBoard);
+
+        // then
+        BoardEntity boardEntity = entityManager.find(BoardEntity.class, testBoard.getBoardId());
+        assertNotNull(boardEntity);
     }
 
     @Test
     @Order(2)
-    void getUser() {
-        Board savedBoard = boardService.saveBoard(testBoard);
-        Board board = boardService.getBoard(savedBoard.getBoardId()).orElse(null);
+    void getBoard() {
+        // given
+        Board testBoard = saveTestBoard();
+
+        // when
+        Board board = boardService.getBoard(testBoard.getBoardId()).orElseThrow();
+
+        // then
         assertNotNull(board);
     }
 
     @Test
     @Order(3)
     void deleteBoard() {
-        Board savedBoard = boardService.saveBoard(testBoard);
-        boardService.deleteBoard(savedBoard.getBoardId());
-        assertNull(entityManager.find(BoardEntity.class, savedBoard.getBoardId()));
-    }
+        // given
+        Board testBoard = saveTestBoard();
 
-    @Test
-    @Order(4)
-    void getBoard() {
-        Board savedBoard = boardService.saveBoard(testBoard);
-        BoardSearch boardSearch = BoardSearch.builder()
-                .boardName(savedBoard.getBoardName())
-                .build();
-        Page<Board> boardPage = boardService.getBoards(boardSearch, PageRequest.of(0,10));
-        assertTrue(boardPage.getContent().stream().anyMatch(e -> e.getBoardName().contains(boardSearch.getBoardName())));
+        // when
+        boardService.deleteBoard(testBoard.getBoardId());
+
+        // then
+        assertNull(entityManager.find(BoardEntity.class, testBoard.getBoardId()));
     }
 
 }

@@ -75,32 +75,17 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
         this.password = null;
     }
 
-    /**
-     * check has role
-     * @param role role
-     * @return result
-     */
     public boolean hasRole(Role role) {
         GrantedAuthority authority = GrantedAuthorityImpl.from(role);
         return this.authorities.stream()
                 .anyMatch(el -> Objects.equals(el.getAuthority(), authority.getAuthority()));
     }
 
-    /**
-     * check has authority
-     * @param authority authority
-     * @return result
-     */
     public boolean hasAuthority(Authority authority) {
         return this.authorities.stream()
                 .anyMatch(el -> Objects.equals(el.getAuthority(), authority.getAuthorityId()));
     }
 
-    /**
-     * factory method
-     * @param user user
-     * @return userDetailsImpl
-     */
     public static UserDetailsImpl from(User user) {
 
         // adds authorities

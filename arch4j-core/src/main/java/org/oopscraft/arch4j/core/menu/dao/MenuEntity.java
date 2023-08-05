@@ -61,18 +61,36 @@ public class MenuEntity extends SystemFieldEntity {
     @Column(name = "link_policy", length = 16)
     public SecurityPolicy linkPolicy;
 
-    @OneToMany(mappedBy = MenuRoleEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "menu_id",
+            referencedColumnName = "menu_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Where(clause = "type = 'VIEW'")
     @Builder.Default
-    private List<MenuRoleEntity> viewRoles = new ArrayList<>();
+    private List<MenuRoleEntity> viewMenuRoleEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = MenuRoleEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "menu_id",
+            referencedColumnName = "menu_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Where(clause = "type = 'LINK'")
     @Builder.Default
-    private List<MenuRoleEntity> linkRoles = new ArrayList<>();
+    private List<MenuRoleEntity> linkMenuRoleEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = MenuI18nEntity_.MENU_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "menu_id",
+            referencedColumnName = "menu_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Builder.Default
-    private List<MenuI18nEntity> i18ns = new ArrayList<>();
+    private List<MenuI18nEntity> menuI18nEntities = new ArrayList<>();
 
 }

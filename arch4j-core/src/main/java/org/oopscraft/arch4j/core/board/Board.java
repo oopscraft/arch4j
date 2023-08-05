@@ -71,37 +71,4 @@ public class Board {
         return SecurityUtils.hasPermission(commentPolicy, commentRoles);
     }
 
-    public static Board from(BoardEntity boardEntity) {
-        return Board.builder()
-                .boardId(boardEntity.getBoardId())
-                .boardName(boardEntity.getBoardName())
-                .note(boardEntity.getNote())
-                .icon(boardEntity.getIcon())
-                .messageFormat(boardEntity.getMessageFormat())
-                .message(boardEntity.getMessage())
-                .skin(boardEntity.getSkin())
-                .pageSize(boardEntity.getPageSize())
-                .fileEnabled(boardEntity.isFileEnabled())
-                // read policy,role
-                .readPolicy(boardEntity.getReadPolicy())
-                .readRoles(boardEntity.getReadRoles().stream()
-                        .map(BoardRoleEntity::getRole)
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
-                // write policy,role
-                .writePolicy(boardEntity.getWritePolicy())
-                .writeRoles(boardEntity.getWriteRoles().stream()
-                        .map(BoardRoleEntity::getRole)
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
-                // comment policy,role
-                .commentEnabled(boardEntity.isCommentEnabled())
-                .commentPolicy(boardEntity.getCommentPolicy())
-                .commentRoles(boardEntity.getCommentRoles().stream()
-                        .map(BoardRoleEntity::getRole)
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
 }

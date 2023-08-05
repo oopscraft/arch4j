@@ -26,11 +26,12 @@ public class AuthorityService {
         authorityEntity.setAuthorityName(authority.getAuthorityName());
         authorityEntity.setNote(authority.getNote());
         authorityEntity = authorityRepository.saveAndFlush(authorityEntity);
-        return Authority.from(authorityEntity);
+        return mapToAuthority(authorityEntity);
     }
 
     public Optional<Authority> getAuthority(String authorityId) {
-        return authorityRepository.findById(authorityId).map(Authority::from);
+        return authorityRepository.findById(authorityId)
+                .map(this::mapToAuthority);
     }
 
     public void deleteAuthority(String authorityId) {
@@ -41,9 +42,17 @@ public class AuthorityService {
     public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {
         Page<AuthorityEntity> authorityEntityPage = authorityRepository.findAll(authoritySearch, pageable);
         List<Authority> authorities = authorityEntityPage.getContent().stream()
-                .map(Authority::from)
+                .map(this::mapToAuthority)
                 .collect(Collectors.toList());
         return new PageImpl<>(authorities, pageable, authorityEntityPage.getTotalElements());
+    }
+
+    private Authority mapToAuthority(AuthorityEntity authorityEntity) {
+        return Authority.builder()
+                .authorityId(authorityEntity.getAuthorityId())
+                .authorityName(authorityEntity.getAuthorityName())
+                .note(authorityEntity.getNote())
+                .build();
     }
 
 }

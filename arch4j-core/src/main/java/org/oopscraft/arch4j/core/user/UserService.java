@@ -1,7 +1,8 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRepository;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -28,6 +29,8 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RoleService roleService;
+
     @Transactional
     public User saveUser(User user) {
         UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(
@@ -44,32 +47,36 @@ public class UserService {
         userEntity.setPhoto(user.getPhoto());
         userEntity.setProfile(user.getProfile());
 
-        // roles
-        userEntity.getRoles().clear();
-        user.getRoles().stream()
-                .map(role -> UserRoleEntity.builder()
-                        .userId(user.getUserId())
-                        .roleId(role.getRoleId())
-                        .build())
-                .forEach(userEntity.getRoles()::add);
+        userEntity.getUserRoleEntities().clear();
+        user.getRoles().forEach(role -> {
+            UserRoleEntity userRoleEntity = UserRoleEntity.builder()
+                    .userId(userEntity.getUserId())
+                    .roleId(role.getRoleId())
+                    .build();
+            userEntity.getUserRoleEntities().add(userRoleEntity);
+        });
 
-        // save
         userRepository.saveAndFlush(userEntity);
-        entityManager.clear();
-
-        // return
-        return userRepository.findById(user.getUserId())
-                .map(User::from)
+        return getUser(userEntity.getUserId())
                 .orElseThrow();
     }
 
     public Optional<User> getUser(String userId) {
-        return userRepository.findById(userId).map(User::from);
+        return userRepository.findById(userId)
+                .map(this::mapToUser);
+    }
+
+    public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
+        Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
+        List<User> users = userEntityPage.getContent().stream()
+                .map(this::mapToUser)
+                .collect(Collectors.toList());
+        return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 
     public Optional<User> getUserByEmail(String email) {
         User user = Optional.ofNullable(userRepository.findFirstByEmail(email))
-                .map(User::from)
+                .map(this::mapToUser)
                 .orElse(null);
         return Optional.ofNullable(user);
     }
@@ -79,10 +86,30 @@ public class UserService {
         userRepository.flush();
     }
 
-    public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
-        Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
-        List<User> users = User.from(userEntityPage.getContent());
-        return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
+    private User mapToUser(UserEntity userEntity) {
+        User user = User.builder()
+                .userId(userEntity.getUserId())
+                .userName(userEntity.getUserName())
+                .password(userEntity.getPassword())
+                .type(userEntity.getType())
+                .status(userEntity.getStatus())
+                .email(userEntity.getEmail())
+                .mobile(userEntity.getMobile())
+                .joinAt(userEntity.getJoinAt())
+                .loginAt(userEntity.getCloseAt())
+                .photo(userEntity.getPhoto())
+                .profile(userEntity.getProfile())
+                .build();
+        List<Role> roles = userEntity.getUserRoleEntities().stream()
+                .map(userRoleEntity ->
+                    roleService.getRole(userRoleEntity.getRoleId())
+                            .orElse(Role.builder()
+                                    .roleId(userRoleEntity.getRoleId())
+                                    .build())
+                )
+                .collect(Collectors.toList());
+        user.setRoles(roles);
+        return user;
     }
 
     public boolean isPasswordMatched(String userId, String password) {

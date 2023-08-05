@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-/**
- * SMTP mocking server for test
- */
 @Component
 @Lazy(false)
 @ConditionalOnProperty(prefix="spring.mail", name = "host", havingValue="127.0.0.1")

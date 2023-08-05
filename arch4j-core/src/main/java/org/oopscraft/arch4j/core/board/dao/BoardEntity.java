@@ -2,12 +2,10 @@ package org.oopscraft.arch4j.core.board.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.SQLInsert;
 import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.board.MessageFormat;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
@@ -71,19 +69,37 @@ public class BoardEntity extends SystemFieldEntity {
     @Column(name = "comment_policy", length = 16)
     public SecurityPolicy commentPolicy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "board_id",
+            referencedColumnName = "board_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Where(clause = "type = 'READ'")
     @Builder.Default
-    private List<BoardRoleEntity> readRoles = new ArrayList<>();
+    private List<BoardRoleEntity> readBoardRoleEntities = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "board_id",
+            referencedColumnName = "board_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Where(clause = "type = 'WRITE'")
     @Builder.Default
-    private List<BoardRoleEntity> writeRoles = new ArrayList<>();
+    private List<BoardRoleEntity> writeBoardRoleEntities = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = BoardRoleEntity_.BOARD_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "board_id",
+            referencedColumnName = "board_id",
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
     @Where(clause = "type = 'COMMENT'")
     @Builder.Default
-    private List<BoardRoleEntity> commentRoles = new ArrayList<>();
+    private List<BoardRoleEntity> commentBoardRoleEntities = new ArrayList<>();
 
 }

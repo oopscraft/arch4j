@@ -7,6 +7,7 @@ import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Optional;
 
 @Entity
 @Table(name = "core_user_role")
@@ -36,7 +37,13 @@ public class UserRoleEntity extends SystemFieldEntity {
     private String roleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "none"), insertable = false, updatable = false)
-    private RoleEntity role;
+    @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "role_id",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
+    private RoleEntity roleEntity;
 
 }

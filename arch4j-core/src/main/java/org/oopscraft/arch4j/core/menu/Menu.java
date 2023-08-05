@@ -44,40 +44,4 @@ public class Menu {
     @Builder.Default
     private List<Role> linkRoles = new ArrayList<>();
 
-    public static Menu from(MenuEntity menuEntity) {
-        Menu menu = Menu.builder()
-                .menuId(menuEntity.getMenuId())
-                .menuName(menuEntity.getMenuName())
-                .parentMenuId(menuEntity.getParentMenuId())
-                .link(menuEntity.getLink())
-                .target(menuEntity.getTarget())
-                .icon(menuEntity.getIcon())
-                .sort(menuEntity.getSort())
-                .note(menuEntity.getNote())
-                .viewPolicy(menuEntity.getViewPolicy())
-                .build();
-
-        MenuEntity parentMenuEntity = menuEntity.getParentMenu();
-        if (parentMenuEntity != null) {
-            menu.setParentMenuName(parentMenuEntity.getMenuName());
-        }
-
-        // view role
-        menu.setViewPolicy(menuEntity.getViewPolicy());
-        menu.setViewRoles(menuEntity.getViewRoles().stream()
-                .map(MenuRoleEntity::getRole)
-                .map(Role::from)
-                .collect(Collectors.toList()));
-
-        // link role
-        menu.setLinkPolicy(menuEntity.getLinkPolicy());
-        menu.setLinkRoles(menuEntity.getLinkRoles().stream()
-                .map(MenuRoleEntity::getRole)
-                .map(Role::from)
-                .collect(Collectors.toList()));
-
-        // return
-        return menu;
-    }
-
 }

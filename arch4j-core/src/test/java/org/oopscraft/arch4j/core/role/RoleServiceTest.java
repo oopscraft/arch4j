@@ -13,46 +13,83 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor
 class RoleServiceTest extends CoreTestSupport {
 
-    final RoleService roleService;
+    private final RoleService roleService;
 
-    Role testRole = Role.builder()
-            .roleId("role_id")
-            .roleName("role_name")
-            .build();
+    private Role getTestRole() {
+        Role testRole = Role.builder()
+                .roleId("role_id")
+                .roleName("role_name")
+                .build();
+        testRole.getAuthorities()
+                .add(Authority.builder()
+                        .authorityId("authority_id")
+                        .build());
+        return testRole;
+    }
+
+    private Role createTestRole() {
+        Role testRole = getTestRole();
+        roleService.saveRole(testRole);
+        return testRole;
+    }
 
     @Test
     @Order(1)
     void saveRole() {
-        Role savedRole = roleService.saveRole(testRole);
-        assertNotNull(savedRole);
-        assertNotNull(entityManager.find(RoleEntity.class, savedRole.getRoleId()));
+        // given
+        Role testRole = getTestRole();
+
+        // when
+        roleService.saveRole(testRole);
+
+        // then
+        assertNotNull(entityManager.find(RoleEntity.class, testRole.getRoleId()));
     }
 
     @Test
     @Order(2)
     void getRole() {
-        Role savedRole = roleService.saveRole(testRole);
-        Role role = roleService.getRole(savedRole.getRoleId()).orElse(null);
-        assertNotNull(role);
-    }
+        // given
+        Role testRole = createTestRole();
 
-    @Test
-    @Order(3)
-    void deleteRole() {
-        Role savedRole = roleService.saveRole(testRole);
-        roleService.deleteRole(savedRole.getRoleId());
-        assertNull(entityManager.find(RoleEntity.class, testRole.getRoleId()));
+        // when
+        Role role = roleService.getRole(testRole.getRoleId()).orElseThrow();
+
+        // then
+        assertNotNull(role);
     }
 
     @Test
     @Order(4)
     void getRoles() {
-        Role savedRole = roleService.saveRole(testRole);
+        // given
+        Role testRole = createTestRole();
+
+        // when
         RoleSearch roleSearch = RoleSearch.builder()
-                .roleName(savedRole.getRoleName())
+                .roleName(testRole.getRoleName())
                 .build();
         Page<Role> rolePage = roleService.getRoles(roleSearch, PageRequest.of(0,10));
-        assertTrue(rolePage.getContent().stream().anyMatch(e -> e.getRoleName().contains(roleSearch.getRoleName())));
+
+        // then
+        assertTrue(rolePage.getContent().stream()
+                .anyMatch(e -> e.getRoleName().contains(roleSearch.getRoleName())));
     }
+
+
+    @Test
+    @Order(3)
+    void deleteRole() {
+        // given
+        Role testRole = createTestRole();
+
+        // when
+        roleService.deleteRole(testRole.getRoleId());
+
+        // then
+        RoleEntity roleEntity = entityManager.find(RoleEntity.class, testRole.getRoleId());
+        assertNull(roleEntity);
+    }
+
 
 }

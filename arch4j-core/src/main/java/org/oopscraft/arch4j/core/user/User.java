@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -23,11 +22,9 @@ public class User {
 
     private String password;
 
-    @Builder.Default
-    private UserType type = UserType.GENERAL;
+    private UserType type;
 
-    @Builder.Default
-    private UserStatus status = UserStatus.ACTIVE;
+    private UserStatus status;
 
     private String email;
 
@@ -43,31 +40,5 @@ public class User {
 
     @Builder.Default
     List<Role> roles = new ArrayList<>();
-
-    public static User from(UserEntity userEntity) {
-        return User.builder()
-                .userId(userEntity.getUserId())
-                .userName(userEntity.getUserName())
-                .password(userEntity.getPassword())
-                .type(userEntity.getType())
-                .status(userEntity.getStatus())
-                .email(userEntity.getEmail())
-                .mobile(userEntity.getMobile())
-                .joinAt(userEntity.getJoinAt())
-                .loginAt(userEntity.getCloseAt())
-                .photo(userEntity.getPhoto())
-                .profile(userEntity.getProfile())
-                .roles(userEntity.getRoles().stream()
-                        .map(UserRoleEntity::getRole)
-                        .map(Role::from)
-                        .collect(Collectors.toList()))
-                .build();
-    }
-
-    public static List<User> from(List<UserEntity> userEntities) {
-        return userEntities.stream()
-                .map(User::from)
-                .collect(Collectors.toList());
-    }
 
 }

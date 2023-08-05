@@ -16,6 +16,7 @@ dependencies {
 
     // subproject
     implementation project(":arch4j-core")
+    implementation project(":arch4j-web")
     implementation project(":arch4j-batch")
 
     // picocli starter
@@ -25,6 +26,7 @@ dependencies {
     api 'org.springframework.session:spring-session-jdbc'
 
     // spring boot starter
+    api 'org:springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-batch'
 
 }

@@ -34,4 +34,14 @@ public class RoleAuthorityEntity extends SystemFieldEntity {
     @Column(name = "authority_id")
     private String authorityId;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(
+            name = "authority_id",
+            referencedColumnName = "authority_id",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
+    private AuthorityEntity authorityEntity;
+
 }

@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.user;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRepository;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -66,6 +67,32 @@ public class UserService {
                 .map(this::mapToUser);
     }
 
+    private User mapToUser(UserEntity userEntity) {
+        User user = User.builder()
+                .userId(userEntity.getUserId())
+                .userName(userEntity.getUserName())
+                .password(userEntity.getPassword())
+                .type(userEntity.getType())
+                .status(userEntity.getStatus())
+                .email(userEntity.getEmail())
+                .mobile(userEntity.getMobile())
+                .joinAt(userEntity.getJoinAt())
+                .loginAt(userEntity.getCloseAt())
+                .photo(userEntity.getPhoto())
+                .profile(userEntity.getProfile())
+                .build();
+        List<Role> roles = userEntity.getUserRoleEntities().stream()
+                .map(userRoleEntity -> {
+                    RoleEntity roleEntity = userRoleEntity.getRoleEntity();
+                    return Optional.ofNullable(roleEntity)
+                            .map(roleService::mapToRole)
+                            .orElse(null);
+                })
+                .collect(Collectors.toList());
+        user.setRoles(roles);
+        return user;
+    }
+
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
         List<User> users = userEntityPage.getContent().stream()
@@ -86,31 +113,6 @@ public class UserService {
         userRepository.flush();
     }
 
-    private User mapToUser(UserEntity userEntity) {
-        User user = User.builder()
-                .userId(userEntity.getUserId())
-                .userName(userEntity.getUserName())
-                .password(userEntity.getPassword())
-                .type(userEntity.getType())
-                .status(userEntity.getStatus())
-                .email(userEntity.getEmail())
-                .mobile(userEntity.getMobile())
-                .joinAt(userEntity.getJoinAt())
-                .loginAt(userEntity.getCloseAt())
-                .photo(userEntity.getPhoto())
-                .profile(userEntity.getProfile())
-                .build();
-        List<Role> roles = userEntity.getUserRoleEntities().stream()
-                .map(userRoleEntity ->
-                    roleService.getRole(userRoleEntity.getRoleId())
-                            .orElse(Role.builder()
-                                    .roleId(userRoleEntity.getRoleId())
-                                    .build())
-                )
-                .collect(Collectors.toList());
-        user.setRoles(roles);
-        return user;
-    }
 
     public boolean isPasswordMatched(String userId, String password) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();

@@ -36,7 +36,7 @@ public class UserRoleEntity extends SystemFieldEntity {
     @Column(name = "role_id")
     private String roleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(
             name = "role_id",
             referencedColumnName = "role_id",

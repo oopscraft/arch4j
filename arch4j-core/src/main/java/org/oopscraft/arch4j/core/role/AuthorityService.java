@@ -47,7 +47,7 @@ public class AuthorityService {
         return new PageImpl<>(authorities, pageable, authorityEntityPage.getTotalElements());
     }
 
-    private Authority mapToAuthority(AuthorityEntity authorityEntity) {
+    public Authority mapToAuthority(AuthorityEntity authorityEntity) {
         return Authority.builder()
                 .authorityId(authorityEntity.getAuthorityId())
                 .authorityName(authorityEntity.getAuthorityName())

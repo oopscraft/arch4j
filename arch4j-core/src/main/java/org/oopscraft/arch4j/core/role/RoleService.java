@@ -53,17 +53,18 @@ public class RoleService {
                 .map(this::mapToRole);
     }
 
-    private Role mapToRole(RoleEntity roleEntity) {
+    public Role mapToRole(RoleEntity roleEntity) {
         Role role = Role.builder()
                 .roleId(roleEntity.getRoleId())
                 .roleName(roleEntity.getRoleName())
                 .build();
         List<Authority> authorities = roleEntity.getRoleAuthorityEntities().stream()
-                .map(roleAuthorityEntity ->
-                        authorityService.getAuthority(roleAuthorityEntity.getAuthorityId())
-                                .orElse(Authority.builder()
-                                        .authorityId(roleAuthorityEntity.getAuthorityId())
-                                        .build()))
+                .map(roleAuthorityEntity -> {
+                    AuthorityEntity authorityEntity = roleAuthorityEntity.getAuthorityEntity();
+                    return Optional.ofNullable(authorityEntity)
+                            .map(authorityService::mapToAuthority)
+                            .orElse(null);
+                })
                 .collect(Collectors.toList());
         role.setAuthorities(authorities);
         return role;

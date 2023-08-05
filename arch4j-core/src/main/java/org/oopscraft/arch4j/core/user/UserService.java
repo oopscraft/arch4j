@@ -82,12 +82,10 @@ public class UserService {
                 .profile(userEntity.getProfile())
                 .build();
         List<Role> roles = userEntity.getUserRoleEntities().stream()
-                .map(userRoleEntity -> {
-                    RoleEntity roleEntity = userRoleEntity.getRoleEntity();
-                    return Optional.ofNullable(roleEntity)
-                            .map(roleService::mapToRole)
-                            .orElse(null);
-                })
+                .map(userRoleEntity ->
+                        Optional.ofNullable(userRoleEntity.getRoleEntity())
+                                .map(roleService::mapToRole)
+                                .orElse(null))
                 .collect(Collectors.toList());
         user.setRoles(roles);
         return user;

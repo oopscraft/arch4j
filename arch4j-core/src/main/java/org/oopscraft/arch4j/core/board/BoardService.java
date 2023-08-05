@@ -106,34 +106,35 @@ public class BoardService {
 
         // read policy
         board.setReadPolicy(boardEntity.getReadPolicy());
-        boardEntity.getReadBoardRoleEntities().forEach(boardRoleEntity -> {
-            Role role = roleService.getRole(boardRoleEntity.getRoleId())
-                    .orElse(Role.builder()
-                            .roleId(boardRoleEntity.getRoleId())
-                            .build());
-            board.getReadRoles().add(role);
-        });
+        List<Role> readRoles = boardEntity.getReadBoardRoleEntities().stream()
+                        .map(boardRoleEntity ->
+                            Optional.ofNullable(boardRoleEntity.getRoleEntity())
+                                    .map(roleService::mapToRole)
+                                    .orElse(null))
+                        .collect(Collectors.toList());
+        board.setReadRoles(readRoles);
 
         // write policy
         board.setWritePolicy(boardEntity.getWritePolicy());
-        boardEntity.getWriteBoardRoleEntities().forEach(boardRoleEntity -> {
-            Role role = roleService.getRole(boardRoleEntity.getRoleId())
-                    .orElse(Role.builder()
-                            .roleId(boardRoleEntity.getRoleId())
-                            .build());
-            board.getWriteRoles().add(role);
-        });
+        List<Role> writeRoles = boardEntity.getWriteBoardRoleEntities().stream()
+                .map(boardRoleEntity ->
+                        Optional.ofNullable(boardRoleEntity.getRoleEntity())
+                                .map(roleService::mapToRole)
+                                .orElse(null))
+                .collect(Collectors.toList());
+        board.setWriteRoles(writeRoles);
 
         // comment policy
         board.setCommentPolicy(boardEntity.getCommentPolicy());
-        boardEntity.getCommentBoardRoleEntities().forEach(boardRoleEntity -> {
-            Role role = roleService.getRole(boardRoleEntity.getRoleId())
-                    .orElse(Role.builder()
-                            .roleId(boardRoleEntity.getRoleId())
-                            .build());
-            board.getCommentRoles().add(role);
-        });
+        List<Role> commentRoles = boardEntity.getCommentBoardRoleEntities().stream()
+                .map(boardRoleEntity ->
+                        Optional.ofNullable(boardRoleEntity.getRoleEntity())
+                                .map(roleService::mapToRole)
+                                .orElse(null))
+                .collect(Collectors.toList());
+        board.setCommentRoles(commentRoles);
 
+        // return
         return board;
     }
 

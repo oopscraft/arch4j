@@ -40,4 +40,15 @@ public class BoardRoleEntity extends SystemFieldEntity {
     @Column(name = "type", length = 16)
     private String type;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "role_id",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
+    private RoleEntity roleEntity;
+
+
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Cacheable
 public class RoleEntity extends SystemFieldEntity {
 
     @Id

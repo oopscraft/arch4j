@@ -13,7 +13,6 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Cacheable
 public class AuthorityEntity extends SystemFieldEntity {
 
     @Id

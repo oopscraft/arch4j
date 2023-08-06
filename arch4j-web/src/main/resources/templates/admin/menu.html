@@ -324,8 +324,8 @@
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
-                                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.roleName}"></th>
+                                    <th data-th-text="#{core.user.Role.roleId}"></th>
+                                    <th data-th-text="#{core.user.Role.roleName}"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -376,8 +376,8 @@
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
                                         </button>
                                     </th>
-                                    <th data-th-text="#{core.role.Role.roleId}"></th>
-                                    <th data-th-text="#{core.role.Role.roleName}"></th>
+                                    <th data-th-text="#{core.user.Role.roleId}"></th>
+                                    <th data-th-text="#{core.user.Role.roleName}"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -530,6 +530,6 @@
     <!-- end: menuSelect                    -->
     <!-- ================================== -->
 
-    <th:block th:include="admin/role-select.html"></th:block>
+    <th:block th:include="admin/_common.html :: roleSelect"></th:block>
 
 </main>

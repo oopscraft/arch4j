@@ -3,14 +3,11 @@ package org.oopscraft.arch4j.web.admin;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.menu.Menu;
-import org.oopscraft.arch4j.core.menu.MenuSearch;
 import org.oopscraft.arch4j.core.menu.MenuService;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleSearch;
-import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.user.UserStatus;
-import org.oopscraft.arch4j.core.user.UserType;
+import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.user.RoleSearch;
+import org.oopscraft.arch4j.core.user.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("admin/menu")

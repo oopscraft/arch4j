@@ -34,17 +34,21 @@ public class PageService {
         pageEntity.setPageName(page.getPageName());
         pageEntity.setContentFormat(page.getContentFormat());
         pageEntity.setContent(page.getContent());
-        pageEntity.getWidgets().clear();
+        pageEntity.getPageWidgetEntities().clear();
+
+        // widget
         int index = 0;
-        for(PageWidget pageWidget : page.getWidgets()) {
+        for(PageWidget pageWidget : page.getPageWidgets()) {
             index ++;
-            pageEntity.getWidgets().add(PageWidgetEntity.builder()
+            pageEntity.getPageWidgetEntities().add(PageWidgetEntity.builder()
                     .pageId(page.getPageId())
                     .index(index)
                     .type(pageWidget.getType())
                     .properties(pageWidget.getProperties())
                     .build());
         }
+
+        // save and return
         pageEntity = pageRepository.saveAndFlush(pageEntity);
         return Page.from(pageEntity);
     }
@@ -66,7 +70,7 @@ public class PageService {
     }
 
     private void fillUrl(final Page page) {
-        page.getWidgets().forEach(pageWidget -> {
+        page.getPageWidgets().forEach(pageWidget -> {
             pageWidget.setUrl(getPageWidgetUrl(pageWidget));
         });
     }
@@ -100,6 +104,7 @@ public class PageService {
     @Transactional
     public void deletePage(String pageId) {
         pageRepository.deleteById(pageId);
+        pageRepository.flush();
     }
 
 }

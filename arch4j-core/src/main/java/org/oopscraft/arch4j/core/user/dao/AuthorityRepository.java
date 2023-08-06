@@ -1,7 +1,6 @@
-package org.oopscraft.arch4j.core.role.dao;
+package org.oopscraft.arch4j.core.user.dao;
 
-import org.oopscraft.arch4j.core.role.AuthoritySearch;
-import org.oopscraft.arch4j.core.user.dao.UserRepositoryCustom;
+import org.oopscraft.arch4j.core.user.AuthoritySearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

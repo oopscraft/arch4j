@@ -1,30 +1,28 @@
-package org.oopscraft.arch4j.core.role.dao;
+package org.oopscraft.arch4j.core.user.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "core_role")
+@Table(name = "core_authority")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoleEntity extends SystemFieldEntity {
+public class AuthorityEntity extends SystemFieldEntity {
 
     @Id
-    @Column(name = "role_id", length = 32)
-    private String roleId;
+    @Column(name = "authority_id", length = 32)
+    private String authorityId;
 
-    @NotNull
-    @Column(name = "role_name")
-    private String roleName;
+    @Column(name = "authority_name")
+    private String authorityName;
 
     @Column(name = "note")
     @Lob
@@ -32,12 +30,10 @@ public class RoleEntity extends SystemFieldEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "role_id",
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            name = "authority_id",
+            referencedColumnName = "authority_id",
+            updatable = false
     )
-    @Builder.Default
     private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
 
 }

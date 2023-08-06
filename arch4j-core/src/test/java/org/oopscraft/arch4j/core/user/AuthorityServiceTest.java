@@ -1,11 +1,10 @@
-package org.oopscraft.arch4j.core.role;
+package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.user.dao.AuthorityEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -23,14 +22,14 @@ class AuthorityServiceTest extends CoreTestSupport {
                 .build();
     }
 
-    private Authority createTestAuthority() {
+    private Authority saveTestAuthority() {
         Authority testAuthority = getTestAuthority();
         return authorityService.saveAuthority(testAuthority);
     }
 
     @Test
     @Order(1)
-    void saveAuthority() {
+    void saveAuthorityToPersist() {
         // given
         Authority testAuthority = getTestAuthority();
 
@@ -38,15 +37,34 @@ class AuthorityServiceTest extends CoreTestSupport {
         authorityService.saveAuthority(testAuthority);
 
         // then
+        entityManager.clear();
         AuthorityEntity authorityEntity = entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId());
         assertNotNull(authorityEntity);
     }
 
     @Test
     @Order(2)
+    void saveAuthorityToMerge() {
+        // given
+        Authority testAuthority = saveTestAuthority();
+
+        // when
+        testAuthority.setAuthorityName("changed");
+        authorityService.saveAuthority(testAuthority);
+
+        // then
+        entityManager.clear();
+        assertEquals(
+                "changed",
+                entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId()).getAuthorityName()
+        );
+    }
+
+    @Test
+    @Order(3)
     void getAuthority() {
         // given
-        Authority testAuthority = createTestAuthority();
+        Authority testAuthority = saveTestAuthority();
 
         // when
         Authority authority = authorityService.getAuthority(testAuthority.getAuthorityId())
@@ -60,10 +78,26 @@ class AuthorityServiceTest extends CoreTestSupport {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
+    void deleteAuthority() {
+        // given
+        Authority testAuthority = saveTestAuthority();
+
+        // when
+        authorityService.deleteAuthority(testAuthority.getAuthorityId());
+
+        // then
+        entityManager.flush();
+        entityManager.clear();
+        AuthorityEntity authorityEntity = entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId());
+        assertNull(authorityEntity);
+    }
+
+    @Test
+    @Order(5)
     void getAuthorities() {
         // given
-        Authority testAuthority = createTestAuthority();
+        Authority testAuthority = saveTestAuthority();
 
         // when
         AuthoritySearch authoritySearch = AuthoritySearch.builder()
@@ -73,27 +107,10 @@ class AuthorityServiceTest extends CoreTestSupport {
 
         // then
         assertTrue(rolePage.getContent().stream()
-                .anyMatch(e ->
+                .allMatch(e ->
                         e.getAuthorityId().contains(authoritySearch.getAuthorityId())
                 )
         );
     }
-
-
-
-    @Test
-    @Order(4)
-    void deleteAuthority() {
-        // given
-        Authority testAuthority = createTestAuthority();
-
-        // when
-        authorityService.deleteAuthority(testAuthority.getAuthorityId());
-
-        // then
-        AuthorityEntity authorityEntity = entityManager.find(AuthorityEntity.class, testAuthority.getAuthorityId());
-        assertNull(authorityEntity);
-    }
-
 
 }

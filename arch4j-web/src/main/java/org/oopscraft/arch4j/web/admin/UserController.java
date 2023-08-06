@@ -22,9 +22,11 @@ public class UserController {
 
     private final UserService userService;
 
-    private final AuthenticationTokenService accessTokenEncoder;
+    private final RoleService roleService;
 
-    private final UserLoginService userLoginService;
+    private final AuthorityService authorityService;
+
+    private final AuthenticationTokenService accessTokenEncoder;
 
     @GetMapping
     public ModelAndView user() {
@@ -60,24 +62,72 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
-    @PostMapping("change-password")
+    @PostMapping("change-user-password")
     @ResponseBody
-    public void changePassword(@RequestBody Map<String,String> payload) {
+    public void changeUserPassword(@RequestBody Map<String,String> payload) {
         userService.changePassword(payload.get("userId"), payload.get("password"));
     }
 
-    @GetMapping("generate-access-token")
+    @GetMapping("generate-user-access-token")
     @ResponseBody
-    public String generateAccessToken(@RequestParam("userId")String userId) {
+    public String generateUserAccessToken(@RequestParam("userId")String userId) {
         User user = userService.getUser(userId).orElseThrow();
         UserDetailsImpl userDetails = UserDetailsImpl.from(user);
         return accessTokenEncoder.encodeAuthenticationToken(userDetails);
     }
 
-    @GetMapping("get-user-logins")
+    @GetMapping("get-roles")
     @ResponseBody
-    public Page<UserLogin> getUserLogins(UserLoginSearch userLoginSearch, Pageable pageable) {
-        return userLoginService.getUserLogins(userLoginSearch, pageable);
+    public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
+        return roleService.getRoles(roleSearch, pageable);
+    }
+
+    @GetMapping("get-role")
+    @ResponseBody
+    public Role getRole(@RequestParam("roleId")String roleId) {
+        return roleService.getRole(roleId)
+                .orElseThrow();
+    }
+
+    @PostMapping("save-role")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
+    public Role saveRole(@RequestBody @Valid Role role) {
+        return roleService.saveRole(role);
+    }
+
+    @GetMapping("delete-role")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
+    public void deleteRole(@RequestParam("roleId") String roleId) {
+        roleService.deleteRole(roleId);
+    }
+
+    @GetMapping("get-authorities")
+    @ResponseBody
+    public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {
+        return authorityService.getAuthorities(authoritySearch, pageable);
+    }
+
+    @GetMapping("get-authority")
+    @ResponseBody
+    public Authority getAuthority(@RequestParam("authorityId") String authorityId) {
+        return authorityService.getAuthority(authorityId)
+                .orElseThrow();
+    }
+
+    @PostMapping("save-authority")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
+    public Authority saveAuthority(@RequestBody @Valid Authority authority) {
+        return authorityService.saveAuthority(authority);
+    }
+
+    @GetMapping("delete-authority")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
+    public void deleteAuthority(@RequestParam("authorityId")String authorityId) {
+        authorityService.deleteAuthority(authorityId);
     }
 
 }

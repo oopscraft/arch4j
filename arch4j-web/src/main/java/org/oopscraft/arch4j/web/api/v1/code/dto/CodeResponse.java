@@ -18,32 +18,20 @@ public class CodeResponse {
     private String codeName;
 
     @Builder.Default
-    private List<Item> items = new ArrayList<>();
-
-    @Data
-    @Builder
-    public static class Item {
-
-        private String id;
-
-        private String name;
-
-        private String value;
-
-        static Item from(CodeItem codeItem) {
-            return Item.builder()
-                    .id(codeItem.getItemId())
-                    .name(codeItem.getItemName())
-                    .build();
-        }
-    }
+    private List<CodeItemResponse> codeItems = new ArrayList<>();
 
     public static CodeResponse from(Code code){
-         return CodeResponse.builder()
+        CodeResponse codeResponse = CodeResponse.builder()
                 .codeId(code.getCodeId())
                 .codeName(code.getCodeName())
-                .items(code.getCodeItems().stream().map(Item::from).collect(Collectors.toList()))
                 .build();
+
+        List<CodeItemResponse> codeItems = code.getCodeItems().stream()
+                .map(CodeItemResponse::from)
+                .collect(Collectors.toList());
+        codeResponse.setCodeItems(codeItems);
+
+        return codeResponse;
     }
 
 }

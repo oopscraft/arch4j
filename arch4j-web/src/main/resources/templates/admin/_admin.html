@@ -261,10 +261,6 @@
                 <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
                 <span data-th-text="#{web.admin.user}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/role}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE'')')}?'locked'">
-                <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
-                <span data-th-text="#{web.admin.role}"></span>
-            </li>
             <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-board.svg}"/>
                 <span data-th-text="#{web.admin.board}"></span>

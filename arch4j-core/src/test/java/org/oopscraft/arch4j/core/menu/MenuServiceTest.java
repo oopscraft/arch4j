@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
-import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.user.Role;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +33,7 @@ class MenuServiceTest extends CoreTestSupport {
         return testMenu;
     }
 
-    private Menu createTestMenu() {
+    private Menu saveTestMenu() {
         Menu testMenu = getTestMenu();
         menuService.saveMenu(testMenu);
         return testMenu;
@@ -41,7 +41,7 @@ class MenuServiceTest extends CoreTestSupport {
 
     @Test
     @Order(1)
-    void saveMenu() {
+    void saveMenuToPersist() {
         // given
         Menu testMenu = getTestMenu();
 
@@ -55,9 +55,26 @@ class MenuServiceTest extends CoreTestSupport {
 
     @Test
     @Order(2)
+    void saveMenuToMerge() {
+        // given
+        Menu testMenu = saveTestMenu();
+
+        // when
+        testMenu.setMenuName("changed");
+        Menu menu = menuService.saveMenu(testMenu);
+
+        // then
+        assertEquals(
+                "changed",
+                entityManager.find(MenuEntity.class, menu.getMenuId()).getMenuName()
+        );
+    }
+
+    @Test
+    @Order(3)
     void getMenu() {
         // given
-        Menu testMenu = createTestMenu();
+        Menu testMenu = saveTestMenu();
 
         // when
         Menu menu = menuService.getMenu(testMenu.getMenuId()).orElseThrow();
@@ -67,10 +84,10 @@ class MenuServiceTest extends CoreTestSupport {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void deleteMenu() {
         // given
-        Menu testMenu = createTestMenu();
+        Menu testMenu = saveTestMenu();
 
         // when
         menuService.deleteMenu(testMenu.getMenuId());

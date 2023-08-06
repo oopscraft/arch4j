@@ -1,11 +1,12 @@
 package org.oopscraft.arch4j.core.message;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.oopscraft.arch4j.core.message.dao.MessageI18nEntity;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageI18n {
 
     private String messageId;

@@ -33,7 +33,7 @@ public class PageWidgetEntity extends SystemFieldEntity {
     @Column(name = "index")
     private Integer index;
 
-    @Column(name = "type")
+    @Column(name = "type", length = 256)
     private String type;
 
     @Column(name = "properties")

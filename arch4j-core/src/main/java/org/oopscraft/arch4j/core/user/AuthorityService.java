@@ -1,8 +1,8 @@
-package org.oopscraft.arch4j.core.role;
+package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.role.dao.AuthorityRepository;
+import org.oopscraft.arch4j.core.user.dao.AuthorityEntity;
+import org.oopscraft.arch4j.core.user.dao.AuthorityRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,13 +25,13 @@ public class AuthorityService {
                     .build());
         authorityEntity.setAuthorityName(authority.getAuthorityName());
         authorityEntity.setNote(authority.getNote());
-        authorityEntity = authorityRepository.saveAndFlush(authorityEntity);
-        return mapToAuthority(authorityEntity);
+        AuthorityEntity savedAuthorityEntity = authorityRepository.saveAndFlush(authorityEntity);
+        return Authority.from(savedAuthorityEntity);
     }
 
     public Optional<Authority> getAuthority(String authorityId) {
         return authorityRepository.findById(authorityId)
-                .map(this::mapToAuthority);
+                .map(Authority::from);
     }
 
     public void deleteAuthority(String authorityId) {
@@ -42,17 +42,9 @@ public class AuthorityService {
     public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {
         Page<AuthorityEntity> authorityEntityPage = authorityRepository.findAll(authoritySearch, pageable);
         List<Authority> authorities = authorityEntityPage.getContent().stream()
-                .map(this::mapToAuthority)
+                .map(Authority::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(authorities, pageable, authorityEntityPage.getTotalElements());
-    }
-
-    public Authority mapToAuthority(AuthorityEntity authorityEntity) {
-        return Authority.builder()
-                .authorityId(authorityEntity.getAuthorityId())
-                .authorityName(authorityEntity.getAuthorityName())
-                .note(authorityEntity.getNote())
-                .build();
     }
 
 }

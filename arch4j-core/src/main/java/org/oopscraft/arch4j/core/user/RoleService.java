@@ -1,17 +1,15 @@
-package org.oopscraft.arch4j.core.role;
+package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleAuthorityEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleRepository;
+import org.oopscraft.arch4j.core.user.dao.RoleAuthorityEntity;
+import org.oopscraft.arch4j.core.user.dao.RoleEntity;
+import org.oopscraft.arch4j.core.user.dao.RoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,36 +42,22 @@ public class RoleService {
         });
 
         // save
-        roleRepository.saveAndFlush(roleEntity);
-        return getRole(roleEntity.getRoleId()).orElseThrow();
+        RoleEntity savedRoleEntity = roleRepository.saveAndFlush(roleEntity);
+
+        // return
+        return Role.from(savedRoleEntity);
     }
 
     public Optional<Role> getRole(String roleId) {
         return roleRepository.findById(roleId)
-                .map(this::mapToRole);
+                .map(Role::from);
     }
 
-    public Role mapToRole(RoleEntity roleEntity) {
-        Role role = Role.builder()
-                .roleId(roleEntity.getRoleId())
-                .roleName(roleEntity.getRoleName())
-                .build();
-        List<Authority> authorities = roleEntity.getRoleAuthorityEntities().stream()
-                .map(roleAuthorityEntity -> {
-                    AuthorityEntity authorityEntity = roleAuthorityEntity.getAuthorityEntity();
-                    return Optional.ofNullable(authorityEntity)
-                            .map(authorityService::mapToAuthority)
-                            .orElse(null);
-                })
-                .collect(Collectors.toList());
-        role.setAuthorities(authorities);
-        return role;
-    }
 
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
         Page<RoleEntity> roleEntityPage = roleRepository.findAll(roleSearch, pageable);
         List<Role> roles = roleEntityPage.getContent().stream()
-                .map(this::mapToRole)
+                .map(Role::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(roles, pageable, roleEntityPage.getTotalElements());
     }

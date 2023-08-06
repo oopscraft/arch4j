@@ -1,9 +1,6 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRepository;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -48,6 +45,7 @@ public class UserService {
         userEntity.setPhoto(user.getPhoto());
         userEntity.setProfile(user.getProfile());
 
+        // user roles
         userEntity.getUserRoleEntities().clear();
         user.getRoles().forEach(role -> {
             UserRoleEntity userRoleEntity = UserRoleEntity.builder()
@@ -57,51 +55,30 @@ public class UserService {
             userEntity.getUserRoleEntities().add(userRoleEntity);
         });
 
-        userRepository.saveAndFlush(userEntity);
-        return getUser(userEntity.getUserId())
-                .orElseThrow();
+        // save
+        UserEntity savedUserEntity = userRepository.saveAndFlush(userEntity);
+
+        // return
+        return User.from(savedUserEntity);
     }
 
     public Optional<User> getUser(String userId) {
         return userRepository.findById(userId)
-                .map(this::mapToUser);
+                .map(User::from);
     }
 
-    private User mapToUser(UserEntity userEntity) {
-        User user = User.builder()
-                .userId(userEntity.getUserId())
-                .userName(userEntity.getUserName())
-                .password(userEntity.getPassword())
-                .type(userEntity.getType())
-                .status(userEntity.getStatus())
-                .email(userEntity.getEmail())
-                .mobile(userEntity.getMobile())
-                .joinAt(userEntity.getJoinAt())
-                .loginAt(userEntity.getCloseAt())
-                .photo(userEntity.getPhoto())
-                .profile(userEntity.getProfile())
-                .build();
-        List<Role> roles = userEntity.getUserRoleEntities().stream()
-                .map(userRoleEntity ->
-                        Optional.ofNullable(userRoleEntity.getRoleEntity())
-                                .map(roleService::mapToRole)
-                                .orElse(null))
-                .collect(Collectors.toList());
-        user.setRoles(roles);
-        return user;
-    }
 
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
         List<User> users = userEntityPage.getContent().stream()
-                .map(this::mapToUser)
+                .map(User::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 
     public Optional<User> getUserByEmail(String email) {
         User user = Optional.ofNullable(userRepository.findFirstByEmail(email))
-                .map(this::mapToUser)
+                .map(User::from)
                 .orElse(null);
         return Optional.ofNullable(user);
     }

@@ -41,10 +41,13 @@ public class CodeRestController {
                 .codeId(codeId)
                 .codeName(name)
                 .build();
+
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);
+
         List<CodeResponse> codeResponses = codePage.stream()
                 .map(CodeResponse::from)
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("code", pageable, codePage.getTotalElements()))
                 .body(codeResponses);

@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.user.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,54 +86,7 @@ public class BoardService {
 
     public Optional<Board> getBoard(String boardId) {
         return boardRepository.findById(boardId)
-                .map(this::mapToBoard);
-    }
-
-    public Board mapToBoard(BoardEntity boardEntity) {
-        Board board = Board.builder()
-                .boardId(boardEntity.getBoardId())
-                .boardName(boardEntity.getBoardName())
-                .note(boardEntity.getNote())
-                .icon(boardEntity.getIcon())
-                .messageFormat(boardEntity.getMessageFormat())
-                .message(boardEntity.getMessage())
-                .skin(boardEntity.getSkin())
-                .pageSize(boardEntity.getPageSize())
-                .fileEnabled(boardEntity.isFileEnabled())
-                .build();
-
-        // read policy
-        board.setReadPolicy(boardEntity.getReadPolicy());
-        List<Role> readRoles = boardEntity.getReadBoardRoleEntities().stream()
-                        .map(boardRoleEntity ->
-                            Optional.ofNullable(boardRoleEntity.getRoleEntity())
-                                    .map(roleService::mapToRole)
-                                    .orElse(null))
-                        .collect(Collectors.toList());
-        board.setReadRoles(readRoles);
-
-        // write policy
-        board.setWritePolicy(boardEntity.getWritePolicy());
-        List<Role> writeRoles = boardEntity.getWriteBoardRoleEntities().stream()
-                .map(boardRoleEntity ->
-                        Optional.ofNullable(boardRoleEntity.getRoleEntity())
-                                .map(roleService::mapToRole)
-                                .orElse(null))
-                .collect(Collectors.toList());
-        board.setWriteRoles(writeRoles);
-
-        // comment policy
-        board.setCommentPolicy(boardEntity.getCommentPolicy());
-        List<Role> commentRoles = boardEntity.getCommentBoardRoleEntities().stream()
-                .map(boardRoleEntity ->
-                        Optional.ofNullable(boardRoleEntity.getRoleEntity())
-                                .map(roleService::mapToRole)
-                                .orElse(null))
-                .collect(Collectors.toList());
-        board.setCommentRoles(commentRoles);
-
-        // return
-        return board;
+                .map(Board::from);
     }
 
     public void deleteBoard(String boardId) {
@@ -146,7 +97,7 @@ public class BoardService {
     public Page<Board> getBoards(BoardSearch boardSearch, Pageable pageable) {
         Page<BoardEntity> boardEntityPage = boardRepository.findAll(boardSearch, pageable);
         List<Board> boards = boardEntityPage.getContent().stream()
-                .map(this::mapToBoard)
+                .map(Board::from)
                 .collect(Collectors.toList());
         long total = boardEntityPage.getTotalElements();
         return new PageImpl<>(boards, pageable, total);

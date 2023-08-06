@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.role;
+package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
 

@@ -3,13 +3,13 @@ package org.oopscraft.arch4j.core.board;
 import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.user.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
@@ -69,6 +69,50 @@ public class Board {
 
     public boolean hasCommentPermission() {
         return SecurityUtils.hasPermission(commentPolicy, commentRoles);
+    }
+
+    public static Board from(BoardEntity boardEntity) {
+        Board board = Board.builder()
+                .boardId(boardEntity.getBoardId())
+                .boardName(boardEntity.getBoardName())
+                .note(boardEntity.getNote())
+                .icon(boardEntity.getIcon())
+                .messageFormat(boardEntity.getMessageFormat())
+                .message(boardEntity.getMessage())
+                .skin(boardEntity.getSkin())
+                .pageSize(boardEntity.getPageSize())
+                .fileEnabled(boardEntity.isFileEnabled())
+                .build();
+
+        // read policy
+        board.setReadPolicy(boardEntity.getReadPolicy());
+        List<Role> readRoles = boardEntity.getReadBoardRoleEntities().stream()
+                .map(BoardRoleEntity::getRoleEntity)
+                .filter(Objects::nonNull)
+                .map(Role::from)
+                .collect(Collectors.toList());
+        board.setReadRoles(readRoles);
+
+        // write policy
+        board.setWritePolicy(boardEntity.getWritePolicy());
+        List<Role> writeRoles = boardEntity.getWriteBoardRoleEntities().stream()
+                .map(BoardRoleEntity::getRoleEntity)
+                .filter(Objects::nonNull)
+                .map(Role::from)
+                .collect(Collectors.toList());
+        board.setWriteRoles(writeRoles);
+
+        // comment policy
+        board.setCommentPolicy(boardEntity.getCommentPolicy());
+        List<Role> commentRoles = boardEntity.getCommentBoardRoleEntities().stream()
+                .map(BoardRoleEntity::getRoleEntity)
+                .filter(Objects::nonNull)
+                .map(Role::from)
+                .collect(Collectors.toList());
+        board.setCommentRoles(commentRoles);
+
+        // return
+        return board;
     }
 
 }

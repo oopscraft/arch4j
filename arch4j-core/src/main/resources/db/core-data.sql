@@ -3,8 +3,6 @@ insert into `core_authority` (`authority_id`,`system_required`,`authority_name`)
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_MONITOR','Y','Admin Monitor Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_USER','Y','User Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_USER_EDIT','Y','User Edit Authority');
-insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_ROLE','Y','Role Edit Authority');
-insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_ROLE_EDIT','Y','Role Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_MESSAGE','Y','Message Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_MESSAGE_EDIT','Y','Message Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_VARIABLE','Y','Variable Access Authority');
@@ -31,8 +29,6 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'A
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_MONITOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_USER_EDIT');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_ROLE');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_ROLE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_MESSAGE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_MESSAGE_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('ADMIN', 'ADMIN_VARIABLE');
@@ -56,7 +52,6 @@ insert into `core_role` (`role_id`,`system_required`,`role_name`) values ('DEV',
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MONITOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_USER');
-insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_ROLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_MENU');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_BOARD');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEV', 'ADMIN_PAGE');

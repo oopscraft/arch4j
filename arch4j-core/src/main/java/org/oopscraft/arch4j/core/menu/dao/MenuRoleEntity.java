@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.menu.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.user.dao.RoleEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -42,12 +42,20 @@ public class MenuRoleEntity extends SystemFieldEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(
+            name = "menu_id",
+            referencedColumnName = "menu_id",
+            insertable = false,
+            updatable = false
+    )
+    private MenuEntity menuEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(
             name = "role_id",
             referencedColumnName = "role_id",
             insertable = false,
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
-    private RoleEntity role;
+    private RoleEntity roleEntity;
 
 }

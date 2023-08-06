@@ -35,7 +35,12 @@ public class MenuEntity extends SystemFieldEntity {
     private String parentMenuId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(
+            name = "parent_menu_id",
+            referencedColumnName = "menu_id",
+            insertable = false,
+            updatable = false
+    )
     private MenuEntity parentMenu;
 
     @Column(name = "link")
@@ -65,8 +70,7 @@ public class MenuEntity extends SystemFieldEntity {
     @JoinColumn(
             name = "menu_id",
             referencedColumnName = "menu_id",
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
     @Where(clause = "type = 'VIEW'")
     @Builder.Default
@@ -76,8 +80,7 @@ public class MenuEntity extends SystemFieldEntity {
     @JoinColumn(
             name = "menu_id",
             referencedColumnName = "menu_id",
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
     @Where(clause = "type = 'LINK'")
     @Builder.Default
@@ -87,8 +90,7 @@ public class MenuEntity extends SystemFieldEntity {
     @JoinColumn(
             name = "menu_id",
             referencedColumnName = "menu_id",
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
     @Builder.Default
     private List<MenuI18nEntity> menuI18nEntities = new ArrayList<>();

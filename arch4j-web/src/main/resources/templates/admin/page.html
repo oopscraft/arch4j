@@ -19,7 +19,7 @@
         // page
         const page = new duice.ObjectProxy({
             contentFormat: 'TEXT',
-            widgets: []
+            pageWidgets: []
         });
         duice.ObjectProxy.setDisableAll(page, true);
         duice.ObjectProxy.onPropertyChanging(page, async event => {
@@ -31,32 +31,32 @@
             }
             return true;
         });
-        duice.ArrayProxy.onPropertyChanged(page.widgets, event => {
+        duice.ArrayProxy.onPropertyChanged(page.pageWidgets, event => {
             if(event.getProperty() === 'type') {
                 if(event.getValue()) {
-                    page.widgets[event.getIndex()].properties = pageWidgetDefinitions
+                    page.pageWidgets[event.getIndex()].properties = pageWidgetDefinitions
                         .filter(item => item.type === event.getValue())[0]
                         .propertiesTemplate;
                 }
             }
 
-            // update widget URL
+            // update pageWidget URL
             if(event.getProperty() === 'type' || event.getProperty() === 'properties') {
-                let url = new URL([[@{/admin/page/get-page-widget-url}]], document.location.origin);
+                let url = new URL([[@{/admin/page/get-page-pageWidget-url}]], document.location.origin);
                 _fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(page.widgets[event.getIndex()])
+                    body: JSON.stringify(page.pageWidgets[event.getIndex()])
                 }).then(response => response.json())
                 .then(data => {
-                    page.widgets[event.getIndex()].url = data.url;
+                    page.pageWidgets[event.getIndex()].url = data.url;
                 });
             }
         });
 
-        // page widget definition
+        // page pageWidget definition
         const pageWidgetDefinitions = new duice.ArrayProxy([[${pageWidgetDefinitions}]]);
 
         /**
@@ -173,11 +173,11 @@
                 return false;
             }
 
-            // check widget validation
-            for(const widget of page.widgets) {
-                if(_isEmpty(widget.type)) {
+            // check pageWidget validation
+            for(const pageWidget of page.pageWidgets) {
+                if(_isEmpty(pageWidget.type)) {
                     await _alert([[#{web.global.itemEmpty(#{core.page.PageWidget.type})}]]);
-                    duice.ObjectProxy.focus(widget, 'type');
+                    duice.ObjectProxy.focus(pageWidget, 'type');
                     return false;
                 }
             }
@@ -205,18 +205,18 @@
         }
 
         /**
-         * add page widget
+         * add page pageWidget
          */
         function addPageWidget() {
-            page.widgets.push({});
+            page.pageWidgets.push({});
         }
 
         /**
-         * remove page widget
+         * remove page pageWidget
          * @param index
          */
         function removePageWidget(index) {
-            page.widgets.splice(index,1);
+            page.pageWidgets.splice(index,1);
         }
 
         /**
@@ -401,13 +401,13 @@
                     </div>
                     <div class="grid-column-12 grid grid-template-columns-12 grid-gap-1em margin-top-1em">
                         <!-- ====================================== -->
-                        <!-- start: page widget                     -->
+                        <!-- start: page pageWidget                     -->
                         <!-- ====================================== -->
-                        <div class="grid-column-6 s-grid-column-12 border-1 padding-1em flex flex-direction-column gap-1em" data-duice-bind="page.widgets" data-duice-loop="widget,status" data-duice-editable="true">
+                        <div class="grid-column-6 s-grid-column-12 border-1 padding-1em flex flex-direction-column gap-1em" data-duice-bind="page.pageWidgets" data-duice-loop="pageWidget,status" data-duice-editable="true">
                             <label>
                                 <span class="font-weight-bold tag-required" data-th-text="#{core.page.PageWidget.type}">
                                 </span>
-                                <select class="width-100 font-weight-bold" data-duice-bind="widget" data-duice-property="type">
+                                <select class="width-100 font-weight-bold" data-duice-bind="pageWidget" data-duice-property="type">
                                     <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                     <option th:each="pageWidgetDefinition:${pageWidgetDefinitions}" th:value="${pageWidgetDefinition.type}" th:text="${pageWidgetDefinition.name}"></option></option>
                                 </select>
@@ -415,14 +415,14 @@
                             <label>
                                 <span class="font-weight-bold" data-th-text="#{core.page.PageWidget.properties}">
                                 </span>
-                                <textarea class="width-100" data-duice-bind="widget" data-duice-property="properties"></textarea>
+                                <textarea class="width-100" data-duice-bind="pageWidget" data-duice-property="properties"></textarea>
                             </label>
                             <iframe class="grid-column-6 width-100 border-0 margin-x-1em" sandbox="allow-same-origin allow-scripts"
-                                    data-duice-bind="widget"
-                                    data-duice-execute="this.src=widget.url;">
+                                    data-duice-bind="pageWidget"
+                                    data-duice-execute="this.src=pageWidget.url;">
                             </iframe>
                             <div class="grid-column-6 flex justify-content-flex-end">
-                                <button type="button" data-duice-bind="page.widgets" data-duice-execute="this.dataset.index = status.index;"
+                                <button type="button" data-duice-bind="page.pageWidgets" data-duice-execute="this.dataset.index = status.index;"
                                         onclick="removePageWidget(this.dataset.index);">
                                     <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                     <span data-th-text="#{web.global.remove}"></span>
@@ -430,7 +430,7 @@
                             </div>
                         </div>
                         <!-- ====================================== -->
-                        <!-- end: page widget                       -->
+                        <!-- end: page pageWidget                       -->
                         <!-- ====================================== -->
                         <div class="grid-column-6 s-grid-column-12">
                             <button type="button"

@@ -75,8 +75,7 @@ public class UserEntity extends SystemFieldEntity {
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "user_id",
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
     @Builder.Default
     private List<UserRoleEntity> userRoleEntities = new ArrayList<>();

@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.security;
 
-import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.user.Role;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

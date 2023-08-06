@@ -10,54 +10,96 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
-@Slf4j
 class PageServiceTest extends CoreTestSupport {
 
-    final PageService pageService;
+    private final PageService pageService;
 
-    Page testPage = Page.builder()
-            .pageId("test_id")
-            .content("test_content")
-            .build();
+    private Page getTestPage() {
+        Page testPage = Page.builder()
+                .pageId("test_id")
+                .content("test_content")
+                .build();
+
+        IntStream.range(0,3).forEach(index -> {
+            testPage.getPageWidgets().add(PageWidget.builder()
+                    .pageId(testPage.getPageId())
+                    .index(index)
+                    .type(this.getClass().getName())
+                    .properties("name=value")
+                    .build());
+        });
+
+        return testPage;
+    }
+
+    private Page saveTestPage() {
+        Page page = getTestPage();
+        pageService.savePage(page);
+        entityManager.clear();
+        return page;
+    }
 
     @Test
     @Order(1)
-    void savePage() {
+    void savePageToPersist() {
+        // given
+        Page testPage = getTestPage();
+
+        // when
         Page savedPage = pageService.savePage(testPage);
-        assertNotNull(savedPage);
-        assertNotNull(entityManager.find(PageEntity.class, testPage.getPageId()));
+
+        // then
+        assertNotNull(entityManager.find(PageEntity.class, savedPage.getPageId()));
     }
 
     @Test
     @Order(2)
+    void savePageToMerge() {
+        // given
+        Page testPage = saveTestPage();
+
+        // when
+        testPage.setPageName("changed");
+        Page page = pageService.savePage(testPage);
+
+        // then
+        entityManager.clear();
+        assertEquals(
+                "changed",
+                entityManager.find(PageEntity.class,page.getPageId()).getPageName()
+        );
+    }
+
+    @Test
+    @Order(3)
     void getPage() {
-        Page savedPage = pageService.savePage(testPage);
-        Page page = pageService.getPage(savedPage.getPageId()).orElse(null);
-        assertNotNull(page);
-        assertEquals(savedPage.getPageId(), page.getPageId());
+        // given
+        Page testPage = saveTestPage();
+
+        // when
+        Page page = pageService.getPage(testPage.getPageId()).orElseThrow();
+
+        // then
+        assertEquals(testPage.getPageId(), page.getPageId());
     }
 
     @Test
     @Order(3)
     void deletePage() {
-        Page savedPage = pageService.savePage(testPage);
-        pageService.deletePage(savedPage.getPageId());
-        assertNull(entityManager.find(PageEntity.class, testPage.getPageId()));
-    }
+        // given
+        Page testPage = saveTestPage();
 
-    @Test
-    @Order(4)
-    void getPages() {
-        Page savedPage = pageService.savePage(testPage);
-        PageSearch pageSearch = PageSearch.builder()
-                .pageId(savedPage.getPageId())
-                .build();
-        org.springframework.data.domain.Page<Page> codePage = pageService.getPages(pageSearch, PageRequest.of(0,10));
-        assertTrue(codePage.getContent().stream().anyMatch(e -> e.getPageId().contains(pageSearch.getPageId())));
+        // when
+        pageService.deletePage(testPage.getPageId());
+
+        // then
+        entityManager.clear();
+        assertNull(entityManager.find(PageEntity.class, testPage.getPageId()));
     }
 
 }

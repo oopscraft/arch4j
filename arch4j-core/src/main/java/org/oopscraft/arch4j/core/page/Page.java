@@ -23,7 +23,7 @@ public class Page {
     private String content;
 
     @Builder.Default
-    private List<PageWidget> widgets = new ArrayList<>();
+    private List<PageWidget> pageWidgets = new ArrayList<>();
 
     public static Page from(PageEntity pageEntity) {
         return Page.builder()
@@ -31,7 +31,7 @@ public class Page {
                 .pageName(pageEntity.getPageName())
                 .contentFormat(pageEntity.getContentFormat())
                 .content(pageEntity.getContent())
-                .widgets(pageEntity.getWidgets().stream()
+                .pageWidgets(pageEntity.getPageWidgetEntities().stream()
                         .map(PageWidget::from)
                         .collect(Collectors.toList()))
                 .build();

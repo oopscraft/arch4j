@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.role.dao;
+package org.oopscraft.arch4j.core.user.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -36,11 +36,19 @@ public class RoleAuthorityEntity extends SystemFieldEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "role_id",
+            insertable = false,
+            updatable = false
+    )
+    private RoleEntity roleEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(
             name = "authority_id",
             referencedColumnName = "authority_id",
             insertable = false,
-            updatable = false,
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+            updatable = false
     )
     private AuthorityEntity authorityEntity;
 

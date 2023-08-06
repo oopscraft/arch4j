@@ -31,9 +31,14 @@ public class PageEntity extends SystemFieldEntity {
     @Lob
     private String content;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = PageEntity_.PAGE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(
+            name = "page_id",
+            referencedColumnName = "page_id",
+            updatable = false
+    )
     @OrderBy(PageWidgetEntity_.INDEX)
     @Builder.Default
-    private List<PageWidgetEntity> widgets = new ArrayList<>();
+    private List<PageWidgetEntity> pageWidgetEntities = new ArrayList<>();
 
 }

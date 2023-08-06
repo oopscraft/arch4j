@@ -27,7 +27,7 @@ public class MenuI18nEntity extends SystemFieldEntity {
     }
 
     @Id
-    @Column(name = "menu_id", length = 64)
+    @Column(name = "menu_id", length = 32)
     private String menuId;
 
     @Id

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.user.dao.RoleEntity;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -20,7 +21,12 @@ class BoardRepositoryTest extends CoreTestSupport {
                 .boardId("test-board")
                 .boardName("Test board")
                 .build();
-        Arrays.asList("ADMIN","invalid").forEach(roleId -> {
+        Arrays.asList("role-1","role-2").forEach(roleId -> {
+            entityManager.persist(RoleEntity.builder()
+                    .roleId(roleId)
+                    .roleName("name of " + roleId)
+                    .build());
+            entityManager.flush();
             boardEntity.getReadBoardRoleEntities().add(BoardRoleEntity.builder()
                     .boardId(boardEntity.getBoardId())
                     .roleId(roleId)

@@ -44,6 +44,7 @@ public class RoleEntity extends SystemFieldEntity {
             referencedColumnName = "role_id",
             updatable = false
     )
+    @Builder.Default
     private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 
 }

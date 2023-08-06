@@ -34,6 +34,7 @@ public class AuthorityEntity extends SystemFieldEntity {
             referencedColumnName = "authority_id",
             updatable = false
     )
+    @Builder.Default
     private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
 
 }

@@ -10,6 +10,11 @@ public class BoardPermissionEvaluator {
 
     private final BoardService boardService;
 
+    public boolean hasAccessPermission(String boardId) {
+        Board board = boardService.getBoard(boardId).orElseThrow();
+        return board.hasAccessPermission();
+    }
+
     public boolean hasReadPermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         return board.hasReadPermission();
@@ -18,6 +23,11 @@ public class BoardPermissionEvaluator {
     public boolean hasWritePermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         return board.hasWritePermission();
+    }
+
+    public boolean hasFilePermisson(String boardId) {
+        Board board = boardService.getBoard(boardId).orElseThrow();
+        return board.hasFilePermission();
     }
 
     public boolean hasCommentPermission(String boardId) {

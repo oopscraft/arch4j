@@ -2,8 +2,10 @@ package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.LocaleUtils;
+import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.User;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 public class WebController {
 
     private static final long SCRIPT_VERSION = System.currentTimeMillis();
+
+    private final CoreProperties coreProperties;
 
     private final WebProperties webProperties;
 
@@ -61,9 +65,11 @@ public class WebController {
 
     @ModelAttribute("_locales")
     public List<Map<String,String>> locales() {
-        return webProperties.getLocales().stream()
-                .map(value -> {
-                    Locale locale = LocaleUtils.toLocale(value);
+        Locale test = LocaleContextHolder.getLocale();
+        System.out.println("== test:" + test);
+
+        return coreProperties.getSupportedLocales().stream()
+                .map(locale -> {
                     return new LinkedHashMap<String,String>(){{
                         put("language", locale.getLanguage());
                         put("displayLanguage", locale.getDisplayLanguage(locale));

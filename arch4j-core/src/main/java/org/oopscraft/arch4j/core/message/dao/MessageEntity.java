@@ -3,6 +3,9 @@ package org.oopscraft.arch4j.core.message.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.language.LanguageGetter;
+import org.oopscraft.arch4j.core.data.language.LanguageSetter;
+import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MessageEntity extends SystemFieldEntity {
+public class MessageEntity extends SystemFieldEntity implements LanguageSupportEntity<MessageLanguageEntity> {
 
     @Id
     @Column(name = "message_id", length = 64)
@@ -32,8 +35,36 @@ public class MessageEntity extends SystemFieldEntity {
     @Lob
     private String note;
 
-    @OneToMany(mappedBy = MessageI18nEntity_.MESSAGE_ID, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_id", updatable = false)
     @Builder.Default
-    private List<MessageI18nEntity> i18ns = new ArrayList<>();
+    private List<MessageLanguageEntity> messageLanguageEntities = new ArrayList<>();
+
+    @Override
+    public List<MessageLanguageEntity> provideLanguageEntities() {
+        return this.messageLanguageEntities;
+    }
+
+    @Override
+    public MessageLanguageEntity provideNewLanguageEntity(String language) {
+        return MessageLanguageEntity.builder()
+                .messageId(this.messageId)
+                .language(language)
+                .build();
+    }
+
+    public void setValue(String value) {
+        LanguageSetter.of(this, this.value)
+                .defaultSet(() -> this.value = value)
+                .languageSet(messageLanguageEntity -> messageLanguageEntity.setValue(value))
+                .set();
+    }
+
+    public String getValue() {
+        return LanguageGetter.of(this, this.value)
+                .defaultGet(() -> this.value)
+                .languageGet(MessageLanguageEntity::getValue)
+                .get();
+    }
 
 }

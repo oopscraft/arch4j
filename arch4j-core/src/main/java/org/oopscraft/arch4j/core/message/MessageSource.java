@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -23,6 +23,7 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
     private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
     @Override
+    @NonNull
     protected PropertiesHolder refreshProperties(String filename, PropertiesHolder propHolder) {
         if (filename.startsWith(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX)) {
             return refreshClassPathProperties(filename, propHolder);
@@ -49,25 +50,24 @@ public class MessageSource extends ReloadableResourceBundleMessageSource {
     }
 
     @Override
-    protected String resolveCodeWithoutArguments(String code, Locale locale) {
+    protected String resolveCodeWithoutArguments(@NonNull String code, @NonNull Locale locale) {
         String result = super.resolveCodeWithoutArguments(code, locale);
         if(result == null) {
             Message message = messageService.getMessage(code).orElse(null);
             if(message != null) {
-                result = message.getValue(locale);
+                result = message.getValue();
             }
         }
         return result;
     }
 
     @Override
-    @Nullable
-    protected MessageFormat resolveCode(String code, Locale locale) {
+    protected MessageFormat resolveCode(@NonNull String code, @NonNull Locale locale) {
         MessageFormat messageFormat = super.resolveCode(code, locale);
         if(messageFormat == null) {
            Message message = messageService.getMessage(code).orElse(null);
             if(message != null) {
-                messageFormat = new MessageFormat(message.getValue(locale), locale);
+                messageFormat = new MessageFormat(message.getValue(), locale);
             }
         }
         return messageFormat;

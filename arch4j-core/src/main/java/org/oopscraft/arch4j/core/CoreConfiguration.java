@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -48,6 +49,7 @@ import java.util.Properties;
 )
 @ConfigurationPropertiesScan
 @EnableEncryptableProperties
+@EnableConfigurationProperties
 @EnableJpaRepositories
 @EntityScan
 @EnableTransactionManagement

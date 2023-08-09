@@ -13,13 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommonController {
 
-    private final UserService userService;
-
     private final RoleService roleService;
-
-    private final AuthorityService authorityService;
-
-    private final AuthenticationTokenService accessTokenEncoder;
 
     @GetMapping("get-roles")
     @ResponseBody

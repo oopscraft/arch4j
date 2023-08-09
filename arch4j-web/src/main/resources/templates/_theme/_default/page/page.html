@@ -17,11 +17,11 @@
 <!-- ================================== -->
 
 <!-- ================================== -->
-<!-- start: widgets                     -->
+<!-- start: page widgets                -->
 <!-- ================================== -->
 <div class="grid grid-template-columns-2 grid-gap-1em margin-top-1em">
-    <div th:each="widget : ${page.widgets}" class="grid-column-1 s-grid-column-2">
-       <iframe th:src="${widget.url}"
+    <div th:each="pageWidget : ${page.pageWidgets}" class="grid-column-1 s-grid-column-2">
+       <iframe th:src="${pageWidget.url}"
                onload="initializeWidget(this);"
                scrolling="no"
                frameborder="0"
@@ -30,7 +30,7 @@
     </div>
 </div>
 <!-- ================================== -->
-<!-- end: widgets                       -->
+<!-- end: page widgets                  -->
 <!-- ================================== -->
 
 

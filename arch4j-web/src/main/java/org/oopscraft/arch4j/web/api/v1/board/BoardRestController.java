@@ -21,7 +21,7 @@ public class BoardRestController {
     private final BoardService boardService;
 
     @GetMapping("{boardId}")
-    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasAccessPermission(#boardId)")
     @Operation(summary = "get board info", description = "returns board information")
     public ResponseEntity<BoardResponse> getBoard(@PathVariable("boardId") String boardId) {
         BoardResponse boardResponse = boardService.getBoard(boardId)

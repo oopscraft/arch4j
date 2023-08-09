@@ -9,7 +9,7 @@ import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Slf4j
-public class SystemFieldListener {
+public class SystemFieldEntityListener {
 
 	@PrePersist
 	public void prePersist(SystemFieldEntity entity) {

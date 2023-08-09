@@ -22,8 +22,6 @@ public class Board {
 
     private String boardName;
 
-    private String note;
-
     private String icon;
 
     private MessageFormat messageFormat;
@@ -32,32 +30,42 @@ public class Board {
 
     private String skin;
 
-    @Builder.Default
-    private Integer pageSize = 20;
+    private Integer pageSize;
+
+    public SecurityPolicy accessPolicy;
 
     @Builder.Default
-    private boolean fileEnabled = true;
+    private List<Role> accessRoles = new ArrayList<>();
 
-    @Builder.Default
-    public SecurityPolicy readPolicy = SecurityPolicy.AUTHENTICATED;
+    public SecurityPolicy readPolicy;
 
     @Builder.Default
     private List<Role> readRoles = new ArrayList<>();
 
-    @Builder.Default
-    public SecurityPolicy writePolicy = SecurityPolicy.AUTHENTICATED;
+    public SecurityPolicy writePolicy;
 
     @Builder.Default
     private List<Role> writeRoles = new ArrayList<>();
 
-    @Builder.Default
-    private boolean commentEnabled = true;
+    private boolean fileEnabled;
+
+    private Integer fileSizeLimit;
+
+    private SecurityPolicy filePolicy;
 
     @Builder.Default
-    private SecurityPolicy commentPolicy = SecurityPolicy.AUTHENTICATED;
+    private List<Role> fileRoles = new ArrayList<>();
+
+    private boolean commentEnabled;
+
+    private SecurityPolicy commentPolicy;
 
     @Builder.Default
     private List<Role> commentRoles = new ArrayList<>();
+
+    public boolean hasAccessPermission() {
+        return SecurityUtils.hasPermission(accessPolicy, accessRoles);
+    }
 
     public boolean hasReadPermission() {
         return SecurityUtils.hasPermission(readPolicy, readRoles);
@@ -67,22 +75,35 @@ public class Board {
         return SecurityUtils.hasPermission(writePolicy, writeRoles);
     }
 
+    public boolean hasFilePermission() {
+        return isFileEnabled()
+                && SecurityUtils.hasPermission(filePolicy, fileRoles);
+    }
+
     public boolean hasCommentPermission() {
-        return SecurityUtils.hasPermission(commentPolicy, commentRoles);
+        return isCommentEnabled()
+                && SecurityUtils.hasPermission(commentPolicy, commentRoles);
     }
 
     public static Board from(BoardEntity boardEntity) {
         Board board = Board.builder()
                 .boardId(boardEntity.getBoardId())
                 .boardName(boardEntity.getBoardName())
-                .note(boardEntity.getNote())
                 .icon(boardEntity.getIcon())
                 .messageFormat(boardEntity.getMessageFormat())
                 .message(boardEntity.getMessage())
                 .skin(boardEntity.getSkin())
                 .pageSize(boardEntity.getPageSize())
-                .fileEnabled(boardEntity.isFileEnabled())
                 .build();
+
+        // access policy
+        board.setAccessPolicy(boardEntity.getAccessPolicy());
+        List<Role> accessRoles = boardEntity.getAccessBoardRoleEntities().stream()
+                .map(BoardRoleEntity::getRoleEntity)
+                .filter(Objects::nonNull)
+                .map(Role::from)
+                .collect(Collectors.toList());
+        board.setAccessRoles(accessRoles);
 
         // read policy
         board.setReadPolicy(boardEntity.getReadPolicy());
@@ -102,7 +123,19 @@ public class Board {
                 .collect(Collectors.toList());
         board.setWriteRoles(writeRoles);
 
-        // comment policy
+        // file
+        board.setFileEnabled(boardEntity.isFileEnabled());
+        board.setFileSizeLimit(boardEntity.getFileSizeLimit());
+        board.setFilePolicy(boardEntity.getFilePolicy());
+        List<Role> fileRoles = boardEntity.getFileBoardRoleEntities().stream()
+                .map(BoardRoleEntity::getRoleEntity)
+                .filter(Objects::nonNull)
+                .map(Role::from)
+                .collect(Collectors.toList());
+        board.setFileRoles(fileRoles);
+
+        // comment
+        board.setCommentEnabled(boardEntity.isCommentEnabled());
         board.setCommentPolicy(boardEntity.getCommentPolicy());
         List<Role> commentRoles = boardEntity.getCommentBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)

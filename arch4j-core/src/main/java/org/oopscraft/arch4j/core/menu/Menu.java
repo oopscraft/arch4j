@@ -5,9 +5,11 @@ import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
 import org.oopscraft.arch4j.core.user.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 

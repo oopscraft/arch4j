@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreConfiguration;
+import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -89,8 +90,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
+    public LocaleResolver localeResolver(CoreProperties coreProperties) {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setDefaultLocale(coreProperties.getDefaultLocale());
         localeResolver.setCookieName("X-Accept-Language");
         localeResolver.setCookieHttpOnly(true);
         localeResolver.setLanguageTagCompliant(false);

@@ -18,7 +18,7 @@
 
         // code
         const code = new duice.ObjectProxy({
-            items: []
+            codeItems: []
         });
         duice.ObjectProxy.setDisableAll(code, true);
         duice.ObjectProxy.onPropertyChanging(code, async event => {
@@ -145,10 +145,10 @@
             }
 
             // check items
-            for (const item of code.items) {
-                if(_isEmpty(item.itemId)) {
+            for (const codeItem of code.codeItems) {
+                if(_isEmpty(codeItem.itemId)) {
                     await _alert([[#{web.global.itemEmpty(#{core.code.CodeItem.itemId})}]]);
-                    duice.ObjectProxy.focus(item, 'itemId');
+                    duice.ObjectProxy.focus(codeItem, 'itemId');
                     return false;
                 }
             }
@@ -195,19 +195,12 @@
             });
         }
 
-        /**
-         * addCodeItem
-         */
         function addCodeItem() {
-            code.items.push({});
+            code.codeItems.push({});
         }
 
-        /**
-         * removeItem
-         * @param index
-         */
         function removeCodeItem(index) {
-            code.items.splice(index, 1);
+            code.codeItems.splice(index, 1);
         }
 
         // DOM content loaded listener
@@ -367,24 +360,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-duice-bind="code.items" data-duice-loop="item,status">
+                                <tr data-duice-bind="code.codeItems" data-duice-loop="codeItem,status">
                                     <td class="text-align-center">
                                         <button type="button"
-                                                data-duice-bind="item"
+                                                data-duice-bind="codeItem"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeCodeItem(this.dataset.index);">
                                             <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
                                         </button>
                                     </td>
                                     <td>
-                                        <input type="text" data-duice-bind="item" data-duice-property="itemId" class="width-100 font-weight-bold"/>
+                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemId" class="width-100 font-weight-bold"/>
                                     </td>
                                     <td>
-                                        <input type="text" data-duice-bind="item" data-duice-property="itemName" class="width-100"/>
+                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemName" class="width-100"/>
                                     </td>
                                 </tr>
-                                <tr data-duice-bind="code.items"
-                                    data-duice-if="return (code.items.length < 1);"
+                                <tr data-duice-bind="code.codeItems"
+                                    data-duice-if="return (code.codeItems.length < 1);"
                                     hidden>
                                     <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
                                 </tr>

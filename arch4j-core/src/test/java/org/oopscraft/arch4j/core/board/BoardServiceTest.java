@@ -24,15 +24,25 @@ class BoardServiceTest extends CoreTestSupport {
                 .boardId("test-board")
                 .boardName("test board")
                 .message("test message")
+                .accessPolicy(SecurityPolicy.AUTHORIZED)
+                .readPolicy(SecurityPolicy.AUTHORIZED)
                 .writePolicy(SecurityPolicy.AUTHORIZED)
-                .commentPolicy(SecurityPolicy.AUTHENTICATED)
                 .fileEnabled(true)
+                .filePolicy(SecurityPolicy.AUTHORIZED)
+                .commentEnabled(true)
+                .commentPolicy(SecurityPolicy.AUTHORIZED)
                 .build();
         Arrays.asList("ADMIN","invalid").forEach(roleId -> {
+            testBoard.getAccessRoles().add(Role.builder()
+                    .roleId(roleId)
+                    .build());
             testBoard.getReadRoles().add(Role.builder()
                     .roleId(roleId)
                     .build());
             testBoard.getWriteRoles().add(Role.builder()
+                    .roleId(roleId)
+                    .build());
+            testBoard.getFileRoles().add(Role.builder()
                     .roleId(roleId)
                     .build());
             testBoard.getCommentRoles().add(Role.builder()

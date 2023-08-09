@@ -1,41 +1,47 @@
-package org.oopscraft.arch4j.core.menu.dao;
+package org.oopscraft.arch4j.core.code.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.language.LanguageEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "core_menu_i18n")
-@IdClass(MenuI18nEntity.Pk.class)
+@Table(name = "core_code_item_language")
+@IdClass(CodeItemLanguageEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MenuI18nEntity extends SystemFieldEntity {
+public class CodeItemLanguageEntity extends SystemFieldEntity implements LanguageEntity {
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Pk implements Serializable {
-        private String menuId;
+        private String codeId;
+        private String itemId;
         private String language;
     }
 
     @Id
-    @Column(name = "menu_id", length = 32)
-    private String menuId;
+    @Column(name = "code_id", length = 32)
+    private String codeId;
+
+    @Id
+    @Column(name = "item_id", length = 32)
+    private String itemId;
 
     @Id
     @Column(name = "language", length = 8)
     private String language;
 
-    @Column(name = "menu_name")
-    private String menuName;
+    @Column(name = "item_name")
+    private String itemName;
 
 }
 

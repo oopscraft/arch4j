@@ -31,15 +31,28 @@ public class CodeService {
         codeEntity.setCodeName(code.getCodeName());
         codeEntity.setNote(code.getNote());
 
-        List<CodeItemEntity> items = codeEntity.getCodeItemEntities();
-        items.clear();
+        // code item (insert/update)
         AtomicInteger sort = new AtomicInteger();
-        code.getCodeItems().forEach(item -> items.add(CodeItemEntity.builder()
-                .codeId(code.getCodeId())
-                .itemId(item.getItemId())
-                .sort(sort.getAndIncrement())
-                .itemName(item.getItemName())
-                .build()));
+        code.getCodeItems().forEach(codeItem -> {
+            CodeItemEntity codeItemEntity = codeEntity.getCodeItemEntities().stream()
+                    .filter(item -> item.getItemId().equals(codeItem.getItemId()))
+                    .findFirst()
+                    .orElse(null);
+            if(codeItemEntity == null) {
+                codeItemEntity = CodeItemEntity.builder()
+                        .codeId(codeEntity.getCodeId())
+                        .itemId(codeItem.getItemId())
+                        .build();
+                codeEntity.getCodeItemEntities().add(codeItemEntity);
+            }
+            codeItemEntity.setItemName(codeItem.getItemName());
+            codeItemEntity.setSort(sort.getAndIncrement());
+        });
+        // code item (remove)
+        codeEntity.getCodeItemEntities().removeIf(codeItemEntity -> {
+            return code.getCodeItems().stream()
+                    .noneMatch(codeItem -> codeItem.getItemId().equals(codeItemEntity.getItemId()));
+        });
 
         // save
         CodeEntity savedCodeEntity = codeRepository.saveAndFlush(codeEntity);

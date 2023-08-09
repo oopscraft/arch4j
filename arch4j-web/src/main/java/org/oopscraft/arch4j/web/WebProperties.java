@@ -22,6 +22,4 @@ public final class WebProperties {
 
     private final SecurityPolicy securityPolicy;
 
-    private final List<String> locales;
-
 }

@@ -50,6 +50,7 @@
 <!-- end: article content -->
 <!-- ================================================== -->
 
+<th:block th:if="${board.isFileEnabled()}">
 <!-- ================================================== -->
 <!-- start: article file                                -->
 <!-- ================================================== -->
@@ -75,6 +76,7 @@
 <!-- ================================================== -->
 <!-- end: article file                                  -->
 <!-- ================================================== -->
+</th:block>
 
 <!-- ================================================== -->
 <!-- start: button                                      -->
@@ -84,8 +86,7 @@
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-list.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.listArticle}"></span>
     </button>
-    <button data-duice-bind="article"
-            data-duice-if="return article.canEdit;"
+    <button th:if="${article.canEdit()}"
             onclick="gotoEditArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-edit.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.board.editArticle}"></span>
@@ -123,6 +124,7 @@
 <!-- end: button                                        -->
 <!-- ================================================== -->
 
+<th:block th:if="${board.isCommentEnabled()}">
 <!-- ================================================== -->
 <!-- start: article comment title                       -->
 <!-- ================================================== -->
@@ -258,4 +260,4 @@
 <!-- ================================================== -->
 <!-- end: comment form                                  -->
 <!-- ================================================== -->
-
+</th:block>

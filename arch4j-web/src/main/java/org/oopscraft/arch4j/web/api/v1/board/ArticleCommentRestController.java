@@ -34,6 +34,7 @@ public class ArticleCommentRestController {
 
     @GetMapping
     @Operation(summary = "get article comments")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
     public ResponseEntity<List<ArticleCommentResponse>> getArticleComments(
             @Parameter(description = "board ID")
             @PathVariable("boardId") String boardId,

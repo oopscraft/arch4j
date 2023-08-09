@@ -48,6 +48,7 @@
 <!-- end: article content                               -->
 <!-- ================================================== -->
 
+<th:block th:if="${board.hasFilePermission()}">
 <!-- ================================================== -->
 <!-- start: file                                        -->
 <!-- ================================================== -->
@@ -80,13 +81,14 @@
     </div>
 </div>
 <!-- ================================================== -->
-<!-- end: file                                        -->
+<!-- end: file                                          -->
 <!-- ================================================== -->
+</th:block>
 
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="text-align-center">
+<div class="text-align-center margin-x-1em">
     <button onclick="gotoCancel();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
         <span data-th-text="#{web.global.cancel}"></span>

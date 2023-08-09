@@ -336,18 +336,11 @@
                 });
         }
 
-        /**
-         * resetRoles
-         */
         function resetRoles() {
             duice.ObjectProxy.reset(roleSearch);
             getRoles();
         }
 
-        /**
-         * getRole
-         * @param roleId
-         */
         function getRole(roleId) {
             let url = new URL([[@{/admin/user/get-role}]], document.location.origin);
             url.searchParams.append('roleId', roleId);
@@ -361,9 +354,6 @@
                 });
         }
 
-        /**
-         * createRole
-         */
         function createRole() {
             duice.ObjectProxy.clear(role);
             duice.ObjectProxy.assign(role, {
@@ -374,41 +364,31 @@
             duice.ObjectProxy.focus(role, 'roleId');
         }
 
-        /**
-         * validateRoleId
-         * @param roleId
-         * @returns {Promise<boolean>}
-         */
         async function validateRoleId(roleId) {
-
             // check blank
             if (!roleId) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Role.roleId})}]]);
-            duice.ObjectProxy.focus(role, 'roleId');
-            return false;
+                await _alert([[#{web.global.itemEmpty(#{core.user.Role.roleId})}]]);
+                duice.ObjectProxy.focus(role, 'roleId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL([[@{/admin/user/get-role}]], document.location.origin);
+            url.searchParams.append('roleId', roleId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let role = await response.json();
+                if (role) {
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.Role.roleId})}]]);
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
         }
 
-        // check duplicated id
-        let url = new URL([[@{/admin/user/get-role}]], document.location.origin);
-        url.searchParams.append('roleId', roleId);
-        let response = await _fetch(url, {}, true);
-        if (response.ok) {
-            let role = await response.json();
-            if (role) {
-                await _alert([[#{web.global.itemAlreadyExist(#{core.role.Role.roleId})}]]);
-            return false;
-        }
-        }
-
-        // return true
-        return true;
-        }
-
-        /**
-         * saveRole
-         */
         async function saveRole() {
-
             // if new, checks id
             if (role._new) {
                 if (!await validateRoleId(role.roleId)) {
@@ -418,56 +398,50 @@
 
             // checks role name
             if (_isEmpty(role.roleName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Role.roleName})}]]);
-            duice.ObjectProxy.focus(role, 'roleName');
-            return false;
-        }
+                await _alert([[#{web.global.itemEmpty(#{core.user.Role.roleName})}]]);
+                duice.ObjectProxy.focus(role, 'roleName');
+                return false;
+            }
 
-        // call save
-        _confirm([[#{web.global.saveItemConfirm(#{core.role.Role})}]]).then(result => {
-            if (result) {
-                let url = new URL([[@{/admin/user/save-role}]], document.location.origin);
-                _fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(role)
-                }).then(response => {
-                    if (response.ok) {
-                        _alert([[#{web.global.saveItemComplete(#{core.role.Role})}]]).then(() => {
-                        getRoles();
-                        getRole(role.roleId);
+            // call save
+            _confirm([[#{web.global.saveItemConfirm(#{core.user.Role})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/user/save-role}]], document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(role)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.saveItemComplete(#{core.user.Role})}]]).then(() => {
+                                getRoles();
+                                getRole(role.roleId);
+                            });
+                        }
                     });
                 }
             });
         }
-        });
-        }
 
-        /**
-         * deleteRole
-         */
         function deleteRole() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.role.Role})}]]).then(result => {
-            if (result) {
-                let url = new URL([[@{/admin/user/delete-role}]], document.location.origin);
-                url.searchParams.append('roleId', role.roleId);
-                _fetch(url).then(response => {
-                    if (response.ok) {
-                        _alert([[#{web.global.deleteItemComplete(#{core.role.Role})}]]).then(() => {
-                        getRoles();
-                        duice.ObjectProxy.clear(role);
+            _confirm([[#{web.global.deleteItemConfirm(#{core.user.Role})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/user/delete-role}]], document.location.origin);
+                    url.searchParams.append('roleId', role.roleId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.deleteItemComplete(#{core.user.Role})}]]).then(() => {
+                                getRoles();
+                                duice.ObjectProxy.clear(role);
+                            });
+                        }
                     });
                 }
-            })
-        }
-        });
+            });
         }
 
-        /**
-         * adds role authority
-         */
         async function addRoleAuthority() {
             let disabledAuthorityIds = [];
             role.authorities.forEach(authority => {
@@ -479,10 +453,6 @@
             });
         }
 
-        /**
-         * removes role authority
-         * @param index
-         */
         function removeRoleAuthority(index) {
             role.authorities.splice(index, 1);
         }
@@ -511,10 +481,6 @@
             }
         });
 
-        /**
-         * getAuthorities
-         * @param page page
-         */
         function getAuthorities(page) {
             if(page) {
                 authoritySearch._page = page;
@@ -537,18 +503,11 @@
                 });
         }
 
-        /**
-         * resetAuthorities
-         */
         function resetAuthorities() {
             duice.ObjectProxy.reset(authoritySearch);
             getAuthorities();
         }
 
-        /**
-         * getAuthority
-         * @param id authority.authorityId
-         */
         function getAuthority(id) {
             let url = new URL([[@{/admin/user/get-authority}]], document.location.origin);
             url.searchParams.append('authorityId', id);
@@ -562,9 +521,6 @@
                 });
         }
 
-        /**
-         * createAuthority
-         */
         function createAuthority() {
             duice.ObjectProxy.clear(authority);
             duice.ObjectProxy.assign(authority, {
@@ -575,41 +531,31 @@
             duice.ObjectProxy.focus(authority, 'authorityId');
         }
 
-        /**
-         * validateAuthorityId
-         * @param authorityId
-         * @returns {Promise<boolean>}
-         */
         async function validateAuthorityId(authorityId) {
-
             // check blank
             if (!authorityId) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.authorityId})}]]);
-            duice.ObjectProxy.focus(authority, 'authorityId');
-            return false;
+                await _alert([[#{web.global.itemEmpty(#{core.user.Authority.authorityId})}]]);
+                duice.ObjectProxy.focus(authority, 'authorityId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL([[@{/admin/user/get-authority}]], document.location.origin);
+            url.searchParams.append('authorityId', authorityId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let role = await response.json();
+                if (role) {
+                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.Authority.authorityId})}]]);
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
         }
 
-        // check duplicated id
-        let url = new URL([[@{/admin/user/get-authority}]], document.location.origin);
-        url.searchParams.append('authorityId', authorityId);
-        let response = await _fetch(url, {}, true);
-        if (response.ok) {
-            let role = await response.json();
-            if (role) {
-                await _alert([[#{web.global.itemAlreadyExist(#{core.role.Authority.authorityId})}]]);
-            return false;
-        }
-        }
-
-        // return true
-        return true;
-        }
-
-        /**
-         * saveAuthority
-         */
         async function saveAuthority() {
-
             // if new, checks id
             if (authority._new) {
                 if (!await validateAuthorityId(authority.authorityId)) {
@@ -619,51 +565,48 @@
 
             // checks name
             if(_isEmpty(authority.authorityName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.role.Authority.authorityName})}]]);
-            duice.ObjectProxy.focus(authority, 'authorityName');
-            return false;
-        }
+                await _alert([[#{web.global.itemEmpty(#{core.user.Authority.authorityName})}]]);
+                duice.ObjectProxy.focus(authority, 'authorityName');
+                return false;
+            }
 
-        // call save
-        _confirm([[#{web.global.saveItemConfirm(#{core.role.Authority})}]]).then(result => {
-            if (result) {
-                let url = new URL([[@{/admin/user/save-authority}]], document.location.origin);
-                _fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(authority)
-                }).then(response => {
-                    if (response.ok) {
-                        _alert([[#{web.global.saveItemComplete(#{core.role.Authority})}]]).then(() => {
-                        getAuthorities();
-                        getAuthority(authority.authorityId);
+            // call save
+            _confirm([[#{web.global.saveItemConfirm(#{core.user.Authority})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/user/save-authority}]], document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(authority)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.saveItemComplete(#{core.user.Authority})}]]).then(() => {
+                                getAuthorities();
+                                getAuthority(authority.authorityId);
+                            });
+                        }
                     });
                 }
             });
         }
-        });
-        }
 
-        /**
-         * deleteAuthority
-         */
         function deleteAuthority() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.role.Authority})}]]).then(result => {
-            if (result) {
-                let url = new URL([[@{/admin/user/delete-authority}]], document.location.origin);
-                url.searchParams.append('authorityId', authority.authorityId);
-                _fetch(url).then(response => {
-                    if (response.ok) {
-                        _alert([[#{web.global.deleteItemComplete(#{core.role.Authority})}]]).then(() => {
-                        getAuthorities();
-                        duice.ObjectProxy.clear(authority);
-                    });
+            _confirm([[#{web.global.deleteItemConfirm(#{core.user.Authority})}]]).then(result => {
+                if (result) {
+                    let url = new URL([[@{/admin/user/delete-authority}]], document.location.origin);
+                    url.searchParams.append('authorityId', authority.authorityId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert([[#{web.global.deleteItemComplete(#{core.user.Authority})}]]).then(() => {
+                                getAuthorities();
+                                duice.ObjectProxy.clear(authority);
+                            });
+                        }
+                    })
                 }
-            })
-        }
-        });
+            });
         }
 
         // DOM content loaded listener
@@ -1276,14 +1219,14 @@
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="deleteRole();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId && !role._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveRole();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
@@ -1664,14 +1607,14 @@
                     <div class="grid-column-1"></div>
                     <div class="grid-column-1 flex justify-content-flex-end gap-1px">
                         <button type="button" onclick="deleteAuthority();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId && !authority._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveAuthority();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE_EDIT'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId || authority._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-save.svg}"/>

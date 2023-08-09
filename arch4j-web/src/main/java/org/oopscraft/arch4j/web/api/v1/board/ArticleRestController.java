@@ -47,7 +47,7 @@ public class ArticleRestController {
 
     @GetMapping
     @Operation(summary = "get list of articles")
-    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
+    @PreAuthorize("@boardPermissionEvaluator.hasAccessPermission(#boardId)")
     @PageableAsQueryParam
     public ResponseEntity<List<ArticleResponse>> getArticles(
             @Parameter(description = "board ID")

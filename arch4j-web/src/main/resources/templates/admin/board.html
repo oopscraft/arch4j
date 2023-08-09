@@ -22,6 +22,7 @@
             accessRoles: [],
             readRoles: [],
             writeRoles: [],
+            fileRoles: [],
             commentRoles: []
         });
         duice.ObjectProxy.setDisableAll(board, true);
@@ -94,7 +95,11 @@
             duice.ObjectProxy.assign(board, {
                 _new: true,
                 messageFormat: 'TEXT',
-                pageSize: 10
+                skin: '_default',
+                pageSize: 10,
+                fileEnabled: true,
+                fileSizeLimit: 1,
+                commentEnabled: true
             });
             duice.ObjectProxy.setDisableAll(board, false);
             duice.ObjectProxy.setReadonly(board, 'boardId', false);
@@ -613,6 +618,65 @@
                         <label class="width-100">
                             <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
                             <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight-bold"></span>
+                        </label>
+                        <br/>
+                        <label class="width-100">
+                            <span data-th-text="#{core.board.Board.filePolicy}" class="font-weight-bold"></span>
+                            <select class="width-100" data-duice-bind="board" data-duice-property="filePolicy">
+                                <option value data-th-text="'- '+#{web.global.select}+' -'"></option>
+                                <option th:each="securityPolicy : ${T(org.oopscraft.arch4j.core.security.SecurityPolicy).values()}"
+                                        th:value="${securityPolicy}"
+                                        th:text="#{'core.security.SecurityPolicy.' + ${securityPolicy}}">
+                                </option>
+                            </select>
+                        </label>
+                        <div data-duice-bind="board"
+                             data-duice-if="return board.filePolicy === 'AUTHORIZED'"
+                             class="overflow-y-scroll" style="max-height:calc(40rem - 2px);">
+                            <table class="width-100 border-top-0">
+                                <colgroup>
+                                    <col style="width:3em;"/>
+                                    <col style="width:15em;"/>
+                                    <col/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="text-align-center">
+                                        <button type="button" onclick="addBoardFileRole();">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        </button>
+                                    </th>
+                                    <th data-th-text="#{core.user.Role.roleId}"></th>
+                                    <th data-th-text="#{core.user.Role.roleName}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="board.fileRoles" data-duice-loop="role,status">
+                                    <td class="text-align-center">
+                                        <button type="button"
+                                                data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeBoardFileRole(this.dataset.index);">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                    <td data-duice-bind="role" data-duice-property="roleId"></td>
+                                    <td data-duice-bind="role" data-duice-property="roleName"></td>
+                                </tr>
+                                <tr data-duice-bind="board.fileRoles"
+                                    data-duice-if="return (board.fileRoles.length < 1);"
+                                    hidden>
+                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <label class="width-100">
+                            <span data-th-text="#{core.board.Board.fileSizeLimit}" class="font-weight-bold"></span>
+                            <div>
+                                <input type="number" data-duice-bind="board" data-duice-property="fileSizeLimit" class="width-75"/>
+                                <span class="width-25 font-size-smaller font-weight-bold">MB</span>
+                            </div>
                         </label>
                     </div>
                     <div class="grid-column-6 s-grid-column-12">

@@ -93,9 +93,6 @@
                 });
         }
 
-        /**
-         * createUser
-         */
         function createUser() {
             duice.ObjectProxy.clear(user);
             duice.ObjectProxy.assign(user, {
@@ -106,18 +103,9 @@
             duice.ObjectProxy.setDisableAll(user, false);
             duice.ObjectProxy.setReadonly(user, 'userId', false);
             duice.ObjectProxy.focus(user, 'userId');
-
-            // password division
-            document.getElementById('userDetail_passwordDiv').style.display = '';
         }
 
-        /**
-         * validateUserId
-         * @param userId
-         * @returns {Promise<boolean>}
-         */
         async function validateUserId(userId) {
-
             // check blank
             if (!userId) {
                 await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
@@ -141,11 +129,7 @@
             return true;
         }
 
-        /**
-         * saveUser
-         */
         async function saveUser() {
-
             // if new, checks id
             if (user._new) {
                 if (!await validateUserId(user.userId)) {
@@ -860,13 +844,11 @@
                     </label>
                     <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.user.User.joinAt}" class="font-weight-bold"></span>
-                        <input type="datetime-local" data-duice-bind="user"
-                               data-duice-property="joinAt" readonly class="width-100"/>
+                        <input type="datetime-local" data-duice-bind="user" data-duice-property="joinAt" readonly="readonly" class="width-100"/>
                     </label>
                     <label class="grid-column-6 s-grid-column-12">
                         <span data-th-text="#{core.user.User.closeAt}" class="font-weight-bold"></span>
-                        <input type="datetime-local" data-duice-bind="user"
-                               data-duice-property="closeAt" readonly class="width-100"/>
+                        <input type="datetime-local" data-duice-bind="user" data-duice-property="closeAt" readonly="readonly" class="width-100"/>
                     </label>
                     <div class="grid-column-12">
                         <span data-th-text="#{core.user.User.roles}" class="font-weight-bold"></span>

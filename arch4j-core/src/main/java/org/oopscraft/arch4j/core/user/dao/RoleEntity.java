@@ -30,20 +30,12 @@ public class RoleEntity extends SystemFieldEntity {
     private String note;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "role_id",
-            updatable = false
-    )
+    @JoinColumn(name = "role_id", updatable = false)
     @Builder.Default
     private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "role_id",
-            updatable = false
-    )
+    @JoinColumn(name = "role_id", updatable = false)
     @Builder.Default
     private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 

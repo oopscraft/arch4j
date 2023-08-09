@@ -57,12 +57,6 @@ public class UserEntity extends SystemFieldEntity {
     @Convert(converter = CryptoConverter.class)
     private String mobile;
 
-    @Column(name = "join_at")
-    private LocalDateTime joinAt;
-
-    @Column(name = "close_at")
-    private LocalDateTime closeAt;
-
     @Column(name = "photo")
     @Lob
     private String photo;
@@ -71,12 +65,14 @@ public class UserEntity extends SystemFieldEntity {
     @Lob
     private String profile;
 
+    @Column(name = "join_at")
+    private LocalDateTime joinAt;
+
+    @Column(name = "close_at")
+    private LocalDateTime closeAt;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(
-            name = "user_id",
-            referencedColumnName = "user_id",
-            updatable = false
-    )
+    @JoinColumn(name = "user_id", updatable = false)
     @Builder.Default
     private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 

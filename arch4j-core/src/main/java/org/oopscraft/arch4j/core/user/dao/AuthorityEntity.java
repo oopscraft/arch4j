@@ -29,11 +29,7 @@ public class AuthorityEntity extends SystemFieldEntity {
     private String note;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(
-            name = "authority_id",
-            referencedColumnName = "authority_id",
-            updatable = false
-    )
+    @JoinColumn(name = "authority_id", updatable = false)
     @Builder.Default
     private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
 

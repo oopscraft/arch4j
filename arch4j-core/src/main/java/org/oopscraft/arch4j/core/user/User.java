@@ -30,13 +30,13 @@ public class User {
 
     private String mobile;
 
-    private LocalDateTime joinAt;
-
-    private LocalDateTime loginAt;
-
     private String photo;
 
     private String profile;
+
+    private LocalDateTime joinAt;
+
+    private LocalDateTime closeAt;
 
     @Builder.Default
     List<Role> roles = new ArrayList<>();
@@ -50,10 +50,10 @@ public class User {
                 .status(userEntity.getStatus())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
-                .joinAt(userEntity.getJoinAt())
-                .loginAt(userEntity.getCloseAt())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
+                .joinAt(userEntity.getJoinAt())
+                .closeAt(userEntity.getCloseAt())
                 .build();
 
         List<Role> roles = userEntity.getUserRoleEntities().stream()

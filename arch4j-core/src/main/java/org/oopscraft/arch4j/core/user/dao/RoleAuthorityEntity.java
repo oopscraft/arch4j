@@ -35,21 +35,11 @@ public class RoleAuthorityEntity extends SystemFieldEntity {
     private String authorityId;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(
-            name = "role_id",
-            referencedColumnName = "role_id",
-            insertable = false,
-            updatable = false
-    )
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
     private RoleEntity roleEntity;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(
-            name = "authority_id",
-            referencedColumnName = "authority_id",
-            insertable = false,
-            updatable = false
-    )
+    @JoinColumn(name = "authority_id", insertable = false, updatable = false)
     private AuthorityEntity authorityEntity;
 
 }

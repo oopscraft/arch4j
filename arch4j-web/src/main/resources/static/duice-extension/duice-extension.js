@@ -2,6 +2,310 @@ var duice;
 (function (duice) {
     var extension;
     (function (extension) {
+        class Diagram extends duice.CustomElement {
+            constructor(htmlElement, bindData, context) {
+                super(htmlElement, bindData, context);
+                this.elementItems = new Map();
+                this.sourceEndpoints = new Map();
+                this.targetEndpoints = new Map();
+                this.connections = [];
+                // parse attribute
+                this.elementProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-property');
+                this.elementLoop = duice.getElementAttribute(this.getHtmlElement(), 'element-loop');
+                this.elementIdProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-id-property');
+                let positionProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-position-property');
+                let positionPropertyParts = positionProperty.split(',');
+                this.elementPositionXProperty = positionPropertyParts[0];
+                this.elementPositionYProperty = positionPropertyParts[1];
+                this.linkProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-property');
+                this.linkSourceProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-source-property');
+                this.linkTargetProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-target-property');
+                // mark initialized (not using after clone as templates)
+                this.htmlElementTemplate = this.getHtmlElement().innerHTML;
+                duice.markInitialized(htmlElement);
+                this.getHtmlElement().innerHTML = '';
+                this.container = document.createElement('div');
+                this.container.classList.add(duice.getNamespace() + '-diagram-container');
+                this.container.style.position = 'relative';
+                this.container.style.width = '100%';
+                this.container.style.height = '100%';
+                this.container.style.overflow = 'hidden';
+                this.container.classList.add(duice.getNamespace() + '-diagram-container');
+                this.container.addEventListener('click', event => {
+                    event.preventDefault();
+                });
+                this.getHtmlElement().appendChild(this.createStyle());
+                this.jsPlumbInstance = jsPlumb.getInstance({
+                    container: this.container,
+                });
+                this.getHtmlElement().appendChild(this.container);
+                this.jsPlumbInstance.bind('connection', (event, mouseEvent) => {
+                    console.debug('== connection:', event, mouseEvent);
+                    if (!mouseEvent) {
+                        return;
+                    }
+                    event.connection.addOverlay(["PlainArrow", {
+                            location: 1,
+                            width: 15,
+                            length: 15,
+                            id: "arrow",
+                        }]);
+                    event.connection.addOverlay(['Label', {
+                            label: '<span style="cursor:pointer; font-weight:bold;">[X]</span>',
+                            location: 0.5,
+                            events: {
+                                click: (labelOverlay, originalEvent) => {
+                                    this.jsPlumbInstance.deleteConnection(event.connection);
+                                }
+                            }
+                        }]);
+                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
+                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
+                    this.addLinkData(linkSourceId, linkTargetId);
+                });
+                this.jsPlumbInstance.bind('connectionMoved', event => {
+                    console.debug('== connectionMoved:', event);
+                    let linkSourceId = duice.getElementAttribute(event.originalSourceEndpoint.element, 'element-id');
+                    let linkTargetId = duice.getElementAttribute(event.originalTargetEndpoint.element, 'element-id');
+                    this.removeLinkData(linkSourceId, linkTargetId);
+                });
+                this.jsPlumbInstance.bind('internal.connectionDetached', event => {
+                    console.debug('== internal.connectionDetached:', event);
+                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
+                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
+                    this.removeLinkData(linkSourceId, linkTargetId);
+                });
+            }
+            createStyle() {
+                let style = document.createElement('style');
+                style.innerHTML = `
+                .${duice.getNamespace()}-diagram-container {
+                    background-size: 1rem 1rem;
+                    background-image: radial-gradient(circle, rgba(128, 128, 128, 0.25) 1px, rgba(0, 0, 0, 0) 1px);
+                }
+                .${duice.getNamespace()}-diagram-element {
+                }
+                .${duice.getNamespace()}-diagram-endpoint-source {
+                    cursor: pointer;
+                    opacity: 0.5;
+                }
+                .${duice.getNamespace()}-diagram-endpoint-source-hover {
+                    opacity: 1.0;
+                }
+                .${duice.getNamespace()}-diagram-endpoint-target {
+                    opacity: 0.5;
+                }
+                .${duice.getNamespace()}-diagram-endpoint-target-hover {
+                    opacity: 1.0;
+                }
+                .${duice.getNamespace()}-diagram-link-disconnect {
+                    display: block;
+                    cursor: pointer;
+                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApElEQVR4nGNgoBHgZ2Bg0GJgYDCHYhCbjxiNrAwMDFYMDAyROLAVVA1OzV54NMOwJy5DrIjQDMOW2PwciYQfMjAwLETiL4SKIatBCRNtNEmQhn9QGpmNrAYUsHBgjsWZc6Aa/2PRHAnVg9eARVDNIEOWYZE3o6oX+EgMxAhsCcuKkmhkgCYOUCIhOyHBDAGZjk0jyNkgOZya0cMEOTNpEpuZSAYAwus8FYS1LyQAAAAASUVORK5CYII=');
+                    background-size: 20px 20px;
+                    width: 20px;
+                    height: 20px;
+                    opacity: 0.5;
+                }
+                .${duice.getNamespace()}-diagram-link-disconnect:hover {
+                    opacity: 1;
+                }
+            `;
+                return style;
+            }
+            doRender(object) {
+                var _a;
+                console.debug("doRender:", object);
+                this.clearContainer();
+                this.jsPlumbInstance.setSuspendDrawing(true);
+                let elementArray = this.bindData[this.elementProperty];
+                let elementLoopArgs = this.elementLoop.split(',');
+                let elementItemName = elementLoopArgs[0].trim();
+                let elementStatusName = (_a = elementLoopArgs[1]) === null || _a === void 0 ? void 0 : _a.trim();
+                for (let index = 0; index < elementArray.length; index++) {
+                    let elementObject = elementArray[index];
+                    let context = Object.assign({}, this.getContext());
+                    context[elementItemName] = elementObject;
+                    context[elementStatusName] = new duice.ObjectProxy({
+                        index: index,
+                        count: index + 1,
+                        size: elementArray.length,
+                        first: (index === 0),
+                        last: (elementArray.length == index + 1)
+                    });
+                    this.createElementItem(elementObject, context, index);
+                }
+                let linkArray = this.bindData[this.linkProperty];
+                for (let index = 0; index < linkArray.length; index++) {
+                    this.createLinkItem(linkArray[index]);
+                }
+                this.jsPlumbInstance.setSuspendDrawing(false, true);
+                this.fitContainerToContent();
+            }
+            doUpdate(object) {
+                console.debug("doUpdate:", object);
+                this.doRender(object);
+            }
+            clearContainer() {
+                this.container.innerHTML = '';
+                this.elementItems.clear();
+                this.sourceEndpoints.clear();
+                this.targetEndpoints.clear();
+                this.connections.length = 0;
+            }
+            fitContainerToContent() {
+                let maxWidth = 0;
+                let maxHeight = 0;
+                this.container.querySelectorAll(`.${duice.getNamespace()}-diagram-element`)
+                    .forEach(element => {
+                    let rect = element.getBoundingClientRect();
+                    let width = parseInt(element.style.left) + rect.width;
+                    if (width > maxWidth) {
+                        maxWidth = width;
+                    }
+                    let height = parseInt(element.style.top) + rect.height;
+                    if (height > maxHeight) {
+                        maxHeight = height;
+                    }
+                });
+                maxWidth += 10;
+                maxHeight += 10;
+                this.container.style.width = maxWidth + 'px';
+                this.container.style.height = maxHeight + 'px';
+                let rect = this.getHtmlElement().parentElement.getBoundingClientRect();
+                if (maxWidth < rect.width) {
+                    this.container.style.width = rect.width + 'px';
+                }
+                if (maxHeight < rect.height) {
+                    this.container.style.height = rect.height + 'px';
+                }
+            }
+            createElementItem(elementObject, context, index) {
+                console.debug("createElementItem", elementObject, context, index);
+                let elementId = elementObject[this.elementIdProperty];
+                let elementItem = document.createElement('div');
+                elementItem.innerHTML = this.htmlElementTemplate;
+                duice.initialize(elementItem, context, index);
+                duice.setElementAttribute(elementItem, 'element-id', elementId);
+                elementItem.classList.add(duice.getNamespace() + '-diagram-element');
+                elementItem.style.position = 'absolute';
+                elementItem.style.left = (elementObject[this.elementPositionXProperty] || 10) + 'px';
+                elementItem.style.top = (elementObject[this.elementPositionYProperty] || 10) + 'px';
+                this.elementItems.set(elementId, elementItem);
+                this.container.appendChild(elementItem);
+                if (this.isEditable()) {
+                    elementItem.style.cursor = 'move';
+                    this.jsPlumbInstance.draggable(elementItem, {
+                        stop: event => {
+                            console.debug(event.finalPos);
+                            elementObject[this.elementPositionXProperty] = event.finalPos[0];
+                            elementObject[this.elementPositionYProperty] = event.finalPos[1];
+                            this.fitContainerToContent();
+                        }
+                    });
+                }
+                let sourceEndpoint = this.jsPlumbInstance.addEndpoint(elementItem, {
+                    isSource: this.isEditable(),
+                    isTarget: false,
+                    maxConnections: -1,
+                    anchor: ['Continuous', { faces: ['bottom', 'right', 'top', 'left'] }],
+                    endpoint: ['Rectangle', { width: 14, height: 14, cssClass: `${duice.getNamespace()}-diagram-endpoint-source`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-source-hover` }],
+                    endpointStyle: { fill: "darkgray", outlineStroke: 'black' },
+                    connector: 'Straight',
+                });
+                this.sourceEndpoints.set(elementId, sourceEndpoint);
+                let targetEndpoint = this.jsPlumbInstance.addEndpoint(elementItem, {
+                    isTarget: this.isEditable(),
+                    isSource: false,
+                    maxConnections: -1,
+                    anchor: ['Continuous', { faces: ['top', 'left', 'bottom', 'right'] }],
+                    endpoint: ['Dot', { radius: 8, cssClass: `${duice.getNamespace()}-diagram-endpoint-target`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-target-hover` }],
+                    endpointStyle: { fill: "gray" },
+                });
+                this.targetEndpoints.set(elementId, targetEndpoint);
+            }
+            createLinkItem(linkObject) {
+                let linkSourceId = linkObject[this.linkSourceProperty];
+                let linkTargetId = linkObject[this.linkTargetProperty];
+                let connection = this.jsPlumbInstance.connect({
+                    source: this.sourceEndpoints.get(linkSourceId),
+                    target: this.targetEndpoints.get(linkTargetId),
+                    connector: 'Straight',
+                    detachable: this.isEditable(),
+                    overlays: [
+                        ["PlainArrow", {
+                                location: 1,
+                                width: 15,
+                                length: 15,
+                                id: "arrow"
+                            }],
+                        ['Label', {
+                                label: `<span class="${duice.getNamespace() + '-diagram-link-disconnect'}"></span>`,
+                                location: 0.5,
+                                events: {
+                                    click: (labelOverlay, originalEvent) => {
+                                        if (this.isEditable()) {
+                                            this.jsPlumbInstance.deleteConnection(connection);
+                                        }
+                                    }
+                                }
+                            }]
+                    ]
+                });
+                this.connections.push(connection);
+            }
+            addLinkData(linkSourceId, linkTargetId) {
+                console.debug("addLinkData", linkSourceId, linkTargetId);
+                let linkArray = this.bindData[this.linkProperty];
+                let index = linkArray.findIndex(linkObject => {
+                    return linkObject[this.linkSourceProperty] === linkSourceId
+                        && linkObject[this.linkTargetProperty] === linkTargetId;
+                });
+                if (index < 0) {
+                    let linkData = {};
+                    linkData[this.linkSourceProperty] = linkSourceId;
+                    linkData[this.linkTargetProperty] = linkTargetId;
+                    linkArray.push(linkData);
+                }
+            }
+            removeLinkData(linkSourceId, linkTargetId) {
+                console.debug("removeLinkData", linkSourceId, linkTargetId);
+                let linkArray = this.bindData[this.linkProperty];
+                let indexToRemove = linkArray.findIndex(linkObject => {
+                    return linkObject[this.linkSourceProperty] === linkSourceId
+                        && linkObject[this.linkTargetProperty] === linkTargetId;
+                });
+                console.debug("== indexToRemove:", indexToRemove);
+                if (indexToRemove > -1) {
+                    linkArray.splice(indexToRemove, 1);
+                }
+            }
+            isEditable() {
+                return !duice.ObjectProxy.isReadonlyAll(this.bindData)
+                    && !duice.ObjectProxy.isDisableAll(this.bindData);
+            }
+        }
+        extension.Diagram = Diagram;
+    })(extension = duice.extension || (duice.extension = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var extension;
+    (function (extension) {
+        class DiagramFactory extends duice.CustomElementFactory {
+            doCreateElement(htmlElement, bindData, context) {
+                return new extension.Diagram(htmlElement, bindData, context);
+            }
+        }
+        extension.DiagramFactory = DiagramFactory;
+        // register
+        duice.DataElementRegistry.register(`${duice.getNamespace()}-diagram`, new DiagramFactory());
+    })(extension = duice.extension || (duice.extension = {}));
+})(duice || (duice = {}));
+var duice;
+(function (duice) {
+    var extension;
+    (function (extension) {
         class MarkdownEditor extends duice.ObjectElement {
             constructor(element, bindData, context) {
                 super(element, bindData, context);
@@ -230,291 +534,6 @@ var duice;
         extension.PaginationFactory = PaginationFactory;
         // register
         duice.DataElementRegistry.register(`${duice.getNamespace()}-pagination`, new PaginationFactory());
-    })(extension = duice.extension || (duice.extension = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var extension;
-    (function (extension) {
-        class Workflow extends duice.CustomElement {
-            constructor(htmlElement, bindData, context) {
-                super(htmlElement, bindData, context);
-                this.elementItems = new Map();
-                this.sourceEndpoints = new Map();
-                this.targetEndpoints = new Map();
-                this.connections = [];
-                // parse attribute
-                this.elementProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-property');
-                this.elementLoop = duice.getElementAttribute(this.getHtmlElement(), 'element-loop');
-                this.elementIdProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-id-property');
-                let positionProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-position-property');
-                let positionPropertyParts = positionProperty.split(',');
-                this.elementPositionXProperty = positionPropertyParts[0];
-                this.elementPositionYProperty = positionPropertyParts[1];
-                this.linkProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-property');
-                this.linkSourceProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-source-property');
-                this.linkTargetProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-target-property');
-                // mark initialized (not using after clone as templates)
-                this.htmlElementTemplate = this.getHtmlElement().innerHTML;
-                duice.markInitialized(htmlElement);
-                this.getHtmlElement().innerHTML = '';
-                this.container = document.createElement('div');
-                this.container.classList.add(duice.getNamespace() + '-workflow-container');
-                this.container.style.position = 'relative';
-                this.container.style.width = '100%';
-                this.container.style.height = '100%';
-                this.container.style.overflow = 'hidden';
-                this.container.classList.add(duice.getNamespace() + '-workflow-container');
-                this.container.addEventListener('click', event => {
-                    event.preventDefault();
-                });
-                this.getHtmlElement().appendChild(this.createStyle());
-                this.jsPlumbInstance = jsPlumb.getInstance({
-                    container: this.container,
-                });
-                this.getHtmlElement().appendChild(this.container);
-                this.jsPlumbInstance.bind('connection', (event, mouseEvent) => {
-                    console.debug('== connection:', event, mouseEvent);
-                    if (!mouseEvent) {
-                        return;
-                    }
-                    event.connection.addOverlay(["PlainArrow", {
-                            location: 1,
-                            width: 15,
-                            length: 15,
-                            id: "arrow",
-                        }]);
-                    event.connection.addOverlay(['Label', {
-                            label: '<span style="cursor:pointer; font-weight:bold;">[X]</span>',
-                            location: 0.5,
-                            events: {
-                                click: (labelOverlay, originalEvent) => {
-                                    this.jsPlumbInstance.deleteConnection(event.connection);
-                                }
-                            }
-                        }]);
-                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
-                    this.addLinkData(linkSourceId, linkTargetId);
-                });
-                this.jsPlumbInstance.bind('connectionMoved', event => {
-                    console.debug('== connectionMoved:', event);
-                    let linkSourceId = duice.getElementAttribute(event.originalSourceEndpoint.element, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.originalTargetEndpoint.element, 'element-id');
-                    this.removeLinkData(linkSourceId, linkTargetId);
-                });
-                this.jsPlumbInstance.bind('internal.connectionDetached', event => {
-                    console.debug('== internal.connectionDetached:', event);
-                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
-                    this.removeLinkData(linkSourceId, linkTargetId);
-                });
-            }
-            createStyle() {
-                let style = document.createElement('style');
-                style.innerHTML = `
-                .${duice.getNamespace()}-workflow-container {
-                    background-size: 1rem 1rem;
-                    background-image: radial-gradient(circle, rgba(128, 128, 128, 0.25) 1px, rgba(0, 0, 0, 0) 1px);
-                }
-                .${duice.getNamespace()}-workflow-element {
-                }
-                .${duice.getNamespace()}-workflow-link-disconnect {
-                    display: block;
-                    cursor: pointer;
-                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApElEQVR4nGNgoBHgZ2Bg0GJgYDCHYhCbjxiNrAwMDFYMDAyROLAVVA1OzV54NMOwJy5DrIjQDMOW2PwciYQfMjAwLETiL4SKIatBCRNtNEmQhn9QGpmNrAYUsHBgjsWZc6Aa/2PRHAnVg9eARVDNIEOWYZE3o6oX+EgMxAhsCcuKkmhkgCYOUCIhOyHBDAGZjk0jyNkgOZya0cMEOTNpEpuZSAYAwus8FYS1LyQAAAAASUVORK5CYII=');
-                    width: 16px;
-                    height: 16px;
-                }
-            `;
-                return style;
-            }
-            doRender(object) {
-                var _a;
-                console.debug("doRender:", object);
-                this.clearContainer();
-                this.jsPlumbInstance.setSuspendDrawing(true);
-                let elementArray = this.bindData[this.elementProperty];
-                let elementLoopArgs = this.elementLoop.split(',');
-                let elementItemName = elementLoopArgs[0].trim();
-                let elementStatusName = (_a = elementLoopArgs[1]) === null || _a === void 0 ? void 0 : _a.trim();
-                for (let index = 0; index < elementArray.length; index++) {
-                    let elementObject = elementArray[index];
-                    let context = Object.assign({}, this.getContext());
-                    context[elementItemName] = elementObject;
-                    context[elementStatusName] = new duice.ObjectProxy({
-                        index: index,
-                        count: index + 1,
-                        size: elementArray.length,
-                        first: (index === 0),
-                        last: (elementArray.length == index + 1)
-                    });
-                    this.createElementItem(elementObject, context, index);
-                }
-                let linkArray = this.bindData[this.linkProperty];
-                for (let index = 0; index < linkArray.length; index++) {
-                    this.createLinkItem(linkArray[index]);
-                }
-                this.jsPlumbInstance.setSuspendDrawing(false, true);
-                this.fitContainerToContent();
-            }
-            doUpdate(object) {
-                console.debug("doUpdate:", object);
-                this.doRender(object);
-            }
-            clearContainer() {
-                this.container.innerHTML = '';
-                this.elementItems.clear();
-                this.sourceEndpoints.clear();
-                this.targetEndpoints.clear();
-                this.connections.length = 0;
-            }
-            fitContainerToContent() {
-                let maxWidth = 0;
-                let maxHeight = 0;
-                this.container.querySelectorAll(`.${duice.getNamespace()}-workflow-element`)
-                    .forEach(element => {
-                    let rect = element.getBoundingClientRect();
-                    let width = parseInt(element.style.left) + rect.width;
-                    if (width > maxWidth) {
-                        maxWidth = width;
-                    }
-                    let height = parseInt(element.style.top) + rect.height;
-                    if (height > maxHeight) {
-                        maxHeight = height;
-                    }
-                });
-                maxWidth += 10;
-                maxHeight += 10;
-                this.container.style.width = maxWidth + 'px';
-                this.container.style.height = maxHeight + 'px';
-                let rect = this.getHtmlElement().parentElement.getBoundingClientRect();
-                if (maxWidth < rect.width) {
-                    this.container.style.width = rect.width + 'px';
-                }
-                if (maxHeight < rect.height) {
-                    this.container.style.height = rect.height + 'px';
-                }
-            }
-            createElementItem(elementObject, context, index) {
-                console.debug("createElementItem", elementObject, context, index);
-                let elementId = elementObject[this.elementIdProperty];
-                let elementItem = document.createElement('div');
-                elementItem.innerHTML = this.htmlElementTemplate;
-                duice.initialize(elementItem, context, index);
-                duice.setElementAttribute(elementItem, 'element-id', elementId);
-                elementItem.classList.add(duice.getNamespace() + '-workflow-element');
-                elementItem.style.position = 'absolute';
-                elementItem.style.left = (elementObject[this.elementPositionXProperty] || 10) + 'px';
-                elementItem.style.top = (elementObject[this.elementPositionYProperty] || 10) + 'px';
-                this.elementItems.set(elementId, elementItem);
-                this.container.appendChild(elementItem);
-                if (this.isEditable()) {
-                    elementItem.style.cursor = 'move';
-                    this.jsPlumbInstance.draggable(elementItem, {
-                        stop: event => {
-                            console.debug(event.finalPos);
-                            elementObject[this.elementPositionXProperty] = event.finalPos[0];
-                            elementObject[this.elementPositionYProperty] = event.finalPos[1];
-                            this.fitContainerToContent();
-                        }
-                    });
-                }
-                let sourceEndpoint = this.jsPlumbInstance.addEndpoint(elementItem, {
-                    isSource: this.isEditable(),
-                    isTarget: false,
-                    maxConnections: -1,
-                    anchor: ['Bottom', 'Right'],
-                    endpoint: ['Rectangle', { width: 15, height: 15 }],
-                    connector: 'Straight',
-                });
-                this.sourceEndpoints.set(elementId, sourceEndpoint);
-                let targetEndpoint = this.jsPlumbInstance.addEndpoint(elementItem, {
-                    isTarget: this.isEditable(),
-                    isSource: false,
-                    maxConnections: -1,
-                    anchor: ['Top', 'Left'],
-                    endpoint: ['Dot', { radius: 8 }],
-                });
-                this.targetEndpoints.set(elementId, targetEndpoint);
-            }
-            createLinkItem(linkObject) {
-                let linkSourceId = linkObject[this.linkSourceProperty];
-                let linkTargetId = linkObject[this.linkTargetProperty];
-                let connection = this.jsPlumbInstance.connect({
-                    source: this.sourceEndpoints.get(linkSourceId),
-                    target: this.targetEndpoints.get(linkTargetId),
-                    connector: 'Straight',
-                    anchor: "AutoDefault",
-                    detachable: this.isEditable(),
-                    overlays: [
-                        ["PlainArrow", {
-                                location: 1,
-                                width: 15,
-                                length: 15,
-                                id: "arrow"
-                            }],
-                        ['Label', {
-                                label: `<span class="${duice.getNamespace() + '-workflow-link-disconnect'}"></span>`,
-                                location: 0.5,
-                                events: {
-                                    click: (labelOverlay, originalEvent) => {
-                                        if (this.isEditable()) {
-                                            this.jsPlumbInstance.deleteConnection(connection);
-                                        }
-                                    }
-                                }
-                            }]
-                    ]
-                });
-                this.connections.push(connection);
-            }
-            addLinkData(linkSourceId, linkTargetId) {
-                console.debug("addLinkData", linkSourceId, linkTargetId);
-                let linkArray = this.bindData[this.linkProperty];
-                let index = linkArray.findIndex(linkObject => {
-                    return linkObject[this.linkSourceProperty] === linkSourceId
-                        && linkObject[this.linkTargetProperty] === linkTargetId;
-                });
-                if (index < 0) {
-                    let linkData = {};
-                    linkData[this.linkSourceProperty] = linkSourceId;
-                    linkData[this.linkTargetProperty] = linkTargetId;
-                    linkArray.push(linkData);
-                }
-            }
-            removeLinkData(linkSourceId, linkTargetId) {
-                console.debug("removeLinkData", linkSourceId, linkTargetId);
-                let linkArray = this.bindData[this.linkProperty];
-                let indexToRemove = linkArray.findIndex(linkObject => {
-                    return linkObject[this.linkSourceProperty] === linkSourceId
-                        && linkObject[this.linkTargetProperty] === linkTargetId;
-                });
-                console.debug("== indexToRemove:", indexToRemove);
-                if (indexToRemove > -1) {
-                    linkArray.splice(indexToRemove, 1);
-                }
-            }
-            isEditable() {
-                return !duice.ObjectProxy.isReadonlyAll(this.bindData)
-                    && !duice.ObjectProxy.isDisableAll(this.bindData);
-            }
-        }
-        extension.Workflow = Workflow;
-    })(extension = duice.extension || (duice.extension = {}));
-})(duice || (duice = {}));
-var duice;
-(function (duice) {
-    var extension;
-    (function (extension) {
-        class WorkflowFactory extends duice.CustomElementFactory {
-            doCreateElement(htmlElement, bindData, context) {
-                return new extension.Workflow(htmlElement, bindData, context);
-            }
-        }
-        extension.WorkflowFactory = WorkflowFactory;
-        // register
-        duice.DataElementRegistry.register(`${duice.getNamespace()}-workflow`, new WorkflowFactory());
     })(extension = duice.extension || (duice.extension = {}));
 })(duice || (duice = {}));
 /// <reference path="../node_modules/duice/dist/duice.d.ts" />

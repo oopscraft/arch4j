@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import org.oopscraft.arch4j.batch.support.ManualTransactionHandler;
+import org.oopscraft.arch4j.core.data.ManualTransactionHandler;
 import org.oopscraft.arch4j.core.sample.dao.QSampleBackupEntity;
 import org.oopscraft.arch4j.core.sample.dao.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.dao.SampleEntity;

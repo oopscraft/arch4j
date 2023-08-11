@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.support;
+package org.oopscraft.arch4j.core.support;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

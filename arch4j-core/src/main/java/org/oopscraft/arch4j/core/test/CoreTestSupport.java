@@ -22,6 +22,7 @@ import javax.persistence.PersistenceContext;
                 "spring.main.web-application-type=none"
         }
 )
+@Import(CoreConfiguration.class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional

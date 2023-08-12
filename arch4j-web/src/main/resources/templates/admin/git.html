@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         // git search condition
         const gitSearch = new duice.ObjectProxy({
@@ -368,4 +368,4 @@
     <!-- end: git content                  -->
     <!-- ====================================== -->
 
-</main>
+</th:block>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         // emailTemplate search condition
         const emailTemplateSearch = new duice.ObjectProxy({
@@ -360,4 +360,4 @@
     <!-- end: emailTemplate content                  -->
     <!-- ====================================== -->
 
-</main>
+</th:block>

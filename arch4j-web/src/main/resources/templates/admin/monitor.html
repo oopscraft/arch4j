@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script>
         let cpuChart = null;
         let memoryChart = null;
@@ -355,4 +355,4 @@
     <!-- end: monitorContent                -->
     <!-- ================================== -->
 
-</main>
+</th:block>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         // user search condition
         const userSearch = new duice.ObjectProxy({
@@ -36,15 +37,11 @@
             return true;
         });
 
-        /**
-         * getUsers
-         * @param page page
-         */
         function getUsers(page) {
             if(page) {
                 userSearch._page = page;
             }
-            let url = new URL([[@{/admin/user/get-users}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-users}]]*/'', document.location.origin);
             if (userSearch.key && userSearch.value) {
                 url.searchParams.append(userSearch.key, userSearch.value);
             }
@@ -61,7 +58,7 @@
                 .then(data => {
                     duice.ArrayProxy.clear(users);
                     duice.ArrayProxy.assign(users, data.content);
-                    userSearch._count = data.totalElements;
+                    userSearch._count = data['totalElements'];
 
                     // select current item
                     duice.ArrayProxy.selectItem(users, users.findIndex(e => e.userId === user.userId));
@@ -81,7 +78,7 @@
          * @param userId
          */
         function getUser(userId) {
-            let url = new URL([[@{/admin/user/get-user}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-user}]]*/'', document.location.origin);
             url.searchParams.append('userId', userId);
             _fetch(url)
                 .then(response => response.json())
@@ -108,19 +105,19 @@
         async function validateUserId(userId) {
             // check blank
             if (!userId) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.userId})}]]*/'');
                 duice.ObjectProxy.focus(user, 'userId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL([[@{/admin/user/get-user}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-user}]]*/'', document.location.origin);
             url.searchParams.append('userId', userId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]);
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]*/'');
                     return false;
                 }
             }
@@ -139,7 +136,7 @@
 
             // checks user name
             if (_isEmpty(user.userName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.userName})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.userName})}]]*/'');
                 duice.ObjectProxy.focus(user, 'userName');
                 return false;
             }
@@ -147,17 +144,17 @@
             // checks password
             if (user._new) {
                 if (_isEmpty(user.password)) {
-                    await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+                    await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.password})}]]*/'');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
                 if (_isEmpty(user.passwordConfirm)) {
-                    await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+                    await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.password})}]]*/'');
                     duice.ObjectProxy.focus(user, 'passwordConfirm');
                     return false;
                 }
                 if (user.password !== user.passwordConfirm) {
-                    await _alert([[#{web.global.itemNotMatch(#{core.user.User.password})}]]);
+                    await _alert(/*[[#{web.global.itemNotMatch(#{core.user.User.password})}]]*/'');
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
@@ -165,22 +162,22 @@
 
             // type
             if(_isEmpty(user.type)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.type})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.type})}]]*/'');
                 duice.ObjectProxy.focus(user, 'type');
                 return false;
             }
 
             // status
             if(_isEmpty(user.status)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.User.status})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.status})}]]*/'');
                 duice.ObjectProxy.focus(user, 'status');
                 return false;
             }
 
             // call save
-            _confirm([[#{web.global.saveItemConfirm(#{core.user.User})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.user.User})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/save-user}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/save-user}]]*/'', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -189,7 +186,7 @@
                         body: JSON.stringify(user)
                     }).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.user.User})}]]).then(() => {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.user.User})}]]*/'').then(() => {
                                 getUsers();
                                 getUser(user.userId);
                             });
@@ -199,17 +196,14 @@
             });
         }
 
-        /**
-         * deleteUser
-         */
         function deleteUser() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.user.User})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.user.User})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/delete-user}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/delete-user}]]*/'', document.location.origin);
                     url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.user.User})}]]).then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.user.User})}]]*/'').then(() => {
                                 getUsers();
                                 duice.ObjectProxy.clear(user);
                             });
@@ -219,9 +213,6 @@
             });
         }
 
-        /**
-         * adds user role
-         */
         async function addUserRole() {
             let disabledRoleIds = [];
             user.roles.forEach(role => {
@@ -233,26 +224,16 @@
             });
         }
 
-        /**
-         * removes user role
-         * @param index
-         */
         function removeUserRole(index) {
             user.roles.splice(index, 1);
         }
 
-        /**
-         * change user password
-         */
         function changeUserPassword() {
             passwordChange.open(user.userId);
         }
 
-        /**
-         * generate user access token
-         */
         function generateUserAccessToken() {
-            let url = new URL([[@{/admin/user/generate-access-token}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/generate-access-token}]]*/'', document.location.origin);
             url.searchParams.append('userId', user.userId);
             _fetch(url)
                 .then(function(response){
@@ -281,6 +262,7 @@
         // role
         const role = new duice.ObjectProxy({
             roleId: null,
+            roleName: null,
             authorities:[]
         });
         duice.ObjectProxy.setDisableAll(role, true);
@@ -294,15 +276,11 @@
             return true;
         });
 
-        /**
-         * getRoles
-         * @param page page
-         */
         function getRoles(page) {
             if(page) {
                 roleSearch._page = page;
             }
-            let url = new URL([[@{/admin/user/get-roles}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-roles}]]*/'', document.location.origin);
             if (roleSearch.key && roleSearch.value) {
                 url.searchParams.append(roleSearch.key, roleSearch.value);
             }
@@ -313,7 +291,7 @@
                 .then(data => {
                     duice.ArrayProxy.clear(roles);
                     duice.ArrayProxy.assign(roles, data.content);
-                    roleSearch._count = data.totalElements;
+                    roleSearch._count = data['totalElements'];
 
                     // select current item
                     duice.ArrayProxy.selectItem(roles, roles.findIndex(item => item.roleId === role.roleId));
@@ -326,7 +304,7 @@
         }
 
         function getRole(roleId) {
-            let url = new URL([[@{/admin/user/get-role}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-role}]]*/'', document.location.origin);
             url.searchParams.append('roleId', roleId);
             _fetch(url)
                 .then(response => response.json())
@@ -351,19 +329,19 @@
         async function validateRoleId(roleId) {
             // check blank
             if (!roleId) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.Role.roleId})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.Role.roleId})}]]*/'');
                 duice.ObjectProxy.focus(role, 'roleId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL([[@{/admin/user/get-role}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-role}]]*/'', document.location.origin);
             url.searchParams.append('roleId', roleId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.Role.roleId})}]]);
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.user.Role.roleId})}]]*/'');
                     return false;
                 }
             }
@@ -382,15 +360,15 @@
 
             // checks role name
             if (_isEmpty(role.roleName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.Role.roleName})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.Role.roleName})}]]*/'');
                 duice.ObjectProxy.focus(role, 'roleName');
                 return false;
             }
 
             // call save
-            _confirm([[#{web.global.saveItemConfirm(#{core.user.Role})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.user.Role})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/save-role}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/save-role}]]*/'', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -399,7 +377,7 @@
                         body: JSON.stringify(role)
                     }).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.user.Role})}]]).then(() => {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.user.Role})}]]*/).then(() => {
                                 getRoles();
                                 getRole(role.roleId);
                             });
@@ -410,13 +388,13 @@
         }
 
         function deleteRole() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.user.Role})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.user.Role})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/delete-role}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/delete-role}]]*/'', document.location.origin);
                     url.searchParams.append('roleId', role.roleId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.user.Role})}]]).then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.user.Role})}]]*/'').then(() => {
                                 getRoles();
                                 duice.ObjectProxy.clear(role);
                             });
@@ -429,7 +407,7 @@
         async function addRoleAuthority() {
             let disabledAuthorityIds = [];
             role.authorities.forEach(authority => {
-                disabledAuthorityIds.push(authority.authorityId);
+                disabledAuthorityIds.push(authority['authorityId']);
             });
             let selectedAuthorities = await authoritySelect.open(disabledAuthorityIds);
             selectedAuthorities.forEach(authority => {
@@ -469,7 +447,7 @@
             if(page) {
                 authoritySearch._page = page;
             }
-            let url = new URL([[@{/admin/user/get-authorities}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-authorities}]]*/'', document.location.origin);
             if (authoritySearch.key && authoritySearch.value) {
                 url.searchParams.append(authoritySearch.key, authoritySearch.value);
             }
@@ -480,7 +458,7 @@
                 .then(data => {
                     duice.ArrayProxy.clear(authorities);
                     duice.ArrayProxy.assign(authorities, data.content);
-                    authoritySearch._count = data.totalElements;
+                    authoritySearch._count = data['totalElements'];
 
                     // select current item
                     duice.ArrayProxy.selectItem(authorities, authorities.findIndex(item => item.authorityId === authority.authorityId));
@@ -493,7 +471,7 @@
         }
 
         function getAuthority(id) {
-            let url = new URL([[@{/admin/user/get-authority}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-authority}]]*/'', document.location.origin);
             url.searchParams.append('authorityId', id);
             _fetch(url)
                 .then(response => response.json())
@@ -518,19 +496,19 @@
         async function validateAuthorityId(authorityId) {
             // check blank
             if (!authorityId) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.Authority.authorityId})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.Authority.authorityId})}]]*/'');
                 duice.ObjectProxy.focus(authority, 'authorityId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL([[@{/admin/user/get-authority}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/user/get-authority}]]*/'', document.location.origin);
             url.searchParams.append('authorityId', authorityId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let role = await response.json();
                 if (role) {
-                    await _alert([[#{web.global.itemAlreadyExist(#{core.user.Authority.authorityId})}]]);
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.user.Authority.authorityId})}]]*/'');
                     return false;
                 }
             }
@@ -549,15 +527,15 @@
 
             // checks name
             if(_isEmpty(authority.authorityName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.user.Authority.authorityName})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.user.Authority.authorityName})}]]*/'');
                 duice.ObjectProxy.focus(authority, 'authorityName');
                 return false;
             }
 
             // call save
-            _confirm([[#{web.global.saveItemConfirm(#{core.user.Authority})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.user.Authority})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/save-authority}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/save-authority}]]*/'', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -566,7 +544,7 @@
                         body: JSON.stringify(authority)
                     }).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.user.Authority})}]]).then(() => {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.user.Authority})}]]*/'').then(() => {
                                 getAuthorities();
                                 getAuthority(authority.authorityId);
                             });
@@ -577,13 +555,13 @@
         }
 
         function deleteAuthority() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.user.Authority})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.user.Authority})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/user/delete-authority}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/delete-authority}]]*/'', document.location.origin);
                     url.searchParams.append('authorityId', authority.authorityId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.user.Authority})}]]).then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.user.Authority})}]]*/'').then(() => {
                                 getAuthorities();
                                 duice.ObjectProxy.clear(authority);
                             });
@@ -623,7 +601,7 @@
     <!-- start: title                           -->
     <!-- ====================================== -->
     <h1 id="title">
-        <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
+        <img class="icon" th:src="@{/static/image/icon-user.svg}" alt="user"/>
         <span data-th-text="#{web.admin.user}"></span>
     </h1>
     <!-- ====================================== -->
@@ -635,15 +613,15 @@
     <!-- ====================================== -->
     <div id="tabIndex">
         <button id="userTabButton" type="button" class="tab">
-            <img class="icon" th:src="@{/static/image/icon-user.svg}"/>
+            <img class="icon" th:src="@{/static/image/icon-user.svg}" alt="user"/>
             <span data-th-text="#{core.user.User}"></span>
         </button>
         <button id="roleTabButton" type="button" class="tab">
-            <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
+            <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
             <span data-th-text="#{core.user.Role}"></span>
         </button>
         <button id="authorityTabButton" type="button" class="tab">
-            <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
+            <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
             <span data-th-text="#{core.user.Authority}"></span>
         </button>
         <hr class="margin-1px"/>
@@ -662,7 +640,7 @@
         <div id="userList" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.user.User} + ' ' + #{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -693,11 +671,11 @@
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button type="submit" onclick="getUsers();">
-                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
                         <button type="button" onclick="resetUsers();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
@@ -728,7 +706,7 @@
                                 class="text-align-center"></td>
                             <td>
                                 <img data-duice-bind="user" data-duice-property="photo"
-                                     th:src="@{/static/image/icon-null.svg}" class="icon"/>
+                                     th:src="@{/static/image/icon-null.svg}" class="icon" alt="photo"/>
                                 <span data-duice-bind="user" data-duice-property="userId"
                                       class="font-weight-bold"></span>
                             </td>
@@ -765,7 +743,7 @@
                     </div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="createUser();">
-                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
                     </div>
@@ -782,7 +760,7 @@
         <div id="userDetail" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}" alt="open"/>
                     <span data-th-text="#{core.user.User} + ' ' + #{web.global.detail}"></span>
                 </h2>
                 <form class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -790,7 +768,7 @@
                         <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
                         <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
                              data-duice-property="photo" data-duice-editable="true" data-duice-size="64,64"
-                             style="width:64px; height:64px;"/>
+                             style="width:64px; height:64px;" alt="photo"/>
                     </label>
                     <label class="grid-column-10 s-grid-column-12">
                         <span data-th-text="#{core.user.User.profile}" class="font-weight-bold"></span>
@@ -866,7 +844,7 @@
                                                 onclick="addUserRole();"
                                                 data-duice-bind="user"
                                                 data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
-                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
                                     <th data-th-text="#{core.user.Role.roleId}"></th>
@@ -880,7 +858,7 @@
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeUserRole(this.dataset.index);">
-                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="add"/>
                                         </button>
                                     </td>
                                     <td data-duice-bind="role" data-duice-property="roleId"
@@ -903,7 +881,7 @@
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
                             <span data-th-text="#{web.admin.user.changePassword}"></span>
                         </button>
                         <button type="button" onclick="generateUserAccessToken();"
@@ -919,14 +897,14 @@
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
                             <span data-th-text="#{web.global.save}"></span>
                         </button>
                     </div>
@@ -968,25 +946,25 @@
 
                     // checks password
                     if (_isEmpty(this.data.password)) {
-                        await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+                        await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.password})}]]*/'');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
                     if (_isEmpty(this.data.passwordConfirm)) {
-                        await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+                        await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.password})}]]*/'');
                         duice.ObjectProxy.focus(this.data, 'passwordConfirm');
                         return false;
                     }
                     if (this.data.password !== this.data.passwordConfirm) {
-                        await _alert([[#{web.global.itemNotMatch(#{core.user.User.password})}]]);
+                        await _alert(/*[[#{web.global.itemNotMatch(#{core.user.User.password})}]]*/'');
                         duice.ObjectProxy.focus(this.data, 'password');
                         return false;
                     }
 
                     // call save
-                    _confirm([[#{web.global.saveItemConfirm(#{core.user.User.password})}]]).then(result => {
+                    _confirm(/*[[#{web.global.saveItemConfirm(#{core.user.User.password})}]]*/'').then(result => {
                         if (result) {
-                            let url = new URL([[@{/admin/user/change-password}]], document.location.origin);
+                            let url = new URL(/*[[@{/admin/user/change-password}]]*/'', document.location.origin);
                             _fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -995,7 +973,7 @@
                                 body: JSON.stringify(this.data)
                             }).then(response => {
                                 if (response.ok) {
-                                    _alert([[#{web.global.saveItemComplete(#{core.user.User.password})}]]).then(() => {
+                                    _alert(/*[[#{web.global.saveItemComplete(#{core.user.User.password})}]]*/).then(() => {
                                         this.dialog.resolve(true);
                                     });
                                 }
@@ -1007,7 +985,7 @@
         </script>
         <div class="grid grid-gap-1em">
             <h2>
-                <img class="icon" th:src="@{/static/image/icon-password.svg}"/>
+                <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
                 <span data-th-text="#{web.admin.user.changePassword}"></span>
             </h2>
             <form class="grid grid-template-columns-12 grid-gap-1em">
@@ -1022,7 +1000,7 @@
             </form>
             <div class="text-align-right">
                 <button type="button" onclick="passwordChange.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                     <span data-th-text="#{web.global.confirm}"></span>
                 </button>
             </div>
@@ -1043,7 +1021,7 @@
         <div id="roleList" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.user.Role} + ' ' + #{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -1059,11 +1037,11 @@
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button type="submit" onclick="getRoles();">
-                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
                         <button type="button" onclick="resetRoles();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
@@ -1113,7 +1091,7 @@
                     </div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="createRole();">
-                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
                     </div>
@@ -1130,7 +1108,7 @@
         <div id="roleDetail" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}" alt="open"/>
                     <span data-th-text="#{core.user.Role} + ' ' + #{web.global.detail}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -1165,7 +1143,7 @@
                                                 onclick="addRoleAuthority();"
                                                 data-duice-bind="role"
                                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
-                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
                                     <th data-th-text="#{core.user.Authority.authorityId}"></th>
@@ -1180,7 +1158,7 @@
                                                 data-duice-bind="authority"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeRoleAuthority(this.dataset.index);">
-                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
                                         </button>
                                     </td>
                                     <td data-duice-bind="authority" data-duice-property="authorityId"
@@ -1204,14 +1182,14 @@
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId && !role._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveRole();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="role"
                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
                             <span data-th-text="#{web.global.save}"></span>
                         </button>
                     </div>
@@ -1272,7 +1250,7 @@
                     if(page) {
                         this.authoritySearch._page = page;
                     }
-                    let url = new URL([[@{/admin/user/get-authorities}]],document.location.origin);
+                    let url = new URL(/*[[@{/admin/user/get-authorities}]]*/'',document.location.origin);
                     if(this.authoritySearch.key && this.authoritySearch.value) {
                         url.searchParams.append(this.authoritySearch.key, this.authoritySearch.value);
                     }
@@ -1283,14 +1261,14 @@
                         .then(data => {
                             duice.ArrayProxy.clear(this.authorities);
                             duice.ArrayProxy.assign(this.authorities, data.content);
-                            this.authoritySearch._count = data.totalElements;
+                            this.authoritySearch._count = data['totalElements'];
                             // check already selected
                             this.authorities.forEach(authority => {
-                                if(this.alreadySelectedAuthorityIds.includes(authority.authorityId)){
+                                if(this.alreadySelectedAuthorityIds.includes(authority['authorityId'])){
                                     authority['_selected'] = true;
                                 }
                                 this.selectedAuthorities.forEach(element => {
-                                    if(element.id === authority.authorityId) {
+                                    if(element.id === authority['authorityId']) {
                                         authority['_selected'] = true;
                                     }
                                 });
@@ -1342,7 +1320,7 @@
         </script>
         <div class="grid grid-gap-1em">
             <h1>
-                <img class="icon" th:src="@{/static/image/icon-authority.svg}"/>
+                <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
                 <span data-th-text="#{core.user.Authority}"></span>
             </h1>
             <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
@@ -1357,11 +1335,11 @@
                 </label>
                 <div class="grid-column-6 s-grid-column-12 justify-self-end">
                     <button type="submit" onclick="authoritySelect.getAuthorities();">
-                        <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                        <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                         <span data-th-text="#{web.global.search}">Search</span>
                     </button>
                     <button type="button" onclick="authoritySelect.resetAuthorities();">
-                        <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                        <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                         <span data-th-text="#{web.global.reset}">Reset</span>
                     </button>
                 </div>
@@ -1391,7 +1369,7 @@
                                 this.disabled = true;
                             }"
                                     onclick="authoritySelect.selectAuthority(this.dataset.index);">
-                                <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                             </button>
                         </td>
                         <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
@@ -1443,7 +1421,7 @@
                                     data-duice-bind="authority"
                                     data-duice-execute="this.dataset.index = status.index;"
                                     onclick="authoritySelect.deselectAuthority(this.dataset.index);">
-                                <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
                             </button>
                         </td>
                         <td data-duice-bind="authority" data-duice-property="authorityId" class="font-weight-bold"></td>
@@ -1458,7 +1436,7 @@
             </div>
             <div class="flex justify-content-flex-end">
                 <button type="button" onclick="authoritySelect.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                     <span data-th-text="#{web.global.confirm}"></span>
                 </button>
             </div>
@@ -1478,7 +1456,7 @@
         <div id="authorityList" class="grid-column-1">
             <div class="grid grid-gap-1em padding-1em border-1">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.user.Authority} + ' ' + #{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -1494,11 +1472,11 @@
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button type="submit" onclick="getAuthorities();">
-                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
                         <button type="button" onclick="resetAuthorities();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
@@ -1548,7 +1526,7 @@
                     </div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="createAuthority();">
-                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
                     </div>
@@ -1565,7 +1543,7 @@
         <div id="authorityDetail" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1rem">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-open.svg}" alt="open"/>
                     <span data-th-text="#{core.user.Authority} + ' ' + #{web.global.detail}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -1592,14 +1570,14 @@
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId && !authority._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveAuthority();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="authority"
                                 data-duice-execute="(authority.authorityId || authority._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
                             <span data-th-text="#{web.global.save}"></span>
                         </button>
                     </div>
@@ -1614,6 +1592,6 @@
     <!-- end: authorityTabContent               -->
     <!-- ====================================== -->
 
-    <th:block th:include="admin/_common.html :: roleSelect"></th:block>
+    <th:block th:include="admin/_common.html :: roleSelect"/>
 
-</main>
+</th:block>

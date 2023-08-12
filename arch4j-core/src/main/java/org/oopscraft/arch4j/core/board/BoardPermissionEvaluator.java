@@ -25,7 +25,7 @@ public class BoardPermissionEvaluator {
         return board.hasWritePermission();
     }
 
-    public boolean hasFilePermisson(String boardId) {
+    public boolean hasFilePermission(String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         return board.hasFilePermission();
     }

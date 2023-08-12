@@ -59,6 +59,11 @@ spring:
   thymeleaf:
     enabled: true
     cache: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      resolve-lazily: true
   mvc:
     static-path-pattern: /static/**
   web:

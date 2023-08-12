@@ -549,8 +549,9 @@ var duice;
 })(duice || (duice = {}));
 var duice;
 (function (duice) {
-    class ArrayProxy {
+    class ArrayProxy extends globalThis.Array {
         constructor(array) {
+            super();
             // array handler
             let arrayHandler = new duice.ArrayHandler();
             // copy array elements
@@ -1026,8 +1027,9 @@ var duice;
 })(duice || (duice = {}));
 var duice;
 (function (duice) {
-    class ObjectProxy {
+    class ObjectProxy extends globalThis.Object {
         constructor(object) {
+            super();
             // object handler
             let objectHandler = new duice.ObjectHandler();
             // copy property

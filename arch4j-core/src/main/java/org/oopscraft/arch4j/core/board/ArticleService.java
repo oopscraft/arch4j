@@ -36,7 +36,7 @@ public class ArticleService {
     private final ArticleVoteRepository articleVoteRepository;
 
     @Transactional
-    public Article saveArticle(Article article, MultipartFile[] files) {
+    public Article saveArticle(Article article, List<MultipartFile> files) {
         ValidationUtils.validate(article);
         ArticleEntity articleEntity = Optional.ofNullable(article.getArticleId())
                 .flatMap(articleRepository::findById).orElse(

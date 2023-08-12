@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleDeleteRequest;
+import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleFileRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleResponse;
 import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
@@ -28,7 +29,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,40 +43,13 @@ import java.util.stream.Collectors;
 @Tag(name = "board")
 public class ArticleRestController {
 
+    private final BoardService boardService;
+
     private final ArticleService articleService;
 
     private final PasswordEncoder passwordEncoder;
 
     private final ObjectMapper objectMapper;
-
-    @GetMapping
-    @Operation(summary = "get list of articles")
-    @PreAuthorize("@boardPermissionEvaluator.hasAccessPermission(#boardId)")
-    @PageableAsQueryParam
-    public ResponseEntity<List<ArticleResponse>> getArticles(
-            @Parameter(description = "board ID")
-            @PathVariable("boardId") String boardId,
-            @Parameter(description = "title search keyword")
-            @RequestParam(value = "title", required = false) String title,
-            @Parameter(description = "content search keyword")
-            @RequestParam(value = "content", required = false) String content,
-            @Parameter(hidden = true)
-            Pageable pageable
-    ) {
-        // search articles
-        ArticleSearch articleSearch = ArticleSearch.builder()
-                .boardId(boardId)
-                .title(title)
-                .content(content)
-                .build();
-        Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
-        List<ArticleResponse> articleResponses = articlePage.getContent().stream()
-                .map(ArticleResponse::from)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
-                .body(articleResponses);
-    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
@@ -84,7 +61,7 @@ public class ArticleRestController {
             @Parameter(description = "article", schema = @Schema(type="object", implementation = ArticleRequest.class))
             @RequestPart("article") String articleRequestString,
             @Parameter(description = "attachment files")
-            @RequestPart(value = "files", required = false) MultipartFile[] files
+            @RequestPart(value = "files", required = false) MultipartFile[] multipartFiles
     ) {
         // multipart article string to object (converter is not work)
         ArticleRequest articleRequest;
@@ -93,6 +70,9 @@ public class ArticleRestController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
+        // board
+        Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
@@ -110,16 +90,7 @@ public class ArticleRestController {
                 .contentFormat(articleRequest.getContentFormat())
                 .content(articleRequest.getContent())
                 .boardId(boardId)
-                .files(articleRequest.getFiles().stream()
-                        .map(articleFileRequest ->
-                                ArticleFile.builder()
-                                        .articleId(articleFileRequest.getArticleId())
-                                        .fileId(articleFileRequest.getFileId())
-                                        .filename(articleFileRequest.getFilename())
-                                        .contentType(articleFileRequest.getContentType())
-                                        .length(articleFileRequest.getLength())
-                                        .build()
-                        ).collect(Collectors.toList()))
+                .files(mapToArticleFiles(articleRequest.getFiles()))
                 .build();
 
         // authenticated user
@@ -133,24 +104,23 @@ public class ArticleRestController {
             article.setPassword(articleRequest.getPassword());
         }
 
+        // file
+        List<MultipartFile> files = new ArrayList<>();
+        if(board.isFileEnabled()) {
+            if(multipartFiles != null) {
+                if(!board.hasFilePermission()) {
+                    throw new RuntimeException("has no file permission");
+                }
+                this.checkFileSizeLimit(board, multipartFiles);
+                files.addAll(Arrays.asList(multipartFiles));
+            }
+        }
+
         // save
         article = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
 
-    @GetMapping("{articleId}")
-    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
-    @Operation(summary = "get article")
-    public ResponseEntity<ArticleResponse> getArticle(
-            @Parameter(description = "board ID")
-            @PathVariable("boardId")String boardId,
-            @Parameter(description = "article ID")
-            @PathVariable("articleId")String articleId
-    ) {
-        Article article = articleService.getArticle(articleId).orElseThrow();
-        ArticleResponse articleResponse = ArticleResponse.from(article);
-        return ResponseEntity.ok(articleResponse);
-    }
 
     @PutMapping("{articleId}")
     @Transactional
@@ -164,7 +134,7 @@ public class ArticleRestController {
             @Parameter(description = "article", schema = @Schema(type="object", implementation = ArticleRequest.class))
             @RequestPart("article") String articleRequestString,
             @Parameter(description = "attachment files")
-            @RequestPart(value = "files", required = false) MultipartFile[] files
+            @RequestPart(value = "files", required = false) MultipartFile[] multipartFiles
     ) {
         // multipart article string to object (converter is not work)
         ArticleRequest articleRequest;
@@ -173,6 +143,9 @@ public class ArticleRestController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
+        // get board
+        Board board = boardService.getBoard(boardId).orElseThrow();
 
         // get article
         Article article = articleService.getArticle(articleId).orElseThrow();
@@ -196,21 +169,61 @@ public class ArticleRestController {
         article.setContent(articleRequest.getContent());
         article.setUserName(articleRequest.getUserName());
         article.setPassword(articleRequest.getPassword());
-        article.setFiles(articleRequest.getFiles().stream()
-                .map(articleFileRequest ->
-                    ArticleFile.builder()
-                        .articleId(articleFileRequest.getArticleId())
-                        .fileId(articleFileRequest.getFileId())
-                        .filename(articleFileRequest.getFilename())
-                        .contentType(articleFileRequest.getContentType())
-                        .length(articleFileRequest.getLength())
-                        .build()
-                )
-                .collect(Collectors.toList()));
+        article.setFiles(mapToArticleFiles(articleRequest.getFiles()));
+
+        // file
+        List<MultipartFile> files = new ArrayList<>();
+        if(board.isFileEnabled()) {
+            if(multipartFiles != null) {
+                if(!board.hasFilePermission()) {
+                    throw new RuntimeException("has no file permission");
+                }
+                this.checkFileSizeLimit(board, multipartFiles);
+                files.addAll(Arrays.asList(multipartFiles));
+            }
+        }
 
         // save article
         article = articleService.saveArticle(article, files);
         return ResponseEntity.ok(ArticleResponse.from(article));
+    }
+
+    private void checkFileSizeLimit(Board board, MultipartFile[] multipartFiles) {
+        if(board.getFileSizeLimit() != null) {
+            for(MultipartFile multipartFile : multipartFiles) {
+                long fileSize = multipartFile.getSize();
+                if(fileSize/1024/1024 > board.getFileSizeLimit()) {
+                    throw new RuntimeException("Exceed file size limit");
+                }
+            }
+        }
+    }
+
+    private List<ArticleFile> mapToArticleFiles(List<ArticleFileRequest> articleFileRequests) {
+        return articleFileRequests.stream()
+                .map(articleFileRequest ->
+                        ArticleFile.builder()
+                                .articleId(articleFileRequest.getArticleId())
+                                .fileId(articleFileRequest.getFileId())
+                                .filename(articleFileRequest.getFilename())
+                                .contentType(articleFileRequest.getContentType())
+                                .length(articleFileRequest.getLength())
+                                .build()
+                ).collect(Collectors.toList());
+    }
+
+    @GetMapping("{articleId}")
+    @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
+    @Operation(summary = "get article")
+    public ResponseEntity<ArticleResponse> getArticle(
+            @Parameter(description = "board ID")
+            @PathVariable("boardId")String boardId,
+            @Parameter(description = "article ID")
+            @PathVariable("articleId")String articleId
+    ) {
+        Article article = articleService.getArticle(articleId).orElseThrow();
+        ArticleResponse articleResponse = ArticleResponse.from(article);
+        return ResponseEntity.ok(articleResponse);
     }
 
     @DeleteMapping("{articleId}")
@@ -245,6 +258,36 @@ public class ArticleRestController {
         articleService.deleteArticle(articleId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping
+    @Operation(summary = "get list of articles")
+    @PreAuthorize("@boardPermissionEvaluator.hasAccessPermission(#boardId)")
+    @PageableAsQueryParam
+    public ResponseEntity<List<ArticleResponse>> getArticles(
+            @Parameter(description = "board ID")
+            @PathVariable("boardId") String boardId,
+            @Parameter(description = "title search keyword")
+            @RequestParam(value = "title", required = false) String title,
+            @Parameter(description = "content search keyword")
+            @RequestParam(value = "content", required = false) String content,
+            @Parameter(hidden = true)
+                    Pageable pageable
+    ) {
+        // search articles
+        ArticleSearch articleSearch = ArticleSearch.builder()
+                .boardId(boardId)
+                .title(title)
+                .content(content)
+                .build();
+        Page<Article> articlePage = articleService.getArticles(articleSearch, pageable);
+        List<ArticleResponse> articleResponses = articlePage.getContent().stream()
+                .map(ArticleResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_RANGE, PageableUtils.toContentRange("article", pageable, articlePage.getTotalElements()))
+                .body(articleResponses);
+    }
+
 
     @GetMapping("{articleId}/file/{fileId}")
     @Operation(description = "get article file")

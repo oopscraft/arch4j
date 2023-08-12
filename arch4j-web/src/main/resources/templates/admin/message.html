@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         const messageSearch = new duice.ObjectProxy({
             key: 'messageId',
@@ -323,4 +323,4 @@
     <!-- end: message content               -->
     <!-- ================================== -->
 
-</main>
+</th:block>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
-<main layout:fragment="_main">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         // variable search condition
         const variableSearch = new duice.ObjectProxy({
@@ -356,4 +356,4 @@
     <!-- end: variable content                  -->
     <!-- ====================================== -->
 
-</main>
+</th:block>

@@ -71,8 +71,6 @@ public class WebController {
     @ModelAttribute("_locales")
     public List<Map<String,String>> locales() {
         Locale test = LocaleContextHolder.getLocale();
-        System.out.println("== test:" + test);
-
         return coreProperties.getSupportedLocales().stream()
                 .map(locale -> {
                     return new LinkedHashMap<String,String>(){{

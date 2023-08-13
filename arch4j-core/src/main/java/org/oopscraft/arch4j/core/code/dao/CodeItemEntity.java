@@ -2,11 +2,10 @@ package org.oopscraft.arch4j.core.code.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.code.CodeItem;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CodeItemEntity extends SystemFieldEntity implements LanguageSupportEntity<CodeItemLanguageEntity> {
+public class CodeItemEntity extends SystemFieldEntity implements I18nSupportEntity<CodeItemI18nEntity> {
 
     @Data
     @Builder
@@ -53,16 +52,16 @@ public class CodeItemEntity extends SystemFieldEntity implements LanguageSupport
             @JoinColumn(name = "item_id", updatable = false)
     })
     @Builder.Default
-    private List<CodeItemLanguageEntity> codeItemLanguageEntities = new ArrayList<>();
+    private List<CodeItemI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<CodeItemLanguageEntity> provideLanguageEntities() {
-        return this.codeItemLanguageEntities;
+    public List<CodeItemI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public CodeItemLanguageEntity provideNewLanguageEntity(String language) {
-        return CodeItemLanguageEntity.builder()
+    public CodeItemI18nEntity provideNewI18nEntity(String language) {
+        return CodeItemI18nEntity.builder()
                 .codeId(this.codeId)
                 .itemId(this.itemId)
                 .language(language)
@@ -70,16 +69,16 @@ public class CodeItemEntity extends SystemFieldEntity implements LanguageSupport
     }
 
     public void setItemName(String itemName) {
-        LanguageSetter.of(this, this.itemName)
-                .defaultSet(() -> this.itemName = itemName)
-                .languageSet(codeItemLanguageEntity -> codeItemLanguageEntity.setItemName(itemName))
+        I18nSetter.of(this, this.itemName)
+                .whenDefault(() -> this.itemName = itemName)
+                .whenI18n(codeItemLanguageEntity -> codeItemLanguageEntity.setItemName(itemName))
                 .set();
     }
 
     public String getItemName() {
-        return LanguageGetter.of(this, this.itemName)
-                .defaultGet(() -> this.itemName)
-                .languageGet(CodeItemLanguageEntity::getItemName)
+        return I18nGetter.of(this, this.itemName)
+                .whenDefault(() -> this.itemName)
+                .whenI18n(CodeItemI18nEntity::getItemName)
                 .get();
     }
 

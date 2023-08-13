@@ -1,11 +1,11 @@
-package org.oopscraft.arch4j.core.data.language;
+package org.oopscraft.arch4j.core.data.i18n;
 
 import org.springframework.util.Assert;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class LanguageGetter<T extends LanguageEntity,R> extends LanguageFunction<T> {
+public class I18nGetter<T extends I18nEntity,R> extends I18nFunction<T> {
 
     private final R currentValue;
 
@@ -13,21 +13,21 @@ public class LanguageGetter<T extends LanguageEntity,R> extends LanguageFunction
 
     private Function<T,R> languageGetter;
 
-    public static <T extends LanguageEntity,R> LanguageGetter<T,R> of(LanguageSupportEntity<T> target, R currentValue) {
-        return new LanguageGetter<>(target, currentValue);
+    public static <T extends I18nEntity,R> I18nGetter<T,R> of(I18nSupportEntity<T> target, R currentValue) {
+        return new I18nGetter<>(target, currentValue);
     }
 
-    public LanguageGetter(LanguageSupportEntity<T> target, R currentValue) {
+    public I18nGetter(I18nSupportEntity<T> target, R currentValue) {
         super(target);
         this.currentValue = currentValue;
     }
 
-    public LanguageGetter<T,R> defaultGet(Supplier<R> defaultGetter) {
+    public I18nGetter<T,R> whenDefault(Supplier<R> defaultGetter) {
         this.defaultGetter = defaultGetter;
         return this;
     }
 
-    public LanguageGetter<T,R> languageGet(Function<T,R> languageGetter) {
+    public I18nGetter<T,R> whenI18n(Function<T,R> languageGetter) {
         this.languageGetter = languageGetter;
         return this;
     }
@@ -39,7 +39,7 @@ public class LanguageGetter<T extends LanguageEntity,R> extends LanguageFunction
         if(this.isDefaultLanguage()) {
             value = this.defaultGetter.get();
         }else{
-            T languageEntity = this.getCurrentLanguageEntity().orElse(null);
+            T languageEntity = this.getI18nEntity().orElse(null);
             if(languageEntity != null) {
                 value = languageGetter.apply(languageEntity);
             }

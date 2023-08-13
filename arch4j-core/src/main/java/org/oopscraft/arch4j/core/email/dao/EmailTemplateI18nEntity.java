@@ -3,20 +3,20 @@ package org.oopscraft.arch4j.core.email.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.language.LanguageEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "core_email_template_language")
-@IdClass(EmailTemplateLanguageEntity.Pk.class)
+@Table(name = "core_email_template_i18n")
+@IdClass(EmailTemplateI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class EmailTemplateLanguageEntity extends SystemFieldEntity implements LanguageEntity {
+public class EmailTemplateI18nEntity extends SystemFieldEntity implements I18nEntity {
 
     @Data
     @Builder

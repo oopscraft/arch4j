@@ -3,9 +3,9 @@ package org.oopscraft.arch4j.core.menu.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Where;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
@@ -25,7 +25,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MenuEntity extends SystemFieldEntity implements LanguageSupportEntity<MenuLanguageEntity> {
+public class MenuEntity extends SystemFieldEntity implements I18nSupportEntity<MenuI18nEntity> {
 
     @Id
     @Column(name = "menu_id", length = 32)
@@ -79,32 +79,32 @@ public class MenuEntity extends SystemFieldEntity implements LanguageSupportEnti
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "menu_id", updatable = false)
     @Builder.Default
-    private List<MenuLanguageEntity> menuLanguageEntities = new ArrayList<>();
+    private List<MenuI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<MenuLanguageEntity> provideLanguageEntities() {
-        return this.menuLanguageEntities;
+    public List<MenuI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public MenuLanguageEntity provideNewLanguageEntity(String language) {
-        return MenuLanguageEntity.builder()
+    public MenuI18nEntity provideNewI18nEntity(String language) {
+        return MenuI18nEntity.builder()
                 .menuId(menuId)
                 .language(language)
                 .build();
     }
 
     public void setMenuName(String menuName) {
-        LanguageSetter.of(this, this.menuName)
-                .defaultSet(() -> this.menuName = menuName)
-                .languageSet(menuLanguageEntity -> menuLanguageEntity.setMenuName(menuName))
+        I18nSetter.of(this, this.menuName)
+                .whenDefault(() -> this.menuName = menuName)
+                .whenI18n(menuLanguageEntity -> menuLanguageEntity.setMenuName(menuName))
                 .set();
     }
 
     public String getMenuName() {
-        return LanguageGetter.of(this, this.menuName)
-                .defaultGet(() -> this.menuName)
-                .languageGet(MenuLanguageEntity::getMenuName)
+        return I18nGetter.of(this, this.menuName)
+                .whenDefault(() -> this.menuName)
+                .whenI18n(MenuI18nEntity::getMenuName)
                 .get();
     }
 

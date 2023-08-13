@@ -1,17 +1,15 @@
-package org.oopscraft.arch4j.core.data.language;
+package org.oopscraft.arch4j.core.data.i18n;
 
-import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.core.CorePropertiesHolder;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import java.util.Locale;
 import java.util.Optional;
 
-public class LanguageFunction<T extends LanguageEntity> {
+public class I18nFunction<T extends I18nEntity> {
 
-    private final LanguageSupportEntity<T> target;
+    private final I18nSupportEntity<T> target;
 
-    public LanguageFunction(LanguageSupportEntity<T> target) {
+    public I18nFunction(I18nSupportEntity<T> target) {
         this.target = target;
     }
 
@@ -20,19 +18,19 @@ public class LanguageFunction<T extends LanguageEntity> {
                 .equals(CorePropertiesHolder.getInstance().getDefaultLocale());
     }
 
-    protected Optional<T> getCurrentLanguageEntity() {
+    protected Optional<T> getI18nEntity() {
         String language = LocaleContextHolder.getLocale().getLanguage();
-        return target.provideLanguageEntities().stream()
+        return target.provideI18nEntities().stream()
                 .filter(languageEntity -> languageEntity.getLanguage().equals(language))
                 .findFirst();
     }
 
-    protected T createAndGetCurrentLanguageEntity() {
+    protected T createAndGetCurrentI18nEntity() {
         String language = LocaleContextHolder.getLocale().getLanguage();
-        T languageEntity = getCurrentLanguageEntity().orElse(null);
+        T languageEntity = getI18nEntity().orElse(null);
         if(languageEntity == null) {
-            languageEntity = target.provideNewLanguageEntity(language);
-            target.provideLanguageEntities().add(languageEntity);
+            languageEntity = target.provideNewI18nEntity(language);
+            target.provideI18nEntities().add(languageEntity);
         }
         return languageEntity;
     }

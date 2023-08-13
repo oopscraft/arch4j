@@ -3,9 +3,9 @@ package org.oopscraft.arch4j.core.message.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MessageEntity extends SystemFieldEntity implements LanguageSupportEntity<MessageLanguageEntity> {
+public class MessageEntity extends SystemFieldEntity implements I18nSupportEntity<MessageI18nEntity> {
 
     @Id
     @Column(name = "message_id", length = 64)
@@ -38,32 +38,32 @@ public class MessageEntity extends SystemFieldEntity implements LanguageSupportE
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "message_id", updatable = false)
     @Builder.Default
-    private List<MessageLanguageEntity> messageLanguageEntities = new ArrayList<>();
+    private List<MessageI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<MessageLanguageEntity> provideLanguageEntities() {
-        return this.messageLanguageEntities;
+    public List<MessageI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public MessageLanguageEntity provideNewLanguageEntity(String language) {
-        return MessageLanguageEntity.builder()
+    public MessageI18nEntity provideNewI18nEntity(String language) {
+        return MessageI18nEntity.builder()
                 .messageId(this.messageId)
                 .language(language)
                 .build();
     }
 
     public void setValue(String value) {
-        LanguageSetter.of(this, this.value)
-                .defaultSet(() -> this.value = value)
-                .languageSet(messageLanguageEntity -> messageLanguageEntity.setValue(value))
+        I18nSetter.of(this, this.value)
+                .whenDefault(() -> this.value = value)
+                .whenI18n(messageLanguageEntity -> messageLanguageEntity.setValue(value))
                 .set();
     }
 
     public String getValue() {
-        return LanguageGetter.of(this, this.value)
-                .defaultGet(() -> this.value)
-                .languageGet(MessageLanguageEntity::getValue)
+        return I18nGetter.of(this, this.value)
+                .whenDefault(() -> this.value)
+                .whenI18n(MessageI18nEntity::getValue)
                 .get();
     }
 

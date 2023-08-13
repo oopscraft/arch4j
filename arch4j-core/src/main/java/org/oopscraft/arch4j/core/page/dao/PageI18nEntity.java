@@ -2,21 +2,21 @@ package org.oopscraft.arch4j.core.page.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.language.LanguageEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "core_page_language")
-@IdClass(PageLanguageEntity.Pk.class)
+@Table(name = "core_page_i18n")
+@IdClass(PageI18nEntity.Pk.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PageLanguageEntity extends SystemFieldEntity implements LanguageEntity {
+public class PageI18nEntity extends SystemFieldEntity implements I18nEntity {
 
     @Data
     @Builder

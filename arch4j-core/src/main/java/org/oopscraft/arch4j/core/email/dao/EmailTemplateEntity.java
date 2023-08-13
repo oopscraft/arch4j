@@ -3,12 +3,11 @@ package org.oopscraft.arch4j.core.email.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class EmailTemplateEntity extends SystemFieldEntity implements LanguageSupportEntity<EmailTemplateLanguageEntity> {
+public class EmailTemplateEntity extends SystemFieldEntity implements I18nSupportEntity<EmailTemplateI18nEntity> {
 
     @Id
     @Column(name = "template_id", length = 32)
@@ -37,46 +36,46 @@ public class EmailTemplateEntity extends SystemFieldEntity implements LanguageSu
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "template_id", updatable = false)
     @Builder.Default
-    private List<EmailTemplateLanguageEntity> emailTemplateLanguageEntities = new ArrayList<>();
+    private List<EmailTemplateI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<EmailTemplateLanguageEntity> provideLanguageEntities() {
-        return this.emailTemplateLanguageEntities;
+    public List<EmailTemplateI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public EmailTemplateLanguageEntity provideNewLanguageEntity(String language) {
-        return EmailTemplateLanguageEntity.builder()
+    public EmailTemplateI18nEntity provideNewI18nEntity(String language) {
+        return EmailTemplateI18nEntity.builder()
                 .templateId(this.templateId)
                 .language(language)
                 .build();
     }
 
     public void setSubject(String subject) {
-        LanguageSetter.of(this, this.subject)
-                .defaultSet(() -> this.subject = subject)
-                .languageSet(emailTemplateLanguageEntity -> emailTemplateLanguageEntity.setSubject(subject))
+        I18nSetter.of(this, this.subject)
+                .whenDefault(() -> this.subject = subject)
+                .whenI18n(emailTemplateLanguageEntity -> emailTemplateLanguageEntity.setSubject(subject))
                 .set();
     }
 
     public String getSubject() {
-        return LanguageGetter.of(this, this.subject)
-                .defaultGet(() -> this.subject)
-                .languageGet(EmailTemplateLanguageEntity::getSubject)
+        return I18nGetter.of(this, this.subject)
+                .whenDefault(() -> this.subject)
+                .whenI18n(EmailTemplateI18nEntity::getSubject)
                 .get();
     }
 
     public void setContent(String content) {
-        LanguageSetter.of(this, this.content)
-                .defaultSet(() -> this.content = content)
-                .languageSet(emailTemplateLanguageEntity -> emailTemplateLanguageEntity.setContent(content))
+        I18nSetter.of(this, this.content)
+                .whenDefault(() -> this.content = content)
+                .whenI18n(emailTemplateLanguageEntity -> emailTemplateLanguageEntity.setContent(content))
                 .set();
     }
 
     public String getContent() {
-        return LanguageGetter.of(this, this.content)
-                .defaultGet(() -> this.content)
-                .languageGet(EmailTemplateLanguageEntity::getContent)
+        return I18nGetter.of(this, this.content)
+                .whenDefault(() -> this.content)
+                .whenI18n(EmailTemplateI18nEntity::getContent)
                 .get();
     }
 

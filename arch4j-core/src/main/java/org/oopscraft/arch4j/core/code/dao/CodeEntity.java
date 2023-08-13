@@ -3,9 +3,9 @@ package org.oopscraft.arch4j.core.code.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CodeEntity extends SystemFieldEntity implements LanguageSupportEntity<CodeLanguageEntity> {
+public class CodeEntity extends SystemFieldEntity implements I18nSupportEntity<CodeI18nEntity> {
 	
 	@Id
 	@Column(name = "code_id", length = 32)
@@ -42,32 +42,32 @@ public class CodeEntity extends SystemFieldEntity implements LanguageSupportEnti
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "code_id", updatable = false)
     @Builder.Default
-    private List<CodeLanguageEntity> codeLanguageEntities = new ArrayList<>();
+    private List<CodeI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<CodeLanguageEntity> provideLanguageEntities() {
-        return this.codeLanguageEntities;
+    public List<CodeI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public CodeLanguageEntity provideNewLanguageEntity(String language) {
-        return CodeLanguageEntity.builder()
+    public CodeI18nEntity provideNewI18nEntity(String language) {
+        return CodeI18nEntity.builder()
                 .codeId(this.codeId)
                 .language(language)
                 .build();
     }
 
     public void setCodeName(String codeName) {
-        LanguageSetter.of(this, this.codeName)
-                .defaultSet(() -> this.codeName = codeName)
-                .languageSet(codeLanguageEntity -> codeLanguageEntity.setCodeName(codeName))
+        I18nSetter.of(this, this.codeName)
+                .whenDefault(() -> this.codeName = codeName)
+                .whenI18n(codeLanguageEntity -> codeLanguageEntity.setCodeName(codeName))
                 .set();
     }
 
     public String getCodeName() {
-        return LanguageGetter.of(this, this.codeName)
-                .defaultGet(() -> this.codeName)
-                .languageGet(CodeLanguageEntity::getCodeName)
+        return I18nGetter.of(this, this.codeName)
+                .whenDefault(() -> this.codeName)
+                .whenI18n(CodeI18nEntity::getCodeName)
                 .get();
     }
 

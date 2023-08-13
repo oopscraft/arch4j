@@ -4,9 +4,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.board.MessageFormat;
-import org.oopscraft.arch4j.core.data.language.LanguageGetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSetter;
-import org.oopscraft.arch4j.core.data.language.LanguageSupportEntity;
+import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
@@ -22,7 +22,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BoardEntity extends SystemFieldEntity implements LanguageSupportEntity<BoardLanguageEntity> {
+public class BoardEntity extends SystemFieldEntity implements I18nSupportEntity<BoardI18nEntity> {
 
     @Id
     @Column(name = "board_id", length = 64)
@@ -107,46 +107,46 @@ public class BoardEntity extends SystemFieldEntity implements LanguageSupportEnt
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "board_id", updatable = false)
     @Builder.Default
-    private List<BoardLanguageEntity> boardLanguageEntities = new ArrayList<>();
+    private List<BoardI18nEntity> i18ns = new ArrayList<>();
 
     @Override
-    public List<BoardLanguageEntity> provideLanguageEntities() {
-        return this.boardLanguageEntities;
+    public List<BoardI18nEntity> provideI18nEntities() {
+        return this.i18ns;
     }
 
     @Override
-    public BoardLanguageEntity provideNewLanguageEntity(String language) {
-        return BoardLanguageEntity.builder()
+    public BoardI18nEntity provideNewI18nEntity(String language) {
+        return BoardI18nEntity.builder()
                 .boardId(this.boardId)
                 .language(language)
                 .build();
     }
 
     public void setBoardName(String boardName) {
-        LanguageSetter.of(this, this.boardName)
-                .defaultSet(() -> this.boardName = boardName)
-                .languageSet(boardLanguageEntity -> boardLanguageEntity.setBoardName(boardName))
+        I18nSetter.of(this, this.boardName)
+                .whenDefault(() -> this.boardName = boardName)
+                .whenI18n(i18nEntity -> i18nEntity.setBoardName(boardName))
                 .set();
     }
 
     public String getBoardName() {
-        return LanguageGetter.of(this, this.boardName)
-                .defaultGet(() -> this.boardName)
-                .languageGet(BoardLanguageEntity::getBoardName)
+        return I18nGetter.of(this, this.boardName)
+                .whenDefault(() -> this.boardName)
+                .whenI18n(BoardI18nEntity::getBoardName)
                 .get();
     }
 
     public void setMessage(String message) {
-        LanguageSetter.of(this, this.message)
-                .defaultSet(() -> this.message = message)
-                .languageSet(boardLanguageEntity -> boardLanguageEntity.setMessage(message))
+        I18nSetter.of(this, this.message)
+                .whenDefault(() -> this.message = message)
+                .whenI18n(i18nEntity -> i18nEntity.setMessage(message))
                 .set();
     }
 
     public String getMessage() {
-        return LanguageGetter.of(this, this.message)
-                .defaultGet(() -> this.message)
-                .languageGet(BoardLanguageEntity::getMessage)
+        return I18nGetter.of(this, this.message)
+                .whenDefault(() -> this.message)
+                .whenI18n(BoardI18nEntity::getMessage)
                 .get();
     }
 

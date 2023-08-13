@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <th:block layout:fragment="_content">
@@ -29,15 +30,11 @@
             return true;
         });
 
-        /**
-         * getGits
-         * @param page page
-         */
         function getGits(page) {
             if(page) {
                 gitSearch._page = page;
             }
-            let url = new URL([[@{/admin/git/get-gits}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/git/get-gits}]]*/'', document.location.origin);
             if (gitSearch.key && gitSearch.value) {
                 url.searchParams.append(gitSearch.key, gitSearch.value);
             }
@@ -48,27 +45,20 @@
                 .then(data => {
                     duice.ArrayProxy.clear(gits);
                     duice.ArrayProxy.assign(gits, data.content);
-                    gitSearch._count = data.totalElements;
+                    gitSearch._count = data['totalElements'];
 
                     // select current item
                     duice.ArrayProxy.selectItem(gits, gits.findIndex(item => item.gitId === git.gitId));
                 });
         }
 
-        /**
-         * resetGits
-         */
         function resetGits() {
             duice.ObjectProxy.reset(gitSearch);
             getGits();
         }
 
-        /**
-         * getGit
-         * @param gitId git.gitId
-         */
         function getGit(gitId) {
-            let url = new URL([[@{/admin/git/get-git}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/git/get-git}]]*/'', document.location.origin);
             url.searchParams.append('gitId', gitId);
             _fetch(url)
                 .then(response => response.json())
@@ -80,9 +70,6 @@
                 });
         }
 
-        /**
-         * createGit
-         */
         function createGit() {
             duice.ObjectProxy.clear(git);
             duice.ObjectProxy.assign(git, {
@@ -93,28 +80,22 @@
             duice.ObjectProxy.focus(git, 'gitId');
         }
 
-        /**
-         * validateGitId
-         * @param gitId git.gitId
-         * @returns {Promise<boolean>}
-         */
         async function validateGitId(gitId) {
-
             // check blank
             if (!gitId) {
-                await _alert([[#{web.global.itemEmpty(#{core.git.Git.gitId})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.git.Git.gitId})}]]*/'');
                 duice.ObjectProxy.focus(git, 'gitId');
                 return false;
             }
 
             // check duplicated id
-            let url = new URL([[@{/admin/git/get-git}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/git/get-git}]]*/'', document.location.origin);
             url.searchParams.append('gitId', gitId);
             let response = await _fetch(url, {}, true);
             if (response.ok) {
                 let git = await response.json();
                 if (git) {
-                    await _alert([[#{web.global.itemAlreadyExist(#{core.git.Git.gitId})}]]);
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.git.Git.gitId})}]]*/'');
                     return false;
                 }
             }
@@ -123,11 +104,7 @@
             return true;
         }
 
-        /**
-         * saveGit
-         */
         async function saveGit() {
-
             // if new, checks id
             if (git._new) {
                 if (!await validateGitId(git.gitId)) {
@@ -137,22 +114,22 @@
 
             // checks git name
             if (_isEmpty(git.gitName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.git.Git.gitName})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.git.Git.gitName})}]]*/'');
                 duice.ObjectProxy.focus(git, 'gitName');
                 return false;
             }
 
             // check url
             if (_isEmpty(git.url)) {
-                await _alert([[#{web.global.itemEmpty(#{core.git.Git.url})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.git.Git.url})}]]*/'');
                 duice.ObjectProxy.focus(git, 'url');
                 return false;
             }
 
             // call save
-            _confirm([[#{web.global.saveItemConfirm(#{core.git.Git})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.git.Git})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/git/save-git}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/git/save-git}]]*/'', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -161,7 +138,7 @@
                         body: JSON.stringify(git)
                     }).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.git.Git})}]]).then(() => {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.git.Git})}]]*/'').then(() => {
                                 getGits();
                                 getGit(git.gitId);
                             });
@@ -171,17 +148,14 @@
             });
         }
 
-        /**
-         * deleteGit
-         */
         function deleteGit() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.git.Git})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.git.Git})}]]*/'').then(result => {
                 if (result) {
-                    let url = new URL([[@{/admin/git/delete-git}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/git/delete-git}]]*/'', document.location.origin);
                     url.searchParams.append('gitId', git.gitId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.git.Git})}]]).then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.git.Git})}]]*/'').then(() => {
                                 getGits();
                                 duice.ObjectProxy.clear(git);
                             });
@@ -201,7 +175,7 @@
     <!-- start: title                           -->
     <!-- ====================================== -->
     <h1 id="title">
-        <img class="icon" th:src="@{/static/image/icon-git.svg}"/>
+        <img class="icon" th:src="@{/static/image/icon-git.svg}" alt="git"/>
         <span data-th-text="#{web.admin.git}"></span>
     </h1>
     <!-- ====================================== -->
@@ -219,7 +193,7 @@
         <div id="gitList" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-list.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.git.Git}+' '+#{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
@@ -235,11 +209,11 @@
                     </label>
                     <div class="grid-column-6 s-grid-column-12 justify-self-end">
                         <button type="submit" onclick="getGits();">
-                            <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
                         </button>
                         <button type="button" onclick="resetGits();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                             <span data-th-text="#{web.global.reset}">Reset</span>
                         </button>
                     </div>
@@ -293,7 +267,7 @@
                     </div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="createGit();">
-                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
                         </button>
                     </div>
@@ -310,7 +284,7 @@
         <div id="gitDetail" class="grid-column-1">
             <div class="grid grid-gap-1em border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-detail.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                     <span data-th-text="#{core.git.Git}+' '+#{web.global.detail}"></span>
                 </h2>
                 <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-0">
@@ -344,7 +318,7 @@
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_GIT_EDIT'')')}?'locked'"
                                 data-duice-bind="git"
                                 data-duice-execute="(git.gitId && !git._new) ? this.disabled=false : this.disabled=true;">
-                            <img class="icon" th:src="@{/static/image/icon-delete.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                             <span data-th-text="#{web.global.delete}"></span>
                         </button>
                         <button type="button" onclick="saveGit();"
@@ -352,7 +326,7 @@
                                 data-duice-bind="git"
                                 data-duice-execute="(git.gitId || git._new) ? this.disabled=false : this.disabled=true;">
 
-                            <img class="icon" th:src="@{/static/image/icon-save.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
                             <span data-th-text="#{web.global.save}"></span>
                         </button>
                     </div>

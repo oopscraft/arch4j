@@ -13,7 +13,7 @@
         duice.ObjectProxy.setDisableAll(menu, true);
 
         function getMenus() {
-            let url = new URL([[@{/admin/menu/get-menus}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/menu/get-menus}]]*/'', document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -31,7 +31,7 @@
         }
 
         function getMenu(menuId) {
-            let url = new URL([[@{/admin/menu/get-menu}]], document.location.origin);
+            let url = new URL(/*[[@{/admin/menu/get-menu}]]*/'', document.location.origin);
             url.searchParams.append('menuId', menuId);
             _fetch(url)
                 .then(response => response.json())
@@ -61,15 +61,15 @@
 
             // check menu name
             if(_isEmpty(menu.menuName)) {
-                await _alert([[#{web.global.itemEmpty(#{core.menu.Menu.menuName})}]]);
+                await _alert(/*[[#{web.global.itemEmpty(#{core.menu.Menu.menuName})}]]*/'');
                 duice.ObjectProxy.focus(menu, 'menuName');
                 return;
             }
 
             // calls save
-            _confirm([[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
                 if(result) {
-                    let url = new URL([[@{/admin/menu/save-menu}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/menu/save-menu}]]*/'', document.location.origin);
                     _fetch(url, {
                         method: 'POST',
                         headers: {
@@ -78,7 +78,7 @@
                         body: JSON.stringify(menu)
                     }).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.global.saveItemComplete(#{core.menu.Menu})}]]).then(() => {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
                                 getMenus();
                             });
                         }
@@ -88,13 +88,13 @@
         }
 
         function deleteMenu() {
-            _confirm([[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
                 if(result) {
-                    let url = new URL([[@{/admin/menu/delete-menu}]], document.location.origin);
+                    let url = new URL(/*[[@{/admin/menu/delete-menu}]]*/'', document.location.origin);
                     url.searchParams.append('menuId', menu.id);
                     _fetch(url).then(response => {
                         if(response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]).then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
                                 getMenus();
                             });
                         }
@@ -159,7 +159,7 @@
         }
         .menu-item::before {
             content: "";
-            background-image: url([[@{/static/image/icon-folder-close.svg}]]);
+            background-image: url(/*[[@{/static/image/icon-folder-close.svg}]]*/);
             background-size: 1em 1em;
             display: inline-block;
             width: 1em;
@@ -169,7 +169,7 @@
             filter: invert(1) hue-rotate(180deg);
         }
         .selected > .menu-item::before {
-            background-image: url([[@{/static/image/icon-folder-open.svg}]]);
+            background-image: url(/*[[@{/static/image/icon-folder-open.svg}]]*/);
         }
         .selected > .menu-item {
             background-color: var(--web-table-body-hover-background-color);
@@ -471,7 +471,7 @@
                  * getMenus
                  */
                 getMenus: function() {
-                    let url = new URL([[@{/admin/menu/get-menus}]],document.location.origin);
+                    let url = new URL(/*[[@{/admin/menu/get-menus}]]*/'',document.location.origin);
                     _fetch(url)
                         .then(response => response.json())
                         .then(data => {
@@ -530,6 +530,6 @@
     <!-- end: menuSelect                    -->
     <!-- ================================== -->
 
-    <th:block th:include="admin/_common.html :: roleSelect"></th:block>
+    <th:block th:include="admin/_common.html :: roleSelect"/>
 
-</main>
+</th:block>

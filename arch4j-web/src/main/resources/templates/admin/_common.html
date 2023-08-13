@@ -44,7 +44,7 @@
                 if(page) {
                     this.roleSearch._page = page;
                 }
-                let url = new URL([[@{/admin/common/get-roles}]],document.location.origin);
+                let url = new URL(/*[[@{/admin/common/get-roles}]]*/'',document.location.origin);
                 if(this.roleSearch.key && this.roleSearch.value) {
                     url.searchParams.append(this.roleSearch.key, this.roleSearch.value);
                 }
@@ -115,7 +115,7 @@
     </script>
     <div class="grid grid-gap-1em">
         <h2>
-            <img class="icon" th:src="@{/static/image/icon-role.svg}"/>
+            <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
             <span data-th-text="#{core.user.Role}"></span>
         </h2>
         <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
@@ -130,11 +130,11 @@
             </label>
             <div class="grid-column-6 s-grid-column-12 justify-self-end">
                 <button onclick="roleSelect.getRoles();">
-                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                     <span data-th-text="#{web.global.search}">Search</span>
                 </button>
                 <button onclick="roleSelect.resetRoles();">
-                    <img class="icon" th:src="@{/static/image/icon-reset.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                     <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
             </div>
@@ -163,7 +163,7 @@
                             this.disabled = true;
                         }"
                                 onclick="roleSelect.selectRole(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                         </button>
                     </td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
@@ -213,7 +213,7 @@
                         <button data-duice-bind="role"
                                 data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
-                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
                         </button>
                     </td>
                     <td data-duice-bind="role" data-duice-property="roleId" class="font-weight-bold"></td>
@@ -228,7 +228,7 @@
         </div>
         <div class="flex justify-content-flex-end">
             <button onclick="roleSelect.confirm();">
-                <img class="icon" th:src="@{/static/image/icon-confirm.svg}"/>
+                <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                 <span data-th-text="#{web.global.confirm}"></span>
             </button>
         </div>

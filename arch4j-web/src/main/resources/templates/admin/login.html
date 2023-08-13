@@ -111,15 +111,6 @@
                        class="width-100 text-align-center"
                        th:placeholder="#{web.admin.login.password}"/>
             </label>
-            <div class="grid-column-12 text-align-right">
-                <label>
-                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                    <select onchange="_changeLanguage(this.value);">
-                        <option>- language -</option>
-                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                    </select>
-                </label>
-            </div>
             <div class="grid-column-12">
                 <button onclick="requestLogin();" class="width-100">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
@@ -128,6 +119,15 @@
             </div>
             <div class="grid-column-12 text-align-center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
+            </div>
+            <div class="grid-column-12 text-align-right">
+                <label>
+                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
             </div>
         </form>
     </div>

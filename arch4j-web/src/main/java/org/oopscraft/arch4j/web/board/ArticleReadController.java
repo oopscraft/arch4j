@@ -28,6 +28,7 @@ public class ArticleReadController {
         Board board = boardService.getBoard(boardId).orElseThrow();
         Article article = articleService.getArticle(articleId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");
+        modelAndView.addObject("_title", article.getTitle());
         modelAndView.addObject("board", board);
         modelAndView.addObject("article", article);
         return modelAndView;

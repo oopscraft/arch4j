@@ -23,6 +23,7 @@ public class PageController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("page/page.html");
         Page page = pageService.getPage(pageId).orElseThrow();
+        modelAndView.addObject("_title", page.getPageName());
         modelAndView.addObject("page", page);
         return modelAndView;
     }

@@ -1,5 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title></title>
 
     <!-- ====================================== -->
     <!-- end: _script                           -->
@@ -168,9 +171,6 @@
         }
     </style>
     <script th:inline="javascript">
-        /**
-         * open menu
-         */
         function _openMenu() {
             document.querySelector('header #_header-menu').classList.toggle('open');
             document.querySelector('nav').classList.toggle('open');
@@ -194,37 +194,39 @@
             </span>
         </div>
         <div id="_header-menuButton">
-            <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link"/>
+            <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link" alt="menu"/>
         </div>
         <ul id="_header-menu">
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_gotoLogin();" class="link">
-                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-login.svg(_theme=${_theme})}" class="icon"/>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-login.svg(_theme=${_theme})}" class="icon" alt="login"/>
                     <span data-th-text="#{web.global.login}"></span>
                 </div>
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_gotoUser();" class="link">
                     <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
-                         data-duice-bind="_user" data-duice-property="photo"/>
+                         data-duice-bind="_user" data-duice-property="photo" alt="user"/>
                     <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_gotoLogout();" class="link">
-                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-logout.svg(_theme=${_theme})}" class="icon"/>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-logout.svg(_theme=${_theme})}" class="icon" alt="logout"/>
                     <span data-th-text="#{web.global.logout}"></span>
                 </span>
             </li>
             <li>
-                <img class="icon dark-mode-switch" onclick="_toggleDarkMode();"/>
+                <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
             </li>
             <li>
-                <img th:src="@{/static/_theme/{_theme}/static/image/icon-language.svg(_theme=${_theme})}" class="icon"/>
-                <select onchange="_changeLanguage(this.value);">
-                    <option value>- language -</option>
-                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                </select>
+                <label>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-language.svg(_theme=${_theme})}" class="icon" alt="language"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option value>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
             </li>
         </ul>
     </header>
@@ -242,7 +244,7 @@
                 "
                 onclick="_openLink(this.dataset.link,this.dataset.target);"
                 class="link">
-                <img class="icon" data-duice-bind="menu" data-duice-property="icon"/>
+                <img class="icon" data-duice-bind="menu" data-duice-property="icon" alt="menu"/>
                 <span data-duice-bind="menu" data-duice-property="menuName"></span>
             </li>
         </ul>

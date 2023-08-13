@@ -7,10 +7,7 @@
 </style>
 <div id="login" class="border-1">
     <h1 class="text-align-center">
-        <div>
-            <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}">
-            </span>
-        </div>
+        <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}"></span>
     </h1>
     <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
         <label class="grid-column-12">
@@ -23,28 +20,25 @@
                    data-duice-bind="login" data-duice-property="password"
                    class="width-100 font-weight-bold text-align-center"/>
         </label>
-        <div class="grid-column-12 flex justify-content-space-between">
-            <div class="grid-column-6"></div>
-            <div class="grid-column-6 flex justify-content-flex-end align-items-center">
-                <label>
-                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                    <select onchange="_changeLanguage(this.value);">
-                        <option>- language -</option>
-                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                    </select>
-                </label>
-            </div>
-        </div>
         <div class="grid-column-12">
             <button onclick="requestLogin();" class="width-100">
-                <img class="icon" th:src="@{/static/image/icon-login.svg}">
+                <img class="icon" th:src="@{/static/image/icon-login.svg}" alt="login">
                 <span data-th-text="#{web.global.login}"></span>
             </button>
         </div>
-        <div class="grid-column-12 flex justify-content-center">
+        <div class="grid-column-12 justify-self-center">
             <span data-duice-bind="login" data-duice-property="message"></span>
         </div>
-        <div class="grid-column-12">
+        <div class="grid-column-6">
+            <label>
+                <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
+                <select onchange="_changeLanguage(this.value);">
+                    <option>- language -</option>
+                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                </select>
+            </label>
+        </div>
+        <div class="grid-column-6">
             <div class="text-align-right">
                 <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.login.join}">
                 </span>

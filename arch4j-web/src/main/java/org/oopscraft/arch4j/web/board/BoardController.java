@@ -23,6 +23,7 @@ public class BoardController {
     public ModelAndView index(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/board.html");
+        modelAndView.addObject("_title", board.getBoardName());
         modelAndView.addObject("board", board);
         return modelAndView;
     }

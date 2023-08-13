@@ -65,18 +65,11 @@
                 });
         }
 
-        /**
-         * resetUsers
-         */
         function resetUsers() {
             duice.ObjectProxy.reset(userSearch);
             getUsers();
         }
 
-        /**
-         * getUser
-         * @param userId
-         */
         function getUser(userId) {
             let url = new URL(/*[[@{/admin/user/get-user}]]*/'', document.location.origin);
             url.searchParams.append('userId', userId);
@@ -233,7 +226,7 @@
         }
 
         function generateUserAccessToken() {
-            let url = new URL(/*[[@{/admin/user/generate-access-token}]]*/'', document.location.origin);
+            let url = new URL(/*[[@{/admin/user/generate-user-access-token}]]*/'', document.location.origin);
             url.searchParams.append('userId', user.userId);
             _fetch(url)
                 .then(function(response){

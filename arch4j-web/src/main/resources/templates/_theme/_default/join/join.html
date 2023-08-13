@@ -7,7 +7,7 @@
 </style>
 <div id="join" class="border-1 padding-1em">
     <h1 class="text-align-center">
-        <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-join.svg(_theme=${_theme})}"/>
+        <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-join.svg(_theme=${_theme})}" alt="join"/>
         <span class="text-align-center" data-th-text="#{web.join.join}"></span>
     </h1>
     <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
@@ -21,17 +21,17 @@
         </label>
         <label class="grid-column-12">
             <span data-th-text="#{web.join.join.email}" class="font-weight-bold"></span>
-            <div class="width-100 grid grid-template-columns-12 grid-gap-1em">
+            <span class="width-100 grid grid-template-columns-12 grid-gap-1em">
                 <input type="text" data-duice-bind="join" data-duice-property="email" class="grid-column-9"/>
                 <button class="grid-column-3" data-th-text="#{web.join.join.validateEmail}" onclick="validateEmail();"></button>
-            </div>
+            </span>
         </label>
         <label class="grid-column-12">
             <span data-th-text="#{web.join.join.answer}" class="font-weight-bold"></span>
-            <div class="width-100 grid grid-template-columns-12 grid-gap-1em">
+            <span class="width-100 grid grid-template-columns-12 grid-gap-1em">
                 <input type="text" data-duice-bind="join" data-duice-property="answer" class="grid-column-9"/>
                 <button class="grid-column-3" data-th-text="#{web.join.join.validateEmailAnswer}" onclick="validateEmailAnswer();"></button>
-            </div>
+            </span>
         </label>
         <label class="grid-column-12">
             <span data-th-text="#{web.join.join.password}" class="font-weight-bold"></span>
@@ -44,11 +44,11 @@
     </form>
     <div class="text-align-center margin-top-1em">
         <button onclick="history.back();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}" alt="cancel"/>
             <span data-th-text="#{web.global.cancel}"></span>
         </button>
         <button onclick="requestJoin();">
-            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-confirm.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-confirm.svg(_theme=${_theme})}" alt="confirm"/>
             <span data-th-text="#{web.join.join.requestJoin}"></span>
         </button>
     </div>

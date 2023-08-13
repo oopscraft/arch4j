@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="_web.html">
 <th:block layout:fragment="_content">
@@ -20,7 +21,7 @@
             document.location.href = `${_rootUrl}/board/${boardId}`;
         }
 
-        document.addEventListener('DOMContentLoaded', event => {
+        document.addEventListener('DOMContentLoaded', () => {
             getBoard();
         });
 

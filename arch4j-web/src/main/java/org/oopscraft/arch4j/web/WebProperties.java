@@ -18,6 +18,8 @@ public final class WebProperties {
 
     private final String brand;
 
+    private final String title;
+
     private final String index;
 
     private final SecurityPolicy securityPolicy;

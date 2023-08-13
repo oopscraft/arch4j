@@ -63,6 +63,11 @@ public class WebController {
         return webProperties.getBrand();
     }
 
+    @ModelAttribute("_title")
+    public String title() {
+        return webProperties.getTitle();
+    }
+
     @ModelAttribute("_locales")
     public List<Map<String,String>> locales() {
         Locale test = LocaleContextHolder.getLocale();

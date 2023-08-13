@@ -1,14 +1,14 @@
 <div class="grid grid-template-columns-12 grid-gap-1em">
     <div class="grid-column-6 s-grid-column-12 border-1 padding-1em">
         <h2>
-            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"/>
+            <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}" alt="user"/>
             <span data-th-text="#{web.user.user}"></span>
         </h2>
         <form onsubmit="return false;" class="grid-column-12 grid grid-template-columns-12 grid-gap-1em padding-1em">
             <label class="grid-column-3 s-grid-column-12">
                 <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
                      data-duice-property="photo" data-duice-editable="true" data-duice-size="64,64"
-                     style="width:64px; height:64px;"/>
+                     style="width:64px; height:64px;" alt="photo"/>
             </label>
             <label class="grid-column-9 s-grid-column-12">
                 <textarea data-duice-bind="user" data-duice-property="profile" rows="3" class="width-100 height-100"></textarea>
@@ -56,13 +56,13 @@
         <div class="flex justify-content-space-between margin-1em">
             <div>
                 <button onclick="gotoChangePassword();">
-                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-password.svg(_theme=${_theme})}"/>
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-password.svg(_theme=${_theme})}" alt="password"/>
                     <span data-th-text="#{web.user.user.changePassword}"></span>
                 </button>
             </div>
             <div class="text-align-right">
                 <button onclick="saveCurrentUser();">
-                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-save.svg(_theme=${_theme})}"/>
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-save.svg(_theme=${_theme})}" alt="save"/>
                     <span data-th-text="#{web.user.user.saveCurrentUser}"></span>
                 </button>
             </div>

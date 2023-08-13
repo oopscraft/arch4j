@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="board/_board.html">
 <th:block layout:fragment="_board_content">
     <script th:inline="javascript">
-        const articleId = [[${param.articleId}]];
+        const articleId = /*[[${param.articleId}]]*/'';
         const article = new duice.ObjectProxy({
             files:[]
         });
@@ -90,9 +91,6 @@
                 });
         }
 
-        /**
-         * cancel comment
-         */
         const cancelArticleComment = function() {
             duice.ObjectProxy.clear(articleComment);
             duice.ObjectProxy.assign(articleComment,{
@@ -113,10 +111,6 @@
             }
         }
 
-        /**
-         * is valid article comment password
-         * @returns {boolean}
-         */
         const isValidArticleArticleCommentPassword = function() {
             if(_isEmpty(articleComment.password)) {
                 _alert('enter password');
@@ -133,9 +127,6 @@
             return true;
         }
 
-        /**
-         * save article comment
-         */
         const saveArticleComment = function(){
 
             // if anonymous article comment, check password
@@ -146,7 +137,7 @@
             }
 
             // confirm message
-            _confirm([[#{web.global.saveItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.board.ArticleComment})}]]*/'').then(result => {
                 if(result) {
                     let commentId = articleComment.commentId;
                     let url;
@@ -177,12 +168,7 @@
             });
         }
 
-        /**
-         * delete article comment
-         * @param commentId
-         */
         const deleteArticleComment = function(commentId) {
-
             // if anonymous article comment, check password
             if(isAnonymousArticleComment(articleComment)) {
                 if(!isValidArticleArticleCommentPassword()) {
@@ -191,7 +177,7 @@
             }
 
             // fire confirm message and save
-            _confirm([[#{web.global.deleteItemConfirm(#{core.board.ArticleComment})}]]).then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.board.ArticleComment})}]]*/'').then(result => {
                 if(result) {
                     let url = `${_apiUrl}/v1/board/${boardId}/article/${articleId}/comment/${commentId}`;
                     _fetch(url, {
@@ -202,7 +188,7 @@
                         body: JSON.stringify(articleComment)
                     }).then(response=> {
                         if(response.ok) {
-                            _alert([[#{web.global.deleteItemComplete(#{core.board.ArticleComment})}]]).then(()=>{
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.board.ArticleComment})}]]*/'').then(()=>{
                                 cancelArticleComment();
                                 getArticleComments();
                                 article.commentCount --;
@@ -262,7 +248,7 @@
             document.location.href = `${_rootUrl}/board/${boardId}`;
         }
 
-        document.addEventListener('DOMContentLoaded', event => {
+        document.addEventListener('DOMContentLoaded', () => {
             getArticle();
             getArticleComments();
             getArticleVote();

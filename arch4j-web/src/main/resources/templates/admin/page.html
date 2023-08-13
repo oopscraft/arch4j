@@ -206,7 +206,8 @@
         }
 
         function openPage() {
-            let url = new URL(/*[[@{/page/}]]*/'' + page.pageId, document.location.origin);
+            let urlPrefix = /*[[@{/page/}]]*/'';
+            let url = new URL(urlPrefix + page.pageId, document.location.origin);
             window.open(url,'_blank');
         }
 

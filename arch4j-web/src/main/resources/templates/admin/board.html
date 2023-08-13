@@ -167,9 +167,6 @@
             });
         }
 
-        /**
-         * deleteBoard
-         */
         function deleteBoard() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.board.Board})}]]*/'').then(result => {
                 if (result) {
@@ -187,9 +184,6 @@
             });
         }
 
-        /**
-         * addBoardAccessRole
-         */
         async function addBoardAccessRole() {
             let disabledRoleIds = [];
             board.accessRoles.forEach(role => {
@@ -246,19 +240,13 @@
             });
         }
 
-        /**
-         * removeBoardCommentRole
-         * @param index
-         */
         function removeBoardCommentRole(index) {
             board.commentRoles.splice(index, 1);
         }
 
-        /**
-         * open board
-         */
         function openBoard() {
-            let url = new URL(/*[[@{/board/}]]*/'' + board.boardId, document.location.origin);
+            let urlPrefix = /*[[@{/board/}]]*/'';
+            let url = new URL(urlPrefix + board.boardId, document.location.origin);
             window.open(url,'_blank');
         }
 

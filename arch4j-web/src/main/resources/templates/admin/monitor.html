@@ -3,16 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="admin/_admin.html">
 <th:block layout:fragment="_content">
-    <script>
+    <script th:inline="javascript">
         let cpuChart = null;
         let memoryChart = null;
         let diskChart = null;
 
-        /**
-         * get info
-         */
         function getInfo() {
-            let url = new URL("[[@{/admin/monitor/get-info}]]", document.location.origin);
+            let url = new URL(/*[[@{/admin/monitor/get-info}]]*/'', document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -22,13 +19,6 @@
                 });
         }
 
-        /**
-         * convert json to plain text
-         * @param json
-         * @param indent
-         * @returns {string}
-         * @private
-         */
         function convertJsonToText(json, indent = 0) {
             const indentation = ' '.repeat(indent * 2);
             let plainText = '';
@@ -47,11 +37,8 @@
             return plainText;
         }
 
-        /**
-         * get cpu info
-         */
         function getCpu() {
-            let url = new URL("[[@{/admin/monitor/get-cpu}]]", document.location.origin);
+            let url = new URL(/*[[@{/admin/monitor/get-cpu}]]*/'', document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -59,9 +46,6 @@
                 });
         }
 
-        /**
-         * initialize cpu chart
-         */
         function initializeCpuChart(cpu) {
             let labels = [];
             let usage = [];
@@ -106,11 +90,8 @@
             });
         }
 
-        /**
-         * get memory info
-         */
         function getMemory() {
-            let url = new URL("[[@{/admin/monitor/get-memory}]]", document.location.origin);
+            let url = new URL(/*[[@{/admin/monitor/get-memory}]]*/'', document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -118,10 +99,6 @@
                 });
         }
 
-        /**
-         * initialize memory chart
-         * @param memory memory info
-         */
         function initializeMemoryChart(memory) {
             let labels = [];
             let used = [];
@@ -178,11 +155,8 @@
             });
         }
 
-        /**
-         * getDisk
-         */
         function getDisk() {
-            let url = new URL("[[@{/admin/monitor/get-disk}]]", document.location.origin);
+            let url = new URL(/*[[@{/admin/monitor/get-disk}]]*/'', document.location.origin);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -190,10 +164,6 @@
                 });
         }
 
-        /**
-         * initializeDiskChart
-         * @param disk disk info
-         */
         function initializeDiskChart(disk) {
             let labels = [];
             let used = [];
@@ -260,7 +230,7 @@
         });
 
     </script>
-    <style>
+    <style th:inline="css">
         #infoText {
             padding-top: 0.5em;
             min-height: 15rem;
@@ -274,7 +244,7 @@
     <!-- start: title                       -->
     <!-- ================================== -->
     <h1 id="title">
-        <img class="icon" th:src="@{/static/image/icon-monitor.svg}"/>
+        <img class="icon" th:src="@{/static/image/icon-monitor.svg}" alt="monitor"/>
         <span data-th-text="#{web.admin.monitor}"></span>
     </h1>
     <!-- ================================== -->
@@ -292,10 +262,12 @@
         <div id="info" class="grid-column-1">
             <div class="border-1 padding-1em flex flex-direction-column height-100">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-info.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-info.svg}" alt="info"/>
                     <span data-th-text="#{web.admin.monitor.info}"></span>
                 </h2>
-                <textarea id="infoText" readonly="readonly" class="width-100 height-100"></textarea>
+                <label>
+                    <textarea id="infoText" readonly="readonly" class="width-100 height-100"></textarea>
+                </label>
             </div>
         </div>
         <!-- ================================== -->
@@ -308,7 +280,7 @@
         <div class="grid-column-1">
             <div class="border-1 padding-1em">
                 <h2>
-                    <img class="icon" th:src="@{/static/image/icon-cpu.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-cpu.svg}" alt="cpu"/>
                     <span data-th-text="#{web.admin.monitor.cpu}"></span>
                 </h2>
                 <canvas id="cpuChart"></canvas>
@@ -324,7 +296,7 @@
         <div class="grid-column-1">
             <div class="border-1 padding-1em">
                 <h1>
-                    <img class="icon" th:src="@{/static/image/icon-memory.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-memory.svg}" alt="memory"/>
                     <span data-th-text="#{web.admin.monitor.memory}"></span>
                 </h1>
                 <canvas id="memoryChart"></canvas>
@@ -340,7 +312,7 @@
         <div class="grid-column-1">
             <div class="border-1 padding-1em">
                 <h1>
-                    <img class="icon" th:src="@{/static/image/icon-disk.svg}"/>
+                    <img class="icon" th:src="@{/static/image/icon-disk.svg}" alt="disk"/>
                     <span data-th-text="#{web.admin.monitor.disk}"></span>
                 </h1>
                 <canvas id="diskChart"></canvas>

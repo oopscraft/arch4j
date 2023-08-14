@@ -304,7 +304,8 @@ button.locked::after {
 }
 button.small {
     line-height: 1.2em;
-    padding: 0.2em 0.3em;
+    padding: 0.5em 0.5em;
+    font-size: smaller;
 }
 button.tab {
     border-bottom: none;

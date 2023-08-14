@@ -8,7 +8,7 @@ var duice;
                 this.elementItems = new Map();
                 this.sourceEndpoints = new Map();
                 this.targetEndpoints = new Map();
-                this.connections = [];
+                this.connectorItems = [];
                 // parse attribute
                 this.elementProperty = duice.getElementAttribute(this.getHtmlElement(), 'element-property');
                 this.elementLoop = duice.getElementAttribute(this.getHtmlElement(), 'element-loop');
@@ -17,9 +17,9 @@ var duice;
                 let positionPropertyParts = positionProperty.split(',');
                 this.elementPositionXProperty = positionPropertyParts[0];
                 this.elementPositionYProperty = positionPropertyParts[1];
-                this.linkProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-property');
-                this.linkSourceProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-source-property');
-                this.linkTargetProperty = duice.getElementAttribute(this.getHtmlElement(), 'link-target-property');
+                this.connectorProperty = duice.getElementAttribute(this.getHtmlElement(), 'connector-property');
+                this.connectorSourceProperty = duice.getElementAttribute(this.getHtmlElement(), 'connector-source-property');
+                this.connectorTargetProperty = duice.getElementAttribute(this.getHtmlElement(), 'connector-target-property');
                 // mark initialized (not using after clone as templates)
                 this.htmlElementTemplate = this.getHtmlElement().innerHTML;
                 duice.markInitialized(htmlElement);
@@ -46,8 +46,8 @@ var duice;
                     }
                     event.connection.addOverlay(["PlainArrow", {
                             location: 1,
-                            width: 15,
-                            length: 15,
+                            width: 10,
+                            length: 10,
                             id: "arrow",
                         }]);
                     event.connection.addOverlay(['Label', {
@@ -59,21 +59,21 @@ var duice;
                                 }
                             }
                         }]);
-                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
-                    this.addLinkData(linkSourceId, linkTargetId);
+                    let connectorSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
+                    let connectorTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
+                    this.addConnectorData(connectorSourceId, connectorTargetId);
                 });
                 this.jsPlumbInstance.bind('connectionMoved', event => {
                     console.debug('== connectionMoved:', event);
-                    let linkSourceId = duice.getElementAttribute(event.originalSourceEndpoint.element, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.originalTargetEndpoint.element, 'element-id');
-                    this.removeLinkData(linkSourceId, linkTargetId);
+                    let connectorSourceId = duice.getElementAttribute(event.originalSourceEndpoint.element, 'element-id');
+                    let connectorTargetId = duice.getElementAttribute(event.originalTargetEndpoint.element, 'element-id');
+                    this.removeConnectorData(connectorSourceId, connectorTargetId);
                 });
                 this.jsPlumbInstance.bind('internal.connectionDetached', event => {
                     console.debug('== internal.connectionDetached:', event);
-                    let linkSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
-                    let linkTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
-                    this.removeLinkData(linkSourceId, linkTargetId);
+                    let connectorSourceId = duice.getElementAttribute(event.connection.source, 'element-id');
+                    let connectorTargetId = duice.getElementAttribute(event.connection.target, 'element-id');
+                    this.removeConnectorData(connectorSourceId, connectorTargetId);
                 });
             }
             createStyle() {
@@ -98,16 +98,16 @@ var duice;
                 .${duice.getNamespace()}-diagram-endpoint-target-hover {
                     opacity: 1.0;
                 }
-                .${duice.getNamespace()}-diagram-link-disconnect {
+                .${duice.getNamespace()}-diagram-connector-disconnect {
                     display: block;
                     cursor: pointer;
                     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApElEQVR4nGNgoBHgZ2Bg0GJgYDCHYhCbjxiNrAwMDFYMDAyROLAVVA1OzV54NMOwJy5DrIjQDMOW2PwciYQfMjAwLETiL4SKIatBCRNtNEmQhn9QGpmNrAYUsHBgjsWZc6Aa/2PRHAnVg9eARVDNIEOWYZE3o6oX+EgMxAhsCcuKkmhkgCYOUCIhOyHBDAGZjk0jyNkgOZya0cMEOTNpEpuZSAYAwus8FYS1LyQAAAAASUVORK5CYII=');
-                    background-size: 20px 20px;
-                    width: 20px;
-                    height: 20px;
+                    background-size: 15px 15px;
+                    width: 15px;
+                    height: 15px;
                     opacity: 0.5;
                 }
-                .${duice.getNamespace()}-diagram-link-disconnect:hover {
+                .${duice.getNamespace()}-diagram-connector-disconnect:hover {
                     opacity: 1;
                 }
             `;
@@ -135,9 +135,9 @@ var duice;
                     });
                     this.createElementItem(elementObject, context, index);
                 }
-                let linkArray = this.bindData[this.linkProperty];
-                for (let index = 0; index < linkArray.length; index++) {
-                    this.createLinkItem(linkArray[index]);
+                let connectorArray = this.bindData[this.connectorProperty];
+                for (let index = 0; index < connectorArray.length; index++) {
+                    this.createConnectorItem(connectorArray[index]);
                 }
                 this.jsPlumbInstance.setSuspendDrawing(false, true);
                 this.fitContainerToContent();
@@ -151,7 +151,7 @@ var duice;
                 this.elementItems.clear();
                 this.sourceEndpoints.clear();
                 this.targetEndpoints.clear();
-                this.connections.length = 0;
+                this.connectorItems.length = 0;
             }
             fitContainerToContent() {
                 let maxWidth = 0;
@@ -209,7 +209,7 @@ var duice;
                     isTarget: false,
                     maxConnections: -1,
                     anchor: ['Continuous', { faces: ['bottom', 'right', 'top', 'left'] }],
-                    endpoint: ['Rectangle', { width: 14, height: 14, cssClass: `${duice.getNamespace()}-diagram-endpoint-source`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-source-hover` }],
+                    endpoint: ['Rectangle', { width: 10, height: 10, cssClass: `${duice.getNamespace()}-diagram-endpoint-source`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-source-hover` }],
                     endpointStyle: { fill: "darkgray", outlineStroke: 'black' },
                     connector: 'Straight',
                 });
@@ -219,61 +219,61 @@ var duice;
                     isSource: false,
                     maxConnections: -1,
                     anchor: ['Continuous', { faces: ['top', 'left', 'bottom', 'right'] }],
-                    endpoint: ['Dot', { radius: 8, cssClass: `${duice.getNamespace()}-diagram-endpoint-target`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-target-hover` }],
+                    endpoint: ['Dot', { radius: 6, cssClass: `${duice.getNamespace()}-diagram-endpoint-target`, hoverClass: `${duice.getNamespace()}-diagram-endpoint-target-hover` }],
                     endpointStyle: { fill: "gray" },
                 });
                 this.targetEndpoints.set(elementId, targetEndpoint);
             }
-            createLinkItem(linkObject) {
-                let linkSourceId = linkObject[this.linkSourceProperty];
-                let linkTargetId = linkObject[this.linkTargetProperty];
-                let connection = this.jsPlumbInstance.connect({
-                    source: this.sourceEndpoints.get(linkSourceId),
-                    target: this.targetEndpoints.get(linkTargetId),
+            createConnectorItem(connectorObject) {
+                let connectorSourceId = connectorObject[this.connectorSourceProperty];
+                let connectorTargetId = connectorObject[this.connectorTargetProperty];
+                let connectorItem = this.jsPlumbInstance.connect({
+                    source: this.sourceEndpoints.get(connectorSourceId),
+                    target: this.targetEndpoints.get(connectorTargetId),
                     connector: 'Straight',
                     detachable: this.isEditable(),
                     overlays: [
                         ["PlainArrow", {
                                 location: 1,
-                                width: 15,
-                                length: 15,
+                                width: 10,
+                                length: 10,
                                 id: "arrow"
                             }],
                         ['Label', {
-                                label: `<span class="${duice.getNamespace() + '-diagram-link-disconnect'}"></span>`,
+                                label: `<span class="${duice.getNamespace() + '-diagram-connector-disconnect'}"></span>`,
                                 location: 0.5,
                                 events: {
                                     click: (labelOverlay, originalEvent) => {
                                         if (this.isEditable()) {
-                                            this.jsPlumbInstance.deleteConnection(connection);
+                                            this.jsPlumbInstance.deleteConnection(connectorItem);
                                         }
                                     }
                                 }
                             }]
                     ]
                 });
-                this.connections.push(connection);
+                this.connectorItems.push(connectorItem);
             }
-            addLinkData(linkSourceId, linkTargetId) {
-                console.debug("addLinkData", linkSourceId, linkTargetId);
-                let linkArray = this.bindData[this.linkProperty];
-                let index = linkArray.findIndex(linkObject => {
-                    return linkObject[this.linkSourceProperty] === linkSourceId
-                        && linkObject[this.linkTargetProperty] === linkTargetId;
+            addConnectorData(connectorSourceId, connectorTargetId) {
+                console.debug("addConnectorData", connectorSourceId, connectorTargetId);
+                let connectorArray = this.bindData[this.connectorProperty];
+                let index = connectorArray.findIndex(connectorObject => {
+                    return connectorObject[this.connectorSourceProperty] === connectorSourceId
+                        && connectorObject[this.connectorTargetProperty] === connectorTargetId;
                 });
                 if (index < 0) {
-                    let linkData = {};
-                    linkData[this.linkSourceProperty] = linkSourceId;
-                    linkData[this.linkTargetProperty] = linkTargetId;
-                    linkArray.push(linkData);
+                    let connectorData = {};
+                    connectorData[this.connectorSourceProperty] = connectorSourceId;
+                    connectorData[this.connectorTargetProperty] = connectorTargetId;
+                    connectorArray.push(connectorData);
                 }
             }
-            removeLinkData(linkSourceId, linkTargetId) {
-                console.debug("removeLinkData", linkSourceId, linkTargetId);
-                let linkArray = this.bindData[this.linkProperty];
+            removeConnectorData(connectorSourceId, connectorTargetId) {
+                console.debug("removeConnectorData", connectorSourceId, connectorTargetId);
+                let linkArray = this.bindData[this.connectorProperty];
                 let indexToRemove = linkArray.findIndex(linkObject => {
-                    return linkObject[this.linkSourceProperty] === linkSourceId
-                        && linkObject[this.linkTargetProperty] === linkTargetId;
+                    return linkObject[this.connectorSourceProperty] === connectorSourceId
+                        && linkObject[this.connectorTargetProperty] === connectorTargetId;
                 });
                 console.debug("== indexToRemove:", indexToRemove);
                 if (indexToRemove > -1) {

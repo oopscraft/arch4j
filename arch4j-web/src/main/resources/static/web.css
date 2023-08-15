@@ -170,10 +170,7 @@ img {
 
 /* input */
 input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
     -webkit-border-radius: 0;
-    appearance: none;
     border: none;
     border-bottom: var(--web-element-border);
     background-color: transparent;
@@ -190,29 +187,8 @@ input:focus {
 }
 input[type='checkbox'],
 input[type='radio'] {
-    margin-right: 0.2em;
-    padding: unset;
-    width: calc(var(--web-font-size) + 4px);
-    height: calc(var(--web-font-size) + 4px);
-    border: var(--web-element-border);
-    position: relative;
     vertical-align: middle;
 }
-input[type=radio]:checked::before,
-input[type=checkbox]:checked::before {
-    content: "";
-    width: calc(var(--web-font-size) - 2px);
-    height: calc(var(--web-font-size) - 2px);
-    background-color: var(--web-font-color);
-    position: absolute;
-    top: 2px;
-    left: 2px;
-}
-input[type=radio],
-input[type=radio]:checked::before{
-    border-radius: 100%;
-}
-
 input[type='datetime-local'] {
     line-height: calc(var(--web-line-height) - 2px);
 }
@@ -536,6 +512,15 @@ hr {
 .justify-self-end {
     justify-self: end;
 }
+.align-self-start {
+    align-self: start;
+}
+.align-self-center {
+    align-self: center;
+}
+.align-self-end {
+    align-self: end;
+}
 @media screen and (max-width: 1023px) {
     .s-grid-template-columns-1 {
         grid-template-columns: repeat(1,1fr);
@@ -617,6 +602,15 @@ hr {
     }
     .s-justify-self-end {
         justify-self: end;
+    }
+    .s-align-self-start {
+        align-self: start;
+    }
+    .s-align-self-center {
+        align-self: center;
+    }
+    .s-align-self-end {
+        align-self: end;
     }
 }
 

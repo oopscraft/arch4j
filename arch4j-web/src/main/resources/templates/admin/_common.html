@@ -22,10 +22,7 @@
             }),
             roles: new duice.ArrayProxy([]),
             selectedRoles: new duice.ArrayProxy([]),
-            /**
-             * open
-             * @param alreadySelectedRoleIds
-             */
+
             open: async function(alreadySelectedRoleIds) {
                 if(alreadySelectedRoleIds) {
                     this.alreadySelectedRoleIds = alreadySelectedRoleIds;
@@ -36,10 +33,7 @@
                 this.getRoles(0);
                 return this.dialog.open();
             },
-            /**
-             * getRoles
-             * @param page
-             */
+
             getRoles: function(page) {
                 if(page) {
                     this.roleSearch._page = page;
@@ -69,17 +63,12 @@
                         });
                     });
             },
-            /**
-             * resetRoles
-             */
+
             resetRoles: function() {
                 duice.ObjectProxy.reset(this.roleSearch);
                 this.getRoles();
             },
-            /**
-             * select role
-             * @param index
-             */
+
             selectRole: function(index) {
                 console.log('== index', index);
                 let role = JSON.parse(JSON.stringify(this.roles[index]));
@@ -91,10 +80,7 @@
                     }
                 });
             },
-            /**
-             * deselect role
-             * @param index
-             */
+
             deselectRole: async function(index) {
                 let role = this.selectedRoles[index];
                 this.selectedRoles.splice(index, 1);
@@ -105,9 +91,7 @@
                     }
                 });
             },
-            /**
-             * confirm
-             */
+
             confirm: function() {
                 this.dialog.resolve(this.selectedRoles);
             }
@@ -156,7 +140,8 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
                     <td class="text-align-center">
-                        <button data-duice-bind="role"
+                        <button type="button" class="small"
+                                data-duice-bind="role"
                                 data-duice-execute="
                         this.dataset.index = status.index;
                         if(role._selected) {
@@ -210,7 +195,7 @@
                 <tbody>
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
                     <td class="text-align-center">
-                        <button data-duice-bind="role"
+                        <button data-duice-bind="role" class="small"
                                 data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>

@@ -327,7 +327,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addCodeItem();">
+                                        <button type="button" class="small" onclick="addCodeItem();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -338,7 +338,7 @@
                                 <tbody>
                                 <tr data-duice-bind="code.codeItems" data-duice-loop="codeItem,status">
                                     <td class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 data-duice-bind="codeItem"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeCodeItem(this.dataset.index);">

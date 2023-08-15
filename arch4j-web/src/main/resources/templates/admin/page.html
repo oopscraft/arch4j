@@ -386,7 +386,9 @@
                                     data-duice-execute="this.src=pageWidget.url;">
                             </iframe>
                             <div class="grid-column-6 flex justify-content-flex-end">
-                                <button type="button" data-duice-bind="page.pageWidgets" data-duice-execute="this.dataset.index = status.index;"
+                                <button type="button" class="small"
+                                        data-duice-bind="page.pageWidgets"
+                                        data-duice-execute="this.dataset.index = status.index;"
                                         onclick="removePageWidget(this.dataset.index);">
                                     <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
                                     <span data-th-text="#{web.global.remove}"></span>
@@ -397,7 +399,7 @@
                         <!-- end: page pageWidget                       -->
                         <!-- ====================================== -->
                         <div class="grid-column-6 s-grid-column-12">
-                            <button type="button"
+                            <button type="button" class="small"
                                     onclick="addPageWidget();"
                                     data-duice-bind="page"
                                     data-duice-execute="(page.pageId || page._new) ? this.disabled=false : this.disabled=true;">

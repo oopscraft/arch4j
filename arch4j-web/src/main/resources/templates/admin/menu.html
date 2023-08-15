@@ -246,23 +246,24 @@
                         <span data-th-text="#{core.menu.Menu.menuName}" class="font-weight-bold tag-required"></span>
                         <input type="text" data-duice-bind="menu" data-duice-property="menuName" class="font-weight-bold width-100"/>
                     </label>
-                    <div class="grid-column-6 s-grid-column-12 flex gap-1em justify-content-space-between align-items-flex-end">
+                    <div class="grid-column-6 s-grid-column-12">
                         <label>
                             <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight-bold"></span>
-                            <input class="width-100" data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                            <br/>
+                            <input data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                            <span class="vertical-align-bottom">
+                                <button type="button" class="small" onclick="selectParentId();"
+                                     data-duice-bind="menu"
+                                     data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                                </button>
+                                <button type="button" class="small" onclick="clearParentMenu();"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                    <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
+                                </button>
+                            </span>
                         </label>
-                        <div>
-                            <button type="button" onclick="selectParentId();"
-                                    data-duice-bind="menu"
-                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
-                            </button>
-                            <button type="button" onclick="clearParentMenu();"
-                                    data-duice-bind="menu"
-                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
-                                <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
-                            </button>
-                        </div>
                     </div>
                     <label class="grid-column-12">
                         <span data-th-text="#{core.menu.Menu.icon}" class="font-weight-bold"></span>
@@ -320,8 +321,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addMenuViewRole();">
-                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        <button type="button" class="small" onclick="addMenuViewRole();">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
                                     <th data-th-text="#{core.user.Role.roleId}"></th>
@@ -331,7 +332,7 @@
                                 <tbody>
                                 <tr data-duice-bind="menu.viewRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeMenuViewRole(this.dataset.index);">
@@ -372,8 +373,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button" onclick="addMenuLinkRole();">
-                                            <img class="icon" th:src="@{/static/image/icon-add.svg}"/>
+                                        <button type="button" class="small" onclick="addMenuLinkRole();">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
                                     <th data-th-text="#{core.user.Role.roleId}"></th>
@@ -383,11 +384,11 @@
                                 <tbody>
                                 <tr data-duice-bind="menu.linkRoles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeMenuLinkRole(this.dataset.index);">
-                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
                                         </button>
                                     </td>
                                     <td data-duice-bind="role" data-duice-property="roleId"></td>

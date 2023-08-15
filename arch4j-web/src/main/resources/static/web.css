@@ -791,6 +791,17 @@ hr {
     text-align: right;
 }
 
+/* vertical-align */
+.vertical-align-top {
+    vertical-align: top;
+}
+.vertical-align-middle {
+    vertical-align: middle;
+}
+.vertical-align-bottom {
+    vertical-align: bottom;
+}
+
 /* padding */
 .padding-0 {
     padding: 0;

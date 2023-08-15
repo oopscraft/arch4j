@@ -833,7 +833,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 onclick="addUserRole();"
                                                 data-duice-bind="user"
                                                 data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
@@ -847,7 +847,7 @@
                                 <tbody>
                                 <tr data-duice-bind="user.roles" data-duice-loop="role,status">
                                     <td class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeUserRole(this.dataset.index);">
@@ -1132,7 +1132,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 onclick="addRoleAuthority();"
                                                 data-duice-bind="role"
                                                 data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
@@ -1147,7 +1147,7 @@
                                 <tr data-duice-bind="role.authorities"
                                     data-duice-loop="authority,status">
                                     <td class="text-align-center">
-                                        <button type="button"
+                                        <button type="button" class="small"
                                                 data-duice-bind="authority"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeRoleAuthority(this.dataset.index);">

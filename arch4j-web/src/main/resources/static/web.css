@@ -44,6 +44,9 @@
 :root.dark-mode {
     /* global */
     --web-background-color: #202124;
+    --web-background-color-red: red;
+    --web-background-color-green: green;
+    --web-background-color-blue: blue;
     --web-font-color: #eeeeee;
     --web-font-weight-bold: 700;
     --web-ancher-color: #a9b8f6;

@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.data;
 import javax.validation.*;
 import java.util.Set;
 
-public class ValidationUtils {
+public class ValidationUtil {
 
     public static <T> void validate(T target) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

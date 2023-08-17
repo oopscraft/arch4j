@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.dao.*;
 import org.oopscraft.arch4j.core.data.IdGenerator;
-import org.oopscraft.arch4j.core.data.ValidationUtils;
+import org.oopscraft.arch4j.core.data.ValidationUtil;
 import org.oopscraft.arch4j.core.storage.StorageClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,7 +37,7 @@ public class ArticleService {
 
     @Transactional
     public Article saveArticle(Article article, List<MultipartFile> files) {
-        ValidationUtils.validate(article);
+        ValidationUtil.validate(article);
         ArticleEntity articleEntity = Optional.ofNullable(article.getArticleId())
                 .flatMap(articleRepository::findById).orElse(
                         ArticleEntity.builder()

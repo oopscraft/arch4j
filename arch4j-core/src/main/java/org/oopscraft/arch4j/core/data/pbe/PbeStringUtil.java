@@ -55,15 +55,21 @@ public class PbeStringUtil implements ApplicationContextAware {
     }
 
     public static String unwrapEncryptedMark(String value) {
-        return value.substring(
-                "ENC(".length(),
-                (value.length() - ")".length()));
+        if(hasEncryptedMark(value)) {
+            return value.substring(
+                    "ENC(".length(),
+                    (value.length() - ")".length()));
+        }
+        return value;
     }
 
     public static String unwrapDecryptedMark(String value) {
-        return value.substring(
-                "DEC(".length(),
-                (value.length() - ")".length()));
+        if(hasDecryptedMark(value)) {
+            return value.substring(
+                    "DEC(".length(),
+                    (value.length() - ")".length()));
+        }
+        return value;
     }
 
     public static String encode(String value) {

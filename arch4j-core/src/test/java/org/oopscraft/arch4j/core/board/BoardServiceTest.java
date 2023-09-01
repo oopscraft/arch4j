@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
-import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 

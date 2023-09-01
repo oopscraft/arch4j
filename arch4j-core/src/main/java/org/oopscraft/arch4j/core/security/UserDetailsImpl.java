@@ -2,18 +2,15 @@ package org.oopscraft.arch4j.core.security;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.oopscraft.arch4j.core.user.Authority;
-import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.role.Authority;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserStatus;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Builder
@@ -33,7 +30,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     private Boolean credentialNonExpired = true;
 
     @Builder.Default
-    private Collection<GrantedAuthority> authorities = new ArrayList<>();
+    private Set<GrantedAuthority> authorities = new HashSet<>();
 
     @Override
     public String getUsername() {
@@ -61,7 +58,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     }
 
     @Override
-    public Collection<GrantedAuthority> getAuthorities() {
+    public Set<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 
@@ -86,23 +83,37 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
                 .anyMatch(el -> Objects.equals(el.getAuthority(), authority.getAuthorityId()));
     }
 
+    public void addAuthority(Authority authority) {
+        this.authorities.add(GrantedAuthorityImpl.from(authority));
+    }
+
+    public void addAuthorities(Collection<Authority> authorities) {
+        authorities.forEach(this::addAuthority);
+    }
+
+    public void addRole(Role role) {
+        this.authorities.add(GrantedAuthorityImpl.from(role));
+        this.addAuthorities(role.getAuthorities());
+    }
+
+    public void addRoles(Collection<Role> roles) {
+        roles.forEach(this::addRole);
+    }
+
     public static UserDetailsImpl from(User user) {
 
-        // adds authorities
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(GrantedAuthorityImpl.from(role));
-            role.getAuthorities().forEach(authority -> authorities.add(GrantedAuthorityImpl.from(authority)));
-        });
-
         // build
-        return UserDetailsImpl.builder()
+        UserDetailsImpl userDetailsImpl = UserDetailsImpl.builder()
                 .username(user.getUserId())
                 .password(user.getPassword())
                 .accountNonLocked(user.getStatus() != UserStatus.LOCKED)
                 .accountNonExpired(user.getStatus() != UserStatus.EXPIRED)
-                .authorities(authorities)
                 .build();
+
+        // add user role
+        userDetailsImpl.addRoles(user.getRoles());
+
+        return userDetailsImpl;
     }
 
 }

@@ -14,19 +14,19 @@ public class SystemFieldEntityListener {
 	@PrePersist
 	public void prePersist(SystemFieldEntity entity) {
 		entity.setSystemUpdatedAt(LocalDateTime.now());
-		entity.setSystemUpdateBy(getCurrentUserId());
+		entity.setSystemUpdatedBy(getCurrentUserId());
 		
 	}
 	
 	@PreUpdate
 	public void preUpdate(SystemFieldEntity entity) {
 		entity.setSystemUpdatedAt(LocalDateTime.now());
-		entity.setSystemUpdateBy(getCurrentUserId());
+		entity.setSystemUpdatedBy(getCurrentUserId());
 	}
 
 	@PreRemove
 	public void preRemove(SystemFieldEntity entity) {
-		if(entity.getSystemRequired() != null && entity.getSystemRequired()) {
+		if(entity.isSystemRequired()) {
 			throw new RuntimeException("System data can not be deleted.");
 		}
 	}

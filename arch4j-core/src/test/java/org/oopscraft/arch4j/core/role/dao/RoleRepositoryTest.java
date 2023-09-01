@@ -1,12 +1,12 @@
-package org.oopscraft.arch4j.core.user.dao;
+package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.oopscraft.arch4j.core.user.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.user.dao.RoleAuthorityEntity;
-import org.oopscraft.arch4j.core.user.dao.RoleEntity;
-import org.oopscraft.arch4j.core.user.dao.RoleRepository;
+import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleAuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleRepository;
 
 import java.util.Arrays;
 

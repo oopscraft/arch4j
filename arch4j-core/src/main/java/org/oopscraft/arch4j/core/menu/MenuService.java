@@ -5,7 +5,6 @@ import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity_;
 import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
 import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
-import org.oopscraft.arch4j.core.user.RoleService;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ import java.util.stream.Collectors;
 public class MenuService {
 
     private final MenuRepository menuRepository;
-
-    private final RoleService roleService;
 
     @Transactional
     public Menu saveMenu(Menu menu) {

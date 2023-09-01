@@ -1,9 +1,9 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.dao.RoleAuthorityEntity;
-import org.oopscraft.arch4j.core.user.dao.RoleEntity;
-import org.oopscraft.arch4j.core.user.dao.RoleRepository;
+import org.oopscraft.arch4j.core.role.dao.RoleAuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.role.dao.RoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class RoleService {
 
     private final RoleRepository roleRepository;
-
-    private final AuthorityService authorityService;
 
     @Transactional
     public Role saveRole(Role role) {
@@ -53,6 +51,11 @@ public class RoleService {
                 .map(Role::from);
     }
 
+    public List<Role> getRoles() {
+        return roleRepository.findAll().stream()
+                .map(Role::from)
+                .collect(Collectors.toList());
+    }
 
     public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
         Page<RoleEntity> roleEntityPage = roleRepository.findAll(roleSearch, pageable);

@@ -1,6 +1,9 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.SystemFieldModel;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 
@@ -11,10 +14,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class User {
+public class User extends SystemFieldModel {
 
     private String userId;
 
@@ -22,9 +26,9 @@ public class User {
 
     private String password;
 
-    private UserType type;
-
     private UserStatus status;
+
+    private boolean admin;
 
     private String email;
 
@@ -43,11 +47,14 @@ public class User {
 
     public static User from(UserEntity userEntity) {
         User user = User.builder()
+                .systemRequired(userEntity.isSystemRequired())
+                .systemUpdatedAt(userEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(userEntity.getSystemUpdatedBy())
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
-                .type(userEntity.getType())
                 .status(userEntity.getStatus())
+                .admin(userEntity.isAdmin())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
                 .photo(userEntity.getPhoto())

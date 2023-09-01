@@ -1,8 +1,10 @@
-package org.oopscraft.arch4j.core.user.dao;
+package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
+import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,14 @@ public class RoleEntity extends SystemFieldEntity {
     @NotNull
     @Column(name = "role_name")
     private String roleName;
+
+    @Column(name = "anonymous", length = 1)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean anonymous;
+
+    @Column(name = "authenticated", length = 1)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean authenticated;
 
     @Column(name = "note")
     @Lob

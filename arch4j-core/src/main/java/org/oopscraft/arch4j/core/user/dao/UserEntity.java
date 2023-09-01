@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.user.UserStatus;
-import org.oopscraft.arch4j.core.user.UserType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,13 +41,12 @@ public class UserEntity extends SystemFieldEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "type", length = 16)
-    @Builder.Default
-    private UserType type = UserType.GENERAL;
-
     @Column(name = "status", length = 16)
-    @Builder.Default
-    private UserStatus status = UserStatus.ACTIVE;
+    private UserStatus status;
+
+    @Column(name = "admin", length = 1)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean admin;
 
     @Column(name = "email", length = 128)
     @Convert(converter = CryptoConverter.class)

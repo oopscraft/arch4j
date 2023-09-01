@@ -279,15 +279,6 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.authorizeRequests()
                     .antMatchers("/user**")
                     .authenticated();
-            if(webProperties.getSecurityPolicy() == null) {
-                http.authorizeRequests()
-                        .anyRequest()
-                        .permitAll();
-            }else{
-                http.authorizeRequests()
-                        .anyRequest()
-                        .authenticated();
-            }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.headers().frameOptions().sameOrigin();
             http.exceptionHandling()

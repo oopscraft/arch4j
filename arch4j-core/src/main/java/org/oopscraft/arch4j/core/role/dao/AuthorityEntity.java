@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.user.dao;
+package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

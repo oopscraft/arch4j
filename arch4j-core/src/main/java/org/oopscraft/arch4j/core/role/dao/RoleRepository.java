@@ -1,8 +1,10 @@
-package org.oopscraft.arch4j.core.user.dao;
+package org.oopscraft.arch4j.core.role.dao;
 
-import org.oopscraft.arch4j.core.user.RoleSearch;
+import org.oopscraft.arch4j.core.role.RoleSearch;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,6 +15,7 @@ public interface RoleRepository extends JpaRepository<RoleEntity, String>, JpaSp
 
     default Page<RoleEntity> findAll(RoleSearch roleSearch, Pageable pageable) {
         Specification<RoleEntity> specification = (root, query, criteriaBuilder) -> null;
+
         if(roleSearch.getRoleId() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(RoleEntity_.ROLE_ID), '%' + roleSearch.getRoleId() + '%'));
@@ -21,6 +24,13 @@ public interface RoleRepository extends JpaRepository<RoleEntity, String>, JpaSp
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(RoleEntity_.ROLE_NAME), '%' + roleSearch.getRoleName() + '%'));
         }
+
+        pageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by(RoleEntity_.SYSTEM_REQUIRED).descending())
+        );
+
         return findAll(specification, pageable);
     }
 

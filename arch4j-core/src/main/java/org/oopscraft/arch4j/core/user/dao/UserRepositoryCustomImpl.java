@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.core.user.dao;
 
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +19,21 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public Page<UserEntity> findAll(UserSearch userSearch, Pageable pageable) {
-
-        // query
         QUserEntity qUserEntity = QUserEntity.userEntity;
         JPAQuery<UserEntity> query = jpaQueryFactory.select(qUserEntity)
                 .from(qUserEntity);
+
         if(userSearch.getUserId() != null) {
             query.where(qUserEntity.userId.contains(userSearch.getUserId()));
         }
         if(userSearch.getUserName() != null) {
             query.where(qUserEntity.userName.contains(userSearch.getUserName()));
         }
-        if(userSearch.getType() != null) {
-            query.where(qUserEntity.type.eq(userSearch.getType()));
-        }
         if(userSearch.getStatus() != null) {
             query.where(qUserEntity.status.eq(userSearch.getStatus()));
+        }
+        if(userSearch.isAdmin()) {
+            query.where(qUserEntity.admin.eq(userSearch.isAdmin()));
         }
         if(userSearch.getEmail() != null) {
             query.where(qUserEntity.email.eq(userSearch.getEmail()));
@@ -42,20 +42,17 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             query.where(qUserEntity.mobile.eq(userSearch.getMobile()));
         }
 
-        // content
         List<UserEntity> content = query.clone()
                 .orderBy(qUserEntity.systemUpdatedAt.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
 
-        // total count
         Long total = query.clone()
                 .select(qUserEntity.count())
                 .fetchOne();
         total = Optional.ofNullable(total).orElse(0L);
 
-        // returns page
         return new PageImpl<>(content, pageable, total);
     }
 

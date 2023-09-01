@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
-//                               core.security.authentication-token
+
 @ConfigurationProperties(prefix="core.security.authentication-token")
 @ConstructorBinding
 @AllArgsConstructor

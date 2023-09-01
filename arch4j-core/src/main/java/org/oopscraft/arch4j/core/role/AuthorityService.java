@@ -1,8 +1,8 @@
-package org.oopscraft.arch4j.core.user;
+package org.oopscraft.arch4j.core.role;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.user.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.user.dao.AuthorityRepository;
+import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
+import org.oopscraft.arch4j.core.role.dao.AuthorityRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +37,12 @@ public class AuthorityService {
     public void deleteAuthority(String authorityId) {
         authorityRepository.deleteById(authorityId);
         authorityRepository.flush();
+    }
+
+    public List<Authority> getAuthorities() {
+        return authorityRepository.findAll().stream()
+                .map(Authority::from)
+                .collect(Collectors.toList());
     }
 
     public Page<Authority> getAuthorities(AuthoritySearch authoritySearch, Pageable pageable) {

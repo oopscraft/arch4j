@@ -3,9 +3,6 @@ package org.oopscraft.arch4j.web.api.v1.user.dto;
 import lombok.*;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserStatus;
-import org.oopscraft.arch4j.core.user.UserType;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -17,7 +14,7 @@ public class UserResponse {
 
     private String userName;
 
-    private UserType type;
+    private boolean admin;
 
     private UserStatus status;
 
@@ -33,7 +30,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .userId(user.getUserId())
                 .userName(user.getUserName())
-                .type(user.getType())
+                .admin(user.isAdmin())
                 .status(user.getStatus())
                 .email(user.getEmail())
                 .mobile(user.getMobile())

@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.web.user;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.user.UserStatus;
-import org.oopscraft.arch4j.core.user.UserType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView user() {
         ModelAndView modelAndView = new ModelAndView("user/user.html");
-        modelAndView.addObject("userTypes", UserType.values());
         modelAndView.addObject("userStatuses", UserStatus.values());
         return modelAndView;
     }

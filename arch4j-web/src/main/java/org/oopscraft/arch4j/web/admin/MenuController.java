@@ -5,11 +5,6 @@ import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.oopscraft.arch4j.core.menu.Menu;
 import org.oopscraft.arch4j.core.menu.MenuService;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
-import org.oopscraft.arch4j.core.user.Role;
-import org.oopscraft.arch4j.core.user.RoleSearch;
-import org.oopscraft.arch4j.core.user.RoleService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +21,6 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
-
-    private final RoleService roleService;
 
     @GetMapping
     public ModelAndView menu() {
@@ -66,12 +59,6 @@ public class MenuController {
     @PreAuthorize("hasAuthority('ADMIN_MENU_EDIT')")
     public void deleteMenu(@RequestParam("menuId")String menuId) {
         menuService.deleteMenu(menuId);
-    }
-
-    @GetMapping("get-roles")
-    @ResponseBody
-    public Page<Role> getRoles(RoleSearch roleSearch, Pageable pageable) {
-        return roleService.getRoles(roleSearch, pageable);
     }
 
 }

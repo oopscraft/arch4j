@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board;
 import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
-import org.oopscraft.arch4j.core.user.Role;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.core.security.SecurityUtils;
 

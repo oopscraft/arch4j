@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +20,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final EntityManager entityManager;
-
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-
-    private final RoleService roleService;
 
     @Transactional
     public User saveUser(User user) {
@@ -38,7 +33,7 @@ public class UserService {
                         .joinAt(LocalDateTime.now())
                         .build());
         userEntity.setUserName(user.getUserName());
-        userEntity.setType(user.getType());
+        userEntity.setAdmin(user.isAdmin());
         userEntity.setStatus(user.getStatus());
         userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());
@@ -67,7 +62,6 @@ public class UserService {
                 .map(User::from);
     }
 
-
     public Page<User> getUsers(UserSearch userSearch, Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(userSearch, pageable);
         List<User> users = userEntityPage.getContent().stream()
@@ -87,7 +81,6 @@ public class UserService {
         userRepository.deleteById(id);
         userRepository.flush();
     }
-
 
     public boolean isPasswordMatched(String userId, String password) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();

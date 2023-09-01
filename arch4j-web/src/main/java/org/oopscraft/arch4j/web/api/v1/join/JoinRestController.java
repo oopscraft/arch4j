@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.web.error.ErrorResponse;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
 import org.oopscraft.arch4j.core.user.UserStatus;
-import org.oopscraft.arch4j.core.user.UserType;
 import org.oopscraft.arch4j.web.api.v1.join.dto.JoinRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,6 @@ public class JoinRestController {
                 .userName(joinRequest.getUserName())
                 .email(joinRequest.getEmail())
                 .password(joinRequest.getPassword())
-                .type(UserType.GENERAL)
                 .status(UserStatus.ACTIVE)
                 .build();
         userService.saveUser(user);

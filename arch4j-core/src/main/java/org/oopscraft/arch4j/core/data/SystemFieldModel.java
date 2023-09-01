@@ -10,23 +10,16 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-@EntityListeners(SystemFieldEntityListener.class)
 @Data
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class SystemFieldEntity {
+public class SystemFieldModel {
 
-	@Column(name = "system_required", length = 1)
-	@Convert(converter= BooleanToYNConverter.class)
-	@Builder.Default
-	private boolean systemRequired = false;
+	private boolean systemRequired;
 
-	@Column(name = "system_updated_at")
 	private LocalDateTime systemUpdatedAt;
 
-	@Column(name = "system_updated_by", length = 64)
 	private String systemUpdatedBy;
 
 }

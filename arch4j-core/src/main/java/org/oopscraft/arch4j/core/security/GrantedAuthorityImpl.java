@@ -1,13 +1,16 @@
 package org.oopscraft.arch4j.core.security;
 
 import lombok.Builder;
-import org.oopscraft.arch4j.core.user.Authority;
-import org.oopscraft.arch4j.core.user.Role;
+import lombok.EqualsAndHashCode;
+import org.oopscraft.arch4j.core.role.Authority;
+import org.oopscraft.arch4j.core.role.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class GrantedAuthorityImpl implements GrantedAuthority {
 
+    @EqualsAndHashCode.Include
     private String authority;
 
     @Override

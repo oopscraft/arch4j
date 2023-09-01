@@ -5,7 +5,6 @@ import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
 import org.oopscraft.arch4j.core.security.SecurityPolicy;
-import org.oopscraft.arch4j.core.user.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +20,6 @@ import java.util.stream.Collectors;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-
-    private final RoleService roleService;
 
     @Transactional
     public Board saveBoard(Board board) {

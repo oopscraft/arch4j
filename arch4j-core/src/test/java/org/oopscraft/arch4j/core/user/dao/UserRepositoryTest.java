@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.user.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 
 import java.util.Arrays;

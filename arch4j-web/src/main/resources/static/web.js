@@ -128,7 +128,9 @@ const _fetch = function(url, options, _bypass) {
             }
         })
         .catch((error)=>{
-            _alert(error).then();
+            if(!_bypass) {
+                _alert(error).then();
+            }
             throw Error(error);
         })
         .finally(() => {

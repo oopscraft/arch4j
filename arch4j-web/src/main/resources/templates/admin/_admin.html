@@ -301,6 +301,10 @@
                 <img class="icon" th:src="@{/static/image/icon-code.svg}" alt="code"/>
                 <span data-th-text="#{web.admin.code}"></span>
             </li>
+            <li class="link" th:onclick="|_openLink('@{/admin/alarm}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ALARM'')')}?'locked'">
+                <img class="icon" th:src="@{/static/image/icon-alarm.svg}" alt="code"/>
+                <span data-th-text="#{web.admin.alarm}"></span>
+            </li>
             <li class="link" th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''SWAGGER-UI'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-api.svg}" alt="api"/>
                 <span data-th-text="#{web.admin.api}"></span>

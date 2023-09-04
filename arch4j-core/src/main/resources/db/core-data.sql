@@ -21,6 +21,8 @@ insert into `core_authority` (`authority_id`,`system_required`,`authority_name`)
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_GIT_EDIT','Y','Git Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_EMAIL','Y','Email Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_EMAIL_EDIT','Y','Email Edit Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_ALARM','Y','Alarm Access Authority');
+insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ADMIN_ALARM_EDIT','Y','Alarm Edit Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('ACTUATOR','Y','Actuator Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('H2-CONSOLE','Y','Actuator Access Authority');
 insert into `core_authority` (`authority_id`,`system_required`,`authority_name`) values ('SWAGGER-UI','Y','Swagger UI Access Authority');
@@ -41,6 +43,8 @@ insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER'
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ADMIN_MESSAGE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ADMIN_VARIABLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ADMIN_CODE');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ADMIN_ALARM');
+insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ADMIN_ALARM_EDIT');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'ACTUATOR');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'H2-CONSOLE');
 insert into `core_role_authority` (`role_id`,`authority_id`) values ('DEVELOPER', 'SWAGGER-UI');

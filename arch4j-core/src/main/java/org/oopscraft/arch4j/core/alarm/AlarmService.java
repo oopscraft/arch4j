@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.core.alarm;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.alarm.dao.AlarmEntity;
 import org.oopscraft.arch4j.core.alarm.dao.AlarmRepository;
-import org.oopscraft.arch4j.core.data.IdGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +24,15 @@ public class AlarmService {
         AlarmEntity alarmEntity = Optional.ofNullable(alarm.getAlarmId())
                 .flatMap(alarmRepository::findById)
                 .orElse(AlarmEntity.builder()
-                        .alarmId(IdGenerator.uuid())
+                        .alarmId(alarm.getAlarmId())
                         .build());
 
         alarmEntity.setAlarmName(alarm.getAlarmName());
-        alarmEntity.setClassName(alarm.getClassName());
-        alarmEntity.setProperties(alarm.getProperties());
+        alarmEntity.setEnabled(alarm.isEnabled());
+        alarmEntity.setClientType(alarm.getClientType());
+        alarmEntity.setClientProperties(alarm.getClientProperties());
+        alarmEntity.setSubject(alarm.getSubject());
+        alarmEntity.setContent(alarm.getContent());
 
         alarmEntity = alarmRepository.saveAndFlush(alarmEntity);
 
@@ -42,6 +44,7 @@ public class AlarmService {
                 .map(Alarm::from);
     }
 
+    @Transactional
     public void deleteAlarm(String alarmId) {
         alarmRepository.deleteById(alarmId);
         alarmRepository.flush();

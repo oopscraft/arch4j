@@ -18,17 +18,23 @@ public class Alarm extends SystemFieldModel {
 
     private boolean enabled;
 
-    private String className;
+    private String clientType;
 
-    private String properties;
+    private String clientProperties;
+
+    private String subject;
+
+    private String content;
 
     public static Alarm from(AlarmEntity alarmEntity) {
         return Alarm.builder()
                 .alarmId(alarmEntity.getAlarmId())
                 .alarmName(alarmEntity.getAlarmName())
                 .enabled(alarmEntity.isEnabled())
-                .className(alarmEntity.getClassName())
-                .properties(alarmEntity.getProperties())
+                .clientType(alarmEntity.getClientType())
+                .clientProperties(alarmEntity.getClientProperties())
+                .subject(alarmEntity.getSubject())
+                .content(alarmEntity.getContent())
                 .build();
     }
 

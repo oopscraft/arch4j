@@ -36,7 +36,7 @@
             if(page) {
                 alarmSearch._page = page;
             }
-            let url = new URL(`${_apiUrl}/v1/alarm`, document.location.origin);
+            let url = new URL(/*[[@{/admin/alarm/get-alarms}]]*/'', document.location.origin);
             if (alarmSearch.key && alarmSearch.value) {
                 url.searchParams.append(alarmSearch.key, alarmSearch.value);
             }
@@ -220,12 +220,14 @@
                             <col style="width:5rem;"/>
                             <col/>
                             <col/>
+                            <col/>
                         </colgroup>
                         <thead>
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.alarm.Alarm.alarmId}"></th>
                             <th data-th-text="#{core.alarm.Alarm.alarmName}"></th>
+                            <th data-th-text="#{core.alarm.Alarm.enabled}" class="text-align-center"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -233,10 +235,21 @@
                             data-duice-selected-item-class="selected" data-duice-execute="
                         this.dataset.alarmId=alarm.alarmId;
                         " onclick="getAlarm(this.dataset.alarmId);" class="link">
-                            <td data-duice-bind="status" data-duice-property="count"
-                                class="text-align-center"></td>
-                            <td data-duice-bind="alarm" data-duice-property="alarmId"></td>
-                            <td data-duice-bind="alarm" data-duice-property="alarmName"></td>
+                            <td>
+                                <span data-duice-bind="status" data-duice-property="count"
+                                    class="text-align-center"></span>
+                            </td>
+                            <td>
+                                <span data-duice-bind="alarm" data-duice-property="alarmId"></span>
+                            </td>
+                            <td>
+                                <span data-duice-bind="alarm" data-duice-property="alarmName"></span>
+                            </td>
+                            <td class="text-align-center">
+                                <label>
+                                    <input type="checkbox" data-duice-bind="alarm" data-duice-property="enabled"/>
+                                </label>
+                            </td>
                         </tr>
                         <tr data-duice-bind="alarms"
                             data-duice-execute="if(alarms.length === 0) this.hidden=false;" hidden>
@@ -296,10 +309,29 @@
                         <input type="text" data-duice-bind="alarm" data-duice-property="alarmName"
                                class="width-100"/>
                     </label>
+                    <label class="grid-column-12 s-grid-column-12">
+                        <span data-th-text="#{core.alarm.Alarm.enabled}"
+                               class="font-weight-bold tag-required"></span><br/>
+                        <input type="checkbox" data-duice-bind="alarm" data-duice-property="enabled"/>
+                    </label>
+                    <label class="grid-column-6 s-grid-column-12">
+                        <span data-th-text="#{core.alarm.Alarm.clientType}"></span>
+                        <select data-duice-bind="alarm" data-duice-property="clientType" class="width-100">
+                            <option data-th-text="'- ' + #{web.global.select} + ' -'"></option>
+                        </select>
+                    </label>
                     <label class="grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.value}" class="font-weight-bold"></span>
-                        <textarea data-duice-bind="alarm" data-duice-property="value" rows="5"
+                        <span data-th-text="#{core.alarm.Alarm.clientProperties}" class="font-weight-bold"></span>
+                        <textarea data-duice-bind="alarm" data-duice-property="clientProperties" rows="5"
                                   class="width-100"></textarea>
+                    </label>
+                    <label class="grid-column-12">
+                        <span data-th-text="#{core.alarm.Alarm.subject}" class="font-weight-bold"></span>
+                        <input type="text" data-duice-bind="alarm" data-duice-property="subject" class="width-100"/>
+                    </label>
+                    <label class="grid-column-12">
+                        <span data-th-text="#{core.alarm.Alarm.content}" class="font-weight-bold"></span>
+                        <textarea data-duice-bind="alarm" data-duice-property="content" rows="5" class="width-100"></textarea>
                     </label>
                 </form>
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">

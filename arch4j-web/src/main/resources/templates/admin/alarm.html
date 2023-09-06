@@ -31,6 +31,19 @@
             }
             return true;
         });
+        duice.ObjectProxy.onPropertyChanged(alarm, event => {
+            console.log(event);
+            if(event.getProperty() === 'clientType') {
+                let clientType = event.getValue();
+                console.log(alarmClientDefinitions.find(item => item['clientType'] === clientType));
+                alarm.clientConfig = alarmClientDefinitions
+                    .find(item => item['clientType'] === clientType)
+                    ?.clientConfigTemplate;
+            }
+        });
+
+        // alarm client definitions
+        const alarmClientDefinitions = new duice.ArrayProxy(/*[[${alarmClientDefinitions}]]*/[]);
 
         function getAlarms(page) {
             if(page) {
@@ -161,6 +174,28 @@
             });
         }
 
+        function testAlarm() {
+            _confirm(/*[[#{web.global.sendItemConfirm(#{web.global.test} + ' ' + #{core.alarm.Alarm})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/alarm/test-alarm}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(alarm)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.sendItemComplete(#{web.global.test} + ' ' + #{core.alarm.Alarm})}]]*/'').then(() => {
+                                getAlarms();
+                                getAlarm(alarm.alarmId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',()=> {
             getAlarms();
@@ -220,14 +255,12 @@
                             <col style="width:5rem;"/>
                             <col/>
                             <col/>
-                            <col/>
                         </colgroup>
                         <thead>
                         <tr>
                             <th data-th-text="#{web.global.no}" class="text-align-center"></th>
                             <th data-th-text="#{core.alarm.Alarm.alarmId}"></th>
                             <th data-th-text="#{core.alarm.Alarm.alarmName}"></th>
-                            <th data-th-text="#{core.alarm.Alarm.enabled}" class="text-align-center"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -244,11 +277,6 @@
                             </td>
                             <td>
                                 <span data-duice-bind="alarm" data-duice-property="alarmName"></span>
-                            </td>
-                            <td class="text-align-center">
-                                <label>
-                                    <input type="checkbox" data-duice-bind="alarm" data-duice-property="enabled"/>
-                                </label>
                             </td>
                         </tr>
                         <tr data-duice-bind="alarms"
@@ -309,33 +337,32 @@
                         <input type="text" data-duice-bind="alarm" data-duice-property="alarmName"
                                class="width-100"/>
                     </label>
-                    <label class="grid-column-12 s-grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.enabled}"
-                               class="font-weight-bold tag-required"></span><br/>
-                        <input type="checkbox" data-duice-bind="alarm" data-duice-property="enabled"/>
-                    </label>
                     <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.clientType}"></span>
-                        <select data-duice-bind="alarm" data-duice-property="clientType" class="width-100">
+                        <span data-th-text="#{core.alarm.Alarm.clientType}" class="font-weight-bold tag-required"></span>
+                        <select data-duice-bind="alarm" data-duice-property="clientType"
+                                data-duice-option="alarmClientDefinitions"
+                                data-duice-option-value-property="clientType"
+                                data-duice-option-text-property="clientName"
+                                class="width-100">
                             <option data-th-text="'- ' + #{web.global.select} + ' -'"></option>
                         </select>
                     </label>
                     <label class="grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.clientProperties}" class="font-weight-bold"></span>
-                        <textarea data-duice-bind="alarm" data-duice-property="clientProperties" rows="5"
+                        <span data-th-text="#{core.alarm.Alarm.clientConfig}" class="font-weight-bold"></span>
+                        <textarea data-duice-bind="alarm" data-duice-property="clientConfig" rows="5"
                                   class="width-100"></textarea>
-                    </label>
-                    <label class="grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.subject}" class="font-weight-bold"></span>
-                        <input type="text" data-duice-bind="alarm" data-duice-property="subject" class="width-100"/>
-                    </label>
-                    <label class="grid-column-12">
-                        <span data-th-text="#{core.alarm.Alarm.content}" class="font-weight-bold"></span>
-                        <textarea data-duice-bind="alarm" data-duice-property="content" rows="5" class="width-100"></textarea>
                     </label>
                 </form>
                 <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1"></div>
+                    <div class="grid-column-1">
+                        <button type="button" onclick="testAlarm();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"
+                                data-duice-bind="alarm"
+                                data-duice-execute="(alarm.alarmId && !alarm._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-test.svg}" alt="test"/>
+                            <span data-th-text="#{web.global.test}"></span>
+                        </button>
+                    </div>
                     <div class="grid-column-1 justify-self-end">
                         <button type="button" onclick="deleteAlarm();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE_EDIT'')')}?'locked'"

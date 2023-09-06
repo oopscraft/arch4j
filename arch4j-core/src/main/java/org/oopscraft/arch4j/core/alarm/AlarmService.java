@@ -1,6 +1,8 @@
 package org.oopscraft.arch4j.core.alarm;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.alarm.client.AlarmClient;
+import org.oopscraft.arch4j.core.alarm.client.AlarmClientFactory;
 import org.oopscraft.arch4j.core.alarm.dao.AlarmEntity;
 import org.oopscraft.arch4j.core.alarm.dao.AlarmRepository;
 import org.springframework.data.domain.Page;
@@ -28,11 +30,8 @@ public class AlarmService {
                         .build());
 
         alarmEntity.setAlarmName(alarm.getAlarmName());
-        alarmEntity.setEnabled(alarm.isEnabled());
         alarmEntity.setClientType(alarm.getClientType());
-        alarmEntity.setClientProperties(alarm.getClientProperties());
-        alarmEntity.setSubject(alarm.getSubject());
-        alarmEntity.setContent(alarm.getContent());
+        alarmEntity.setClientConfig(alarm.getClientConfig());
 
         alarmEntity = alarmRepository.saveAndFlush(alarmEntity);
 
@@ -56,6 +55,11 @@ public class AlarmService {
                 .map(Alarm::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(alarms, pageable, page.getTotalElements());
+    }
+
+    public void sendAlarm(Alarm alarm, String subject, String content) {
+        AlarmClient alarmClient = AlarmClientFactory.getAlarmClient(alarm);
+        alarmClient.sendMessage(subject, content);
     }
 
 }

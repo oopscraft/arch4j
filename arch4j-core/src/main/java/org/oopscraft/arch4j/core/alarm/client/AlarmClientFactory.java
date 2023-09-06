@@ -14,8 +14,8 @@ public class AlarmClientFactory {
         try {
             Class<? extends AlarmClient> clientType = Class.forName(alarm.getClientType()).asSubclass(AlarmClient.class);
             Constructor<? extends AlarmClient> constructor = clientType.getConstructor(Properties.class);
-            Properties properties = loadPropertiesFromString(alarm.getClientProperties());
-            return constructor.newInstance(properties);
+            Properties config = loadPropertiesFromString(alarm.getClientConfig());
+            return constructor.newInstance(config);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Invalid alarm client type: " + alarm.getClientType(), e);
         } catch (NoSuchMethodException e) {
@@ -25,10 +25,10 @@ public class AlarmClientFactory {
         }
     }
 
-    private static Properties loadPropertiesFromString(String propertiesString) {
+    private static Properties loadPropertiesFromString(String config) {
         Properties properties = new Properties();
         try {
-            properties.load(new StringReader(propertiesString));
+            properties.load(new StringReader(config));
         } catch (IOException e) {
             throw new IllegalArgumentException("Invalid properties string", e);
         }

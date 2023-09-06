@@ -5,6 +5,7 @@ import org.oopscraft.arch4j.core.alarm.client.AlarmClientDefinition;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
+import java.util.StringJoiner;
 
 @Component
 public class SlackAlarmClientDefinition implements AlarmClientDefinition {
@@ -20,11 +21,11 @@ public class SlackAlarmClientDefinition implements AlarmClientDefinition {
     }
 
     @Override
-    public Properties getClientPropertiesTemplate() {
-        Properties properties = new Properties();
-        properties.setProperty("url", "url");
-        properties.setProperty("insecure", "true|false (default is false)");
-        return properties;
+    public String getClientConfigTemplate() {
+        StringJoiner template = new StringJoiner("\n");
+        template.add("url=url");
+        template.add("insecure=true|false (default is false)");
+        return template.toString();
     }
 
 }

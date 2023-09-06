@@ -25,19 +25,10 @@ public class AlarmEntity extends SystemFieldEntity {
     @Column(name = "alarm_name")
     private String alarmName;
 
-    @Column(name = "enabled")
-    private boolean enabled;
-
     @Column(name = "client_type")
     private String clientType;
 
-    @Column(name = "client_properties")
-    private String clientProperties;
-
-    @Column(name = "subject")
-    private String subject;
-
-    @Column(name = "content")
-    private String content;
+    @Column(name = "client_config")
+    private String clientConfig;
 
 }

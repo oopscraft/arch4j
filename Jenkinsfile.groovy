@@ -100,7 +100,7 @@ pipeline {
         always {
 
             // junit
-            junit '**/build/test-results/test/*.xml'
+            junit allowEmptyResults: true, testResults: '**/build/test-results/test/*.xml'
 
             // send message
             script {

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "soma_alarm")
+@Table(name = "core_alarm")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder

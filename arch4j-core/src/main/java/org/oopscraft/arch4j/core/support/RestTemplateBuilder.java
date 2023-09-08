@@ -30,60 +30,31 @@ public class RestTemplateBuilder {
 
     private int readTimeout = 1000*10;
 
-    /**
-     * create
-     * @return
-     */
     public static RestTemplateBuilder create() {
         return new RestTemplateBuilder();
     }
 
-    /**
-     * insecure
-     * @param insecure
-     * @return
-     */
     public RestTemplateBuilder insecure(boolean insecure) {
         this.insecure = insecure;
         return this;
     }
 
-    /**
-     * proxy
-     * @param proxyHost
-     * @param proxyPort
-     * @return
-     */
     public RestTemplateBuilder proxy(String proxyHost, int proxyPort) {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         return this;
     }
 
-    /**
-     * connectTimeout
-     * @param connectTimeout
-     * @return
-     */
     public RestTemplateBuilder connectTimeout(int connectTimeout){
         this.connectTimeout = connectTimeout;
         return this;
     }
 
-    /**
-     * readTimeout
-     * @param readTimeout
-     * @return
-     */
     public RestTemplateBuilder readTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
         return this;
     }
 
-    /**
-     * build
-     * @return
-     */
     public RestTemplate build() {
 
         HttpClientBuilder httpClientBuilder = HttpClients.custom();

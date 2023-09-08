@@ -91,6 +91,9 @@ dependencies {
     // jgit
     api 'org.eclipse.jgit:org.eclipse.jgit'
 
+    // jsoup
+    api 'org.jsoup:jsoup'
+
 }
 
 test {

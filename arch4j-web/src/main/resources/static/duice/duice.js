@@ -1952,7 +1952,13 @@ var duice;
                     return '';
                 }
                 number = Number(number);
-                let string = String(number.toFixed(this.scale));
+                let string;
+                if (this.scale > 0) {
+                    string = String(number.toFixed(this.scale));
+                }
+                else {
+                    string = String(number);
+                }
                 let reg = /(^[+-]?\d+)(\d{3})/;
                 while (reg.test(string)) {
                     string = string.replace(reg, '$1' + ',' + '$2');
@@ -1971,7 +1977,9 @@ var duice;
                     throw 'NaN';
                 }
                 let number = Number(string);
-                number = Number(number.toFixed(this.scale));
+                if (this.scale > 0) {
+                    number = Number(number.toFixed(this.scale));
+                }
                 return number;
             }
         }

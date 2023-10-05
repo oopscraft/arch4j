@@ -17,6 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleVoteEntity extends SystemFieldEntity {
 
+    @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

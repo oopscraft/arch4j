@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleCommentEntity extends SystemFieldEntity {
 
+    @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

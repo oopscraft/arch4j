@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleFileEntity extends SystemFieldEntity {
 
+    @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

@@ -23,7 +23,8 @@ import javax.persistence.PersistenceContext;
         properties = {
                 "spring.main.lazy-initialization=true",
                 "spring.main.web-application-type=none"
-        }
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @Import(CoreConfiguration.class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)

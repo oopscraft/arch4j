@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_script">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: grid;
+            grid-template-areas:
+                '_header _header _header'
+                '_nav _main _aside'
+                '_footer _footer _footer';
+            grid-template-columns: 5rem 1fr 5rem;
+            grid-template-rows: auto 1fr 3rem;
+        }
+        @media screen and (max-width: 1023px) {
+            body {
+                display: grid;
+                grid-template-areas:
+                    '_header'
+                    '_nav'
+                    '_main'
+                    '_aside'
+                    '_footer';
+                grid-template-columns: 100%;
+                grid-template-rows: auto auto 1fr auto auto;
+                grid-gap: 0.5rem 0.5rem;
+            }
+        }
+        header {
+            grid-area: _header;
+            display: grid;
+            grid-template-areas:
+                    '_header-logo _header-menu';
+            grid-template-columns: auto auto;
+            border-bottom: groove 2px #efefef;
+            background-color: #fafafa;
+            padding: 1rem;
+        }
+        .dark-mode header {
+            border-bottom: groove 2px #222222;
+            background-color: #1a1a1a;
+        }
+        header #_header-logo {
+            grid-area: _header-logo;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            font-size: 2rem;
+        }
+        #_brand,
+        #_brand * {
+            height: 2rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        header #_header-menuButton {
+            display: none;
+        }
+        header #_header-menu {
+            grid-area: _header-menu;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            align-items: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        header #_header-menu li {
+            margin: 0 0.5rem;
+            white-space: nowrap;
+        }
+        @media screen and (max-width: 1023px) {
+            header {
+                display: grid;
+                grid-template-areas:
+                    '_header-logo _header-menuButton'
+                    '_header-menu _header-menu';
+            }
+            header #_header-menuButton {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                padding-right: 1rem;
+            }
+            header #_header-menu {
+                display: none;
+            }
+            header #_header-menu.open {
+                display: flex;
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+        }
+        nav {
+            grid-area: _nav;
+            display: grid;
+            grid-template-areas:
+                '_nav-menu';
+            padding: 1rem;
+        }
+        nav #_nav-menu {
+            grid-area: _nav-menu;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav #_nav-menu li {
+            padding: 0.5rem;
+            border-bottom: dotted 1px lightgray;
+            font-weight: 600;
+            transition-duration: 0.3s;
+        }
+        .dark-mode nav #_nav-menu li {
+            border-bottom: dotted 1px #555555;
+        }
+        nav #_nav-menu li img {
+            height: 1.5em;
+            vertical-align: middle;
+        }
+        nav #_nav-menu li:hover {
+            padding-left: 1rem;
+        }
+        nav #_nav-menu li.locked {
+            pointer-events: none;
+            opacity: 0.66;
+        }
+        @media screen and (max-width: 1023px) {
+            nav {
+                display: none;
+            }
+            nav.open {
+                display: grid;
+            }
+        }
+        main {
+            grid-area: _main;
+            padding: 1rem;
+        }
+        aside {
+            grid-area: _aside;
+            padding: 1rem;
+        }
+        footer {
+            grid-area: _footer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: dotted 1px lightgray;
+            background-color: #fafafa;
+            font-size: smaller;
+            color: #ccc;
+        }
+        .dark-mode footer {
+            border-top: groove 1px #4b4b4b;
+            background-color: #1a1a1a;
+        }
+    </style>
+    <script th:inline="javascript">
+        function _openMenu() {
+            document.querySelector('header #_header-menu').classList.toggle('open');
+            document.querySelector('nav').classList.toggle('open');
+        }
+    </script>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+
+</head>
+<body>
+
+    <!-- ====================================== -->
+    <!-- start: _header                         -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_header">
+    <header>
+        <div id="_header-logo">
+            <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}">
+            </span>
+        </div>
+        <div id="_header-menuButton">
+            <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link" alt="menu"/>
+        </div>
+        <ul id="_header-menu">
+            <li sec:authorize="!isAuthenticated()">
+                <div onclick="_gotoLogin();" class="link">
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-login.svg(_theme=${_theme})}" class="icon" alt="login"/>
+                    <span data-th-text="#{web.global.login}"></span>
+                </div>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <span onclick="_gotoUser();" class="link">
+                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
+                         data-duice-bind="_user" data-duice-property="photo" alt="user"/>
+                    <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
+                </span>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <span onclick="_gotoLogout();" class="link">
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-logout.svg(_theme=${_theme})}" class="icon" alt="logout"/>
+                    <span data-th-text="#{web.global.logout}"></span>
+                </span>
+            </li>
+            <li>
+                <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
+            </li>
+            <li>
+                <label>
+                    <img th:src="@{/static/_theme/{_theme}/static/image/icon-language.svg(_theme=${_theme})}" class="icon" alt="language"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option value>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
+            </li>
+        </ul>
+    </header>
+    <nav>
+    </nav>
+    <main>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _header                           -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: _footer                         -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_footer">
+    </main>
+    <aside>
+    </aside>
+    <footer>
+        <span>
+            Copyright (C) 2016 oopscraft.org under Apache License, Version 2.0
+        </span>
+    </footer>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _footer                           -->
+    <!-- ====================================== -->
+
+</body>
+</html>

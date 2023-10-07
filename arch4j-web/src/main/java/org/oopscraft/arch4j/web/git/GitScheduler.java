@@ -28,7 +28,7 @@ public class GitScheduler {
 
     private final GitProperties gitProperties;
 
-    @Scheduled(fixedDelay = 1000*60)
+    @Scheduled(initialDelay = 1_000, fixedDelay = 60_000)
     public void synchronizeGits() {
         List<Git> gits = gitService.getGits();
         for(Git git : gits) {

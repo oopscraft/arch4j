@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.install;
+package org.oopscraft.arch4j.core.support;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.Banner;
@@ -6,9 +6,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-import java.lang.reflect.Method;
-
-public class SpringBootInstaller {
+public class SpringApplicationInstaller {
 
     public static void install(Class<?> applicationClass, String[] args) {
         // create schema

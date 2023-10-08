@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.install;
+package org.oopscraft.arch4j.core.support;
 
 import java.util.Map;
 import java.util.Scanner;

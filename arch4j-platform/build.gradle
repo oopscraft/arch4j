@@ -72,6 +72,9 @@ dependencies {
         // jsoup
         api 'org.jsoup:jsoup:1.10.3'
 
+        // groovy
+        api 'org.codehaus.groovy:groovy-all:3.0.18'
+
     }
 
 }

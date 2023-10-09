@@ -94,6 +94,9 @@ dependencies {
     // jsoup
     api 'org.jsoup:jsoup'
 
+    // groovy
+    api 'org.codehaus.groovy:groovy-all'
+
 }
 
 test {

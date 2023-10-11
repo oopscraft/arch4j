@@ -205,7 +205,7 @@ textarea {
     border-radius: var(--web-element-border-radius);
     background-color: transparent;
     padding: var(--web-element-padding);
-    white-space: pre-line;
+    white-space: pre;
     overflow-y: auto;
     resize: none;
     -webkit-transition: var(--web-element-transition);
@@ -309,12 +309,12 @@ table {
     border-top: var(--web-element-border);
     border-bottom: var(--web-element-border)
 }
-table thead {
+table > thead {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
 }
-table thead tr th {
+table > thead tr > th {
     border-bottom: var(--web-table-header-border);
     background-color: var(--web-table-header-background-color);
     font-weight: 600;
@@ -324,40 +324,40 @@ table thead tr th {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-table thead tr th:last-of-type {
+table > thead tr > th:last-of-type {
     border-right: none;
 }
-table tbody tr {
+table > tbody tr {
     -webkit-transition: var(--web-table-transition);
     -moz-transition: var(--web-table-transition);
     -ms-transition: var(--web-table-transition);
     -o-transition: var(--web-table-transition);
     transition: var(--web-table-transition);
 }
-table tbody tr:hover {
+table > tbody tr:hover {
     background-color: var(--web-table-body-hover-background-color);
 }
-table tbody tr.selected {
+table > tbody tr.selected {
     background-color: var(--web-table-body-hover-background-color);
 }
-table tbody tr td {
+table > tbody tr > td {
     border-bottom: var(--web-table-body-border);
     background-color: var(--web-table-body-background-color);
     padding: var(--web-element-padding);
     vertical-align: middle;
 }
-table tbody tr td:last-of-type {
+table > tbody tr > td:last-of-type {
     border-right: none;
 }
-table tbody tr:last-of-type td {
+table > tbody tr:last-of-type > td {
     border-bottom: none;
 }
-table thead th:has(button,input,select,textarea,table),
-table tbody td:has(button,input,select,textarea,table) {
+table > thead tr > th:has(button,input,select,textarea,table),
+table > tbody tr > td:has(button,input,select,textarea,table) {
     padding: 1px;
 }
-table thead th:has(input[type='checkbox'],input[type='radio']),
-table tbody td:has(input[type='checkbox'],input[type='radio']) {
+table > thead tr > th:has(input[type='checkbox'],input[type='radio']),
+table > tbody tr > td:has(input[type='checkbox'],input[type='radio']) {
     padding: var(--web-element-padding);
 }
 .overflow-x-auto > table tbody tr td,

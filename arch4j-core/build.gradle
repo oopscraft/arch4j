@@ -69,6 +69,7 @@ dependencies {
     api 'commons-io:commons-io'
     api 'org.apache.httpcomponents:httpclient'
     api 'org.apache.commons:commons-exec'
+    api 'org.apache.commons:commons-math3'
 
     // model mapper
     api "org.modelmapper:modelmapper"

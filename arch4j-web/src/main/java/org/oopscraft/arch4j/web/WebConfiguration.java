@@ -18,8 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.oopscraft.arch4j.core.CoreProperties;
-import org.oopscraft.arch4j.web.security.AuthenticationTokenFilter;
+import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
+import org.oopscraft.arch4j.web.security.AdditionalSecurityFilter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -34,9 +35,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -46,20 +44,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -160,11 +155,17 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         private final AuthenticationFailureHandler authenticationFailureHandler;
 
-        private final  AuthenticationTokenService authenticationTokenService;
+        private final PlatformTransactionManager transactionManager;
 
-        private AuthenticationTokenFilter authenticationTokenFilter() {
-            return AuthenticationTokenFilter.builder()
+        private final AuthenticationTokenService authenticationTokenService;
+
+        private final RoleService roleService;
+
+        private AdditionalSecurityFilter additionalSecurityFilter() {
+            return AdditionalSecurityFilter.builder()
+                    .transactionManager(transactionManager)
                     .authenticationTokenService(authenticationTokenService)
+                    .roleService(roleService)
                     .build();
         }
 
@@ -205,6 +206,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .logoutSuccessUrl("/admin")
                     .invalidateHttpSession(true)
                     .permitAll();
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -215,6 +218,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.authorizeRequests().anyRequest().hasAuthority("ACTUATOR");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -231,6 +236,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -247,6 +254,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -265,8 +274,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
-            // additional authentication filter
-            http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -279,6 +288,15 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.authorizeRequests()
                     .antMatchers("/user**")
                     .authenticated();
+            if(webProperties.getSecurityPolicy() == null) {
+                http.authorizeRequests()
+                        .anyRequest()
+                        .permitAll();
+            }else{
+                http.authorizeRequests()
+                        .anyRequest()
+                        .authenticated();
+            }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.headers().frameOptions().sameOrigin();
             http.exceptionHandling()
@@ -295,6 +313,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
                     .permitAll();
+            // additional security filter
+            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
     }

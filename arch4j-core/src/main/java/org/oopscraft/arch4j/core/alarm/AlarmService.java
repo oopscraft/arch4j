@@ -62,4 +62,9 @@ public class AlarmService {
         alarmClient.sendMessage(subject, content);
     }
 
+    public void sendAlarm(String alarmId, String subject, String content) {
+        Alarm alarm = getAlarm(alarmId).orElseThrow();
+        sendAlarm(alarm, subject, content);
+    }
+
 }

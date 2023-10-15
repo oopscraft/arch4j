@@ -70,6 +70,7 @@ dependencies {
     api 'org.apache.httpcomponents:httpclient'
     api 'org.apache.commons:commons-exec'
     api 'org.apache.commons:commons-math3'
+    api 'org.apache.commons:commons-csv'
 
     // model mapper
     api "org.modelmapper:modelmapper"

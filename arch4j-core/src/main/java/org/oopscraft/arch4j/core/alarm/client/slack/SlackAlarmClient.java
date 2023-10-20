@@ -37,7 +37,7 @@ public class SlackAlarmClient extends AlarmClient {
             put("type", "section");
             put("text", new LinkedHashMap<String,Object>(){{
                 put("type", "mrkdwn");
-                put("text", subject + '\n' + content);
+                put("text", subject + '\n' + Optional.ofNullable(content).orElse(""));
             }});
         }};
         blocks.add(block);

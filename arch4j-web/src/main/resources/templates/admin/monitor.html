@@ -22,6 +22,9 @@
         function convertJsonToText(json, indent = 0) {
             const indentation = ' '.repeat(indent * 2);
             let plainText = '';
+            if(!json) {
+                return plainText;
+            }
             for (let [key, value] of Object.entries(json)) {
                 if (typeof value === 'object' && !Array.isArray(value)) {
                     plainText += `${indentation}${key}:\n${convertJsonToText(value, indent + 1)}\n`;

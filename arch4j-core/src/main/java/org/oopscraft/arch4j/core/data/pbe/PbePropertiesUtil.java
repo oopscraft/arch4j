@@ -30,9 +30,13 @@ public class PbePropertiesUtil {
         try (StringReader stringReader = new StringReader(properties)) {
             List<String> lines = IOUtils.readLines(stringReader);
             for(String line : lines) {
-                String[] lineArray = line.split("=");
-                String key = lineArray[0];
-                String value = lineArray[1];
+                if(line.isBlank() || line.startsWith("#")) {
+                    stringBuilder.append(line);
+                    continue;
+                }
+                int indexOf = line.indexOf("=");
+                String key = line.substring(0, indexOf);
+                String value = line.substring(indexOf+1);
                 value = processFunction.apply(value);
                 stringBuilder.append(key)
                         .append("=")

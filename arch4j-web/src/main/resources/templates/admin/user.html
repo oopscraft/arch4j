@@ -215,7 +215,7 @@
         }
 
         function changeUserPassword() {
-            passwordChange.open(user.userId);
+            userPasswordChange.open(user.userId);
         }
 
         // DOM content loaded listener
@@ -535,16 +535,16 @@
     <!-- ====================================== -->
     <!-- start: password change                 -->
     <!-- ====================================== -->
-    <dialog id="passwordChange">
+    <dialog id="userPasswordChange">
         <style>
-            #passwordChange {
+            #userPasswordChange {
                 width: 400px;
                 padding: 1.5rem;
             }
         </style>
         <script th:inline="javascript">
-            const passwordChange = {
-                dialog: new duice.dialog.Dialog(document.getElementById('passwordChange')),
+            const userPasswordChange = {
+                dialog: new duice.dialog.Dialog(document.getElementById('userPasswordChange')),
                 data: new duice.ObjectProxy({
                     userId: null,
                     password: null,
@@ -577,7 +577,7 @@
                     // call save
                     _confirm(/*[[#{web.global.saveItemConfirm(#{core.user.User.password})}]]*/'').then(result => {
                         if (result) {
-                            let url = new URL(/*[[@{/admin/user/change-password}]]*/'', document.location.origin);
+                            let url = new URL(/*[[@{/admin/user/change-user-password}]]*/'', document.location.origin);
                             _fetch(url, {
                                 method: 'POST',
                                 headers: {
@@ -604,15 +604,15 @@
             <form class="grid grid-template-columns-12 grid-gap-1em">
                 <div class="grid-column-12">
                     <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
-                    <input type="password" data-duice-bind="passwordChange.data" data-duice-property="password" class="width-100"/>
+                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="password" class="width-100"/>
                 </div>
                 <div class="grid-column-12">
                     <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
-                    <input type="password" data-duice-bind="passwordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
+                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
                 </div>
             </form>
             <div class="text-align-right">
-                <button type="button" onclick="passwordChange.confirm();">
+                <button type="button" onclick="userPasswordChange.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                     <span data-th-text="#{web.global.confirm}"></span>
                 </button>

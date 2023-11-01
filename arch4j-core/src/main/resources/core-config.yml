@@ -15,6 +15,7 @@ logging:
     jdbc.resultsettable: OFF
     faker: OFF
     org.eclipse.jgit: INFO
+    org.apache.http.wire: INFO
 
 # spring
 spring:

@@ -8,7 +8,9 @@
     <link rel="icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/date-fns/date-fns.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/chartjs/chartjs-adapter-luxon.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>

@@ -22,6 +22,7 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-validation'
     api 'org.springframework.boot:spring-boot-starter-mail'
     api 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    api 'org.springframework.boot:spring-boot-starter-cache'
 
     // spring boot configuration processor
     api 'org.springframework.boot:spring-boot-configuration-processor'
@@ -72,11 +73,14 @@ dependencies {
     api 'org.apache.commons:commons-math3'
     api 'org.apache.commons:commons-csv'
 
+    // caffeine
+    api "com.github.ben-manes.caffeine:caffeine"
+
     // model mapper
     api "org.modelmapper:modelmapper"
 
     // reflections
-    api 'org.reflections:reflections:0.10.2'
+    api 'org.reflections:reflections'
 
     // ascii table
     api "de.vandermeer:asciitable"

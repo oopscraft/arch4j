@@ -1,10 +1,12 @@
 package org.oopscraft.arch4j.web;
 
-import org.springframework.boot.SpringApplication;
+import org.oopscraft.arch4j.core.support.SpringApplicationInstaller;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+
+import java.util.Arrays;
 
 @SpringBootApplication(
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
@@ -12,6 +14,14 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 public class WebApplication {
 
     public static void main(String[] args) {
+
+        // install
+        if(Arrays.asList(args).contains("install")) {
+            SpringApplicationInstaller.install(WebApplication.class, args);
+            System.exit(0);
+        }
+
+        // run application
         new SpringApplicationBuilder(WebApplication.class)
                 .web(WebApplicationType.SERVLET)
                 .registerShutdownHook(true)

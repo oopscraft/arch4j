@@ -2111,12 +2111,28 @@ var duice;
                     this.option = duice.findVariable(this.getContext(), optionName);
                     this.optionValueProperty = duice.getElementAttribute(this.getHtmlElement(), 'option-value-property');
                     this.optionTextProperty = duice.getElementAttribute(this.getHtmlElement(), 'option-text-property');
-                    this.option.forEach(data => {
-                        let option = document.createElement('option');
-                        option.value = data[this.optionValueProperty];
-                        option.appendChild(document.createTextNode(data[this.optionTextProperty]));
-                        this.getHtmlElement().appendChild(option);
-                    });
+                    duice.ArrayProxy.getHandler(this.option).addObserver(this);
+                    this.updateOptions();
+                }
+            }
+            updateOptions() {
+                let value = this.getHtmlElement().value;
+                this.getHtmlElement().innerHTML = '';
+                this.defaultOptions.forEach(defaultOption => {
+                    this.getHtmlElement().appendChild(defaultOption);
+                });
+                this.option.forEach(data => {
+                    let option = document.createElement('option');
+                    option.value = data[this.optionValueProperty];
+                    option.appendChild(document.createTextNode(data[this.optionTextProperty]));
+                    this.getHtmlElement().appendChild(option);
+                });
+                this.getHtmlElement().value = value;
+            }
+            update(observable, event) {
+                super.update(observable, event);
+                if (this.option) {
+                    this.updateOptions();
                 }
             }
             setValue(value) {

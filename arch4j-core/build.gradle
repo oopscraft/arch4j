@@ -90,7 +90,7 @@ dependencies {
 
     // jwt
     api 'io.jsonwebtoken:jjwt'
-    api 'com.auth0:auth0'
+    api 'com.auth0:java-jwt'
 
     // mail
     api 'com.icegreen:greenmail'
@@ -106,6 +106,9 @@ dependencies {
 
     // java websocket
     api 'org.java-websocket:Java-WebSocket'
+
+    // okhttp
+    api 'com.squareup.okhttp3:okhttp'
 
 }
 

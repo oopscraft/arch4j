@@ -65,8 +65,9 @@ dependencies {
         // mariadb
         api 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
 
-        // jjwt
+        // jwt
         api 'io.jsonwebtoken:jjwt:0.9.1'
+        api 'com.auth0:auth0:2.8.0'
 
         // mail
         api 'com.icegreen:greenmail:1.6.14'

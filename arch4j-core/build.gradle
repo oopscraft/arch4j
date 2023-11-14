@@ -88,8 +88,9 @@ dependencies {
     // data faker
     api "net.datafaker:datafaker"
 
-    // jjwt
+    // jwt
     api 'io.jsonwebtoken:jjwt'
+    api 'com.auth0:auth0'
 
     // mail
     api 'com.icegreen:greenmail'

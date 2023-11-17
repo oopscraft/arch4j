@@ -3,7 +3,7 @@ logging:
   level:
     root: DEBUG
     org.springframework: INFO
-    com.zaxxer.hikari: INFO
+    com.zaxxer.hikari: DEBUG
     com.zaxxer.hikari.HikariConfig: DEBUG
     org.hibernate: INFO
     org.hibernate.SQL: INFO
@@ -28,8 +28,6 @@ spring:
       jdbc-url: jdbc:log4jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=FALSE;
       username: sa
       password: sa
-      minimum-idle: 10
-      maximum-pool-size: 30
   sql:
     init:
       mode: embedded

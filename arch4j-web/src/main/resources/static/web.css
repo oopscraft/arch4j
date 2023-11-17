@@ -35,6 +35,8 @@
     --web-table-body-border: dotted 1px #ccc;
     --web-table-body-background-color: transparent;
     --web-table-body-hover-background-color: #f7f7f7;
+    --web-table-footer-border: dotted 1px #ccc;
+    --web-table-footer-background-color: transparent;
     --web-table-transition: all .2s ease-out;
     /* dialog */
     --web-dialog-border: solid 1px gray;
@@ -69,6 +71,8 @@
     --web-table-body-border: dotted 1px #555;
     --web-table-body-background-color: transparent;
     --web-table-body-hover-background-color: #333;
+    --web-table-footer-border: dotted 1px #555;
+    --web-table-footer-background-color: transparent;
     /* dialog */
     --web-dialog-border: solid 1px #777777;
 }
@@ -351,6 +355,18 @@ table > tbody tr > td:last-of-type {
 }
 table > tbody tr:last-of-type > td {
     border-bottom: none;
+}
+table > tfoot {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
+}
+table > tfoot tr > td {
+    padding: var(--web-element-padding);
+    background-color: var(--web-table-footer-background-color);
+}
+table > tfoot tr:first-of-type > td {
+    border-top: var(--web-table-footer-border);
 }
 table > thead tr > th:has(button,input,select,textarea,table),
 table > tbody tr > td:has(button,input,select,textarea,table) {

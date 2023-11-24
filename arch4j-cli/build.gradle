@@ -15,9 +15,9 @@ dependencies {
     annotationProcessor platform(project(":arch4j-platform"))
 
     // subproject
-    implementation project(":arch4j-core")
-    implementation project(":arch4j-web")
-    implementation project(":arch4j-batch")
+    api project(":arch4j-core")
+    api project(":arch4j-web")
+    api project(":arch4j-batch")
 
     // picocli starter
     api 'info.picocli:picocli-spring-boot-starter'

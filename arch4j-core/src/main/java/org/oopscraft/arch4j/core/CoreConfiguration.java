@@ -39,7 +39,9 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.concurrent.DelegatingSecurityContextScheduledExecutorService;
@@ -171,6 +173,15 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
 
         private final AuthorityService authorityService;
 
+        private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+        @Bean
+        public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+            threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+            threadPoolTaskScheduler.setPoolSize(10);
+            return threadPoolTaskScheduler;
+        }
+
         @Override
         @Transactional
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
@@ -179,11 +190,12 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
                     .build();
             userDetails.addRoles(roleService.getRoles());
             userDetails.addAuthorities(authorityService.getAuthorities());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContext taskSecurityContext = new SecurityContextImpl();
             taskSecurityContext.setAuthentication(authentication);
-            DelegatingSecurityContextScheduledExecutorService executorService =  new DelegatingSecurityContextScheduledExecutorService(newSingleThreadScheduledExecutor(), taskSecurityContext);
+
+            DelegatingSecurityContextScheduledExecutorService executorService =  new DelegatingSecurityContextScheduledExecutorService(threadPoolTaskScheduler.getScheduledExecutor(), taskSecurityContext);
             taskRegistrar.setScheduler(executorService);
         }
 

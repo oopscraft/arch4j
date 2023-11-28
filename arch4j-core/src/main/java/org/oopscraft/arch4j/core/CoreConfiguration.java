@@ -2,6 +2,8 @@ package org.oopscraft.arch4j.core;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import jdk.jfr.Registered;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.h2.tools.Server;
@@ -10,6 +12,11 @@ import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.message.MessageService;
 import org.oopscraft.arch4j.core.message.MessageSource;
+import org.oopscraft.arch4j.core.role.Authority;
+import org.oopscraft.arch4j.core.role.AuthorityService;
+import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.security.GrantedAuthorityImpl;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -31,18 +38,28 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.concurrent.DelegatingSecurityContextScheduledExecutorService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 @Slf4j
 @Configuration
@@ -143,6 +160,34 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
             return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
         }
         return null;
+    }
+
+    @Configuration
+    @RequiredArgsConstructor
+    public static class SchedulerConfiguration implements SchedulingConfigurer {
+
+        private final RoleService roleService;
+
+        private final AuthorityService authorityService;
+
+        @Override
+        @Transactional
+        public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+            roleService.getRoles().stream()
+                    .map(GrantedAuthorityImpl::from)
+                    .forEach(grantedAuthorities::add);
+            authorityService.getAuthorities().stream()
+                    .map(GrantedAuthorityImpl::from)
+                    .forEach(grantedAuthorities::add);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken("_scheduleTask", null, grantedAuthorities);
+            SecurityContext taskSecurityContext = new SecurityContextImpl();
+            taskSecurityContext.setAuthentication(authentication);
+            DelegatingSecurityContextScheduledExecutorService executorService =  new DelegatingSecurityContextScheduledExecutorService(newSingleThreadScheduledExecutor(), taskSecurityContext);
+            taskRegistrar.setScheduler(executorService);
+        }
+
     }
 
 }

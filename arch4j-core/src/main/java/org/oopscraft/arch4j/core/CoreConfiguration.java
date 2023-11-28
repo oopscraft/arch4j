@@ -173,15 +173,6 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
 
         private final AuthorityService authorityService;
 
-        private ThreadPoolTaskScheduler threadPoolTaskScheduler;
-
-        @Bean
-        public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-            threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-            threadPoolTaskScheduler.setPoolSize(10);
-            return threadPoolTaskScheduler;
-        }
-
         @Override
         @Transactional
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
@@ -194,6 +185,10 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContext taskSecurityContext = new SecurityContextImpl();
             taskSecurityContext.setAuthentication(authentication);
+
+            ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+            threadPoolTaskScheduler.setPoolSize(10);
+            threadPoolTaskScheduler.initialize();
 
             DelegatingSecurityContextScheduledExecutorService executorService =  new DelegatingSecurityContextScheduledExecutorService(threadPoolTaskScheduler.getScheduledExecutor(), taskSecurityContext);
             taskRegistrar.setScheduler(executorService);

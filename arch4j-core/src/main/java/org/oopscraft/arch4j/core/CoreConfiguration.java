@@ -17,6 +17,7 @@ import org.oopscraft.arch4j.core.role.AuthorityService;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.security.GrantedAuthorityImpl;
+import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -173,15 +174,13 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
         @Override
         @Transactional
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            roleService.getRoles().stream()
-                    .map(GrantedAuthorityImpl::from)
-                    .forEach(grantedAuthorities::add);
-            authorityService.getAuthorities().stream()
-                    .map(GrantedAuthorityImpl::from)
-                    .forEach(grantedAuthorities::add);
+            UserDetailsImpl userDetails =  UserDetailsImpl.builder()
+                    .username("_scheduleTask")
+                    .build();
+            userDetails.addRoles(roleService.getRoles());
+            userDetails.addAuthorities(authorityService.getAuthorities());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken("_scheduleTask", null, grantedAuthorities);
             SecurityContext taskSecurityContext = new SecurityContextImpl();
             taskSecurityContext.setAuthentication(authentication);
             DelegatingSecurityContextScheduledExecutorService executorService =  new DelegatingSecurityContextScheduledExecutorService(newSingleThreadScheduledExecutor(), taskSecurityContext);

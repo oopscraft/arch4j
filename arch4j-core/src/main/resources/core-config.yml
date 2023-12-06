@@ -41,10 +41,12 @@ spring:
         optional:classpath*:data-${platform}.sql,
         optional:classpath*:data.sql
   jpa:
+    open-in-view: false
     show-sql: true
     defer-datasource-initialization: true
     properties:
       hibernate:
+        enable_lazy_load_no_trans: true
         ddl-auto: none
         show_sql: false
         format_sql: true

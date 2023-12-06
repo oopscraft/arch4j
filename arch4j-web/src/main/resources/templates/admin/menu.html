@@ -91,7 +91,7 @@
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
                 if(result) {
                     let url = new URL(/*[[@{/admin/menu/delete-menu}]]*/'', document.location.origin);
-                    url.searchParams.append('menuId', menu.id);
+                    url.searchParams.append('menuId', menu.menuId);
                     _fetch(url).then(response => {
                         if(response.ok) {
                             _alert(/*[[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]*/'').then(() => {

@@ -174,13 +174,10 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
         private final AuthorityService authorityService;
 
         @Override
-        @Transactional
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
             UserDetailsImpl userDetails =  UserDetailsImpl.builder()
                     .username("_scheduleTask")
                     .build();
-            userDetails.addRoles(roleService.getRoles());
-            userDetails.addAuthorities(authorityService.getAuthorities());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContext taskSecurityContext = new SecurityContextImpl();

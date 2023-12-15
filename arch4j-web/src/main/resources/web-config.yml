@@ -72,6 +72,9 @@ spring:
         - classpath:/META-INF/resources/
         - classpath:/static/
         - classpath:/templates/
+  zipkin:
+    enabled: false
+    base-url: http://127.0.0.1:9411
 
 # springdoc
 springdoc:

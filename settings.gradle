@@ -1,5 +1,5 @@
 rootProject.name = 'arch4j'
-include 'arch4j-platform'
+include 'arch4j-dependencies'
 include 'arch4j-core'
 include 'arch4j-web'
 include 'arch4j-batch'

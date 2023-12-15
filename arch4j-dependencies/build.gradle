@@ -12,6 +12,9 @@ dependencies {
     // spring boot dependencies
     api platform("org.springframework.boot:spring-boot-dependencies:2.7.9")
 
+    // spring cloud dependencies
+    api platform("org.springframework.cloud:spring-cloud-dependencies:2021.0.8")
+
     constraints {
 
         // junit
@@ -86,6 +89,9 @@ dependencies {
 
         // okhttp
         api 'com.squareup.okhttp3:okhttp:4.10.0'
+
+        // zipkin
+        api 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
 
     }
 

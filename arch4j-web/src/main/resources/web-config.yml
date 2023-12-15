@@ -72,6 +72,10 @@ spring:
         - classpath:/META-INF/resources/
         - classpath:/static/
         - classpath:/templates/
+  sleuth:
+    enabled: false
+    sampler:
+      probability: 1.0
   zipkin:
     enabled: false
     base-url: http://127.0.0.1:9411

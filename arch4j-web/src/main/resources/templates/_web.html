@@ -12,6 +12,7 @@
     <script th:src="@{/static/date-fns/date-fns.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chartjs-adapter-date-fns.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/sockjs/sockjs.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/stomp/stomp.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
@@ -27,7 +28,6 @@
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
-        const _wsUrl = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + [[@{/ws}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = new duice.ObjectProxy({
             userId: [[${_user.userId}]],
@@ -68,7 +68,7 @@
         }
 
         const _webSocketClient = {
-            stomp: Stomp.over(new WebSocket(_wsUrl)),
+            stomp: Stomp.over(new SockJS('/ws')),
             destinations: [],
             listeners: [],
             subscribe: function(destination, listener) {
@@ -76,7 +76,6 @@
                 this.listeners.push(listener);
             },
             connect: function() {
-                this.stomp.reconnect_delay = 5_000;
                 const _this = this;
                 this.stomp.connect({}, function(frame) {
                     for(let i = 0; i < _this.destinations.length; i++) {

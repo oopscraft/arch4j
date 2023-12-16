@@ -145,7 +145,8 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
     static class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
         @Override
         public void registerStompEndpoints(StompEndpointRegistry registry) {
-            registry.addEndpoint("/ws");
+            registry.addEndpoint("/ws")
+                    .withSockJS();
         }
     }
 

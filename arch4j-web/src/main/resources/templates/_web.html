@@ -27,7 +27,7 @@
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
-        const _wsUrl = 'ws://' + window.location.host + [[@{/ws}]];
+        const _wsUrl = (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + [[@{/ws}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = new duice.ObjectProxy({
             userId: [[${_user.userId}]],

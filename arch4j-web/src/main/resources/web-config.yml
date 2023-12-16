@@ -79,6 +79,8 @@ spring:
   zipkin:
     enabled: false
     base-url: http://127.0.0.1:9411
+    service:
+      name: ~
 
 # springdoc
 springdoc:

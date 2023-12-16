@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 import javax.persistence.EntityManager;
 

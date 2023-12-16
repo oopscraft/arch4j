@@ -54,6 +54,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -191,6 +194,15 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
             taskRegistrar.setScheduler(executorService);
         }
 
+    }
+
+    @Configuration
+    @EnableWebSocketMessageBroker
+    static class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+        @Override
+        public void registerStompEndpoints(StompEndpointRegistry registry) {
+            registry.addEndpoint("/ws");
+        }
     }
 
 }

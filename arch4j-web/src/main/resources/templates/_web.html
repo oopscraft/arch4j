@@ -12,6 +12,7 @@
     <script th:src="@{/static/date-fns/date-fns.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chartjs-adapter-date-fns.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/stomp/stomp.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
@@ -26,6 +27,7 @@
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
+        const _wsUrl = 'ws://' + window.location.host + [[@{/ws}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = new duice.ObjectProxy({
             userId: [[${_user.userId}]],
@@ -63,6 +65,23 @@
                     duice.ArrayProxy.clear(_menus);
                     duice.ArrayProxy.assign(_menus, data);
                 });
+        }
+
+        const _stompClient = Stomp.over(new WebSocket(_wsUrl));
+        _stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            _stompClient.subscribe('/topic/greetings', function(greeting) {
+                console.log(greeting);
+            });
+
+            _stompClient.subscribe('/topic/greetings2', function(greeting) {
+                console.log("####", greeting);
+            });
+        });
+
+
+        function _sendMessage(name) {
+            _stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
         }
 
         document.addEventListener('DOMContentLoaded', event => {

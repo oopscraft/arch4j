@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.core;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
-import jdk.jfr.Registered;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,11 +11,8 @@ import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.oopscraft.arch4j.core.message.MessageService;
 import org.oopscraft.arch4j.core.message.MessageSource;
-import org.oopscraft.arch4j.core.role.Authority;
 import org.oopscraft.arch4j.core.role.AuthorityService;
-import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.security.GrantedAuthorityImpl;
 import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -39,33 +35,26 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.concurrent.DelegatingSecurityContextScheduledExecutorService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Properties;
 
 @Slf4j
 @Configuration

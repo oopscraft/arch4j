@@ -67,25 +67,35 @@
                 });
         }
 
-        const _stompClient = Stomp.over(new WebSocket(_wsUrl));
-        _stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            _stompClient.subscribe('/topic/greetings', function(greeting) {
-                console.log(greeting);
-            });
-
-            _stompClient.subscribe('/topic/greetings2', function(greeting) {
-                console.log("####", greeting);
-            });
-        });
-
-
-        function _sendMessage(name) {
-            _stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
-        }
+        const _webSocketClient = {
+            stomp: Stomp.over(new WebSocket(_wsUrl)),
+            destinations: [],
+            listeners: [],
+            subscribe: function(destination, listener) {
+                this.destinations.push(destination);
+                this.listeners.push(listener);
+            },
+            connect: function() {
+                this.stomp.reconnect_delay = 5_000;
+                const _this = this;
+                this.stomp.connect({}, function(frame) {
+                    for(let i = 0; i < _this.destinations.length; i++) {
+                        _this.stomp.subscribe(_this.destinations[i], _this.listeners[i]);
+                    }
+                });
+            },
+            disconnect: function() {
+                this.stomp.disconnect();
+            }
+        };
 
         document.addEventListener('DOMContentLoaded', event => {
             _getMenus();
+            _webSocketClient.connect();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            _webSocketClient.disconnect();
         });
     </script>
     <!-- ============================================== -->

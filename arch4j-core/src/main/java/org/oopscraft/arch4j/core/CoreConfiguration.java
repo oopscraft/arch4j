@@ -196,13 +196,4 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
 
     }
 
-    @Configuration
-    @EnableWebSocketMessageBroker
-    static class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
-        @Override
-        public void registerStompEndpoints(StompEndpointRegistry registry) {
-            registry.addEndpoint("/ws");
-        }
-    }
-
 }

@@ -75,6 +75,9 @@
                 this.destinations.push(destination);
                 this.listeners.push(listener);
             },
+            send: function(destination, headers, message) {
+                this.stomp.send(destination, headers, message);
+            },
             connect: function() {
                 this.stomp.heartbeat.outgoing = 5000;
                 this.stomp.heartbeat.incoming = 5000;

@@ -7,23 +7,47 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title data-th-text="${_title}"></title>
     <link rel="icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
+    <!-- nprogress -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- date-fns -->
     <script th:src="@{/static/date-fns/date-fns.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- chart-js -->
     <script th:src="@{/static/chartjs/chart.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/chartjs/chartjs-adapter-date-fns.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- web socket client -->
     <script th:src="@{/static/sockjs/sockjs.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/stomp/stomp.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice -->
+    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice-pagination -->
+    <script th:src="@{/static/duice-plugin/duice-pagination.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice-marked -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/prism/prism.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/marked/marked.min.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/prism/prism.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-plugin/duice-marked.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice-codemirror -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/codemirror.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/codemirror/codemirror.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/codemirror/mode/markdown/markdown.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/clike/clike.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/htmlembedded/htmlembedded.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/htmlmixed/htmlmixed.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/css/css.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/javascript/javascript.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/python/python.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/groovy/groovy.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/shell/shell.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/sql/sql.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/xml/xml.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/yaml/yaml.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-plugin/duice-codemirror.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice-jsplumb -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/jsplumb/css/jsplumbtoolkit-defaults.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/jsplumb/dist/js/jsplumb.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
-    <script th:src="@{/static/duice-extension/duice-extension.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/duice-plugin/duice-jsplumb.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- web.js -->
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');

@@ -360,7 +360,12 @@
                             <textarea data-duice-bind="page" data-duice-if="return page.contentFormat==='TEXT'" data-duice-property="content" rows="10" class="width-100"></textarea>
                         </label>
                         <label>
-                            <duice-markdown-editor data-duice-bind="page" data-duice-if="return page.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100"/>
+                            <duice-codemirror
+                                    data-duice-bind="page"
+                                    data-duice-property="content"
+                                    data-duice-mode="markdown"
+                                    data-duice-if="return page.contentFormat==='MARKDOWN'"
+                                    class="border-1 width-100"/>
                         </label>
                     </div>
                     <div class="grid-column-12 grid grid-template-columns-12 grid-gap-1em margin-top-1em">

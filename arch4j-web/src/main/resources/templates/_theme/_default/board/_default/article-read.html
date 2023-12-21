@@ -43,7 +43,7 @@
 <div class="grid grid-template-columns-12 margin-top-1em">
     <div class="grid-column-12 padding-y-1em s-padding-y-0">
         <div data-duice-bind="article" data-duice-if="return article.contentFormat === 'TEXT'" data-duice-property="content"></div>
-        <duice-markdown-viewer data-duice-bind="article" data-duice-if="return article.contentFormat ==='MARKDOWN'" data-duice-property="content"/>
+        <duice-marked data-duice-bind="article" data-duice-if="return article.contentFormat ==='MARKDOWN'" data-duice-property="content"/>
     </div>
 </div>
 <!-- ================================================== -->
@@ -183,7 +183,7 @@
             </div>
             <div class="grid-column-12">
                 <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content"></div>
-                <duice-markdown-viewer data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
+                <duice-marked data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
             </div>
             <div class="grid-column-12">
                 <button type="button" class="small"
@@ -245,7 +245,12 @@
         <div class="grid-column-12" style="height:20em;">
             <label>
                 <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
-                <duice-markdown-editor data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 width-100 height-100"/>
+                <duice-codemirror
+                        data-duice-bind="articleComment"
+                        data-duice-property="content"
+                        data-duice-mode="markdown"
+                        data-duice-if="return articleComment.contentFormat==='MARKDOWN'"
+                        class="border-1 width-100 height-100"/>
             </label>
         </div>
         <div class="grid-column-12 margin-top-1px">

@@ -42,7 +42,12 @@
     <div class="grid-column-12" style="height:50em;">
         <label>
             <textarea data-duice-bind="article" data-duice-if="return article.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
-            <duice-markdown-editor data-duice-bind="article" data-duice-if="return article.contentFormat==='MARKDOWN'" data-duice-property="content" class="border-1 height-100"/>
+            <duice-codemirror
+                    data-duice-bind="article"
+                    data-duice-property="content"
+                    data-duice-mode="markdown"
+                    data-duice-if="return article.contentFormat==='MARKDOWN'"
+                    class="border-1 height-100"/>
         </label>
     </div>
 </div>

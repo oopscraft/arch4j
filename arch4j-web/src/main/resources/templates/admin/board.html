@@ -419,10 +419,11 @@
                             <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message" rows="5" class="width-100"></textarea>
                         </label>
                         <label>
-                            <duice-markdown-editor
+                            <duice-codemirror
                                     data-duice-bind="board"
-                                    data-duice-if="return board.messageFormat==='MARKDOWN'"
                                     data-duice-property="message"
+                                    data-duice-mode="markdown"
+                                    data-duice-if="return board.messageFormat==='MARKDOWN'"
                                     class="border-1 width-100"/>
                         </label>
                     </div>

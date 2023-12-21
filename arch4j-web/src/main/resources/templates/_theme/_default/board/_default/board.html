@@ -20,7 +20,7 @@
 <!-- ================================================== -->
 <div id="message" class="margin-x-1em">
     <div data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message"></div>
-    <duice-markdown-viewer data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"></duice-markdown-viewer>
+    <duice-marked data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"/>
 </div>
 <!-- ================================================== -->
 <!-- end: message                                       -->

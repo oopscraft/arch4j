@@ -42,6 +42,8 @@
     <script th:src="@{/static/codemirror/mode/sql/sql.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/codemirror/mode/xml/xml.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/codemirror/mode/yaml/yaml.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/theme/dracula.css?version={version}(version=${_scriptVersion})}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/theme/material.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/duice-plugin/duice-codemirror.js?version={version}(version=${_scriptVersion})}"></script>
     <!-- duice-jsplumb -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/jsplumb/css/jsplumbtoolkit-defaults.css?version={version}(version=${_scriptVersion})}">

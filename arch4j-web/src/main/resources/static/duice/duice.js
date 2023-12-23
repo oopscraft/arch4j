@@ -557,9 +557,7 @@ var duice;
             // copy array elements
             if (globalThis.Array.isArray(array)) {
                 for (let i = 0; i < array.length; i++) {
-                    let objectProxy = new duice.ObjectProxy(array[i]);
-                    duice.ObjectProxy.getHandler(objectProxy).addObserver(arrayHandler);
-                    array[i] = objectProxy;
+                    array[i] = new duice.ObjectProxy(array[i]);
                 }
             }
             // create proxy
@@ -599,7 +597,6 @@ var duice;
                 // creates elements
                 array.forEach((object, index) => {
                     let objectProxy = new duice.ObjectProxy(object);
-                    duice.ObjectProxy.getHandler(objectProxy).addObserver(arrayHandler);
                     arrayProxy[index] = objectProxy;
                     // add listener
                     duice.ObjectProxy.onPropertyChanging(objectProxy, arrayHandler.propertyChangingListener);

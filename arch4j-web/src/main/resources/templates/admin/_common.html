@@ -96,22 +96,22 @@
             }
         }
     </script>
-    <div class="grid grid-gap-1em">
+    <div class="display--grid grid-gap--1em">
         <h2>
             <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
-        <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em">
-            <label class="grid-column-2 s-grid-column-4">
-                <select class="width-100" data-duice-bind="roleSelect.roleSearch" data-duice-property="key">
+        <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+            <label class="grid-column--2 s__grid-column--4">
+                <select class="width--100" data-duice-bind="roleSelect.roleSearch" data-duice-property="key">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
                     <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                 </select>
             </label>
-            <label class="grid-column-4 s-grid-column-8">
-                <input class="width-100" type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value"/>
+            <label class="grid-column--4 s__grid-column--8">
+                <input class="width--100" type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value"/>
             </label>
-            <div class="grid-column-6 s-grid-column-12 justify-self-end">
+            <div class="grid-column--6 s__grid-column--12 justify-self--end">
                 <button onclick="roleSelect.getRoles();">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                     <span data-th-text="#{web.global.search}">Search</span>
@@ -122,8 +122,8 @@
                 </button>
             </div>
         </form>
-        <div class="overflow-x-scroll">
-            <table class="width-100">
+        <div class="overflow-x--scroll">
+            <table class="width--100">
                 <colgroup>
                     <col style="width:3em;"/>
                     <col/>
@@ -133,16 +133,16 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th class="text-align-center">-</th>
+                    <th class="text-align--center">-</th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
                     <th data-th-text="#{core.role.Role.roleName}"></th>
-                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align-center"></th>
+                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align--center"></th>
+                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align--center"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr data-duice-bind="roleSelect.roles" data-duice-loop="role,status">
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <button type="button" class="small"
                                 data-duice-bind="role"
                                 data-duice-execute="
@@ -158,17 +158,17 @@
                         <span data-duice-bind="role"
                               data-duice-property="roleId"
                               data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
-                              class="font-weight-bold"></span>
+                              class="font-weight--bold"></span>
                     </td>
                     <td>
                         <span data-duice-bind="role" data-duice-property="roleName"></span>
                     </td>
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <label>
                             <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
                         </label>
                     </td>
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <label>
                             <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
                         </label>
@@ -176,18 +176,18 @@
                 </tr>
                 <tr data-duice-bind="roleSelect.roles"
                     data-duice-execute="if(roleSelect.roles.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="grid grid-template-columns-3">
-            <div class="grid-column-1 flex font-size-smaller">
+        <div class="display--grid grid-template-columns--3">
+            <div class="grid-column--1 display--flex font-size--smaller">
                 <span data-th-text="#{web.global.total}"></span>
                 <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
                 <span data-th-text="#{web.global.rows}"></span>
             </div>
-            <div class="grid-column-1 flex justify-content-center">
+            <div class="grid-column--1 display--flex justify-content--center">
                 <duice-pagination
                         data-duice-bind="roleSelect.roleSearch"
                         data-duice-size-property="_size"
@@ -196,10 +196,10 @@
                         data-duice-onclick="roleSelect.getRoles(this.dataset.page);">
                 </duice-pagination>
             </div>
-            <div class="grid-column-1"></div>
+            <div class="grid-column--1"></div>
         </div>
-        <div class="overflow-x-scroll">
-            <table class="width-100">
+        <div class="overflow-x--scroll">
+            <table class="width--100">
                 <colgroup>
                     <col style="width:3em;"/>
                     <col/>
@@ -209,16 +209,16 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th class="text-align-center">-</th>
+                    <th class="text-align--center">-</th>
                     <th data-th-text="#{core.role.Role.roleId}"></th>
                     <th data-th-text="#{core.role.Role.roleName}"></th>
-                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align-center"></th>
-                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align-center"></th>
+                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align--center"></th>
+                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align--center"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr data-duice-bind="roleSelect.selectedRoles" data-duice-loop="role,status">
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <button data-duice-bind="role" class="small"
                                 data-duice-execute="this.dataset.index = status.index;"
                                 onclick="roleSelect.deselectRole(this.dataset.index);">
@@ -229,17 +229,17 @@
                         <span data-duice-bind="role"
                               data-duice-property="roleId"
                               data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
-                              class="font-weight-bold"></span>
+                              class="font-weight--bold"></span>
                     </td>
                     <td>
                         <span data-duice-bind="role" data-duice-property="roleName"></span>
                     </td>
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <label>
                             <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
                         </label>
                     </td>
-                    <td class="text-align-center">
+                    <td class="text-align--center">
                         <label>
                             <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
                         </label>
@@ -247,12 +247,12 @@
                 </tr>
                 <tr data-duice-bind="roleSelect.selectedRoles"
                     data-duice-execute="if(roleSelect.selectedRoles.length === 0) this.hidden=false;" hidden>
-                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="flex justify-content-flex-end">
+        <div class="display--flex justify-content--flex-end">
             <button onclick="roleSelect.confirm();">
                 <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                 <span data-th-text="#{web.global.confirm}"></span>

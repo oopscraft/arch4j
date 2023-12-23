@@ -20,7 +20,7 @@
 <!-- ====================================== -->
 <!-- start: title                           -->
 <!-- ====================================== -->
-<h2 id="title" class="grid-column-1 link" onclick="gotoBoard();">
+<h2 id="title" class="grid-column--1 link" onclick="gotoBoard();">
     <img data-duice-bind="board" data-duice-property="icon" class="icon"
          th:src="@{/static/_theme/{_theme}/static/image/icon-board.svg(_theme=${_theme})}" alt="board"/>
     <span data-duice-bind="board" data-duice-property="boardName"></span>
@@ -37,25 +37,25 @@
      data-duice-loop="article,status"
      data-duice-execute="this.dataset.articleId=article.articleId;"
      onclick="gotoRead(this.dataset.articleId);"
-     class="article padding-1px border-top-1">
+     class="article padding--1px border-top--1">
     <div>
         <span>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}" alt="title"/>
-            <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold">
+            <span data-duice-bind="article" data-duice-property="title" class="font-weight--bold">
             </span>
         </span>
         &nbsp;
-        <span class="font-size-smaller">
+        <span class="font-size--smaller">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}" alt="comment"/>
             <span data-duice-bind="article" data-duice-property="commentCount" data-duice-format="number(0)"></span>
         </span>
         &nbsp;
-        <span class="font-size-smaller">
+        <span class="font-size--smaller">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-like.svg(_theme=${_theme})}" alt="like"/>
             <span data-duice-bind="article" data-duice-property="votePositiveCount" data-duice-format="number(0)"></span>
         </span>
         &nbsp;
-        <span class="font-size-smaller">
+        <span class="font-size--smaller">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-dislike.svg(_theme=${_theme})}" alt="dislike"/>
             <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
         </span>
@@ -72,7 +72,7 @@
         </span>
     </div>
 </div>
-<div class="padding-1px border-top-1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
+<div class="padding--1px border-top--1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
     <span>
         Data Not Found
     </span>

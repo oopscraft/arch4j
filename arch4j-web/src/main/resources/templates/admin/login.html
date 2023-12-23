@@ -93,35 +93,35 @@
     <!-- ================================== -->
     <!-- start: login                       -->
     <!-- ================================== -->
-    <div id="login" class="border-1">
-        <h1 class="text-align-center">
+    <div id="login" class="border--1">
+        <h1 class="text-align--center">
             <div id="_brand">
                 <img class="icon" th:src="@{/static/image/logo-arch4j.png}"/>
             </div>
         </h1>
-        <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
-            <label class="grid-column-12">
+        <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding--1em">
+            <label class="grid-column--12">
                 <input type="text" autocomplete="off"
                        data-duice-bind="login" data-duice-property="username"
-                       class="width-100 text-align-center font-weight-bold"
+                       class="width--100 text-align--center font-weight--bold"
                        th:placeholder="#{web.admin.login.userId}"/>
             </label>
-            <label class="grid-column-12">
+            <label class="grid-column--12">
                 <input type="password" autocomplete="off"
                        data-duice-bind="login" data-duice-property='password'
-                       class="width-100 text-align-center"
+                       class="width--100 text-align--center"
                        th:placeholder="#{web.admin.login.password}"/>
             </label>
-            <div class="grid-column-12">
-                <button onclick="requestLogin();" class="width-100">
+            <div class="grid-column--12">
+                <button onclick="requestLogin();" class="width--100">
                     <img class="icon" th:src="@{/static/image/icon-login.svg}">
                     <span data-th-text="#{web.global.login}"></span>
                 </button>
             </div>
-            <div class="grid-column-12 justify-self-center">
+            <div class="grid-column--12 justify-self--center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
-            <div class="grid-column-12 justify-self-end">
+            <div class="grid-column--12 justify-self--end">
                 <label>
                     <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
                     <select onchange="_changeLanguage(this.value);">

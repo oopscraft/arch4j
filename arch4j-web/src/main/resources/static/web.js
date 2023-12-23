@@ -4,7 +4,7 @@
  * @returns {*}
  */
 const _alert = function(message) {
-    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>' + message + '<br/>';
+    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>' + message + '<br/>';
     return duice.alert(message);
 }
 
@@ -14,7 +14,7 @@ const _alert = function(message) {
  * @returns {*}
  */
 const _confirm = function(message) {
-    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>' + message + '<br/>';
+    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>' + message + '<br/>';
     return duice.confirm(message);
 }
 
@@ -25,7 +25,7 @@ const _confirm = function(message) {
  * @returns {*}
  */
 const _prompt = function(message, type) {
-    message = '<img class="icon font-size-larger" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
+    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
     return duice.prompt(message, type);
 }
 

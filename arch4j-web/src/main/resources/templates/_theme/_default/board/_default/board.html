@@ -18,7 +18,7 @@
 <!-- ================================================== -->
 <!-- start: message                                     -->
 <!-- ================================================== -->
-<div id="message" class="margin-x-1em">
+<div id="message" class="margin-x--1em">
     <div data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message"></div>
     <duice-marked data-duice-bind="board" data-duice-if="return board.messageFormat==='MARKDOWN'" data-duice-property="message"/>
 </div>
@@ -30,46 +30,46 @@
 <!-- start: articles                                    -->
 <!-- ================================================== -->
 <div id="articles">
-    <div class="articles-header grid grid-template-columns-12 font-weight-bold padding-x-1em s-display-none border-top-1">
-        <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left-1em s-grid-column-0"></div>
-        <div data-th-text="#{core.board.Article.title}" class="grid-column-8 s-grid-column-12"></div>
-        <span class="grid-column-3 padding-right-1em">
+    <div class="articles-header display--grid grid-template-columns--12 font-weight--bold padding-x--1em s__display--none border-top--1">
+        <div data-th-text="#{web.global.no}" class="item-1 justify-left padding-left--1em s-grid-column-0"></div>
+        <div data-th-text="#{core.board.Article.title}" class="grid-column--8 s__grid-column--12"></div>
+        <span class="grid-column--3 padding-right--1em">
             <span data-th-text="#{core.board.Article.userName}"></span>
             |
             <span data-th-text="#{core.board.Article.createdAt}"></span>
         </span>
     </div>
-    <div class="article grid grid-template-columns-12 padding-x-1em border-top-1"
+    <div class="article display--grid grid-template-columns--12 padding-x--1em border-top--1"
          data-duice-bind="articles"
          data-duice-loop="article,status"
          data-duice-execute="this.dataset.articleId=article.articleId;"
          onclick="gotoRead(this.dataset.articleId);">
-        <div class="grid-column-1 justify-left padding-left-1em s-display-none">
+        <div class="grid-column--1 justify-left padding-left--1em s__display--none">
             <span data-duice-bind="status" data-duice-property="count"></span>
         </div>
-        <div class="grid-column-8 s-grid-column-12">
+        <div class="grid-column--8 s__grid-column--12">
             <span>
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}" alt="title"/>
-                <span data-duice-bind="article" data-duice-property="title" class="font-weight-bold">
+                <span data-duice-bind="article" data-duice-property="title" class="font-weight--bold">
                 </span>
             </span>
             &nbsp;
-            <span class="font-size-smaller">
+            <span class="font-size--smaller">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}" alt="comment"/>
                 <span data-duice-bind="article" data-duice-property="commentCount" data-duice-format="number(0)"></span>
             </span>
             &nbsp;
-            <span class="font-size-smaller">
+            <span class="font-size--smaller">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-like.svg(_theme=${_theme})}" alt="like"/>
                 <span data-duice-bind="article" data-duice-property="votePositiveCount" data-duice-format="number(0)"></span>
             </span>
             &nbsp;
-            <span class="font-size-smaller">
+            <span class="font-size--smaller">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-dislike.svg(_theme=${_theme})}" alt="dislike"/>
                 <span data-duice-bind="article" data-duice-property="voteNegativeCount" data-duice-format="number(0)"></span>
             </span>
         </div>
-        <div class="grid-column-3 padding-right-1em s-grid-column-12">
+        <div class="grid-column--3 padding-right--1em s__grid-column--12">
             <span>
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}" alt="user"/>
                 <span data-duice-bind="article" data-duice-property="userName"></span>
@@ -81,18 +81,18 @@
             </span>
         </div>
     </div>
-    <div class="grid grid-template-columns-12 padding-x-1em border-top-1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
-        <div class="grid-column-12 flex justify-content-center">
+    <div class="display--grid grid-template-columns--12 padding-x--1em border-top--1" data-duice-bind="articles" data-duice-if="return articles.length===0" hidden>
+        <div class="grid-column--12 display--flex justify-content--center">
             Data Not Found
         </div>
     </div>
-    <div class="grid grid-template-columns-3 padding-1em border-top-1">
-        <div class="grid-column-1 font-size-smaller">
+    <div class="display--grid grid-template-columns--3 padding--1em border-top--1">
+        <div class="grid-column--1 font-size--smaller">
             <span data-th-text="#{web.global.total}"></span>
             <span data-duice-bind="articleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
             <span data-th-text="#{web.global.rows}"></span>
         </div>
-        <div class="grid-column-1 flex justify-content-center">
+        <div class="grid-column--1 display--flex justify-content--center">
             <duice-pagination
                     data-duice-bind="articleSearch"
                     data-duice-size-property="_size"
@@ -101,7 +101,7 @@
                     data-duice-onclick="getArticles(this.dataset.page);">
             </duice-pagination>
         </div>
-        <div class="grid-column-1"></div>
+        <div class="grid-column--1"></div>
     </div>
 </div>
 <!-- ================================================== -->
@@ -111,9 +111,9 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div id="button" class="grid grid-template-columns-2 grid-gap-1em">
-    <div class="grid-column-1 s-grid-column-2 s-justify-self-end">
-        <form onsubmit="return false;" class="flex gap-1em">
+<div id="button" class="display--grid grid-template-columns--2 grid-gap--1em">
+    <div class="grid-column--1 s__grid-column--2 s__justify-self--end">
+        <form onsubmit="return false;" class="display--flex gap--1em">
             <label>
                 <select data-duice-bind="articleSearch" data-duice-property="key">
                     <option value="title" data-th-text="#{core.board.Article.title}"></option>
@@ -129,7 +129,7 @@
             </button>
         </form>
     </div>
-    <div class="grid-column-1 justify-self-end s-grid-column-2">
+    <div class="grid-column--1 justify-self--end s__grid-column--2">
         <th:block th:if="${board.hasWritePermission()}">
         <button onclick="gotoWrite();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-write.svg(_theme=${_theme})}" alt="write"/>

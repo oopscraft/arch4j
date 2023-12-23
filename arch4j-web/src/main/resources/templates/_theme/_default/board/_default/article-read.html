@@ -1,12 +1,12 @@
 <!-- ================================================== -->
 <!-- start: article title                               -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 margin-top-1em">
-    <h1 class="grid-column-12">
+<div class="display--grid grid-template-columns--12 margin-top--1em">
+    <h1 class="grid-column--12">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}" alt="title"/>
         <span data-duice-bind="article" data-duice-property="title"></span>
     </h1>
-    <div class="grid-column-12">
+    <div class="grid-column--12">
         <span>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}" alt="user"/>
             <span data-duice-bind="article" data-duice-property="userName"></span>
@@ -40,8 +40,8 @@
 <!-- ================================================== -->
 <!-- start: article content -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 margin-top-1em">
-    <div class="grid-column-12 padding-y-1em s-padding-y-0">
+<div class="display--grid grid-template-columns--12 margin-top--1em">
+    <div class="grid-column--12 padding-y--1em s__padding-y--0">
         <div data-duice-bind="article" data-duice-if="return article.contentFormat === 'TEXT'" data-duice-property="content"></div>
         <duice-marked data-duice-bind="article" data-duice-if="return article.contentFormat ==='MARKDOWN'" data-duice-property="content"/>
     </div>
@@ -54,19 +54,19 @@
 <!-- ================================================== -->
 <!-- start: article file                                -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 margin-top-1em">
-    <div class="grid-column-12 font-weight-bold">
+<div class="display--grid grid-template-columns--12 margin-top--1em">
+    <div class="grid-column--12 font-weight--bold">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-file.svg(_theme=${_theme})}" alt="file"/>
         <span data-th-text="#{core.board.Article.files}"></span>
     </div>
-    <div class="grid-column-12">
-        <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right-1em">
+    <div class="grid-column--12">
+        <div data-duice-bind="article.files" data-duice-loop="file,status" class="margin-right--1em">
             <span data-duice-bind="file" data-duice-property="filename"
                   data-duice-execute="this.dataset.fileId=file.fileId"
-                  class="cursor-pointer font-size-smaller font-weight-bold"
+                  class="cursor--pointer font-size--smaller font-weight--bold"
                   onclick="downloadArticleFile(this.dataset.fileId);">
             </span>
-            <span class="font-size-smaller" data-duice-bind="file" data-duice-execute="
+            <span class="font-size--smaller" data-duice-bind="file" data-duice-execute="
                 this.innerHTML = `(${file.length} bytes)`;
                 ">
             </span>
@@ -81,7 +81,7 @@
 <!-- ================================================== -->
 <!-- start: button                                      -->
 <!-- ================================================== -->
-<div class="text-align-center margin-x-1em">
+<div class="text-align--center margin-x--1em">
     <button onclick="gotoListArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-list.svg(_theme=${_theme})}" alt="list"/>
         <span data-th-text="#{web.board.listArticle}"></span>
@@ -130,8 +130,8 @@
 <!-- ================================================== -->
 <!-- start: article comment title                       -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12 padding-x-1em">
-    <div class="grid-column-12">
+<div class="display--grid grid-template-columns--12 padding-x--1em">
+    <div class="grid-column--12">
         <h2>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}" alt="comment"/>
             <span data-th-text="#{core.board.ArticleComment}"></span>
@@ -148,14 +148,14 @@
 <!-- ================================================== -->
 <!-- start: article comment list                        -->
 <!-- ================================================== -->
-<div class="grid grid-template-columns-12">
-    <div class="grid-column-12">
-        <div class="grid grid-template-columns-12 margin-top-1em margin-bottom-1rem padding-left-1em border-left-1"
+<div class="display--grid grid-template-columns--12">
+    <div class="grid-column--12">
+        <div class="display--grid grid-template-columns--12 margin-top--1em margin-bottom--1rem padding-left--1em border-left--1"
              data-duice-bind="articleComments"
              data-duice-loop="articleComment,status"
              data-duice-hierarchy="commentId,parentCommentId"
              data-duice-execute="this.dataset.commentId = articleComment.commentId; this.style.marginLeft = (status.depth*1) + 'em';">
-            <div class="grid-column-12">
+            <div class="grid-column--12">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}"
                      data-duice-bind="articleComment"
                      data-duice-execute="this.hidden=isChildArticleComment(articleComment);" alt="comment"/>
@@ -181,11 +181,11 @@
                     <span data-th-text="#{web.board.editComment}"></span>
                 </button>
             </div>
-            <div class="grid-column-12">
+            <div class="grid-column--12">
                 <div data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content"></div>
                 <duice-marked data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='MARKDOWN'" data-duice-property="content"/>
             </div>
-            <div class="grid-column-12">
+            <div class="grid-column--12">
                 <button type="button" class="small"
                       data-duice-bind="articleComment"
                       data-duice-execute="this.dataset.commentId=articleComment.commentId;"
@@ -204,8 +204,8 @@
 <!-- start: article comment form                        -->
 <!-- ================================================== -->
 <div id="article-comment-form-container">
-    <div id="article-comment-form" class="grid-column-12 grid grid-template-columns-12 gap-row-1px padding-left-1em border-left-1">
-        <div class="grid-column-12">
+    <div id="article-comment-form" class="grid-column--12 display--grid grid-template-columns--12 gap-row-1px padding-left--1em border-left--1">
+        <div class="grid-column--12">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-comment.svg(_theme=${_theme})}"
                  data-duice-bind="articleComment"
                  data-duice-if="return !isChildArticleComment(articleComment);" alt="comment"/>
@@ -214,7 +214,7 @@
                  data-duice-if="return isChildArticleComment(articleComment);" alt="command child"/>
             <span data-duice-bind="articleComment"
                   data-duice-if="return isAnonymousArticleComment(articleComment);"
-                  class="flex gap-1em s-flex-direction-column">
+                  class="display--flex gap--1em s__flex-direction--column">
                 <label>
                     <input type="text" data-duice-bind="articleComment" data-duice-property="userName" th:placeholder="#{core.board.ArticleComment.userName}"/>
                 </label>
@@ -228,32 +228,32 @@
             <span sec:authorize="isAuthenticated()">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                      data-duice-bind="_user" data-duice-property="photo" alt="user"/>
-                <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
+                <span data-duice-bind="_user" data-duice-property="userName" class="font-weight--bold"></span>
             </span>
         </div>
-        <div class="grid-column-12">
+        <div class="grid-column--12">
             <label>
                 <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="TEXT"/>
-                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
+                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight--bold"></span>
             </label>
             &nbsp;
             <label>
                 <input type="radio" data-duice-bind="articleComment" data-duice-property="contentFormat" value="MARKDOWN"/>
-                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
+                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight--bold"></span>
             </label>
         </div>
-        <div class="grid-column-12" style="height:20em;">
+        <div class="grid-column--12" style="height:20em;">
             <label>
-                <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content" class="width-100 height-100"></textarea>
+                <textarea data-duice-bind="articleComment" data-duice-if="return articleComment.contentFormat==='TEXT'" data-duice-property="content" class="width--100 height--100"></textarea>
                 <duice-codemirror
                         data-duice-bind="articleComment"
                         data-duice-property="content"
                         data-duice-mode="markdown"
                         data-duice-if="return articleComment.contentFormat==='MARKDOWN'"
-                        class="border-1 width-100 height-100"/>
+                        class="border--1 width--100 height--100"/>
             </label>
         </div>
-        <div class="grid-column-12 margin-top-1px">
+        <div class="grid-column--12 margin-top--1px">
             <button onclick="cancelArticleComment();">
                 <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-cancel.svg(_theme=${_theme})}" alt="cancel"/>
                 <span data-th-text="#{web.global.cancel}"></span>

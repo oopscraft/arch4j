@@ -238,41 +238,41 @@
     <!-- ====================================== -->
     <!-- start: user                            -->
     <!-- ====================================== -->
-    <div class="grid grid-template-columns-2 s-grid-template-columns-1 grid-gap-1em">
+    <div class="display--grid grid-template-columns--12 grid-gap--1em">
 
         <!-- ====================================== -->
         <!-- start: user list                       -->
         <!-- ====================================== -->
-        <div id="userList" class="grid-column-1">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="userList" class="grid-column--5 s__grid-column--12">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.user.User} + ' ' + #{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-2 s-grid-column-4">
-                        <select class="width-100" data-duice-bind="userSearch" data-duice-property="key">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--2 s__grid-column--4">
+                        <select class="width--100" data-duice-bind="userSearch" data-duice-property="key">
                             <option value="userId" th:text="#{core.user.User.userId}"></option>
                             <option value="userName" th:text="#{core.user.User.userName}"></option>
                             <option value="email" th:text="#{core.user.User.email}"></option>
                             <option value="mobile" th:text="#{core.user.User.mobile}"></option>
                         </select>
                     </label>
-                    <label class="grid-column-4 s-grid-column-8">
-                        <input class="width-100" type="text" data-duice-bind="userSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
+                    <label class="grid-column--4 s__grid-column--8">
+                        <input class="width--100" type="text" data-duice-bind="userSearch" data-duice-property="value" th:placeholder="#{web.global.keyword}"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <select class="width-100" data-duice-bind="userSearch" data-duice-property="status">
+                    <label class="grid-column--6 s__grid-column--12">
+                        <select class="width--100" data-duice-bind="userSearch" data-duice-property="status">
                             <option value data-th-text="'- '+#{core.user.User.status}+' -'"></option>
                             <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                     th:text="${userStatus}"></option>
                         </select>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
+                    <label class="grid-column--6 s__grid-column--12">
                         <input type="checkbox" data-duice-bind="userSearch" data-duice-property="admin"/>
-                        <span data-th-text="#{core.user.User.admin}" class="font-weight-bold"></span>
+                        <span data-th-text="#{core.user.User.admin}" class="font-weight--bold"></span>
                     </label>
-                    <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                    <div class="grid-column--6 s__grid-column--12 justify-self--end">
                         <button type="submit" onclick="getUsers();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -283,8 +283,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
-                    <table class="width-100">
+                <div class="overflow-x--auto padding-y--1em s__padding-y--0">
+                    <table class="width--100">
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -294,31 +294,31 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
                             <th data-th-text="#{core.user.User.userId}"></th>
                             <th data-th-text="#{core.user.User.userName}"></th>
                             <th data-th-text="#{core.user.User.status}"></th>
-                            <th data-th-text="#{core.user.User.admin}" class="text-align-center"></th>
+                            <th data-th-text="#{core.user.User.admin}" class="text-align--center"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr data-duice-bind="users" data-duice-loop="user,status"
                             data-duice-selected-item-class="selected" data-duice-execute="this.dataset.userId=user.userId;"
                             onclick="getUser(this.dataset.userId);" class="link">
-                            <td data-duice-bind="status" data-duice-property="count" class="text-align-center"></td>
+                            <td data-duice-bind="status" data-duice-property="count" class="text-align--center"></td>
                             <td>
                                 <img data-duice-bind="user" data-duice-property="photo"
                                      th:src="@{/static/image/icon-null.svg}" class="icon" alt="photo"/>
                                 <span data-duice-bind="user"
                                       data-duice-property="userId"
                                       data-duice-execute="this.classList.toggle('tag-system-required', user.systemRequired);"
-                                      class="font-weight-bold"></span>
+                                      class="font-weight--bold"></span>
                             </td>
                             <td data-duice-bind="user" data-duice-property="userName"></td>
                             <td>
                                 <span data-duice-bind="user" data-duice-property="status"></span>
                             </td>
-                            <td class="text-align-center">
+                            <td class="text-align--center">
                                 <label>
                                     <input type="checkbox" data-duice-bind="user" data-duice-property="admin" onclick="return false;"/>
                                 </label>
@@ -326,19 +326,19 @@
                         </tr>
                         <tr data-duice-bind="users" data-duice-execute="if(users.length === 0) this.hidden=false;"
                             hidden>
-                            <td colspan="100%" class="text-align-center">No Data</td>
+                            <td colspan="100%" class="text-align--center">No Data</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1 font-size-smaller">
+                <div class="display--grid grid-template-columns--3 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 font-size--smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="userSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 justify-self-center">
+                    <div class="grid-column--1 justify-self--center">
                         <duice-pagination
                                 data-duice-bind="userSearch"
                                 data-duice-size-property="_size"
@@ -347,7 +347,7 @@
                                 data-duice-onclick="getUsers(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 justify-self-end">
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button" onclick="createUser();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -363,77 +363,77 @@
         <!-- ====================================== -->
         <!-- start: user detail                     -->
         <!-- ====================================== -->
-        <div id="userDetail" class="grid-column-1">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="userDetail" class="grid-column--7 s__grid-column--12">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="open"/>
                     <span data-th-text="#{core.user.User} + ' ' + #{web.global.detail}"></span>
                 </h2>
-                <form class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-2 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.photo}" class="font-weight-bold"></span><br>
+                <form class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--2 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.photo}" class="font-weight--bold"></span><br>
                         <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="user"
                              data-duice-property="photo" data-duice-editable="true" data-duice-size="64,64"
                              style="width:64px; height:64px;" alt="photo"/>
                     </label>
-                    <label class="grid-column-10 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.profile}" class="font-weight-bold"></span>
-                        <textarea data-duice-bind="user" data-duice-property="profile" rows="3" class="width-100"></textarea>
+                    <label class="grid-column--10 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.profile}" class="font-weight--bold"></span>
+                        <textarea data-duice-bind="user" data-duice-property="profile" rows="3" class="width--100"></textarea>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.userId}" class="font-weight-bold tag-required"></span>
-                        <input type="text" data-duice-bind="user" data-duice-property="userId" maxlength="32" class="width-100 font-weight-bold"/>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.userId}" class="font-weight--bold tag-required"></span>
+                        <input type="text" data-duice-bind="user" data-duice-property="userId" maxlength="32" class="width--100 font-weight--bold"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.userName}" class="font-weight-bold tag-required"></span>
-                        <input type="text" data-duice-bind="user" data-duice-property="userName" maxlength="32" class="width-100"/>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.userName}" class="font-weight--bold tag-required"></span>
+                        <input type="text" data-duice-bind="user" data-duice-property="userName" maxlength="32" class="width--100"/>
                     </label>
-                    <div data-duice-bind="user" data-duice-if="return user._new;" class="grid-column-12 grid grid-template-columns-12 grid-gap-1em">
-                        <label class="grid-column-6 s-grid-column-12">
-                            <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
+                    <div data-duice-bind="user" data-duice-if="return user._new;" class="grid-column--12 display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--6 s__grid-column--12">
+                            <span data-th-text="#{core.user.User.password}" class="font-weight--bold tag-required"></span>
                             <input type="password" data-duice-bind="user"
-                                   maxlength="32" data-duice-property="password" class="width-100"/>
+                                   maxlength="32" data-duice-property="password" class="width--100"/>
                         </label>
-                        <label class="grid-column-6 s-grid-column-12">
-                            <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
+                        <label class="grid-column--6 s__grid-column--12">
+                            <span data-th-text="#{core.user.User.password}" class="font-weight--bold tag-required"></span>(*)
                             <input type="password" data-duice-bind="user"
-                                   maxlength="32" data-duice-property="passwordConfirm" class="width-100"/>
+                                   maxlength="32" data-duice-property="passwordConfirm" class="width--100"/>
                         </label>
                     </div>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.status}" class="font-weight-bold tag-required"></span><br>
-                        <select data-duice-bind="user" data-duice-property="status" class="width-100">
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.status}" class="font-weight--bold tag-required"></span><br>
+                        <select data-duice-bind="user" data-duice-property="status" class="width--100">
                             <option value th:text="'- '+#{web.global.select}+' -'"></option>
                             <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                     th:text="${userStatus}"></option>
                         </select>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.admin}" class="font-weight-bold tag-required"></span><br>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.admin}" class="font-weight--bold tag-required"></span><br>
                         <input type="checkbox" data-duice-bind="user" data-duice-property="admin"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.email}" class="font-weight-bold"></span><br>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.email}" class="font-weight--bold"></span><br>
                         <input type="email" data-duice-bind="user" data-duice-property="email"
-                               class="width-100"/>
+                               class="width--100"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.mobile}" class="font-weight-bold"></span><br>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.mobile}" class="font-weight--bold"></span><br>
                         <input type="tel" data-duice-bind="user" data-duice-property="mobile"
-                               class="width-100"/>
+                               class="width--100"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.joinAt}" class="font-weight-bold"></span>
-                        <input type="datetime-local" data-duice-bind="user" data-duice-property="joinAt" readonly="readonly" class="width-100"/>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.joinAt}" class="font-weight--bold"></span>
+                        <input type="datetime-local" data-duice-bind="user" data-duice-property="joinAt" readonly="readonly" class="width--100"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.user.User.closeAt}" class="font-weight-bold"></span>
-                        <input type="datetime-local" data-duice-bind="user" data-duice-property="closeAt" readonly="readonly" class="width-100"/>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.closeAt}" class="font-weight--bold"></span>
+                        <input type="datetime-local" data-duice-bind="user" data-duice-property="closeAt" readonly="readonly" class="width--100"/>
                     </label>
-                    <div class="grid-column-12">
-                        <span data-th-text="#{core.user.User.roles}" class="font-weight-bold"></span>
-                        <div class="overflow-x-auto border-x-1">
-                            <table class="width-100 border-x-0">
+                    <div class="grid-column--12">
+                        <span data-th-text="#{core.user.User.roles}" class="font-weight--bold"></span>
+                        <div class="overflow-x--auto border-x--1">
+                            <table class="width--100 border-x--0">
                                 <colgroup>
                                     <col style="width:35px;"/>
                                     <col/>
@@ -441,7 +441,7 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th class="text-align-center">
+                                    <th class="text-align--center">
                                         <button type="button" class="small"
                                                 onclick="addUserRole();"
                                                 data-duice-bind="user"
@@ -451,13 +451,13 @@
                                     </th>
                                     <th data-th-text="#{core.role.Role.roleId}"></th>
                                     <th data-th-text="#{core.role.Role.roleName}"></th>
-                                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align-center"></th>
-                                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align-center"></th>
+                                    <th data-th-text="#{core.role.Role.anonymous}" class="text-align--center"></th>
+                                    <th data-th-text="#{core.role.Role.authenticated}" class="text-align--center"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-duice-bind="user.roles" data-duice-loop="role,status">
-                                    <td class="text-align-center">
+                                    <td class="text-align--center">
                                         <button type="button" class="small"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -469,17 +469,17 @@
                                         <span data-duice-bind="role"
                                               data-duice-property="roleId"
                                               data-duice-execute="this.classList.toggle('tag-system-required',role.systemRequired);"
-                                              class="font-weight-bold"></span>
+                                              class="font-weight--bold"></span>
                                     </td>
                                     <td>
                                         <span data-duice-bind="role" data-duice-property="roleName"></span>
                                     </td>
-                                    <td class="text-align-center">
+                                    <td class="text-align--center">
                                         <label>
                                             <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
                                         </label>
                                     </td>
-                                    <td class="text-align-center">
+                                    <td class="text-align--center">
                                         <label>
                                             <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
                                         </label>
@@ -488,15 +488,15 @@
                                 <tr data-duice-bind="user.roles"
                                     data-duice-execute="if(user.roles.length === 0) this.hidden=false;"
                                     hidden>
-                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </form>
-                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1 flex align-items-flex-start flex-wrap gap-1px">
+                <div class="display--grid grid-template-columns--2 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 display--flex align-items--flex-start flex-wrap--wrap gap--1px">
                         <button type="button" onclick="changeUserPassword();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
@@ -505,7 +505,7 @@
                             <span data-th-text="#{web.admin.user.changePassword}"></span>
                         </button>
                     </div>
-                    <div class="grid-column-1 flex justify-content-flex-end align-items-flex-start flex-wrap gap-1px">
+                    <div class="grid-column--1 display--flex justify-content--flex-end align-items--flex-start flex-wrap--wrap gap--1px">
                         <button type="button" onclick="deleteUser();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
@@ -596,22 +596,22 @@
                 }
             }
         </script>
-        <div class="grid grid-gap-1em">
+        <div class="display--grid grid-gap--1em">
             <h2>
                 <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
                 <span data-th-text="#{web.admin.user.changePassword}"></span>
             </h2>
-            <form class="grid grid-template-columns-12 grid-gap-1em">
-                <div class="grid-column-12">
-                    <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>
-                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="password" class="width-100"/>
+            <form class="display--grid grid-template-columns--12 grid-gap--1em">
+                <div class="grid-column--12">
+                    <span data-th-text="#{core.user.User.password}" class="font-weight--bold tag-required"></span>
+                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="password" class="width--100"/>
                 </div>
-                <div class="grid-column-12">
-                    <span data-th-text="#{core.user.User.password}" class="font-weight-bold tag-required"></span>(*)
-                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="passwordConfirm" class="width-100"/>
+                <div class="grid-column--12">
+                    <span data-th-text="#{core.user.User.password}" class="font-weight--bold tag-required"></span>(*)
+                    <input type="password" data-duice-bind="userPasswordChange.data" data-duice-property="passwordConfirm" class="width--100"/>
                 </div>
             </form>
-            <div class="text-align-right">
+            <div class="text-align--right">
                 <button type="button" onclick="userPasswordChange.confirm();">
                     <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
                     <span data-th-text="#{web.global.confirm}"></span>

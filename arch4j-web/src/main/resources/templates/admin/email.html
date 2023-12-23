@@ -178,29 +178,29 @@
     <!-- ====================================== -->
     <!-- start: emailTemplate content           -->
     <!-- ====================================== -->
-    <div id="emailTemplateContent" class="grid grid-template-columns-3 grid-gap-1em">
+    <div id="emailTemplateContent" class="display--grid grid-template-columns--3 grid-gap--1em">
 
         <!-- ====================================== -->
         <!-- start: emailTemplate list                   -->
         <!-- ====================================== -->
-        <div id="emailTemplateList" class="grid-column-1 s-grid-column-3">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="emailTemplateList" class="grid-column--1 s__grid-column--3">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.email.EmailTemplate}+' '+#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-4">
-                        <select class="width-100" data-duice-bind="emailTemplateSearch" data-duice-property="key">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--4">
+                        <select class="width--100" data-duice-bind="emailTemplateSearch" data-duice-property="key">
                             <option value="templateId" th:text="#{core.email.EmailTemplate.templateId}"></option>
                             <option value="templateName" th:text="#{core.email.EmailTemplate.templateName}"></option>
                         </select>
                     </label>
-                    <label class="grid-column-8">
-                        <input class="width-100" type="text" data-duice-bind="emailTemplateSearch" data-duice-property="value"
+                    <label class="grid-column--8">
+                        <input class="width--100" type="text" data-duice-bind="emailTemplateSearch" data-duice-property="value"
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
-                    <div class="grid-column-12 justify-self-end">
+                    <div class="grid-column--12 justify-self--end">
                         <button type="submit" onclick="getEmailTemplates();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -211,8 +211,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
-                    <table class="width-100">
+                <div class="overflow-x--auto padding-y--1em s__padding-y--0">
+                    <table class="width--100">
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -220,7 +220,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
                             <th data-th-text="#{core.email.EmailTemplate.templateId}"></th>
                             <th data-th-text="#{core.email.EmailTemplate.templateName}"></th>
                         </tr>
@@ -231,25 +231,25 @@
                         this.dataset.templateId=emailTemplate.templateId;
                         " onclick="getEmailTemplate(this.dataset.templateId);" class="link">
                             <td data-duice-bind="status" data-duice-property="count"
-                                class="text-align-center"></td>
-                            <td data-duice-bind="emailTemplate" data-duice-property="templateId" class="font-weight-bold"></td>
+                                class="text-align--center"></td>
+                            <td data-duice-bind="emailTemplate" data-duice-property="templateId" class="font-weight--bold"></td>
                             <td data-duice-bind="emailTemplate" data-duice-property="templateName"></td>
                         </tr>
                         <tr data-duice-bind="emailTemplates"
                             data-duice-execute="if(emailTemplates.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align-center">No Data</td>
+                            <td colspan="100%" class="text-align--center">No Data</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1 font-size-smaller">
+                <div class="display--grid grid-template-columns--3 padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 font-size--smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="emailTemplateSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 justify-self-center">
+                    <div class="grid-column--1 justify-self--center">
                         <duice-pagination
                                 data-duice-bind="emailTemplateSearch"
                                 data-duice-size-property="_size"
@@ -258,7 +258,7 @@
                                 data-duice-onclick="getEmailTemplates(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 justify-self-end">
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button"
                                 onclick="createEmailTemplate();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
@@ -275,38 +275,38 @@
         <!-- ====================================== -->
         <!-- start: emailTemplate detail                 -->
         <!-- ====================================== -->
-        <div id="emailTemplateDetail" class="grid-column-2 s-grid-column-3">
-            <div class="border-1 padding-1em">
+        <div id="emailTemplateDetail" class="grid-column--2 s__grid-column--3">
+            <div class="border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                     <span data-th-text="#{core.email.EmailTemplate}+' '+#{web.global.detail}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-6 s-grid-column-12">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.email.EmailTemplate.templateId}"
-                              class="font-weight-bold tag-required"></span>
+                              class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="emailTemplate" data-duice-property="templateId"
-                               class="width-100 font-weight-bold"/>
+                               class="width--100 font-weight--bold"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
+                    <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.email.EmailTemplate.templateName}"
-                              class="font-weight-bold tag-required"></span>
+                              class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="emailTemplate" data-duice-property="templateName"
-                               class="width-100"/>
+                               class="width--100"/>
                     </label>
-                    <label class="grid-column-12">
-                        <span class="font-weight-bold" data-th-text="#{core.email.EmailTemplate.subject}"></span>
-                        <input type="text" data-duice-bind="emailTemplate" data-duice-property="subject" class="width-100"/>
+                    <label class="grid-column--12">
+                        <span class="font-weight--bold" data-th-text="#{core.email.EmailTemplate.subject}"></span>
+                        <input type="text" data-duice-bind="emailTemplate" data-duice-property="subject" class="width--100"/>
                     </label>
-                    <label class="grid-column-12">
-                        <span data-th-text="#{core.email.EmailTemplate.content}" class="font-weight-bold"></span>
+                    <label class="grid-column--12">
+                        <span data-th-text="#{core.email.EmailTemplate.content}" class="font-weight--bold"></span>
                         <textarea data-duice-bind="emailTemplate" data-duice-property="content" rows="5"
-                                      class="width-100"></textarea>
+                                      class="width--100"></textarea>
                     </label>
                 </form>
-                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1"></div>
-                    <div class="grid-column-1 justify-self-end">
+                <div class="display--grid grid-template-columns--2 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1"></div>
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button" onclick="deleteEmailTemplate();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAIL_EDIT'')')}?'locked'"
                                 data-duice-bind="emailTemplate"

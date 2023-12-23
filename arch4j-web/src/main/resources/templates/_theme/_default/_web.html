@@ -207,7 +207,7 @@
                 <span onclick="_gotoUser();" class="link">
                     <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                          data-duice-bind="_user" data-duice-property="photo" alt="user"/>
-                    <span data-duice-bind="_user" data-duice-property="userName" class="font-weight-bold"></span>
+                    <span data-duice-bind="_user" data-duice-property="userName" class="font-weight--bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">

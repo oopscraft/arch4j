@@ -199,29 +199,29 @@
     <!-- ================================== -->
     <!-- start: code content                -->
     <!-- ================================== -->
-    <div id="codeContent" class="grid grid-template-columns-2 s-grid-template-columns-1 grid-gap-1em">
+    <div id="codeContent" class="display--grid grid-template-columns--2 s__grid-template-columns--1 grid-gap--1em">
 
         <!-- ================================== -->
         <!-- start: code list                   -->
         <!-- ================================== -->
-        <div id="codeList" class="grid-column-1">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="codeList" class="grid-column--1">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                 <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                 <span data-th-text="#{core.code.Code}+' '+#{web.global.list}"></span>
             </h2>
-            <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                <label class="grid-column-2 s-grid-column-4">
-                    <select class="width-100" data-duice-bind="codeSearch" data-duice-property="key">
+            <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                <label class="grid-column--2 s__grid-column--4">
+                    <select class="width--100" data-duice-bind="codeSearch" data-duice-property="key">
                         <option value="codeId" th:text="#{core.code.Code.codeId}"></option>
                         <option value="codeName" th:text="#{core.code.Code.codeName}"></option>
                     </select>
                 </label>
-                <label class="grid-column-4 s-grid-column-8">
-                    <input class="width-100" type="text" data-duice-bind="codeSearch" data-duice-property="value"
+                <label class="grid-column--4 s__grid-column--8">
+                    <input class="width--100" type="text" data-duice-bind="codeSearch" data-duice-property="value"
                            th:placeholder="#{web.global.keyword}"/>
                 </label>
-                <div class="grid-column-6 s-grid-column-12 justify-self-end">
+                <div class="grid-column--6 s__grid-column--12 justify-self--end">
                     <button type="submit" onclick="getCodes();">
                         <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -232,8 +232,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
-                    <table class="width-100">
+                <div class="overflow-x--auto padding-y--1em s__padding-y--0">
+                    <table class="width--100">
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -241,7 +241,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
                             <th data-th-text="#{core.code.Code.codeId}"></th>
                             <th data-th-text="#{core.code.Code.codeName}"></th>
                         </tr>
@@ -251,24 +251,24 @@
                             this.dataset.id=code.codeId;
                             " onclick="getCode(this.dataset.id);" class="link">
                             <td data-duice-bind="status" data-duice-property="count"
-                                class="text-align-center"></td>
+                                class="text-align--center"></td>
                             <td data-duice-bind="code" data-duice-property="codeId"></td>
                             <td data-duice-bind="code" data-duice-property="codeName"></td>
                         </tr>
                         <tr data-duice-bind="codes" data-duice-execute="if(codes.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align-center">No Data</td>
+                            <td colspan="100%" class="text-align--center">No Data</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1 font-size-smaller">
+                <div class="display--grid grid-template-columns--3 padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 font-size--smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="codeSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 justify-self-center">
+                    <div class="grid-column--1 justify-self--center">
                         <duice-pagination
                                 data-duice-bind="codeSearch"
                                 data-duice-size-property="_size"
@@ -277,7 +277,7 @@
                                 data-duice-onclick="getCodes(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 justify-self-end">
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button" onclick="createCode();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -293,32 +293,32 @@
         <!-- ================================== -->
         <!-- start: code detail                 -->
         <!-- ================================== -->
-        <div id="codeDetail" class="grid-column-1">
-            <div class="grid grid-gap-1em border-1 padding-1rem">
+        <div id="codeDetail" class="grid-column--1">
+            <div class="display--grid grid-gap--1em border--1 padding--1rem">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                     <span data-th-text="#{core.code.Code}+' '+#{web.global.detail}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.code.Code.codeId}" class="font-weight-bold tag-required"></span>
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.code.Code.codeId}" class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="code" data-duice-property="codeId"
-                               class="width-100 font-weight-bold"/>
+                               class="width--100 font-weight--bold"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.code.Code.codeName}" class="font-weight-bold tag-required"></span>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.code.Code.codeName}" class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="code" data-duice-property="codeName"
-                               class="width-100"/>
+                               class="width--100"/>
                     </label>
-                    <label class="grid-column-12">
-                        <span data-th-text="#{core.code.Code.note}" class="font-weight-bold"></span>
+                    <label class="grid-column--12">
+                        <span data-th-text="#{core.code.Code.note}" class="font-weight--bold"></span>
                         <textarea data-duice-bind="code" data-duice-property="note" rows="5"
-                                  class="width-100"></textarea>
+                                  class="width--100"></textarea>
                     </label>
-                    <div class="grid-column-12">
-                        <span data-th-text="#{core.code.Code.items}" class="font-weight-bold"></span>
-                        <div class="overflow-y-scroll" style="max-height:calc(40rem - 2px);">
-                            <table class="width-100">
+                    <div class="grid-column--12">
+                        <span data-th-text="#{core.code.Code.items}" class="font-weight--bold"></span>
+                        <div class="overflow-y--scroll" style="max-height:calc(40rem - 2px);">
+                            <table class="width--100">
                                 <colgroup>
                                     <col style="width:3rem;"/>
                                     <col/>
@@ -326,7 +326,7 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th class="text-align-center">
+                                    <th class="text-align--center">
                                         <button type="button" class="small" onclick="addCodeItem();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
@@ -337,7 +337,7 @@
                                 </thead>
                                 <tbody>
                                 <tr data-duice-bind="code.codeItems" data-duice-loop="codeItem,status">
-                                    <td class="text-align-center">
+                                    <td class="text-align--center">
                                         <button type="button" class="small"
                                                 data-duice-bind="codeItem"
                                                 data-duice-execute="this.dataset.index=status.index;"
@@ -346,25 +346,25 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemId" class="width-100 font-weight-bold"/>
+                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemId" class="width--100 font-weight--bold"/>
                                     </td>
                                     <td>
-                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemName" class="width-100"/>
+                                        <input type="text" data-duice-bind="codeItem" data-duice-property="itemName" class="width--100"/>
                                     </td>
                                 </tr>
                                 <tr data-duice-bind="code.codeItems"
                                     data-duice-if="return (code.codeItems.length < 1);"
                                     hidden>
-                                    <td colspan="100%" class="text-align-center font-size-smaller">No Data</td>
+                                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </form>
-                <div class="grid grid-template-columns-2 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1"></div>
-                    <div class="grid-column-1 justify-self-end">
+                <div class="display--grid grid-template-columns--2 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1"></div>
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button" onclick="deleteCode();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE_EDIT'')')}?'locked'"
                                 data-duice-bind="code"

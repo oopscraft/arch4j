@@ -5,31 +5,31 @@
         padding: 1em;
     }
 </style>
-<div id="login" class="border-1">
-    <h1 class="text-align-center">
+<div id="login" class="border--1">
+    <h1 class="text-align--center">
         <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}"></span>
     </h1>
-    <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-1em">
-        <label class="grid-column-12">
+    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding--1em">
+        <label class="grid-column--12">
             <input type="text" th:placeholder="#{web.login.login.userId}"
                    data-duice-bind="login" data-duice-property="username"
-                   class="width-100 font-weight-bold text-align-center"/>
+                   class="width--100 font-weight--bold text-align--center"/>
         </label>
-        <label class="grid-column-12">
+        <label class="grid-column--12">
             <input type="password" th:placeholder="#{web.login.login.password}"
                    data-duice-bind="login" data-duice-property="password"
-                   class="width-100 font-weight-bold text-align-center"/>
+                   class="width--100 font-weight--bold text-align--center"/>
         </label>
-        <div class="grid-column-12">
-            <button onclick="requestLogin();" class="width-100">
+        <div class="grid-column--12">
+            <button onclick="requestLogin();" class="width--100">
                 <img class="icon" th:src="@{/static/image/icon-login.svg}" alt="login">
                 <span data-th-text="#{web.global.login}"></span>
             </button>
         </div>
-        <div class="grid-column-12 justify-self-center">
+        <div class="grid-column--12 justify-self--center">
             <span data-duice-bind="login" data-duice-property="message"></span>
         </div>
-        <div class="grid-column-6">
+        <div class="grid-column--6">
             <label>
                 <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
                 <select onchange="_changeLanguage(this.value);">
@@ -38,13 +38,13 @@
                 </select>
             </label>
         </div>
-        <div class="grid-column-6">
-            <div class="text-align-right">
-                <span onclick="gotoJoin();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.login.join}">
+        <div class="grid-column--6">
+            <div class="text-align--right">
+                <span onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}">
                 </span>
             </div>
-            <div class="text-align-right">
-                <span onclick="gotoResetPassword();" class="text-decoration-underline cursor-pointer" data-th-text="#{web.login.login.resetPassword}">
+            <div class="text-align--right">
+                <span onclick="gotoResetPassword();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.resetPassword}">
                 </span>
             </div>
         </div>

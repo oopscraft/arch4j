@@ -231,29 +231,29 @@
     <!-- ================================== -->
     <!-- start: page content             -->
     <!-- ================================== -->
-    <div class="grid grid-template-columns-3 grid-gap-1em">
+    <div class="display--grid grid-template-columns--3 grid-gap--1em">
 
         <!-- ================================== -->
         <!-- start: page list                -->
         <!-- ================================== -->
-        <div id="pageList" class="grid-column-1 s-grid-column-3">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="pageList" class="grid-column--1 s__grid-column--3">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                     <span data-th-text="#{core.page.Page}+' '+#{web.global.list}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-4">
-                        <select class="width-100" data-duice-bind="pageSearch" data-duice-property="key">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--4">
+                        <select class="width--100" data-duice-bind="pageSearch" data-duice-property="key">
                             <option value="pageId" th:text="#{core.page.Page.pageId}"></option>
                             <option value="pageName" th:text="#{core.page.Page.pageName}"></option>
                         </select>
                     </label>
-                    <label class="grid-column-8">
-                        <input class="width-100" type="text" data-duice-bind="pageSearch" data-duice-property="value"
+                    <label class="grid-column--8">
+                        <input class="width--100" type="text" data-duice-bind="pageSearch" data-duice-property="value"
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
-                    <div class="grid-column-12 justify-self-end">
+                    <div class="grid-column--12 justify-self--end">
                         <button type="submit" onclick="getPages();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>
@@ -264,8 +264,8 @@
                         </button>
                     </div>
                 </form>
-                <div class="overflow-x-auto padding-y-1em s-padding-y-0">
-                    <table class="width-100">
+                <div class="overflow-x--auto padding-y--1em s__padding-y--0">
+                    <table class="width--100">
                         <colgroup>
                             <col style="width:5rem;"/>
                             <col/>
@@ -273,7 +273,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align-center"></th>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
                             <th data-th-text="#{core.page.Page.pageId}"></th>
                             <th data-th-text="#{core.page.Page.pageName}"></th>
                         </tr>
@@ -283,24 +283,24 @@
                             this.dataset.id=page.pageId;
                             " onclick="getPage(this.dataset.id);" class="link">
                             <td data-duice-bind="status" data-duice-property="count"
-                                class="text-align-center"></td>
-                            <td data-duice-bind="page" data-duice-property="pageId" class="font-weight-bold"></td>
+                                class="text-align--center"></td>
+                            <td data-duice-bind="page" data-duice-property="pageId" class="font-weight--bold"></td>
                             <td data-duice-bind="page" data-duice-property="pageName"></td>
                         </tr>
                         <tr data-duice-bind="pages" data-duice-execute="if(pages.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align-center">No Data</td>
+                            <td colspan="100%" class="text-align--center">No Data</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-template-columns-3 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1 font-size-smaller">
+                <div class="display--grid grid-template-columns--3 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 font-size--smaller">
                         <span data-th-text="#{web.global.total}"></span>
                         <span data-duice-bind="pageSearch" data-duice-property="_count"
                               data-duice-format="number(0)"></span>
                         <span data-th-text="#{web.global.rows}"></span>
                     </div>
-                    <div class="grid-column-1 justify-self-center">
+                    <div class="grid-column--1 justify-self--center">
                         <duice-pagination
                                 data-duice-bind="pageSearch"
                                 data-duice-size-property="_size"
@@ -309,7 +309,7 @@
                                 data-duice-onclick="getPages(this.dataset.page);">
                         </duice-pagination>
                     </div>
-                    <div class="grid-column-1 justify-self-end">
+                    <div class="grid-column--1 justify-self--end">
                         <button onclick="createPage();">
                             <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                             <span data-th-text="#{web.global.create}"></span>
@@ -325,39 +325,39 @@
         <!-- ================================== -->
         <!-- start: page detail              -->
         <!-- ================================== -->
-        <div id="pageDetail" class="grid-column-2 s-grid-column-3">
-            <div class="grid grid-gap-1em border-1 padding-1em">
+        <div id="pageDetail" class="grid-column--2 s__grid-column--3">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
                 <h2>
                     <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                     <span data-th-text="#{core.page.Page}+' '+#{web.global.detail}"></span>
                 </h2>
-                <form onsubmit="return false;" class="grid grid-template-columns-12 grid-gap-1em padding-y-1em s-padding-y-0">
-                    <label class="grid-column-6 s-grid-column-12">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.page.Page.pageId}"
-                              class="font-weight-bold tag-required"></span>
+                              class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="page" data-duice-property="pageId"
-                               class="width-100 font-weight-bold"/>
+                               class="width--100 font-weight--bold"/>
                     </label>
-                    <label class="grid-column-6 s-grid-column-12">
-                        <span data-th-text="#{core.page.Page.pageName}" class="font-weight-bold tag-required"></span>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.page.Page.pageName}" class="font-weight--bold tag-required"></span>
                         <input type="text" data-duice-bind="page" data-duice-property="pageName"
-                               class="width-100"/>
+                               class="width--100"/>
                     </label>
-                    <div class="grid-column-12">
-                        <span data-th-text="#{core.page.Page.content}" class="font-weight-bold"></span>
+                    <div class="grid-column--12">
+                        <span data-th-text="#{core.page.Page.content}" class="font-weight--bold"></span>
                         <div>
                             <label>
                                 <input type="radio" data-duice-bind="page" data-duice-property="contentFormat" value="TEXT"/>
-                                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight-bold"></span>
+                                <span data-th-text="#{core.board.ContentFormat.TEXT}" class="font-weight--bold"></span>
                             </label>
                             &nbsp;
                             <label>
                                 <input type="radio" data-duice-bind="page" data-duice-property="contentFormat" value="MARKDOWN"/>
-                                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight-bold"></span>
+                                <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight--bold"></span>
                             </label>
                         </div>
                         <label>
-                            <textarea data-duice-bind="page" data-duice-if="return page.contentFormat==='TEXT'" data-duice-property="content" rows="10" class="width-100"></textarea>
+                            <textarea data-duice-bind="page" data-duice-if="return page.contentFormat==='TEXT'" data-duice-property="content" rows="10" class="width--100"></textarea>
                         </label>
                         <label>
                             <duice-codemirror
@@ -365,32 +365,32 @@
                                     data-duice-property="content"
                                     data-duice-mode="markdown"
                                     data-duice-if="return page.contentFormat==='MARKDOWN'"
-                                    class="border-1 width-100"/>
+                                    class="border--1 width--100"/>
                         </label>
                     </div>
-                    <div class="grid-column-12 grid grid-template-columns-12 grid-gap-1em margin-top-1em">
+                    <div class="grid-column--12 display--grid grid-template-columns--12 grid-gap--1em margin-top--1em">
                         <!-- ====================================== -->
                         <!-- start: page pageWidget                     -->
                         <!-- ====================================== -->
-                        <div class="grid-column-6 s-grid-column-12 border-1 padding-1em flex flex-direction-column gap-1em" data-duice-bind="page.pageWidgets" data-duice-loop="pageWidget,status" data-duice-editable="true">
+                        <div class="grid-column--6 s__grid-column--12 border--1 padding--1em display--flex flex-direction--column gap--1em" data-duice-bind="page.pageWidgets" data-duice-loop="pageWidget,status" data-duice-editable="true">
                             <label>
-                                <span class="font-weight-bold tag-required" data-th-text="#{core.page.PageWidget.type}">
+                                <span class="font-weight--bold tag-required" data-th-text="#{core.page.PageWidget.type}">
                                 </span>
-                                <select class="width-100 font-weight-bold" data-duice-bind="pageWidget" data-duice-property="type">
+                                <select class="width--100 font-weight--bold" data-duice-bind="pageWidget" data-duice-property="type">
                                     <option value th:text="'- '+#{web.global.select}+' -'"></option>
                                     <option th:each="pageWidgetDefinition:${pageWidgetDefinitions}" th:value="${pageWidgetDefinition.type}" th:text="${pageWidgetDefinition.name}"></option></option>
                                 </select>
                             </label>
                             <label>
-                                <span class="font-weight-bold" data-th-text="#{core.page.PageWidget.properties}">
+                                <span class="font-weight--bold" data-th-text="#{core.page.PageWidget.properties}">
                                 </span>
-                                <textarea class="width-100" data-duice-bind="pageWidget" data-duice-property="properties"></textarea>
+                                <textarea class="width--100" data-duice-bind="pageWidget" data-duice-property="properties"></textarea>
                             </label>
-                            <iframe class="grid-column-6 width-100 border-0 margin-x-1em" sandbox="allow-same-origin allow-scripts"
+                            <iframe class="grid-column--6 width--100 border--0 margin-x--1em" sandbox="allow-same-origin allow-scripts"
                                     data-duice-bind="pageWidget"
                                     data-duice-execute="this.src=pageWidget.url;">
                             </iframe>
-                            <div class="grid-column-6 flex justify-content-flex-end">
+                            <div class="grid-column--6 display--flex justify-content--flex-end">
                                 <button type="button" class="small"
                                         data-duice-bind="page.pageWidgets"
                                         data-duice-execute="this.dataset.index = status.index;"
@@ -403,7 +403,7 @@
                         <!-- ====================================== -->
                         <!-- end: page pageWidget                       -->
                         <!-- ====================================== -->
-                        <div class="grid-column-6 s-grid-column-12">
+                        <div class="grid-column--6 s__grid-column--12">
                             <button type="button" class="small"
                                     onclick="addPageWidget();"
                                     data-duice-bind="page"
@@ -414,8 +414,8 @@
                         </div>
                     </div>
                 </form>
-                <div class="grid grid-template-columns-2 padding-y-1em s-padding-y-0">
-                    <div class="grid-column-1">
+                <div class="display--grid grid-template-columns--2 padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1">
                         <button type="button"
                                 onclick="openPage();"
                                 data-duice-bind="page"
@@ -424,7 +424,7 @@
                             <span data-th-text="#{web.admin.page.openPage}"></span>
                         </button>
                     </div>
-                    <div class="grid-column-1 justify-self-end">
+                    <div class="grid-column--1 justify-self--end">
                         <button type="button"
                                 onclick="deletePage();"
                                 th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE_EDIT'')')}?'locked'"

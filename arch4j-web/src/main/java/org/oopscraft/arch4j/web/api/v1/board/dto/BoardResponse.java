@@ -34,6 +34,8 @@ public class BoardResponse {
 
     private boolean hasWritePermission;
 
+    private boolean hasFilePermission;
+
     private boolean hasCommentPermission;
 
     public static BoardResponse from(Board board) {
@@ -47,6 +49,11 @@ public class BoardResponse {
                 .pageSize(board.getPageSize())
                 .fileEnabled(board.isFileEnabled())
                 .commentEnabled(board.isCommentEnabled())
+                // permission
+                .hasReadPermission(board.hasReadPermission())
+                .hasWritePermission(board.hasWritePermission())
+                .hasFilePermission(board.hasFilePermission())
+                .hasCommentPermission(board.hasCommentPermission())
                 .build();
     }
 

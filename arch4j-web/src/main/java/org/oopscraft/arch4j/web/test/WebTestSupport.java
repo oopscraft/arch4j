@@ -30,7 +30,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import javax.persistence.EntityManager;
 
 @SpringBootTest(
-        classes = WebConfiguration.class
+        classes = WebConfiguration.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureMockMvc
 @WithUserDetails(value="admin")

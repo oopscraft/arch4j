@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.sample.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.SampleType;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"items"})
-public class SampleEntity extends SystemFieldEntity {
+public class SampleEntity extends SystemEntity {
 
     @Id
     @Column(name = "sample_id", length=64)

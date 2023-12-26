@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.CoreProperties;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.User;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class WebController {
     public ModelAndView index() {
 
         // check security policy
-        if(webProperties.getSecurityPolicy() != null) {
+        if(coreProperties.getSecurityPolicy() != null) {
             if(!SecurityUtils.isAuthenticated()) {
                 RedirectView redirectView = new RedirectView("/login");
                 return new ModelAndView(redirectView);

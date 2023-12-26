@@ -6,7 +6,7 @@ import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MenuEntity extends SystemFieldEntity implements I18nSupportEntity<MenuI18nEntity> {
+public class MenuEntity extends SystemEntity implements I18nSupportEntity<MenuI18nEntity> {
 
     @Id
     @Column(name = "menu_id", length = 32)

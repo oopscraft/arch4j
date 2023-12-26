@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.ContentFormat;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import javax.persistence.*;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ArticleCommentEntity extends SystemFieldEntity {
+public class ArticleCommentEntity extends SystemEntity {
 
     @Data
     @Builder

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 
@@ -17,7 +17,7 @@ import java.util.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoleEntity extends SystemFieldEntity {
+public class RoleEntity extends SystemEntity {
 
     @Id
     @Column(name = "role_id", length = 32)

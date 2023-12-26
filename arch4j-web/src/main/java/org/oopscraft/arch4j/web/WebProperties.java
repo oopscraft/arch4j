@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.oopscraft.arch4j.web.security.SecurityPolicy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -13,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public final class WebProperties {
-
-    private final SecurityPolicy securityPolicy = SecurityPolicy.ANONYMOUS;
 
     private final String theme;
 

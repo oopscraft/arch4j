@@ -82,6 +82,7 @@ jasypt:
 
 # core
 core:
+  security-policy: ANONYMOUS
   default-locale: en
   supported-Locales:
     - en

@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.user.dao;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.user.UserStatus;
@@ -27,7 +27,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserEntity extends SystemFieldEntity {
+public class UserEntity extends SystemEntity {
 
     @Id
     @Column(name = "user_id", length = 32)

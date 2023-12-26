@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.oopscraft.arch4j.core.board.Article;
 import org.oopscraft.arch4j.core.board.ContentFormat;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class ArticleResponse {
                 .votePositiveCount(article.getVotePositiveCount())
                 .voteNegativeCount(article.getVoteNegativeCount())
                 .files(article.getFiles().stream().map(ArticleFileResponse::from).collect(Collectors.toList()))
-                .canEdit(article.getUserId() == null || article.getUserId().equals(SecurityUtils.getCurrentUserId()))
+                .canEdit(article.canEdit())
                 .build();
     }
 

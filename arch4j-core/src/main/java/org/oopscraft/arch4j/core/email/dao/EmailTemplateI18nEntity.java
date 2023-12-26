@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.email.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class EmailTemplateI18nEntity extends SystemFieldEntity implements I18nEntity {
+public class EmailTemplateI18nEntity extends SystemEntity implements I18nEntity {
 
     @Data
     @Builder

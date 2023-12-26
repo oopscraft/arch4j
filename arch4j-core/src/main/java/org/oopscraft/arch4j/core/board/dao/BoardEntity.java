@@ -4,10 +4,10 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Where;
 import org.oopscraft.arch4j.core.board.MessageFormat;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 
 import javax.persistence.*;
@@ -21,7 +21,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BoardEntity extends SystemFieldEntity implements I18nSupportEntity<BoardI18nEntity> {
+public class BoardEntity extends SystemEntity implements I18nSupportEntity<BoardI18nEntity> {
 
     @Id
     @Column(name = "board_id", length = 64)

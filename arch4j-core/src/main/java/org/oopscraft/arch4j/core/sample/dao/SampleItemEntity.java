@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.sample.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class SampleItemEntity extends SystemFieldEntity {
+public class SampleItemEntity extends SystemEntity {
 
     @Data
     @NoArgsConstructor

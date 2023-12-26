@@ -11,12 +11,12 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@EntityListeners(SystemFieldEntityListener.class)
+@EntityListeners(SystemEntityListener.class)
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class SystemFieldEntity {
+public class SystemEntity {
 
 	@Column(name = "system_required", length = 1)
 	@Convert(converter= BooleanToYNConverter.class)

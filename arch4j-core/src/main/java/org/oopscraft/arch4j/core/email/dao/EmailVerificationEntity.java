@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.email.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldEntity;
+import org.oopscraft.arch4j.core.data.SystemEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class EmailVerificationEntity extends SystemFieldEntity {
+public class EmailVerificationEntity extends SystemEntity {
 
     @Id
     @Column(name = "email", length = 64)

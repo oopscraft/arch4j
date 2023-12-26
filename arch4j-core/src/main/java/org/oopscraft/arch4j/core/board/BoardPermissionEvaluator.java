@@ -1,9 +1,7 @@
-package org.oopscraft.arch4j.web.board;
+package org.oopscraft.arch4j.core.board;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.BoardService;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 import org.springframework.stereotype.Component;
 
 @Component("boardPermissionEvaluator")

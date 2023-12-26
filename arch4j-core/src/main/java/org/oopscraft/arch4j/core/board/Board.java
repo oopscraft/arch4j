@@ -4,6 +4,7 @@ import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,14 +22,6 @@ class MenuServiceTest extends CoreTestSupport {
                 .link("test_link")
                 .target(MenuTarget._self)
                 .build();
-        testMenu.getViewRoles()
-                .add(Role.builder()
-                        .roleId("view-role")
-                        .build());
-        testMenu.getLinkRoles()
-                .add(Role.builder()
-                        .roleId("link-role")
-                        .build());
         return testMenu;
     }
 

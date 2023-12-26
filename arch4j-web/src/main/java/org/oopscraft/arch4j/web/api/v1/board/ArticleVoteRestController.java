@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.web.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleVoteRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleVoteResponse;
 import org.springframework.http.ResponseEntity;

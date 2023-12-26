@@ -9,7 +9,6 @@ import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,15 +47,6 @@ public class BoardEntity extends SystemFieldEntity implements I18nSupportEntity<
     @Column(name = "page_size")
     private Integer pageSize;
 
-    @Column(name = "access_policy", length = 16)
-    public SecurityPolicy accessPolicy;
-
-    @Column(name = "read_policy", length = 16)
-    public SecurityPolicy readPolicy;
-
-    @Column(name = "write_policy", length = 16)
-    public SecurityPolicy writePolicy;
-
     @Column(name = "file_enabled", length = 1)
     @Convert(converter= BooleanToYNConverter.class)
     private boolean fileEnabled;
@@ -64,15 +54,9 @@ public class BoardEntity extends SystemFieldEntity implements I18nSupportEntity<
     @Column(name = "file_size_limit")
     private Integer fileSizeLimit;
 
-    @Column(name = "file_policy", length = 16)
-    private SecurityPolicy filePolicy;
-
     @Column(name = "comment_enabled", length = 1)
     @Convert(converter= BooleanToYNConverter.class)
     private boolean commentEnabled;
-
-    @Column(name = "comment_policy", length = 16)
-    public SecurityPolicy commentPolicy;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "board_id", updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

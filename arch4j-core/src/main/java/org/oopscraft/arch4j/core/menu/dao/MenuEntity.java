@@ -8,7 +8,6 @@ import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
 import org.oopscraft.arch4j.core.data.SystemFieldEntity;
 import org.oopscraft.arch4j.core.menu.MenuTarget;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -53,12 +52,6 @@ public class MenuEntity extends SystemFieldEntity implements I18nSupportEntity<M
     @Column(name = "note")
     @Lob
     private String note;
-
-    @Column(name = "view_policy", length = 16)
-    public SecurityPolicy viewPolicy;
-
-    @Column(name = "link_policy", length = 16)
-    public SecurityPolicy linkPolicy;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id", insertable = false, updatable = false)

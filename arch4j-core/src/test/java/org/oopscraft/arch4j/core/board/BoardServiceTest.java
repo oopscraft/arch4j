@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.oopscraft.arch4j.core.test.CoreTestSupport;
 
 import java.util.Arrays;
@@ -24,13 +23,8 @@ class BoardServiceTest extends CoreTestSupport {
                 .boardId("test-board")
                 .boardName("test board")
                 .message("test message")
-                .accessPolicy(SecurityPolicy.AUTHORIZED)
-                .readPolicy(SecurityPolicy.AUTHORIZED)
-                .writePolicy(SecurityPolicy.AUTHORIZED)
                 .fileEnabled(true)
-                .filePolicy(SecurityPolicy.AUTHORIZED)
                 .commentEnabled(true)
-                .commentPolicy(SecurityPolicy.AUTHORIZED)
                 .build();
         Arrays.asList("ADMIN","invalid").forEach(roleId -> {
             testBoard.getAccessRoles().add(Role.builder()

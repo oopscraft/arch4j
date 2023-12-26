@@ -21,6 +21,7 @@ import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
 import org.oopscraft.arch4j.web.security.AdditionalSecurityFilter;
+import org.oopscraft.arch4j.web.security.SecurityPolicy;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -35,7 +36,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -278,7 +278,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
-            if(webProperties.getSecurityPolicy() == null) {
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();
@@ -303,7 +303,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.authorizeRequests()
                     .antMatchers("/user**")
                     .authenticated();
-            if(webProperties.getSecurityPolicy() == null) {
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();

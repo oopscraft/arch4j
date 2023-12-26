@@ -5,7 +5,6 @@ import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity_;
 import org.oopscraft.arch4j.core.menu.dao.MenuRepository;
 import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,32 +35,26 @@ public class MenuService {
         menuEntity.setNote(menu.getNote());
 
         // view role
-        menuEntity.setViewPolicy(menu.getViewPolicy());
         menuEntity.getViewMenuRoleEntities().clear();
-        if(menu.getViewPolicy() == SecurityPolicy.AUTHORIZED) {
-            menu.getViewRoles().forEach(viewRole -> {
-                MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
-                        .menuId(menuEntity.getMenuId())
-                        .roleId(viewRole.getRoleId())
-                        .type("VIEW")
-                        .build();
-                menuEntity.getViewMenuRoleEntities().add(menuRoleEntity);
-            });
-        }
+        menu.getViewRoles().forEach(viewRole -> {
+            MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
+                    .menuId(menuEntity.getMenuId())
+                    .roleId(viewRole.getRoleId())
+                    .type("VIEW")
+                    .build();
+            menuEntity.getViewMenuRoleEntities().add(menuRoleEntity);
+        });
 
         // link role
-        menuEntity.setLinkPolicy(menu.getLinkPolicy());
         menuEntity.getLinkMenuRoleEntities().clear();
-        if(menu.getLinkPolicy() == SecurityPolicy.AUTHORIZED) {
-            menu.getLinkRoles().forEach(linkRole -> {
-                MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
-                        .menuId(menuEntity.getMenuId())
-                        .roleId(linkRole.getRoleId())
-                        .type("LINK")
-                        .build();
-                menuEntity.getLinkMenuRoleEntities().add(menuRoleEntity);
-            });
-        }
+        menu.getLinkRoles().forEach(linkRole -> {
+            MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
+                    .menuId(menuEntity.getMenuId())
+                    .roleId(linkRole.getRoleId())
+                    .type("LINK")
+                    .build();
+            menuEntity.getLinkMenuRoleEntities().add(menuRoleEntity);
+        });
 
         MenuEntity savedMenu = menuRepository.saveAndFlush(menuEntity);
         return Menu.from(savedMenu);

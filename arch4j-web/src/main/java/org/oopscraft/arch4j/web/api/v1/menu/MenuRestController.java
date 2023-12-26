@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.menu;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.menu.MenuService;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.web.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.menu.dto.MenuResponse;
 import org.oopscraft.arch4j.web.support.PageableUtils;
 import org.springframework.http.HttpHeaders;
@@ -26,9 +26,9 @@ public class MenuRestController {
     @GetMapping
     public ResponseEntity<List<MenuResponse>> getMenus() {
         List<MenuResponse> menuResponses = menuService.getMenus().stream()
-                .filter(menu -> SecurityUtils.hasPermission(menu.getViewPolicy(), menu.getViewRoles()))
+                .filter(menu -> SecurityUtils.hasPermission(menu.getViewRoles()))
                 .peek(menu -> {
-                    if (!SecurityUtils.hasPermission(menu.getLinkPolicy(), menu.getLinkRoles())) {
+                    if (!SecurityUtils.hasPermission(menu.getLinkRoles())) {
                         menu.setLink(null);
                         menu.setTarget(null);
                     }

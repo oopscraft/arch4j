@@ -1,8 +1,10 @@
-package org.oopscraft.arch4j.core.security;
+package org.oopscraft.arch4j.web.security;
 
 import org.oopscraft.arch4j.core.role.Role;
+import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
+import org.oopscraft.arch4j.web.WebProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -18,17 +20,20 @@ import java.util.Optional;
 @Component
 public class SecurityUtils {
 
+    private static WebProperties webProperties;
+
     private static UserService userService;
+
+    @Autowired
+    public void setWebProperties(WebProperties webPropertiesBean) {
+        webProperties = webPropertiesBean;
+    }
 
     @Autowired
     public void setUserService(UserService userServiceBean){
         userService = userServiceBean;
     }
 
-    /**
-     * check if authenticated
-     * @return whether authenticated or not
-     */
     public static boolean isAuthenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         if(securityContext != null) {
@@ -38,19 +43,12 @@ public class SecurityUtils {
         return false;
     }
 
-    /**
-     * check authenticated
-     */
     public static void checkAuthenticated() {
         if(!isAuthenticated()) {
             throw new InsufficientAuthenticationException("required authentication");
         }
     }
 
-    /**
-     * returns current login user details
-     * @return user details
-     */
     public static Optional<UserDetailsImpl> getUserDetails() {
         UserDetailsImpl userDetails = null;
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -63,10 +61,6 @@ public class SecurityUtils {
         return Optional.ofNullable(userDetails);
     }
 
-    /**
-     * returns current login user info
-     * @return user info
-     */
     public static Optional<User> getCurrentUser() {
         User user = getUserDetails()
                 .flatMap(userDetails -> userService.getUser(userDetails.getUsername()))
@@ -74,21 +68,12 @@ public class SecurityUtils {
         return Optional.ofNullable(user);
     }
 
-    /**
-     * return current login user id
-     * @return user id
-     */
     public static String getCurrentUserId() {
         return getUserDetails()
                 .map(UserDetailsImpl::getUsername)
                 .orElse(null);
     }
 
-    /**
-     * check has any role
-     * @param roles roles
-     * @return result
-     */
     public static boolean hasAnyRole(List<Role> roles) {
         UserDetailsImpl userDetails = getUserDetails().orElse(null);
         if(userDetails == null) {
@@ -97,40 +82,17 @@ public class SecurityUtils {
         return roles.stream().anyMatch(userDetails::hasRole);
     }
 
-    /**
-     * has permission
-     * @param securityPolicy security policy
-     * @param requiredRoles roles
-     * @return result
-     */
-    public static boolean hasPermission(SecurityPolicy securityPolicy, List<Role> requiredRoles) {
-        if(securityPolicy == SecurityPolicy.AUTHENTICATED) {
-            return isAuthenticated();
-        }
-        if(securityPolicy == SecurityPolicy.AUTHORIZED) {
+    public static boolean hasPermission(List<Role> requiredRoles) {
+        if(!requiredRoles.isEmpty()) {
             return hasAnyRole(requiredRoles);
+        }else{
+            return webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS;
         }
-        return true;
     }
 
-
-    /**
-     * check has permission
-     * @param targetSecurityPolicy target security policy
-     * @param targetRequiredRoles target required roles
-     */
-    public static void checkPermission(SecurityPolicy targetSecurityPolicy, List<Role> targetRequiredRoles) {
-        if(targetSecurityPolicy == SecurityPolicy.AUTHENTICATED) {
-            if(!isAuthenticated()) {
-                throw new InsufficientAuthenticationException("required authentication");
-            }else{
-                return;
-            }
-        }
-        if(targetSecurityPolicy == SecurityPolicy.AUTHORIZED) {
-            if(!hasAnyRole(targetRequiredRoles)) {
-                throw new AccessDeniedException("access denied");
-            }
+    public static void checkPermission(List<Role> requiredRoles) {
+        if(!hasPermission(requiredRoles)) {
+            throw new InsufficientAuthenticationException("has no permission");
         }
     }
 

@@ -4,8 +4,6 @@ import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +30,11 @@ public class Board {
 
     private Integer pageSize;
 
-    public SecurityPolicy accessPolicy;
-
     @Builder.Default
     private List<Role> accessRoles = new ArrayList<>();
 
-    public SecurityPolicy readPolicy;
-
     @Builder.Default
     private List<Role> readRoles = new ArrayList<>();
-
-    public SecurityPolicy writePolicy;
 
     @Builder.Default
     private List<Role> writeRoles = new ArrayList<>();
@@ -51,39 +43,13 @@ public class Board {
 
     private Integer fileSizeLimit;
 
-    private SecurityPolicy filePolicy;
-
     @Builder.Default
     private List<Role> fileRoles = new ArrayList<>();
 
     private boolean commentEnabled;
 
-    private SecurityPolicy commentPolicy;
-
     @Builder.Default
     private List<Role> commentRoles = new ArrayList<>();
-
-    public boolean hasAccessPermission() {
-        return SecurityUtils.hasPermission(accessPolicy, accessRoles);
-    }
-
-    public boolean hasReadPermission() {
-        return SecurityUtils.hasPermission(readPolicy, readRoles);
-    }
-
-    public boolean hasWritePermission() {
-        return SecurityUtils.hasPermission(writePolicy, writeRoles);
-    }
-
-    public boolean hasFilePermission() {
-        return isFileEnabled()
-                && SecurityUtils.hasPermission(filePolicy, fileRoles);
-    }
-
-    public boolean hasCommentPermission() {
-        return isCommentEnabled()
-                && SecurityUtils.hasPermission(commentPolicy, commentRoles);
-    }
 
     public static Board from(BoardEntity boardEntity) {
         Board board = Board.builder()
@@ -97,7 +63,6 @@ public class Board {
                 .build();
 
         // access policy
-        board.setAccessPolicy(boardEntity.getAccessPolicy());
         List<Role> accessRoles = boardEntity.getAccessBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
@@ -106,7 +71,6 @@ public class Board {
         board.setAccessRoles(accessRoles);
 
         // read policy
-        board.setReadPolicy(boardEntity.getReadPolicy());
         List<Role> readRoles = boardEntity.getReadBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
@@ -115,7 +79,6 @@ public class Board {
         board.setReadRoles(readRoles);
 
         // write policy
-        board.setWritePolicy(boardEntity.getWritePolicy());
         List<Role> writeRoles = boardEntity.getWriteBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
@@ -126,7 +89,6 @@ public class Board {
         // file
         board.setFileEnabled(boardEntity.isFileEnabled());
         board.setFileSizeLimit(boardEntity.getFileSizeLimit());
-        board.setFilePolicy(boardEntity.getFilePolicy());
         List<Role> fileRoles = boardEntity.getFileBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
@@ -136,7 +98,6 @@ public class Board {
 
         // comment
         board.setCommentEnabled(boardEntity.isCommentEnabled());
-        board.setCommentPolicy(boardEntity.getCommentPolicy());
         List<Role> commentRoles = boardEntity.getCommentBoardRoleEntities().stream()
                 .map(BoardRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)

@@ -6,7 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.web.board.BoardPermissionEvaluator;
+import org.oopscraft.arch4j.web.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentDeleteRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleCommentResponse;
@@ -28,6 +29,8 @@ public class ArticleCommentRestController {
 
     private final BoardService boardService;
 
+    private final BoardPermissionEvaluator boardPermissionEvaluator;
+
     private final ArticleCommentService articleCommentService;
 
     private final PasswordEncoder passwordEncoder;
@@ -44,8 +47,8 @@ public class ArticleCommentRestController {
         // get board
         Board board = boardService.getBoard(boardId).orElseThrow();
 
-        // check permission
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
+        // check read permission
+        SecurityUtils.checkPermission(board.getReadRoles());
 
         // return article responses
         List<ArticleCommentResponse> commentResponses = articleCommentService.getArticleComments(articleId).stream()
@@ -70,7 +73,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
+        SecurityUtils.checkPermission(board.getCommentRoles());
 
         // check anonymous user
         if(!SecurityUtils.isAuthenticated()) {
@@ -122,7 +125,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        SecurityUtils.checkPermission(board.getReadPolicy(), board.getReadRoles());
+        SecurityUtils.checkPermission(board.getReadRoles());
 
         // return article comment
         ArticleCommentResponse commentResponse = articleCommentService.getArticleComment(articleId, commentId)
@@ -145,7 +148,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
+        SecurityUtils.checkPermission(board.getCommentRoles());
 
         // get target article comment
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();
@@ -191,7 +194,7 @@ public class ArticleCommentRestController {
         Board board = boardService.getBoard(boardId).orElseThrow();
 
         // check permission
-        SecurityUtils.checkPermission(board.getCommentPolicy(), board.getCommentRoles());
+        SecurityUtils.checkPermission(board.getCommentRoles());
 
         // get target article comment to delete
         ArticleComment articleComment = articleCommentService.getArticleComment(articleId, commentId).orElseThrow();

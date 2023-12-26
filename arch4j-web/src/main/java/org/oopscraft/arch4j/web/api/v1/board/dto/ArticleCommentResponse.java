@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.api.v1.board.dto;
 import lombok.*;
 import org.oopscraft.arch4j.core.board.ArticleComment;
 import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.web.security.SecurityUtils;
 
 import java.time.LocalDateTime;
 
@@ -46,7 +47,7 @@ public class ArticleCommentResponse {
                 .userId(articleComment.getUserId())
                 .userName(articleComment.getUserName())
                 .likeCount(articleComment.getLikeCount())
-                .canEdit(articleComment.canEdit())
+                .canEdit(articleComment.getUserId() == null || articleComment.getUserId().equals(SecurityUtils.getCurrentUserId()))
                 .build();
     }
 

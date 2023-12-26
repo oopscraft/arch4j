@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRepository;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,77 +34,62 @@ public class BoardService {
         boardEntity.setPageSize(board.getPageSize());
 
         // access policy
-        boardEntity.setAccessPolicy(board.getAccessPolicy());
         boardEntity.getAccessBoardRoleEntities().clear();
-        if(board.getAccessPolicy() == SecurityPolicy.AUTHORIZED) {
-            board.getAccessRoles().forEach(accessRole -> {
-                BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(accessRole.getRoleId())
-                        .type("ACCESS")
-                        .build();
-                boardEntity.getAccessBoardRoleEntities().add(boardRoleEntity);
-            });
-        }
+        board.getAccessRoles().forEach(accessRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                    .boardId(boardEntity.getBoardId())
+                    .roleId(accessRole.getRoleId())
+                    .type("ACCESS")
+                    .build();
+            boardEntity.getAccessBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // read policy
-        boardEntity.setReadPolicy(board.getReadPolicy());
         boardEntity.getReadBoardRoleEntities().clear();
-        if(board.getReadPolicy() == SecurityPolicy.AUTHORIZED) {
-            board.getReadRoles().forEach(readRole -> {
-                BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(readRole.getRoleId())
-                        .type("READ")
-                        .build();
-                boardEntity.getReadBoardRoleEntities().add(boardRoleEntity);
-            });
-        }
+        board.getReadRoles().forEach(readRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                    .boardId(boardEntity.getBoardId())
+                    .roleId(readRole.getRoleId())
+                    .type("READ")
+                    .build();
+            boardEntity.getReadBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // write policy
-        boardEntity.setWritePolicy(board.getWritePolicy());
         boardEntity.getWriteBoardRoleEntities().clear();
-        if(board.getWritePolicy() == SecurityPolicy.AUTHORIZED) {
-            board.getWriteRoles().forEach(writeRole -> {
-                BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(writeRole.getRoleId())
-                        .type("WRITE")
-                        .build();
-                boardEntity.getWriteBoardRoleEntities().add(boardRoleEntity);
-            });
-        }
+        board.getWriteRoles().forEach(writeRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                    .boardId(boardEntity.getBoardId())
+                    .roleId(writeRole.getRoleId())
+                    .type("WRITE")
+                    .build();
+            boardEntity.getWriteBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // file
         boardEntity.setFileEnabled(board.isFileEnabled());
         boardEntity.setFileSizeLimit(board.getFileSizeLimit());
-        boardEntity.setFilePolicy(board.getFilePolicy());
         boardEntity.getFileBoardRoleEntities().clear();
-        if(board.getFilePolicy() == SecurityPolicy.AUTHORIZED) {
-            board.getFileRoles().forEach(fileRole -> {
-                BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(fileRole.getRoleId())
-                        .type("FILE")
-                        .build();
-                boardEntity.getFileBoardRoleEntities().add(boardRoleEntity);
-            });
-        }
+        board.getFileRoles().forEach(fileRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                    .boardId(boardEntity.getBoardId())
+                    .roleId(fileRole.getRoleId())
+                    .type("FILE")
+                    .build();
+            boardEntity.getFileBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // comment
         boardEntity.setCommentEnabled(board.isCommentEnabled());
-        boardEntity.setCommentPolicy(board.getCommentPolicy());
         boardEntity.getCommentBoardRoleEntities().clear();
-        if(board.getCommentPolicy() == SecurityPolicy.AUTHORIZED) {
-            board.getCommentRoles().forEach(commentRole -> {
-                BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
-                        .boardId(boardEntity.getBoardId())
-                        .roleId(commentRole.getRoleId())
-                        .type("COMMENT")
-                        .build();
-                boardEntity.getCommentBoardRoleEntities().add(boardRoleEntity);
-            });
-        }
+        board.getCommentRoles().forEach(commentRole -> {
+            BoardRoleEntity boardRoleEntity = BoardRoleEntity.builder()
+                    .boardId(boardEntity.getBoardId())
+                    .roleId(commentRole.getRoleId())
+                    .type("COMMENT")
+                    .build();
+            boardEntity.getCommentBoardRoleEntities().add(boardRoleEntity);
+        });
 
         // save
         BoardEntity savedBoardEntity = boardRepository.saveAndFlush(boardEntity);

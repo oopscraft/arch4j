@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.web.board.BoardPermissionEvaluator;
+import org.oopscraft.arch4j.web.security.SecurityUtils;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleDeleteRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleFileRequest;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleRequest;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +44,8 @@ import java.util.stream.Collectors;
 public class ArticleRestController {
 
     private final BoardService boardService;
+
+    private final BoardPermissionEvaluator boardPermissionEvaluator;
 
     private final ArticleService articleService;
 
@@ -108,7 +110,7 @@ public class ArticleRestController {
         List<MultipartFile> files = new ArrayList<>();
         if(board.isFileEnabled()) {
             if(multipartFiles != null) {
-                if(!board.hasFilePermission()) {
+                if(!boardPermissionEvaluator.hasFilePermission(board)) {
                     throw new RuntimeException("has no file permission");
                 }
                 this.checkFileSizeLimit(board, multipartFiles);
@@ -175,7 +177,7 @@ public class ArticleRestController {
         List<MultipartFile> files = new ArrayList<>();
         if(board.isFileEnabled()) {
             if(multipartFiles != null) {
-                if(!board.hasFilePermission()) {
+                if(!boardPermissionEvaluator.hasFilePermission(board)) {
                     throw new RuntimeException("has no file permission");
                 }
                 this.checkFileSizeLimit(board, multipartFiles);
@@ -310,7 +312,5 @@ public class ArticleRestController {
         }
         return ResponseEntity.ok().build();
     }
-
-
 
 }

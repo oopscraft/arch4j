@@ -5,8 +5,6 @@ logging:
 
 # spring
 spring:
-  thymeleaf:
-    cache: false
   datasource:
     hikari:
       driver-class-Name: org.mariadb.jdbc.Driver
@@ -43,7 +41,7 @@ core:
   storage:
     storage-client:
       properties:
-        location: /nfs
+        location: /data/arch4j/storage/
 
 # batch
 batch:

@@ -1,12 +1,17 @@
 package org.oopscraft.arch4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
+import org.oopscraft.arch4j.core.security.UserDetailsImpl;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 public class SystemEntityListener {
@@ -14,14 +19,14 @@ public class SystemEntityListener {
 	@PrePersist
 	public void prePersist(SystemEntity entity) {
 		entity.setSystemUpdatedAt(LocalDateTime.now());
-		entity.setSystemUpdatedBy(SecurityUtils.getCurrentUserId());
+		entity.setSystemUpdatedBy(getCurrentUserId());
 		
 	}
 	
 	@PreUpdate
 	public void preUpdate(SystemEntity entity) {
 		entity.setSystemUpdatedAt(LocalDateTime.now());
-		entity.setSystemUpdatedBy(SecurityUtils.getCurrentUserId());
+		entity.setSystemUpdatedBy(getCurrentUserId());
 	}
 
 	@PreRemove
@@ -30,5 +35,18 @@ public class SystemEntityListener {
 			throw new RuntimeException("System data can not be deleted.");
 		}
 	}
+
+    private static String getCurrentUserId() {
+        String userId = null;
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        if(securityContext != null) {
+            Authentication authentication = securityContext.getAuthentication();
+            if(authentication instanceof UsernamePasswordAuthenticationToken) {
+                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+                userId = userDetails.getUsername();
+            }
+        }
+        return userId;
+    }
 
 }

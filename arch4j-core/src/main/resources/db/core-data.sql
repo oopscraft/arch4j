@@ -181,7 +181,7 @@ insert into `core_page_widget` (
 ) values (
     'board',
     0,
-    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
     'boardId=notice
 pageSize=10'
 );
@@ -193,7 +193,7 @@ insert into `core_page_widget` (
 ) values (
     'board',
     1,
-    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
     'boardId=anonymous
 pageSize=10'
 );
@@ -205,7 +205,7 @@ insert into `core_page_widget` (
 ) values (
     'board',
     2,
-    'org.oopscraft.arch4j.web.board.widget.LatestArticlesWidgetController',
+    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
     'boardId=member
 pageSize=10'
 );

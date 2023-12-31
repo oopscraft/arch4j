@@ -142,12 +142,10 @@
         </form>
     </div>
     <div class="grid-column--1 justify-self--end s__grid-column--2">
-        <th:block th:if="${board.hasWritePermission()}">
         <button onclick="gotoWrite();">
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-write.svg(_theme=${_theme})}" alt="write"/>
             <span data-th-text="#{web.board.writeArticle}"></span>
         </button>
-        </th:block>
     </div>
 </div>
 <!-- ================================================== -->

@@ -4,7 +4,6 @@ import lombok.*;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,26 +50,6 @@ public class Board {
 
     @Builder.Default
     private List<Role> commentRoles = new ArrayList<>();
-
-    public boolean hasAccessPermission() {
-        return SecurityUtils.hasPermission(accessRoles);
-    }
-
-    public boolean hasReadPermission() {
-        return SecurityUtils.hasPermission(readRoles);
-    }
-
-    public boolean hasWritePermission() {
-        return SecurityUtils.hasPermission(writeRoles);
-    }
-
-    public boolean hasFilePermission() {
-        return SecurityUtils.hasPermission(fileRoles);
-    }
-
-    public boolean hasCommentPermission() {
-        return SecurityUtils.hasPermission(commentRoles);
-    }
 
     public static Board from(BoardEntity boardEntity) {
         Board board = Board.builder()

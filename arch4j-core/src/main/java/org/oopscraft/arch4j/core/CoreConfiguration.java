@@ -13,7 +13,6 @@ import org.oopscraft.arch4j.core.message.MessageService;
 import org.oopscraft.arch4j.core.message.MessageSource;
 import org.oopscraft.arch4j.core.role.AuthorityService;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,8 +40,11 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.concurrent.DelegatingSecurityContextScheduledExecutorService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -52,9 +54,7 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 @Slf4j
 @Configuration
@@ -167,10 +167,7 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
 
         @Override
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-            UserDetailsImpl userDetails =  UserDetailsImpl.builder()
-                    .username("_scheduleTask")
-                    .build();
-
+            UserDetails userDetails = new User("_scheduledTask", "", new ArrayList<GrantedAuthority>());
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContext taskSecurityContext = new SecurityContextImpl();
             taskSecurityContext.setAuthentication(authentication);

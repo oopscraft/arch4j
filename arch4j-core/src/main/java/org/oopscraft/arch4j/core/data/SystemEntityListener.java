@@ -1,11 +1,11 @@
 package org.oopscraft.arch4j.core.data;
 
 import lombok.extern.slf4j.Slf4j;
-import org.oopscraft.arch4j.core.security.UserDetailsImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -42,7 +42,7 @@ public class SystemEntityListener {
         if(securityContext != null) {
             Authentication authentication = securityContext.getAuthentication();
             if(authentication instanceof UsernamePasswordAuthenticationToken) {
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 userId = userDetails.getUsername();
             }
         }

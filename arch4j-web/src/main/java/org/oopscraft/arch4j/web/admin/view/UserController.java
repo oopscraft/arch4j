@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.web.admin.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.security.*;
 import org.oopscraft.arch4j.core.user.*;
+import org.oopscraft.arch4j.web.security.SecurityTokenService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +21,7 @@ public class UserController {
 
     private final UserService userService;
 
-    private final AuthenticationTokenService accessTokenEncoder;
+    private final SecurityTokenService accessTokenEncoder;
 
     @GetMapping
     public ModelAndView user() {

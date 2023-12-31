@@ -13,6 +13,12 @@
       "sourceType": "org.oopscraft.arch4j.web.WebProperties"
     },
     {
+      "name": "web.title",
+      "type": "java.lang.String",
+      "description": "The title for the web application.",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
       "name": "web.index",
       "type": "java.lang.String",
       "description": "The index for the web application.",
@@ -25,9 +31,15 @@
       "sourceType": "org.oopscraft.arch4j.web.WebProperties"
     },
     {
-      "name": "web.locales",
-      "type": "java.util.List<java.lang.String>",
-      "description": "The list of locales for the web application.",
+      "name": "web.security-signing-key",
+      "type": "java.lang.String",
+      "description": "The security signing key",
+      "sourceType": "org.oopscraft.arch4j.web.WebProperties"
+    },
+    {
+      "name": "web.security-expire-minutes",
+      "type": "java.lang.Integer",
+      "description": "The security expire minutes.",
       "sourceType": "org.oopscraft.arch4j.web.WebProperties"
     }
   ]

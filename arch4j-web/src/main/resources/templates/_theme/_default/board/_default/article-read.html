@@ -98,8 +98,7 @@
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-list.svg(_theme=${_theme})}" alt="list"/>
         <span data-th-text="#{web.board.listArticle}"></span>
     </button>
-    <button th:if="${article.canEdit()}"
-            onclick="gotoEditArticle();">
+    <button onclick="gotoEditArticle();">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-edit.svg(_theme=${_theme})}" alt="edit"/>
         <span data-th-text="#{web.board.editArticle}"></span>
     </button>

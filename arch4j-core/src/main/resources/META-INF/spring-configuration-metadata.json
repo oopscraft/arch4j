@@ -19,18 +19,6 @@
       "sourceType": "org.oopscraft.arch4j.core.data.crpyto.CryptoKeyProviderProperties"
     },
     {
-      "name": "core.security.authentication-token.signing-key",
-      "type": "java.lang.String",
-      "description": "The signing key for the authentication token in the security.",
-      "sourceType": "org.oopscraft.arch4j.core.security.AuthenticationTokenProperties"
-    },
-    {
-      "name": "core.security.authentication-token.expire-minutes",
-      "type": "java.lang.Integer",
-      "description": "The expire minutes for the authentication token in the security.",
-      "sourceType": "org.oopscraft.arch4j.core.security.AuthenticationTokenProperties"
-    },
-    {
       "name": "core.storage.storage-client.bean",
       "type": "java.lang.String",
       "description": "The bean for the storage client in the storage.",

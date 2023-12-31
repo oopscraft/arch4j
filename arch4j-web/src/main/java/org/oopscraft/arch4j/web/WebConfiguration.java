@@ -19,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
-import org.oopscraft.arch4j.web.security.AdditionalSecurityFilter;
-import org.oopscraft.arch4j.core.security.SecurityPolicy;
+import org.oopscraft.arch4j.web.security.SecurityFilter;
+import org.oopscraft.arch4j.web.security.SecurityTokenService;
+import org.oopscraft.arch4j.web.security.SecurityPolicy;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -158,7 +158,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
     @RequiredArgsConstructor
     static class SecurityConfiguration {
 
-        private final CoreProperties coreProperties;
+        private final WebProperties webProperties;
 
         private final ApplicationContext applicationContext;
 
@@ -172,12 +172,12 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         private final PlatformTransactionManager transactionManager;
 
-        private final AuthenticationTokenService authenticationTokenService;
+        private final SecurityTokenService authenticationTokenService;
 
         private final RoleService roleService;
 
-        private AdditionalSecurityFilter additionalSecurityFilter() {
-            return AdditionalSecurityFilter.builder()
+        private SecurityFilter additionalSecurityFilter() {
+            return SecurityFilter.builder()
                     .transactionManager(transactionManager)
                     .authenticationTokenService(authenticationTokenService)
                     .roleService(roleService)
@@ -278,7 +278,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
-            if(coreProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();
@@ -303,7 +303,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.authorizeRequests()
                     .antMatchers("/user**")
                     .authenticated();
-            if(coreProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
                         .anyRequest()
                         .permitAll();

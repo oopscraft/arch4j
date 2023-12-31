@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.security;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +10,10 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Builder

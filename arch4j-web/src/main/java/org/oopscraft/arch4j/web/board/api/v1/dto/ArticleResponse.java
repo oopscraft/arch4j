@@ -57,7 +57,6 @@ public class ArticleResponse {
                 .votePositiveCount(article.getVotePositiveCount())
                 .voteNegativeCount(article.getVoteNegativeCount())
                 .files(article.getFiles().stream().map(ArticleFileResponse::from).collect(Collectors.toList()))
-                .canEdit(article.canEdit())
                 .build();
     }
 

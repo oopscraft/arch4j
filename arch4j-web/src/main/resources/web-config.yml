@@ -100,5 +100,6 @@ web:
   brand: <img class="icon" src="/static/image/logo-arch4j.png"/>
   title: ARCH4J (Application Archetype for Java)
   index: git/arch4j/README.md
-
-
+  security-policy: ANONYMOUS
+  security-signing-key: ahD3N&nctCE&aDenBKHu)tav7FyqMw6vPHXRtw7)WbWIvX8Xdtrs4fu*E9UXN58L
+  security-expire-minutes: 60

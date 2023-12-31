@@ -3,8 +3,6 @@ package org.oopscraft.arch4j.web.security;
 import lombok.Builder;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.security.AuthenticationTokenService;
-import org.oopscraft.arch4j.core.security.GrantedAuthorityImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,44 +29,43 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Builder
-public class AdditionalSecurityFilter extends OncePerRequestFilter {
+public class SecurityFilter extends OncePerRequestFilter {
 
     private final PlatformTransactionManager transactionManager;
 
-    private final AuthenticationTokenService authenticationTokenService;
+    private final SecurityTokenService authenticationTokenService;
 
     private final RoleService roleService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // check authentication token
-        String authenticationToken = null;
+        // check security token
+        String securityToken = null;
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(authorization != null && authorization.trim().length() > 0) {
             String[] authorizationArray = authorization.split(" ");
             if(authorizationArray.length >= 2) {
-                authenticationToken = authorizationArray[1];
+                securityToken = authorizationArray[1];
             }
 
-            // if authentication token exist
-            if(authenticationToken != null) {
-                UserDetails userDetails = authenticationTokenService.decodeAuthenticationToken(authenticationToken);
+            // if security token exist
+            if(securityToken != null) {
+                UserDetails userDetails = authenticationTokenService.decodeSecurityToken(securityToken);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 securityContext.setAuthentication(authentication);
 
                 // keep alive
-                authenticationToken = authenticationTokenService.encodeAuthenticationToken(userDetails);
-                response.setHeader(HttpHeaders.AUTHORIZATION, authenticationToken);
+                securityToken = authenticationTokenService.encodeSecurityToken(userDetails);
+                response.setHeader(HttpHeaders.AUTHORIZATION, securityToken);
             }
         }
 
-        // creates new anonymous authentication toke with anonymous authorities
+        // creates new anonymous security token with anonymous authorities
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken) {
-            AnonymousAuthenticationToken anonymousAuthenticationToken = (AnonymousAuthenticationToken) authentication;
+        if(authentication instanceof AnonymousAuthenticationToken anonymousAuthenticationToken) {
             List<GrantedAuthority> anonymousAuthorities = new ArrayList<>(anonymousAuthenticationToken.getAuthorities());
             anonymousAuthorities.addAll(getAnonymousAuthorities());
             securityContext.setAuthentication(new AnonymousAuthenticationToken(
@@ -91,7 +88,7 @@ public class AdditionalSecurityFilter extends OncePerRequestFilter {
             // getting anonymous role
             List<Role> anonymousRoles = roleService.getRoles().stream()
                     .filter(Role::isAnonymous)
-                    .collect(Collectors.toList());
+                    .toList();
             anonymousRoles.forEach(role -> {
                 authorities.add(GrantedAuthorityImpl.from(role));
                 role.getAuthorities().forEach(authority -> {
@@ -102,6 +99,5 @@ public class AdditionalSecurityFilter extends OncePerRequestFilter {
             return authorities;
         });
     }
-
 
 }

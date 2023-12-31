@@ -82,7 +82,6 @@ jasypt:
 
 # core
 core:
-  security-policy: ANONYMOUS
   default-locale: en
   supported-Locales:
     - en
@@ -94,10 +93,6 @@ core:
         properties:
           password: EgBeF!SBkZZm^vTTEzy)^)3b$v*+T#av%DFnk9yvE$jJVP+hB6(VSWkP$Xr%X(NY
           salt: 6c0b434f8ba833bca4340687c1ec8b70
-  security:
-    authentication-token:
-      signing-key: ahD3N&nctCE&aDenBKHu)tav7FyqMw6vPHXRtw7)WbWIvX8Xdtrs4fu*E9UXN58L
-      expire-minutes: 60
   storage:
     storage-client:
       bean: defaultStorageClient

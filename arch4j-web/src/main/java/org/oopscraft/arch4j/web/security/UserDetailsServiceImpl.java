@@ -1,10 +1,11 @@
-package org.oopscraft.arch4j.core.security;
+package org.oopscraft.arch4j.web.security;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.role.AuthorityService;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.core.user.*;
+import org.oopscraft.arch4j.core.user.User;
+import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

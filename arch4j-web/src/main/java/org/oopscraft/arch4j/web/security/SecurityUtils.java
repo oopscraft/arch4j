@@ -1,9 +1,10 @@
-package org.oopscraft.arch4j.core.security;
+package org.oopscraft.arch4j.web.security;
 
 import org.oopscraft.arch4j.core.CoreProperties;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
+import org.oopscraft.arch4j.web.WebProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,13 +19,13 @@ import java.util.Optional;
 @Component
 public class SecurityUtils {
 
-    private static CoreProperties coreProperties;
+    private static WebProperties webProperties;
 
     private static UserService userService;
 
     @Autowired
-    public void setCoreProperties(CoreProperties corePropertiesBean) {
-        coreProperties = corePropertiesBean;
+    public void setCoreProperties(WebProperties webPropertiesBean) {
+        webProperties = webPropertiesBean;
     }
 
     @Autowired
@@ -84,7 +85,7 @@ public class SecurityUtils {
         if(!requiredRoles.isEmpty()) {
             return hasAnyRole(requiredRoles);
         }else{
-            return coreProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS;
+            return webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS;
         }
     }
 

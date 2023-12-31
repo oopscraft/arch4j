@@ -33,6 +33,9 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     private Boolean credentialNonExpired = true;
 
     @Builder.Default
+    private boolean enabled = true;
+
+    @Builder.Default
     private Set<GrantedAuthority> authorities = new HashSet<>();
 
     @Override
@@ -67,7 +70,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     @Override
@@ -111,6 +114,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
                 .password(user.getPassword())
                 .accountNonLocked(user.getStatus() != UserStatus.LOCKED)
                 .accountNonExpired(user.getStatus() != UserStatus.EXPIRED)
+                .enabled(user.getStatus() != UserStatus.CLOSED)
                 .build();
 
         // add user role

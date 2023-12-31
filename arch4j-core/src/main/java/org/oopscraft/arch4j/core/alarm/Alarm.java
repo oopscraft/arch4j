@@ -3,14 +3,12 @@ package org.oopscraft.arch4j.core.alarm;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.alarm.dao.AlarmEntity;
-import org.oopscraft.arch4j.core.data.SystemFieldModel;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Alarm extends SystemFieldModel {
+public class Alarm {
 
     private String alarmId;
 

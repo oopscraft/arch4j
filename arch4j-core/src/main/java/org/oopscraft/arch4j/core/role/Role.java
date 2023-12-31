@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldModel;
 import org.oopscraft.arch4j.core.role.dao.RoleAuthorityEntity;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
@@ -12,11 +11,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Role extends SystemFieldModel {
+public class Role {
 
     private String roleId;
 
@@ -33,9 +31,6 @@ public class Role extends SystemFieldModel {
 
     public static Role from(RoleEntity roleEntity) {
         Role role = Role.builder()
-                .systemRequired(roleEntity.isSystemRequired())
-                .systemUpdatedAt(roleEntity.getSystemUpdatedAt())
-                .systemUpdatedBy(roleEntity.getSystemUpdatedBy())
                 .roleId(roleEntity.getRoleId())
                 .roleName(roleEntity.getRoleName())
                 .anonymous(roleEntity.isAnonymous())

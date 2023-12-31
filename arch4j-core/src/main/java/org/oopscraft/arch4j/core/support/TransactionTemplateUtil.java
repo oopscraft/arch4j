@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.data;
+package org.oopscraft.arch4j.core.support;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

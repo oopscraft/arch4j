@@ -2,7 +2,6 @@ package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemFieldModel;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -14,11 +13,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class User extends SystemFieldModel {
+public class User {
 
     private String userId;
 
@@ -47,9 +45,6 @@ public class User extends SystemFieldModel {
 
     public static User from(UserEntity userEntity) {
         User user = User.builder()
-                .systemRequired(userEntity.isSystemRequired())
-                .systemUpdatedAt(userEntity.getSystemUpdatedAt())
-                .systemUpdatedBy(userEntity.getSystemUpdatedBy())
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())

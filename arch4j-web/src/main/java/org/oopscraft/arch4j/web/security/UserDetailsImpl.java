@@ -107,8 +107,6 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     }
 
     public static UserDetailsImpl from(User user) {
-
-        // build
         UserDetailsImpl userDetailsImpl = UserDetailsImpl.builder()
                 .username(user.getUserId())
                 .password(user.getPassword())
@@ -120,6 +118,7 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
         // add user role
         userDetailsImpl.addRoles(user.getRoles());
 
+        // returns
         return userDetailsImpl;
     }
 

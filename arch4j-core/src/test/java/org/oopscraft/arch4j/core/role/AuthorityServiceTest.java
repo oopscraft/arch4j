@@ -3,11 +3,8 @@ package org.oopscraft.arch4j.core.role;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.role.Authority;
-import org.oopscraft.arch4j.core.role.AuthoritySearch;
-import org.oopscraft.arch4j.core.role.AuthorityService;
 import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.batch.sample;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.batch.test.BatchTestSupport;
+import org.oopscraft.arch4j.batch.support.BatchTestSupport;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;

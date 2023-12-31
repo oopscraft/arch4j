@@ -1,11 +1,23 @@
 <!-- ================================================== -->
+<!-- start: title                                       -->
+<!-- ================================================== -->
+<h1 id="title">
+    <img data-duice-bind="board" data-duice-property="icon" class="icon"
+         th:src="@{/static/_theme/{_theme}/static/image/icon-board.svg(_theme=${_theme})}" alt="board"/>
+    <span data-duice-bind="board" data-duice-property="boardName"></span>
+</h1>
+<!-- ================================================== -->
+<!-- end: title                                         -->
+<!-- ================================================== -->
+
+<!-- ================================================== -->
 <!-- start: article title                               -->
 <!-- ================================================== -->
 <div class="display--grid grid-template-columns--12 margin-top--1em">
-    <h1 class="grid-column--12">
+    <h2 class="grid-column--12">
         <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-title.svg(_theme=${_theme})}" alt="title"/>
         <span data-duice-bind="article" data-duice-property="title"></span>
-    </h1>
+    </h2>
     <div class="grid-column--12">
         <span>
             <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}" alt="user"/>

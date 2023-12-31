@@ -5,7 +5,7 @@ import net.datafaker.Faker;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.oopscraft.arch4j.core.data.crpyto.CryptoUtil;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 
 import java.util.Locale;
 import java.util.Random;

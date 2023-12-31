@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.test;
+package org.oopscraft.arch4j.batch.support;
 
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.batch.BatchConfiguration;

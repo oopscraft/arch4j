@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("user/change-password")
 @RequiredArgsConstructor
-public class UserController {
+public class ChangePasswordController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView user() {
-        ModelAndView modelAndView = new ModelAndView("user/user.html");
-        modelAndView.addObject("userStatuses", UserStatus.values());
-        return modelAndView;
+    public ModelAndView changePassword() {
+        return new ModelAndView("user/change-password.html");
     }
 
 }

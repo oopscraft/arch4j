@@ -2,9 +2,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="board/_board.html">
-<th:block layout:fragment="_board_content">
+      layout:decorate="_web.html">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
+        const board = new duice.ObjectProxy({});
         const articleSearch = new duice.ObjectProxy({
             key: 'title',
             value: null,
@@ -13,6 +15,15 @@
             _count: 0
         });
         const articles = new duice.ArrayProxy([]);
+
+        const getBoard = function() {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(board, data);
+                });
+        }
 
         const getArticles = function(page) {
             if(page) {
@@ -43,6 +54,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            getBoard();
             getArticles();
         });
     </script>

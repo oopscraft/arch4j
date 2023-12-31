@@ -3,12 +3,10 @@ package org.oopscraft.arch4j.web.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.web.test.WebTestSupport;
+import org.oopscraft.arch4j.web.support.WebTestSupport;
 
 import java.io.IOException;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
 @Slf4j

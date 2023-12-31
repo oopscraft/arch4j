@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="page/_page.html">
-<th:block layout:fragment="_page_content">
+      layout:decorate="_web.html">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         const pageId = [[${page.pageId}]];
         const page = new duice.ObjectProxy({});

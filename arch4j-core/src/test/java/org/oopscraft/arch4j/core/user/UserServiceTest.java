@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

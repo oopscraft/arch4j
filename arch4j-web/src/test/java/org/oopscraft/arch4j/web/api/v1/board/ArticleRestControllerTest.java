@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.ContentFormat;
 import org.oopscraft.arch4j.web.api.v1.board.dto.ArticleRequest;
-import org.oopscraft.arch4j.web.test.WebTestSupport;
+import org.oopscraft.arch4j.web.support.WebTestSupport;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;

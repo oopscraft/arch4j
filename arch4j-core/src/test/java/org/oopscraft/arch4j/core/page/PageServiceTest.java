@@ -1,15 +1,11 @@
 package org.oopscraft.arch4j.core.page;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.page.dao.PageEntity;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.springframework.data.domain.PageRequest;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 
-import java.util.List;
-import java.util.Properties;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;

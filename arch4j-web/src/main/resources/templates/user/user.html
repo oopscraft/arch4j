@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="user/_user.html">
-<th:block layout:fragment="_user_content">
+      layout:decorate="_web.html">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
         const user = new duice.ObjectProxy({});
         duice.ObjectProxy.setReadonly(user, 'userId', true);

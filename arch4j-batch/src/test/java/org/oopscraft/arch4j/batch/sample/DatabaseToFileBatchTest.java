@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.batch.sample;
 
-import org.oopscraft.arch4j.batch.test.BatchTestSupport;
+import org.oopscraft.arch4j.batch.support.BatchTestSupport;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

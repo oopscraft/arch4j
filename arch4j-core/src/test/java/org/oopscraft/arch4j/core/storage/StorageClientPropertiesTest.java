@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.storage;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 

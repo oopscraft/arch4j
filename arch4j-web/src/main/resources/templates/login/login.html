@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="login/_login.html">
-<th:block layout:fragment="_login_content">
+      layout:decorate="_web-headless.html">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
     const login = new duice.ObjectProxy({
         username: null,

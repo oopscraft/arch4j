@@ -3,9 +3,7 @@ package org.oopscraft.arch4j.core.role.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
-import org.oopscraft.arch4j.core.role.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.role.dao.AuthorityRepository;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 

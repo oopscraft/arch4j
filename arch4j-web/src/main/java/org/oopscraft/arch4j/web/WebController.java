@@ -33,15 +33,6 @@ public class WebController {
 
     @GetMapping
     public ModelAndView index() {
-
-        // check security policy
-        if(coreProperties.getSecurityPolicy() != null) {
-            if(!SecurityUtils.isAuthenticated()) {
-                RedirectView redirectView = new RedirectView("/login");
-                return new ModelAndView(redirectView);
-            }
-        }
-
         // redirect index
         RedirectView redirectView = new RedirectView(webProperties.getIndex());
         return new ModelAndView(redirectView);

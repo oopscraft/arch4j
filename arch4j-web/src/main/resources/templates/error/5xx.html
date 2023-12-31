@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="error/_error.html">
-<th:block layout:fragment="_error_content">
+      layout:decorate="_web-headless.html">
+<th:block layout:fragment="_content">
     <th:block th:replace="|_theme/${_theme}/error/5xx.html|"/>
 </th:block>

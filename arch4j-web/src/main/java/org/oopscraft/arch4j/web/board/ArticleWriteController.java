@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/board/{boardId}")
+@RequestMapping("/board/{boardId}/article-write")
 @RequiredArgsConstructor
 public class ArticleWriteController {
 
@@ -26,9 +26,9 @@ public class ArticleWriteController {
 
     private final PasswordEncoder passwordEncoder;
 
-    @RequestMapping(value = "article-write", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     @PreAuthorize("@boardPermissionEvaluator.hasWritePermission(#boardId)")
-    public ModelAndView articleWrite(
+    public ModelAndView index(
         @PathVariable("boardId") String boardId,
         @RequestParam(value = "articleId", required = false) String articleId,
         @RequestParam(value = "password", required = false) String password
@@ -51,7 +51,7 @@ public class ArticleWriteController {
 
                 // password not found
                 if(password == null) {
-                    modelAndView.setViewName("board/article-check-password.html");
+                    modelAndView.setViewName("board/check-password.html");
                     return modelAndView;
                 }
 

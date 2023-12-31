@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -55,7 +55,7 @@
     <!-- ============================================== -->
     <!-- start: fragment::_script                       -->
     <!-- ============================================== -->
-    <th:block th:include="|_theme/${_theme}/_web_headless.html| :: _script"/>
+    <th:block th:include="|_theme/${_theme}/_web-headless.html| :: _script"/>
     <!-- ============================================== -->
     <!-- end: fragment::_script                         -->
     <!-- ============================================== -->
@@ -64,7 +64,7 @@
     <!-- ============================================== -->
     <!-- start: fragment::_header                       -->
     <!-- ============================================== -->
-    <th:block th:replace="|_theme/${_theme}/_web_headless.html| :: _header"/>
+    <th:block th:replace="|_theme/${_theme}/_web-headless.html| :: _header"/>
     <!-- ============================================== -->
     <!-- end: fragment::_header                         -->
     <!-- ============================================== -->
@@ -80,7 +80,7 @@
     <!-- ============================================== -->
     <!-- end: fragment::_footer                         -->
     <!-- ============================================== -->
-    <th:block th:replace="|_theme/${_theme}/_web_headless.html| :: _footer"/>
+    <th:block th:replace="|_theme/${_theme}/_web-headless.html| :: _footer"/>
     <!-- ============================================== -->
     <!-- end: fragment::_footer                         -->
     <!-- ============================================== -->

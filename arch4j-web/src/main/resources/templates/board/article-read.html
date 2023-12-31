@@ -2,9 +2,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="board/_board.html">
-<th:block layout:fragment="_board_content">
+      layout:decorate="_web.html">
+<th:block layout:fragment="_content">
     <script th:inline="javascript">
+        const boardId = [[${board.boardId}]];
+        const board = new duice.ObjectProxy({});
         const articleId = /*[[${param.articleId}]]*/'';
         const article = new duice.ObjectProxy({
             files:[]
@@ -14,6 +16,15 @@
             contentFormat: 'TEXT'
         });
         const articleVote = new duice.ObjectProxy({});
+
+        const getBoard = function() {
+            let url = new URL(`${_apiUrl}/v1/board/${boardId}`, document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(board, data);
+                });
+        }
 
         const getArticle = function() {
             let url = new URL(`${_apiUrl}/v1/board/${boardId}/article/${articleId}`, document.location.origin);
@@ -249,6 +260,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            getBoard();
             getArticle();
             getArticleComments();
             getArticleVote();

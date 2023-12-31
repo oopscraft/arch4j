@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/board/{boardId}")
+@RequestMapping("/board/{boardId}/article-read")
 @RequiredArgsConstructor
 public class ArticleReadController {
 
@@ -22,9 +22,9 @@ public class ArticleReadController {
 
     private final ArticleService articleService;
 
-    @GetMapping("article-read")
+    @GetMapping
     @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
-    public ModelAndView articleRead(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
+    public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         Article article = articleService.getArticle(articleId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");

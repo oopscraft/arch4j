@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.git;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.git.dao.GitEntity;
-import org.oopscraft.arch4j.core.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.support.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

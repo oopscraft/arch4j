@@ -1,12 +1,9 @@
 package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.web.test.WebTestSupport;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.oopscraft.arch4j.web.support.WebTestSupport;
 
 @RequiredArgsConstructor
 @Slf4j

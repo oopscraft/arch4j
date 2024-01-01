@@ -2,10 +2,9 @@ package org.oopscraft.arch4j.web.security;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.oopscraft.arch4j.core.role.Authority;
 import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserStatus;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,15 +23,18 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
     private String password;
 
     @Builder.Default
+    @Setter
     private Boolean accountNonLocked = true;
 
     @Builder.Default
+    @Setter
     private Boolean accountNonExpired = true;
 
     @Builder.Default
     private Boolean credentialNonExpired = true;
 
     @Builder.Default
+    @Setter
     private boolean enabled = true;
 
     @Builder.Default
@@ -104,22 +106,6 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
     public void addRoles(Collection<Role> roles) {
         roles.forEach(this::addRole);
-    }
-
-    public static UserDetailsImpl from(User user) {
-        UserDetailsImpl userDetailsImpl = UserDetailsImpl.builder()
-                .username(user.getUserId())
-                .password(user.getPassword())
-                .accountNonLocked(user.getStatus() != UserStatus.LOCKED)
-                .accountNonExpired(user.getStatus() != UserStatus.EXPIRED)
-                .enabled(user.getStatus() != UserStatus.CLOSED)
-                .build();
-
-        // add user role
-        userDetailsImpl.addRoles(user.getRoles());
-
-        // returns
-        return userDetailsImpl;
     }
 
 }

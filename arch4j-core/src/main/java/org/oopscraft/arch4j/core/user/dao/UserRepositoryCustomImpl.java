@@ -1,6 +1,5 @@
 package org.oopscraft.arch4j.core.user.dao;
 
-import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +28,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         if(userSearch.getUserName() != null) {
             query.where(qUserEntity.userName.contains(userSearch.getUserName()));
         }
-        if(userSearch.getStatus() != null) {
-            query.where(qUserEntity.status.eq(userSearch.getStatus()));
+        if(userSearch.getUserType() != null) {
+            query.where(qUserEntity.userType.eq(userSearch.getUserType()));
         }
         if(userSearch.isAdmin()) {
             query.where(qUserEntity.admin.eq(userSearch.isAdmin()));

@@ -33,12 +33,15 @@ public class UserService {
                         .joinAt(LocalDateTime.now())
                         .build());
         userEntity.setUserName(user.getUserName());
+        userEntity.setUserType(user.getUserType());
         userEntity.setAdmin(user.isAdmin());
-        userEntity.setStatus(user.getStatus());
+        userEntity.setDisabled(user.isDisabled());
+        userEntity.setLocked(user.isLocked());
         userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());
         userEntity.setPhoto(user.getPhoto());
         userEntity.setProfile(user.getProfile());
+        userEntity.setExpireAt(user.getExpireAt());
 
         // user roles
         userEntity.getUserRoleEntities().clear();

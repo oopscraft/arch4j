@@ -12,7 +12,7 @@ public class UserSearch {
 
     private String userName;
 
-    private UserStatus status;
+    private UserType userType;
 
     private boolean admin;
 

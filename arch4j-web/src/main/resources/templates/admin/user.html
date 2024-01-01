@@ -87,8 +87,7 @@
             duice.ObjectProxy.clear(user);
             duice.ObjectProxy.assign(user, {
                 _new: true,
-                type: 'GENERAL',
-                status: 'ACTIVE'
+                userType: 'GENERAL'
             });
             duice.ObjectProxy.setDisableAll(user, false);
             duice.ObjectProxy.setReadonly(user, 'userId', false);
@@ -151,13 +150,6 @@
                     duice.ObjectProxy.focus(user, 'password');
                     return false;
                 }
-            }
-
-            // status
-            if(_isEmpty(user.status)) {
-                await _alert(/*[[#{web.global.itemEmpty(#{core.user.User.status})}]]*/'');
-                duice.ObjectProxy.focus(user, 'status');
-                return false;
             }
 
             // call save
@@ -263,9 +255,9 @@
                     </label>
                     <label class="grid-column--6 s__grid-column--12">
                         <select class="width--100" data-duice-bind="userSearch" data-duice-property="status">
-                            <option value data-th-text="'- '+#{core.user.User.status}+' -'"></option>
-                            <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
-                                    th:text="${userStatus}"></option>
+                            <option value data-th-text="'- '+#{core.user.User.userType}+' -'"></option>
+                            <option th:each="userType:${userTypes}" th:value="${userType}"
+                                    th:text="${userType}"></option>
                         </select>
                     </label>
                     <label class="grid-column--6 s__grid-column--12">
@@ -297,7 +289,7 @@
                             <th data-th-text="#{web.global.no}" class="text-align--center"></th>
                             <th data-th-text="#{core.user.User.userId}"></th>
                             <th data-th-text="#{core.user.User.userName}"></th>
-                            <th data-th-text="#{core.user.User.status}"></th>
+                            <th data-th-text="#{core.user.User.userType}"></th>
                             <th data-th-text="#{core.user.User.admin}" class="text-align--center"></th>
                         </tr>
                         </thead>
@@ -316,7 +308,7 @@
                             </td>
                             <td data-duice-bind="user" data-duice-property="userName"></td>
                             <td>
-                                <span data-duice-bind="user" data-duice-property="status"></span>
+                                <span data-duice-bind="user" data-duice-property="userType"></span>
                             </td>
                             <td class="text-align--center">
                                 <label>
@@ -401,16 +393,23 @@
                         </label>
                     </div>
                     <label class="grid-column--6 s__grid-column--12">
-                        <span data-th-text="#{core.user.User.status}" class="font-weight--bold tag-required"></span><br>
-                        <select data-duice-bind="user" data-duice-property="status" class="width--100">
-                            <option value th:text="'- '+#{web.global.select}+' -'"></option>
-                            <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
-                                    th:text="${userStatus}"></option>
+                        <span data-th-text="#{core.user.User.userType}" class="font-weight--bold tag-required"></span><br>
+                        <select data-duice-bind="user" data-duice-property="userType" class="width--100">
+                            <option th:each="userType:${userTypes}" th:value="${userType}"
+                                    th:text="${userType}"></option>
                         </select>
                     </label>
                     <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.user.User.admin}" class="font-weight--bold tag-required"></span><br>
                         <input type="checkbox" data-duice-bind="user" data-duice-property="admin"/>
+                    </label>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.disabled}" class="font-weight--bold"></span><br>
+                        <input type="checkbox" data-duice-bind="user" data-duice-property="disabled"/>
+                    </label>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.user.User.locked}" class="font-weight--bold"></span><br>
+                        <input type="checkbox" data-duice-bind="user" data-duice-property="locked"/>
                     </label>
                     <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.user.User.email}" class="font-weight--bold"></span><br>

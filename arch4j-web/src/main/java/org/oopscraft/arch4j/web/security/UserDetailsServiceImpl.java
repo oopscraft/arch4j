@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +36,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         });
 
         // user details
-        UserDetailsImpl userDetails =  UserDetailsImpl.from(user);
+        UserDetailsImpl userDetails =  UserDetailsImpl.builder()
+                .username(user.getUserId())
+                .password(user.getPassword())
+                .build();
 
+        // checks disabled
+        if(user.isDisabled()) {
+            userDetails.setEnabled(false);
+        }
+
+        // checks account locked
+        if(user.isLocked()) {
+            userDetails.setAccountNonLocked(false);
+        }
+
+        // checks account expired
+        if(user.getExpireAt() != null) {
+            if(user.getExpireAt().isAfter(LocalDateTime.now())) {
+                userDetails.setAccountNonExpired(false);
+            }
+        }
+
+        // add user roles
+        userDetails.addRoles(user.getRoles());
+
+        // roles
         final List<Role> roles = roleService.getRoles();
 
         // add anonymous roles

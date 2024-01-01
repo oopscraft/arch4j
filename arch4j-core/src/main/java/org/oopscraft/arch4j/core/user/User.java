@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -24,9 +23,13 @@ public class User {
 
     private String password;
 
-    private UserStatus status;
+    private UserType userType;
 
     private boolean admin;
+
+    private boolean disabled;
+
+    private boolean locked;
 
     private String email;
 
@@ -40,6 +43,10 @@ public class User {
 
     private LocalDateTime closeAt;
 
+    private LocalDateTime passwordAt;
+
+    private LocalDateTime expireAt;
+
     @Builder.Default
     List<Role> roles = new ArrayList<>();
 
@@ -48,13 +55,17 @@ public class User {
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
-                .status(userEntity.getStatus())
+                .userType(userEntity.getUserType())
                 .admin(userEntity.isAdmin())
+                .disabled(userEntity.isDisabled())
+                .locked(userEntity.isLocked())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
                 .joinAt(userEntity.getJoinAt())
+                .passwordAt(userEntity.getPasswordAt())
+                .expireAt(userEntity.getExpireAt())
                 .closeAt(userEntity.getCloseAt())
                 .build();
 

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.user.api.v1.dto;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserStatus;
+import org.oopscraft.arch4j.core.user.UserType;
 
 @Data
 @Builder
@@ -14,9 +14,9 @@ public class UserResponse {
 
     private String userName;
 
-    private boolean admin;
+    private UserType userKind;
 
-    private UserStatus status;
+    private boolean admin;
 
     private String email;
 
@@ -30,8 +30,8 @@ public class UserResponse {
         return UserResponse.builder()
                 .userId(user.getUserId())
                 .userName(user.getUserName())
+                .userKind(user.getUserType())
                 .admin(user.isAdmin())
-                .status(user.getStatus())
                 .email(user.getEmail())
                 .mobile(user.getMobile())
                 .photo(user.getPhoto())

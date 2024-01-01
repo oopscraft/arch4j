@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping
     public ModelAndView user() {
         ModelAndView modelAndView = new ModelAndView("admin/user.html");
-        modelAndView.addObject("userStatuses", UserStatus.values());
+        modelAndView.addObject("userTypes", UserType.values());
         return modelAndView;
     }
 

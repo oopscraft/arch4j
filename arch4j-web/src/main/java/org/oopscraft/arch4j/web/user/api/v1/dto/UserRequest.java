@@ -8,6 +8,8 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserRequest {
 
+    private String userId;
+
     private String userName;
 
     private String email;

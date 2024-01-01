@@ -33,22 +33,6 @@
                 <input type="text" data-duice-bind="user" data-duice-property="userName" maxlength="128" class="width--100"/>
             </label>
             <label class="grid-column--6 s__grid-column--12">
-                <span data-th-text="#{web.user.user.type}" class="font-weight--bold tag-required"></span>
-                <select data-duice-bind="user" data-duice-property="type" class="width--100">
-                    <option value th:text="'- '+#{web.global.select}+' -'"></option>
-                    <option th:each="userType:${userTypes}" th:value="${userType}"
-                            th:text="${userType}"></option>
-                </select>
-            </label>
-            <label class="grid-column--6 s__grid-column--12">
-                <span data-th-text="#{web.user.user.status}" class="font-weight--bold tag-required"></span>
-                <select data-duice-bind="user" data-duice-property="status" class="width--100">
-                    <option value th:text="'- '+#{web.global.select}+' -'"></option>
-                    <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
-                            th:text="${userStatus}"></option>
-                </select>
-            </label>
-            <label class="grid-column--6 s__grid-column--12">
                 <span data-th-text="#{web.user.user.email}" class="font-weight--bold"></span>
                 <input type="email" data-duice-bind="user" data-duice-property="email"
                        class="width--100"/>
@@ -56,6 +40,14 @@
             <label class="grid-column--6 s__grid-column--12">
                 <span data-th-text="#{web.user.user.mobile}" class="font-weight--bold"></span><br>
                 <input type="tel" data-duice-bind="user" data-duice-property="mobile" class="width--100"/>
+            </label>
+            <label class="grid-column--6 s__grid-column--12">
+                <span data-th-text="#{web.user.user.userStatus}" class="font-weight--bold"></span>
+                <select data-duice-bind="user" data-duice-property="status" class="width--100">
+                    <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                    <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
+                            th:text="${userStatus}"></option>
+                </select>
             </label>
             <label class="grid-column--6 s__grid-column--12">
                 <span data-th-text="#{web.user.user.joinAt}" class="font-weight--bold"></span>

@@ -3,7 +3,6 @@ package org.oopscraft.arch4j.web.join.api.v1;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.email.EmailService;
-import org.oopscraft.arch4j.core.user.UserType;
 import org.oopscraft.arch4j.web.error.ErrorResponse;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
@@ -51,7 +50,6 @@ public class JoinRestController {
                 .userName(joinRequest.getUserName())
                 .email(joinRequest.getEmail())
                 .password(joinRequest.getPassword())
-                .userType(UserType.GENERAL)
                 .build();
         userService.saveUser(user);
         return ResponseEntity.ok().build();

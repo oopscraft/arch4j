@@ -6,6 +6,7 @@ import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
 import org.oopscraft.arch4j.core.user.User;
 import org.oopscraft.arch4j.core.user.UserService;
+import org.oopscraft.arch4j.core.user.UserStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,12 +43,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
 
         // checks disabled
-        if(user.isDisabled()) {
+        if(user.getUserStatus() == UserStatus.CLOSED) {
             userDetails.setEnabled(false);
         }
 
         // checks account locked
-        if(user.isLocked()) {
+        if(user.getUserStatus() == UserStatus.LOCKED) {
             userDetails.setAccountNonLocked(false);
         }
 

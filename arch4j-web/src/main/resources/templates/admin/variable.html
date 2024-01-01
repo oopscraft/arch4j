@@ -193,17 +193,17 @@
                     <span data-th-text="#{core.variable.Variable}+' '+#{web.global.list}"></span>
                 </h2>
                 <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
-                    <label class="grid-column--2 s__grid-column--4">
+                    <label class="grid-column--4">
                         <select class="width--100" data-duice-bind="variableSearch" data-duice-property="key">
                             <option value="variableId" th:text="#{core.variable.Variable.variableId}"></option>
                             <option value="variableName" th:text="#{core.variable.Variable.variableName}"></option>
                         </select>
                     </label>
-                    <label class="grid-column--4 s__grid-column--8">
+                    <label class="grid-column--8">
                         <input class="width--100" type="text" data-duice-bind="variableSearch" data-duice-property="value"
                                th:placeholder="#{web.global.keyword}"/>
                     </label>
-                    <div class="grid-column--6 s__grid-column--12 justify-self--end">
+                    <div class="grid-column--12 justify-self--end">
                         <button type="submit" onclick="getVariables();">
                             <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                             <span data-th-text="#{web.global.search}">Search</span>

@@ -33,10 +33,8 @@ public class UserService {
                         .joinAt(LocalDateTime.now())
                         .build());
         userEntity.setUserName(user.getUserName());
-        userEntity.setUserType(user.getUserType());
+        userEntity.setUserStatus(user.getUserStatus());
         userEntity.setAdmin(user.isAdmin());
-        userEntity.setDisabled(user.isDisabled());
-        userEntity.setLocked(user.isLocked());
         userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());
         userEntity.setPhoto(user.getPhoto());

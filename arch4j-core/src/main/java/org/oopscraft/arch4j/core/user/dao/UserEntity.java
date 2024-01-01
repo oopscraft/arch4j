@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.SystemEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
-import org.oopscraft.arch4j.core.user.UserType;
+import org.oopscraft.arch4j.core.user.UserStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,20 +41,12 @@ public class UserEntity extends SystemEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "user_type", length = 16)
-    private UserType userType;
+    @Column(name = "user_status", length = 16)
+    private UserStatus userStatus;
 
     @Column(name = "admin", length = 1)
     @Convert(converter = BooleanToYNConverter.class)
     private boolean admin;
-
-    @Column(name = "disabled", length = 1)
-    @Convert(converter = BooleanToYNConverter.class)
-    private boolean disabled;
-
-    @Column(name = "locked", length = 1)
-    @Convert(converter = BooleanToYNConverter.class)
-    private boolean locked;
 
     @Column(name = "email", length = 128)
     @Convert(converter = CryptoConverter.class)

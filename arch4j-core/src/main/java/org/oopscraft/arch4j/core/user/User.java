@@ -23,13 +23,9 @@ public class User {
 
     private String password;
 
-    private UserType userType;
+    private UserStatus userStatus;
 
     private boolean admin;
-
-    private boolean disabled;
-
-    private boolean locked;
 
     private String email;
 
@@ -55,10 +51,8 @@ public class User {
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
-                .userType(userEntity.getUserType())
+                .userStatus(userEntity.getUserStatus())
                 .admin(userEntity.isAdmin())
-                .disabled(userEntity.isDisabled())
-                .locked(userEntity.isLocked())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
                 .photo(userEntity.getPhoto())

@@ -26,6 +26,10 @@ var duice;
                 // create code mirror
                 this.codeMirror = CodeMirror.fromTextArea(textarea, config);
                 this.codeMirror.setSize('100%', '100%');
+                // refresh (not working without setTimeout)
+                setTimeout(() => {
+                    this.codeMirror.refresh();
+                }, 1);
                 // add change event listener
                 this.codeMirror.on("blur", () => {
                     let event = new duice.event.PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());

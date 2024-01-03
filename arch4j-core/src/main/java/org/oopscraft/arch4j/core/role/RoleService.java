@@ -32,13 +32,13 @@ public class RoleService {
         roleEntity.setNote(role.getNote());
 
         // authorities
-        roleEntity.getRoleAuthorityEntities().clear();
+        roleEntity.getRoleAuthorities().clear();
         role.getAuthorities().forEach(authority -> {
             RoleAuthorityEntity roleAuthorityEntity = RoleAuthorityEntity.builder()
                     .roleId(roleEntity.getRoleId())
                     .authorityId(authority.getAuthorityId())
                     .build();
-            roleEntity.getRoleAuthorityEntities().add(roleAuthorityEntity);
+            roleEntity.getRoleAuthorities().add(roleAuthorityEntity);
         });
 
         // save

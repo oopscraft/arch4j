@@ -38,11 +38,11 @@ public class MessageEntity extends SystemEntity implements I18nSupportEntity<Mes
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "message_id", updatable = false)
     @Builder.Default
-    private List<MessageI18nEntity> i18ns = new ArrayList<>();
+    private List<MessageI18nEntity> messageI18ns = new ArrayList<>();
 
     @Override
     public List<MessageI18nEntity> provideI18nEntities() {
-        return this.i18ns;
+        return this.messageI18ns;
     }
 
     @Override

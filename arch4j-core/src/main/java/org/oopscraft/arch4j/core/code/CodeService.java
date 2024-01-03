@@ -34,7 +34,7 @@ public class CodeService {
         // code item (insert/update)
         AtomicInteger sort = new AtomicInteger();
         code.getCodeItems().forEach(codeItem -> {
-            CodeItemEntity codeItemEntity = codeEntity.getCodeItemEntities().stream()
+            CodeItemEntity codeItemEntity = codeEntity.getCodeItems().stream()
                     .filter(item -> item.getItemId().equals(codeItem.getItemId()))
                     .findFirst()
                     .orElse(null);
@@ -43,13 +43,13 @@ public class CodeService {
                         .codeId(codeEntity.getCodeId())
                         .itemId(codeItem.getItemId())
                         .build();
-                codeEntity.getCodeItemEntities().add(codeItemEntity);
+                codeEntity.getCodeItems().add(codeItemEntity);
             }
             codeItemEntity.setItemName(codeItem.getItemName());
             codeItemEntity.setSort(sort.getAndIncrement());
         });
         // code item (remove)
-        codeEntity.getCodeItemEntities().removeIf(codeItemEntity -> {
+        codeEntity.getCodeItems().removeIf(codeItemEntity -> {
             return code.getCodeItems().stream()
                     .noneMatch(codeItem -> codeItem.getItemId().equals(codeItemEntity.getItemId()));
         });
@@ -73,7 +73,7 @@ public class CodeService {
                 .codeName(codeEntity.getCodeName())
                 .note(codeEntity.getNote())
                 .build();
-        codeEntity.getCodeItemEntities().forEach(codeItemEntity -> {
+        codeEntity.getCodeItems().forEach(codeItemEntity -> {
             CodeItem codeItem = CodeItem.builder()
                     .codeId(codeItemEntity.getCodeId())
                     .itemId(codeItemEntity.getItemId())

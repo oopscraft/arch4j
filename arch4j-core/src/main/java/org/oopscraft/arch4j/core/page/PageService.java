@@ -34,13 +34,13 @@ public class PageService {
         pageEntity.setPageName(page.getPageName());
         pageEntity.setContentFormat(page.getContentFormat());
         pageEntity.setContent(page.getContent());
-        pageEntity.getPageWidgetEntities().clear();
+        pageEntity.getPageWidgets().clear();
 
         // widget
         int index = 0;
         for(PageWidget pageWidget : page.getPageWidgets()) {
             index ++;
-            pageEntity.getPageWidgetEntities().add(PageWidgetEntity.builder()
+            pageEntity.getPageWidgets().add(PageWidgetEntity.builder()
                     .pageId(page.getPageId())
                     .index(index)
                     .type(pageWidget.getType())

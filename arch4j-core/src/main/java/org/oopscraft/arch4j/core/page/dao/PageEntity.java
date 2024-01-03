@@ -38,16 +38,16 @@ public class PageEntity extends SystemEntity implements I18nSupportEntity<PageI1
     @JoinColumn(name = "page_id", updatable = false)
     @OrderBy(PageWidgetEntity_.INDEX)
     @Builder.Default
-    private List<PageWidgetEntity> pageWidgetEntities = new ArrayList<>();
+    private List<PageWidgetEntity> pageWidgets = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "page_id", updatable = false)
     @Builder.Default
-    private List<PageI18nEntity> i18ns = new ArrayList<>();
+    private List<PageI18nEntity> pageI18ns = new ArrayList<>();
 
     @Override
     public List<PageI18nEntity> provideI18nEntities() {
-        return this.i18ns;
+        return this.pageI18ns;
     }
 
     @Override

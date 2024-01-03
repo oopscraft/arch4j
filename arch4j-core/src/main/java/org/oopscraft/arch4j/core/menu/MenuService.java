@@ -35,25 +35,25 @@ public class MenuService {
         menuEntity.setNote(menu.getNote());
 
         // view role
-        menuEntity.getViewMenuRoleEntities().clear();
+        menuEntity.getViewMenuRoles().clear();
         menu.getViewRoles().forEach(viewRole -> {
             MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
                     .menuId(menuEntity.getMenuId())
                     .roleId(viewRole.getRoleId())
                     .type("VIEW")
                     .build();
-            menuEntity.getViewMenuRoleEntities().add(menuRoleEntity);
+            menuEntity.getViewMenuRoles().add(menuRoleEntity);
         });
 
         // link role
-        menuEntity.getLinkMenuRoleEntities().clear();
+        menuEntity.getLinkMenuRoles().clear();
         menu.getLinkRoles().forEach(linkRole -> {
             MenuRoleEntity menuRoleEntity = MenuRoleEntity.builder()
                     .menuId(menuEntity.getMenuId())
                     .roleId(linkRole.getRoleId())
                     .type("LINK")
                     .build();
-            menuEntity.getLinkMenuRoleEntities().add(menuRoleEntity);
+            menuEntity.getLinkMenuRoles().add(menuRoleEntity);
         });
 
         MenuEntity savedMenu = menuRepository.saveAndFlush(menuEntity);

@@ -79,6 +79,6 @@ public class UserEntity extends SystemEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", updatable = false)
     @Builder.Default
-    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
+    private List<UserRoleEntity> userRoles = new ArrayList<>();
 
 }

@@ -27,7 +27,7 @@ class CodeRepositoryTest extends CoreTestSupport {
                     .codeId(codeEntity.getCodeId())
                     .itemId(itemId)
                     .build();
-            codeEntity.getCodeItemEntities().add(codeItemEntity);
+            codeEntity.getCodeItems().add(codeItemEntity);
         });
         return codeEntity;
     }

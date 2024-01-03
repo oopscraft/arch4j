@@ -31,7 +31,7 @@ public class Page {
                 .pageName(pageEntity.getPageName())
                 .contentFormat(pageEntity.getContentFormat())
                 .content(pageEntity.getContent())
-                .pageWidgets(pageEntity.getPageWidgetEntities().stream()
+                .pageWidgets(pageEntity.getPageWidgets().stream()
                         .map(PageWidget::from)
                         .collect(Collectors.toList()))
                 .build();

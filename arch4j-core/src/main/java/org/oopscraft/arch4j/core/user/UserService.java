@@ -42,13 +42,13 @@ public class UserService {
         userEntity.setExpireAt(user.getExpireAt());
 
         // user roles
-        userEntity.getUserRoleEntities().clear();
+        userEntity.getUserRoles().clear();
         user.getRoles().forEach(role -> {
             UserRoleEntity userRoleEntity = UserRoleEntity.builder()
                     .userId(userEntity.getUserId())
                     .roleId(role.getRoleId())
                     .build();
-            userEntity.getUserRoleEntities().add(userRoleEntity);
+            userEntity.getUserRoles().add(userRoleEntity);
         });
 
         // save

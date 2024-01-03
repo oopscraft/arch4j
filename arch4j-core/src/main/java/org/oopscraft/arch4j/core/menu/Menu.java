@@ -58,7 +58,7 @@ public class Menu {
         }
 
         // view role
-        List<Role> viewRoles = menuEntity.getViewMenuRoleEntities().stream()
+        List<Role> viewRoles = menuEntity.getViewMenuRoles().stream()
                 .map(MenuRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
                 .map(Role::from)
@@ -66,7 +66,7 @@ public class Menu {
         menu.setViewRoles(viewRoles);
 
         // link role
-        List<Role> linkRoles = menuEntity.getLinkMenuRoleEntities().stream()
+        List<Role> linkRoles = menuEntity.getLinkMenuRoles().stream()
                 .map(MenuRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
                 .map(Role::from)

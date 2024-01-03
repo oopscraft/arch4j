@@ -61,22 +61,22 @@ public class MenuEntity extends SystemEntity implements I18nSupportEntity<MenuI1
     @JoinColumn(name = "menu_id", updatable = false)
     @Where(clause = "type = 'VIEW'")
     @Builder.Default
-    private List<MenuRoleEntity> viewMenuRoleEntities = new ArrayList<>();
+    private List<MenuRoleEntity> viewMenuRoles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "menu_id", updatable = false)
     @Where(clause = "type = 'LINK'")
     @Builder.Default
-    private List<MenuRoleEntity> linkMenuRoleEntities = new ArrayList<>();
+    private List<MenuRoleEntity> linkMenuRoles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "menu_id", updatable = false)
     @Builder.Default
-    private List<MenuI18nEntity> i18ns = new ArrayList<>();
+    private List<MenuI18nEntity> menuI18ns = new ArrayList<>();
 
     @Override
     public List<MenuI18nEntity> provideI18nEntities() {
-        return this.i18ns;
+        return this.menuI18ns;
     }
 
     @Override

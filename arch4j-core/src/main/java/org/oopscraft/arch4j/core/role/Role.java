@@ -1,7 +1,6 @@
 package org.oopscraft.arch4j.core.role;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.role.dao.RoleAuthorityEntity;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
@@ -37,7 +36,7 @@ public class Role {
                 .authenticated(roleEntity.isAuthenticated())
                 .build();
 
-        List<Authority> authorities = roleEntity.getRoleAuthorityEntities().stream()
+        List<Authority> authorities = roleEntity.getRoleAuthorities().stream()
                 .map(RoleAuthorityEntity::getAuthorityEntity)
                 .filter(Objects::nonNull)
                 .map(Authority::from)

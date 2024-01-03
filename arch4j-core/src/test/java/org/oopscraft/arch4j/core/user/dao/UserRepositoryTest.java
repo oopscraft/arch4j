@@ -26,7 +26,7 @@ class UserRepositoryTest extends CoreTestSupport {
                     .roleName("name of " + roleId)
                     .build());
             entityManager.flush();
-            userEntity.getUserRoleEntities().add(UserRoleEntity.builder()
+            userEntity.getUserRoles().add(UserRoleEntity.builder()
                     .userId(userEntity.getUserId())
                     .roleId(roleId)
                     .build());

@@ -32,7 +32,7 @@ class RoleRepositoryTest extends CoreTestSupport {
                     .roleId(roleEntity.getRoleId())
                     .authorityId(authorityId)
                     .build();
-            roleEntity.getRoleAuthorityEntities()
+            roleEntity.getRoleAuthorities()
                     .add(roleAuthorityEntity);
         });
         return roleEntity;

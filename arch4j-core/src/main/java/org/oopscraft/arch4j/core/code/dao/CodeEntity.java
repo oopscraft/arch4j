@@ -37,16 +37,16 @@ public class CodeEntity extends SystemEntity implements I18nSupportEntity<CodeI1
 	@OrderBy(CodeItemEntity_.SORT)
 	@Builder.Default
     @Setter(AccessLevel.NONE)
-	private List<CodeItemEntity> codeItemEntities = new ArrayList<>();
+	private List<CodeItemEntity> codeItems = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "code_id", updatable = false)
     @Builder.Default
-    private List<CodeI18nEntity> i18ns = new ArrayList<>();
+    private List<CodeI18nEntity> codeI18ns = new ArrayList<>();
 
     @Override
     public List<CodeI18nEntity> provideI18nEntities() {
-        return this.i18ns;
+        return this.codeI18ns;
     }
 
     @Override

@@ -36,11 +36,11 @@ public class EmailTemplateEntity extends SystemEntity implements I18nSupportEnti
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "template_id", updatable = false)
     @Builder.Default
-    private List<EmailTemplateI18nEntity> i18ns = new ArrayList<>();
+    private List<EmailTemplateI18nEntity> emailTemplateI18ns = new ArrayList<>();
 
     @Override
     public List<EmailTemplateI18nEntity> provideI18nEntities() {
-        return this.i18ns;
+        return this.emailTemplateI18ns;
     }
 
     @Override

@@ -20,7 +20,7 @@ class PageRepositoryTest extends CoreTestSupport {
                 .pageName("test page")
                 .build();
         IntStream.range(0,3).forEach(index -> {
-            pageEntity.getPageWidgetEntities().add(PageWidgetEntity.builder()
+            pageEntity.getPageWidgets().add(PageWidgetEntity.builder()
                     .pageId(pageEntity.getPageId())
                     .index(index)
                     .type(this.getClass().getName())

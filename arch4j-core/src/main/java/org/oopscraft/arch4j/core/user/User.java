@@ -63,7 +63,7 @@ public class User {
                 .closeAt(userEntity.getCloseAt())
                 .build();
 
-        List<Role> roles = userEntity.getUserRoleEntities().stream()
+        List<Role> roles = userEntity.getUserRoles().stream()
                 .map(UserRoleEntity::getRoleEntity)
                 .filter(Objects::nonNull)
                 .map(Role::from)

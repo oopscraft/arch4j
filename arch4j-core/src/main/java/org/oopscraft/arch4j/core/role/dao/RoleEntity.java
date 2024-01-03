@@ -42,11 +42,11 @@ public class RoleEntity extends SystemEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "role_id", updatable = false)
     @Builder.Default
-    private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
+    private List<RoleAuthorityEntity> roleAuthorities = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "role_id", updatable = false)
     @Builder.Default
-    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
+    private List<UserRoleEntity> userRoles = new ArrayList<>();
 
 }

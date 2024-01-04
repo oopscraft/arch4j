@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.StringReader;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class PageService {
                 .orElse(PageEntity.builder()
                         .pageId(page.getPageId())
                         .build());
+        pageEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         pageEntity.setPageName(page.getPageName());
         pageEntity.setContentFormat(page.getContentFormat());
         pageEntity.setContent(page.getContent());

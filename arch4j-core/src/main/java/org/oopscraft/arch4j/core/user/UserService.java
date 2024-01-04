@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.user;
 
 import lombok.RequiredArgsConstructor;
+import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRepository;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -26,12 +27,14 @@ public class UserService {
 
     @Transactional
     public User saveUser(User user) {
-        UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(
-                UserEntity.builder()
-                        .userId(user.getUserId())
-                        .password(passwordEncoder.encode(user.getPassword()))
-                        .joinAt(LocalDateTime.now())
-                        .build());
+        UserEntity userEntity = userRepository.findById(user.getUserId()).orElse(null);
+        if(userEntity == null) {
+            userEntity = UserEntity.builder()
+                    .userId(user.getUserId())
+                    .password(passwordEncoder.encode(user.getPassword()))
+                    .joinAt(LocalDateTime.now())
+                    .build();
+        }
         userEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         userEntity.setUserName(user.getUserName());
         userEntity.setStatus(user.getStatus());
@@ -44,13 +47,13 @@ public class UserService {
 
         // user roles
         userEntity.getUserRoles().clear();
-        user.getRoles().forEach(role -> {
+        for(Role role : user.getRoles()) {
             UserRoleEntity userRoleEntity = UserRoleEntity.builder()
                     .userId(userEntity.getUserId())
                     .roleId(role.getRoleId())
                     .build();
             userEntity.getUserRoles().add(userRoleEntity);
-        });
+        }
 
         // save
         UserEntity savedUserEntity = userRepository.saveAndFlush(userEntity);

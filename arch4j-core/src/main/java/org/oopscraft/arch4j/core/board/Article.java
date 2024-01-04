@@ -1,7 +1,9 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.dao.ArticleEntity;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import javax.validation.constraints.NotBlank;

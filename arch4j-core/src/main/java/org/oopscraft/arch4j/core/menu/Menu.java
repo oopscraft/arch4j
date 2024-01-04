@@ -1,6 +1,8 @@
 package org.oopscraft.arch4j.core.menu;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.dao.MenuRoleEntity;
 import org.oopscraft.arch4j.core.role.Role;
@@ -11,10 +13,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Menu {
+public class Menu extends BaseModel {
 
     private String menuId;
 
@@ -42,6 +45,9 @@ public class Menu {
 
     public static Menu from(MenuEntity menuEntity) {
         Menu menu = Menu.builder()
+                .systemRequired(menuEntity.isSystemRequired())
+                .systemUpdatedAt(menuEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(menuEntity.getSystemUpdatedBy())
                 .menuId(menuEntity.getMenuId())
                 .menuName(menuEntity.getMenuName())
                 .parentMenuId(menuEntity.getParentMenuId())
@@ -76,6 +82,5 @@ public class Menu {
         // return
         return menu;
     }
-
 
 }

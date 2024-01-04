@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,13 +27,13 @@ public class VariableService {
                     .variableId(variable.getVariableId())
                     .build());
 
+        variableEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         variableEntity.setValue(variable.getValue());
         variableEntity.setVariableName(variable.getVariableName());
         variableEntity.setNote(variable.getNote());
 
-        variableEntity = variableRepository.saveAndFlush(variableEntity);
-
-        return Variable.from(variableEntity);
+        VariableEntity savedVariableEntity = variableRepository.saveAndFlush(variableEntity);
+        return Variable.from(savedVariableEntity);
     }
 
     public Optional<Variable> getVariable(String variableId) {
@@ -51,12 +52,6 @@ public class VariableService {
                 .map(Variable::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(properties, pageable, variableEntityPage.getTotalElements());
-    }
-
-    public String getVariableValue(String variableId) {
-        return getVariable(variableId)
-                .map(Variable::getValue)
-                .orElse(null);
     }
 
 }

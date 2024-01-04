@@ -1,6 +1,8 @@
 package org.oopscraft.arch4j.core.page;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.page.dao.PageEntity;
 
 import java.util.ArrayList;
@@ -8,10 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Page {
+public class Page extends BaseModel {
 
     private String pageId;
 
@@ -27,6 +30,9 @@ public class Page {
 
     public static Page from(PageEntity pageEntity) {
         return Page.builder()
+                .systemRequired(pageEntity.isSystemRequired())
+                .systemUpdatedAt(pageEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(pageEntity.getSystemUpdatedBy())
                 .pageId(pageEntity.getPageId())
                 .pageName(pageEntity.getPageName())
                 .contentFormat(pageEntity.getContentFormat())

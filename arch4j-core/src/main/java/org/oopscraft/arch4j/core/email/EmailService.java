@@ -69,12 +69,13 @@ public class EmailService implements InitializingBean {
                     .templateId(emailTemplate.getTemplateId())
                     .build());
 
+        emailTemplateEntity.setSystemUpdatedAt(LocalDateTime.now());    // disable dirty checking
         emailTemplateEntity.setTemplateName(emailTemplate.getTemplateName());
         emailTemplateEntity.setSubject(emailTemplate.getSubject());
         emailTemplateEntity.setContent(emailTemplate.getContent());
 
-        emailTemplateEntity = emailTemplateRepository.saveAndFlush(emailTemplateEntity);
-        return EmailTemplate.from(emailTemplateEntity);
+        EmailTemplateEntity savedEmailTemplateEntity = emailTemplateRepository.saveAndFlush(emailTemplateEntity);
+        return EmailTemplate.from(savedEmailTemplateEntity);
     }
 
     public Page<EmailTemplate> getEmailTemplates(EmailTemplateSearch emailTemplateSearch, Pageable pageable) {

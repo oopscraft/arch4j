@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class BoardService {
                 .orElse(BoardEntity.builder()
                     .boardId(board.getBoardId())
                     .build());
+        boardEntity.setSystemUpdatedAt(LocalDateTime.now());    // disable dirty checking
         boardEntity.setBoardName(board.getBoardName());
         boardEntity.setIcon(board.getIcon());
         boardEntity.setMessageFormat(board.getMessageFormat());

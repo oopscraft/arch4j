@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,13 +30,13 @@ public class AlarmService {
                         .alarmId(alarm.getAlarmId())
                         .build());
 
+        alarmEntity.setSystemUpdatedAt(LocalDateTime.now());
         alarmEntity.setAlarmName(alarm.getAlarmName());
         alarmEntity.setClientType(alarm.getClientType());
         alarmEntity.setClientConfig(alarm.getClientConfig());
 
-        alarmEntity = alarmRepository.saveAndFlush(alarmEntity);
-
-        return Alarm.from(alarmEntity);
+        AlarmEntity savedAlarmEntity = alarmRepository.saveAndFlush(alarmEntity);
+        return Alarm.from(savedAlarmEntity);
     }
 
     public Optional<Alarm> getAlarm(String alarmId) {

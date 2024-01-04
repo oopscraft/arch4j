@@ -2,14 +2,15 @@ package org.oopscraft.arch4j.core.variable;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.variable.dao.VariableEntity;
 
 @Data
-@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper=false)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Variable {
+public class Variable extends BaseModel {
 
     private String variableId;
 
@@ -21,6 +22,9 @@ public class Variable {
 
     public static Variable from(VariableEntity variableEntity) {
         return Variable.builder()
+                .systemRequired(variableEntity.isSystemRequired())
+                .systemUpdatedAt(variableEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(variableEntity.getSystemUpdatedBy())
                 .variableId(variableEntity.getVariableId())
                 .value(variableEntity.getValue())
                 .variableName(variableEntity.getVariableName())

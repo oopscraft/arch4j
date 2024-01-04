@@ -598,6 +598,12 @@
                         </button>
                     </div>
                 </div>
+                <div class="text-align--right padding-y--1em font-size--smaller font-style--italic">
+                    Last Updated At
+                    <span data-duice-bind="role" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                    By
+                    <span data-duice-bind="role" data-duice-property="systemUpdatedBy"></span>
+                </div>
             </div>
         </div>
         <!-- ====================================== -->
@@ -1009,6 +1015,12 @@
                             <span data-th-text="#{web.global.save}"></span>
                         </button>
                     </div>
+                </div>
+                <div class="text-align--right padding-y--1em font-size--smaller font-style--italic">
+                    Last Updated At
+                    <span data-duice-bind="authority" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                    By
+                    <span data-duice-bind="authority" data-duice-property="systemUpdatedBy"></span>
                 </div>
             </div>
         </div>

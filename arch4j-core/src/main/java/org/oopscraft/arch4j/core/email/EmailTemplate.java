@@ -1,16 +1,19 @@
 package org.oopscraft.arch4j.core.email;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.email.dao.EmailTemplateEntity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class EmailTemplate {
+public class EmailTemplate extends BaseModel {
 
     private String templateId;
 
@@ -29,6 +32,9 @@ public class EmailTemplate {
 
     public static EmailTemplate from(EmailTemplateEntity emailTemplateEntity) {
         return EmailTemplate.builder()
+                .systemRequired(emailTemplateEntity.isSystemRequired())
+                .systemUpdatedAt(emailTemplateEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(emailTemplateEntity.getSystemUpdatedBy())
                 .templateId(emailTemplateEntity.getTemplateId())
                 .templateName(emailTemplateEntity.getTemplateName())
                 .subject(emailTemplateEntity.getSubject())

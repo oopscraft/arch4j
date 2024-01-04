@@ -1,8 +1,10 @@
 package org.oopscraft.arch4j.core.board;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.dao.BoardRoleEntity;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.role.Role;
 
 import java.util.ArrayList;
@@ -11,10 +13,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Board {
+public class Board extends BaseModel {
 
     private String boardId;
 
@@ -53,6 +56,9 @@ public class Board {
 
     public static Board from(BoardEntity boardEntity) {
         Board board = Board.builder()
+                .systemRequired(boardEntity.isSystemRequired())
+                .systemUpdatedAt(boardEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(boardEntity.getSystemUpdatedBy())
                 .boardId(boardEntity.getBoardId())
                 .boardName(boardEntity.getBoardName())
                 .icon(boardEntity.getIcon())

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,27 +27,18 @@ public class GitService {
                 GitEntity.builder()
                     .gitId(git.getGitId())
                     .build());
+        gitEntity.setSystemUpdatedAt(LocalDateTime.now());  // disable dirty checking
         gitEntity.setGitName(git.getGitName());
         gitEntity.setUrl(git.getUrl());
         gitEntity.setBranch(git.getBranch());
-        gitEntity = gitRepository.saveAndFlush(gitEntity);
-        return getGit(gitEntity.getGitId()).orElseThrow();
+        GitEntity savedGitEntity = gitRepository.saveAndFlush(gitEntity);
+        return Git.from(savedGitEntity);
     }
 
     public Optional<Git> getGit(String gitId) {
         return Optional.of(gitRepository.findById(gitId)
-                .map(this::mapToGit)
+                .map(Git::from)
                 .orElseThrow());
-    }
-
-    private Git mapToGit(GitEntity gitEntity) {
-        return Git.builder()
-                .gitId(gitEntity.getGitId())
-                .gitName(gitEntity.getGitName())
-                .note(gitEntity.getNote())
-                .url(gitEntity.getUrl())
-                .branch(gitEntity.getBranch())
-                .build();
     }
 
     @Transactional
@@ -57,14 +49,14 @@ public class GitService {
 
     public List<Git> getGits() {
         return gitRepository.findAll().stream()
-                .map(this::mapToGit)
+                .map(Git::from)
                 .collect(Collectors.toList());
     }
 
     public Page<Git> getGits(GitSearch gitSearch, Pageable pageable) {
         Page<GitEntity> gitEntityPage = gitRepository.findAll(gitSearch, pageable);
         List<Git> gits = gitEntityPage.getContent().stream()
-                .map(this::mapToGit)
+                .map(Git::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(gits, pageable, gitEntityPage.getTotalElements());
     }

@@ -49,10 +49,9 @@ public class CodeService {
             codeItemEntity.setSort(sort.getAndIncrement());
         });
         // code item (remove)
-        codeEntity.getCodeItems().removeIf(codeItemEntity -> {
-            return code.getCodeItems().stream()
-                    .noneMatch(codeItem -> codeItem.getItemId().equals(codeItemEntity.getItemId()));
-        });
+        codeEntity.getCodeItems().removeIf(codeItemEntity ->
+                code.getCodeItems().stream()
+                        .noneMatch(codeItem -> codeItem.getItemId().equals(codeItemEntity.getItemId())));
 
         // save
         CodeEntity savedCodeEntity = codeRepository.saveAndFlush(codeEntity);
@@ -64,27 +63,8 @@ public class CodeService {
 
     public Optional<Code> getCode(String codeId) {
         return codeRepository.findById(codeId)
-                .map(this::mapToCode);
+                .map(Code::from);
     }
-
-    public Code mapToCode(CodeEntity codeEntity) {
-        Code code = Code.builder()
-                .codeId(codeEntity.getCodeId())
-                .codeName(codeEntity.getCodeName())
-                .note(codeEntity.getNote())
-                .build();
-        codeEntity.getCodeItems().forEach(codeItemEntity -> {
-            CodeItem codeItem = CodeItem.builder()
-                    .codeId(codeItemEntity.getCodeId())
-                    .itemId(codeItemEntity.getItemId())
-                    .itemName(codeItemEntity.getItemName())
-                    .sort(codeItemEntity.getSort())
-                    .build();
-            code.getCodeItems().add(codeItem);
-        });
-        return code;
-    }
-
     @Transactional
     public void deleteCode(String codeId) {
         codeRepository.deleteById(codeId);
@@ -94,11 +74,9 @@ public class CodeService {
     public Page<Code> getCodes(CodeSearch codeSearch, Pageable pageable) {
         Page<CodeEntity> codeEntityPage = codeRepository.findAll(codeSearch, pageable);
         List<Code> codes = codeEntityPage.getContent().stream()
-                .map(this::mapToCode)
+                .map(Code::from)
                 .collect(Collectors.toList());
         return new PageImpl<>(codes, pageable, codeEntityPage.getTotalElements());
     }
-
-
 
 }

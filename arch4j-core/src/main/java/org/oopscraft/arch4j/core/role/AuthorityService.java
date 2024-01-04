@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class AuthorityService {
                 AuthorityEntity.builder()
                     .authorityId(authority.getAuthorityId())
                     .build());
+        authorityEntity.setSystemUpdatedAt(LocalDateTime.now());
         authorityEntity.setAuthorityName(authority.getAuthorityName());
         authorityEntity.setNote(authority.getNote());
         AuthorityEntity savedAuthorityEntity = authorityRepository.saveAndFlush(authorityEntity);

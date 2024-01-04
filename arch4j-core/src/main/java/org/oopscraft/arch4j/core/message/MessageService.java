@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,13 +27,13 @@ public class MessageService {
                     .messageId(message.getMessageId())
                     .build());
 
+        messageEntity.setSystemUpdatedAt(LocalDateTime.now());  // disable dirty checking
         messageEntity.setMessageName(message.getMessageName());
         messageEntity.setValue(message.getValue());
         messageEntity.setNote(message.getNote());
 
-        messageEntity = messageRepository.saveAndFlush(messageEntity);
-
-        return Message.from(messageEntity);
+        MessageEntity savedMessageEntity = messageRepository.saveAndFlush(messageEntity);
+        return Message.from(savedMessageEntity);
     }
 
     public Optional<Message> getMessage(String messageId) {

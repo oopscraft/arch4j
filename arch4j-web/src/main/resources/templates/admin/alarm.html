@@ -349,8 +349,11 @@
                     </label>
                     <label class="grid-column--12">
                         <span data-th-text="#{core.alarm.Alarm.clientConfig}" class="font-weight--bold"></span>
-                        <textarea data-duice-bind="alarm" data-duice-property="clientConfig" rows="5"
-                                  class="width--100"></textarea>
+                        <duice-codemirror
+                                data-duice-bind="alarm"
+                                data-duice-property="clientConfig"
+                                data-duice-theme="dracula">
+                        </duice-codemirror>
                     </label>
                 </form>
                 <div class="display--grid grid-template-columns--2 grid-gap--1em padding-y--1em s__padding-y--0">

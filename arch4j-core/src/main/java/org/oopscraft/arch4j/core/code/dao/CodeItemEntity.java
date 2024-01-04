@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.code.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
@@ -21,7 +21,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CodeItemEntity extends SystemEntity implements I18nSupportEntity<CodeItemI18nEntity> {
+public class CodeItemEntity extends BaseEntity implements I18nSupportEntity<CodeItemI18nEntity> {
 
     @Data
     @Builder

@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.role.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AuthorityEntity extends SystemEntity {
+public class AuthorityEntity extends BaseEntity {
 
     @Id
     @Column(name = "authority_id", length = 32)
@@ -31,6 +31,6 @@ public class AuthorityEntity extends SystemEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "authority_id", updatable = false)
     @Builder.Default
-    private List<RoleAuthorityEntity> roleAuthorityEntities = new ArrayList<>();
+    private List<RoleAuthorityEntity> roleAuthorities = new ArrayList<>();
 
 }

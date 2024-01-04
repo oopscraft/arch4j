@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.alarm.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AlarmEntity extends SystemEntity {
+public class AlarmEntity extends BaseEntity {
 
     @Id
     @Column(name = "alarm_id", length = 32)

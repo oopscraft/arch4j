@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VariableEntity extends SystemEntity {
+public class VariableEntity extends BaseEntity {
 
     @Id
     @Column(name = "variable_id", length = 32)

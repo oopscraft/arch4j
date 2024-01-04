@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.user.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserRoleEntity extends SystemEntity {
+public class UserRoleEntity extends BaseEntity {
 
     @Data
     @Builder
@@ -37,10 +37,10 @@ public class UserRoleEntity extends SystemEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
-    private RoleEntity roleEntity;
+    private RoleEntity role;
 
 }

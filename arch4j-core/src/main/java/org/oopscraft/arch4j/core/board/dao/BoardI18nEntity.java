@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.board.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BoardI18nEntity extends SystemEntity implements I18nEntity {
+public class BoardI18nEntity extends BaseEntity implements I18nEntity {
 
     @Data
     @Builder

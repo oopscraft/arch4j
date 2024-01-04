@@ -43,12 +43,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
 
         // checks disabled
-        if(user.getUserStatus() == UserStatus.CLOSED) {
+        if(user.getStatus() == UserStatus.CLOSED) {
             userDetails.setEnabled(false);
         }
 
         // checks account locked
-        if(user.getUserStatus() == UserStatus.LOCKED) {
+        if(user.getStatus() == UserStatus.LOCKED) {
             userDetails.setAccountNonLocked(false);
         }
 

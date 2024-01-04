@@ -32,8 +32,9 @@ public class UserService {
                         .password(passwordEncoder.encode(user.getPassword()))
                         .joinAt(LocalDateTime.now())
                         .build());
+        userEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         userEntity.setUserName(user.getUserName());
-        userEntity.setUserStatus(user.getUserStatus());
+        userEntity.setStatus(user.getStatus());
         userEntity.setAdmin(user.isAdmin());
         userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());

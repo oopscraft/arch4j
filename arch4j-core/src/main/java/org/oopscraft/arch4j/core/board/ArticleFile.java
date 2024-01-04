@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.dao.ArticleFileEntity;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ArticleFile extends SystemEntity {
+public class ArticleFile extends BaseEntity {
 
     private String articleId;
 

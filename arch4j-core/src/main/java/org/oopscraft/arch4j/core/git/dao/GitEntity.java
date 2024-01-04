@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.git.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GitEntity extends SystemEntity {
+public class GitEntity extends BaseEntity {
 
     @Id
     @Column(name = "git_id", length = 32)

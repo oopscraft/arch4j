@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.SampleType;
 
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SampleBackupEntity extends SystemEntity {
+public class SampleBackupEntity extends BaseEntity {
 
     @Id
     @Column(name = "sample_id", length=64)

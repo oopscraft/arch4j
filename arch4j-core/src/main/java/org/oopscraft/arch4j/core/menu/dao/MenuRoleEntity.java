@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.menu.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.role.dao.RoleEntity;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MenuRoleEntity extends SystemEntity {
+public class MenuRoleEntity extends BaseEntity {
 
     @Data
     @Builder

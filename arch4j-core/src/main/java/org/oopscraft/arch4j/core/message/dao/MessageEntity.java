@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.message.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MessageEntity extends SystemEntity implements I18nSupportEntity<MessageI18nEntity> {
+public class MessageEntity extends BaseEntity implements I18nSupportEntity<MessageI18nEntity> {
 
     @Id
     @Column(name = "message_id", length = 64)

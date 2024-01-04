@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.message;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.message.dao.MessageEntity;
 
 @Data
@@ -10,7 +10,7 @@ import org.oopscraft.arch4j.core.message.dao.MessageEntity;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Message extends SystemEntity {
+public class Message extends BaseEntity {
 
     private String messageId;
 

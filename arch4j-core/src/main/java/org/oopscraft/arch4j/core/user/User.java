@@ -1,6 +1,9 @@
 package org.oopscraft.arch4j.core.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.oopscraft.arch4j.core.data.BaseModel;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
@@ -12,18 +15,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class User {
+public class User extends BaseModel {
 
     private String userId;
 
     private String userName;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    private UserStatus userStatus;
+    private UserStatus status;
 
     private boolean admin;
 
@@ -48,10 +53,13 @@ public class User {
 
     public static User from(UserEntity userEntity) {
         User user = User.builder()
+                .systemRequired(userEntity.isSystemRequired())
+                .systemUpdatedAt(userEntity.getSystemUpdatedAt())
+                .systemUpdatedBy(userEntity.getSystemUpdatedBy())
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
-                .userStatus(userEntity.getUserStatus())
+                .status(userEntity.getStatus())
                 .admin(userEntity.isAdmin())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
@@ -64,7 +72,7 @@ public class User {
                 .build();
 
         List<Role> roles = userEntity.getUserRoles().stream()
-                .map(UserRoleEntity::getRoleEntity)
+                .map(UserRoleEntity::getRole)
                 .filter(Objects::nonNull)
                 .map(Role::from)
                 .collect(Collectors.toList());

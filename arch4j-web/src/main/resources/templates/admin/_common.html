@@ -102,16 +102,16 @@
             <span data-th-text="#{core.role.Role}"></span>
         </h2>
         <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-            <label class="grid-column--2 s__grid-column--4">
+            <label class="grid-column--3 s__grid-column--4">
                 <select class="width--100" data-duice-bind="roleSelect.roleSearch" data-duice-property="key">
                     <option value="roleId" th:text="#{core.role.Role.roleId}"></option>
                     <option value="roleName" th:text="#{core.role.Role.roleName}"></option>
                 </select>
             </label>
-            <label class="grid-column--4 s__grid-column--8">
+            <label class="grid-column--5 s__grid-column--8">
                 <input class="width--100" type="text" data-duice-bind="roleSelect.roleSearch" data-duice-property="value"/>
             </label>
-            <div class="grid-column--6 s__grid-column--12 justify-self--end">
+            <div class="grid-column--4 s__grid-column--12 justify-self--end">
                 <button onclick="roleSelect.getRoles();">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                     <span data-th-text="#{web.global.search}">Search</span>
@@ -184,7 +184,9 @@
         <div class="display--grid grid-template-columns--3">
             <div class="grid-column--1 display--flex font-size--smaller">
                 <span data-th-text="#{web.global.total}"></span>
-                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                &nbsp;
+                <span data-duice-bind="roleSelect.roleSearch" data-duice-property="_count" data-duice-format="number"></span>
+                &nbsp;
                 <span data-th-text="#{web.global.rows}"></span>
             </div>
             <div class="grid-column--1 display--flex justify-content--center">

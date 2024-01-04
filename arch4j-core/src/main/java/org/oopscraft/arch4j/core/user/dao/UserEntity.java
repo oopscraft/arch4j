@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.user.dao;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.user.UserStatus;
@@ -27,7 +27,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserEntity extends SystemEntity {
+public class UserEntity extends BaseEntity {
 
     @Id
     @Column(name = "user_id", length = 32)
@@ -41,8 +41,8 @@ public class UserEntity extends SystemEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "user_status", length = 16)
-    private UserStatus userStatus;
+    @Column(name = "status", length = 16)
+    private UserStatus status;
 
     @Column(name = "admin", length = 1)
     @Convert(converter = BooleanToYNConverter.class)

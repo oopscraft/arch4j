@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.menu.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MenuI18nEntity extends SystemEntity implements I18nEntity {
+public class MenuI18nEntity extends BaseEntity implements I18nEntity {
 
     @Data
     @Builder

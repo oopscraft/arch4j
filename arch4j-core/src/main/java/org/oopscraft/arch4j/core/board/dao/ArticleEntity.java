@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.board.ContentFormat;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.user.dao.UserEntity;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ArticleEntity extends SystemEntity {
+public class ArticleEntity extends BaseEntity {
 
     @Id
     @Column(name = "article_id", length = 32)

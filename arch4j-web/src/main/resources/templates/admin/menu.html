@@ -58,7 +58,6 @@
         }
 
         async function saveMenu() {
-
             // check menu name
             if(_isEmpty(menu.menuName)) {
                 await _alert(/*[[#{web.global.itemEmpty(#{core.menu.Menu.menuName})}]]*/'');
@@ -76,12 +75,13 @@
                             'Content-Type' : 'application/json'
                         },
                         body: JSON.stringify(menu)
-                    }).then(response => {
-                        if(response.ok) {
-                            _alert(/*[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
-                                getMenus();
-                            });
-                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        _alert(/*[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
+                            menu.menuId = data.menuId;
+                            getMenus();
+                        });
                     });
                 }
             });

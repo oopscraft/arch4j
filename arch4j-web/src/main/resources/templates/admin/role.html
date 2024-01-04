@@ -728,16 +728,16 @@
                 <span data-th-text="#{core.role.Authority}"></span>
             </h1>
             <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-                <label class="grid-column--2 s__grid-column--4">
+                <label class="grid-column--3 s__grid-column--4">
                     <select class="width--100" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="key">
                         <option value="authorityId" th:text="#{core.role.Authority.authorityId}"></option>
                         <option value="authorityName" th:text="#{core.role.Authority.authorityName}"></option>
                     </select>
                 </label>
-                <label class="grid-column--4 s__grid-column--8">
+                <label class="grid-column--5 s__grid-column--8">
                     <input class="width--100" type="text" data-duice-bind="authoritySelect.authoritySearch" data-duice-property="value"/>
                 </label>
-                <div class="grid-column--6 s__grid-column--12 justify-self--end">
+                <div class="grid-column--4 s__grid-column--12 justify-self--end">
                     <button type="submit" onclick="authoritySelect.getAuthorities();">
                         <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                         <span data-th-text="#{web.global.search}">Search</span>

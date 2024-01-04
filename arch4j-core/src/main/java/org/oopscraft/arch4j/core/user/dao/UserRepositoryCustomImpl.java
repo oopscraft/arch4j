@@ -28,8 +28,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         if(userSearch.getUserName() != null) {
             query.where(qUserEntity.userName.contains(userSearch.getUserName()));
         }
-        if(userSearch.getUserStatus() != null) {
-            query.where(qUserEntity.userStatus.eq(userSearch.getUserStatus()));
+        if(userSearch.getStatus() != null) {
+            query.where(qUserEntity.status.eq(userSearch.getStatus()));
         }
         if(userSearch.isAdmin()) {
             query.where(qUserEntity.admin.eq(userSearch.isAdmin()));

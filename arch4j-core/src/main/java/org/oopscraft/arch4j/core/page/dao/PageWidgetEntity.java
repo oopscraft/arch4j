@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.page.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.SystemEntity;
+import org.oopscraft.arch4j.core.data.BaseEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PageWidgetEntity extends SystemEntity {
+public class PageWidgetEntity extends BaseEntity {
 
     @Data
     @Builder

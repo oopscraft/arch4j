@@ -9,16 +9,16 @@ import org.oopscraft.arch4j.core.code.CodeItem;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeItemResponse {
 
-    private String id;
+    private String itemId;
 
-    private String name;
+    private String itemName;
 
     private String value;
 
     static CodeItemResponse from(CodeItem codeItem) {
         return CodeItemResponse.builder()
-                .id(codeItem.getItemId())
-                .name(codeItem.getItemName())
+                .itemId(codeItem.getItemId())
+                .itemName(codeItem.getItemName())
                 .build();
     }
 

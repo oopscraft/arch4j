@@ -34,6 +34,7 @@ public class Role {
                 .roleName(roleEntity.getRoleName())
                 .anonymous(roleEntity.isAnonymous())
                 .authenticated(roleEntity.isAuthenticated())
+                .note(roleEntity.getNote())
                 .build();
 
         List<Authority> authorities = roleEntity.getRoleAuthorities().stream()
@@ -41,8 +42,8 @@ public class Role {
                 .filter(Objects::nonNull)
                 .map(Authority::from)
                 .collect(Collectors.toList());
-
         role.setAuthorities(authorities);
+
         return role;
     }
 

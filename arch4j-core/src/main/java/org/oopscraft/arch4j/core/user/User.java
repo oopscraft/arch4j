@@ -25,10 +25,10 @@ public class User extends BaseModel {
 
     private String userName;
 
+    private UserStatus userStatus;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    private UserStatus status;
 
     private boolean admin;
 
@@ -59,7 +59,7 @@ public class User extends BaseModel {
                 .userId(userEntity.getUserId())
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
-                .status(userEntity.getStatus())
+                .userStatus(userEntity.getUserStatus())
                 .admin(userEntity.isAdmin())
                 .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())

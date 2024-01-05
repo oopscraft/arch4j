@@ -41,20 +41,6 @@
                 <span data-th-text="#{web.user.user.mobile}" class="font-weight--bold"></span><br>
                 <input type="tel" data-duice-bind="user" data-duice-property="mobile" class="width--100"/>
             </label>
-            <label class="grid-column--6 s__grid-column--12">
-                <span data-th-text="#{web.user.user.userStatus}" class="font-weight--bold"></span>
-                <select data-duice-bind="user" data-duice-property="status" class="width--100">
-                    <option value th:text="'- '+#{web.global.select}+' -'"></option>
-                    <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
-                            th:text="${userStatus}"></option>
-                </select>
-            </label>
-            <label class="grid-column--6 s__grid-column--12">
-                <span data-th-text="#{web.user.user.joinAt}" class="font-weight--bold"></span>
-                <input type="datetime-local" data-duice-bind="user" data-duice-property="joinAt" readonly class="width--100"/>
-            </label>
-            <label class="grid-column--6 s__grid-column--12">
-            </label>
         </form>
         <div class="display--flex justify-content--space-between margin--1em">
             <div>

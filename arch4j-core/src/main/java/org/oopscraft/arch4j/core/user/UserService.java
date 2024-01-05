@@ -37,7 +37,7 @@ public class UserService {
         }
         userEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         userEntity.setUserName(user.getUserName());
-        userEntity.setStatus(user.getStatus());
+        userEntity.setUserStatus(user.getUserStatus());
         userEntity.setAdmin(user.isAdmin());
         userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());

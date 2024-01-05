@@ -37,12 +37,12 @@ public class UserEntity extends BaseEntity {
     @Column(name = "user_name", length = 128)
     private String userName;
 
+    @Column(name = "user_status", length = 16)
+    private UserStatus userStatus;
+
     @Column(name = "password", length = 256)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    @Column(name = "status", length = 16)
-    private UserStatus status;
 
     @Column(name = "admin", length = 1)
     @Convert(converter = BooleanToYNConverter.class)

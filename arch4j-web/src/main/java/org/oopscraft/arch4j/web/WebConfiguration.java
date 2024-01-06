@@ -42,12 +42,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -60,6 +65,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -176,7 +182,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         private final RoleService roleService;
 
-        private SecurityFilter additionalSecurityFilter() {
+        private SecurityFilter securityFilter() {
             return SecurityFilter.builder()
                     .transactionManager(transactionManager)
                     .authenticationTokenService(authenticationTokenService)
@@ -195,6 +201,19 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             DefaultMethodSecurityExpressionHandler methodSecurityExpressionHandler = new DefaultMethodSecurityExpressionHandler();
             methodSecurityExpressionHandler.setApplicationContext(applicationContext);
             return methodSecurityExpressionHandler;
+        }
+
+        @Bean
+        protected PersistentTokenRepository persistentTokenRepository(DataSource dataSource) {
+            JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+            tokenRepository.setDataSource(dataSource);
+            tokenRepository.setCreateTableOnStartup(true);
+            return tokenRepository;
+        }
+
+        @Bean
+        public RememberMeServices rememberMeServices(PersistentTokenRepository persistentTokenRepository, UserDetailsService userDetailsService) {
+            return new PersistentTokenBasedRememberMeServices(webProperties.getSecuritySigningKey(), userDetailsService, persistentTokenRepository);
         }
 
         @Bean
@@ -222,7 +241,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .invalidateHttpSession(true)
                     .permitAll();
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -234,7 +253,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -252,7 +271,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
@@ -270,13 +289,13 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(98)
-        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
             if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
@@ -289,14 +308,20 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+
+            // remember-me
+            http.rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .tokenValiditySeconds(1209600); // default 2 weeks
+
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(99)
-        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
             http.authorizeRequests()
                     .antMatchers("/login**", "/join**")
                     .permitAll();
@@ -328,8 +353,14 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
                     .permitAll();
+
+            // remember-me
+            http.rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .tokenValiditySeconds(1209600); // default 2 weeks
+
             // additional security filter
-            http.addFilterAfter(additionalSecurityFilter(), AnonymousAuthenticationFilter.class);
+            http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
     }

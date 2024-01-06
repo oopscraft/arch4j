@@ -53,6 +53,7 @@
     <script th:inline="javascript">
         const _rootUrl = [[@{/}]].replace('/','');
         const _apiUrl = [[@{/api}]];
+        const _securityPolicy = [[${_securityPolicy}]];
         const _isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         const _user = new duice.ObjectProxy({
             userId: [[${_user.userId}]],

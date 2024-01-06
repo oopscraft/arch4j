@@ -8,6 +8,7 @@
     const login = new duice.ObjectProxy({
         username: null,
         password: null,
+        rememberMe: false,
         message: null
     });
 
@@ -28,6 +29,7 @@
         let payload = new URLSearchParams();
         payload.append('username', login.username);
         payload.append('password', login.password);
+        payload.append('remember-me', login.rememberMe);
         _fetch(url, {
             method: 'POST',
             body: payload

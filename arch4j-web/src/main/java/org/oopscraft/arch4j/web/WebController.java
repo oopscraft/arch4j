@@ -2,6 +2,7 @@ package org.oopscraft.arch4j.web;
 
 import lombok.RequiredArgsConstructor;
 import org.oopscraft.arch4j.core.CoreProperties;
+import org.oopscraft.arch4j.web.security.SecurityPolicy;
 import org.oopscraft.arch4j.web.security.SecurityUtils;
 import org.oopscraft.arch4j.core.user.User;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -36,6 +37,13 @@ public class WebController {
         // redirect index
         RedirectView redirectView = new RedirectView(webProperties.getIndex());
         return new ModelAndView(redirectView);
+    }
+
+    @ModelAttribute("_securityPolicy")
+    public String securityPolicy() {
+        return Optional.ofNullable(webProperties.getSecurityPolicy())
+                .map(Enum::name)
+                .orElse(null);
     }
 
     @ModelAttribute("_scriptVersion")

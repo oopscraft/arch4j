@@ -14,23 +14,18 @@ import javax.validation.constraints.NotNull;
 @Getter
 public final class WebProperties {
 
-    private final String theme = "_default";
+    private final String theme;
 
-    @NotNull
     private final String brand;
 
-    @NotNull
     private final String title;
 
-    @NotNull
     private final String index;
 
-    private final SecurityPolicy securityPolicy = SecurityPolicy.ANONYMOUS;
+    private final SecurityPolicy securityPolicy;
 
-    @NotNull
     private final String securitySigningKey;
 
-    @NotNull
     private final Integer securityExpireMinutes;
 
 }

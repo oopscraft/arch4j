@@ -20,6 +20,10 @@
                    data-duice-bind="login" data-duice-property="password"
                    class="width--100 font-weight--bold text-align--center"/>
         </label>
+        <label class="grid-column--12">
+            <input type="checkbox" data-duice-bind="login" data-duice-property="rememberMe"/>
+            <span>Remember me</span>
+        </label>
         <div class="grid-column--12">
             <button onclick="requestLogin();" class="width--100">
                 <img class="icon" th:src="@{/static/image/icon-login.svg}" alt="login">
@@ -38,7 +42,7 @@
                 </select>
             </label>
         </div>
-        <div class="grid-column--6">
+        <div class="grid-column--6" th:if="${_securityPolicy == 'ANONYMOUS'}">
             <div class="text-align--right">
                 <span onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}">
                 </span>

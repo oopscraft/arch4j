@@ -181,12 +181,15 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         private final SecurityTokenService authenticationTokenService;
 
+        private final UserDetailsService userDetailsService;
+
         private final RoleService roleService;
 
         private SecurityFilter securityFilter() {
             return SecurityFilter.builder()
                     .transactionManager(transactionManager)
                     .authenticationTokenService(authenticationTokenService)
+                    .userDetailsService(userDetailsService)
                     .roleService(roleService)
                     .build();
         }
@@ -314,9 +317,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.headers().frameOptions().sameOrigin();
 
             // remember-me
-            http.rememberMe()
-                    .rememberMeServices(rememberMeServices)
-                    .tokenValiditySeconds(1209600); // default 2 weeks
+//            http.rememberMe()
+//                    .rememberMeServices(rememberMeServices)
+//                    .tokenValiditySeconds(1209600); // default 2 weeks
 
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
@@ -359,9 +362,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .permitAll();
 
             // remember-me
-            http.rememberMe()
-                    .rememberMeServices(rememberMeServices)
-                    .tokenValiditySeconds(1209600); // default 2 weeks
+//            http.rememberMe()
+//                    .rememberMeServices(rememberMeServices)
+//                    .tokenValiditySeconds(1209600); // default 2 weeks
 
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);

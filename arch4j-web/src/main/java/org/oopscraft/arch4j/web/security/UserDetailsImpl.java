@@ -22,6 +22,8 @@ public class UserDetailsImpl implements UserDetails, CredentialsContainer {
 
     private String password;
 
+    private boolean admin;
+
     @Builder.Default
     @Setter
     private Boolean accountNonLocked = true;

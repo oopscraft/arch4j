@@ -73,6 +73,11 @@ public class SecurityUtils {
                 .orElse(null);
     }
 
+    public static boolean isAdmin() {
+        UserDetailsImpl userDetails = getUserDetails().orElse(null);
+        return userDetails != null && userDetails.isAdmin();
+    }
+
     public static boolean hasAnyRole(List<Role> roles) {
         UserDetailsImpl userDetails = getUserDetails().orElse(null);
         if(userDetails == null) {
@@ -82,9 +87,12 @@ public class SecurityUtils {
     }
 
     public static boolean hasPermission(List<Role> requiredRoles) {
+        if(isAdmin()) {
+            return true;
+        }
         if(!requiredRoles.isEmpty()) {
             return hasAnyRole(requiredRoles);
-        }else{
+        } else {
             return webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS;
         }
     }

@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.security;
 import lombok.Builder;
 import org.oopscraft.arch4j.core.role.Role;
 import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.user.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -34,6 +36,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     private final PlatformTransactionManager transactionManager;
 
     private final SecurityTokenService authenticationTokenService;
+
+    private final UserDetailsService userDetailsService;
 
     private final RoleService roleService;
 
@@ -62,9 +66,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
         }
 
-        // creates new anonymous security token with anonymous authorities
+        // checks authentication
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
+
+        // creates and updates anonymous security token with anonymous authorities
         if(authentication instanceof AnonymousAuthenticationToken anonymousAuthenticationToken) {
             List<GrantedAuthority> anonymousAuthorities = new ArrayList<>(anonymousAuthenticationToken.getAuthorities());
             anonymousAuthorities.addAll(getAnonymousAuthorities());
@@ -72,6 +78,13 @@ public class SecurityFilter extends OncePerRequestFilter {
                     UUID.randomUUID().toString(),
                     anonymousAuthenticationToken.getPrincipal(),
                     anonymousAuthorities));
+        }
+
+        // creates and updates user details
+        if(authentication instanceof UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+            UserDetails userDetails = (UserDetails) usernamePasswordAuthenticationToken.getPrincipal();
+            userDetails = userDetailsService.loadUserByUsername(userDetails.getUsername());
+            usernamePasswordAuthenticationToken.setDetails(userDetails);
         }
 
         // forward
@@ -84,8 +97,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager, transactionDefinition);
         return transactionTemplate.execute(status -> {
             Collection<GrantedAuthority> authorities = new ArrayList<>();
-
-            // getting anonymous role
             List<Role> anonymousRoles = roleService.getRoles().stream()
                     .filter(Role::isAnonymous)
                     .toList();
@@ -95,7 +106,6 @@ public class SecurityFilter extends OncePerRequestFilter {
                     authorities.add(GrantedAuthorityImpl.from(authority));
                 });
             });
-
             return authorities;
         });
     }

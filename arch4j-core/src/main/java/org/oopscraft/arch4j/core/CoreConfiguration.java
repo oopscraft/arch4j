@@ -161,10 +161,6 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
     @RequiredArgsConstructor
     public static class SchedulerConfiguration implements SchedulingConfigurer {
 
-        private final RoleService roleService;
-
-        private final AuthorityService authorityService;
-
         @Override
         public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
             UserDetails userDetails = new User("_scheduledTask", "", new ArrayList<GrantedAuthority>());

@@ -59,10 +59,6 @@ public class SecurityFilter extends OncePerRequestFilter {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 securityContext.setAuthentication(authentication);
-
-                // keep alive
-                securityToken = authenticationTokenService.encodeSecurityToken(userDetails);
-                response.setHeader(HttpHeaders.AUTHORIZATION, securityToken);
             }
         }
 

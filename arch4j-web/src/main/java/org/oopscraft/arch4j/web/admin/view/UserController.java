@@ -5,13 +5,17 @@ import org.oopscraft.arch4j.core.user.*;
 import org.oopscraft.arch4j.web.security.SecurityTokenService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("admin/user")
@@ -21,7 +25,9 @@ public class UserController {
 
     private final UserService userService;
 
-    private final SecurityTokenService accessTokenEncoder;
+    private final UserDetailsService userDetailsService;
+
+    private final SecurityTokenService securityTokenService;
 
     @GetMapping
     public ModelAndView user() {
@@ -60,6 +66,16 @@ public class UserController {
     @ResponseBody
     public void changeUserPassword(@RequestBody Map<String,String> payload) {
         userService.changePassword(payload.get("userId"), payload.get("password"));
+    }
+
+    @PostMapping(value = "generate-security-token", produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String generateAccessToken(@RequestBody Map<String,String> payload) {
+        String userId = Optional.ofNullable(payload.get("userId")).orElseThrow();
+        int expirationDays = Optional.ofNullable(payload.get("expirationDays")).map(Integer::parseInt).orElseThrow();
+        int expirationMinutes = expirationDays * 60 * 24;
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+        return securityTokenService.encodeSecurityToken(userDetails, expirationMinutes);
     }
 
 }

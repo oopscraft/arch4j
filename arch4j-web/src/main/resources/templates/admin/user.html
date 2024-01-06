@@ -218,6 +218,10 @@
             userPasswordChange.open(user.userId);
         }
 
+        function generateSecurityToken() {
+            securityTokenGenerate.open(user.userId);
+        }
+
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',() => {
             getUsers();
@@ -514,6 +518,13 @@
                             <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
                             <span data-th-text="#{web.admin.user.changePassword}"></span>
                         </button>
+                        <button type="button" onclick="generateSecurityToken();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER'')')}?'locked'"
+                                data-duice-bind="user"
+                                data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>
+                            <span data-th-text="#{web.admin.user.generateSecurityToken}"></span>
+                        </button>
                     </div>
                     <div class="grid-column--1 display--flex justify-content--flex-end align-items--flex-start flex-wrap--wrap gap--1px">
                         <button type="button" onclick="deleteUser();"
@@ -637,6 +648,75 @@
     </dialog>
     <!-- ====================================== -->
     <!-- end: password change                   -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: security token generate         -->
+    <!-- ====================================== -->
+    <dialog id="securityTokenGenerate">
+        <style th:inline="css">
+            #securityTokenGenerate {
+                width: 400px;
+                padding: 1.5rem;
+            }
+        </style>
+        <script th:inline="javascript">
+            const securityTokenGenerate = {
+                dialog: new duice.dialog.Dialog(document.getElementById('securityTokenGenerate')),
+                data: new duice.ObjectProxy({
+                    userId: null,
+                    expirationDays: null,
+                    securityToken: null
+                }),
+                open: async function(userId) {
+                    duice.ObjectProxy.clear(this.data);
+                    this.data.userId = userId;
+                    this.data.expirationDays = 0;
+                    return this.dialog.open();
+                },
+                confirm: async function() {
+                    let url = new URL(/*[[@{/admin/user/generate-security-token}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.data)
+                    }).then(response => response.text())
+                        .then(data => {
+                            this.data.securityToken = data;
+                        });
+                }
+            }
+        </script>
+        <div class="display--grid grid-gap--1em">
+            <h2>
+                <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>
+                <span data-th-text="#{web.admin.user.generateSecurityToken}"></span>
+            </h2>
+            <form class="display--grid grid-template-columns--12 grid-gap--1em">
+                <label class="grid-column--6">
+                    <select data-duice-bind="securityTokenGenerate.data" data-duice-property="expirationDays" class="width--100">
+                        <option value="0">No expiration</option>
+                        <option value="30">30 days</option>
+                        <option value="60">60 days</option>
+                        <option value="90">90 days</option>
+                    </select>
+                </label>
+                <div class="grid-column--6 justify-self--end">
+                    <button type="button" onclick="securityTokenGenerate.confirm();">
+                        <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                        <span data-th-text="#{web.global.confirm}"></span>
+                    </button>
+                </div>
+            </form>
+            <div>
+                <textarea data-duice-bind="securityTokenGenerate.data" data-duice-property="securityToken" class="width--100" style="height:10em; white-space:normal;"></textarea>
+            </div>
+        </div>
+    </dialog>
+    <!-- ====================================== -->
+    <!-- end: security token generate           -->
     <!-- ====================================== -->
 
     <th:block th:include="admin/_common.html :: roleSelect"/>

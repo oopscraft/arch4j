@@ -17,21 +17,21 @@ public class SecurityTokenService {
 
     private final WebProperties webProperties;
 
-    public String encodeSecurityToken(UserDetails userDetails) {
+    public String encodeSecurityToken(UserDetails userDetails, int expirationMinutes) {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.claim("username", userDetails.getUsername());
         if(webProperties.getSecurityExpireMinutes() > 0) {
-            jwtBuilder.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(webProperties.getSecurityExpireMinutes()).toInstant()));
+            jwtBuilder.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expirationMinutes).toInstant()));
         }
         jwtBuilder.signWith(SignatureAlgorithm.HS256, webProperties.getSecuritySigningKey());
         jwtBuilder.compressWith(CompressionCodecs.GZIP);
         return jwtBuilder.compact();
     }
 
-    public UserDetails decodeSecurityToken(String authenticationToken) {
+    public UserDetails decodeSecurityToken(String securityToken) {
         Claims claims = Jwts.parser()
                 .setSigningKey(webProperties.getSecuritySigningKey())
-                .parseClaimsJws(authenticationToken).getBody();
+                .parseClaimsJws(securityToken).getBody();
         return UserDetailsImpl.builder()
                 .username((String)claims.get("username"))
                 .build();

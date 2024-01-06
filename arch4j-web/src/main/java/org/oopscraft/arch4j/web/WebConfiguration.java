@@ -33,6 +33,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -204,10 +205,13 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         }
 
         @Bean
-        protected PersistentTokenRepository persistentTokenRepository(DataSource dataSource) {
+        protected PersistentTokenRepository persistentTokenRepository(DataSource dataSource, Environment environment) {
             JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
             tokenRepository.setDataSource(dataSource);
-            tokenRepository.setCreateTableOnStartup(true);
+            if("jdbc".equalsIgnoreCase(environment.getProperty("spring.session.store-type"))
+            && "always".equalsIgnoreCase(environment.getProperty("spring.session.jdbc.initialize-schema"))) {
+                tokenRepository.setCreateTableOnStartup(true);
+            }
             return tokenRepository;
         }
 

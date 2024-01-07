@@ -317,9 +317,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             http.headers().frameOptions().sameOrigin();
 
             // remember-me
-//            http.rememberMe()
-//                    .rememberMeServices(rememberMeServices)
-//                    .tokenValiditySeconds(1209600); // default 2 weeks
+            http.rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .tokenValiditySeconds(1209600); // default 2 weeks
 
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
@@ -362,9 +362,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .permitAll();
 
             // remember-me
-//            http.rememberMe()
-//                    .rememberMeServices(rememberMeServices)
-//                    .tokenValiditySeconds(1209600); // default 2 weeks
+            http.rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .tokenValiditySeconds(1209600); // default 2 weeks
 
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);

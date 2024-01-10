@@ -19,16 +19,16 @@ import javax.persistence.Table;
 public class AlarmEntity extends BaseEntity {
 
     @Id
-    @Column(name = "alarm_id", length = 32)
-    private String alarmId;
+    @Column(name = "id", length = 32)
+    private String id;
 
-    @Column(name = "alarm_name")
-    private String alarmName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "client_type")
-    private String clientType;
+    @Column(name = "alarm_client_id")
+    private String alarmClientId;
 
-    @Column(name = "client_config")
-    private String clientConfig;
+    @Column(name = "alarm_client_config")
+    private String alarmClientConfig;
 
 }

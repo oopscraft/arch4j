@@ -24,29 +24,29 @@ public class AlarmService {
 
     @Transactional
     public Alarm saveAlarm(Alarm alarm) {
-        AlarmEntity alarmEntity = Optional.ofNullable(alarm.getAlarmId())
+        AlarmEntity alarmEntity = Optional.ofNullable(alarm.getId())
                 .flatMap(alarmRepository::findById)
                 .orElse(AlarmEntity.builder()
-                        .alarmId(alarm.getAlarmId())
+                        .id(alarm.getId())
                         .build());
 
         alarmEntity.setSystemUpdatedAt(LocalDateTime.now());
-        alarmEntity.setAlarmName(alarm.getAlarmName());
-        alarmEntity.setClientType(alarm.getClientType());
-        alarmEntity.setClientConfig(alarm.getClientConfig());
+        alarmEntity.setName(alarm.getName());
+        alarmEntity.setAlarmClientId(alarm.getAlarmClientId());
+        alarmEntity.setAlarmClientConfig(alarm.getAlarmClientConfig());
 
         AlarmEntity savedAlarmEntity = alarmRepository.saveAndFlush(alarmEntity);
         return Alarm.from(savedAlarmEntity);
     }
 
-    public Optional<Alarm> getAlarm(String alarmId) {
-        return alarmRepository.findById(alarmId)
+    public Optional<Alarm> getAlarm(String id) {
+        return alarmRepository.findById(id)
                 .map(Alarm::from);
     }
 
     @Transactional
-    public void deleteAlarm(String alarmId) {
-        alarmRepository.deleteById(alarmId);
+    public void deleteAlarm(String id) {
+        alarmRepository.deleteById(id);
         alarmRepository.flush();
     }
 
@@ -63,8 +63,8 @@ public class AlarmService {
         alarmClient.sendMessage(subject, content);
     }
 
-    public void sendAlarm(String alarmId, String subject, String content) {
-        Alarm alarm = getAlarm(alarmId).orElseThrow();
+    public void sendAlarm(String id, String subject, String content) {
+        Alarm alarm = getAlarm(id).orElseThrow();
         sendAlarm(alarm, subject, content);
     }
 

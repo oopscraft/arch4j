@@ -11,15 +11,14 @@ import java.util.Properties;
 public class AlarmClientFactory {
 
     public static AlarmClient getAlarmClient(Alarm alarm) {
+        AlarmClientDefinition alarmClientDefinition = AlarmClientDefinitionRegistry.getAlarmClientDefinition(alarm.getAlarmClientId()).orElseThrow();
         try {
-            Class<? extends AlarmClient> clientType = Class.forName(alarm.getClientType()).asSubclass(AlarmClient.class);
+            Class<? extends AlarmClient> clientType = alarmClientDefinition.getType().asSubclass(AlarmClient.class);
             Constructor<? extends AlarmClient> constructor = clientType.getConstructor(Properties.class);
-            Properties config = loadPropertiesFromString(alarm.getClientConfig());
+            Properties config = loadPropertiesFromString(alarm.getAlarmClientConfig());
             return constructor.newInstance(config);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Invalid alarm client type: " + alarm.getClientType(), e);
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("Alarm client constructor not found: " + alarm.getClientType(), e);
+            throw new IllegalArgumentException("Alarm client constructor not found: " + alarm.getAlarmClientId(), e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -38,6 +37,5 @@ public class AlarmClientFactory {
 
         return properties;
     }
-
 
 }

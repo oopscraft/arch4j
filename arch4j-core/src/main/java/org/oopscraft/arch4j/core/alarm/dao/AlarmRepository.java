@@ -14,13 +14,13 @@ public interface AlarmRepository extends JpaRepository<AlarmEntity,String>, JpaS
     default Page<AlarmEntity> findAll(AlarmSearch alarmSearch, Pageable pageable) {
         Specification<AlarmEntity> specification = Specification.where(null);
 
-        if(alarmSearch.getAlarmId() != null) {
+        if(alarmSearch.getId() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(AlarmEntity_.ALARM_ID), '%'+ alarmSearch.getAlarmId() + '%'));
+                    criteriaBuilder.like(root.get(AlarmEntity_.ID), '%'+ alarmSearch.getId() + '%'));
         }
-        if(alarmSearch.getAlarmName() != null) {
+        if(alarmSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(AlarmEntity_.ALARM_NAME), '%' + alarmSearch.getAlarmName() + '%'));
+                    criteriaBuilder.like(root.get(AlarmEntity_.NAME), '%' + alarmSearch.getName() + '%'));
         }
 
         return findAll(specification, pageable);

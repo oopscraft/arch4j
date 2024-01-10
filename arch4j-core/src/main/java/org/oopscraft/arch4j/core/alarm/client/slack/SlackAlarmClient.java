@@ -6,11 +6,13 @@ import org.oopscraft.arch4j.core.support.RestTemplateBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
 @Slf4j
+@Component
 public class SlackAlarmClient extends AlarmClient {
 
     private final String url;

@@ -40,8 +40,8 @@ public class AlarmController {
 
     @GetMapping("get-alarm")
     @ResponseBody
-    public Alarm getAlarm(@RequestParam("alarmId")String alarmId) {
-        return alarmService.getAlarm(alarmId)
+    public Alarm getAlarm(@RequestParam("id")String id) {
+        return alarmService.getAlarm(id)
                 .orElseThrow();
     }
 
@@ -57,14 +57,14 @@ public class AlarmController {
     @ResponseBody
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN_ALARM_EDIT')")
-    public void deleteAlarm(@RequestParam("alarmId")String alarmId) {
-        alarmService.deleteAlarm(alarmId);
+    public void deleteAlarm(@RequestParam("id")String id) {
+        alarmService.deleteAlarm(id);
     }
 
     @PostMapping("test-alarm")
     @ResponseBody
     public void testAlarm(@RequestBody Alarm alarm) {
-        alarmService.sendAlarm(alarm,"Test", "Test");
+        alarmService.sendAlarm(alarm,"Test Subject", "Test Content");
     }
 
 }

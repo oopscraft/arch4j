@@ -12,23 +12,23 @@ import org.oopscraft.arch4j.core.data.BaseModel;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Alarm extends BaseModel {
 
-    private String alarmId;
+    private String id;
 
-    private String alarmName;
+    private String name;
 
-    private String clientType;
+    private String alarmClientId;
 
-    private String clientConfig;
+    private String alarmClientConfig;
 
     public static Alarm from(AlarmEntity alarmEntity) {
         return Alarm.builder()
                 .systemRequired(alarmEntity.isSystemRequired())
                 .systemUpdatedAt(alarmEntity.getSystemUpdatedAt())
                 .systemUpdatedBy(alarmEntity.getSystemUpdatedBy())
-                .alarmId(alarmEntity.getAlarmId())
-                .alarmName(alarmEntity.getAlarmName())
-                .clientType(alarmEntity.getClientType())
-                .clientConfig(alarmEntity.getClientConfig())
+                .id(alarmEntity.getId())
+                .name(alarmEntity.getName())
+                .alarmClientId(alarmEntity.getAlarmClientId())
+                .alarmClientConfig(alarmEntity.getAlarmClientConfig())
                 .build();
     }
 

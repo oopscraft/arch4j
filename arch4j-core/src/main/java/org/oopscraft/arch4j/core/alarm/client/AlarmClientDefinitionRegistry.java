@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class AlarmClientDefinitionRegistry implements BeanPostProcessor {
 
     @Getter
-    private final List<AlarmClientDefinition> alarmClientDefinitions = new ArrayList<>();
+    private static final List<AlarmClientDefinition> alarmClientDefinitions = new ArrayList<>();
 
     @Override
     public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
@@ -21,6 +23,12 @@ public class AlarmClientDefinitionRegistry implements BeanPostProcessor {
             alarmClientDefinitions.add((AlarmClientDefinition) bean);
         }
         return bean;
+    }
+
+    public static Optional<AlarmClientDefinition> getAlarmClientDefinition(String id) {
+        return alarmClientDefinitions.stream()
+                .filter(item -> Objects.equals(item.getId(), id))
+                .findFirst();
     }
 
 }

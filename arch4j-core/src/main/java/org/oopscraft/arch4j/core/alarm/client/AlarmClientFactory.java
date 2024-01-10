@@ -13,7 +13,7 @@ public class AlarmClientFactory {
     public static AlarmClient getAlarmClient(Alarm alarm) {
         AlarmClientDefinition alarmClientDefinition = AlarmClientDefinitionRegistry.getAlarmClientDefinition(alarm.getAlarmClientId()).orElseThrow();
         try {
-            Class<? extends AlarmClient> clientType = alarmClientDefinition.getType().asSubclass(AlarmClient.class);
+            Class<? extends AlarmClient> clientType = alarmClientDefinition.getClassType().asSubclass(AlarmClient.class);
             Constructor<? extends AlarmClient> constructor = clientType.getConstructor(Properties.class);
             Properties config = loadPropertiesFromString(alarm.getAlarmClientConfig());
             return constructor.newInstance(config);

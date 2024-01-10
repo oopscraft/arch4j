@@ -4,12 +4,12 @@ import org.springframework.beans.factory.Aware;
 
 public interface AlarmClientDefinition extends Aware {
 
-    String getId();
+    String getAlarmClientId();
 
-    String getName();
+    String getAlarmClientName();
 
-    Class<? extends AlarmClient> getType();
+    String getAlarmClientConfigTemplate();
 
-    String getConfigTemplate();
+    Class<? extends AlarmClient> getClassType();
 
 }

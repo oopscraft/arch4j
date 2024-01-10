@@ -7,10 +7,10 @@ import java.util.Properties;
 public abstract class AlarmClient {
 
     @Getter
-    private final Properties config;
+    private final Properties properties;
 
-    public AlarmClient(Properties config) {
-        this.config = config;
+    public AlarmClient(Properties properties) {
+        this.properties = properties;
     }
 
     public abstract void sendMessage(String subject, String content);

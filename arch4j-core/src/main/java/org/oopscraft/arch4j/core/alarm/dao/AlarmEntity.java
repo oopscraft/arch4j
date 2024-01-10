@@ -4,10 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "core_alarm")
@@ -19,16 +16,17 @@ import javax.persistence.Table;
 public class AlarmEntity extends BaseEntity {
 
     @Id
-    @Column(name = "id", length = 32)
-    private String id;
+    @Column(name = "alarm_id", length = 32)
+    private String alarmId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "alarm_name")
+    private String alarmName;
 
-    @Column(name = "alarm_client_id")
+    @Column(name = "alarm_client_id", length = 32)
     private String alarmClientId;
 
     @Column(name = "alarm_client_config")
+    @Lob
     private String alarmClientConfig;
 
 }

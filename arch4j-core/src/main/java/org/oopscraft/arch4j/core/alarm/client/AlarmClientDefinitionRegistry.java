@@ -27,7 +27,7 @@ public class AlarmClientDefinitionRegistry implements BeanPostProcessor {
 
     public static Optional<AlarmClientDefinition> getAlarmClientDefinition(String id) {
         return alarmClientDefinitions.stream()
-                .filter(item -> Objects.equals(item.getId(), id))
+                .filter(item -> Objects.equals(item.getAlarmClientId(), id))
                 .findFirst();
     }
 

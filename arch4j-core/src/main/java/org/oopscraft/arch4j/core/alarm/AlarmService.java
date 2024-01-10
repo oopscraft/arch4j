@@ -24,14 +24,14 @@ public class AlarmService {
 
     @Transactional
     public Alarm saveAlarm(Alarm alarm) {
-        AlarmEntity alarmEntity = Optional.ofNullable(alarm.getId())
+        AlarmEntity alarmEntity = Optional.ofNullable(alarm.getAlarmId())
                 .flatMap(alarmRepository::findById)
                 .orElse(AlarmEntity.builder()
-                        .id(alarm.getId())
+                        .alarmId(alarm.getAlarmId())
                         .build());
 
         alarmEntity.setSystemUpdatedAt(LocalDateTime.now());
-        alarmEntity.setName(alarm.getName());
+        alarmEntity.setAlarmName(alarm.getAlarmName());
         alarmEntity.setAlarmClientId(alarm.getAlarmClientId());
         alarmEntity.setAlarmClientConfig(alarm.getAlarmClientConfig());
 
@@ -39,14 +39,14 @@ public class AlarmService {
         return Alarm.from(savedAlarmEntity);
     }
 
-    public Optional<Alarm> getAlarm(String id) {
-        return alarmRepository.findById(id)
+    public Optional<Alarm> getAlarm(String alarmId) {
+        return alarmRepository.findById(alarmId)
                 .map(Alarm::from);
     }
 
     @Transactional
-    public void deleteAlarm(String id) {
-        alarmRepository.deleteById(id);
+    public void deleteAlarm(String alarmId) {
+        alarmRepository.deleteById(alarmId);
         alarmRepository.flush();
     }
 
@@ -63,8 +63,8 @@ public class AlarmService {
         alarmClient.sendMessage(subject, content);
     }
 
-    public void sendAlarm(String id, String subject, String content) {
-        Alarm alarm = getAlarm(id).orElseThrow();
+    public void sendAlarm(String alarmId, String subject, String content) {
+        Alarm alarm = getAlarm(alarmId).orElseThrow();
         sendAlarm(alarm, subject, content);
     }
 

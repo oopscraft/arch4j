@@ -23,12 +23,10 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    private final AlarmClientDefinitionRegistry alarmClientDefinitionRegistry;
-
     @GetMapping
     public ModelAndView variable() {
         ModelAndView modelAndView = new ModelAndView("admin/alarm.html");
-        modelAndView.addObject("alarmClientDefinitions", alarmClientDefinitionRegistry.getAlarmClientDefinitions());
+        modelAndView.addObject("alarmClientDefinitions", AlarmClientDefinitionRegistry.getAlarmClientDefinitions());
         return modelAndView;
     }
 
@@ -40,8 +38,8 @@ public class AlarmController {
 
     @GetMapping("get-alarm")
     @ResponseBody
-    public Alarm getAlarm(@RequestParam("id")String id) {
-        return alarmService.getAlarm(id)
+    public Alarm getAlarm(@RequestParam("alarmId")String alarmId) {
+        return alarmService.getAlarm(alarmId)
                 .orElseThrow();
     }
 
@@ -57,8 +55,8 @@ public class AlarmController {
     @ResponseBody
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN_ALARM_EDIT')")
-    public void deleteAlarm(@RequestParam("id")String id) {
-        alarmService.deleteAlarm(id);
+    public void deleteAlarm(@RequestParam("alarmId")String alarmId) {
+        alarmService.deleteAlarm(alarmId);
     }
 
     @PostMapping("test-alarm")

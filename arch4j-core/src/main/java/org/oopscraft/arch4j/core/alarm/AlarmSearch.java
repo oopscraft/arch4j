@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public class AlarmSearch {
 
-    private String id;
+    private String alarmId;
 
-    private String name;
+    private String alarmName;
 
 }

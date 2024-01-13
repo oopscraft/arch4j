@@ -20,10 +20,12 @@ public class CryptoUtil implements ApplicationContextAware {
 
     private static CryptoUtil instance;
 
+    private static final Object lockObject = new Object();
+
     private final TextEncryptor encryptor;
 
     public synchronized static CryptoUtil getInstance() {
-        synchronized (CryptoUtil.class) {
+        synchronized (lockObject) {
             if (instance == null) {
                 throw new RuntimeException("CryptoUtil not initialized");
             }
@@ -32,7 +34,7 @@ public class CryptoUtil implements ApplicationContextAware {
     }
 
     public synchronized static CryptoUtil getInstance(CryptoKeyProvider cryptoKeyProvider) {
-        synchronized (CryptoUtil.class) {
+        synchronized (lockObject) {
             if(instance == null) {
                 instance = new CryptoUtil(cryptoKeyProvider);
             }

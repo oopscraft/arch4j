@@ -1,8 +1,6 @@
-package org.oopscraft.arch4j.batch.sample.mapper;
+package org.oopscraft.arch4j.batch.sample.dao;
 
 import lombok.*;
-import org.oopscraft.arch4j.batch.item.file.annotation.Align;
-import org.oopscraft.arch4j.batch.item.file.annotation.Length;
 import org.oopscraft.arch4j.core.data.crpyto.Crypto;
 
 import java.math.BigDecimal;
@@ -13,50 +11,35 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class SampleVo {
+public class SampleBackupVo {
 
-    @Length(40)
     private String sampleId;
 
-    @Length(20)
     private String name;
 
-    @Length(10)
     private String type;
 
-    @Length(value = 10, align = Align.RIGHT)
     private Integer number;
 
-    @Length(value = 20, align = Align.RIGHT)
     private Long longNumber;
 
-    @Length(value = 20, align = Align.RIGHT)
     private Double doubleNumber;
 
-    @Length(value = 20, align = Align.RIGHT)
     private BigDecimal bigDecimal;
 
-    @Length(30)
     private java.sql.Date sqlDate;
 
-    @Length(30)
     private java.util.Date utilDate;
 
-    @Length(30)
     private java.sql.Timestamp timestamp;
 
-    @Length(30)
     private LocalDate localDate;
 
-    @Length(30)
     private LocalDateTime localDateTime;
 
-    @Length(100)
     private String lobText;
 
-    @Length(100)
     @Crypto
     private String cryptoText;
-
 
 }

@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.batch.sample.mapper;
+package org.oopscraft.arch4j.batch.sample.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

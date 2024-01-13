@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Slf4j
 @Builder
-public class CompareSampleDataToBackupDataTasklet implements Tasklet {
+public class CompareSampleDbToSampleBackupDbTasklet implements Tasklet {
 
     @Autowired
     SampleRepository sampleRepository;

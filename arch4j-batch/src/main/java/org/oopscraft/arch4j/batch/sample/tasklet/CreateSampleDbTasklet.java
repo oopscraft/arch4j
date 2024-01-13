@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @Slf4j
 @Builder
-public class CreateSampleDataTasklet implements Tasklet {
+public class CreateSampleDbTasklet implements Tasklet {
 
     private Integer size;
 

@@ -19,22 +19,18 @@ import java.lang.reflect.Field;
 @Intercepts({@Signature(
         type = Executor.class,
         method = "update",
-        args = {
-                MappedStatement.class,
-                Object.class
-        }
+        args = {MappedStatement.class, Object.class}
 )})
 public class CryptoEncryptInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-
         Object[] args = invocation.getArgs();
-        for(int i = 1; i < args.length; i ++ ) {
-            Object object = args[i];
-            CryptoUtil.getInstance().encryptObject(object);
+        if(args.length >= 2) {
+           Object parameter = args[1];
+           CryptoUtil.getInstance().encryptObject(parameter);
         }
         Object returnObject = invocation.proceed();
-        log.debug("== returnObject:{}", returnObject);
+        log.debug("returnObject:{}", returnObject);
         return returnObject;
     }
 

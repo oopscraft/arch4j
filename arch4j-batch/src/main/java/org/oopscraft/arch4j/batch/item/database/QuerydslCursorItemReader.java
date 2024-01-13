@@ -20,6 +20,8 @@ import java.util.Optional;
 
 /**
  * QuerydslCursorItemReader
+ * Currently, the Interceptor does not work in MyBatisCursorItemReader,
+ * so a decryption function is added after inheritance.
  * @param <T>
  */
 @Slf4j

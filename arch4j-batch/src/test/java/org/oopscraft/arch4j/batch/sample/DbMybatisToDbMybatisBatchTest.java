@@ -16,30 +16,17 @@ import javax.batch.runtime.BatchStatus;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-@ContextConfiguration(classes= DatabaseToDatabaseBatch.class)
-public class DatabaseToDatabaseBatchTest extends BatchTestSupport {
+@ContextConfiguration(classes= DbMybatisToDbMybatisBatch.class)
+public class DbMybatisToDbMybatisBatchTest extends BatchTestSupport {
 
     @Autowired
-    @Qualifier("querydslToJpaJob")
-    Job querydslToJpaJob;
-
-    @Autowired
-    @Qualifier("mybatisToMybatisJob")
+    @Qualifier("dbMybatisToDbMybatisJob")
     Job mybatisToMybatisJob;
 
     @Test
-    public void testQuerydslToJpaJob() throws Exception {
+    void dbMybatisToDbMybatisJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("size", 123L)
-                .toJobParameters();
-        JobExecution jobExecution = getJobLauncherTestUtils(querydslToJpaJob).launchJob(jobParameters);
-        assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
-    }
-
-    @Test
-    public void testMybatisToMybatisJob() throws Exception {
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("size", 123L)
+                .addLong("size", 1234L)
                 .toJobParameters();
         JobExecution jobExecution = getJobLauncherTestUtils(mybatisToMybatisJob).launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());

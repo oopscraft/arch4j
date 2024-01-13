@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
+import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
 import org.oopscraft.arch4j.batch.AbstractBatchConfigurer;
 import org.oopscraft.arch4j.batch.item.database.MybatisCursorItemReader;
+import org.oopscraft.arch4j.batch.item.database.MybatisCursorItemReaderBuilder;
 import org.oopscraft.arch4j.batch.sample.dao.SampleBackupMapper;
 import org.oopscraft.arch4j.batch.sample.dao.SampleBackupVo;
 import org.oopscraft.arch4j.batch.sample.dao.SampleMapper;
@@ -70,13 +72,13 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
     @Bean
     @StepScope
     MybatisCursorItemReader<SampleVo> sampleDbReader(@Value("#{jobParameters[size]}") Integer size) {
-        MybatisCursorItemReader<SampleVo> itemReader = new MybatisCursorItemReader<>();
-        itemReader.setSqlSessionFactory(getSqlSessionFactory());
-        itemReader.setQueryId(SampleMapper.class.getName() + "." + "selectSamples");
-        itemReader.setParameterValues(new HashMap<>(){{
-            put("limit", size);
-        }});
-        return itemReader;
+        return new MybatisCursorItemReaderBuilder<SampleVo>()
+                .sqlSessionFactory(getSqlSessionFactory())
+                .queryId(SampleMapper.class.getName() + "." + "selectSamples")
+                .parameterValues(new HashMap<>(){{
+                    put("limit", size);
+                }})
+                .build();
     }
 
     @Bean
@@ -93,11 +95,11 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
     @Bean
     @StepScope
     MyBatisBatchItemWriter<SampleBackupVo> sampleBackupDbWriter() {
-        MyBatisBatchItemWriter<SampleBackupVo> itemWriter = new MyBatisBatchItemWriter<>();
-        itemWriter.setSqlSessionFactory(getSqlSessionFactory());
-        itemWriter.setStatementId(SampleBackupMapper.class.getName() + "." + "insertSampleBackup");
-        itemWriter.setAssertUpdates(false); // disable assert updates
-        return itemWriter;
+        return new MyBatisBatchItemWriterBuilder<SampleBackupVo>()
+                .sqlSessionFactory(getSqlSessionFactory())
+                .statementId(SampleBackupMapper.class.getName() + "." + "insertSampleBackup")
+                .assertUpdates(false) // disable assert updates
+                .build();
     }
 
     @Bean

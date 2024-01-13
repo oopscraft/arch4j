@@ -15,6 +15,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -45,35 +46,33 @@ public class CreateSampleDbTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
         // clear sample
-        clearSample();
+        clearSampleDb();
+
+        // clear sampleBackup
+        clearSampleBackupDb();
 
         // create sample
-        createSample();
+        createSampleDb();
 
         // returns
         return RepeatStatus.FINISHED;
     }
 
-    /**
-     * clear sample
-     */
-    private void clearSample() {
+    private void clearSampleDb() {
         try (ManualTransactionHandler manualTransactionHandler = new ManualTransactionHandler(transactionManager)) {
-
-            // deletes sample
             jpaQueryFactory.delete(QSampleEntity.sampleEntity).execute();
             manualTransactionHandler.commit();
+        }
+    }
 
-            // deletes sample backup
+    private void clearSampleBackupDb() {
+        try (ManualTransactionHandler manualTransactionHandler = new ManualTransactionHandler(transactionManager)) {
             jpaQueryFactory.delete(QSampleBackupEntity.sampleBackupEntity).execute();
             manualTransactionHandler.commit();
         }
     }
 
-    /**
-     * create sample
-     */
-    private void createSample() {
+    private void createSampleDb() {
         try (ManualTransactionHandler manualTransactionUtil = new ManualTransactionHandler(transactionManager)) {
             for (int i = 0; i < size; i++) {
                 Faker faker = new Faker(new Locale(lang), new Random(i));

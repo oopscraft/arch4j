@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.oopscraft.arch4j.batch.AbstractBatchConfigurer;
 import org.oopscraft.arch4j.batch.item.database.QuerydslCursorItemReader;
+import org.oopscraft.arch4j.batch.item.database.QuerydslCursorItemReaderBuilder;
 import org.oopscraft.arch4j.batch.sample.tasklet.CompareSampleDbToSampleBackupDbTasklet;
 import org.oopscraft.arch4j.batch.sample.tasklet.CreateSampleDbTasklet;
 import org.oopscraft.arch4j.core.sample.dao.QSampleEntity;
@@ -74,7 +75,7 @@ public class DbQuerydslToDbJpaBatch extends AbstractBatchConfigurer {
                 .select(qSample)
                 .from(qSample)
                 .limit(size);
-        return QuerydslCursorItemReader.<SampleEntity>builder()
+        return new QuerydslCursorItemReaderBuilder<SampleEntity>()
                 .entityManagerFactory(getEntityManagerFactory())
                 .query(query)
                 .build();

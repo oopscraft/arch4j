@@ -22,13 +22,13 @@ import org.springframework.core.io.FileSystemResource;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
+public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
 
     private final ModelMapper modelMapper;
 
     @Bean
-    Job fileDsvToFileFldJob() {
-        return getJobBuilder("fileDsvToFileFldJob")
+    Job fileFldToFileDsvJob() {
+        return getJobBuilder("fileFldToFileDsvJob")
                 .start(createSampleFileStep())
                 .next(copySampleFileToSampleBackupFileStep())
 //                .next(compareSampleFileToSampleBackupFileStep())
@@ -50,10 +50,9 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
         return CreateSampleFileTasklet.builder()
                 .size(size)
                 .resource(new FileSystemResource(inputFile))
-                .fileType(CreateSampleFileTasklet.FileType.DSV)
+                .fileType(CreateSampleFileTasklet.FileType.FLD)
                 .encoding("UTF-8")
                 .lineSeparator("\n")
-                .delimiter("\t")
                 .build();
     }
 
@@ -70,13 +69,12 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    DelimitedFileItemReader<SampleFile> sampleFileReader(@Value("#{jobParameters[inputFile]}")String inputFile) {
-        return new DelimitedFileItemReaderBuilder<SampleFile>()
+    FixedLengthFileItemReader<SampleFile> sampleFileReader(@Value("#{jobParameters[inputFile]}")String inputFile) {
+        return new FixedLengthFileItemReaderBuilder<SampleFile>()
                 .itemType(SampleFile.class)
                 .resource(new FileSystemResource(inputFile))
                 .encoding("UTF-8")
                 .lineSeparator("\n")
-                .delimiter("\t")
                 .build();
     }
 
@@ -93,12 +91,13 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    FixedLengthFileItemWriter<SampleBackupFile> sampleBackupFileWriter(@Value("#{jobParameters[outputFile]}")String outputFile) {
-        return new FixedLengthFileItemWriterBuilder<SampleBackupFile>()
+    DelimitedFileItemWriter<SampleBackupFile> sampleBackupFileWriter(@Value("#{jobParameters[outputFile]}")String outputFile) {
+        return new DelimitedFileItemWriterBuilder<SampleBackupFile>()
                 .itemType(SampleBackupFile.class)
                 .resource(new FileSystemResource(outputFile))
                 .encoding("UTF-8")
                 .lineSeparator("\n")
+                .delimiter("\t")
                 .build();
     }
 

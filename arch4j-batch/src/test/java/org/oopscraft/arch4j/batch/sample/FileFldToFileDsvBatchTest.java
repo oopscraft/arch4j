@@ -16,21 +16,21 @@ import javax.batch.runtime.BatchStatus;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-@ContextConfiguration(classes= FileDsvToFileFldBatch.class)
-public class FileDsvToFileFldBatchTest extends BatchTestSupport {
+@ContextConfiguration(classes= FileFldToFileDsvBatch.class)
+public class FileFldToFileDsvBatchTest extends BatchTestSupport {
 
     @Autowired
-    @Qualifier("fileDsvToFileFldJob")
-    Job fileDsvToFileFldJob;
+    @Qualifier("fileFldToFileDsvJob")
+    Job fileFldToFileDsvJob;
 
     @Test
     void fileDsvToFileFldJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
-                .addString("inputFile", "./.tmp/sample/fileDsvToFileFld.sample.dsv")
-                .addString("outputFile", "./.tmp/sample/fileDsvToFileFld.sampleBackup.fld")
+                .addString("inputFile", "./.tmp/sample/fileFldToFileDsv.sample.fld")
+                .addString("outputFile", "./.tmp/sample/fileFldToFileDsv.sampleBackup.dsv")
                 .toJobParameters();
-        JobExecution jobExecution = getJobLauncherTestUtils(fileDsvToFileFldJob).launchJob(jobParameters);
+        JobExecution jobExecution = getJobLauncherTestUtils(fileFldToFileDsvJob).launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
 

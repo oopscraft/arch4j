@@ -5,17 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.batch.item.file.transform.LineAggregator;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.util.Assert;
-import org.springframework.util.ReflectionUtils;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class GenericFileItemReader<T> extends FlatFileItemReader<T> {
@@ -24,11 +16,23 @@ public abstract class GenericFileItemReader<T> extends FlatFileItemReader<T> {
 
     @Setter
     @Getter
-    public Class<? extends T> itemType;
+    protected Class<? extends T> itemType;
 
     @Setter
     @Getter
-    public String lineSeparator = String.valueOf('\n');
+    protected String lineSeparator = String.valueOf('\n');
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
     protected abstract LineMapper<T> createLineMapper(Class<? extends T> itemType);
 

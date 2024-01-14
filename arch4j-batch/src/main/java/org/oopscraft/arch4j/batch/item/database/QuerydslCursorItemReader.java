@@ -47,9 +47,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
 
     private ScrollableResults cursor;
 
-    /**
-     * constructor
-     */
     public QuerydslCursorItemReader() {
         super.setName(ClassUtils.getShortName(this.getClass()));
     }
@@ -75,21 +72,12 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
         cursor = query.scroll(scrollMode);
     }
 
-    /**
-     * jumpToItem
-     * @param itemIndex item index
-     * @throws Exception exception
-     */
     @Override
     protected void jumpToItem(int itemIndex) throws Exception {
         log.info("- {}.jumpToItem({})", this.getClass().getSimpleName(), itemIndex);
         super.jumpToItem(itemIndex);
     }
 
-    /**
-     * doRead
-     * @return item
-     */
     @Override
     protected T doRead() {
         if (cursor.next()) {
@@ -108,12 +96,8 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
         return null;
     }
 
-    /**
-     * doClose
-     */
     @Override
     protected void doClose() {
-
         // release resource
         if(cursor != null) {
             cursor.close();
@@ -123,47 +107,6 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
             entityManager.close();
         }
 
-    }
-
-    /**
-     * QuerydslCursorItemReader
-     * @param <T>
-     */
-    @Setter
-    @Accessors(chain = true, fluent = true)
-    public static class QuerydslCursorItemReaderBuilder<T> {
-
-        private PlatformTransactionManager transactionManager;
-
-        private EntityManagerFactory entityManagerFactory;
-
-        private JPAQuery<T> query;
-
-        private Integer fetchSize;
-
-        private ScrollMode scrollMode;
-
-        /**
-         * build
-         * @return object
-         */
-        public QuerydslCursorItemReader<T> build() {
-            QuerydslCursorItemReader<T> object = new QuerydslCursorItemReader<>();
-            Optional.ofNullable(entityManagerFactory).ifPresent(object::setEntityManagerFactory);
-            Optional.ofNullable(query).ifPresent(object::setQuery);
-            Optional.ofNullable(fetchSize).ifPresent(object::setFetchSize);
-            Optional.ofNullable(scrollMode).ifPresent(object::setScrollMode);
-            return object;
-        }
-    }
-
-    /**
-     * builder
-     * @param <T> generic type
-     * @return builder
-     */
-    public static <T> QuerydslCursorItemReaderBuilder<T> builder() {
-        return new QuerydslCursorItemReaderBuilder<>();
     }
 
 }

@@ -1,21 +1,12 @@
 package org.oopscraft.arch4j.batch.item.file;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import net.bytebuddy.implementation.bind.annotation.Super;
 import org.jetbrains.annotations.NotNull;
-import org.oopscraft.arch4j.batch.sample.dto.SampleFile;
 import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
-import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.LineAggregator;
-import org.springframework.batch.item.support.AbstractFileItemWriter;
-import org.springframework.util.Assert;
-import org.springframework.util.ReflectionUtils;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +24,18 @@ public abstract class GenericFileItemWriter<T> extends FlatFileItemWriter<T> {
     public String lineSeparator = String.valueOf('\n');
 
     protected abstract LineAggregator<T> createLineAggregator(Class<? extends T> itemType);
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    @Setter
+    @Getter
+    protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
     @NotNull
     public String doWrite(List<? extends T> items) {

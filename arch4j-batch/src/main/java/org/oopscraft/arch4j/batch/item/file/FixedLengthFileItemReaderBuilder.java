@@ -8,21 +8,21 @@ import java.util.Optional;
 
 @Setter
 @Accessors(chain = true, fluent = true)
-public class FixedByteFileItemWriterBuilder<T> {
+public class FixedLengthFileItemReaderBuilder<T> {
 
-    public Resource resource;
+    private Class<? extends T> itemType;
 
-    public String encoding;
+    private Resource resource;
 
-    public Class<? extends T> itemType;
+    private String encoding;
 
-    public String lineSeparator;
+    private String lineSeparator;
 
-    public FixedByteFileItemWriter<T> build() {
-        FixedByteFileItemWriter<T> instance = new FixedByteFileItemWriter<>();
+    public FixedLengthFileItemReader<T> build() {
+        FixedLengthFileItemReader<T> instance = new FixedLengthFileItemReader<>();
+        Optional.ofNullable(itemType).ifPresent(instance::setItemType);
         Optional.ofNullable(resource).ifPresent(instance::setResource);
         Optional.ofNullable(encoding).ifPresent(instance::setEncoding);
-        Optional.ofNullable(itemType).ifPresent(instance::setItemType);
         Optional.ofNullable(lineSeparator).ifPresent(instance::setLineSeparator);
         return instance;
     }

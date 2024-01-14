@@ -1,26 +1,16 @@
 package org.oopscraft.arch4j.batch.item.file;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.oopscraft.arch4j.batch.item.file.transform.DelimitedLineTokenizer;
 import org.oopscraft.arch4j.batch.item.file.transform.FieldConversionService;
+import org.oopscraft.arch4j.batch.item.file.transform.FixedLengthLineTokenizer;
 import org.oopscraft.arch4j.batch.item.file.transform.ItemTypeDescriptor;
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.format.support.FormattingConversionService;
-import org.springframework.util.ReflectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+public class FixedLengthFileItemReader<T> extends GenericFileItemReader<T> {
 
-public class DelimitedFileItemReader<T> extends GenericFileItemReader<T> {
-
-    @Setter
-    @Getter
-    public String delimiter = String.valueOf(',');
-
+    @Override
     protected LineMapper<T> createLineMapper(Class<? extends T> itemType) {
         // item type descriptor
         ItemTypeDescriptor itemTypeDescriptor = new ItemTypeDescriptor(itemType);
@@ -33,8 +23,7 @@ public class DelimitedFileItemReader<T> extends GenericFileItemReader<T> {
                 .build();
 
         // line tokenizer
-        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer(itemTypeDescriptor);
-        lineTokenizer.setDelimiter(delimiter);
+        FixedLengthLineTokenizer lineTokenizer = new FixedLengthLineTokenizer(itemTypeDescriptor);
 
         // field set mapper
         BeanWrapperFieldSetMapper<T> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
@@ -49,6 +38,5 @@ public class DelimitedFileItemReader<T> extends GenericFileItemReader<T> {
         // return
         return lineMapper;
     }
-
 
 }

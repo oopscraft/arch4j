@@ -70,8 +70,8 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    DelimitedFileItemReader<SampleFile> sampleFileReader(@Value("#{jobParameters[inputFile]}")String inputFile) {
-        return new DelimitedFileItemReaderBuilder<SampleFile>()
+    DelimiterFileItemReader<SampleFile> sampleFileReader(@Value("#{jobParameters[inputFile]}")String inputFile) {
+        return new DelimiterFileItemReaderBuilder<SampleFile>()
                 .itemType(SampleFile.class)
                 .resource(new FileSystemResource(inputFile))
                 .encoding("UTF-8")
@@ -93,8 +93,8 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    FixedLengthFileItemWriter<SampleBackupFile> sampleBackupFileWriter(@Value("#{jobParameters[outputFile]}")String outputFile) {
-        return new FixedLengthFileItemWriterBuilder<SampleBackupFile>()
+    FixedByteFileItemWriter<SampleBackupFile> sampleBackupFileWriter(@Value("#{jobParameters[outputFile]}")String outputFile) {
+        return new FixedByteFileItemWriterBuilder<SampleBackupFile>()
                 .itemType(SampleBackupFile.class)
                 .resource(new FileSystemResource(outputFile))
                 .encoding("UTF-8")

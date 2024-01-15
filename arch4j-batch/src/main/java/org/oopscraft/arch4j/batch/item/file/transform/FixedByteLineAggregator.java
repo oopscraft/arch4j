@@ -6,35 +6,43 @@ import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
 import org.oopscraft.arch4j.batch.item.file.annotation.Align;
 import org.oopscraft.arch4j.batch.item.file.annotation.Length;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.ExtractorLineAggregator;
+import org.springframework.batch.item.file.transform.FieldExtractor;
+import org.springframework.batch.item.file.transform.LineAggregator;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.util.Assert;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
-public class FixedLengthLineAggregator<T> extends ExtractorLineAggregator<T> {
+public class FixedByteLineAggregator<T> implements LineAggregator<T> {
 
-    private final ItemTypeDescriptor itemTypeDescriptor;
+    protected final String encoding;
 
-    @Setter
-    private ConversionService conversionService;
+    protected final ItemTypeDescriptor itemTypeDescriptor;
 
-    @Setter
-    private String encoding = "UTF-8";
+    protected final FieldExtractor<T> fieldExtractor;
 
-    public FixedLengthLineAggregator(ItemTypeDescriptor itemTypeDescriptor) {
+    protected final ConversionService conversionService;
+
+    public FixedByteLineAggregator(String encoding, ItemTypeDescriptor itemTypeDescriptor, FieldExtractor<T> fieldExtractor, ConversionService conversionService) {
+        this.encoding = encoding;
         this.itemTypeDescriptor = itemTypeDescriptor;
+        this.fieldExtractor = fieldExtractor;
+        this.conversionService = conversionService;
     }
 
     @NotNull
     @Override
-    protected String doAggregate(@NotNull Object[] fields) {
+    public String aggregate(@NotNull T item) {
+        Assert.notNull(item, "Item is required");
+        Object[] fields = this.fieldExtractor.extract(item);
+
         log.debug("[FIELD]{}", (Object)fields);
         try (ByteArrayOutputStream lineBytes = new ByteArrayOutputStream()) {
             for(int i = 0; i < fields.length; i ++) {

@@ -6,8 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
 import org.oopscraft.arch4j.batch.AbstractBatchConfigurer;
-import org.oopscraft.arch4j.batch.item.database.MybatisCursorItemReader;
-import org.oopscraft.arch4j.batch.item.database.MybatisCursorItemReaderBuilder;
+import org.oopscraft.arch4j.batch.item.database.MybatisDbItemReader;
+import org.oopscraft.arch4j.batch.item.database.MybatisDbItemReaderBuilder;
 import org.oopscraft.arch4j.batch.sample.dao.SampleBackupMapper;
 import org.oopscraft.arch4j.batch.sample.dao.SampleBackupVo;
 import org.oopscraft.arch4j.batch.sample.dao.SampleMapper;
@@ -71,8 +71,8 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    MybatisCursorItemReader<SampleVo> sampleDbReader(@Value("#{jobParameters[size]}") Integer size) {
-        return new MybatisCursorItemReaderBuilder<SampleVo>()
+    MybatisDbItemReader<SampleVo> sampleDbReader(@Value("#{jobParameters[size]}") Integer size) {
+        return new MybatisDbItemReaderBuilder<SampleVo>()
                 .sqlSessionFactory(getSqlSessionFactory())
                 .queryId(SampleMapper.class.getName() + "." + "selectSamples")
                 .parameterValues(new HashMap<>(){{

@@ -1,13 +1,16 @@
 package org.oopscraft.arch4j.batch.item.file;
 
-import org.oopscraft.arch4j.batch.item.file.transform.DelimitedLineAggregator;
+import lombok.Setter;
+import org.oopscraft.arch4j.batch.item.file.transform.DelimiterLineAggregator;
 import org.oopscraft.arch4j.batch.item.file.transform.FieldConversionService;
-import org.oopscraft.arch4j.batch.item.file.transform.FixedLengthLineAggregator;
 import org.oopscraft.arch4j.batch.item.file.transform.ItemTypeDescriptor;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.LineAggregator;
 
-public class FixedLengthFileItemWriter<T> extends GenericFileItemWriter<T> {
+public class DelimiterFileItemWriter<T> extends GenericFileItemWriter<T> {
+
+    @Setter
+    public String delimiter = String.valueOf(',');
 
     @Override
     protected LineAggregator<T> createLineAggregator(Class<? extends T> itemType) {
@@ -26,9 +29,8 @@ public class FixedLengthFileItemWriter<T> extends GenericFileItemWriter<T> {
         fieldExtractor.setNames(itemTypeDescriptor.getFieldNames().toArray(new String[0]));
 
         // line aggregator
-        FixedLengthLineAggregator<T> lineAggregator = new FixedLengthLineAggregator<>(itemTypeDescriptor);
-        lineAggregator.setConversionService(conversionService);
-        lineAggregator.setFieldExtractor(fieldExtractor);
+        DelimiterLineAggregator<T> lineAggregator = new DelimiterLineAggregator<>(encoding, itemTypeDescriptor, fieldExtractor, conversionService);
+        lineAggregator.setDelimiter(delimiter);
 
         // return
         return lineAggregator;

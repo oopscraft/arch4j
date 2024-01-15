@@ -1,14 +1,15 @@
 package org.oopscraft.arch4j.batch.item.file;
 
-import org.oopscraft.arch4j.batch.item.file.transform.DelimitedLineTokenizer;
+import lombok.Setter;
 import org.oopscraft.arch4j.batch.item.file.transform.FieldConversionService;
-import org.oopscraft.arch4j.batch.item.file.transform.FixedLengthLineTokenizer;
+import org.oopscraft.arch4j.batch.item.file.transform.FixedByteLineTokenizer;
 import org.oopscraft.arch4j.batch.item.file.transform.ItemTypeDescriptor;
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 
-public class FixedLengthFileItemReader<T> extends GenericFileItemReader<T> {
+public class FixedByteFileItemReader<T> extends GenericFileItemReader<T> {
+
 
     @Override
     protected LineMapper<T> createLineMapper(Class<? extends T> itemType) {
@@ -23,7 +24,7 @@ public class FixedLengthFileItemReader<T> extends GenericFileItemReader<T> {
                 .build();
 
         // line tokenizer
-        FixedLengthLineTokenizer lineTokenizer = new FixedLengthLineTokenizer(itemTypeDescriptor);
+        FixedByteLineTokenizer lineTokenizer = new FixedByteLineTokenizer(getEncoding(), itemTypeDescriptor);
 
         // field set mapper
         BeanWrapperFieldSetMapper<T> fieldSetMapper = new BeanWrapperFieldSetMapper<>();

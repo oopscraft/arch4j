@@ -1,6 +1,5 @@
 package org.oopscraft.arch4j.batch.item.file;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.core.io.Resource;
@@ -10,7 +9,7 @@ import java.util.Optional;
 
 @Setter
 @Accessors(chain = true, fluent = true)
-public class DelimitedFileItemReaderBuilder<T> {
+public class DelimiterFileItemReaderBuilder<T> {
 
     private Class<? extends T> itemType;
 
@@ -28,8 +27,8 @@ public class DelimitedFileItemReaderBuilder<T> {
 
     private DateTimeFormatter timeFormatter;
 
-    public DelimitedFileItemReader<T> build() {
-        DelimitedFileItemReader<T> instance = new DelimitedFileItemReader<>();
+    public DelimiterFileItemReader<T> build() {
+        DelimiterFileItemReader<T> instance = new DelimiterFileItemReader<>();
         Optional.ofNullable(itemType).ifPresent(instance::setItemType);
         Optional.ofNullable(resource).ifPresent(instance::setResource);
         Optional.ofNullable(encoding).ifPresent(instance::setEncoding);

@@ -3,9 +3,8 @@ package org.oopscraft.arch4j.batch.sample.tasklet;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import org.oopscraft.arch4j.batch.item.file.DelimitedFileItemWriterBuilder;
-import org.oopscraft.arch4j.batch.item.file.FixedLengthFileItemWriter;
-import org.oopscraft.arch4j.batch.item.file.FixedLengthFileItemWriterBuilder;
+import org.oopscraft.arch4j.batch.item.file.DelimiterFileItemWriterBuilder;
+import org.oopscraft.arch4j.batch.item.file.FixedByteFileItemWriterBuilder;
 import org.oopscraft.arch4j.batch.sample.dto.SampleFile;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -34,14 +33,14 @@ public class CreateSampleFileTasklet implements Tasklet {
     @NotNull
     private Integer size;
 
+    @Builder.Default
+    private String lang = "en";
+
     @NotNull
     private Resource resource;
 
     @Builder.Default
     private FileType fileType = FileType.DSV;
-
-    @Builder.Default
-    private String lang = "en";
 
     @Builder.Default
     private String encoding = StandardCharsets.UTF_8.name();
@@ -65,7 +64,7 @@ public class CreateSampleFileTasklet implements Tasklet {
         FlatFileItemWriter<SampleFile> itemWriter = null;
         switch(fileType) {
             case DSV -> {
-                itemWriter = new DelimitedFileItemWriterBuilder<SampleFile>()
+                itemWriter = new DelimiterFileItemWriterBuilder<SampleFile>()
                         .itemType(SampleFile.class)
                         .resource(resource)
                         .encoding(encoding)
@@ -74,7 +73,7 @@ public class CreateSampleFileTasklet implements Tasklet {
                         .build();
             }
             case FLD -> {
-                itemWriter = new FixedLengthFileItemWriterBuilder<SampleFile>()
+                itemWriter = new FixedByteFileItemWriterBuilder<SampleFile>()
                         .itemType(SampleFile.class)
                         .resource(resource)
                         .encoding(encoding)
@@ -90,7 +89,7 @@ public class CreateSampleFileTasklet implements Tasklet {
                 Faker faker = new Faker(new Locale(lang), new Random(i));
                 SampleFile sample = SampleFile.builder()
                         .sampleId(UUID.randomUUID().toString())
-                        .name(faker.name().lastName() + faker.name().firstName())
+                        .name(faker.name().fullName())
                         .number(faker.number().numberBetween(-100, 100))
                         .longNumber(faker.number().numberBetween(Long.MIN_VALUE, Long.MAX_VALUE))
                         .doubleNumber(faker.number().randomDouble(4, -100000, 100000))

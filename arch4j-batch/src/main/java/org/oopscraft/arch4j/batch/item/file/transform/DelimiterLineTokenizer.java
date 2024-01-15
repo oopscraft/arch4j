@@ -1,7 +1,5 @@
 package org.oopscraft.arch4j.batch.item.file.transform;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class DelimitedLineTokenizer extends org.springframework.batch.item.file.transform.DelimitedLineTokenizer {
+public class DelimiterLineTokenizer extends org.springframework.batch.item.file.transform.DelimitedLineTokenizer {
 
-    public DelimitedLineTokenizer(ItemTypeDescriptor itemTypeDescriptor) {
+    public DelimiterLineTokenizer(ItemTypeDescriptor itemTypeDescriptor) {
         // column names
         setNames(itemTypeDescriptor.getFieldNames().toArray(new String[0]));
     }

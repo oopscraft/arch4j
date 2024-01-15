@@ -6,11 +6,12 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.oopscraft.arch4j.batch.item.file.transform.converter.*;
 import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.core.convert.support.GenericConversionService;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-public class FieldConversionService extends DefaultConversionService {
+public class FieldConversionService extends GenericConversionService {
 
     @Setter
     @Getter

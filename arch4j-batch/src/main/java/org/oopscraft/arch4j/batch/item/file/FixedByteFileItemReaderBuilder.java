@@ -4,12 +4,11 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.core.io.Resource;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Setter
 @Accessors(chain = true, fluent = true)
-public class FixedLengthFileItemWriterBuilder<T> {
+public class FixedByteFileItemReaderBuilder<T> {
 
     private Class<? extends T> itemType;
 
@@ -19,21 +18,12 @@ public class FixedLengthFileItemWriterBuilder<T> {
 
     private String lineSeparator;
 
-    private DateTimeFormatter dateTimeFormatter;
-
-    private DateTimeFormatter dateFormatter;
-
-    private DateTimeFormatter timeFormatter;
-
-    public FixedLengthFileItemWriter<T> build() {
-        FixedLengthFileItemWriter<T> instance = new FixedLengthFileItemWriter<>();
+    public FixedByteFileItemReader<T> build() {
+        FixedByteFileItemReader<T> instance = new FixedByteFileItemReader<>();
         Optional.ofNullable(itemType).ifPresent(instance::setItemType);
         Optional.ofNullable(resource).ifPresent(instance::setResource);
         Optional.ofNullable(encoding).ifPresent(instance::setEncoding);
         Optional.ofNullable(lineSeparator).ifPresent(instance::setLineSeparator);
-        Optional.ofNullable(dateTimeFormatter).ifPresent(instance::setDateTimeFormatter);
-        Optional.ofNullable(dateFormatter).ifPresent(instance::setDateFormatter);
-        Optional.ofNullable(timeFormatter).ifPresent(instance::setTimeFormatter);
         return instance;
     }
 

@@ -1,21 +1,16 @@
 package org.oopscraft.arch4j.batch.item.database;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.hibernate.ScrollMode;
-import org.mybatis.spring.batch.MyBatisCursorItemReader;
-import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 @Setter
 @Accessors(chain = true, fluent = true)
-public class MybatisCursorItemReaderBuilder<T> {
+public class MybatisDbItemReaderBuilder<T> {
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -29,8 +24,8 @@ public class MybatisCursorItemReaderBuilder<T> {
 
     private Integer maxItemCount;
 
-    public MybatisCursorItemReader<T> build() {
-        MybatisCursorItemReader<T> instance = new MybatisCursorItemReader<>();
+    public MybatisDbItemReader<T> build() {
+        MybatisDbItemReader<T> instance = new MybatisDbItemReader<>();
         Optional.ofNullable(sqlSessionFactory).ifPresent(instance::setSqlSessionFactory);
         Optional.ofNullable(queryId).ifPresent(instance::setQueryId);
         Optional.ofNullable(parameterValues).ifPresent(instance::setParameterValues);

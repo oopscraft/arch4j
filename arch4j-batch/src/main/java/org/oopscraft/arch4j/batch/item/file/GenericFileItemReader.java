@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.batch.item.file;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
 
@@ -13,6 +14,9 @@ import java.util.Map;
 public abstract class GenericFileItemReader<T> extends FlatFileItemReader<T> {
 
     private final Map<Class<? extends T>, LineMapper<T>> lineMapperRegistry = new HashMap<>();
+
+    @Getter
+    private String encoding = "UTF-8";
 
     @Setter
     @Getter
@@ -33,6 +37,12 @@ public abstract class GenericFileItemReader<T> extends FlatFileItemReader<T> {
     @Setter
     @Getter
     protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+
+    @Override
+    public void setEncoding(@NotNull String encoding) {
+        this.encoding = encoding;
+        super.setEncoding(encoding);
+    }
 
     protected abstract LineMapper<T> createLineMapper(Class<? extends T> itemType);
 

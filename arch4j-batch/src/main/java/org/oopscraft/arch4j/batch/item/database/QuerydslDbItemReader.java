@@ -3,20 +3,17 @@ package org.oopscraft.arch4j.batch.item.database;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.jpa.QueryHints;
 import org.hibernate.query.internal.QueryImpl;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.Optional;
 
 /**
  * QuerydslCursorItemReader
@@ -25,7 +22,7 @@ import java.util.Optional;
  * @param <T>
  */
 @Slf4j
-public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamItemReader<T> {
+public class QuerydslDbItemReader<T> extends AbstractItemCountingItemStreamItemReader<T> {
 
     @Setter
     @Getter
@@ -47,7 +44,7 @@ public class QuerydslCursorItemReader<T> extends AbstractItemCountingItemStreamI
 
     private ScrollableResults cursor;
 
-    public QuerydslCursorItemReader() {
+    public QuerydslDbItemReader() {
         super.setName(ClassUtils.getShortName(this.getClass()));
     }
 

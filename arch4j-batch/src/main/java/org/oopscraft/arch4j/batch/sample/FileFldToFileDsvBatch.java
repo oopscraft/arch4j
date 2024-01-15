@@ -39,19 +39,25 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     @JobScope
     Step createSampleFileStep() {
         return getStepBuilder("createSampleFileStep")
-                .tasklet(createSampleFileTasklet(null, null))
+                .tasklet(createSampleFileTasklet(null, null, null, null))
                 .transactionManager(getTransactionManager())
                 .build();
     }
 
     @Bean
     @StepScope
-    CreateSampleFileTasklet createSampleFileTasklet(@Value("#{jobParameters[size]}")Integer size, @Value("#{jobParameters[inputFile]}") String inputFile) {
+    CreateSampleFileTasklet createSampleFileTasklet(
+            @Value("#{jobParameters[size]}")Integer size,
+            @Value("#{jobParameters[lang]}")String lang,
+            @Value("#{jobParameters[inputFile]}")String inputFile,
+            @Value("#{jobParameters[inputEncoding]}")String inputEncoding
+    ) {
         return CreateSampleFileTasklet.builder()
                 .size(size)
+                .lang(lang)
                 .resource(new FileSystemResource(inputFile))
                 .fileType(CreateSampleFileTasklet.FileType.FLD)
-                .encoding("UTF-8")
+                .encoding(inputEncoding)
                 .lineSeparator("\n")
                 .build();
     }
@@ -61,19 +67,22 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     Step copySampleFileToSampleBackupFileStep() {
         return getStepBuilder("copySampleFileToSampleBackupFileStep")
                 .<SampleFile, SampleBackupFile>chunk(10)
-                .reader(sampleFileReader(null))
+                .reader(sampleFileReader(null, null))
                 .processor(convertSampleToSampleBackupProcessor())
-                .writer(sampleBackupFileWriter(null))
+                .writer(sampleBackupFileWriter(null, null))
                 .build();
     }
 
     @Bean
     @StepScope
-    FixedLengthFileItemReader<SampleFile> sampleFileReader(@Value("#{jobParameters[inputFile]}")String inputFile) {
-        return new FixedLengthFileItemReaderBuilder<SampleFile>()
+    FixedByteFileItemReader<SampleFile> sampleFileReader(
+            @Value("#{jobParameters[inputFile]}")String inputFile,
+            @Value("#{jobParameters[inputEncoding]}")String inputEncoding
+    ) {
+        return new FixedByteFileItemReaderBuilder<SampleFile>()
                 .itemType(SampleFile.class)
                 .resource(new FileSystemResource(inputFile))
-                .encoding("UTF-8")
+                .encoding(inputEncoding)
                 .lineSeparator("\n")
                 .build();
     }
@@ -91,11 +100,14 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
 
     @Bean
     @StepScope
-    DelimitedFileItemWriter<SampleBackupFile> sampleBackupFileWriter(@Value("#{jobParameters[outputFile]}")String outputFile) {
-        return new DelimitedFileItemWriterBuilder<SampleBackupFile>()
+    DelimiterFileItemWriter<SampleBackupFile> sampleBackupFileWriter(
+            @Value("#{jobParameters[outputFile]}")String outputFile,
+            @Value("#{jobParameters[outputEncoding]}")String outputEncoding
+    ) {
+        return new DelimiterFileItemWriterBuilder<SampleBackupFile>()
                 .itemType(SampleBackupFile.class)
                 .resource(new FileSystemResource(outputFile))
-                .encoding("UTF-8")
+                .encoding(outputEncoding)
                 .lineSeparator("\n")
                 .delimiter("\t")
                 .build();

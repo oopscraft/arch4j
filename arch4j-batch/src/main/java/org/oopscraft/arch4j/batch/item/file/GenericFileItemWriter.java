@@ -15,13 +15,16 @@ public abstract class GenericFileItemWriter<T> extends FlatFileItemWriter<T> {
 
     private final Map<Class<? extends T>,LineAggregator<T>> lineAggregatorRegistry = new HashMap<>();
 
-    @Setter
     @Getter
-    public Class<? extends T> itemType;
+    protected String encoding = "UTF-8";
 
     @Setter
     @Getter
-    public String lineSeparator = String.valueOf('\n');
+    protected Class<? extends T> itemType;
+
+    @Setter
+    @Getter
+    protected String lineSeparator = String.valueOf('\n');
 
     protected abstract LineAggregator<T> createLineAggregator(Class<? extends T> itemType);
 
@@ -36,6 +39,12 @@ public abstract class GenericFileItemWriter<T> extends FlatFileItemWriter<T> {
     @Setter
     @Getter
     protected DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+
+    @Override
+    public void setEncoding(@NotNull String encoding) {
+        this.encoding = encoding;
+        super.setEncoding(encoding);
+    }
 
     @NotNull
     public String doWrite(List<? extends T> items) {

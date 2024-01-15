@@ -8,7 +8,7 @@ import org.oopscraft.arch4j.core.data.crpyto.CryptoUtil;
  * so we directly implement a cursor item reader with a decoding function added.
  * @param <T>
  */
-public class MybatisCursorItemReader<T> extends org.mybatis.spring.batch.MyBatisCursorItemReader<T> {
+public class MybatisDbItemReader<T> extends org.mybatis.spring.batch.MyBatisCursorItemReader<T> {
 
     @Override
     protected T doRead() throws Exception {

@@ -9,23 +9,22 @@ import org.springframework.batch.item.file.transform.AbstractLineTokenizer;
 import org.springframework.batch.item.file.transform.Range;
 import org.springframework.core.convert.TypeDescriptor;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-public class FixedLengthLineTokenizer extends AbstractLineTokenizer {
+public class FixedByteLineTokenizer extends AbstractLineTokenizer {
+
+    private final String encoding;
 
     private final ItemTypeDescriptor itemTypeDescriptor;
 
     private final List<Range> ranges = new ArrayList<>();
 
-    @Setter
-    private String encoding = "UTF-8";
-
-    public FixedLengthLineTokenizer(ItemTypeDescriptor itemTypeDescriptor) {
+    public FixedByteLineTokenizer(String encoding, ItemTypeDescriptor itemTypeDescriptor) {
+        this.encoding = encoding;
         this.itemTypeDescriptor = itemTypeDescriptor;
 
         // set names
@@ -51,17 +50,17 @@ public class FixedLengthLineTokenizer extends AbstractLineTokenizer {
         try {
             log.debug("[LINE-CHAR][{}]", line);
             List<String> tokens = new ArrayList<>();
-            byte[] lineBytes = line.getBytes(encoding);
+            byte[] lineBytes = line.getBytes();
             log.debug("[LINE-HEX][{}]", String.valueOf(Hex.encodeHex(lineBytes)));
             int i = -1;
             for (Range range : ranges) {
                 i ++;
                 byte[] tokenBytes = Arrays.copyOfRange(lineBytes, range.getMin()-1, range.getMax());
-                String token = new String(tokenBytes, encoding).trim();
-                log.debug("[{}][{}][{}]", i, String.valueOf(Hex.encodeHex(tokenBytes)), token);
+                String token = new String(tokenBytes).trim();
+                log.debug("[{}][{}][{}]", i, token, String.valueOf(Hex.encodeHex(tokenBytes)));
                 tokens.add(token);
             }
-            log.debug("[FIELD]{}\n", (Object)tokens.toArray());
+            log.debug("[FIELD][{}]\n", String.join("|", tokens.toArray(new String[0])));
             return tokens;
         } catch (Exception e) {
             log.warn(e.getMessage());

@@ -60,7 +60,7 @@ public class FixedByteLineTokenizer extends AbstractLineTokenizer {
                 log.debug("[{}][{}][{}]", i, token, String.valueOf(Hex.encodeHex(tokenBytes)));
                 tokens.add(token);
             }
-            log.debug("[FIELD][{}]\n", String.join("|", tokens.toArray(new String[0])));
+            log.debug("[FIELD]{}\n", (Object)tokens.toArray(new String[0]));
             return tokens;
         } catch (Exception e) {
             log.warn(e.getMessage());

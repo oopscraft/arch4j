@@ -17,7 +17,7 @@ public class DelimiterLineTokenizer extends org.springframework.batch.item.file.
     @NotNull
     @Override
     protected List<String> doTokenize(@NotNull String line) {
-        log.debug("[LINE-CHAR][{}]", line);
+        log.debug("[LINE][{}]", line);
         List<String> tokens = super.doTokenize(line);
 
         // converts charset

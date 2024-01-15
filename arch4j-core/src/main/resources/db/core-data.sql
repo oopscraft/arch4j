@@ -534,17 +534,3 @@ This declaration may be freely copied in any form, but only in its entirety thro
 ','MARKDOWN', '2023-06-18 17:14:36.231', NULL, 'The 12 Principles behind the Agile Manifesto(from agilealliance.org)', 'admin', NULL);
 
 
-
-
-
-
-
--- sample
-insert into `core_sample` (`sample_id`, `name`, `type`) values ('sample001', 'sample 001', 'A');
-insert into `core_sample_item` (`sample_id`, `item_id`, `name`) values ('sample001','item01','Item 01');
-insert into `core_sample_item` (`sample_id`, `item_id`, `name`) values ('sample002','item02','Item 02');
-
-
-
-
-

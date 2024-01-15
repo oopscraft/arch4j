@@ -17,25 +17,22 @@ import java.time.LocalTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class SampleBackupFile {
 
-    @Length(50)
+    @Length(20)
     private String sampleId;
 
-    @Length(100)
+    @Length(20)
     private String name;
 
-    @Length(20)
-    private String type;
-
-    @Length(value = 10, align = Align.RIGHT)
+    @Length(value = 20, align = Align.RIGHT)
     private Integer number;
 
-    @Length(value = 10, align = Align.RIGHT)
+    @Length(value = 20, align = Align.RIGHT)
     private Long longNumber;
 
-    @Length(value = 10, align = Align.RIGHT)
+    @Length(value = 20, align = Align.RIGHT)
     private Double doubleNumber;
 
-    @Length(value = 10, align = Align.RIGHT)
+    @Length(value = 20, align = Align.RIGHT)
     private BigDecimal bigDecimal;
 
     @Length(20)
@@ -47,10 +44,10 @@ public class SampleBackupFile {
     @Length(20)
     private LocalTime localTime;
 
-    @Length(100)
+    @Length(50)
     private String lobText;
 
-    @Length(100)
+    @Length(50)
     private String cryptoText;
 
 }

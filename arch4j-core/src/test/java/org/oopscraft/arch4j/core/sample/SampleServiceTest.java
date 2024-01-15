@@ -20,7 +20,7 @@ class SampleServiceTest extends CoreTestSupport {
 
     Sample testSample = Sample.builder()
             .sampleId(UUID.randomUUID().toString())
-            .name("name")
+            .sampleName("name")
             .bigDecimal(BigDecimal.valueOf(1234))
             .build();
 
@@ -54,12 +54,12 @@ class SampleServiceTest extends CoreTestSupport {
     public void getSamplesByJpa() {
         Sample savedSample = sampleService.saveSample(testSample);
         SampleSearch sampleSearch = SampleSearch.builder()
-                .name(savedSample.getName())
+                .sampleName(savedSample.getSampleName())
                 .build();
         Page<Sample> samplePage = sampleService.getSamplesByJpa(sampleSearch, PageRequest.of(0, 10));
         assertTrue(samplePage.getContent().size() > 0);
         assertTrue(samplePage.stream()
-                .anyMatch(sample -> sample.getName().contains(sampleSearch.getName()))
+                .anyMatch(sample -> sample.getSampleName().contains(sampleSearch.getSampleName()))
         );
     }
 
@@ -68,12 +68,12 @@ class SampleServiceTest extends CoreTestSupport {
     public void getSamplesByQuerydsl() {
         Sample savedSample = sampleService.saveSample(testSample);
         SampleSearch sampleSearch = SampleSearch.builder()
-                .name(savedSample.getName())
+                .sampleName(savedSample.getSampleName())
                 .build();
         Page<Sample> samplePage = sampleService.getSamplesByQuerydsl(sampleSearch, PageRequest.of(0,10));
         assertTrue(samplePage.getContent().size() > 0);
         assertTrue(samplePage.getContent().stream()
-                .allMatch(sample -> sample.getName().contains(sampleSearch.getName()))
+                .allMatch(sample -> sample.getSampleName().contains(sampleSearch.getSampleName()))
         );
     }
 
@@ -82,12 +82,12 @@ class SampleServiceTest extends CoreTestSupport {
     void getSamplesByMybatis() {
         Sample savedSample = sampleService.saveSample(testSample);
         SampleSearch sampleSearch = SampleSearch.builder()
-                .name(savedSample.getName())
+                .sampleName(savedSample.getSampleName())
                 .build();
         Page<Sample> samplePage = sampleService.getSamplesByMybatis(sampleSearch, PageRequest.of(0, 10));
         assertTrue(samplePage.getContent().size() > 0);
         assertTrue(samplePage.getContent().stream()
-                .allMatch(sample -> sample.getName().contains(sampleSearch.getName()))
+                .allMatch(sample -> sample.getSampleName().contains(sampleSearch.getSampleName()))
         );
     }
 

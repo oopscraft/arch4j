@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestConstructor;
 
+import java.io.File;
+
 @Slf4j
 @SpringBootTest(
         classes = BatchConfiguration.class
@@ -18,6 +20,8 @@ import org.springframework.test.context.TestConstructor;
 @SpringBatchTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class BatchTestSupport {
+
+    private static final String DATA_HOME = "./.tmp/";
 
     @Autowired
     private JobRepository jobRepository;
@@ -33,5 +37,8 @@ public class BatchTestSupport {
         return jobLauncherTestUtils;
     }
 
+    protected final String getDataDirectory(Class<?> batchClass) {
+        return  DATA_HOME + batchClass.getName().replaceAll("\\.", File.separator) + File.separator;
+    }
 
 }

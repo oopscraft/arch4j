@@ -27,11 +27,6 @@ public class SampleService {
 
     private final ModelMapper modelMapper;
 
-    /**
-     * save sample
-     * @param sample sample
-     * @return sample
-     */
     public Sample saveSample(Sample sample) {
         SampleEntity sampleEntity = sampleRepository.findById(sample.getSampleId()).orElse(null);
         if(sampleEntity == null) {
@@ -44,30 +39,15 @@ public class SampleService {
         return Sample.from(sampleEntity);
     }
 
-    /**
-     * return sample
-     * @param sampleId sample id
-     * @return sample
-     */
     public Optional<Sample> getSample(String sampleId) {
         return sampleRepository.findById(sampleId).map(sampleEntity -> modelMapper.map(sampleEntity, Sample.class));
     }
 
-    /**
-     * delete sample
-     * @param sampleId sample id
-     */
     public void deleteSample(String sampleId) {
         sampleRepository.deleteById(sampleId);
         sampleRepository.flush();
     }
 
-    /**
-     * search samples by jpa
-     * @param sampleSearch search condition
-     * @param pageable pageable
-     * @return sample page
-     */
     public Page<Sample> getSamplesByJpa(SampleSearch sampleSearch, Pageable pageable) {
 
         // search condition
@@ -75,11 +55,11 @@ public class SampleService {
         if(sampleSearch.getSampleId() != null) {
             specification = specification.and(SampleSpecification.likeSampleId(sampleSearch.getSampleId()));
         }
-        if(sampleSearch.getName() != null) {
-            specification = specification.and(SampleSpecification.likeName(sampleSearch.getName()));
+        if(sampleSearch.getSampleName() != null) {
+            specification = specification.and(SampleSpecification.likeName(sampleSearch.getSampleName()));
         }
-        if(sampleSearch.getType() != null) {
-            specification = specification.and(SampleSpecification.equalType(sampleSearch.getType()));
+        if(sampleSearch.getSampleType() != null) {
+            specification = specification.and(SampleSpecification.equalType(sampleSearch.getSampleType()));
         }
 
         // find data
@@ -93,12 +73,6 @@ public class SampleService {
         return new PageImpl<>(samples, pageable, total);
     }
 
-    /**
-     * search sample by querydsl
-     * @param sampleSearch sample search
-     * @param pageable pageable
-     * @return sample page
-     */
     public Page<Sample> getSamplesByQuerydsl(SampleSearch sampleSearch, Pageable pageable) {
 
         // find
@@ -114,12 +88,6 @@ public class SampleService {
         return new PageImpl<>(samples, pageable, total);
     }
 
-    /**
-     * search samples by mybatis
-     * @param sampleSearch search condition
-     * @param pageable pageable
-     * @return sample page
-     */
     public Page<Sample> getSamplesByMybatis(SampleSearch sampleSearch, Pageable pageable) {
 
         // select
@@ -134,6 +102,5 @@ public class SampleService {
         // return
         return new PageImpl<>(samples, pageable, total);
     }
-
 
 }

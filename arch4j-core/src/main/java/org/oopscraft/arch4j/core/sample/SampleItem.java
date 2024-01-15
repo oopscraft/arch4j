@@ -14,17 +14,12 @@ public class SampleItem {
 
     private String itemId;
 
-    private String name;
+    private String itemName;
 
     private String value;
 
     private Integer order;
 
-    /**
-     * factory method
-     * @param sampleItemEntity sample item entity
-     * @return sample item
-     */
     public static SampleItem from(SampleItemEntity sampleItemEntity) {
         return ModelMapperFactory.getInstance()
                 .map(sampleItemEntity, SampleItem.class);

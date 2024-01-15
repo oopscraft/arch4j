@@ -61,7 +61,7 @@ public class DelimiterLineAggregator<T> implements LineAggregator<T> {
 
         // aggregate line
         String line = StringUtils.arrayToDelimitedString(values.toArray(new String[0]), delimiter);
-        log.debug("[LINE-CHAR][{}]\n", line);
+        log.debug("[LINE][{}]\n", line);
         return line;
     }
 

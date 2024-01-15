@@ -9,32 +9,28 @@
         <![CDATA[
         insert into core_sample_backup (
             sample_id,
-            name,
-            type,
+            sample_name,
+            sample_type,
             number,
             long_number,
             double_number,
             big_decimal,
-            sql_date,
-            util_date,
-            timestamp,
             local_date_time,
             local_date,
+            local_time,
             lob_text,
             crypto_text
         ) values (
             #{sampleId},
-            #{name},
-            #{type},
+            #{sampleName},
+            #{sampleType},
             #{number},
             #{longNumber},
             #{doubleNumber},
             #{bigDecimal},
-            #{sqlDate},
-            #{utilDate},
-            #{timestamp},
             #{localDateTime},
             #{localDate},
+            #{localTime},
             #{lobText},
             #{cryptoText}
         )

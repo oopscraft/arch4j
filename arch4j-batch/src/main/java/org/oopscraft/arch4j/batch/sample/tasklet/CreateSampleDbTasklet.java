@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
 import org.oopscraft.arch4j.batch.support.ManualTransactionHandler;
+import org.oopscraft.arch4j.core.sample.SampleType;
 import org.oopscraft.arch4j.core.sample.dao.QSampleBackupEntity;
 import org.oopscraft.arch4j.core.sample.dao.QSampleEntity;
 import org.oopscraft.arch4j.core.sample.dao.SampleEntity;
@@ -15,14 +16,13 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Random;
-import java.util.UUID;
 
 @Slf4j
 @Builder
@@ -77,18 +77,17 @@ public class CreateSampleDbTasklet implements Tasklet {
             for (int i = 0; i < size; i++) {
                 Faker faker = new Faker(new Locale(lang), new Random(i));
                 SampleEntity sample = SampleEntity.builder()
-                        .sampleId(UUID.randomUUID().toString())
-                        .name(faker.name().lastName() + faker.name().firstName())
-                        .number(faker.number().numberBetween(-100, 100))
-                        .longNumber(faker.number().numberBetween(Long.MIN_VALUE, Long.MAX_VALUE))
-                        .doubleNumber(faker.number().randomDouble(4, -100000, 100000))
-                        .bigDecimal(BigDecimal.valueOf(faker.number().randomDouble(4, -1234567890, 1234567890)))
-                        .sqlDate(new java.sql.Date(System.currentTimeMillis() + faker.number().numberBetween(0, 1234)))
-                        .utilDate(new java.util.Date(System.currentTimeMillis() + faker.number().numberBetween(0, 1234)))
-                        .timestamp(new java.sql.Timestamp(System.currentTimeMillis() + faker.number().numberBetween(0, 1234)))
-                        .localDate(LocalDate.now().plusDays(faker.number().numberBetween(0, 123)))
+                        .sampleId(String.valueOf(i))
+                        .sampleName(faker.name().fullName())
+                        .sampleType(SampleType.A)
+                        .number(faker.number().numberBetween(-123, 123))
+                        .longNumber(faker.number().numberBetween(-12345L, 12345L))
+                        .doubleNumber(faker.number().randomDouble(2, -12345, 12345))
+                        .bigDecimal(BigDecimal.valueOf(faker.number().randomDouble(2, -12345, 12345)))
                         .localDateTime(LocalDateTime.now().withNano(0).plusSeconds(faker.number().numberBetween(0, 1234)))
-                        .lobText(faker.address().fullAddress())
+                        .localDate(LocalDate.now().plusDays(faker.number().numberBetween(0, 123)))
+                        .localTime(LocalTime.now().plusSeconds(faker.number().numberBetween(0,60)))
+                        .lobText(faker.address().cityName() + " " + faker.address().streetName())
                         .cryptoText(faker.business().creditCardNumber())
                         .build();
                 sampleRepository.saveAndFlush(sample);

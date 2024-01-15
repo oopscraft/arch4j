@@ -71,12 +71,11 @@ public class FixedByteLineAggregator<T> implements LineAggregator<T> {
                 }
 
                 // write to buffer
-                log.debug("[{}][{}][{}][{}]", i, fields[i], new String(targetBytes), String.valueOf(Hex.encodeHex(targetBytes)));
+                log.debug("[{}][{}][{}]", i, fields[i], new String(targetBytes));
                 lineBytes.write(targetBytes);
             }
 
             // returns
-            log.debug("[LINE-HEX][{}]", String.valueOf(Hex.encodeHex(lineBytes.toByteArray())));
             String line = lineBytes.toString();
             log.debug("[LINE-CHAR][{}]\n", line);
             return line;

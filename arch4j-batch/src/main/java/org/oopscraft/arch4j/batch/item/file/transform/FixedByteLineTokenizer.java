@@ -51,13 +51,12 @@ public class FixedByteLineTokenizer extends AbstractLineTokenizer {
             log.debug("[LINE-CHAR][{}]", line);
             List<String> tokens = new ArrayList<>();
             byte[] lineBytes = line.getBytes();
-            log.debug("[LINE-HEX][{}]", String.valueOf(Hex.encodeHex(lineBytes)));
             int i = -1;
             for (Range range : ranges) {
                 i ++;
                 byte[] tokenBytes = Arrays.copyOfRange(lineBytes, range.getMin()-1, range.getMax());
                 String token = new String(tokenBytes).trim();
-                log.debug("[{}][{}][{}]", i, token, String.valueOf(Hex.encodeHex(tokenBytes)));
+                log.debug("[{}][{}]", i, token);
                 tokens.add(token);
             }
             log.debug("[FIELD]{}\n", (Object)tokens.toArray(new String[0]));

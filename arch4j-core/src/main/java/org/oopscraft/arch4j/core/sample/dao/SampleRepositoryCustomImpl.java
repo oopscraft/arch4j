@@ -28,11 +28,11 @@ public class SampleRepositoryCustomImpl implements SampleRepositoryCustom {
         if(sampleSearch.getSampleId() != null) {
             query.where(qSampleEntity.sampleId.contains(sampleSearch.getSampleId()));
         }
-        if(sampleSearch.getName() != null) {
-            query.where(qSampleEntity.name.contains(sampleSearch.getName()));
+        if(sampleSearch.getSampleName() != null) {
+            query.where(qSampleEntity.sampleName.contains(sampleSearch.getSampleName()));
         }
-        if(sampleSearch.getType() != null) {
-            query.where(qSampleEntity.type.eq(sampleSearch.getType()));
+        if(sampleSearch.getSampleType() != null) {
+            query.where(qSampleEntity.sampleType.eq(sampleSearch.getSampleType()));
         }
 
         // content

@@ -27,11 +27,30 @@ public class FileDsvToFileFldBatchTest extends BatchTestSupport {
     void fileDsvToFileFldJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
-                .addString("inputFile", "./.tmp/sample/fileDsvToFileFld.sample.dsv")
-                .addString("outputFile", "./.tmp/sample/fileDsvToFileFld.sampleBackup.fld")
+                .addString("lang", "ko")
+                .addString("inputFile", getDataDirectory(this.getClass()) + "fileDsvToFileFld.input.dsv")
+                .addString("outputFile", getDataDirectory(this.getClass()) + "fileDsvToFileFld.output.fld")
                 .toJobParameters();
         JobExecution jobExecution = getJobLauncherTestUtils(fileDsvToFileFldJob).launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
+
+    @Test
+    void fileDsvToFileFldJobWithLineSeparator() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("size", 1234L)
+                .addString("lang", "ko")
+                .addString("inputFile", "./.tmp/sample/fileDsvToFileFld.sample.dsv")
+                .addString("inputLineSeparator", "\n")
+                .addString("inputEncoding", "utf-8")
+                .addString("inputDelimiter", "\t")
+                .addString("outputFile", "./.tmp/sample/fileDsvToFileFld.sampleBackup.fld")
+                .addString("outputEncoding", "euc-kr")
+                .addString("outputLineSeparator", "\n")
+                .toJobParameters();
+        JobExecution jobExecution = getJobLauncherTestUtils(fileDsvToFileFldJob).launchJob(jobParameters);
+        assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
+    }
+
 
 }

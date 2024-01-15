@@ -44,21 +44,20 @@ public class CompareSampleDbToSampleBackupDbTasklet implements Tasklet {
 
         // compare column value
         jpaQueryFactory.selectFrom(QSampleEntity.sampleEntity).stream().forEach(item ->{
-            SampleEntity sampleEntity = sampleRepository.findById(item.getSampleId()).orElse(null);
-            SampleBackupEntity sampleBackupEntity = sampleBackupRepository.findById(item.getSampleId()).orElse(null);
+            SampleEntity sampleEntity = sampleRepository.findById(item.getSampleId()).orElseThrow();
+            SampleBackupEntity sampleBackupEntity = sampleBackupRepository.findById(item.getSampleId()).orElseThrow();
             int result = new CompareToBuilder()
                     .append(sampleEntity.getSampleId(), sampleBackupEntity.getSampleId())
-                    .append(sampleEntity.getName(), sampleBackupEntity.getName())
+                    .append(sampleEntity.getSampleName(), sampleBackupEntity.getSampleName())
+                    .append(sampleEntity.getSampleType(), sampleBackupEntity.getSampleType())
                     .append(sampleEntity.getNumber(), sampleBackupEntity.getNumber())
                     .append(sampleEntity.getBigDecimal(), sampleBackupEntity.getBigDecimal())
                     .append(sampleEntity.getLongNumber(), sampleBackupEntity.getLongNumber())
                     .append(sampleEntity.getDoubleNumber(), sampleBackupEntity.getDoubleNumber())
-                    .append(sampleEntity.getSqlDate(), sampleBackupEntity.getSqlDate())
-                    .append(Optional.ofNullable(sampleEntity.getUtilDate()).map(v->v.toInstant().getEpochSecond()).orElse(null),
-                            Optional.ofNullable(sampleBackupEntity.getUtilDate()).map(v->v.toInstant().getEpochSecond()).orElse(null))
-                    .append(sampleEntity.getLocalDate(), sampleBackupEntity.getLocalDate())
                     .append(Optional.ofNullable(sampleEntity.getLocalDateTime()).map(v->v.toEpochSecond(ZoneOffset.UTC)).orElse(null),
                             Optional.ofNullable(sampleBackupEntity.getLocalDateTime()).map(v->v.toEpochSecond(ZoneOffset.UTC)).orElse(null))
+                    .append(sampleEntity.getLocalDate(), sampleBackupEntity.getLocalDate())
+                    .append(sampleEntity.getLocalTime(), sampleBackupEntity.getLocalTime())
                     .append(sampleEntity.getLobText(), sampleBackupEntity.getLobText())
                     .append(sampleEntity.getCryptoText(), sampleBackupEntity.getCryptoText())
                     .toComparison();

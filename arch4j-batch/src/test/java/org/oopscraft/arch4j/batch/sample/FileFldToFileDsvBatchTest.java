@@ -26,12 +26,15 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
     @Test
     void fileDsvToFileFldJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("size", 1L)
+                .addLong("size", 1234L)
                 .addString("lang", "ko")
                 .addString("inputFile", "./.tmp/sample/fileFldToFileDsv.sample.fld")
                 .addString("inputEncoding", "euc-kr")
+                .addString("inputLineSeparator", "\n")
                 .addString("outputFile", "./.tmp/sample/fileFldToFileDsv.sampleBackup.dsv")
-                .addString("outputEncoding", "euc-kr")
+                .addString("outputEncoding", "utf-8")
+                .addString("outputLineSeparator", "\n")
+                .addString("outputDelimiter", "\t")
                 .toJobParameters();
         JobExecution jobExecution = getJobLauncherTestUtils(fileFldToFileDsvJob).launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());

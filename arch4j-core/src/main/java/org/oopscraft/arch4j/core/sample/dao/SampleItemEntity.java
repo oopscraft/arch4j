@@ -32,8 +32,8 @@ public class SampleItemEntity extends BaseEntity {
     @Column(name = "item_id", length = 64)
     private String itemId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "item_name")
+    private String itemName;
 
     @Column(name = "value")
     private String value;

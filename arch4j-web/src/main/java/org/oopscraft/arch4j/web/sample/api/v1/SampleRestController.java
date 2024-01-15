@@ -47,8 +47,8 @@ public class SampleRestController {
         // search condition
         SampleSearch sampleSearch = SampleSearch.builder()
                 .sampleId(id)
-                .name(name)
-                .type(Optional.ofNullable(type).map(SampleType::valueOf).orElse(null))
+                .sampleName(name)
+                .sampleType(Optional.ofNullable(type).map(SampleType::valueOf).orElse(null))
                 .build();
 
         // search sample page

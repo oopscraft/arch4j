@@ -7,6 +7,7 @@ import org.oopscraft.arch4j.core.support.ModelMapperFactory;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +20,9 @@ public class Sample {
 
     private String sampleId;
 
-    private String name;
+    private String sampleName;
 
-    private SampleType type;
+    private SampleType sampleType;
 
     private Integer number;
 
@@ -31,15 +32,11 @@ public class Sample {
 
     private BigDecimal bigDecimal;
 
-    private java.sql.Date sqlDate;
-
-    private java.util.Date utilDate;
-
-    private java.sql.Timestamp timestamp;
+    private LocalDateTime localDateTime;
 
     private LocalDate localDate;
 
-    private LocalDateTime localDateTime;
+    private LocalTime localTime;
 
     private String lobText;
 

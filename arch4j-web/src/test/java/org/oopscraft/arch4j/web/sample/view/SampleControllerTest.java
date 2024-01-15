@@ -17,7 +17,7 @@ class SampleControllerTest extends WebTestSupport {
 
     Sample testSample = Sample.builder()
             .sampleId("test id")
-            .name("test name")
+            .sampleName("test name")
             .type(SampleType.A)
             .build();
 

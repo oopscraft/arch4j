@@ -12,12 +12,12 @@ public class SampleSpecification {
 
     public static Specification<SampleEntity> likeName(String name) {
         return (root, query, criteriaBuilder) ->
-               criteriaBuilder.like(root.get(SampleEntity_.NAME), '%' + name + '%');
+               criteriaBuilder.like(root.get(SampleEntity_.SAMPLE_NAME), '%' + name + '%');
     }
 
     public static Specification<SampleEntity> equalType(SampleType type) {
         return (root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(root.get(SampleEntity_.TYPE), type);
+            criteriaBuilder.equal(root.get(SampleEntity_.SAMPLE_TYPE), type);
     }
 
 }

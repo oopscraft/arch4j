@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,11 @@ public class SampleEntity extends BaseEntity {
     @Column(name = "sample_id", length=64)
     private String sampleId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "sample_name", nullable = false)
+    private String sampleName;
 
-    @Column(name = "type")
-    private SampleType type;
+    @Column(name = "sample_type")
+    private SampleType sampleType;
 
     @Column(name = "number")
     private Integer number;
@@ -45,20 +46,14 @@ public class SampleEntity extends BaseEntity {
     @Column(name = "big_decimal")
     private BigDecimal bigDecimal;
 
-    @Column(name = "sql_date")
-    private java.sql.Date sqlDate;
-
-    @Column(name = "util_date")
-    private java.util.Date utilDate;
-
-    @Column(name = "timestamp")
-    private java.sql.Timestamp timestamp;
+    @Column(name = "local_date_time")
+    private LocalDateTime localDateTime;
 
     @Column(name = "local_date")
     private LocalDate localDate;
 
-    @Column(name = "local_date_time")
-    private LocalDateTime localDateTime;
+    @Column(name = "local_time")
+    private LocalTime localTime;
 
     @Column(name = "lob_text")
     @Lob

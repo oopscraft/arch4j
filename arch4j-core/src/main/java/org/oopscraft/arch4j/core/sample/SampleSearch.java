@@ -9,8 +9,8 @@ public class SampleSearch {
 
     private String sampleId;
 
-    private String name;
+    private String sampleName;
 
-    private SampleType type;
+    private SampleType sampleType;
 
 }

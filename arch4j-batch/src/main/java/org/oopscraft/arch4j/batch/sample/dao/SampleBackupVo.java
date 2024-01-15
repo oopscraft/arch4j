@@ -2,10 +2,12 @@ package org.oopscraft.arch4j.batch.sample.dao;
 
 import lombok.*;
 import org.oopscraft.arch4j.core.data.crpyto.Crypto;
+import org.oopscraft.arch4j.core.sample.SampleType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -15,9 +17,9 @@ public class SampleBackupVo {
 
     private String sampleId;
 
-    private String name;
+    private String sampleName;
 
-    private String type;
+    private SampleType sampleType;
 
     private Integer number;
 
@@ -27,15 +29,11 @@ public class SampleBackupVo {
 
     private BigDecimal bigDecimal;
 
-    private java.sql.Date sqlDate;
-
-    private java.util.Date utilDate;
-
-    private java.sql.Timestamp timestamp;
+    private LocalDateTime localDateTime;
 
     private LocalDate localDate;
 
-    private LocalDateTime localDateTime;
+    private LocalTime localTime;
 
     private String lobText;
 

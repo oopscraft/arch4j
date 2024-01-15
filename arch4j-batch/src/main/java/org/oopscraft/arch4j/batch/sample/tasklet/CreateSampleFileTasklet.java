@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -88,16 +89,16 @@ public class CreateSampleFileTasklet implements Tasklet {
             for (int i = 0; i < size; i++) {
                 Faker faker = new Faker(new Locale(lang), new Random(i));
                 SampleFile sample = SampleFile.builder()
-                        .sampleId(UUID.randomUUID().toString())
+                        .sampleId(String.valueOf(i))
                         .name(faker.name().fullName())
-                        .number(faker.number().numberBetween(-100, 100))
-                        .longNumber(faker.number().numberBetween(Long.MIN_VALUE, Long.MAX_VALUE))
-                        .doubleNumber(faker.number().randomDouble(4, -100000, 100000))
-                        .bigDecimal(BigDecimal.valueOf(faker.number().randomDouble(4, -1234567890, 1234567890)))
+                        .number(faker.number().numberBetween(-123, 123))
+                        .longNumber(faker.number().numberBetween(-12345L, 12345L))
+                        .doubleNumber(faker.number().randomDouble(2, -12345, 12345))
+                        .bigDecimal(BigDecimal.valueOf(faker.number().randomDouble(2, -12345, 12345)))
                         .localDateTime(LocalDateTime.now().withNano(0).plusSeconds(faker.number().numberBetween(0, 1234)))
                         .localDate(LocalDate.now().plusDays(faker.number().numberBetween(0, 123)))
                         .localTime(LocalTime.now().plusSeconds(faker.number().numberBetween(0,60)))
-                        .lobText(faker.address().fullAddress())
+                        .lobText(faker.address().cityName() + " " + faker.address().streetName())
                         .cryptoText(faker.business().creditCardNumber())
                         .build();
                 itemWriter.write(List.of(sample));

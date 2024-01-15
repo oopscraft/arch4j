@@ -26,7 +26,7 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
     @Test
     void fileDsvToFileFldJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("size", 1234L)
+                .addLong("size", 1L)
                 .addString("lang", "ko")
                 .addString("inputFile", "./.tmp/sample/fileFldToFileDsv.sample.fld")
                 .addString("inputEncoding", "euc-kr")

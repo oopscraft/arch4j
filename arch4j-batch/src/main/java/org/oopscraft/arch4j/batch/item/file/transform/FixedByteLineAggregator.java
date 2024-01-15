@@ -62,7 +62,7 @@ public class FixedByteLineAggregator<T> implements LineAggregator<T> {
                 char padChar = (lengthAnnotation.padChar() == '\0' ? ' ' : lengthAnnotation.padChar());
 
                 // convert field bytes
-                byte[] sourceBytes = value.getBytes(encoding);
+                byte[] sourceBytes = value.getBytes();
                 byte[] targetBytes = null;
                 if(lengthAnnotation.align() == Align.RIGHT) {
                     targetBytes = alignRight(sourceBytes, length, (byte)padChar);
@@ -77,7 +77,7 @@ public class FixedByteLineAggregator<T> implements LineAggregator<T> {
 
             // returns
             log.debug("[LINE-HEX][{}]", String.valueOf(Hex.encodeHex(lineBytes.toByteArray())));
-            String line = lineBytes.toString(encoding);
+            String line = lineBytes.toString();
             log.debug("[LINE-CHAR][{}]\n", line);
             return line;
         } catch (Exception e) {

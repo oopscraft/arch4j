@@ -20,10 +20,10 @@ public class SampleFile {
     @Length(50)
     private String sampleId;
 
-    @Length(100)
+    @Length(50)
     private String name;
 
-    @Length(20)
+    @Length(10)
     private String type;
 
     @Length(value = 10, align = Align.RIGHT)

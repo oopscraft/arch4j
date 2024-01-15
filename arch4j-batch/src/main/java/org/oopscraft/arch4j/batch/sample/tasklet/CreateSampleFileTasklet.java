@@ -69,8 +69,8 @@ public class CreateSampleFileTasklet implements Tasklet {
                         .itemType(SampleFile.class)
                         .resource(resource)
                         .encoding(encoding)
-                        .lineSeparator("\n")
-                        .delimiter("\t")
+                        .lineSeparator(lineSeparator)
+                        .delimiter(delimiter)
                         .build();
             }
             case FLD -> {
@@ -78,7 +78,7 @@ public class CreateSampleFileTasklet implements Tasklet {
                         .itemType(SampleFile.class)
                         .resource(resource)
                         .encoding(encoding)
-                        .lineSeparator("\n")
+                        .lineSeparator(lineSeparator)
                         .build();
             }
             default -> throw new RuntimeException("invalid file type:" + fileType);

@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
+import java.util.Optional;
+
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     @JobScope
     Step createSampleFileStep() {
         return getStepBuilder("createSampleFileStep")
-                .tasklet(createSampleFileTasklet(null, null, null, null))
+                .tasklet(createSampleFileTasklet(null, null, null, null, null))
                 .transactionManager(getTransactionManager())
                 .build();
     }
@@ -47,18 +49,19 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     @Bean
     @StepScope
     CreateSampleFileTasklet createSampleFileTasklet(
-            @Value("#{jobParameters[size]}")Integer size,
-            @Value("#{jobParameters[lang]}")String lang,
-            @Value("#{jobParameters[inputFile]}")String inputFile,
-            @Value("#{jobParameters[inputEncoding]}")String inputEncoding
+            @Value("#{jobParameters[size]}") Integer size,
+            @Value("#{jobParameters[lang]}") String lang,
+            @Value("#{jobParameters[inputFile]}") String inputFile,
+            @Value("#{jobParameters[inputEncoding]}") String inputEncoding,
+            @Value("#{jobParameters[inputLineSeparator]}") String inputLineSeparator
     ) {
         return CreateSampleFileTasklet.builder()
                 .size(size)
                 .lang(lang)
                 .resource(new FileSystemResource(inputFile))
                 .fileType(CreateSampleFileTasklet.FileType.FLD)
-                .encoding(inputEncoding)
-                .lineSeparator("\n")
+                .encoding(Optional.ofNullable(inputEncoding).orElse("utf-8"))
+                .lineSeparator(Optional.ofNullable(inputLineSeparator).orElse("\n"))
                 .build();
     }
 
@@ -67,23 +70,24 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     Step copySampleFileToSampleBackupFileStep() {
         return getStepBuilder("copySampleFileToSampleBackupFileStep")
                 .<SampleFile, SampleBackupFile>chunk(10)
-                .reader(sampleFileReader(null, null))
+                .reader(sampleFileReader(null, null, null))
                 .processor(convertSampleToSampleBackupProcessor())
-                .writer(sampleBackupFileWriter(null, null))
+                .writer(sampleBackupFileWriter(null, null, null, null))
                 .build();
     }
 
     @Bean
     @StepScope
     FixedByteFileItemReader<SampleFile> sampleFileReader(
-            @Value("#{jobParameters[inputFile]}")String inputFile,
-            @Value("#{jobParameters[inputEncoding]}")String inputEncoding
+            @Value("#{jobParameters[inputFile]}") String inputFile,
+            @Value("#{jobParameters[inputEncoding]}") String inputEncoding,
+            @Value("#{jobParameters[inputLineSeparator]}") String inputLineSeparator
     ) {
         return new FixedByteFileItemReaderBuilder<SampleFile>()
                 .itemType(SampleFile.class)
                 .resource(new FileSystemResource(inputFile))
-                .encoding(inputEncoding)
-                .lineSeparator("\n")
+                .encoding(Optional.ofNullable(inputEncoding).orElse("utf-8"))
+                .lineSeparator(Optional.ofNullable(inputLineSeparator).orElse("\n"))
                 .build();
     }
 
@@ -101,15 +105,17 @@ public class FileFldToFileDsvBatch extends AbstractBatchConfigurer {
     @Bean
     @StepScope
     DelimiterFileItemWriter<SampleBackupFile> sampleBackupFileWriter(
-            @Value("#{jobParameters[outputFile]}")String outputFile,
-            @Value("#{jobParameters[outputEncoding]}")String outputEncoding
+            @Value("#{jobParameters[outputFile]}") String outputFile,
+            @Value("#{jobParameters[outputEncoding]}") String outputEncoding,
+            @Value("#{jobParameters[outputLineSeparator]}") String outputLineSeparator,
+            @Value("#{jobParameters[outputDelimiter]}") String outputDelimiter
     ) {
         return new DelimiterFileItemWriterBuilder<SampleBackupFile>()
                 .itemType(SampleBackupFile.class)
                 .resource(new FileSystemResource(outputFile))
                 .encoding(outputEncoding)
-                .lineSeparator("\n")
-                .delimiter("\t")
+                .lineSeparator(Optional.ofNullable(outputLineSeparator).orElse("\n"))
+                .delimiter(Optional.ofNullable(outputDelimiter).orElse("\t"))
                 .build();
     }
 

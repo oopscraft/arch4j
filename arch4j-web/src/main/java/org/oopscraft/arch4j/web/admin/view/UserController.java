@@ -70,6 +70,7 @@ public class UserController {
 
     @PostMapping(value = "generate-security-token", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN_USER_EDIT')")
     public String generateAccessToken(@RequestBody Map<String,String> payload) {
         String userId = Optional.ofNullable(payload.get("userId")).orElseThrow();
         int expirationDays = Optional.ofNullable(payload.get("expirationDays")).map(Integer::parseInt).orElseThrow();

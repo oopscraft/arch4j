@@ -519,7 +519,7 @@
                             <span data-th-text="#{web.admin.user.changePassword}"></span>
                         </button>
                         <button type="button" onclick="generateSecurityToken();"
-                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER'')')}?'locked'"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER_EDIT'')')}?'locked'"
                                 data-duice-bind="user"
                                 data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                             <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>

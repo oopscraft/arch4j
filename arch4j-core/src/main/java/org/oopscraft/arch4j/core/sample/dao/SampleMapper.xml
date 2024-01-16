@@ -37,13 +37,13 @@
         from    core_sample
         where   1 = 1
         <if test = "sampleId != null">
-            and id like concat('%',#{sampleId},'%')
+            and sample_id like concat('%',#{sampleId},'%')
         </if>
-        <if test = "name != null">
-            and name like concat('%',#{sampleName},'%')
+        <if test = "sampleName != null">
+            and sample_name like concat('%',#{sampleName},'%')
         </if>
-        <if test = "type != null">
-            and type like concat('%',${sampleType},'%')
+        <if test = "sampleType != null">
+            and sample_type like concat('%',${sampleType},'%')
         </if>
     </sql>
 

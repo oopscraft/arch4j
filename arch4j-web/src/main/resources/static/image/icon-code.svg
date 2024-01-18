@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg fill="#000000" width="800px" height="800px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-<g>
-<path d="M5.15,5,3.88,3.76.29,7.34a.91.91,0,0,0,0,1.28l3.64,3.64L5.2,11l-3-3Zm10.6,2.31L12.16,3.76,10.89,5l2.95,3-3,3,1.27,1.28,3.64-3.64A.91.91,0,0,0,15.75,7.34ZM5.63,13.78l1.74.44,3-12L8.61,1.78Z"/>
-</g>
-</svg>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect width="16" height="16" id="icon-bound" fill="none" />
+  <path d="M12.294,3.294l-1.416,1.416L13.5,8l-2.622,3.294l1.416,1.416L16,8L12.294,3.294z M5.122,4.706L3.706,3.291L0,8l3.706,4.706 l1.416-1.416L2.5,8L5.122,4.706z M6,13h2l2-10H8L6,13z" />
+</svg>

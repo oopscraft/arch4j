@@ -98,8 +98,12 @@
             destinations: [],
             listeners: [],
             subscribe: function(destination, listener) {
+                this.stomp.debug = null;
                 this.destinations.push(destination);
                 this.listeners.push(listener);
+                if(this.stomp.connected) {
+                    this.stomp.subscribe(destination, listener);
+                }
             },
             connect: function() {
                 this.stomp.heartbeat.outgoing = 5000;

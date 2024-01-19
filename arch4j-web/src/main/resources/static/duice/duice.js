@@ -556,6 +556,10 @@ var duice;
     class ArrayProxy extends globalThis.Array {
         constructor(array) {
             super();
+            // is already proxy
+            if (ArrayProxy.isProxy(array)) {
+                return array;
+            }
             // array handler
             let arrayHandler = new duice.ArrayHandler();
             // copy array elements
@@ -614,6 +618,9 @@ var duice;
             }
             // notify observers
             arrayHandler.notifyObservers(new duice.event.Event(this));
+        }
+        static isProxy(array) {
+            return array.hasOwnProperty('_target_');
         }
         static setTarget(arrayProxy, target) {
             globalThis.Object.defineProperty(arrayProxy, '_target_', {
@@ -1031,6 +1038,10 @@ var duice;
     class ObjectProxy extends globalThis.Object {
         constructor(object) {
             super();
+            // is already proxy
+            if (ObjectProxy.isProxy(object)) {
+                return object;
+            }
             // object handler
             let objectHandler = new duice.ObjectHandler();
             // copy property
@@ -1142,6 +1153,9 @@ var duice;
             }
             // notify observers
             objectHandler.notifyObservers(new duice.event.Event(this));
+        }
+        static isProxy(object) {
+            return object.hasOwnProperty('_target_');
         }
         static setTarget(objectProxy, target) {
             globalThis.Object.defineProperty(objectProxy, '_target_', {

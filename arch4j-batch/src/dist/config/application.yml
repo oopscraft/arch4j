@@ -8,7 +8,7 @@ spring:
   datasource:
     hikari:
       driver-class-Name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j
+      jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j?useUnicode=true&characterEncoding=UTF-8
       username: ENC(iqTD9xHUch57rODDJr163Q==)
       password: ENC(iqTD9xHUch57rODDJr163Q==)
       minimum-idle: 10
@@ -47,7 +47,7 @@ core:
 batch:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j_batch?characterEncoding=utf-8
+    jdbc-url: jdbc:mariadb://192.168.0.2:3306/arch4j_batch?useUnicode=true&characterEncoding=UTF-8
     username: arch4j_batch
     password: arch4j_batch
 

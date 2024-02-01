@@ -37,6 +37,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -71,6 +72,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Properties;
@@ -111,6 +113,12 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         localeChangeInterceptor.setParamName("_language");
         interceptorRegistry.addInterceptor(localeChangeInterceptor)
                 .order(Ordered.HIGHEST_PRECEDENCE);
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(String.class, ZonedDateTime.class, source ->
+                ZonedDateTime.parse(source, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.systemDefault())));
     }
 
     @Bean

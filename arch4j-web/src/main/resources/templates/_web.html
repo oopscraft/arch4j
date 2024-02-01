@@ -95,14 +95,17 @@
 
         const _webSocketClient = {
             stomp: Stomp.over(new SockJS('/ws')),
-            destinations: [],
-            listeners: [],
-            subscribe: function(destination, listener) {
-                this.stomp.debug = null;
-                this.destinations.push(destination);
-                this.listeners.push(listener);
+            subscriptions: [],
+            subscribe: function(subscription) {
+                this.subscriptions.push(subscription);
                 if(this.stomp.connected) {
-                    this.stomp.subscribe(destination, listener);
+                    subscription.subscribe = this.stomp.subscribe(subscription.destination, subscription.listener);
+                }
+                return subscription;
+            },
+            unsubscribe: function(subscription) {
+                if(subscription?.subscribe) {
+                    subscription.subscribe.unsubscribe();
                 }
             },
             connect: function() {
@@ -113,13 +116,14 @@
                 this.stomp.reconnect_delay_max = 60000;
                 const _this = this;
                 this.stomp.connect({}, function(frame) {
-                    for(let i = 0; i < _this.destinations.length; i++) {
-                        _this.stomp.subscribe(_this.destinations[i], _this.listeners[i]);
+                    for(let i = 0; i < _this.subscriptions.length; i++) {
+                        let subscription = _this.subscriptions[i];
+                        subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
                     }
                 });
             },
-            send: function(destination, headers, message) {
-                this.stomp.send(destination, headers, message);
+            send: function(message) {
+                this.stomp.send(message.destination, message.headers, message.body);
             },
             disconnect: function() {
                 this.stomp.disconnect();

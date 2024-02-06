@@ -2010,13 +2010,24 @@ var duice;
         class InputDatetimeLocalElement extends element_5.InputElement {
             constructor(element, bindData, context) {
                 super(element, bindData, context);
-                this.dateFormat = new duice.format.DateFormat('yyyy-MM-ddTHH:mm:ss');
+                this.dateFormat = new duice.format.DateFormat('yyyy-MM-ddTHH:mm');
             }
             setValue(value) {
-                this.getHtmlElement().value = this.dateFormat.format(value);
+                if (value) {
+                    this.getHtmlElement().value = this.dateFormat.format(value);
+                }
+                else {
+                    this.getHtmlElement().value = '';
+                }
             }
             getValue() {
-                return this.dateFormat.parse(this.getHtmlElement().value);
+                let value = this.getHtmlElement().value;
+                if (value) {
+                    return new Date(value).toISOString();
+                }
+                else {
+                    return null;
+                }
             }
         }
         element_5.InputDatetimeLocalElement = InputDatetimeLocalElement;

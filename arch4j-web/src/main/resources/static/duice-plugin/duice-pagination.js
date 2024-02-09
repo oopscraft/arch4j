@@ -81,6 +81,9 @@ var duice;
             createStyle() {
                 let style = document.createElement('style');
                 style.innerHTML = `
+                ${duice.getNamespace()}-pagination {
+                    display: inline-block;
+                }
                 .${duice.getNamespace()}-pagination {
                     list-style: none;
                     display: flex;

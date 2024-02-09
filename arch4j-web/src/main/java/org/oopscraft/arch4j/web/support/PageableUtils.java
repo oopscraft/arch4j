@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class PageableUtils {
 
-    public static String toContentRange(String unit, Pageable pageable, Long totalSize) {
+    public static String toContentRange(String unit, Pageable pageable, Number totalSize) {
         StringBuilder contentRange = new StringBuilder("");
 
         // unit
@@ -34,12 +34,8 @@ public class PageableUtils {
         return contentRange.toString();
     }
 
-    public static String toContentRange(String unit, Pageable pageable, Integer totalSize) {
-        return toContentRange(unit,
-                pageable,
-                Optional.ofNullable(totalSize)
-                        .map(Long::valueOf)
-                        .orElse(null));
+    public static String toContentRange(String unit, Pageable pageable) {
+        return toContentRange(unit, pageable, null);
     }
 
 }

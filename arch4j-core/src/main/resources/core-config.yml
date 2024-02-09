@@ -16,6 +16,7 @@ logging:
     faker: OFF
     org.eclipse.jgit: INFO
     org.apache.http.wire: INFO
+    org.apache.http.conn.ssl: INFO
 
 # spring
 spring:

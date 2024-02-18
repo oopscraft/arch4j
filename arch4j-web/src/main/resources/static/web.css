@@ -1261,6 +1261,9 @@ hr {
 .text-decoration--underline {
     text-decoration: underline;
 }
+.text-decoration--line-through {
+    text-decoration: line-through;
+}
 
 /* cursor */
 .cursor--pointer {

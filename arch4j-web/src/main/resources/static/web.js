@@ -1,32 +1,50 @@
 /**
  * alert
  * @param message
+ * @param option_
  * @returns {*}
  */
-const _alert = function(message) {
+const _alert = function(message, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>' + message + '<br/>';
-    return duice.alert(message);
+    return duice.alert(message)
+        .onOpening(option_?.onOpening)
+        .onOpened(option_?.onOpened)
+        .onClosing(option_?.onClosing)
+        .onClosed(option_?.onClosed)
+        .open();
 }
 
 /**
  * confirm
  * @param message
+ * @param option_
  * @returns {*}
  */
-const _confirm = function(message) {
+const _confirm = function(message, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>' + message + '<br/>';
-    return duice.confirm(message);
+    return duice.confirm(message)
+        .onOpening(option_?.onOpening)
+        .onOpened(option_?.onOpened)
+        .onClosing(option_?.onClosing)
+        .onClosed(option_?.onClosed)
+        .open();
 }
 
 /**
  * prompt
  * @param message
  * @param type
+ * @param option_
  * @returns {*}
  */
-const _prompt = function(message, type) {
+const _prompt = function(message, type, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
-    return duice.prompt(message, type);
+    return duice.prompt(message, type)
+        .onOpening(option_?.onOpening)
+        .onOpened(option_?.onOpened)
+        .onClosing(option_?.onClosing)
+        .onClosed(option_?.onClosed)
+        .open();
 }
 
 /**

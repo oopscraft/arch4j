@@ -1346,27 +1346,19 @@ var duice;
     }
     duice.assert = assert;
     function alert(message) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield new duice.dialog.AlertDialog(message).open();
-        });
+        return new duice.dialog.AlertDialog(message);
     }
     duice.alert = alert;
     function confirm(message) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield new duice.dialog.ConfirmDialog(message).open();
-        });
+        return new duice.dialog.ConfirmDialog(message);
     }
     duice.confirm = confirm;
     function prompt(message, type) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield new duice.dialog.PromptDialog(message, type).open();
-        });
+        return new duice.dialog.PromptDialog(message, type);
     }
     duice.prompt = prompt;
     function openDialog(dialogElement) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield new duice.dialog.Dialog(dialogElement).open();
-        });
+        return new duice.dialog.Dialog(dialogElement);
     }
     duice.openDialog = openDialog;
     function tabFolder(...tabItems) {
@@ -1442,13 +1434,31 @@ var duice;
                 this.closeButton.style.width = '16px';
                 this.closeButton.style.height = '16px';
                 this.closeButton.addEventListener('click', event => {
-                    _this.close();
+                    _this.hide();
+                    _this.promiseReject();
+                    // _this.close();
                 });
                 this.dialogElement.appendChild(this.closeButton);
                 // on resize event
                 window.addEventListener('resize', function (event) {
                     _this.moveToCenterPosition();
                 });
+            }
+            onOpening(listener) {
+                this.openingListener = listener;
+                return this;
+            }
+            onOpened(listener) {
+                this.openedListener = listener;
+                return this;
+            }
+            onClosing(listener) {
+                this.closingListener = listener;
+                return this;
+            }
+            onClosed(listener) {
+                this.closedListener = listener;
+                return this;
             }
             moveToCenterPosition() {
                 let computedStyle = window.getComputedStyle(this.dialogElement);
@@ -1490,8 +1500,18 @@ var duice;
             }
             open() {
                 return __awaiter(this, void 0, void 0, function* () {
+                    // opening listener
+                    if (this.openingListener) {
+                        if (this.openingListener.call(this) == false) {
+                            return;
+                        }
+                    }
                     // show modal
                     this.show();
+                    // opened listener
+                    if (this.openedListener) {
+                        this.openedListener.call(this);
+                    }
                     // creates promise
                     let _this = this;
                     this.promise = new Promise(function (resolve, reject) {
@@ -1502,15 +1522,19 @@ var duice;
                 });
             }
             close(...args) {
-                this.reject(...args);
-            }
-            resolve(...args) {
+                // closing listener
+                if (this.closingListener) {
+                    if (this.closingListener.call(this) == false) {
+                        return;
+                    }
+                }
+                // closed listener
+                if (this.closedListener) {
+                    this.closedListener.call(this);
+                }
+                // resolve
                 this.hide();
                 this.promiseResolve(...args);
-            }
-            reject(...args) {
-                this.hide();
-                this.promiseReject(...args);
             }
         }
         dialog.Dialog = Dialog;
@@ -1549,11 +1573,11 @@ var duice;
                 return promise;
             }
             confirm() {
-                this.resolve();
+                super.close();
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
             close() {
-                this.resolve();
+                super.close();
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
         }
@@ -1604,15 +1628,15 @@ var duice;
                 return promise;
             }
             close(...args) {
-                this.resolve(false);
+                super.close(false);
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
             confirm() {
-                this.resolve(true);
+                super.close(true);
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
             cancel() {
-                this.resolve(false);
+                super.close(false);
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
         }
@@ -1672,15 +1696,15 @@ var duice;
                 return promise;
             }
             close(...args) {
-                this.resolve();
+                super.close();
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
             confirm(value) {
-                this.resolve(value);
+                super.close(value);
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
             cancel() {
-                this.resolve();
+                super.close();
                 this.getDialogElement().parentNode.removeChild(this.getDialogElement());
             }
         }

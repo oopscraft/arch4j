@@ -52,9 +52,6 @@ var duice;
             setReadonly(readonly) {
                 this.codeMirror.setOption('readOnly', readonly);
             }
-            setDisable(disable) {
-                this.codeMirror.setOption('readOnly', disable);
-            }
         }
         extension.Codemirror = Codemirror;
     })(extension = duice.extension || (duice.extension = {}));

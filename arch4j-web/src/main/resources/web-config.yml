@@ -52,7 +52,7 @@ spring:
       pageable:
         prefix: _
         default-page-size: 100
-        max-page-size: 1000
+        max-page-size: 10000
   jackson:
     serialization:
       indent_output: true

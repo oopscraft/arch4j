@@ -30,7 +30,9 @@ public class CryptoDecryptInterceptor implements Interceptor {
         Object[] args = invocation.getArgs();
         if(args.length >= 2) {
             Object parameter = args[1];
-            CryptoUtil.getInstance().encryptObject(parameter);
+            if (parameter != null) {
+                CryptoUtil.getInstance().encryptObject(parameter);
+            }
         }
 
         // proceed

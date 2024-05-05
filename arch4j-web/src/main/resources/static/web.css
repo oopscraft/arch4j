@@ -12,6 +12,7 @@
     --web-color--red: #dc3545;
     --web-color--green: #198754;
     --web-color--blue: #0d6efd;
+    --web-background-color--yellow: lightyellow;
     --web-background-color--red: orangered;
     --web-background-color--green: mediumseagreen;
     --web-background-color--blue: deepskyblue;
@@ -444,6 +445,9 @@ hr {
 }
 
 /* background-color */
+.background-color--yellow {
+    background-color: var(--web-background-color--yellow) !important;
+}
 .background-color--red {
     background-color: var(--web-background-color--red) !important;
 }

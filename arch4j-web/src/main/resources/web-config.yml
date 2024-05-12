@@ -53,6 +53,8 @@ spring:
         prefix: _
         default-page-size: 100
         max-page-size: 10000
+      sort:
+        sort-parameter: _sort
   jackson:
     serialization:
       indent_output: true

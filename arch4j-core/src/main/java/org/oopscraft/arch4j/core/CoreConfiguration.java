@@ -155,9 +155,8 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
             boolean h2ConsoleEnabled = Optional.ofNullable(environment.getProperty("spring.h2.console.enabled"))
                     .map(Boolean::parseBoolean)
                     .orElse(false);
-            if (h2ConsoleEnabled) {
-                return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
-            }
+            String tcpPort = h2ConsoleEnabled ? "9092" : "0";
+            return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", tcpPort);
         }
         return null;
     }

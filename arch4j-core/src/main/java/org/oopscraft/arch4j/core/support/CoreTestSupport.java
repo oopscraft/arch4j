@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProc
 import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestConstructor;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -22,10 +23,13 @@ import javax.persistence.PersistenceContext;
         classes = CoreConfiguration.class,
         properties = {
                 "spring.main.lazy-initialization=true",
-                "spring.main.web-application-type=none"
+                "spring.main.web-application-type=none",
         },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
+@TestPropertySource(properties = {
+    "spring.h2.console.enabled=false"
+})
 @Import(CoreConfiguration.class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

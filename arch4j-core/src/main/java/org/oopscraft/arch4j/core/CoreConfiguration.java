@@ -150,9 +150,14 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
     }
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public Server inMemoryH2DatabaseServer(DataSource dataSource) throws SQLException {
-        if(EmbeddedDatabaseConnection.isEmbedded(dataSource)) {
-            return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+    public Server inMemoryH2DatabaseServer(DataSource dataSource, ConfigurableEnvironment environment) throws SQLException {
+        if (EmbeddedDatabaseConnection.isEmbedded(dataSource)) {
+            boolean h2ConsoleEnabled = Optional.ofNullable(environment.getProperty("spring.h2.console.enabled"))
+                    .map(Boolean::parseBoolean)
+                    .orElse(false);
+            if (h2ConsoleEnabled) {
+                return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+            }
         }
         return null;
     }

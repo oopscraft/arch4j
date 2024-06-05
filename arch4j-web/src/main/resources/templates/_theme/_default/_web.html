@@ -23,7 +23,7 @@
                 '_header _header _header'
                 '_nav _main _aside'
                 '_footer _footer _footer';
-            grid-template-columns: 18rem 1fr 5rem;
+            grid-template-columns: 18rem calc(100% - 18rem - 5rem) 5rem;
             grid-template-rows: auto 1fr 3rem;
         }
         @media screen and (max-width: 1023px) {

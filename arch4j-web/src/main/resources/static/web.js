@@ -232,6 +232,24 @@ const _toggleDarkMode = function() {
 _setDarkMode(_isDarkMode());
 
 /**
+ * return random color code
+ * @private
+ */
+const _getRandomColor = function() {
+    if (_isDarkMode()) {
+        return randomColor({
+            luminosity: 'dark',
+            format: 'rgb'
+        });
+    } else {
+        return randomColor({
+            luminosity: 'bright',
+            format: 'rgb'
+        });
+    }
+}
+
+/**
  * Opens link
  * @param linkUrl
  * @param linkTarget

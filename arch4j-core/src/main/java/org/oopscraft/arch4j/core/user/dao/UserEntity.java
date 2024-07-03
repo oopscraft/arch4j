@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
+import org.oopscraft.arch4j.core.data.converter.BooleanConverter;
 import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.user.UserStatus;
 
@@ -45,7 +45,7 @@ public class UserEntity extends BaseEntity {
     private String password;
 
     @Column(name = "admin", length = 1)
-    @Convert(converter = BooleanToYNConverter.class)
+    @Convert(converter = BooleanConverter.class)
     private boolean admin;
 
     @Column(name = "email", length = 128)

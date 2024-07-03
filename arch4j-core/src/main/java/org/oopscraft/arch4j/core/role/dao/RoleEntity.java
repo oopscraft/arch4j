@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.role.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
+import org.oopscraft.arch4j.core.data.converter.BooleanConverter;
 import org.oopscraft.arch4j.core.user.dao.UserRoleEntity;
 
 import javax.persistence.*;
@@ -28,11 +28,11 @@ public class RoleEntity extends BaseEntity {
     private String roleName;
 
     @Column(name = "anonymous", length = 1)
-    @Convert(converter = BooleanToYNConverter.class)
+    @Convert(converter = BooleanConverter.class)
     private boolean anonymous;
 
     @Column(name = "authenticated", length = 1)
-    @Convert(converter = BooleanToYNConverter.class)
+    @Convert(converter = BooleanConverter.class)
     private boolean authenticated;
 
     @Column(name = "note")

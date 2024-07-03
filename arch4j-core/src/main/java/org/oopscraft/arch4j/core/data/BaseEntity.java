@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.data;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
+import org.oopscraft.arch4j.core.data.converter.BooleanConverter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
 	@Column(name = "system_required", length = 1)
-	@Convert(converter= BooleanToYNConverter.class)
+	@Convert(converter= BooleanConverter.class)
 	@Builder.Default
 	private boolean systemRequired = false;
 

@@ -8,7 +8,7 @@ import org.oopscraft.arch4j.core.data.BaseEntity;
 import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
-import org.oopscraft.arch4j.core.data.converter.BooleanToYNConverter;
+import org.oopscraft.arch4j.core.data.converter.BooleanConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,14 +48,14 @@ public class BoardEntity extends BaseEntity implements I18nSupportEntity<BoardI1
     private Integer pageSize;
 
     @Column(name = "file_enabled", length = 1)
-    @Convert(converter= BooleanToYNConverter.class)
+    @Convert(converter= BooleanConverter.class)
     private boolean fileEnabled;
 
     @Column(name = "file_size_limit")
     private Integer fileSizeLimit;
 
     @Column(name = "comment_enabled", length = 1)
-    @Convert(converter= BooleanToYNConverter.class)
+    @Convert(converter= BooleanConverter.class)
     private boolean commentEnabled;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

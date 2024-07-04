@@ -124,35 +124,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
-                .failOnEmptyBeans(false)
-                .serializerByType(LocalDateTime.class, new JsonSerializer<LocalDateTime>(){
-                    @Override
-                    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                        String result = value.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-                        gen.writeString(result);
-                    }
-                })
-                .deserializerByType(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-                    @Override
-                    public LocalDateTime deserialize(JsonParser p, DeserializationContext context) throws IOException {
-                        String value = p.getValueAsString();
-                        return LocalDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-                    }
-                })
-                .serializerByType(LocalDate.class, new JsonSerializer<LocalDate>(){
-                    @Override
-                    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                        String result = value.format(DateTimeFormatter.ISO_DATE);
-                        gen.writeString(result);
-                    }
-                })
-                .deserializerByType(LocalDate.class, new JsonDeserializer<LocalDate>() {
-                    @Override
-                    public LocalDate deserialize(JsonParser p, DeserializationContext context) throws IOException {
-                        String value = p.getValueAsString();
-                        return LocalDate.parse(value, DateTimeFormatter.ISO_DATE);
-                    }
-                });
+                .failOnEmptyBeans(false);
     }
 
     @Configuration

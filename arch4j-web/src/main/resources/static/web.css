@@ -1422,7 +1422,6 @@ hr {
     line-height: 1.2em;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: var(--web-badge-border-radius);
     padding: var(--web-badge-padding);
     background-color: var(--web-badge-background-color);
     color: var(--web-badge-color);

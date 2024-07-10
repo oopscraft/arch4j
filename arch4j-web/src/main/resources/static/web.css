@@ -45,7 +45,7 @@
     /* dialog */
     --web-dialog-border: solid 1px gray;
     /* badge */
-    --web-badge-border-radius: 0.25em;
+    --web-badge-border-radius: 1em;
     --web-badge-padding: 0.35em 0.65em;
     --web-badge-background-color: darkgray;
     --web-badge-color: white;
@@ -870,6 +870,11 @@ hr {
     text-align: right;
 }
 
+/* text-overflow */
+.text-overflow--ellipsis{
+    text-overflow: ellipsis;
+}
+
 /* vertical-align */
 .vertical-align--top {
     vertical-align: top;
@@ -1408,6 +1413,9 @@ hr {
     height: 1.2em;
     vertical-align: middle;
 }
+.icon--circle {
+    border-radius: 1em;
+}
 
 /* etc */
 .link {
@@ -1422,6 +1430,7 @@ hr {
     line-height: 1.2em;
     white-space: nowrap;
     vertical-align: baseline;
+    border-radius: var(--web-badge-border-radius);
     padding: var(--web-badge-padding);
     background-color: var(--web-badge-background-color);
     color: var(--web-badge-color);

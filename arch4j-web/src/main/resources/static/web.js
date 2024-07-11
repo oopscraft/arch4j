@@ -357,11 +357,6 @@ const _webSocketClient = {
         }
     },
     connect: function() {
-        this.stomp.heartbeat.outgoing = 5000;
-        this.stomp.heartbeat.incoming = 5000;
-        this.stomp.reconnect = true;
-        this.stomp.reconnect_delay = 2000;
-        this.stomp.reconnect_delay_max = 60000;
         const _this = this;
         this.stomp.connect({}, function(frame) {
             _this.connected = true;

@@ -343,7 +343,6 @@ const _changeLanguage = function(language) {
 const _webSocketClient = {
     stomp: Stomp.over(new SockJS('/ws')),
     subscriptions: [],
-    connected: false,
     subscribe: function(subscription) {
         this.subscriptions.push(subscription);
         if(this.stomp.connected) {
@@ -357,36 +356,24 @@ const _webSocketClient = {
         }
     },
     connect: function() {
+        this.stomp.heartbeat.outgoing = 5000;
+        this.stomp.heartbeat.incoming = 5000;
+        this.stomp.reconnect = true;
+        this.stomp.reconnect_delay = 2000;
+        this.stomp.reconnect_delay_max = 60000;
         const _this = this;
         this.stomp.connect({}, function(frame) {
-            _this.connected = true;
-            for (let i = 0; i < _this.subscriptions.length; i++) {
+            for(let i = 0; i < _this.subscriptions.length; i++) {
                 let subscription = _this.subscriptions[i];
                 subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
             }
-        }, function(error) {
-            console.error('STOMP connection error:', error);
-            _this.connected = false;
-            // reconnect
-            setTimeout(function() {
-                _this.connect();
-            }, 5000);
         });
     },
     send: function(message) {
-        if (this.connected) {
-            this.stomp.send(message.destination, message.headers, message.body);
-        } else {
-            console.error('Cannot send message: STOMP client is not connected.');
-        }
+        this.stomp.send(message.destination, message.headers, message.body);
     },
     disconnect: function() {
-        if (this.connected) {
-            this.stomp.disconnect(() => {
-                this.connected = false;
-                console.log('Disconnected');
-            });
-        }
+        this.stomp.disconnect();
     }
 };
 

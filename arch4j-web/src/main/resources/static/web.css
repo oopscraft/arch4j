@@ -1,12 +1,12 @@
-@import url('/static/font/opensans/font.css');
+@import url('/static/font/notosans/font.css');
 
 :root {
     /* global */
     --web-background-color: white;
-    --web-font-size: 12px;
+    --web-font-size: 11px;
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
-    --web-font-family: 'Open Sans', sans-serif;
+    --web-font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
     --web-font-weight-bold: 600;
     --web-ancher-color: auto;
     --web-color--red: #dc3545;

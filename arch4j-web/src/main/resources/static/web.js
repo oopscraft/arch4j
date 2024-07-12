@@ -340,51 +340,95 @@ const _changeLanguage = function(language) {
 /**
  * websocket client
  */
-const _webSocketClient = {
-    stomp: Stomp.over(new SockJS('/ws')),
-    subscriptions: [],
-    subscribe: function(subscription) {
+// class _webSocketClient = {
+//     stomp: Stomp.over(new SockJS('/ws')),
+//     subscriptions: [],
+//     subscribe: function(subscription) {
+//         this.subscriptions.push(subscription);
+//         if(this.stomp.connected) {
+//             subscription.subscribe = this.stomp.subscribe(subscription.destination, subscription.listener);
+//         }
+//         return subscription;
+//     },
+//     unsubscribe: function(subscription) {
+//         if(subscription?.subscribe) {
+//             subscription.subscribe.unsubscribe();
+//         }
+//     },
+//     connect: function() {
+//         this.stomp.reconnect = true;
+//         const _this = this;
+//         this.stomp.connect({}, function() {
+//             for(let i = 0; i < _this.subscriptions.length; i++) {
+//                 let subscription = _this.subscriptions[i];
+//                 subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
+//             }
+//         }, (error) => {
+//             console.error(error);
+//         });
+//     },
+//     send: function(message) {
+//         this.stomp.send(message.destination, message.headers, message.body);
+//     },
+//     disconnect: function() {
+//         this.stomp.disconnect(() => console.log('websocket disconnected.'));
+//     }
+// };
+//
+// /**
+//  * DOMContentLoaded
+//  */
+// document.addEventListener('DOMContentLoaded', event => {
+//     _webSocketClient.connect();
+// });
+//
+// /**
+//  * beforeunload
+//  */
+// window.addEventListener('beforeunload', () => {
+//     _webSocketClient.disconnect();
+// });
+
+class WebSocketClient {
+    constructor(url) {
+        this.stomp = Stomp.over(new SockJS(url));
+        this.subscriptions = [];
+        this.stomp.reconnect = true;
+    }
+
+    subscribe(subscription) {
         this.subscriptions.push(subscription);
-        if(this.stomp.connected) {
+        if (this.stomp.connected) {
             subscription.subscribe = this.stomp.subscribe(subscription.destination, subscription.listener);
         }
         return subscription;
-    },
-    unsubscribe: function(subscription) {
-        if(subscription?.subscribe) {
+    }
+
+    unsubscribe(subscription) {
+        if (subscription?.subscribe) {
             subscription.subscribe.unsubscribe();
         }
-    },
-    connect: function() {
-        this.stomp.reconnect = true;
+    }
+
+    connect() {
         const _this = this;
         this.stomp.connect({}, function() {
-            for(let i = 0; i < _this.subscriptions.length; i++) {
-                let subscription = _this.subscriptions[i];
+            _this.subscriptions.forEach(subscription => {
                 subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
-            }
-        }, (error) => {
+            });
+        }, function(error) {
             console.error(error);
+            // 재연결 로직을 추가할 수 있습니다.
+            setTimeout(() => _this.connect(), 5000);
         });
-    },
-    send: function(message) {
+    }
+
+    send(message) {
         this.stomp.send(message.destination, message.headers, message.body);
-    },
-    disconnect: function() {
+    }
+
+    disconnect() {
         this.stomp.disconnect(() => console.log('websocket disconnected.'));
     }
-};
+}
 
-/**
- * DOMContentLoaded
- */
-document.addEventListener('DOMContentLoaded', event => {
-    _webSocketClient.connect();
-});
-
-/**
- * beforeunload
- */
-window.addEventListener('beforeunload', () => {
-    _webSocketClient.disconnect();
-});

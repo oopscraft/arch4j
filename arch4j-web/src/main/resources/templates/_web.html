@@ -97,8 +97,15 @@
                 });
         }
 
+        const _webSocketClient = new WebSocketClient('/ws');
+
         document.addEventListener('DOMContentLoaded', event => {
             _getMenus();
+            _webSocketClient.connect();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            _webSocketClient.disconnect();
         });
 
     </script>

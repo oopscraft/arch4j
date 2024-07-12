@@ -338,57 +338,8 @@ const _changeLanguage = function(language) {
 }
 
 /**
- * websocket client
+ * webSocketClient
  */
-// class _webSocketClient = {
-//     stomp: Stomp.over(new SockJS('/ws')),
-//     subscriptions: [],
-//     subscribe: function(subscription) {
-//         this.subscriptions.push(subscription);
-//         if(this.stomp.connected) {
-//             subscription.subscribe = this.stomp.subscribe(subscription.destination, subscription.listener);
-//         }
-//         return subscription;
-//     },
-//     unsubscribe: function(subscription) {
-//         if(subscription?.subscribe) {
-//             subscription.subscribe.unsubscribe();
-//         }
-//     },
-//     connect: function() {
-//         this.stomp.reconnect = true;
-//         const _this = this;
-//         this.stomp.connect({}, function() {
-//             for(let i = 0; i < _this.subscriptions.length; i++) {
-//                 let subscription = _this.subscriptions[i];
-//                 subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
-//             }
-//         }, (error) => {
-//             console.error(error);
-//         });
-//     },
-//     send: function(message) {
-//         this.stomp.send(message.destination, message.headers, message.body);
-//     },
-//     disconnect: function() {
-//         this.stomp.disconnect(() => console.log('websocket disconnected.'));
-//     }
-// };
-//
-// /**
-//  * DOMContentLoaded
-//  */
-// document.addEventListener('DOMContentLoaded', event => {
-//     _webSocketClient.connect();
-// });
-//
-// /**
-//  * beforeunload
-//  */
-// window.addEventListener('beforeunload', () => {
-//     _webSocketClient.disconnect();
-// });
-
 class WebSocketClient {
     constructor(url) {
         this.stomp = Stomp.client(url);
@@ -430,5 +381,6 @@ class WebSocketClient {
     disconnect() {
         this.stomp.disconnect(() => console.log('websocket disconnected.'));
     }
+
 }
 

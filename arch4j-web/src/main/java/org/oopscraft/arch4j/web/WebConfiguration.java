@@ -134,7 +134,6 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         public void registerStompEndpoints(StompEndpointRegistry registry) {
             registry.addEndpoint("/ws")
                     .setAllowedOriginPatterns("*");
-                    //.withSockJS();
         }
     }
 

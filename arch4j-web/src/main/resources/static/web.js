@@ -391,7 +391,8 @@ const _changeLanguage = function(language) {
 
 class WebSocketClient {
     constructor(url) {
-        this.stomp = Stomp.over(new SockJS(url));
+        this.stomp = Stomp.client(url);
+        // this.stomp = Stomp.over(new SockJS(url));
         this.subscriptions = [];
         this.stomp.reconnect = true;
     }
@@ -418,7 +419,6 @@ class WebSocketClient {
             });
         }, function(error) {
             console.error(error);
-            // 재연결 로직을 추가할 수 있습니다.
             setTimeout(() => _this.connect(), 5000);
         });
     }

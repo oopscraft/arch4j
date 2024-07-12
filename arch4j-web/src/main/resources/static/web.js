@@ -356,24 +356,22 @@ const _webSocketClient = {
         }
     },
     connect: function() {
-        this.stomp.heartbeat.outgoing = 5000;
-        this.stomp.heartbeat.incoming = 5000;
         this.stomp.reconnect = true;
-        this.stomp.reconnect_delay = 2000;
-        this.stomp.reconnect_delay_max = 60000;
         const _this = this;
-        this.stomp.connect({}, function(frame) {
+        this.stomp.connect({}, function() {
             for(let i = 0; i < _this.subscriptions.length; i++) {
                 let subscription = _this.subscriptions[i];
                 subscription.subscribe = _this.stomp.subscribe(subscription.destination, subscription.listener);
             }
+        }, (error) => {
+            console.error(error);
         });
     },
     send: function(message) {
         this.stomp.send(message.destination, message.headers, message.body);
     },
     disconnect: function() {
-        this.stomp.disconnect();
+        this.stomp.disconnect(() => console.log('websocket disconnected.'));
     }
 };
 

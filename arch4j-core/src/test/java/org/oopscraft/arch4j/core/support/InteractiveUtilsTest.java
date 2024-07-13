@@ -1,13 +1,7 @@
 package org.oopscraft.arch4j.core.support;
 
-import org.apache.tools.ant.taskdefs.modules.Link;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InteractiveUtilsTest {
 

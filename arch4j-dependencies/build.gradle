@@ -81,9 +81,6 @@ dependencies {
         // jsoup
         api 'org.jsoup:jsoup:1.10.3'
 
-        // groovy
-        api 'org.codehaus.groovy:groovy-all:3.0.18'
-
         // java websocket
         api 'org.java-websocket:Java-WebSocket:1.5.3'
 

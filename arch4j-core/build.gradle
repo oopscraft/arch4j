@@ -101,9 +101,6 @@ dependencies {
     // jsoup
     api 'org.jsoup:jsoup'
 
-    // groovy
-    api 'org.codehaus.groovy:groovy-all'
-
     // java websocket
     api 'org.java-websocket:Java-WebSocket'
 

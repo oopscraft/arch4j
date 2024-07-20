@@ -6,8 +6,8 @@
     --web-font-size: 12px;
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
-    --web-font-family: "Nanum Gothic";
-    --web-font-family-code: "Nanum Gothic Coding";
+    --web-font-family: "Nanum Gothic", sans-serif;
+    --web-font-family-code: "Nanum Gothic Coding", monospace;
     --web-font-weight-bold: 700;
     --web-ancher-color: auto;
     --web-color--red: #dc3545;

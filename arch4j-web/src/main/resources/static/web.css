@@ -1,4 +1,4 @@
-@import url('/static/font/notosans/font.css');
+@import url('/static/font/font.css');
 
 :root {
     /* global */
@@ -6,8 +6,9 @@
     --web-font-size: 12px;
     --web-line-height: 2rem;
     --web-font-color: darkslategray;
-    --web-font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
-    --web-font-weight-bold: 600;
+    --web-font-family: "Nanum Gothic";
+    --web-font-family-code: "Nanum Gothic Coding";
+    --web-font-weight-bold: 700;
     --web-ancher-color: auto;
     --web-color--red: #dc3545;
     --web-color--green: #198754;
@@ -107,6 +108,8 @@ body {
     background-color: var(--web-background-color);
     font-family: var(--web-font-family);
     color: var(--web-font-color);
+    -webkit-font-smoothing: antialiased; /* chrome, safari */
+    -moz-osx-font-smoothing: grayscale; /* firefox, mac os */
     margin: 0;
     font-size: 1rem;
     font-weight: 400;
@@ -160,7 +163,6 @@ h1,h2,h3,h4,h5,h6 {
 }
 h1 {
     font-size: 1.5rem;
-    font-weight: bold;
 }
 h2 {
     font-size: 1.4rem;
@@ -331,7 +333,7 @@ table > thead tr > th {
     background-color: var(--web-table-header-background-color);
     font-weight: 600;
     padding: var(--web-element-padding);
-    text-align: inherit;
+    text-align: left;
     vertical-align: middle;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -356,6 +358,7 @@ table > tbody tr > td {
     border-bottom: var(--web-table-body-border);
     background-color: var(--web-table-body-background-color);
     padding: var(--web-element-padding);
+    text-align: left;
     vertical-align: middle;
 }
 table > tbody tr > td:last-of-type {
@@ -1276,7 +1279,7 @@ hr {
     font-style: italic !important;
 }
 .font-size--smaller {
-    font-size: smaller;
+    font-size: 90%;
 }
 .font-size--larger {
     font-size: larger;
@@ -1434,6 +1437,11 @@ hr {
     padding: var(--web-badge-padding);
     background-color: var(--web-badge-background-color);
     color: var(--web-badge-color);
+}
+
+/* code */
+.code {
+    font-family: var(--web-font-family-code);
 }
 
 /* tag */

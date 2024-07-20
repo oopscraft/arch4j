@@ -1279,7 +1279,7 @@ hr {
     font-style: italic !important;
 }
 .font-size--smaller {
-    font-size: 90%;
+    font-size: smaller;
 }
 .font-size--larger {
     font-size: larger;

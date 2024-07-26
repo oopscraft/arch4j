@@ -10,9 +10,9 @@
     --web-font-family-code: "Nanum Gothic Coding", monospace;
     --web-font-weight-bold: 700;
     --web-ancher-color: auto;
-    --web-color--red: #dc3545;
-    --web-color--green: #198754;
-    --web-color--blue: #0d6efd;
+    --web-color--red: red;
+    --web-color--green: limegreen;
+    --web-color--blue: blue;
     --web-background-color--yellow: lightyellow;
     --web-background-color--red: orangered;
     --web-background-color--green: mediumseagreen;

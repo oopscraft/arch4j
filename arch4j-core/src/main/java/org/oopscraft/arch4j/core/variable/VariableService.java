@@ -29,7 +29,7 @@ public class VariableService {
 
         variableEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
         variableEntity.setValue(variable.getValue());
-        variableEntity.setVariableName(variable.getVariableName());
+        variableEntity.setName(variable.getName());
         variableEntity.setNote(variable.getNote());
 
         VariableEntity savedVariableEntity = variableRepository.saveAndFlush(variableEntity);

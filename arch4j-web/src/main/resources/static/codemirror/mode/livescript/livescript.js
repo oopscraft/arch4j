@@ -112,7 +112,7 @@
         token: 'identifier',
         regex: identifier + '\\s*:(?![:=])'
       }, {
-        token: 'variable',
+        token: 'variables.html',
         regex: identifier
       }, {
         token: 'keyword.operator',

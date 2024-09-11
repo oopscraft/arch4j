@@ -2,10 +2,10 @@ package org.oopscraft.arch4j.core.code.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,8 +40,8 @@ public class CodeItemEntity extends BaseEntity implements I18nSupportEntity<Code
 	@Column(name = "item_id", length = 32)
 	private String itemId;
 
-    @Column(name = "item_name")
-    private String itemName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "sort")
 	private Integer sort;
@@ -68,17 +68,17 @@ public class CodeItemEntity extends BaseEntity implements I18nSupportEntity<Code
                 .build();
     }
 
-    public void setItemName(String itemName) {
-        I18nSetter.of(this, this.itemName)
-                .whenDefault(() -> this.itemName = itemName)
-                .whenI18n(codeItemLanguageEntity -> codeItemLanguageEntity.setItemName(itemName))
+    public void setName(String name) {
+        I18nSetter.of(this, this.name)
+                .whenDefault(() -> this.name = name)
+                .whenI18n(codeItemLanguageEntity -> codeItemLanguageEntity.setName(name))
                 .set();
     }
 
-    public String getItemName() {
-        return I18nGetter.of(this, this.itemName)
-                .whenDefault(() -> this.itemName)
-                .whenI18n(CodeItemI18nEntity::getItemName)
+    public String getName() {
+        return I18nGetter.of(this, this.name)
+                .whenDefault(() -> this.name)
+                .whenI18n(CodeItemI18nEntity::getName)
                 .get();
     }
 

@@ -18,9 +18,9 @@ public interface VariableRepository extends JpaRepository<VariableEntity, String
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(VariableEntity_.VARIABLE_ID), '%' + variableSearch.getVariableId() + '%'));
         }
-        if(variableSearch.getVariableName() != null) {
+        if(variableSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(VariableEntity_.VARIABLE_NAME), '%' + variableSearch.getVariableName() + '%'));
+                    criteriaBuilder.like(root.get(VariableEntity_.NAME), '%' + variableSearch.getName() + '%'));
         }
 
         return findAll(specification, pageable);

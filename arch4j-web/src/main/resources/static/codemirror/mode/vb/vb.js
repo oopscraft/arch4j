@@ -161,7 +161,7 @@ CodeMirror.defineMode("vb", function(conf, parserConf) {
         }
 
         if (stream.match(identifiers)) {
-            return 'variable';
+            return 'variables.html';
         }
 
         // Handle non-detected items
@@ -202,8 +202,8 @@ CodeMirror.defineMode("vb", function(conf, parserConf) {
         // Handle '.' connected identifiers
         if (current === '.') {
             style = state.tokenize(stream, state);
-            if (style === 'variable') {
-                return 'variable';
+            if (style === 'variables.html') {
+                return 'variables.html';
             } else {
                 return ERRORCLASS;
             }

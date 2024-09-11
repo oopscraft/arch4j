@@ -239,7 +239,7 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
         curKeyword = cur;
         return "keyword";
       }
-      return "variable";
+      return "variables.html";
     }
 
     stream.next();
@@ -370,7 +370,7 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
       curPunc = null;
       curKeyword = null;
       var style = (state.tokenize || tokenBase)(stream, state);
-      if (style == "comment" || style == "meta" || style == "variable") {
+      if (style == "comment" || style == "meta" || style == "variables.html") {
         if (((curPunc === "=") || (curPunc === "<=")) && !isInsideScopeKind(ctx, "assignment")) {
           // '<=' could be nonblocking assignment or lessthan-equals (which shouldn't cause indent)
           //      Search through the context to see if we are already in an assignment.
@@ -500,8 +500,8 @@ CodeMirror.defineMode("verilog", function(config, parserConfig) {
   var tlvIdentifierStyle = {
     "|": "link",
     ">": "property",  // Should condition this off for > TLV 1c.
-    "$": "variable",
-    "$$": "variable",
+    "$": "variables.html",
+    "$$": "variables.html",
     "?$": "qualifier",
     "?*": "qualifier",
     "-": "hr",

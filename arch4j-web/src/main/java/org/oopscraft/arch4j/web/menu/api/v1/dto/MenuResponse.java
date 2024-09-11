@@ -1,8 +1,7 @@
 package org.oopscraft.arch4j.web.menu.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.menu.Menu;
-import org.oopscraft.arch4j.core.menu.MenuTarget;
+import org.oopscraft.arch4j.core.menu.model.Menu;
 
 @Data
 @Builder
@@ -18,7 +17,7 @@ public class MenuResponse {
 
     private String link;
 
-    private MenuTarget target;
+    private Menu.Target target;
 
     private String icon;
 
@@ -27,7 +26,7 @@ public class MenuResponse {
     public static MenuResponse from(Menu menu) {
         return MenuResponse.builder()
                 .menuId(menu.getMenuId())
-                .menuName(menu.getMenuName())
+                .menuName(menu.getName())
                 .parentMenuId(menu.getParentMenuId())
                 .link(menu.getLink())
                 .target(menu.getTarget())

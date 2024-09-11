@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.web.support.WebTestSupport;
+import org.oopscraft.arch4j.web.common.test.WebTestSupport;
 
 @RequiredArgsConstructor
 @Slf4j

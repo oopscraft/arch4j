@@ -93,7 +93,7 @@
           }
 
         }
-        return "variable";
+        return "variables.html";
       } else if (stream.eat("{")) {
         if (stream.eat("#")) {
           state.incomment = true;

@@ -3,8 +3,7 @@ package org.oopscraft.arch4j.web.admin.view;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.web.admin.view.BoardController;
-import org.oopscraft.arch4j.web.support.WebTestSupport;
+import org.oopscraft.arch4j.web.common.test.WebTestSupport;
 
 import java.io.IOException;
 import java.util.Set;
@@ -13,7 +12,7 @@ import java.util.Set;
 @Slf4j
 class BoardControllerTest extends WebTestSupport {
 
-    private final BoardController boardController;
+    private final BoardsController boardController;
 
     @Test
     public void getSkinNames() throws IOException {

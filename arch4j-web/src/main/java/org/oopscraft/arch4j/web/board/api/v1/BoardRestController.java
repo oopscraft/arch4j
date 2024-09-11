@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.web.board.api.v1;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.BoardService;
+import org.oopscraft.arch4j.core.board.service.BoardService;
 import org.oopscraft.arch4j.web.board.api.v1.dto.BoardResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

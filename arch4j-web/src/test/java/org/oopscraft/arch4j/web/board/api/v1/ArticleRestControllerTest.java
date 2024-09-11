@@ -2,9 +2,9 @@ package org.oopscraft.arch4j.web.board.api.v1;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.model.Article;
 import org.oopscraft.arch4j.web.board.api.v1.dto.ArticleRequest;
-import org.oopscraft.arch4j.web.support.WebTestSupport;
+import org.oopscraft.arch4j.web.common.test.WebTestSupport;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,7 +22,7 @@ class ArticleRestControllerTest extends WebTestSupport {
     ArticleRequest testArticleRequest = ArticleRequest.builder()
             .articleId(null)
             .title("test title")
-            .contentFormat(ContentFormat.TEXT)
+            .contentFormat(Article.ContentFormat.TEXT)
             .content("test content")
             .build();
 

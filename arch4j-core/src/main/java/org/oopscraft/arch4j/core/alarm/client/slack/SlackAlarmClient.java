@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.alarm.client.slack;
 
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.alarm.client.AlarmClient;
-import org.oopscraft.arch4j.core.support.RestTemplateBuilder;
+import org.oopscraft.arch4j.core.common.support.RestTemplateBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;

@@ -75,7 +75,7 @@
       if (keywords.propertyIsEnumerable(cur)) return "keyword";
       else if (builtin.propertyIsEnumerable(cur)) return "builtin";
       else if (atoms.propertyIsEnumerable(cur)) return "atom";
-      else return "variable";
+      else return "variables.html";
     }
 
     function tokenQIdent(stream, state) {
@@ -85,7 +85,7 @@
       state.sol = false;
 
       if(stream.eat("'"))
-        return "variable";
+        return "variables.html";
       else
         return "error";
     }

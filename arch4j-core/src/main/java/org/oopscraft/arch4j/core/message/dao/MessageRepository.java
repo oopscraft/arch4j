@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.message.dao;
 
-import org.oopscraft.arch4j.core.message.MessageSearch;
+import org.oopscraft.arch4j.core.message.model.MessageSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,9 +19,9 @@ public interface MessageRepository extends JpaRepository<MessageEntity, String>,
                     criteriaBuilder.like(root.get(MessageEntity_.MESSAGE_ID), '%' + messageSearch.getMessageId() + '%'));
         }
 
-        if(messageSearch.getMessageName() != null) {
+        if(messageSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(MessageEntity_.MESSAGE_NAME), '%' + messageSearch.getMessageName() + '%'));
+                    criteriaBuilder.like(root.get(MessageEntity_.NAME), '%' + messageSearch.getName() + '%'));
         }
 
         return findAll(specification, pageable);

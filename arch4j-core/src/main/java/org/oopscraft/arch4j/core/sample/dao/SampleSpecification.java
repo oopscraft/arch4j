@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.sample.dao;
 
-import org.oopscraft.arch4j.core.sample.SampleType;
+import org.oopscraft.arch4j.core.sample.model.SampleType;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SampleSpecification {

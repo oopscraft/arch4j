@@ -52,7 +52,7 @@ CodeMirror.defineMode("q",function(config){
       return(t&&(!(c=stream.peek())||E.test(c)))?t:(stream.next(),"error");
     }
     if(/[A-Za-z]|\./.test(c))
-      return stream.eatWhile(/[A-Za-z._\d]/),keywords.test(stream.current())?"keyword":"variable";
+      return stream.eatWhile(/[A-Za-z._\d]/),keywords.test(stream.current())?"keyword":"variables.html";
     if(/[|/&^!+:\\\-*%$=~#;@><\.,?_\']/.test(c))
       return null;
     if(/[{}\(\[\]\)]/.test(c))

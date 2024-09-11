@@ -90,7 +90,7 @@
         return "keyword"
       }
       if (prev == "define") return "def"
-      return "variable"
+      return "variables.html"
     }
 
     stream.next()

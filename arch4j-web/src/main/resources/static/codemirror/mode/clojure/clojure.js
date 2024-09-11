@@ -191,7 +191,7 @@ CodeMirror.defineMode("clojure", function (options) {
     if (is(symbol, specialForm) || is(symbol, coreSymbol)) return ["symbol", "keyword"];
     if (state.lastToken === "(") return ["symbol", "builtin"]; // other operator
 
-    return ["symbol", "variable"];
+    return ["symbol", "variables.html"];
   }
 
   function inString(stream, state) {

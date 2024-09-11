@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.variable;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseModel;
+import org.oopscraft.arch4j.core.common.data.BaseModel;
 import org.oopscraft.arch4j.core.variable.dao.VariableEntity;
 
 @Data
@@ -14,7 +14,7 @@ public class Variable extends BaseModel {
 
     private String variableId;
 
-    private String variableName;
+    private String name;
 
     private String value;
 
@@ -27,7 +27,7 @@ public class Variable extends BaseModel {
                 .systemUpdatedBy(variableEntity.getSystemUpdatedBy())
                 .variableId(variableEntity.getVariableId())
                 .value(variableEntity.getValue())
-                .variableName(variableEntity.getVariableName())
+                .name(variableEntity.getName())
                 .note(variableEntity.getNote())
                 .build();
     }

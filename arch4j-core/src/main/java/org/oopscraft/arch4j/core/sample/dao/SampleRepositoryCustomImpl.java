@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.sample.dao;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.sample.SampleSearch;
+import org.oopscraft.arch4j.core.sample.model.SampleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

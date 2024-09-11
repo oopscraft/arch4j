@@ -248,7 +248,7 @@ CodeMirror.defineMode("vbscript", function(conf, parserConf) {
         }
 
         if (stream.match(identifiers)) {
-            return 'variable';
+            return 'variables.html';
         }
 
         // Handle non-detected items
@@ -291,8 +291,8 @@ CodeMirror.defineMode("vbscript", function(conf, parserConf) {
             style = state.tokenize(stream, state);
 
             current = stream.current();
-            if (style && (style.substr(0, 8) === 'variable' || style==='builtin' || style==='keyword')){//|| knownWords.indexOf(current.substring(1)) > -1) {
-                if (style === 'builtin' || style === 'keyword') style='variable';
+            if (style && (style.substr(0, 8) === 'variables.html' || style==='builtin' || style==='keyword')){//|| knownWords.indexOf(current.substring(1)) > -1) {
+                if (style === 'builtin' || style === 'keyword') style='variables.html';
                 if (knownWords.indexOf(current.substr(1)) > -1) style='variable-2';
 
                 return style;

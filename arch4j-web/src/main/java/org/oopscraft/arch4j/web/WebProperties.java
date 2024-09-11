@@ -2,11 +2,9 @@ package org.oopscraft.arch4j.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.oopscraft.arch4j.web.security.SecurityPolicy;
+import org.oopscraft.arch4j.web.security.model.SecurityPolicy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-
-import javax.validation.constraints.NotNull;
 
 @ConfigurationProperties(prefix = "web")
 @ConstructorBinding

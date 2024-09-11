@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.cli;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.oopscraft.arch4j.cli.utils.InteractiveUtils;
+import org.oopscraft.arch4j.cli.common.InteractiveUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.*;
 import org.springframework.boot.builder.SpringApplicationBuilder;

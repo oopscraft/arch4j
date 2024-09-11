@@ -102,7 +102,7 @@ CodeMirror.defineMode('mllike', function(_config, parserConfig) {
     if (/[\w\xa1-\uffff]/.test(ch)) {
       stream.eatWhile(/[\w\xa1-\uffff]/);
       var cur = stream.current();
-      return words.hasOwnProperty(cur) ? words[cur] : 'variable';
+      return words.hasOwnProperty(cur) ? words[cur] : 'variables.html';
     }
     return null
   }

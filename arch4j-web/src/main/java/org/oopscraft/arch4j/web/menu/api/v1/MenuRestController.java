@@ -2,10 +2,10 @@ package org.oopscraft.arch4j.web.menu.api.v1;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.menu.MenuService;
+import org.oopscraft.arch4j.core.menu.service.MenuService;
 import org.oopscraft.arch4j.web.menu.api.v1.dto.MenuResponse;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
-import org.oopscraft.arch4j.web.support.PageableUtils;
+import org.oopscraft.arch4j.web.security.support.SecurityUtils;
+import org.oopscraft.arch4j.web.common.data.PageableUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

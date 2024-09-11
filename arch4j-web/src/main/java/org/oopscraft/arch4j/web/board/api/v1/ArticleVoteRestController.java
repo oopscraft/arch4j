@@ -2,10 +2,11 @@ package org.oopscraft.arch4j.web.board.api.v1;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.*;
+import org.oopscraft.arch4j.core.board.model.ArticleVote;
+import org.oopscraft.arch4j.core.board.service.ArticleVoteService;
 import org.oopscraft.arch4j.web.board.api.v1.dto.ArticleVoteRequest;
 import org.oopscraft.arch4j.web.board.api.v1.dto.ArticleVoteResponse;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
+import org.oopscraft.arch4j.web.security.support.SecurityUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

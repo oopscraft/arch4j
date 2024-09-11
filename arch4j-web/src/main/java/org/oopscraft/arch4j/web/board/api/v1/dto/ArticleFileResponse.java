@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.board.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.ArticleFile;
+import org.oopscraft.arch4j.core.board.model.ArticleFile;
 
 @Data
 @Builder

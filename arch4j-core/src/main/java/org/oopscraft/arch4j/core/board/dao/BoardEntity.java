@@ -3,12 +3,13 @@ package org.oopscraft.arch4j.core.board.dao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Where;
-import org.oopscraft.arch4j.core.board.MessageFormat;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
-import org.oopscraft.arch4j.core.data.converter.BooleanConverter;
+import org.oopscraft.arch4j.core.board.model.Board;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSupportEntity;
+import org.oopscraft.arch4j.core.common.data.converter.AbstractEnumConverter;
+import org.oopscraft.arch4j.core.common.data.converter.BooleanConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,15 +28,15 @@ public class BoardEntity extends BaseEntity implements I18nSupportEntity<BoardI1
     @Column(name = "board_id", length = 64)
     private String boardId;
 
-    @Column(name = "board_name")
-    private String boardName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "icon")
     @Lob
     private String icon;
 
     @Column(name = "message_format", length = 16)
-    private MessageFormat messageFormat;
+    private Board.MessageFormat messageFormat;
 
     @Column(name = "message")
     @Lob
@@ -106,17 +107,17 @@ public class BoardEntity extends BaseEntity implements I18nSupportEntity<BoardI1
                 .build();
     }
 
-    public void setBoardName(String boardName) {
-        I18nSetter.of(this, this.boardName)
-                .whenDefault(() -> this.boardName = boardName)
-                .whenI18n(i18nEntity -> i18nEntity.setBoardName(boardName))
+    public void setName(String name) {
+        I18nSetter.of(this, this.name)
+                .whenDefault(() -> this.name = name)
+                .whenI18n(i18nEntity -> i18nEntity.setName(name))
                 .set();
     }
 
-    public String getBoardName() {
-        return I18nGetter.of(this, this.boardName)
-                .whenDefault(() -> this.boardName)
-                .whenI18n(BoardI18nEntity::getBoardName)
+    public String getName() {
+        return I18nGetter.of(this, this.name)
+                .whenDefault(() -> this.name)
+                .whenI18n(BoardI18nEntity::getName)
                 .get();
     }
 
@@ -133,5 +134,8 @@ public class BoardEntity extends BaseEntity implements I18nSupportEntity<BoardI1
                 .whenI18n(BoardI18nEntity::getMessage)
                 .get();
     }
+
+    @Converter(autoApply = true)
+    public static class MessageFormatConverter extends AbstractEnumConverter<Board.MessageFormat> {}
 
 }

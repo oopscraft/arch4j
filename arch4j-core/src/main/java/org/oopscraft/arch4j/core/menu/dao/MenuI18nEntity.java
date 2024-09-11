@@ -2,8 +2,8 @@ package org.oopscraft.arch4j.core.menu.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
-import org.oopscraft.arch4j.core.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,8 +35,8 @@ public class MenuI18nEntity extends BaseEntity implements I18nEntity {
     @Column(name = "language", length = 8)
     private String language;
 
-    @Column(name = "menu_name")
-    private String menuName;
+    @Column(name = "name")
+    private String name;
 
 }
 

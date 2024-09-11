@@ -85,7 +85,7 @@ CodeMirror.defineMode("sparql", function(config) {
     else if (keywords.test(word))
       return "keyword";
     else
-      return "variable";
+      return "variables.html";
   }
 
   function eatPnLocal(stream) {

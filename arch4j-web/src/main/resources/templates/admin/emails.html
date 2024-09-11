@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<th:block layout:fragment="_content">
+    <script th:inline="javascript">
+        // email search condition
+        const emailSearch = new duice.ObjectProxy({
+            key: 'emailId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // email list
+        const emails = new duice.ArrayProxy([]);
+
+        // email
+        const email = new duice.ObjectProxy({
+            emailId: null,
+            name: null
+        });
+        duice.ObjectProxy.setDisableAll(email, true);
+        duice.ObjectProxy.onPropertyChanging(email, async event => {
+            if (event.getProperty() === 'emailId') {
+                if (!await validateEmailId(event.getValue())) {
+                    duice.ObjectProxy.focus(email, 'emailId');
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        function getEmails(page) {
+            if(page) {
+                emailSearch._page = page;
+            }
+            let url = new URL(/*[[@{/admin/emails/get-emails}]]*/'', document.location.origin);
+            if (emailSearch.key && emailSearch.value) {
+                url.searchParams.append(emailSearch.key, emailSearch.value);
+            }
+            url.searchParams.append('_page', emailSearch._page);
+            url.searchParams.append('_size', emailSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(emails);
+                    duice.ArrayProxy.assign(emails, data.content);
+                    emailSearch._count = data['totalElements'];
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(emails, emails.findIndex(item => item.templateId === email.templateId));
+                });
+        }
+
+        function resetEmails() {
+            duice.ObjectProxy.reset(emailSearch);
+            getEmails();
+        }
+
+        function getEmail(emailId) {
+            let url = new URL(/*[[@{/admin/emails/get-email}]]*/'', document.location.origin);
+            url.searchParams.append('emailId', emailId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(email, data);
+                    duice.ObjectProxy.setDisableAll(email, false);
+                    duice.ObjectProxy.setReadonly(email, 'emailId', true);
+                    email._new = false;
+                });
+        }
+
+        function createEmail() {
+            duice.ObjectProxy.clear(email);
+            duice.ObjectProxy.assign(email, {
+                _new: true
+            });
+            duice.ObjectProxy.setDisableAll(email, false);
+            duice.ObjectProxy.setReadonly(email, 'emailId', false);
+            duice.ObjectProxy.focus(email, 'emailId');
+        }
+
+        async function validateEmailId(emailId) {
+            // check blank
+            if (!emailId) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.email.Email.emailId})}]]*/'');
+                duice.ObjectProxy.focus(email, 'emailId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL(/*[[@{/admin/emails/get-email}]]*/'', document.location.origin);
+            url.searchParams.append('emailId', emailId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let email = await response.json();
+                if (email) {
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.email.Email.emailId})}]]*/'');
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
+        }
+
+        async function saveEmail() {
+            // if new, checks id
+            if (email._new) {
+                if (!await validateEmailId(email.emailId)) {
+                    return false;
+                }
+            }
+
+            // checks name
+            if (!email.name || email.name.trim().length < 1) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.email.Email.name})}]]*/'');
+                duice.ObjectProxy.focus(email, 'name');
+                return false;
+            }
+
+            // call save
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.email.Email})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/emails/save-email}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(email)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.email.Email})}]]*/'').then(() => {
+                                getEmails();
+                                getEmail(email.emailId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function deleteEmail() {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.email.Email})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/email/delete-email}]]*/'', document.location.origin);
+                    url.searchParams.append('emailId', email.emailId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.email.Email})}]]*/'').then(() => {
+                                getEmails();
+                                duice.ObjectProxy.clear(email);
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getEmails();
+        });
+    </script>
+
+    <!-- ====================================== -->
+    <!-- start: title                           -->
+    <!-- ====================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-email.svg}" alt="email"/>
+        <span data-th-text="#{web.admin.email}"></span>
+    </h1>
+    <!-- ====================================== -->
+    <!-- end: title                             -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: email content                   -->
+    <!-- ====================================== -->
+    <div id="emailContent" class="display--grid grid-template-columns--12 grid-gap--1em">
+
+        <!-- ====================================== -->
+        <!-- start: email list                      -->
+        <!-- ====================================== -->
+        <div id="emailList" class="grid-column--5 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
+                        <span data-th-text="#{core.email.Email}+' '+#{web.global.list}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--4">
+                            <select class="width--100" data-duice-bind="emailSearch" data-duice-property="key">
+                                <option value="emailId" th:text="#{core.email.Email.emailId}"></option>
+                                <option value="name" th:text="#{core.email.Email.name}"></option>
+                            </select>
+                        </label>
+                        <label class="grid-column--8">
+                            <input class="width--100" type="text" data-duice-bind="emailSearch" data-duice-property="value"
+                                   th:placeholder="#{web.global.keyword}"/>
+                        </label>
+                        <div class="grid-column--12 justify-self--end">
+                            <button type="submit" onclick="getEmails();">
+                                <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                                <span data-th-text="#{web.global.search}">Search</span>
+                            </button>
+                            <button type="button" onclick="resetEmails();">
+                                <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="overflow-x--auto">
+                        <table class="width--100">
+                            <colgroup>
+                                <col style="width:5rem;"/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                                <th data-th-text="#{core.email.Email.emailId}"></th>
+                                <th data-th-text="#{core.email.Email.name}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-duice-bind="emails" data-duice-loop="email,status"
+                                data-duice-selected-item-class="selected" data-duice-execute="
+                        this.dataset.emailId=email.emailId;
+                        " onclick="getEmail(this.dataset.emailId);" class="link">
+                                <td data-duice-bind="status" data-duice-property="count"
+                                    class="text-align--center"></td>
+                                <td data-duice-bind="email" data-duice-property="emailId" class="font-weight--bold"></td>
+                                <td data-duice-bind="email" data-duice-property="name"></td>
+                            </tr>
+                            <tr data-duice-bind="emails"
+                                data-duice-execute="if(emails.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align--center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="display--grid grid-template-columns--3">
+                        <div>
+                            <span data-th-text="#{web.global.total}"></span>
+                            <span data-duice-bind="emailSearch" data-duice-property="_count"
+                                  data-duice-format="number(0)"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
+                        </div>
+                        <div class="justify-self--center">
+                            <duice-pagination
+                                    data-duice-bind="emailSearch"
+                                    data-duice-size-property="_size"
+                                    data-duice-page-property="_page"
+                                    data-duice-count-property="_count"
+                                    data-duice-onclick="getEmails(this.dataset.page);">
+                            </duice-pagination>
+                        </div>
+                        <div class="justify-self--end">
+                            <button type="button"
+                                    onclick="createEmail();">
+                                <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
+                                <span data-th-text="#{web.global.create}"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: email list                        -->
+        <!-- ====================================== -->
+
+        <!-- ====================================== -->
+        <!-- start: email detail                    -->
+        <!-- ====================================== -->
+        <div id="emailDetail" class="grid-column--7 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
+                        <span data-th-text="#{core.email.Email}+' '+#{web.global.detail}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.email.Email.emailId}"
+                              class="font-weight--bold tag-required"></span>
+                            <input type="text" data-duice-bind="email" data-duice-property="emailId"
+                                   class="width--100 font-weight--bold"/>
+                        </label>
+                        <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.email.Email.name}"
+                              class="font-weight--bold tag-required"></span>
+                            <input type="text" data-duice-bind="email" data-duice-property="name"
+                                   class="width--100"/>
+                        </label>
+                        <label class="grid-column--12">
+                            <span class="font-weight--bold" data-th-text="#{core.email.Email.subject}"></span>
+                            <input type="text" data-duice-bind="email" data-duice-property="subject" class="width--100"/>
+                        </label>
+                        <label class="grid-column--12">
+                            <span data-th-text="#{core.email.Email.content}" class="font-weight--bold"></span>
+                            <textarea data-duice-bind="email" data-duice-property="content" rows="5"
+                                      class="width--100"></textarea>
+                        </label>
+                    </form>
+                    <div class="display--grid grid-template-columns--2 grid-gap--1em">
+                        <div></div>
+                        <div class="justify-self--end">
+                            <button type="button" onclick="deleteEmail();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAILS_EDIT'')')}?'locked'"
+                                    data-duice-bind="email"
+                                    data-duice-execute="(email.emailId && !email._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
+                                <span data-th-text="#{web.global.delete}"></span>
+                            </button>
+                            <button type="button" onclick="saveEmail();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAILS_EDIT'')')}?'locked'"
+                                    data-duice-bind="email"
+                                    data-duice-execute="(email.emailId || email._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
+                                <span data-th-text="#{web.global.save}"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-align--right font-size--smaller font-style--italic">
+                        Last Updated At
+                        <span data-duice-bind="email" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                        By
+                        <span data-duice-bind="email" data-duice-property="systemUpdatedBy"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: email detail                      -->
+        <!-- ====================================== -->
+
+    </div>
+    <!-- ====================================== -->
+    <!-- end: email content                     -->
+    <!-- ====================================== -->
+
+</th:block>

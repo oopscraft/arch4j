@@ -2,8 +2,8 @@ package org.oopscraft.arch4j.core.code.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,8 +40,8 @@ public class CodeItemI18nEntity extends BaseEntity implements I18nEntity {
     @Column(name = "language", length = 8)
     private String language;
 
-    @Column(name = "item_name")
-    private String itemName;
+    @Column(name = "name")
+    private String name;
 
 }
 

@@ -80,7 +80,7 @@
   // wrapper for elt, which removes the elt from the accessibility tree
   function eltP(tag, content, className, style) {
     var e = elt(tag, content, className, style);
-    e.setAttribute("role", "presentation");
+    e.setAttribute("roles.html", "presentation");
     return e
   }
 
@@ -1835,7 +1835,7 @@
         if (m[0] == "\t") {
           var tabSize = builder.cm.options.tabSize, tabWidth = tabSize - builder.col % tabSize;
           txt$1 = content.appendChild(elt("span", spaceStr(tabWidth), "cm-tab"));
-          txt$1.setAttribute("role", "presentation");
+          txt$1.setAttribute("roles.html", "presentation");
           txt$1.setAttribute("cm-text", "\t");
           builder.col += tabWidth;
         } else if (m[0] == "\r" || m[0] == "\n") {

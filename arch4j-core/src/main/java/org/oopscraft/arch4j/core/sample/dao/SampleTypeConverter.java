@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.sample.dao;
 
-import org.oopscraft.arch4j.core.data.converter.AbstractEnumConverter;
-import org.oopscraft.arch4j.core.sample.SampleType;
+import org.oopscraft.arch4j.core.common.data.converter.AbstractEnumConverter;
+import org.oopscraft.arch4j.core.sample.model.SampleType;
 
 import javax.persistence.Converter;
 

@@ -90,7 +90,7 @@ CodeMirror.defineMode("nginx", function(config) {
     }
     else {
       stream.eatWhile(/[\w\\\-]/);
-      return ret("variable", "variable");
+      return ret("variables.html", "variables.html");
     }
   }
 
@@ -145,7 +145,7 @@ CodeMirror.defineMode("nginx", function(config) {
 
       var context = state.stack[state.stack.length-1];
       if (type == "hash" && context == "rule") style = "atom";
-      else if (style == "variable") {
+      else if (style == "variables.html") {
         if (context == "rule") style = "number";
         else if (!context || context == "@media{") style = "tag";
       }

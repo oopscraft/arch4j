@@ -103,7 +103,7 @@
         return "builtin";
 
       if (stream.match(identifiers))
-        return "variable";
+        return "variables.html";
 
       // Detect dollar-sign when not a documented intrinsic function
       // "^" may introduce a GVN or SSVN - Color same as function
@@ -120,7 +120,7 @@
 
       if (/[\w%]/.test(ch)) {
         stream.eatWhile(/[\w%]/);
-        return "variable";
+        return "variables.html";
       }
 
       // Handle non-detected items

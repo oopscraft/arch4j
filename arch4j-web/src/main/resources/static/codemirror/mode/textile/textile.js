@@ -22,7 +22,7 @@
     deletion: "negative",
     div: "punctuation",
     em: "em",
-    footnote: "variable",
+    footnote: "variables.html",
     footCite: "qualifier",
     header: "header",
     html: "comment",

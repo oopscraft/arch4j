@@ -119,10 +119,10 @@ CodeMirror.defineMode("ntriples", function() {
          var parsedURI = '';
          stream.eatWhile( function(c) { if( c != '#' && c != '>' ) { parsedURI += c; return true; } return false;} );
          state.uris.push(parsedURI);
-         if( stream.match('#', false) ) return 'variable';
+         if( stream.match('#', false) ) return 'variables.html';
          stream.next();
          transitState(state, '>');
-         return 'variable';
+         return 'variables.html';
       }
       if(ch == '#') {
         var parsedAnchor = '';
@@ -132,7 +132,7 @@ CodeMirror.defineMode("ntriples", function() {
       }
       if(ch == '>') {
           transitState(state, '>');
-          return 'variable';
+          return 'variables.html';
       }
       if(ch == '_') {
           transitState(state, ch);
@@ -169,7 +169,7 @@ CodeMirror.defineMode("ntriples", function() {
           state.types.push(parsedType);
           stream.next();
           transitState(state, '>');
-          return 'variable';
+          return 'variables.html';
       }
       if( ch == ' ' ) {
           transitState(state, ch);

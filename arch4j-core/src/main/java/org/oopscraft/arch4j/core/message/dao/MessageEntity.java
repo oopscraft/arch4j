@@ -2,10 +2,10 @@ package org.oopscraft.arch4j.core.message.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.i18n.I18nGetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSetter;
-import org.oopscraft.arch4j.core.data.i18n.I18nSupportEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nGetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSetter;
+import org.oopscraft.arch4j.core.common.i18n.I18nSupportEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ public class MessageEntity extends BaseEntity implements I18nSupportEntity<Messa
     @Column(name = "message_id", length = 64)
     private String messageId;
 
-    @Column(name = "message_name")
-    private String messageName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "value")
     @Lob

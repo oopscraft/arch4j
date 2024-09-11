@@ -57,7 +57,7 @@ CodeMirror.defineMode("commonlisp", function (config) {
       if (name == "nil" || name == "t" || name.charAt(0) == ":") return "atom";
       if (state.lastType == "open" && (specialForm.test(name) || assumeBody.test(name))) return "keyword";
       if (name.charAt(0) == "&") return "variable-2";
-      return "variable";
+      return "variables.html";
     }
   }
 

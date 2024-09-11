@@ -2,8 +2,8 @@ package org.oopscraft.arch4j.core.message.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.i18n.I18nEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.i18n.I18nEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;

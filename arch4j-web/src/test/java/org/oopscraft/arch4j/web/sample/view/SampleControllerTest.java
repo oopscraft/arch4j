@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.web.sample.view;
 
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.sample.Sample;
-import org.oopscraft.arch4j.core.sample.SampleType;
-import org.oopscraft.arch4j.web.support.WebTestSupport;
+import org.oopscraft.arch4j.core.sample.model.Sample;
+import org.oopscraft.arch4j.core.sample.model.SampleType;
+import org.oopscraft.arch4j.web.common.test.WebTestSupport;
 import org.springframework.http.MediaType;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;

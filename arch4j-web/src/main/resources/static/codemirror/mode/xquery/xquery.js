@@ -49,7 +49,7 @@ CodeMirror.defineMode("xquery", function() {
     'self', 'sensitive', 'sentence', 'sentences', 'sequence', 'skip', 'sliding', 'some', 'stable',
     'start', 'stemming', 'stop', 'strict', 'strip', 'switch', 'text', 'then', 'thesaurus', 'times',
     'to', 'transform', 'treat', 'try', 'tumbling', 'type', 'typeswitch', 'union', 'unordered',
-    'update', 'updating', 'uppercase', 'using', 'validate', 'value', 'variable', 'version',
+    'update', 'updating', 'uppercase', 'using', 'validate', 'value', 'variables.html', 'version',
     'weight', 'when', 'where', 'wildcards', 'window', 'with', 'without', 'word', 'words', 'xquery'];
     for(var i=0, l=basic.length; i < l; i++) { kwObj[basic[i]] = kw(basic[i]);};
 
@@ -130,7 +130,7 @@ CodeMirror.defineMode("xquery", function() {
         return "tag";
       }
       else
-        return "variable";
+        return "variables.html";
     }
     // if a number
     else if (/\d/.test(ch)) {
@@ -206,14 +206,14 @@ CodeMirror.defineMode("xquery", function() {
       // if the previous word was element, attribute, axis specifier, this word should be the name of that
       if(isInXmlConstructor(state)) {
         popStateStack(state);
-        return "variable";
+        return "variables.html";
       }
       // as previously checked, if the word is element,attribute, axis specifier, call it an "xmlconstructor" and
       // push the stack so we know to look for it on the next word
       if(word == "element" || word == "attribute" || known.type == "axis_specifier") pushStateStack(state, {type: "xmlconstructor"});
 
       // if the word is known, return the details of that else just call this a generic 'word'
-      return known ? known.style : "variable";
+      return known ? known.style : "variables.html";
     }
   }
 
@@ -294,7 +294,7 @@ CodeMirror.defineMode("xquery", function() {
     }
     stream.eatWhile(isVariableChar);
     state.tokenize = tokenBase;
-    return "variable";
+    return "variables.html";
   }
 
   // tokenizer for XML tags

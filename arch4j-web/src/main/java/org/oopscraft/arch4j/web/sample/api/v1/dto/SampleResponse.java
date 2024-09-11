@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.sample.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.sample.SampleType;
+import org.oopscraft.arch4j.core.sample.model.SampleType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -144,47 +144,47 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
   function x86(_parserConfig) {
     lineCommentStartSymbol = "#";
 
-    registers.al  = "variable";
-    registers.ah  = "variable";
-    registers.ax  = "variable";
+    registers.al  = "variables.html";
+    registers.ah  = "variables.html";
+    registers.ax  = "variables.html";
     registers.eax = "variable-2";
     registers.rax = "variable-3";
 
-    registers.bl  = "variable";
-    registers.bh  = "variable";
-    registers.bx  = "variable";
+    registers.bl  = "variables.html";
+    registers.bh  = "variables.html";
+    registers.bx  = "variables.html";
     registers.ebx = "variable-2";
     registers.rbx = "variable-3";
 
-    registers.cl  = "variable";
-    registers.ch  = "variable";
-    registers.cx  = "variable";
+    registers.cl  = "variables.html";
+    registers.ch  = "variables.html";
+    registers.cx  = "variables.html";
     registers.ecx = "variable-2";
     registers.rcx = "variable-3";
 
-    registers.dl  = "variable";
-    registers.dh  = "variable";
-    registers.dx  = "variable";
+    registers.dl  = "variables.html";
+    registers.dh  = "variables.html";
+    registers.dx  = "variables.html";
     registers.edx = "variable-2";
     registers.rdx = "variable-3";
 
-    registers.si  = "variable";
+    registers.si  = "variables.html";
     registers.esi = "variable-2";
     registers.rsi = "variable-3";
 
-    registers.di  = "variable";
+    registers.di  = "variables.html";
     registers.edi = "variable-2";
     registers.rdi = "variable-3";
 
-    registers.sp  = "variable";
+    registers.sp  = "variables.html";
     registers.esp = "variable-2";
     registers.rsp = "variable-3";
 
-    registers.bp  = "variable";
+    registers.bp  = "variables.html";
     registers.ebp = "variable-2";
     registers.rbp = "variable-3";
 
-    registers.ip  = "variable";
+    registers.ip  = "variables.html";
     registers.eip = "variable-2";
     registers.rip = "variable-3";
 
@@ -203,19 +203,19 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
     lineCommentStartSymbol = "@";
     directives.syntax = "builtin";
 
-    registers.r0  = "variable";
-    registers.r1  = "variable";
-    registers.r2  = "variable";
-    registers.r3  = "variable";
-    registers.r4  = "variable";
-    registers.r5  = "variable";
-    registers.r6  = "variable";
-    registers.r7  = "variable";
-    registers.r8  = "variable";
-    registers.r9  = "variable";
-    registers.r10 = "variable";
-    registers.r11 = "variable";
-    registers.r12 = "variable";
+    registers.r0  = "variables.html";
+    registers.r1  = "variables.html";
+    registers.r2  = "variables.html";
+    registers.r3  = "variables.html";
+    registers.r4  = "variables.html";
+    registers.r5  = "variables.html";
+    registers.r6  = "variables.html";
+    registers.r7  = "variables.html";
+    registers.r8  = "variables.html";
+    registers.r9  = "variables.html";
+    registers.r10 = "variables.html";
+    registers.r11 = "variables.html";
+    registers.r12 = "variables.html";
 
     registers.sp  = "variable-2";
     registers.lr  = "variable-2";

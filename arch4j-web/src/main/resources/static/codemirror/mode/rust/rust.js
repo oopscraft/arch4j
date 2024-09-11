@@ -36,7 +36,7 @@ CodeMirror.defineSimpleMode("rust",{
     {regex: /\/\*/, token: "comment", next: "comment"},
     {regex: /[-+\/*=<>!]+/, token: "operator"},
     {regex: /[a-zA-Z_]\w*!/,token: "variable-3"},
-    {regex: /[a-zA-Z_]\w*/, token: "variable"},
+    {regex: /[a-zA-Z_]\w*/, token: "variables.html"},
     {regex: /[\{\[\(]/, indent: true},
     {regex: /[\}\]\)]/, dedent: true}
   ],

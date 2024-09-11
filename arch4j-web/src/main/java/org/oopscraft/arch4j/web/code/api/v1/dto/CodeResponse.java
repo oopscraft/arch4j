@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.web.code.api.v1.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.oopscraft.arch4j.core.code.Code;
+import org.oopscraft.arch4j.core.code.model.Code;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class CodeResponse {
     public static CodeResponse from(Code code){
         CodeResponse codeResponse = CodeResponse.builder()
                 .codeId(code.getCodeId())
-                .codeName(code.getCodeName())
+                .codeName(code.getName())
                 .build();
 
         List<CodeItemResponse> codeItems = code.getCodeItems().stream()

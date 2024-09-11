@@ -259,7 +259,7 @@
             <li sec:authorize="isAuthenticated()">
                 <span>
                     <img th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" class="icon" alt="photo"/>
-                    <span data-th-text="${_user.userName}" class="font-weight--bold"></span>
+                    <span data-th-text="${_user.name}" class="font-weight--bold"></span>
                 </span>
             </li>
             <li sec:authorize="isAuthenticated()">
@@ -293,47 +293,43 @@
                 <img class="icon" th:src="@{/static/image/icon-monitor.svg}" alt="monitor"/>
                 <span data-th-text="#{web.admin.monitor}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/user}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_USER'')')}?'locked'">
-                <img class="icon" th:src="@{/static/image/icon-user.svg}" alt="user"/>
-                <span data-th-text="#{web.admin.user}"></span>
+            <li class="link" th:onclick="|_openLink('@{/admin/security}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY'')')}?'locked'">
+                <img class="icon" th:src="@{/static/image/icon-security.svg}" alt="security"/>
+                <span data-th-text="#{web.admin.security}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/role}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ROLE'')')}?'locked'">
-                <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
-                <span data-th-text="#{web.admin.role}"></span>
-            </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/menu}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENU'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/menus}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENUS'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-menu.svg}" alt="menu"/>
                 <span data-th-text="#{web.admin.menu}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/board}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARD'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/boards}')|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_BOARDS'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-board.svg}" alt="board"/>
                 <span data-th-text="#{web.admin.board}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/page}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGE'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/pages}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGES'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-page.svg}" alt="page"/>
                 <span data-th-text="#{web.admin.page}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/git}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_GIT'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/gits}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_GITS'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-git.svg}" alt="git"/>
                 <span data-th-text="#{web.admin.git}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/email}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAIL'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/emails}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_EMAILS'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-email.svg}" alt="email"/>
                 <span data-th-text="#{web.admin.email}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/message}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGE'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/messages}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGES'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-message.svg}" alt="message"/>
                 <span data-th-text="#{web.admin.message}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/variable}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLE'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/variables}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLES'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-variable.svg}" alt="variable"/>
                 <span data-th-text="#{web.admin.variable}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/code}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODE'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/codes}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_CODES'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-code.svg}" alt="code"/>
                 <span data-th-text="#{web.admin.code}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/alarm}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ALARM'')')}?'locked'">
+            <li class="link" th:onclick="|_openLink('@{/admin/alarms}');|" th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_ALARMS'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-alarm.svg}" alt="code"/>
                 <span data-th-text="#{web.admin.alarm}"></span>
             </li>

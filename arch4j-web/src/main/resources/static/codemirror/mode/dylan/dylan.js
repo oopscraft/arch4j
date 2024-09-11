@@ -50,7 +50,7 @@ CodeMirror.defineMode("dylan", function(_config) {
     // Words that introduce module variable definitions.
     // These must also be simple definitions and are
     // appended to otherSimpleDefinitionWords
-    variableSimpleDefinition: ["variable"],
+    variableSimpleDefinition: ["variables.html"],
 
     // Other words that introduce simple definitions
     // (without implicit bodies).
@@ -284,7 +284,7 @@ CodeMirror.defineMode("dylan", function(_config) {
       if (wordLookup.hasOwnProperty(stream.current())) {
         return styleLookup[stream.current()];
       } else if (stream.current().match(symbol)) {
-        return "variable";
+        return "variables.html";
       } else {
         stream.next();
         return "variable-2";

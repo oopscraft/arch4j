@@ -20,7 +20,7 @@
   MT('important_keyword',
     "[tag foo] { [property background]:[variable&callee url]([string \'test.jpg\']) [keyword !important] }");
 
-  MT('variable',
+  MT('variables.html',
     "[variable-2 $blue]:[atom #333]");
 
   MT('variable_as_attribute',

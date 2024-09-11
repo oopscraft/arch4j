@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.data.converter.CryptoConverter;
-import org.oopscraft.arch4j.core.sample.SampleType;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.data.converter.CryptoConverter;
+import org.oopscraft.arch4j.core.sample.model.SampleType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

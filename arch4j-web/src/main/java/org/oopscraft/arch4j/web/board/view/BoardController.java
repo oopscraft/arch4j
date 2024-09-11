@@ -1,9 +1,8 @@
 package org.oopscraft.arch4j.web.board.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.BoardService;
-import org.springframework.security.access.AccessDeniedException;
+import org.oopscraft.arch4j.core.board.model.Board;
+import org.oopscraft.arch4j.core.board.service.BoardService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +19,10 @@ public class BoardController {
 
     @GetMapping
     @PreAuthorize("@boardPermissionEvaluator.hasAccessPermission(#boardId)")
-    public ModelAndView index(@PathVariable("boardId")String boardId) {
+    public ModelAndView board(@PathVariable("boardId")String boardId) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/board.html");
-        modelAndView.addObject("_title", board.getBoardName());
+        modelAndView.addObject("_title", board.getName());
         modelAndView.addObject("board", board);
         return modelAndView;
     }

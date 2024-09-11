@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<th:block layout:fragment="_content">
+    <script th:inline="javascript">
+        // variable search condition
+        const variableSearch = new duice.ObjectProxy({
+            key: 'variableId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        // variable list
+        const variables = new duice.ArrayProxy([]);
+
+        // variable
+        const variable = new duice.ObjectProxy({
+            variableId: null,
+            name: null
+        });
+        duice.ObjectProxy.setDisableAll(variables, true);
+        duice.ObjectProxy.onPropertyChanging(variables, async event => {
+            if (event.getProperty() === 'variableId') {
+                if (!await validateVariableId(event.getValue())) {
+                    duice.ObjectProxy.focus(variables, 'variableId');
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        function getVariables(page) {
+            if(page) {
+                variableSearch._page = page;
+            }
+            let url = new URL(/*[[@{/admin/variables/get-variables}]]*/'', document.location.origin);
+            if (variableSearch.key && variableSearch.value) {
+                url.searchParams.append(variableSearch.key, variableSearch.value);
+            }
+            url.searchParams.append('_page', variableSearch._page);
+            url.searchParams.append('_size', variableSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(variables);
+                    duice.ArrayProxy.assign(variables, data.content);
+                    variableSearch._count = data['totalElements'];
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(variables, variables.findIndex(item => item.variableId === variables.variableId));
+                });
+        }
+
+        function resetVariables() {
+            duice.ObjectProxy.reset(variableSearch);
+            getVariables();
+        }
+
+        function getVariable(variableId) {
+            let url = new URL(/*[[@{/admin/variables/get-variable}]]*/'', document.location.origin);
+            url.searchParams.append('variableId', variableId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(variable, data);
+                    duice.ObjectProxy.setDisableAll(variable, false);
+                    duice.ObjectProxy.setReadonly(variable, 'variableId', true);
+                    variable._new = false;
+                });
+        }
+
+        function createVariable() {
+            duice.ObjectProxy.clear(variable);
+            duice.ObjectProxy.assign(variable, {
+                _new: true
+            });
+            duice.ObjectProxy.setDisableAll(variable, false);
+            duice.ObjectProxy.setReadonly(variable, 'variableId', false);
+            duice.ObjectProxy.focus(variable, 'variableId');
+        }
+
+        async function validateVariableId(variableId) {
+            // check blank
+            if (!variableId) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.variable.Variable.variableId})}]]*/'');
+                duice.ObjectProxy.focus(variable, 'variableId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL(/*[[@{/admin/variables/get-variable}]]*/'', document.location.origin);
+            url.searchParams.append('variableId', variableId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let variable = await response.json();
+                if (variables) {
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.variable.Variable.variableId})}]]*/'');
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
+        }
+
+        async function saveVariable() {
+            // if new, checks id
+            if (variable._new) {
+                if (!await validateVariableId(variable.variableId)) {
+                    return false;
+                }
+            }
+
+            // checks variable name
+            if(_isEmpty(variable.name)) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.variable.Variable.name})}]]*/'');
+                duice.ObjectProxy.focus(variable, 'name');
+                return false;
+            }
+
+            // call save
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.variable.Variable})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/variables/save-variable}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(variable)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.variable.Variable})}]]*/'').then(() => {
+                                getVariables();
+                                getVariable(variable.variableId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function deleteVariable() {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.variable.Variable})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/variables/delete-variable}]]*/'', document.location.origin);
+                    url.searchParams.append('variableId', variable.variableId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.variable.Variable})}]]*/'').then(() => {
+                                getVariables();
+                                duice.ObjectProxy.clear(variable);
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        // DOM content loaded listener
+        document.addEventListener('DOMContentLoaded',()=> {
+            getVariables();
+        });
+    </script>
+
+    <!-- ====================================== -->
+    <!-- start: title                           -->
+    <!-- ====================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-variable.svg}" alt="variable"/>
+        <span data-th-text="#{web.admin.variable}"></span>
+    </h1>
+    <!-- ====================================== -->
+    <!-- end: title                             -->
+    <!-- ====================================== -->
+
+    <!-- ====================================== -->
+    <!-- start: variable content                -->
+    <!-- ====================================== -->
+    <div id="variableContent" class="display--grid grid-template-columns--12 grid-gap--1em">
+
+        <!-- ====================================== -->
+        <!-- start: variable list                   -->
+        <!-- ====================================== -->
+        <div id="variableList" class="grid-column--5 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
+                        <span data-th-text="#{core.variable.Variable}+' '+#{web.global.list}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--4">
+                            <select class="width--100" data-duice-bind="variableSearch" data-duice-property="key">
+                                <option value="variableId" th:text="#{core.variable.Variable.variableId}"></option>
+                                <option value="name" th:text="#{core.variable.Variable.name}"></option>
+                            </select>
+                        </label>
+                        <label class="grid-column--8">
+                            <input class="width--100" type="text" data-duice-bind="variableSearch" data-duice-property="value"
+                                   th:placeholder="#{web.global.keyword}"/>
+                        </label>
+                        <div class="grid-column--12 justify-self--end">
+                            <button type="submit" onclick="getVariables();">
+                                <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                                <span data-th-text="#{web.global.search}">Search</span>
+                            </button>
+                            <button type="button" onclick="resetVariables();">
+                                <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                                <span data-th-text="#{web.global.reset}">Reset</span>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="overflow-x--auto">
+                        <table class="width--100">
+                            <colgroup>
+                                <col style="width:5rem;"/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                                <th data-th-text="#{core.variable.Variable.variableId}"></th>
+                                <th data-th-text="#{core.variable.Variable.name}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-duice-bind="variables" data-duice-loop="variable,status"
+                                data-duice-selected-item-class="selected" data-duice-execute="
+                        this.dataset.variableId=variable.variableId;
+                        " onclick="getVariable(this.dataset.variableId);" class="link">
+                                <td data-duice-bind="status" data-duice-property="count"
+                                    class="text-align--center"></td>
+                                <td data-duice-bind="variable" data-duice-property="variableId"></td>
+                                <td data-duice-bind="variable" data-duice-property="name"></td>
+                            </tr>
+                            <tr data-duice-bind="variables"
+                                data-duice-execute="if(variables.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align--center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="display--grid grid-template-columns--3 grid-gap--1em">
+                        <div>
+                            <span data-th-text="#{web.global.total}"></span>
+                            <span data-duice-bind="variableSearch" data-duice-property="_count"
+                                  data-duice-format="number(0)"></span>
+                            <span data-th-text="#{web.global.rows}"></span>
+                        </div>
+                        <div class="justify-self--center">
+                            <duice-pagination
+                                    data-duice-bind="variableSearch"
+                                    data-duice-size-property="_size"
+                                    data-duice-page-property="_page"
+                                    data-duice-count-property="_count"
+                                    data-duice-onclick="getVariables(this.dataset.page);">
+                            </duice-pagination>
+                        </div>
+                        <div class="justify-self--end">
+                            <button type="button" onclick="createVariable();">
+                                <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
+                                <span data-th-text="#{web.global.create}"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: variable list                     -->
+        <!-- ====================================== -->
+
+        <!-- ====================================== -->
+        <!-- start: variable detail                 -->
+        <!-- ====================================== -->
+        <div id="variableDetail" class="grid-column--7 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
+                        <span data-th-text="#{core.variable.Variable}+' '+#{web.global.detail}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.variable.Variable.variableId}"
+                              class="font-weight--bold tag-required"></span>
+                            <input type="text" data-duice-bind="variable" data-duice-property="variableId"
+                                   class="width--100 font-weight--bold"/>
+                        </label>
+                        <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.variable.Variable.name}"
+                              class="font-weight--bold tag-required"></span>
+                            <input type="text" data-duice-bind="variable" data-duice-property="name"
+                                   class="width--100"/>
+                        </label>
+                        <label class="grid-column--12">
+                            <span data-th-text="#{core.variable.Variable.value}" class="font-weight--bold"></span>
+                            <textarea data-duice-bind="variable" data-duice-property="value" rows="5"
+                                      class="width--100"></textarea>
+                        </label>
+                    </form>
+                    <div class="display--grid grid-template-columns--2 grid-gap--1em">
+                        <div></div>
+                        <div class="justify-self--end">
+                            <button type="button" onclick="deleteVariable();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLES_EDIT'')')}?'locked'"
+                                    data-duice-bind="variable"
+                                    data-duice-execute="(variable.variableId && !variable._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
+                                <span data-th-text="#{web.global.delete}"></span>
+                            </button>
+                            <button type="button" onclick="saveVariable();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLES_EDIT'')')}?'locked'"
+                                    data-duice-bind="variable"
+                                    data-duice-execute="(variable.variableId || variable._new) ? this.disabled=false : this.disabled=true;">
+
+                                <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
+                                <span data-th-text="#{web.global.save}"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-align--right font-size--smaller font-style--italic">
+                        Last Updated At
+                        <span data-duice-bind="variable" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                        By
+                        <span data-duice-bind="variable" data-duice-property="systemUpdatedBy"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ====================================== -->
+        <!-- end: variable detail                   -->
+        <!-- ====================================== -->
+
+    </div>
+    <!-- ====================================== -->
+    <!-- end: variable content                  -->
+    <!-- ====================================== -->
+
+</th:block>

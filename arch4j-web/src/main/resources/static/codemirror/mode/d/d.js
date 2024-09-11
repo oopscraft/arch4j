@@ -71,7 +71,7 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
       return "builtin";
     }
     if (atoms.propertyIsEnumerable(cur)) return "atom";
-    return "variable";
+    return "variables.html";
   }
 
   function tokenString(quote) {

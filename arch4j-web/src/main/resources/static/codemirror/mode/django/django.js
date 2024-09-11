@@ -172,7 +172,7 @@
       if (stream.match(/\b(\w+)\b/) && !state.foundVariable) {
         state.waitDot = true;
         state.waitPipe = true;  // A property can be followed by a filter
-        return "variable";
+        return "variables.html";
       }
 
       // If found closing tag reset
@@ -290,7 +290,7 @@
       if (stream.match(/\b(\w+)\b/)) {
         state.waitDot = true;
         state.waitPipe = true;  // A property can be followed by a filter
-        return "variable";
+        return "variables.html";
       }
 
       // If found closing tag reset

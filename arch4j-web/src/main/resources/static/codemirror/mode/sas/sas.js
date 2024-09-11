@@ -80,7 +80,7 @@
     define('def', 'footnote title libname ods', ['ALL']);
     define('def', '%let %put %global %sysfunc %eval ', ['ALL']);
     // automatic macro variables http://support.sas.com/documentation/cdl/en/mcrolref/61885/HTML/default/viewer.htm#a003167023.htm
-    define('variable', '&sysbuffr &syscc &syscharwidth &syscmd &sysdate &sysdate9 &sysday &sysdevic &sysdmg &sysdsn &sysencoding &sysenv &syserr &syserrortext &sysfilrc &syshostname &sysindex &sysinfo &sysjobid &syslast &syslckrc &syslibrc &syslogapplname &sysmacroname &sysmenv &sysmsg &sysncpu &sysodspath &sysparm &syspbuff &sysprocessid &sysprocessname &sysprocname &sysrc &sysscp &sysscpl &sysscpl &syssite &sysstartid &sysstartname &systcpiphostname &systime &sysuserid &sysver &sysvlong &sysvlong4 &syswarningtext', ['ALL']);
+    define('variables.html', '&sysbuffr &syscc &syscharwidth &syscmd &sysdate &sysdate9 &sysday &sysdevic &sysdmg &sysdsn &sysencoding &sysenv &syserr &syserrortext &sysfilrc &syshostname &sysindex &sysinfo &sysjobid &syslast &syslckrc &syslibrc &syslogapplname &sysmacroname &sysmenv &sysmsg &sysncpu &sysodspath &sysparm &syspbuff &sysprocessid &sysprocessname &sysprocname &sysrc &sysscp &sysscpl &sysscpl &syssite &sysstartid &sysstartname &systcpiphostname &systime &sysuserid &sysver &sysvlong &sysvlong4 &syswarningtext', ['ALL']);
 
     //footnote[1-9]? title[1-9]?
 
@@ -164,7 +164,7 @@
       var word;
       if (stream.match(/[%&;\w]+/, false) != null) {
         word = ch + stream.match(/[%&;\w]+/, true);
-        if (/&/.test(word)) return 'variable'
+        if (/&/.test(word)) return 'variables.html'
       } else {
         word = ch;
       }
@@ -188,7 +188,7 @@
         if ((word) && stream.next() === '.') {
           //either a format or libname.memname
           if (/\w/.test(stream.peek())) return 'variable-2';
-          else return 'variable';
+          else return 'variables.html';
         }
         // do we have a DATA Step keyword
         if (word && words.hasOwnProperty(word) &&

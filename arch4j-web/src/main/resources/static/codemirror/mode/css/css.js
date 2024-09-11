@@ -68,7 +68,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         stream.eatWhile(/[\w\\\-]/);
         if (stream.match(/^\s*:/, false))
           return ret("variable-2", "variable-definition");
-        return ret("variable-2", "variable");
+        return ret("variable-2", "variables.html");
       } else if (stream.match(/^\w+-/)) {
         return ret("meta", "meta");
       }
@@ -82,7 +82,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       if (/^(url(-prefix)?|domain|regexp)$/i.test(stream.current())) {
         state.tokenize = tokenParenthesized;
       }
-      return ret("variable callee", "variable");
+      return ret("variable callee", "variables.html");
     } else if (/[\w\\\-]/.test(ch)) {
       stream.eatWhile(/[\w\\\-]/);
       return ret("property", "word");
@@ -152,7 +152,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     else if (colorKeywords.hasOwnProperty(word))
       override = "keyword";
     else
-      override = "variable";
+      override = "variables.html";
   }
 
   var states = {};
@@ -323,7 +323,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     if (type == "{")
       return pushContext(state, stream, "restricted_atBlock");
     if (type == "word" && state.stateArg == "@counter-style") {
-      override = "variable";
+      override = "variables.html";
       return "restricted_atBlock_before";
     }
     return pass(type, stream, state);
@@ -346,7 +346,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   };
 
   states.keyframes = function(type, stream, state) {
-    if (type == "word") { override = "variable"; return "keyframes"; }
+    if (type == "word") { override = "variables.html"; return "keyframes"; }
     if (type == "{") return pushContext(state, stream, "top");
     return pass(type, stream, state);
   };
@@ -362,8 +362,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   states.interpolation = function(type, stream, state) {
     if (type == "}") return popContext(state);
     if (type == "{" || type == ";") return popAndPass(type, stream, state);
-    if (type == "word") override = "variable";
-    else if (type != "variable" && type != "(" && type != ")") override = "error";
+    if (type == "word") override = "variables.html";
+    else if (type != "variables.html" && type != "(" && type != ")") override = "error";
     return "interpolation";
   };
 
@@ -787,7 +787,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         stream.match(/^[\w-]+/);
         if (stream.match(/^\s*:/, false))
           return ["variable-2", "variable-definition"];
-        return ["variable-2", "variable"];
+        return ["variable-2", "variables.html"];
       },
       "#": function(stream) {
         if (!stream.eat("{")) return false;
@@ -827,7 +827,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         stream.eatWhile(/[\w\\\-]/);
         if (stream.match(/^\s*:/, false))
           return ["variable-2", "variable-definition"];
-        return ["variable-2", "variable"];
+        return ["variable-2", "variables.html"];
       },
       "&": function() {
         return ["atom", "atom"];

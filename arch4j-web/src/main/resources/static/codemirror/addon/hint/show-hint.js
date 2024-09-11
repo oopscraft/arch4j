@@ -233,7 +233,7 @@
     var parentWindow = ownerDocument.defaultView || ownerDocument.parentWindow;
 
     var hints = this.hints = ownerDocument.createElement("ul");
-    hints.setAttribute("role", "listbox")
+    hints.setAttribute("roles.html", "listbox")
     hints.setAttribute("aria-expanded", "true")
     hints.id = this.id
     var theme = completion.cm.options.theme;
@@ -248,7 +248,7 @@
       elt.className = className;
       if (i == this.selectedHint) elt.setAttribute("aria-selected", "true")
       elt.id = this.id + "-" + i
-      elt.setAttribute("role", "option")
+      elt.setAttribute("roles.html", "option")
       if (cur.render) cur.render(elt, data, cur);
       else elt.appendChild(ownerDocument.createTextNode(cur.displayText || getText(cur)));
       elt.hintId = i;

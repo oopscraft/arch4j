@@ -3,8 +3,8 @@ package org.oopscraft.arch4j.batch.sample.tasklet;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import org.oopscraft.arch4j.batch.item.file.DelimiterFileItemWriterBuilder;
-import org.oopscraft.arch4j.batch.item.file.FixedByteFileItemWriterBuilder;
+import org.oopscraft.arch4j.batch.common.item.file.DelimiterFileItemWriterBuilder;
+import org.oopscraft.arch4j.batch.common.item.file.FixedByteFileItemWriterBuilder;
 import org.oopscraft.arch4j.batch.sample.dto.SampleFile;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -16,7 +16,6 @@ import org.springframework.core.io.Resource;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -128,7 +128,7 @@
       mat = stream.match(/^(\S+)(\s+|$)/);
       if (mat) {
         if (searchWordList(stt.wordList, mat[1]) !== undefined) {
-          return 'variable' + stt.state;
+          return 'variables.html' + stt.state;
         }
 
         // comments

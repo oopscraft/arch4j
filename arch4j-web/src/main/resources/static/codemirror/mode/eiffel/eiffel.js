@@ -147,7 +147,7 @@ CodeMirror.defineMode("eiffel", function() {
           : /^0[xX][a-fA-F0-9]+$/g.test(word) ? "number"
           : /^([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)$/g.test(word) ? "number"
           : /^[0-9]+$/g.test(word) ? "number"
-          : "variable";
+          : "variables.html";
       }
       return style;
     },

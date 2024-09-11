@@ -108,7 +108,7 @@
           return "atom";
         }
 
-        return "variable";
+        return "variables.html";
       }
 
       // Class variables and instance variables

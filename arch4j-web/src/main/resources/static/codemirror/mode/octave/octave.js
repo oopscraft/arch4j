@@ -96,7 +96,7 @@ CodeMirror.defineMode("octave", function() {
     // Handle words
     if (stream.match(keywords)) { return 'keyword'; } ;
     if (stream.match(builtins)) { return 'builtin'; } ;
-    if (stream.match(identifiers)) { return 'variable'; } ;
+    if (stream.match(identifiers)) { return 'variables.html'; } ;
 
     if (stream.match(singleOperators) || stream.match(doubleOperators)) { return 'operator'; };
     if (stream.match(singleDelimiters) || stream.match(doubleDelimiters) || stream.match(tripleDelimiters)) { return null; };
@@ -122,7 +122,7 @@ CodeMirror.defineMode("octave", function() {
 
     token: function(stream, state) {
       var style = state.tokenize(stream, state);
-      if (style === 'number' || style === 'variable'){
+      if (style === 'number' || style === 'variables.html'){
         state.tokenize = tokenTranspose;
       }
       return style;

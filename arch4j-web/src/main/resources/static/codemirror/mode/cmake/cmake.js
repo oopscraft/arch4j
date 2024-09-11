@@ -42,7 +42,7 @@ CodeMirror.defineMode("cmake", function () {
       if (stream.match(variable_regex)) {
         return 'variable-2';
       }
-      return 'variable';
+      return 'variables.html';
     }
     // Should we still be looking for the end of a string?
     if (state.continueString) {

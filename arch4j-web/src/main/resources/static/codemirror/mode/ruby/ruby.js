@@ -256,7 +256,7 @@ CodeMirror.defineMode("ruby", function(config) {
           : keywords.propertyIsEnumerable(stream.current()) ? "keyword"
           : /^[A-Z]/.test(word) ? "tag"
           : (state.lastTok == "def" || state.lastTok == "class" || state.varList) ? "def"
-          : "variable";
+          : "variables.html";
         if (style == "keyword") {
           thisTok = word;
           if (indentWords.propertyIsEnumerable(word)) kwtype = "indent";

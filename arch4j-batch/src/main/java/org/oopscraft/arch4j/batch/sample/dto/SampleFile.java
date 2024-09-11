@@ -1,10 +1,8 @@
 package org.oopscraft.arch4j.batch.sample.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.batch.item.file.annotation.Align;
-import org.oopscraft.arch4j.batch.item.file.annotation.Length;
-import org.oopscraft.arch4j.core.data.crpyto.Crypto;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.oopscraft.arch4j.batch.common.item.file.annotation.Align;
+import org.oopscraft.arch4j.batch.common.item.file.annotation.Length;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

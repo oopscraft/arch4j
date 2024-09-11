@@ -1,8 +1,7 @@
 package org.oopscraft.arch4j.web.board.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.MessageFormat;
+import org.oopscraft.arch4j.core.board.model.Board;
 
 @Data
 @Builder
@@ -12,11 +11,11 @@ public class BoardResponse {
 
     private String boardId;
 
-    private String boardName;
+    private String name;
 
     private String icon;
 
-    private MessageFormat messageFormat;
+    private Board.MessageFormat messageFormat;
 
     private String message;
 
@@ -38,10 +37,15 @@ public class BoardResponse {
 
     private boolean hasCommentPermission;
 
+    /**
+     * board response factory method
+     * @param board board
+     * @return board response
+     */
     public static BoardResponse from(Board board) {
         return BoardResponse.builder()
                 .boardId(board.getBoardId())
-                .boardName(board.getBoardName())
+                .name(board.getName())
                 .icon(board.getIcon())
                 .messageFormat(board.getMessageFormat())
                 .message(board.getMessage())

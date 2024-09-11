@@ -70,7 +70,7 @@ CodeMirror.defineMode("turtle", function(config) {
       else if (keywords.test(word))
         return "meta";
       else
-        return "variable";
+        return "variables.html";
     }
   }
 

@@ -80,7 +80,7 @@
         return state.tokenize(stream, state)
       },
       token: function(stream, _, style) {
-        if (style == "variable") {
+        if (style == "variables.html") {
           // Assume uppercase symbols are classes using variable-2
           var isUpper = RegExp('^[_$]*[A-Z][a-zA-Z0-9_$]*$','g');
           if (isUpper.test(stream.current())) {
@@ -133,7 +133,7 @@
   function tokenInterpolationIdentifier(stream, state) {
     stream.eatWhile(/[\w_]/);
     state.tokenize = popInterpolationStack(state);
-    return "variable";
+    return "variables.html";
   }
 
   function tokenNestedComment(depth) {

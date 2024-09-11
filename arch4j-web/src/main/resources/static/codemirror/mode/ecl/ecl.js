@@ -77,7 +77,7 @@ CodeMirror.defineMode("ecl", function(config) {
       return "keyword";
     } else if (variable.propertyIsEnumerable(cur)) {
       if (blockKeywords.propertyIsEnumerable(cur)) curPunc = "newstatement";
-      return "variable";
+      return "variables.html";
     } else if (variable_2.propertyIsEnumerable(cur)) {
       if (blockKeywords.propertyIsEnumerable(cur)) curPunc = "newstatement";
       return "variable-2";

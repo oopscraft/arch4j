@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
 import javax.persistence.*;
 
@@ -22,8 +22,8 @@ public class VariableEntity extends BaseEntity {
     @Column(name = "variable_id", length = 32)
     private String variableId;
 
-    @Column(name = "variable_name")
-    private String variableName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "value", length = 1024)
     private String value;

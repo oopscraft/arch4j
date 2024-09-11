@@ -124,7 +124,7 @@
       // If this is a property, see if it belongs to some object we can
       // find in the current environment.
       var obj = context.pop(), base;
-      if (obj.type && obj.type.indexOf("variable") === 0) {
+      if (obj.type && obj.type.indexOf("variables.html") === 0) {
         if (options && options.additionalContext)
           base = options.additionalContext[obj.string];
         if (!options || options.useGlobalScope !== false)

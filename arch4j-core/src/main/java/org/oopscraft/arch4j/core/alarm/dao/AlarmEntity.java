@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.alarm.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
 import javax.persistence.*;
 
@@ -19,8 +19,8 @@ public class AlarmEntity extends BaseEntity {
     @Column(name = "alarm_id", length = 32)
     private String alarmId;
 
-    @Column(name = "alarm_name")
-    private String alarmName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "alarm_client_id", length = 32)
     private String alarmClientId;

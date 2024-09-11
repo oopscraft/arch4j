@@ -1,10 +1,10 @@
 package org.oopscraft.arch4j.web.board.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Article;
-import org.oopscraft.arch4j.core.board.ArticleService;
-import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.BoardService;
+import org.oopscraft.arch4j.core.board.model.Article;
+import org.oopscraft.arch4j.core.board.service.ArticleService;
+import org.oopscraft.arch4j.core.board.model.Board;
+import org.oopscraft.arch4j.core.board.service.BoardService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,10 @@ public class ArticleReadController {
 
     @GetMapping
     @PreAuthorize("@boardPermissionEvaluator.hasReadPermission(#boardId)")
-    public ModelAndView index(@PathVariable("boardId")String boardId, @RequestParam("articleId")String articleId) {
+    public ModelAndView index(
+            @PathVariable("boardId")String boardId,
+            @RequestParam("articleId")String articleId
+    ) {
         Board board = boardService.getBoard(boardId).orElseThrow();
         Article article = articleService.getArticle(articleId).orElseThrow();
         ModelAndView modelAndView = new ModelAndView("board/article-read.html");

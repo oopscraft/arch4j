@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.user.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.user.User;
+import org.oopscraft.arch4j.core.security.model.User;
 
 @Data
 @Builder
@@ -11,7 +11,7 @@ public class UserResponse {
 
     private String userId;
 
-    private String userName;
+    private String username;
 
     private String email;
 
@@ -24,8 +24,7 @@ public class UserResponse {
     public static UserResponse from(User user) {
         return UserResponse.builder()
                 .userId(user.getUserId())
-                .userName(user.getUserName())
-                .email(user.getEmail())
+                .username(user.getUsername())
                 .mobile(user.getMobile())
                 .photo(user.getPhoto())
                 .profile(user.getProfile())

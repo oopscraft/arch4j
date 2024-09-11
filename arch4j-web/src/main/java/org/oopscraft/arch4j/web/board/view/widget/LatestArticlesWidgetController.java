@@ -1,9 +1,10 @@
 package org.oopscraft.arch4j.web.board.view.widget;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.*;
-import org.oopscraft.arch4j.core.page.PageWidgetDefinition;
-import org.oopscraft.arch4j.core.page.PageWidgetAware;
+import org.oopscraft.arch4j.core.board.model.Board;
+import org.oopscraft.arch4j.core.board.service.BoardService;
+import org.oopscraft.arch4j.core.page.widget.PageWidgetDefinition;
+import org.oopscraft.arch4j.core.page.widget.PageWidgetAware;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;

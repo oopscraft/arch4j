@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.page.dao;
 
-import org.oopscraft.arch4j.core.page.PageSearch;
+import org.oopscraft.arch4j.core.page.model.PageSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,9 +17,9 @@ public interface PageRepository extends JpaRepository<PageEntity, String>, JpaSp
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(PageEntity_.PAGE_ID), '%' + pageSearch.getPageId() + '%'));
         }
-        if(pageSearch.getPageName() != null) {
+        if(pageSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(PageEntity_.PAGE_NAME), '%' + pageSearch.getPageName() + '%'));
+                    criteriaBuilder.like(root.get(PageEntity_.NAME), '%' + pageSearch.getName() + '%'));
         }
         return findAll(specification, pageable);
     }

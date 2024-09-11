@@ -93,7 +93,7 @@
       var ch = stream.next();
       if (ch == "$") {
         stream.eatWhile(regs.validIdentifier);
-        return cont("variable-2", "variable");
+        return cont("variable-2", "variables.html");
       } else if (ch == "|") {
         return cont("operator", "pipe");
       } else if (ch == ".") {
@@ -113,7 +113,7 @@
         return cont("number", "number");
       } else {
 
-        if (state.last == "variable") {
+        if (state.last == "variables.html") {
           if (ch == "@") {
             stream.eatWhile(regs.validIdentifier);
             return cont("property", "property");

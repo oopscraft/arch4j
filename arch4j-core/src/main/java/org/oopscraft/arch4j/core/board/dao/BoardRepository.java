@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.board.dao;
 
-import org.oopscraft.arch4j.core.board.BoardSearch;
+import org.oopscraft.arch4j.core.board.model.BoardSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,9 +17,9 @@ public interface BoardRepository extends JpaRepository<BoardEntity, String>, Jpa
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(BoardEntity_.BOARD_ID), '%' + boardSearch.getBoardId() + '%'));
         }
-        if(boardSearch.getBoardName() != null) {
+        if(boardSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(BoardEntity_.BOARD_NAME), '%' + boardSearch.getBoardName() + '%'));
+                    criteriaBuilder.like(root.get(BoardEntity_.NAME), '%' + boardSearch.getName() + '%'));
         }
         return findAll(specification, pageable);
     }

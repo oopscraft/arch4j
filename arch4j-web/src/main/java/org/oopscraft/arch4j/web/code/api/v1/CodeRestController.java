@@ -3,12 +3,12 @@ package org.oopscraft.arch4j.web.code.api.v1;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.code.Code;
-import org.oopscraft.arch4j.core.code.CodeSearch;
-import org.oopscraft.arch4j.core.code.CodeService;
+import org.oopscraft.arch4j.core.code.model.Code;
+import org.oopscraft.arch4j.core.code.model.CodeSearch;
+import org.oopscraft.arch4j.core.code.service.CodeService;
 import org.oopscraft.arch4j.web.code.api.v1.dto.CodeResponse;
-import org.oopscraft.arch4j.web.support.PageableAsQueryParam;
-import org.oopscraft.arch4j.web.support.PageableUtils;
+import org.oopscraft.arch4j.web.common.data.PageableAsQueryParam;
+import org.oopscraft.arch4j.web.common.data.PageableUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +39,7 @@ public class CodeRestController {
     ) {
         CodeSearch codeSearch = CodeSearch.builder()
                 .codeId(codeId)
-                .codeName(codeName)
+                .name(codeName)
                 .build();
 
         Page<Code> codePage = codeService.getCodes(codeSearch, pageable);

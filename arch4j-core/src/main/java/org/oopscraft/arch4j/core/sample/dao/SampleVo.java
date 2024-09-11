@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.sample.dao;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.data.crpyto.Crypto;
+import org.oopscraft.arch4j.core.common.crpyto.Crypto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

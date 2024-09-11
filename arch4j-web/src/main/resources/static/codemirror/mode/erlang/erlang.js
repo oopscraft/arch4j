@@ -191,7 +191,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
     // variable
     if (/[A-Z_Ø-ÞÀ-Ö]/.test(ch)) {
       stream.eatWhile(anumRE);
-      return rval(state,stream,"variable");
+      return rval(state,stream,"variables.html");
     }
 
     // atom/keyword/BIF/function
@@ -376,7 +376,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
       case "separator":   return null;
       case "string":      return "string";
       case "type":        return "def";
-      case "variable":    return "variable";
+      case "variables.html":    return "variables.html";
       default:            return null;
     }
   }

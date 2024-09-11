@@ -701,7 +701,7 @@ CodeMirror.defineMode("perl",function(){
                                 if(PERL[c])
                                         return "variable-2";
                                 else
-                                        return "variable";}}
+                                        return "variables.html";}}
                 if(ch=="#"){
                         if(look(stream, -2)!="$"){
                                 stream.skipToEnd();

@@ -13,7 +13,7 @@ public class ResetPasswordRequest {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
-    private String email;
+    private String username;
 
     @NotBlank
     private String answer;

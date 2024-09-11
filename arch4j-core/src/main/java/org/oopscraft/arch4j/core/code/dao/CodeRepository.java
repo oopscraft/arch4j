@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.code.dao;
 
-import org.oopscraft.arch4j.core.code.CodeSearch;
+import org.oopscraft.arch4j.core.code.model.CodeSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,9 +18,9 @@ public interface CodeRepository extends JpaRepository<CodeEntity,String>, JpaSpe
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(CodeEntity_.CODE_ID), '%' + codeSearch.getCodeId() + '%'));
         }
-        if(codeSearch.getCodeName() != null) {
+        if(codeSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(CodeEntity_.CODE_NAME), '%' + codeSearch.getCodeName() + '%'));
+                    criteriaBuilder.like(root.get(CodeEntity_.NAME), '%' + codeSearch.getName() + '%'));
         }
 
         return findAll(specification, pageable);

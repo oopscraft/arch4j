@@ -2,11 +2,13 @@ package org.oopscraft.arch4j.web.user.api.v1;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.web.error.ErrorResponse;
-import org.oopscraft.arch4j.core.user.User;
-import org.oopscraft.arch4j.core.user.UserService;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
-import org.oopscraft.arch4j.web.user.api.v1.dto.*;
+import org.oopscraft.arch4j.web.common.error.ErrorResponse;
+import org.oopscraft.arch4j.core.security.model.User;
+import org.oopscraft.arch4j.core.security.service.UserService;
+import org.oopscraft.arch4j.web.security.support.SecurityUtils;
+import org.oopscraft.arch4j.web.user.api.v1.dto.ChangePasswordRequest;
+import org.oopscraft.arch4j.web.user.api.v1.dto.UserRequest;
+import org.oopscraft.arch4j.web.user.api.v1.dto.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,8 +39,7 @@ public class UserRestController {
             throw new AccessDeniedException("Not login user");
         }
         User currentUser = userService.getUser(currentUserId).orElseThrow();
-        currentUser.setUserName(userRequest.getUserName());
-        currentUser.setEmail(userRequest.getEmail());
+        currentUser.setUsername(userRequest.getUsername());
         currentUser.setMobile(userRequest.getMobile());
         currentUser.setPhoto(userRequest.getPhoto());
         currentUser.setProfile(userRequest.getProfile());

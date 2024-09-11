@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.web.board.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.ContentFormat;
+import org.oopscraft.arch4j.core.board.model.ArticleComment;
 
 @Data
 @Builder
@@ -15,7 +15,7 @@ public class ArticleCommentRequest {
 
     private String parentCommentId;
 
-    private ContentFormat contentFormat;
+    private ArticleComment.ContentFormat contentFormat;
 
     private String content;
 

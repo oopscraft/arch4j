@@ -73,7 +73,7 @@
         {
           var isDef = source.pos === 1;
           source.eatWhile(innerRE);
-          return isDef ? "def" : "variable";
+          return isDef ? "def" : "variables.html";
         }
 
         if (digitRE.test(char))

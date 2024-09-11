@@ -172,7 +172,7 @@
       if (stream.match(identifiers)) {
         if (state.lastToken == "def" || state.lastToken == "class")
           return "def";
-        return "variable";
+        return "variables.html";
       }
 
       // Handle non-detected items
@@ -312,7 +312,7 @@
 
       if (/\S/.test(current)) state.beginningOfLine = false;
 
-      if ((style == "variable" || style == "builtin")
+      if ((style == "variables.html" || style == "builtin")
           && state.lastToken == "meta")
         style = "meta";
 

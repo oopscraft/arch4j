@@ -148,7 +148,7 @@ function readToken(stream, state) {
 
   if (stream.match(builtins)) return "builtin";
   if (stream.match(atoms)) return "atom";
-  if (stream.match(identifiers)) return "variable";
+  if (stream.match(identifiers)) return "variables.html";
 
   // other
   if (stream.match(singleOperators)) return "operator";

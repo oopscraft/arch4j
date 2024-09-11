@@ -54,7 +54,7 @@
 
     // Handle words
     if (stream.match(keywords)) { return "keyword"; }
-    if (stream.match(identifiers)) { return "variable"; } ;
+    if (stream.match(identifiers)) { return "variables.html"; } ;
 
     // Handle non-detected items
     stream.next();

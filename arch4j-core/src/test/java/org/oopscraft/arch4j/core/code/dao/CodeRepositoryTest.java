@@ -3,8 +3,8 @@ package org.oopscraft.arch4j.core.code.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.code.CodeSearch;
-import org.oopscraft.arch4j.core.support.CoreTestSupport;
+import org.oopscraft.arch4j.core.code.model.CodeSearch;
+import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -20,7 +20,7 @@ class CodeRepositoryTest extends CoreTestSupport {
     private CodeEntity buildTestCodeEntity() {
         CodeEntity codeEntity = CodeEntity.builder()
                 .codeId("test-code")
-                .codeName("test code")
+                .name("test code")
                 .build();
         Arrays.asList("item-1","item-2").forEach(itemId -> {
             CodeItemEntity codeItemEntity = CodeItemEntity.builder()
@@ -48,7 +48,7 @@ class CodeRepositoryTest extends CoreTestSupport {
 
         // when
         CodeEntity savedCodeEntity = codeRepository.saveAndFlush(testCodeEntity);
-        savedCodeEntity.setCodeName("change code name");
+        savedCodeEntity.setName("change code name");
         codeRepository.saveAndFlush(savedCodeEntity);
 
         // then

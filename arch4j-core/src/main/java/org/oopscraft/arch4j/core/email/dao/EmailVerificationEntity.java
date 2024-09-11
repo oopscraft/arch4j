@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.email.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

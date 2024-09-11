@@ -175,7 +175,7 @@
           return "operator";
         } else if (stream.match(/^[a-zA-Z_][a-zA-Z0-9_]*/)) {
           if (stream.match(/(?=[\(.])/)) {
-            return "variable";
+            return "variables.html";
           } else if (stream.match(/(?=[\s\n]*[:=])/)) {
             return "def";
           }

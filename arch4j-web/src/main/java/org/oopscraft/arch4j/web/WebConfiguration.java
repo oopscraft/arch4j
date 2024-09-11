@@ -1,12 +1,6 @@
 package org.oopscraft.arch4j.web;
 
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -18,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.oopscraft.arch4j.core.CoreProperties;
-import org.oopscraft.arch4j.core.role.RoleService;
-import org.oopscraft.arch4j.web.security.SecurityFilter;
-import org.oopscraft.arch4j.web.security.SecurityTokenService;
-import org.oopscraft.arch4j.web.security.SecurityPolicy;
+import org.oopscraft.arch4j.core.security.service.RoleService;
+import org.oopscraft.arch4j.web.security.filter.SecurityFilter;
+import org.oopscraft.arch4j.web.security.service.SecurityTokenService;
+import org.oopscraft.arch4j.web.security.model.SecurityPolicy;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -68,9 +62,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -190,9 +184,15 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         protected PersistentTokenRepository persistentTokenRepository(DataSource dataSource, Environment environment) {
             JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
             tokenRepository.setDataSource(dataSource);
-            if("jdbc".equalsIgnoreCase(environment.getProperty("spring.session.store-type"))
-            && "always".equalsIgnoreCase(environment.getProperty("spring.session.jdbc.initialize-schema"))) {
-                tokenRepository.setCreateTableOnStartup(true);
+            if ("jdbc".equalsIgnoreCase(environment.getProperty("spring.session.store-type"))) {
+                try (Connection connection = dataSource.getConnection()) {
+                    ResultSet resultSet = connection.getMetaData().getTables(null, null, "persistent_logins", null);
+                    if (!resultSet.next()) {
+                        tokenRepository.setCreateTableOnStartup(true);
+                    }
+                } catch (SQLException e) {
+                    log.warn(e.getMessage());
+                }
             }
             return tokenRepository;
         }

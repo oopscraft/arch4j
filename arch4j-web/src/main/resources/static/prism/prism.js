@@ -1703,7 +1703,7 @@ Prism.languages.asm6502 = {
 	},
 	'register': {
 		pattern: /\b[xya]\b/i,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 };
 
@@ -2268,7 +2268,7 @@ Prism.languages.autoit = {
 		// Highlight variable names as variables in for and select beginnings.
 		'for-or-select': {
 			pattern: /(\b(?:for|select)\s+)\w+(?=\s+in\s)/,
-			alias: 'variable',
+			alias: 'variables.html',
 			lookbehind: true
 		},
 		// Highlight variable names as variables in the left-hand part
@@ -2282,7 +2282,7 @@ Prism.languages.autoit = {
 					alias: 'constant'
 				}
 			},
-			alias: 'variable',
+			alias: 'variables.html',
 			lookbehind: true
 		},
 		'string': [
@@ -2542,7 +2542,7 @@ Prism.languages.insertBefore('bison', 'comment', {
 					},
 					'bison-variable': {
 						pattern: /[$@](?:<[^\s>]+>)?[\w$]+/,
-						alias: 'variable',
+						alias: 'variables.html',
 						inside: {
 							'punctuation': /<|>/
 						}
@@ -2780,7 +2780,7 @@ Prism.languages.cil = {
 var comment = /#(?!\{).+/,
     interpolation = {
     	pattern: /#\{[^}]+\}/,
-    	alias: 'variable'
+    	alias: 'variables.html'
     };
 
 Prism.languages.coffeescript = Prism.languages.extend('javascript', {
@@ -2805,7 +2805,7 @@ Prism.languages.coffeescript = Prism.languages.extend('javascript', {
 	'keyword': /\b(?:and|break|by|catch|class|continue|debugger|delete|do|each|else|extend|extends|false|finally|for|if|in|instanceof|is|isnt|let|loop|namespace|new|no|not|null|of|off|on|or|own|return|super|switch|then|this|throw|true|try|typeof|undefined|unless|until|when|while|window|with|yes|yield)\b/,
 	'class-member': {
 		pattern: /@(?!\d)\w+/,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 });
 
@@ -3327,7 +3327,7 @@ Prism.languages.insertBefore('d', 'function', {
 	'register': {
 		// Iasm registers
 		pattern: /\b(?:[ABCD][LHX]|E[ABCD]X|E?(?:BP|SP|DI|SI)|[ECSDGF]S|CR[0234]|DR[012367]|TR[3-7]|X?MM[0-7]|R[ABCD]X|[BS]PL|R[BS]P|[DS]IL|R[DS]I|R(?:[89]|1[0-5])[BWD]?|XMM(?:[89]|1[0-5])|YMM(?:1[0-5]|\d))\b|\bST(?:\([0-7]\)|\b)/,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 });
 
@@ -3805,11 +3805,11 @@ Prism.languages.elixir = {
 		// Look-behind prevents bad highlighting of the && operator
 		pattern: /(^|[^&])&\d+/,
 		lookbehind: true,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'attribute': {
 		pattern: /@\w+/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'number': /\b(?:0[box][a-f\d_]+|\d[\d_]*)(?:\.[\d_]+)?(?:e[+-]?[\d_]+)?\b/i,
 	'keyword': /\b(?:after|alias|and|case|catch|cond|def(?:callback|exception|impl|module|p|protocol|struct)?|do|else|end|fn|for|if|import|not|or|require|rescue|try|unless|use|when)\b/,
@@ -4345,19 +4345,19 @@ Prism.languages.insertBefore('fsharp', 'string', {
 		'kernel-builtin': {
 			pattern: null,
 			lookbehind: true,
-			alias: 'variable'
+			alias: 'variables.html'
 		},
 
 		'sequences-builtin': {
 			pattern: null,
 			lookbehind: true,
-			alias: 'variable'
+			alias: 'variables.html'
 		},
 
 		'math-builtin': {
 			pattern: null,
 			lookbehind: true,
-			alias: 'variable'
+			alias: 'variables.html'
 		},
 
 		'constructor-word': {
@@ -4800,7 +4800,7 @@ Prism.languages.gedcom = {
 		inside: {
 			'pointer': {
 				pattern: /^@\w[\w!"$%&'()*+,\-./:;<=>?[\\\]^`{|}~\x80-\xfe #]*@$/,
-				alias: 'variable'
+				alias: 'variables.html'
 			}
 		}
 	},
@@ -4817,7 +4817,7 @@ Prism.languages.gedcom = {
 	},
 	'pointer': {
 		pattern: /@\w[\w!"$%&'()*+,\-./:;<=>?[\\\]^`{|}~\x80-\xfe #]*@/,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 };
 (function (Prism) {
@@ -4866,7 +4866,7 @@ Prism.languages.gedcom = {
 			inside: {
 				'outline': {
 					pattern: /<[^>]+?>/,
-					alias: 'variable'
+					alias: 'variables.html'
 				},
 				'td': {
 					pattern: /\s*[^\s|][^|]*/,
@@ -4880,7 +4880,7 @@ Prism.languages.gedcom = {
 			inside: {
 				'th': {
 					pattern: /\s*[^\s|][^|]*/,
-					alias: 'variable'
+					alias: 'variables.html'
 				},
 				'punctuation': /\|/
 			}
@@ -4894,13 +4894,13 @@ Prism.languages.gedcom = {
 			inside: {
 				'outline': {
 					pattern: /<[^>]+?>/,
-					alias: 'variable'
+					alias: 'variables.html'
 				}
 			}
 		},
 		'outline': {
 			pattern: /<[^>]+?>/,
-			alias: 'variable'
+			alias: 'variables.html'
 		}
 	};
 
@@ -5150,7 +5150,7 @@ Prism.hooks.add('wrap', function(env) {
 			inside: {
 				'filter-name': {
 					pattern: /^:[\w-]+/,
-					alias: 'variable'
+					alias: 'variables.html'
 				}
 			}
 		},
@@ -5243,7 +5243,7 @@ Prism.hooks.add('wrap', function(env) {
 				inside: {
 					'filter-name': {
 						pattern: /^:[\w-]+/,
-						alias: 'variable'
+						alias: 'variables.html'
 					},
 					rest: Prism.languages[filter.language]
 				}
@@ -5344,7 +5344,7 @@ Prism.languages.haxe = Prism.languages.extend('clike', {
 				inside: {
 					'interpolation': {
 						pattern: /^\$\w*/,
-						alias: 'variable'
+						alias: 'variables.html'
 					}
 					// See rest below
 				}
@@ -5372,7 +5372,7 @@ Prism.languages.insertBefore('haxe', 'keyword', {
 	},
 	'reification': {
 		pattern: /\$(?:\w+|(?=\{))/,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 });
 Prism.languages.haxe['string'].inside['interpolation'].inside.rest = Prism.languages.haxe;
@@ -5391,7 +5391,7 @@ Prism.languages.hcl = {
 				'type': {
 					pattern: /(resource|data|\s+)(?:"(?:\\[\s\S]|[^\\"])*")/i,
 					lookbehind: true,
-					alias: 'variable'
+					alias: 'variables.html'
 				}
 			}
 		},
@@ -5401,7 +5401,7 @@ Prism.languages.hcl = {
 				'type': {
 					pattern: /(provider|provisioner|variable|output|module|backend)\s+(?:[\w-]+|"(?:\\[\s\S]|[^\\"])*")\s+/i,
 					lookbehind: true,
-					alias: 'variable'
+					alias: 'variables.html'
 				}
 			}
 		},
@@ -5424,7 +5424,7 @@ Prism.languages.hcl = {
 					'type': {
 						pattern: /(\b(?:terraform|var|self|count|module|path|data|local)\b\.)[\w\*]+/i,
 						lookbehind: true,
-						alias: 'variable'
+						alias: 'variables.html'
 					},
 					'keyword': /\b(?:terraform|var|self|count|module|path|data|local)\b/i,
 					'function': /\w+(?=\()/,
@@ -5587,7 +5587,7 @@ Prism.languages.icon = {
 	'number': /\b(?:\d+r[a-z\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b|\.\d+\b/i,
 	'builtin-keyword': {
 		pattern: /&(?:allocated|ascii|clock|collections|cset|current|date|dateline|digits|dump|e|error(?:number|text|value)?|errout|fail|features|file|host|input|lcase|letters|level|line|main|null|output|phi|pi|pos|progname|random|regions|source|storage|subject|time|trace|ucase|version)\b/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'directive': {
 		pattern: /\$\w+/,
@@ -5648,7 +5648,7 @@ Prism.languages.inform7 = {
 	'type': {
 		pattern: /(^|[^-])\b(?:actions?|activit(?:y|ies)|actors?|animals?|backdrops?|containers?|devices?|directions?|doors?|holders?|kinds?|lists?|m[ae]n|nobody|nothing|nouns?|numbers?|objects?|people|persons?|player(?:'s holdall)?|regions?|relations?|rooms?|rule(?:book)?s?|scenes?|someone|something|supporters?|tables?|texts?|things?|time|vehicles?|wom[ae]n)\b(?!-)/i,
 		lookbehind: true,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'punctuation': /[.,:;(){}]/
 };
@@ -5724,7 +5724,7 @@ Prism.languages.j = {
 	'operator': /[=a][.:]|_\./,
 	'conjunction': {
 		pattern: /&(?:\.:?|:)?|[.:@][.:]?|[!D][.:]|[;dHT]\.|`:?|[\^LS]:|"/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'punctuation': /[()]/
 };
@@ -6430,7 +6430,7 @@ Prism.languages.insertBefore( 'jolie', 'keyword', {
 		'dom': {
 			// this contains only a few commonly used DOM variables
 			pattern: /\b(?:document|location|navigator|performance|(?:local|session)Storage|window)\b/,
-			alias: 'variable'
+			alias: 'variables.html'
 		},
 		'console': {
 			pattern: /\bconsole(?=\s*\.)/,
@@ -6936,14 +6936,14 @@ Prism.languages.keyman = {
 			inside: {
 				'delimiter': {
 					pattern: /^\$\{|\}$/,
-					alias: 'variable'
+					alias: 'variables.html'
 				},
 				rest: Prism.languages.kotlin
 			}
 		},
 		{
 			pattern: /\$\w+/,
-			alias: 'variable'
+			alias: 'variables.html'
 		}
 	];
 
@@ -7303,7 +7303,7 @@ Prism.languages.liquid = {
 		},
 		'quoted-symbol': {
 			pattern: RegExp("#?'" + symbol),
-			alias: ['variable', 'symbol']
+			alias: ['variables.html', 'symbol']
 		},
 		'lisp-property': {
 			pattern: RegExp(':' + symbol),
@@ -7311,7 +7311,7 @@ Prism.languages.liquid = {
 		},
 		splice: {
 			pattern: RegExp(',@?' + symbol),
-			alias: ['symbol', 'variable']
+			alias: ['symbol', 'variables.html']
 		},
 		keyword: [
 			{
@@ -7406,7 +7406,7 @@ Prism.languages.liquid = {
 		rest: {
 			argument: {
 				pattern: RegExp(symbol),
-				alias: 'variable'
+				alias: 'variables.html'
 			},
 			varform: {
 				pattern: RegExp(par + symbol + '\\s+\\S[\\s\\S]*' + endpar),
@@ -7442,7 +7442,7 @@ Prism.languages.liquid = {
 			},
 			argument: {
 				pattern: RegExp(symbol),
-				alias: 'variable'
+				alias: 'variables.html'
 			},
 			punctuation: /[()]/
 		}
@@ -7486,7 +7486,7 @@ Prism.languages.livescript = {
 				inside: {
 					'interpolation-punctuation': {
 						pattern: /^#\{|\}$/,
-						alias: 'variable'
+						alias: 'variables.html'
 					}
 					// See rest below
 				}
@@ -7538,7 +7538,7 @@ Prism.languages.livescript = {
 		// Don't match .&. nor &&
 		pattern: /(^|(?!\.&\.)[^&])&(?!&)\d*/m,
 		lookbehind: true,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'number': /\b(?:\d+~[\da-z]+|\d[\d_]*(?:\.\d[\d_]*)?(?:[a-z]\w*)?)/i,
 	'identifier': /[a-z_](?:-?[a-z]|[\d_])*/i,
@@ -8096,7 +8096,7 @@ Prism.languages.mizar = {
 	'keyword': /@proof\b|\b(?:according|aggregate|all|and|antonym|are|as|associativity|assume|asymmetry|attr|be|begin|being|by|canceled|case|cases|clusters?|coherence|commutativity|compatibility|connectedness|consider|consistency|constructors|contradiction|correctness|def|deffunc|define|definitions?|defpred|do|does|equals|end|environ|ex|exactly|existence|for|from|func|given|hence|hereby|holds|idempotence|identity|iff?|implies|involutiveness|irreflexivity|is|it|let|means|mode|non|not|notations?|now|of|or|otherwise|over|per|pred|prefix|projectivity|proof|provided|qua|reconsider|redefine|reduce|reducibility|reflexivity|registrations?|requirements|reserve|sch|schemes?|section|selector|set|sethood|st|struct|such|suppose|symmetry|synonym|take|that|the|then|theorems?|thesis|thus|to|transitivity|uniqueness|vocabular(?:y|ies)|when|where|with|wrt)\b/,
 	'parameter': {
 		pattern: /\$(?:10|\d)/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'variable': /\w+(?=:)/,
 	'number': /(?:\b|-)\d+\b/,
@@ -8124,7 +8124,7 @@ Prism.languages.monkey = {
 	'type-char': {
 		pattern: /(\w)[?%#$]/,
 		lookbehind: true,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'number': {
 		pattern: /((?:\.\.)?)(?:(?:\b|\B-\.?|\B\.)\d+(?:(?!\.\.)\.\d*)?|\$[\da-f]+)/i,
@@ -8254,7 +8254,7 @@ Prism.languages.nasm = {
 	],
 	'register': {
 		pattern: /\b(?:st\d|[xyz]mm\d\d?|[cdt]r\d|r\d\d?[bwd]?|[er]?[abcd]x|[abcd][hl]|[er]?(?:bp|sp|si|di)|[cdefgs]s)\b/i,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'number': /(?:\b|(?=\$))(?:0[hx][\da-f]*\.?[\da-f]+(?:p[+-]?\d+)?|\d[\da-f]+[hx]|\$\d[\da-f]*|0[oq][0-7]+|[0-7]+[oq]|0[by][01]+|[01]+[by]|0[dt]\d+|\d*\.?\d+(?:\.?e[+-]?\d+)?[dt]?)\b/i,
 	'operator': /[\[\]*+\-\/%<>=&|$!]/
@@ -8360,7 +8360,7 @@ Prism.languages.nix = {
 				inside: {
 					'antiquotation': {
 						pattern: /^\$(?=\{)/,
-						alias: 'variable'
+						alias: 'variables.html'
 					}
 					// See rest below
 				}
@@ -8376,7 +8376,7 @@ Prism.languages.nix = {
 	],
 	'antiquotation': {
 		pattern: /\$(?=\{)/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'number': /\b\d+\b/,
 	'keyword': /\b(?:assert|builtins|else|if|in|inherit|let|null|or|then|with)\b/,
@@ -8452,11 +8452,11 @@ Prism.languages.ocaml = {
 	},
 	'variant': {
 		pattern: /`\w+/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'module': {
 		pattern: /\b[A-Z]\w+/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	// For the list of keywords and operators,
 	// see: http://caml.inria.fr/pub/docs/manual-ocaml/lex.html#sec84
@@ -9042,7 +9042,7 @@ Prism.languages.perl = {
 
 }(Prism));
 
-Prism.languages.insertBefore('php', 'variable', {
+Prism.languages.insertBefore('php', 'variables.html', {
 	'this': /\$this\b/,
 	'global': /\$(?:_(?:SERVER|GET|POST|FILES|REQUEST|SESSION|ENV|COOKIE)|GLOBALS|HTTP_RAW_POST_DATA|argc|argv|php_errormsg|http_response_header)\b/,
 	'scope': {
@@ -9115,7 +9115,7 @@ Prism.languages.powerquery = {
     'quoted-identifier': {
         pattern: /#"(?:[^"\r\n]|"")*"(?!")/,
         greedy: true,
-        alias: 'variable'
+        alias: 'variables.html'
     },
     'string': {
         pattern: /"(?:[^"\r\n]|"")*"(?!")/,
@@ -9148,7 +9148,7 @@ Prism.languages.powerquery = {
     },
     'data-type': {
         pattern: /\b(?:any|anynonnull|binary|date|datetime|datetimezone|duration|function|list|logical|none|number|record|table|text|time|type)\b/,
-        alias: 'variable'
+        alias: 'variables.html'
     },
     'number': {
         pattern: /\b0x[\da-f]+\b|(?:[+-]?(?:\b\d+\.)?\b\d+|[+-]\.\d+|(^|[^.])\B\.\d+)(?:e[+-]?\d+)?\b/i,
@@ -9230,7 +9230,7 @@ Prism.languages.insertBefore('processing', 'number', {
 	'constant': /\b(?!XML\b)[A-Z][A-Z\d_]+\b/,
 	'type': {
 		pattern: /\b(?:boolean|byte|char|color|double|float|int|XML|[A-Z]\w*)\b/,
-		alias: 'variable'
+		alias: 'variables.html'
 	}
 });
 
@@ -9238,7 +9238,7 @@ Prism.languages.insertBefore('processing', 'number', {
 Prism.languages.processing['function'].pattern = /\w+(?=\s*\()/;
 
 // Class-names is not styled by default
-Prism.languages.processing['class-name'].alias = 'variable';
+Prism.languages.processing['class-name'].alias = 'variables.html';
 Prism.languages.prolog = {
 	// Syntax depends on the implementation
 	'comment': [
@@ -9339,7 +9339,7 @@ Prism.languages.properties = {
 			inside: {
 				'filter-name': {
 					pattern: /^:[\w-]+/,
-					alias: 'variable'
+					alias: 'variables.html'
 				}
 			}
 		},
@@ -9475,7 +9475,7 @@ Prism.languages.properties = {
 				inside: {
 					'filter-name': {
 						pattern: /^:[\w-]+/,
-						alias: 'variable'
+						alias: 'variables.html'
 					},
 					rest: Prism.languages[filter.language]
 				}
@@ -9599,14 +9599,14 @@ Prism.languages.properties = {
 					// Negative look-ahead prevent wrong highlighting of functions
 					pattern: /(^\$\{)(?!\w+\()(?:::)?\w+(?:::\w+)*/,
 					lookbehind: true,
-					alias: 'variable',
+					alias: 'variables.html',
 					inside: {
 						'punctuation': /::/
 					}
 				},
 				'delimiter': {
 					pattern: /^\$/,
-					alias: 'variable'
+					alias: 'variables.html'
 				},
 				rest: Prism.languages.puppet
 			}
@@ -9614,7 +9614,7 @@ Prism.languages.properties = {
 		{
 			pattern: /(^|[^\\])\$(?:::)?\w+(?:::\w+)*/,
 			lookbehind: true,
-			alias: 'variable',
+			alias: 'variables.html',
 			inside: {
 				'punctuation': /::/
 			}
@@ -10106,7 +10106,7 @@ Prism.languages.insertBefore('reason', 'class-name', {
 	'constructor': {
 		// Negative look-ahead prevents from matching things like String.capitalize
 		pattern: /\b[A-Z]\w*\b(?!\s*\.)/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'label': {
 		pattern: /\b[a-z]\w*(?=::)/,
@@ -10208,7 +10208,7 @@ Prism.languages.insertBefore('vala', 'keyword', {
 	var groupName = {
 		pattern: /(<|')[^<>']+(?=[>']$)/,
 		lookbehind: true,
-		alias: 'variable'
+		alias: 'variables.html'
 	};
 
 	var backreference = [
@@ -10537,7 +10537,7 @@ Prism.languages.roboconf = {
 	},
 	'component': {
 		pattern: /[\w-]+(?=[ \t]*\{)/,
-		alias: 'variable'
+		alias: 'variables.html'
 	},
 	'property': /[\w.-]+(?=[ \t]*:)/,
 	'value': {
@@ -10592,7 +10592,7 @@ Prism.languages.roboconf = {
 				'punctuation': /\[|\]/
 			}
 		};
-		extendecInside['variable'] = variable;
+		extendecInside['variables.html'] = variable;
 		extendecInside['comment'] = comment;
 
 		return {
@@ -11472,7 +11472,7 @@ Prism.languages.insertBefore('solidity', 'number', {
 		'parameter': {
 			pattern: /({+\/?\s*@?param\??\s+)\.?[\w.]+/,
 			lookbehind: true,
-			alias: 'variable'
+			alias: 'variables.html'
 		},
 		'keyword': [
 			{
@@ -11705,7 +11705,7 @@ delete Prism.languages.sqf['class-name'];
 
 	inside['interpolation'] = {
 		pattern: /\{[^\r\n}:]+\}/,
-		alias: 'variable',
+		alias: 'variables.html',
 		inside: {
 			'delimiter': {
 				pattern: /^{|}$/,
@@ -11801,7 +11801,7 @@ Prism.languages.swift = Prism.languages.extend('clike', {
 				inside: {
 					delimiter: {
 						pattern: /^\\\(|\)$/,
-						alias: 'variable'
+						alias: 'variables.html'
 					}
 					// See rest below
 				}
@@ -12821,7 +12821,7 @@ Prism.languages.insertBefore('wiki', 'tag', {
 	});
 
 	Prism.languages.insertBefore('inside', 'punctuation', {
-		'variable': Prism.languages.xeora['function-inline'].inside['variable']
+		'variable': Prism.languages.xeora['function-inline'].inside['variables.html']
 	}, Prism.languages.xeora["function-block"]);
 
 	Prism.languages.xeoracube = Prism.languages.xeora;

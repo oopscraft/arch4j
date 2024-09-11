@@ -3,8 +3,11 @@ package org.oopscraft.arch4j.batch.sample;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.oopscraft.arch4j.batch.AbstractBatchConfigurer;
-import org.oopscraft.arch4j.batch.item.file.*;
+import org.oopscraft.arch4j.batch.common.AbstractBatchConfigurer;
+import org.oopscraft.arch4j.batch.common.item.file.DelimiterFileItemReader;
+import org.oopscraft.arch4j.batch.common.item.file.DelimiterFileItemReaderBuilder;
+import org.oopscraft.arch4j.batch.common.item.file.FixedByteFileItemWriter;
+import org.oopscraft.arch4j.batch.common.item.file.FixedByteFileItemWriterBuilder;
 import org.oopscraft.arch4j.batch.sample.dto.SampleBackupFile;
 import org.oopscraft.arch4j.batch.sample.dto.SampleFile;
 import org.oopscraft.arch4j.batch.sample.tasklet.CompareSampleFileToSampleBackupFileTasklet;
@@ -19,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j

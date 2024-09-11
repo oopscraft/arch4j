@@ -74,7 +74,7 @@ CodeMirror.defineMode("groovy", function(config) {
       else if (standaloneKeywords.propertyIsEnumerable(cur)) curPunc = "standalone";
       return "keyword";
     }
-    return "variable";
+    return "variables.html";
   }
   tokenBase.isBase = true;
 
@@ -133,7 +133,7 @@ CodeMirror.defineMode("groovy", function(config) {
       state.tokenize.pop()
       return state.tokenize[state.tokenize.length-1](stream, state)
     }
-    return next[0] == "." ? null : "variable"
+    return next[0] == "." ? null : "variables.html"
   }
 
   function tokenComment(stream, state) {

@@ -1,8 +1,7 @@
 package org.oopscraft.arch4j.web.page.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.page.ContentFormat;
-import org.oopscraft.arch4j.core.page.Page;
+import org.oopscraft.arch4j.core.page.model.Page;
 
 @Data
 @Builder
@@ -12,16 +11,21 @@ public class PageResponse {
 
     private String pageId;
 
-    private String pageName;
+    private String name;
 
-    private ContentFormat contentFormat;
+    private Page.ContentFormat contentFormat;
 
     private String content;
 
+    /**
+     * page factory method
+     * @param page page
+     * @return page response
+     */
     public static PageResponse from(Page page) {
         return PageResponse.builder()
                 .pageId(page.getPageId())
-                .pageName(page.getPageName())
+                .name(page.getName())
                 .contentFormat(page.getContentFormat())
                 .content(page.getContent())
                 .build();

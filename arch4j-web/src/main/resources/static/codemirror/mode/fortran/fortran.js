@@ -149,7 +149,7 @@ CodeMirror.defineMode("fortran", function() {
     if (builtins.hasOwnProperty(word) || dataTypes.hasOwnProperty(word)) {
             return 'builtin';
     }
-    return "variable";
+    return "variables.html";
   }
 
   function tokenString(quote) {

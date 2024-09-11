@@ -102,7 +102,7 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
         stream.eatWhile(/[\w_]/);
         var word = stream.current(), known = keywords.propertyIsEnumerable(word) && keywords[word];
         return (known && state.kwAllowed) ? ret(known.type, known.style, word) :
-                       ret("variable", "variable", word);
+                       ret("variables.html", "variables.html", word);
       }
     }
   }
@@ -160,8 +160,8 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
         while(cc.length && cc[cc.length - 1].lex)
           cc.pop()();
         if (cx.marked) return cx.marked;
-        if (type == "variable" && inScope(state, content)) return "variable-2";
-        if (type == "variable" && imported(state, content)) return "variable-3";
+        if (type == "variables.html" && inScope(state, content)) return "variable-2";
+        if (type == "variables.html" && imported(state, content)) return "variable-3";
         return style;
       }
     }
@@ -258,7 +258,7 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
     if (type == "function") return cont(functiondef);
     if (type == "for") return cont(pushlex("form"), expect("("), pushlex(")"), forspec1, expect(")"),
                                    poplex, statement, poplex);
-    if (type == "variable") return cont(pushlex("stat"), maybelabel);
+    if (type == "variables.html") return cont(pushlex("stat"), maybelabel);
     if (type == "switch") return cont(pushlex("form"), expression, pushlex("}", "switch"), expect("{"),
                                       block, poplex, poplex);
     if (type == "case") return cont(expression, expect(":"));
@@ -302,21 +302,21 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
 
   function metadef(type) {
     if(type == ":") return cont(metadef);
-    if(type == "variable") return cont(metadef);
+    if(type == "variables.html") return cont(metadef);
     if(type == "(") return cont(pushlex(")"), commasep(metaargs, ")"), poplex, statement);
   }
   function metaargs(type) {
-    if(type == "variable") return cont();
+    if(type == "variables.html") return cont();
   }
 
   function importdef (type, value) {
-    if(type == "variable" && /[A-Z]/.test(value.charAt(0))) { registerimport(value); return cont(); }
-    else if(type == "variable" || type == "property" || type == "." || value == "*") return cont(importdef);
+    if(type == "variables.html" && /[A-Z]/.test(value.charAt(0))) { registerimport(value); return cont(); }
+    else if(type == "variables.html" || type == "property" || type == "." || value == "*") return cont(importdef);
   }
 
   function typedef (type, value)
   {
-    if(type == "variable" && /[A-Z]/.test(value.charAt(0))) { registerimport(value); return cont(); }
+    if(type == "variables.html" && /[A-Z]/.test(value.charAt(0))) { registerimport(value); return cont(); }
     else if (type == "type" && /[A-Z]/.test(value.charAt(0))) { return cont(); }
   }
 
@@ -325,10 +325,10 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
     return pass(maybeoperator, expect(";"), poplex);
   }
   function property(type) {
-    if (type == "variable") {cx.marked = "property"; return cont();}
+    if (type == "variables.html") {cx.marked = "property"; return cont();}
   }
   function objprop(type) {
-    if (type == "variable") cx.marked = "property";
+    if (type == "variables.html") cx.marked = "property";
     if (atomicTypes.hasOwnProperty(type)) return cont(expect(":"), expression);
   }
   function commasep(what, end) {
@@ -347,7 +347,7 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
     return pass(statement, block);
   }
   function vardef1(type, value) {
-    if (type == "variable"){register(value); return cont(typeuse, vardef2);}
+    if (type == "variables.html"){register(value); return cont(typeuse, vardef2);}
     return cont();
   }
   function vardef2(type, value) {
@@ -355,7 +355,7 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
     if (type == ",") return cont(vardef1);
   }
   function forspec1(type, value) {
-    if (type == "variable") {
+    if (type == "variables.html") {
       register(value);
       return cont(forin, expression)
     } else {
@@ -367,7 +367,7 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
   }
   function functiondef(type, value) {
     //function names starting with upper-case letters are recognised as types, so cludging them together here.
-    if (type == "variable" || type == "type") {register(value); return cont(functiondef);}
+    if (type == "variables.html" || type == "type") {register(value); return cont(functiondef);}
     if (value == "new") return cont(functiondef);
     if (type == "(") return cont(pushlex(")"), pushcontext, commasep(funarg, ")"), poplex, typeuse, statement, popcontext);
   }
@@ -376,14 +376,14 @@ CodeMirror.defineMode("haxe", function(config, parserConfig) {
   }
   function typestring(type) {
     if(type == "type") return cont();
-    if(type == "variable") return cont();
+    if(type == "variables.html") return cont();
     if(type == "{") return cont(pushlex("}"), commasep(typeprop, "}"), poplex);
   }
   function typeprop(type) {
-    if(type == "variable") return cont(typeuse);
+    if(type == "variables.html") return cont(typeuse);
   }
   function funarg(type, value) {
-    if (type == "variable") {register(value); return cont(typeuse);}
+    if (type == "variables.html") {register(value); return cont(typeuse);}
   }
 
   // Interface

@@ -1,11 +1,11 @@
 package org.oopscraft.arch4j.web.board.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.Article;
-import org.oopscraft.arch4j.core.board.ArticleService;
-import org.oopscraft.arch4j.core.board.Board;
-import org.oopscraft.arch4j.core.board.BoardService;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
+import org.oopscraft.arch4j.core.board.model.Article;
+import org.oopscraft.arch4j.core.board.service.ArticleService;
+import org.oopscraft.arch4j.core.board.model.Board;
+import org.oopscraft.arch4j.core.board.service.BoardService;
+import org.oopscraft.arch4j.web.security.support.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;

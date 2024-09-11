@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.menu.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.support.CoreTestSupport;
+import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,7 @@ class MenuRepositoryTest extends CoreTestSupport {
     private MenuEntity getTestMenuEntity() {
         MenuEntity menuEntity = MenuEntity.builder()
                 .menuId("test-menu")
-                .menuName("Test Menu")
+                .name("Test Menu")
                 .build();
         return menuEntity;
     }
@@ -48,14 +48,14 @@ class MenuRepositoryTest extends CoreTestSupport {
         MenuEntity testMenuEntity = saveTestMenuEntity();
 
         // when
-        testMenuEntity.setMenuName("changed");
+        testMenuEntity.setName("changed");
         menuRepository.saveAndFlush(testMenuEntity);
 
         // then
         entityManager.clear();
         assertEquals(
                 "changed",
-                entityManager.find(MenuEntity.class, testMenuEntity.getMenuId()).getMenuName()
+                entityManager.find(MenuEntity.class, testMenuEntity.getMenuId()).getName()
         );
     }
 

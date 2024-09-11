@@ -7,7 +7,7 @@
   var mode = CodeMirror.getMode({indentUnit: 2}, "text/x-less");
   function MT(name) { test.mode(name, mode, Array.prototype.slice.call(arguments, 1), "less"); }
 
-  MT("variable",
+  MT("variables.html",
      "[variable-2 @base]: [atom #f04615];",
      "[qualifier .class] {",
      "  [property width]: [variable&callee percentage]([number 0.5]); [comment // returns `50%`]",

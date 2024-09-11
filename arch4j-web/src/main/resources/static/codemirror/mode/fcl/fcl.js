@@ -82,7 +82,7 @@ CodeMirror.defineMode("fcl", function(config) {
       return "keyword";
     }
     if (atoms.propertyIsEnumerable(cur)) return "atom";
-    return "variable";
+    return "variables.html";
   }
 
 

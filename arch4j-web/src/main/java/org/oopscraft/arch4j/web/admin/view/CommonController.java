@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.web.admin.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.role.Role;
-import org.oopscraft.arch4j.core.role.RoleSearch;
-import org.oopscraft.arch4j.core.role.RoleService;
+import org.oopscraft.arch4j.core.security.model.Role;
+import org.oopscraft.arch4j.core.security.model.RoleSearch;
+import org.oopscraft.arch4j.core.security.service.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;

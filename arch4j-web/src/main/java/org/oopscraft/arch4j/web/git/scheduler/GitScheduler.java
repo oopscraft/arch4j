@@ -3,10 +3,10 @@ package org.oopscraft.arch4j.web.git.scheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.oopscraft.arch4j.core.git.Git;
-import org.oopscraft.arch4j.core.git.GitClient;
-import org.oopscraft.arch4j.core.git.GitProperties;
-import org.oopscraft.arch4j.core.git.GitService;
+import org.oopscraft.arch4j.core.git.model.Git;
+import org.oopscraft.arch4j.core.git.service.GitClient;
+import org.oopscraft.arch4j.core.git.service.GitProperties;
+import org.oopscraft.arch4j.core.git.service.GitService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

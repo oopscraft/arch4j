@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.alarm.client;
 
-import org.oopscraft.arch4j.core.alarm.Alarm;
-import org.oopscraft.arch4j.core.data.pbe.PbePropertiesUtil;
+import org.oopscraft.arch4j.core.alarm.model.Alarm;
+import org.oopscraft.arch4j.core.common.pbe.PbePropertiesUtil;
 
 import java.io.IOException;
 import java.io.StringReader;

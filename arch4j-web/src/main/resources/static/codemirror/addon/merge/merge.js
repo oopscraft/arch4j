@@ -509,7 +509,7 @@
       copy.title = dv.edit.phrase(editOriginals ? "Push to left" : "Revert chunk");
       copy.chunk = chunk;
       copy.style.top = (chunk.origTo > chunk.origFrom ? top : dv.edit.heightAtLine(chunk.editFrom, "local") - sTopEdit) + "px";
-      copy.setAttribute("role", "button");
+      copy.setAttribute("roles.html", "button");
       copy.setAttribute("tabindex", "0");
       copy.setAttribute("aria-label", copy.title);
 
@@ -522,7 +522,7 @@
                              origFrom: chunk.editFrom, origTo: chunk.editTo};
         copyReverse.style.top = topReverse + "px";
         dv.type == "right" ? copyReverse.style.left = "2px" : copyReverse.style.right = "2px";
-        copyReverse.setAttribute("role", "button");
+        copyReverse.setAttribute("roles.html", "button");
         copyReverse.setAttribute("tabindex", "0");
         copyReverse.setAttribute("aria-label", copyReverse.title);
       }
@@ -606,7 +606,7 @@
 
   function buildGap(dv) {
     var lock = dv.lockButton = elt("div", null, "CodeMirror-merge-scrolllock");
-    lock.setAttribute("role", "button");
+    lock.setAttribute("roles.html", "button");
     lock.setAttribute("tabindex", "0");
     var lockWrap = elt("div", [lock], "CodeMirror-merge-scrolllock-wrap");
     CodeMirror.on(lock, "click", function() { setScrollLock(dv, !dv.lockScroll); });

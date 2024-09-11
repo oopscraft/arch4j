@@ -92,7 +92,7 @@ CodeMirror.defineMode("lua", function(config, parserConfig) {
     }
     if (/[\w_]/.test(ch)) {
       stream.eatWhile(/[\w\\\-_.]/);
-      return "variable";
+      return "variables.html";
     }
     return null;
   }
@@ -131,7 +131,7 @@ CodeMirror.defineMode("lua", function(config, parserConfig) {
       if (stream.eatSpace()) return null;
       var style = state.cur(stream, state);
       var word = stream.current();
-      if (style == "variable") {
+      if (style == "variables.html") {
         if (keywords.test(word)) style = "keyword";
         else if (builtins.test(word)) style = "builtin";
         else if (specials.test(word)) style = "variable-2";

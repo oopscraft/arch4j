@@ -2,9 +2,10 @@ package org.oopscraft.arch4j.core.board.dao;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.oopscraft.arch4j.core.board.ContentFormat;
-import org.oopscraft.arch4j.core.data.BaseEntity;
-import org.oopscraft.arch4j.core.user.dao.UserEntity;
+import org.oopscraft.arch4j.core.board.model.ArticleComment;
+import org.oopscraft.arch4j.core.common.data.BaseEntity;
+import org.oopscraft.arch4j.core.common.data.converter.AbstractEnumConverter;
+import org.oopscraft.arch4j.core.security.dao.UserEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -48,7 +49,7 @@ public class ArticleCommentEntity extends BaseEntity {
 
     @NotNull
     @Column(name = "content_format", length = 16)
-    private ContentFormat contentFormat;
+    private ArticleComment.ContentFormat contentFormat;
 
     @NotBlank
     @Column(name = "content")
@@ -71,5 +72,8 @@ public class ArticleCommentEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private UserEntity user;
+
+    @Converter(autoApply = true)
+    public static class ContentFormatConverter extends AbstractEnumConverter<ArticleComment.ContentFormat> { }
 
 }

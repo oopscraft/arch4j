@@ -3,25 +3,25 @@ package org.oopscraft.arch4j.core.email.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.data.IdGenerator;
-import org.oopscraft.arch4j.core.support.CoreTestSupport;
+import org.oopscraft.arch4j.core.common.data.IdGenerator;
+import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
 class EmailTemplateRepositoryTest extends CoreTestSupport {
 
-    private final EmailTemplateRepository emailTemplateRepository;
+    private final EmailRepository emailTemplateRepository;
 
-    private EmailTemplateEntity getTestEmailTemplateEntity() {
-        return EmailTemplateEntity.builder()
-                .templateId(IdGenerator.uuid())
-                .templateName("junit test template")
+    private EmailEntity getTestEmailTemplateEntity() {
+        return EmailEntity.builder()
+                .emailId(IdGenerator.uuid())
+                .name("junit test template")
                 .build();
     }
 
-    private EmailTemplateEntity createTestEmailTemplateEntity() {
-        EmailTemplateEntity testEmailTemplateEntity = getTestEmailTemplateEntity();
+    private EmailEntity createTestEmailTemplateEntity() {
+        EmailEntity testEmailTemplateEntity = getTestEmailTemplateEntity();
         entityManager.persist(testEmailTemplateEntity);
         entityManager.flush();
         entityManager.clear();
@@ -32,43 +32,43 @@ class EmailTemplateRepositoryTest extends CoreTestSupport {
     @Order(1)
     void save() {
         // given
-        EmailTemplateEntity testEmailTemplateEntity = getTestEmailTemplateEntity();
+        EmailEntity testEmailTemplateEntity = getTestEmailTemplateEntity();
 
         // when
         emailTemplateRepository.saveAndFlush(testEmailTemplateEntity);
-        testEmailTemplateEntity.setTemplateName("changed template name");
+        testEmailTemplateEntity.setName("changed template name");
         emailTemplateRepository.saveAndFlush(testEmailTemplateEntity);
 
         // then
-        EmailTemplateEntity savedEmailTemplateEntity = entityManager.find(EmailTemplateEntity.class, testEmailTemplateEntity.getTemplateId());
+        EmailEntity savedEmailTemplateEntity = entityManager.find(EmailEntity.class, testEmailTemplateEntity.getEmailId());
         assertNotNull(savedEmailTemplateEntity);
-        assertEquals(testEmailTemplateEntity.getTemplateName(), savedEmailTemplateEntity.getTemplateName());
+        assertEquals(testEmailTemplateEntity.getName(), savedEmailTemplateEntity.getName());
     }
 
     @Test
     @Order(2)
     void findById() {
         // given
-        EmailTemplateEntity testEmailTemplateEntity = createTestEmailTemplateEntity();
+        EmailEntity testEmailTemplateEntity = createTestEmailTemplateEntity();
 
         // when
-        EmailTemplateEntity emailTemplateEntity = emailTemplateRepository.findById(testEmailTemplateEntity.getTemplateId()).orElseThrow();
+        EmailEntity emailTemplateEntity = emailTemplateRepository.findById(testEmailTemplateEntity.getEmailId()).orElseThrow();
 
         // then
-        assertEquals(testEmailTemplateEntity.getTemplateId(), emailTemplateEntity.getTemplateId());
+        assertEquals(testEmailTemplateEntity.getEmailId(), emailTemplateEntity.getEmailId());
     }
 
     @Test
     @Order(3)
     void deleteById() {
         // given
-        EmailTemplateEntity testEmailTemplateEntity = createTestEmailTemplateEntity();
+        EmailEntity testEmailTemplateEntity = createTestEmailTemplateEntity();
 
         // when
-        emailTemplateRepository.deleteById(testEmailTemplateEntity.getTemplateId());
+        emailTemplateRepository.deleteById(testEmailTemplateEntity.getEmailId());
 
         // then
-        assertNull(entityManager.find(EmailTemplateEntity.class, testEmailTemplateEntity.getTemplateId()));
+        assertNull(entityManager.find(EmailEntity.class, testEmailTemplateEntity.getEmailId()));
     }
 
 }

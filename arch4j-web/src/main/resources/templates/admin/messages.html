@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<th:block layout:fragment="_content">
+    <script th:inline="javascript">
+        const messageSearch = new duice.ObjectProxy({
+            key: 'messageId',
+            value: null,
+            _page: 0,
+            _size: 20,
+            _count: 0
+        });
+
+        const messages = new duice.ArrayProxy([]);
+
+        const message = new duice.ObjectProxy({
+            messageId: null,
+            name: null
+        });
+        duice.ObjectProxy.setDisableAll(message, true);
+        duice.ObjectProxy.onPropertyChanging(message, async event => {
+            if (event.getProperty() === 'messageId') {
+                if (!await validateMessageId(event.getValue())) {
+                    duice.ObjectProxy.focus(message, 'messageId');
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        function getMessages(page) {
+            if(page) {
+                messageSearch._page = page;
+            }
+            let url = new URL(/*[[@{/admin/messages/get-messages}]]*/'', document.location.origin);
+            if (messageSearch.key && messageSearch.value) {
+                url.searchParams.append(messageSearch.key, messageSearch.value);
+            }
+            url.searchParams.append('_page', messageSearch._page);
+            url.searchParams.append('_size', messageSearch._size);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(messages);
+                    duice.ArrayProxy.assign(messages, data.content);
+                    messageSearch._count = data['totalElements'];
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(messages, messages.findIndex(item => item.messageId === message.messageId));
+                });
+        }
+
+        function resetMessages() {
+            duice.ObjectProxy.reset(messageSearch);
+            getMessages();
+        }
+
+        function getMessage(messageId) {
+            let url = new URL(/*[[@{/admin/messages/get-message}]]*/'', document.location.origin);
+            url.searchParams.append('messageId', messageId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.assign(message, data);
+                    duice.ObjectProxy.setDisableAll(message, false);
+                    duice.ObjectProxy.setReadonly(message, 'messageId', true);
+                    message._new = false;
+                });
+        }
+
+        function createMessage() {
+            duice.ObjectProxy.clear(message);
+            duice.ObjectProxy.assign(message, {
+                _new: true
+            });
+            duice.ObjectProxy.setDisableAll(message, false);
+            duice.ObjectProxy.setReadonly(message, 'messageId', false);
+            duice.ObjectProxy.focus(message, 'messageId');
+        }
+
+        async function validateMessageId(messageId) {
+            // check blank
+            if (!messageId) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.message.Message.messageId})}]]*/'');
+                duice.ObjectProxy.focus(message, 'messageId');
+                return false;
+            }
+
+            // check duplicated id
+            let url = new URL(/*[[@{/admin/messages/get-message}]]*/'', document.location.origin);
+            url.searchParams.append('messageId', messageId);
+            let response = await _fetch(url, {}, true);
+            if (response.ok) {
+                let message = await response.json();
+                if (message) {
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.message.Message.messageId})}]]*/'');
+                    return false;
+                }
+            }
+
+            // return true
+            return true;
+        }
+
+        async function saveMessage() {
+            // if new, checks id
+            if (message._new) {
+                if (!await validateMessageId(message.messageId)) {
+                    return false;
+                }
+            }
+
+            // checks message name
+            if(_isEmpty(message.name)) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.message.Message.name})}]]*/'');
+                duice.ObjectProxy.focus(message, 'name');
+                return false;
+            }
+
+            // call save
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.message.Message})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/messages/save-message}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(message)
+                    }).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.saveItemComplete(#{core.message.Message})}]]*/'').then(() => {
+                                getMessages();
+                                getMessage(message.messageId);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function deleteMessage() {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.message.Message})}]]*/'').then(result => {
+                if (result) {
+                    let url = new URL(/*[[@{/admin/messages/delete-message}]]*/'', document.location.origin);
+                    url.searchParams.append('messageId', message.messageId);
+                    _fetch(url).then(response => {
+                        if (response.ok) {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.message.Message})}]]*/'').then(() => {
+                                getMessages();
+                                duice.ObjectProxy.clear(message);
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded',()=> {
+            getMessages();
+        });
+    </script>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-message.svg}" alt="message"/>
+        <span data-th-text="#{web.admin.message}"></span>
+    </h1>
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: message content             -->
+    <!-- ================================== -->
+    <div class="display--grid grid-template-columns--12 grid-gap--1em">
+
+        <!-- ================================== -->
+        <!-- start: message list                -->
+        <!-- ================================== -->
+        <div id="messageList" class="grid-column--5 s__grid-column--12">
+            <div class="display--grid grid-gap--1em border--1 padding--1rem">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
+                    <span data-th-text="#{core.message.Message}+' '+#{web.global.list}"></span>
+                </h2>
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding--0">
+                    <label class="grid-column--4">
+                        <select class="width--100" data-duice-bind="messageSearch" data-duice-property="key">
+                            <option value="messageId" th:text="#{core.message.Message.messageId}"></option>
+                            <option value="name" th:text="#{core.message.Message.name}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column--8">
+                        <input class="width--100" type="text" data-duice-bind="messageSearch" data-duice-property="value"
+                               th:placeholder="#{web.global.keyword}"/>
+                    </label>
+                    <div class="grid-column--12 justify-self--end">
+                        <button type="submit" onclick="getMessages();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button type="button" onclick="resetMessages();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x--auto padding-y--1em s__padding-y--0">
+                    <table class="width--100">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                            <th data-th-text="#{core.message.Message.messageId}"></th>
+                            <th data-th-text="#{core.message.Message.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-selected-item-class="selected" data-duice-execute="
+                            this.dataset.id=message.messageId;
+                            " onclick="getMessage(this.dataset.id);" class="link">
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align--center"></td>
+                            <td data-duice-bind="message" data-duice-property="messageId"></td>
+                            <td data-duice-bind="message" data-duice-property="name"></td>
+                        </tr>
+                        <tr data-duice-bind="messages" data-duice-execute="if(messages.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align--center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="display--grid grid-template-columns--3 padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1 font-size--smaller">
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="messageSearch" data-duice-property="_count"
+                              data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="grid-column--1 justify-self--center">
+                        <duice-pagination
+                                data-duice-bind="messageSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getMessages(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
+                    <div class="grid-column--1 justify-self--end">
+                        <button type="button" onclick="createMessage();">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: message list                  -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: message detail              -->
+        <!-- ================================== -->
+        <div class="grid-column--7 s__grid-column--12">
+            <div class="display--grid grid-gap--1em border--1 padding--1em">
+                <h2>
+                    <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
+                    <span data-th-text="#{core.message.Message}+' '+#{web.global.detail}"></span>
+                </h2>
+                <form class="display--grid grid-template-columns--12 grid-gap--1em padding-y--1em s__padding-y--0">
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.message.Message.messageId}"
+                              class="font-weight--bold tag-required"></span>
+                        <input type="text" data-duice-bind="message" data-duice-property="messageId"
+                               class="width--100"/>
+                    </label>
+                    <label class="grid-column--6 s__grid-column--12">
+                        <span data-th-text="#{core.message.Message.name}" class="font-weight--bold tag-required"></span>
+                        <input type="text" data-duice-bind="message" data-duice-property="name"
+                               class="width--100"/>
+                    </label>
+                    <label class="grid-column--12">
+                        <span data-th-text="#{core.message.Message.value}" class="font-weight--bold"></span>
+                        <textarea data-duice-bind="message" data-duice-property="value" rows="4"
+                                  class="width--100"></textarea>
+                    </label>
+                </form>
+                <div class="display--grid grid-template-columns--2 padding-y--1em s__padding-y--0">
+                    <div class="grid-column--1"></div>
+                    <div class="grid-column--1 justify-self--end">
+                        <button type="button" onclick="deleteMessage();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGES_EDIT'')')}?'locked'"
+                                data-duice-bind="message"
+                                data-duice-execute="(message.messageId && !message._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
+                            <span data-th-text="#{web.global.delete}"></span>
+                        </button>
+                        <button type="button" onclick="saveMessage();"
+                                th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MESSAGES_EDIT'')')}?'locked'"
+                                data-duice-bind="message"
+                                data-duice-execute="(message.messageId || message._new) ? this.disabled=false : this.disabled=true;">
+                            <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
+                            <span data-th-text="#{web.global.save}"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-align--right padding-y--1em font-size--smaller font-style--italic">
+                    Last Updated At
+                    <span data-duice-bind="message" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                    By
+                    <span data-duice-bind="message" data-duice-property="systemUpdatedBy"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: message detail                -->
+        <!-- ================================== -->
+
+    </div>
+    <!-- ================================== -->
+    <!-- end: message content               -->
+    <!-- ================================== -->
+
+</th:block>

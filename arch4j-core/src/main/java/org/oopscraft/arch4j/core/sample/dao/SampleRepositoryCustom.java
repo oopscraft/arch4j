@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.sample.dao;
 
-import org.oopscraft.arch4j.core.sample.SampleSearch;
+import org.oopscraft.arch4j.core.sample.model.SampleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

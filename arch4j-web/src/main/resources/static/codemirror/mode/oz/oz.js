@@ -133,7 +133,7 @@ CodeMirror.defineMode("oz", function (conf) {
     // If nothing match, we skip the entire alphanumeric block
     stream.eatWhile(/\w/);
 
-    return "variable";
+    return "variables.html";
   }
 
   function tokenClass(stream, state) {

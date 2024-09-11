@@ -122,7 +122,7 @@
     // Reference a variable `name` in `list`.
     // Let `loose` be truthy to ignore missing identifiers.
     function ref(list, name, loose) {
-      return contains(list, name) ? "variable-2" : (loose ? "variable" : "variable-2 error");
+      return contains(list, name) ? "variable-2" : (loose ? "variables.html" : "variable-2 error");
     }
 
     // Data for an open soy tag.
@@ -263,7 +263,7 @@
                 return "variable-2"
               }
               // Otherwise
-              return "variable";
+              return "variables.html";
             }
             if (match = stream.match(/^\$([\w]+)/)) {
               state.soyState.pop();
@@ -276,7 +276,7 @@
           case "namespace-def":
             if (match = stream.match(/^\.?([\w\.]+)/)) {
               state.soyState.pop();
-              return "variable";
+              return "variables.html";
             }
             stream.next();
             return null;
@@ -455,7 +455,7 @@
               return null;
             }
             if (stream.match(/\w+(?=\s+as\b)/)) {
-              return "variable";
+              return "variables.html";
             }
             if (match = stream.match(/\w+/)) {
               return /\b(from|as)\b/.test(match[0]) ? "keyword" : "def";

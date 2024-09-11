@@ -99,7 +99,7 @@
         return "builtin visibilityModifiers";
       if (templateMatch.propertyIsEnumerable(cur)) return "atom templateMatch";
 
-      return "variable";
+      return "variables.html";
     }
 
     function tokenString(quote) {

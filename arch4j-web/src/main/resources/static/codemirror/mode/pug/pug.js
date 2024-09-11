@@ -206,19 +206,19 @@ CodeMirror.defineMode("pug", function (config) {
 
   function append(stream, state) {
     if (stream.match(/^append\b/)) {
-      state.restOfLine = 'variable';
+      state.restOfLine = 'variables.html';
       return KEYWORD;
     }
   }
   function prepend(stream, state) {
     if (stream.match(/^prepend\b/)) {
-      state.restOfLine = 'variable';
+      state.restOfLine = 'variables.html';
       return KEYWORD;
     }
   }
   function block(stream, state) {
     if (stream.match(/^block\b *(?:(prepend|append)\b)?/)) {
-      state.restOfLine = 'variable';
+      state.restOfLine = 'variables.html';
       return KEYWORD;
     }
   }
@@ -259,7 +259,7 @@ CodeMirror.defineMode("pug", function (config) {
         state.javaScriptArguments = true;
         state.javaScriptArgumentsDepth = 0;
       }
-      return 'variable';
+      return 'variables.html';
     }
     if (stream.match('+#{', false)) {
       stream.next();
@@ -301,7 +301,7 @@ CodeMirror.defineMode("pug", function (config) {
         state.isEach = false;
       } else if (stream.next()) {
         while (!stream.match(/^ in\b/, false) && stream.next());
-        return 'variable';
+        return 'variables.html';
       }
     }
   }
@@ -400,7 +400,7 @@ CodeMirror.defineMode("pug", function (config) {
       if (state.attributeIsType && tok === 'string') {
         state.scriptType = stream.current().toString();
       }
-      if (state.attrsNest.length === 0 && (tok === 'string' || tok === 'variable' || tok === 'keyword')) {
+      if (state.attrsNest.length === 0 && (tok === 'string' || tok === 'variables.html' || tok === 'keyword')) {
         try {
           Function('', 'var x ' + state.attrValue.replace(/,\s*$/, '').replace(/^!/, ''));
           state.inAttributeName = true;

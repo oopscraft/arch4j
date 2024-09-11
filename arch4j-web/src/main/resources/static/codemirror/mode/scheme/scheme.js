@@ -262,7 +262,7 @@ CodeMirror.defineMode("scheme", function () {
 
                         if (keywords && keywords.propertyIsEnumerable(stream.current())) {
                             returnType = BUILTIN;
-                        } else returnType = "variable";
+                        } else returnType = "variables.html";
                     }
             }
             return (typeof state.sExprComment == "number") ? COMMENT : ((typeof state.sExprQuote == "number") ? ATOM : returnType);

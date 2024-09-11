@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.board.dao;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.board.ArticleSearch;
+import org.oopscraft.arch4j.core.board.model.ArticleSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

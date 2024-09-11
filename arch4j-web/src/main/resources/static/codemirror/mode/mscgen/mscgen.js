@@ -150,7 +150,7 @@
         return "operator";
 
       if (!!pConfig.constants && pStream.match(wordRegexp(pConfig.constants), true, true))
-        return "variable";
+        return "variables.html";
 
       /* attribute lists */
       if (!pConfig.inAttributeList && !!pConfig.attributes && pStream.match('[', true, true)) {

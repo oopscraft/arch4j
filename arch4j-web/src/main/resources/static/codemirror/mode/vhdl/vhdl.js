@@ -87,7 +87,7 @@ CodeMirror.defineMode("vhdl", function(config, parserConfig) {
       return "keyword";
     }
     if (atoms.propertyIsEnumerable(cur)) return "atom";
-    return "variable";
+    return "variables.html";
   }
 
   function tokenString(quote) {

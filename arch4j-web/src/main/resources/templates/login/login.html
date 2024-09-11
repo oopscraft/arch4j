@@ -14,12 +14,12 @@
 
     const requestLogin = async function() {
         if(_isEmpty(login.username)){
-            await _alert([[#{web.global.itemEmpty(#{core.user.User.userId})}]]);
+            await _alert([[#{web.global.itemEmpty(#{core.security.User.username})}]]);
             duice.ObjectProxy.focus(login, 'username');
             return false;
         }
         if(_isEmpty(login.password)){
-            await _alert([[#{web.global.itemEmpty(#{core.user.User.password})}]]);
+            await _alert([[#{web.global.itemEmpty(#{core.security.User.password})}]]);
             duice.ObjectProxy.focus(login, 'password');
             return false;
         }

@@ -94,7 +94,7 @@ CodeMirror.defineMode("pegjs", function (config) {
         return token;
       } else if (identifier(stream)) {
         if (stream.peek() === ':') {
-          return 'variable';
+          return 'variables.html';
         }
         return 'variable-2';
       } else if (['[', ']', '(', ')'].indexOf(stream.peek()) != -1) {

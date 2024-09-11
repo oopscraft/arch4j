@@ -116,7 +116,7 @@ CodeMirror.defineMode('yacas', function(_config, _parserConfig) {
     // literals looking like function calls
     if (stream.match(reFunctionLike, true, false)) {
       stream.backUp(1);
-      return 'variable';
+      return 'variables.html';
     }
 
     // all other identifiers

@@ -73,7 +73,7 @@ CodeMirror.defineMode("haskell", function(_config, modeConfig) {
 
     if (smallRE.test(ch)) {
       source.eatWhile(idRE);
-      return "variable";
+      return "variables.html";
     }
 
     if (digitRE.test(ch)) {
@@ -111,7 +111,7 @@ CodeMirror.defineMode("haskell", function(_config, modeConfig) {
           return "comment";
         }
       }
-      var t = "variable";
+      var t = "variables.html";
       if (ch == ':') {
         t = "variable-2";
       }

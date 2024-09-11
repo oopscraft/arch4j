@@ -244,13 +244,13 @@ CodeMirror.defineMode("julia", function(config, parserConf) {
       if (isDefinition) {
         if (stream.peek() === '.') {
           state.isDefinition = true;
-          return "variable";
+          return "variables.html";
         }
         state.isDefinition = false;
         return "def";
       }
       state.leavingExpr = true;
-      return "variable";
+      return "variables.html";
     }
 
     // Handle non-detected items

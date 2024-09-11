@@ -3,8 +3,8 @@ package org.oopscraft.arch4j.core.board.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.support.CoreTestSupport;
-import org.oopscraft.arch4j.core.role.dao.RoleEntity;
+import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
+import org.oopscraft.arch4j.core.security.dao.RoleEntity;
 
 import java.util.Arrays;
 
@@ -18,12 +18,12 @@ class BoardRepositoryTest extends CoreTestSupport {
     private BoardEntity getTestBoardEntity() {
         BoardEntity boardEntity = BoardEntity.builder()
                 .boardId("test-board")
-                .boardName("Test board")
+                .name("Test board")
                 .build();
         Arrays.asList("role-1","role-2").forEach(roleId -> {
             entityManager.persist(RoleEntity.builder()
                     .roleId(roleId)
-                    .roleName("name of " + roleId)
+                    .name("name of " + roleId)
                     .build());
             entityManager.flush();
             boardEntity.getReadBoardRoleEntities().add(BoardRoleEntity.builder()
@@ -74,13 +74,13 @@ class BoardRepositoryTest extends CoreTestSupport {
         BoardEntity testBoardEntity = createTestBoardEntity();
 
         // when
-        testBoardEntity.setBoardName("changed board name");
+        testBoardEntity.setName("changed board name");
         BoardEntity boardEntity = boardRepository.saveAndFlush(testBoardEntity);
 
         // then
         BoardEntity savedBoardEntity = entityManager.find(BoardEntity.class, boardEntity.getBoardId());
         assertNotNull(savedBoardEntity);
-        assertEquals("changed board name", savedBoardEntity.getBoardName());
+        assertEquals("changed board name", savedBoardEntity.getName());
     }
 
     @Test

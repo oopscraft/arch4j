@@ -49,7 +49,7 @@
           [["[", null]],
           [[/\d[\w\.]*/, "number"],
            [/\$[a-zA-Z_][a-zA-Z0-9_]*/, "variable-2"],
-           [/[\w\$]+/, "variable"]],
+           [/[\w\$]+/, "variables.html"]],
           [["]", null]]
         ], closing, escapes);
       }
@@ -57,7 +57,7 @@
         // Match object operator
         state.tokenize = matchSequence([
           [["->", null]],
-          [[/[\w]+/, "variable"]]
+          [[/[\w]+/, "variables.html"]]
         ], closing, escapes);
       }
       return "variable-2";

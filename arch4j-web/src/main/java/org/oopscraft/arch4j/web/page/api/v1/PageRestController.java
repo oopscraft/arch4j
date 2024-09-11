@@ -2,8 +2,8 @@ package org.oopscraft.arch4j.web.page.api.v1;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.page.Page;
-import org.oopscraft.arch4j.core.page.PageService;
+import org.oopscraft.arch4j.core.page.model.Page;
+import org.oopscraft.arch4j.core.page.service.PageService;
 import org.oopscraft.arch4j.web.page.api.v1.dto.PageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

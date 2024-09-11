@@ -115,7 +115,7 @@ CodeMirror.defineMode("pig", function(_config, parserConfig) {
       if (types && types.propertyIsEnumerable(stream.current().toUpperCase()))
         return "variable-3";
       // default is a 'variable'
-      return "variable";
+      return "variables.html";
     }
   }
 

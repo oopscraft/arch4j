@@ -168,7 +168,7 @@ CodeMirror.defineMode("coffeescript", function(conf, parserConf) {
     }
 
     if (stream.match(identifiers)) {
-      return "variable";
+      return "variables.html";
     }
 
     // Handle non-detected items

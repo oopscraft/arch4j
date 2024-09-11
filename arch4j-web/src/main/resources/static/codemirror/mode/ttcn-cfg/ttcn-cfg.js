@@ -55,7 +55,7 @@
         return "negative fileNCtrlMaskOptions";
       if (externalCommands.propertyIsEnumerable(cur)) return "negative externalCommands";
 
-      return "variable";
+      return "variables.html";
     }
 
     function tokenString(quote) {

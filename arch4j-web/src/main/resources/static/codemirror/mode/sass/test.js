@@ -16,7 +16,7 @@
      "[comment /* this is a comment]",
      "[comment   also this is a comment]")
 
-  MT("variable",
+  MT("variables.html",
      "[variable-2 $page-width][operator :] [number 800][unit px]")
 
   MT("global_attributes",

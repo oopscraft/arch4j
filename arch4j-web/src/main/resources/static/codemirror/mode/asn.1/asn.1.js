@@ -62,7 +62,7 @@
       if (modifier.propertyIsEnumerable(cur)) return "string-2 modifier";
       if (accessTypes.propertyIsEnumerable(cur)) return "atom accessTypes";
 
-      return "variable";
+      return "variables.html";
     }
 
     function tokenString(quote) {

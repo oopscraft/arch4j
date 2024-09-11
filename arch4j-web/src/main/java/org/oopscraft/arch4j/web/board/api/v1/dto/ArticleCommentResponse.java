@@ -1,9 +1,8 @@
 package org.oopscraft.arch4j.web.board.api.v1.dto;
 
 import lombok.*;
-import org.oopscraft.arch4j.core.board.ArticleComment;
-import org.oopscraft.arch4j.core.board.ContentFormat;
-import org.oopscraft.arch4j.web.security.SecurityUtils;
+import org.oopscraft.arch4j.core.board.model.ArticleComment;
+import org.oopscraft.arch4j.web.security.support.SecurityUtils;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +20,7 @@ public class ArticleCommentResponse {
 
     private LocalDateTime createdAt;
 
-    private ContentFormat contentFormat;
+    private ArticleComment.ContentFormat contentFormat;
 
     private String content;
 

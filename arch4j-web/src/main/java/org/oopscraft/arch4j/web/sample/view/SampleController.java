@@ -1,9 +1,9 @@
 package org.oopscraft.arch4j.web.sample.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.sample.Sample;
-import org.oopscraft.arch4j.core.sample.SampleSearch;
-import org.oopscraft.arch4j.core.sample.SampleService;
+import org.oopscraft.arch4j.core.sample.model.Sample;
+import org.oopscraft.arch4j.core.sample.model.SampleSearch;
+import org.oopscraft.arch4j.core.sample.service.SampleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;

@@ -69,7 +69,7 @@ CodeMirror.defineMode("r", function(config) {
         return "keyword";
       }
       if (builtins.propertyIsEnumerable(word)) return "builtin";
-      return "variable";
+      return "variables.html";
     } else if (ch == "%") {
       if (stream.skipTo("%")) stream.next();
       return "operator variable-2";
@@ -167,7 +167,7 @@ CodeMirror.defineMode("r", function(config) {
       else if (curPunc == "block") push(state, "block", stream);
       else if (curPunc == state.ctx.type) pop(state);
       else if (state.ctx.type == "block" && style != "comment") setFlag(state, BRACELESS)
-      state.afterIdent = style == "variable" || style == "keyword";
+      state.afterIdent = style == "variables.html" || style == "keyword";
       return style;
     },
 

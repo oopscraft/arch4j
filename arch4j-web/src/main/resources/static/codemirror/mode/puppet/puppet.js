@@ -83,7 +83,7 @@ CodeMirror.defineMode("puppet", function () {
     if (ch === '$') {
       if (stream.match(variable_regex)) {
         // If so, and its in a string, assign it a different color
-        return state.continueString ? 'variable-2' : 'variable';
+        return state.continueString ? 'variable-2' : 'variables.html';
       }
       // Otherwise return an invalid variable
       return "error";

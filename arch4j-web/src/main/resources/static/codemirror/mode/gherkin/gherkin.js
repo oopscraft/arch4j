@@ -161,7 +161,7 @@ CodeMirror.defineMode("gherkin", function () {
 
       // PLACEHOLDER
       } else if (state.allowPlaceholders && stream.match(/<[^>]*>?/)) {
-        return "variable";
+        return "variables.html";
 
       // Fall through
       } else {

@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.alarm.dao;
 
-import org.oopscraft.arch4j.core.alarm.AlarmSearch;
+import org.oopscraft.arch4j.core.alarm.model.AlarmSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,9 +18,9 @@ public interface AlarmRepository extends JpaRepository<AlarmEntity,String>, JpaS
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get(AlarmEntity_.ALARM_ID), '%'+ alarmSearch.getAlarmId() + '%'));
         }
-        if(alarmSearch.getAlarmName() != null) {
+        if(alarmSearch.getName() != null) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get(AlarmEntity_.ALARM_NAME), '%' + alarmSearch.getAlarmName() + '%'));
+                    criteriaBuilder.like(root.get(AlarmEntity_.NAME), '%' + alarmSearch.getName() + '%'));
         }
 
         return findAll(specification, pageable);

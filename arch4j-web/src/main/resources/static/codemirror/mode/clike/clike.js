@@ -33,7 +33,7 @@ function popContext(state) {
 }
 
 function typeBefore(stream, state, pos) {
-  if (state.prevToken == "variable" || state.prevToken == "type") return true;
+  if (state.prevToken == "variables.html" || state.prevToken == "type") return true;
   if (/\S(?:[^- ]>|[*\]])\s*$|\*$/.test(stream.string.slice(0, pos))) return true;
   if (state.typeAtEndOfLine && stream.column() == stream.indentation()) return true;
 }
@@ -122,7 +122,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       return "builtin";
     }
     if (contains(atoms, cur)) return "atom";
-    return "variable";
+    return "variables.html";
   }
 
   function tokenString(quote) {
@@ -198,7 +198,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         pushContext(state, stream.column(), "statement", stream.current());
       }
 
-      if (style == "variable" &&
+      if (style == "variables.html" &&
           ((state.prevToken == "def" ||
             (parserConfig.typeFirstDefinitions && typeBefore(stream, state, stream.start) &&
              isTopScope(state.context) && stream.match(/^\s*\(/, false)))))
@@ -209,7 +209,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         if (result !== undefined) style = result;
       }
 
-      if (style == "def" && parserConfig.styleDefs === false) style = "variable";
+      if (style == "def" && parserConfig.styleDefs === false) style = "variables.html";
 
       state.startOfLine = false;
       state.prevToken = isDefKeyword ? "def" : style || curPunc;
@@ -466,7 +466,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "8": cpp14Literal,
       "9": cpp14Literal,
       token: function(stream, state, style) {
-        if (style == "variable" && stream.peek() == "(" &&
+        if (style == "variables.html" && stream.peek() == "(" &&
             (state.prevToken == ";" || state.prevToken == null ||
              state.prevToken == "}") &&
             cppLooksLikeConstructor(stream.current()))
@@ -689,7 +689,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         return "meta";
       },
       '*': function(_stream, state) {
-        return state.prevToken == '.' ? 'variable' : 'operator';
+        return state.prevToken == '.' ? 'variables.html' : 'operator';
       },
       '"': function(stream, state) {
         state.tokenize = tokenKotlinString(stream.match('""'));
@@ -705,7 +705,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         if ((state.prevToken == "}" || state.prevToken == ")") && textAfter == "")
           return state.indented;
         if ((state.prevToken == "operator" && textAfter != "}" && state.context.type != "}") ||
-          state.prevToken == "variable" && firstChar == "." ||
+          state.prevToken == "variables.html" && firstChar == "." ||
           (state.prevToken == "}" || state.prevToken == ")") && firstChar == ".")
           return indentUnit * 2 + ctx.indented;
         if (ctx.align && ctx.type == "}")
@@ -833,7 +833,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "8": cpp14Literal,
       "9": cpp14Literal,
       token: function(stream, state, style) {
-        if (style == "variable" && stream.peek() == "(" &&
+        if (style == "variables.html" && stream.peek() == "(" &&
             (state.prevToken == ";" || state.prevToken == null ||
              state.prevToken == "}") &&
             cppLooksLikeConstructor(stream.current()))
@@ -926,7 +926,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         return "atom";
       },
       token: function(_stream, state, style) {
-          if ((style == "variable" || style == "type") &&
+          if ((style == "variables.html" || style == "type") &&
               state.prevToken == ".") {
             return "variable-2";
           }

@@ -10,9 +10,7 @@ public class UserRequest {
 
     private String userId;
 
-    private String userName;
-
-    private String email;
+    private String username;
 
     private String mobile;
 

@@ -22,7 +22,7 @@
 
   var others = [
     "arg", "from", "maintainer", "label", "env",
-    "add", "copy", "volume", "user",
+    "add", "copy", "volume", "users.html",
     "workdir", "onbuild", "stopsignal", "healthcheck", "shell"
   ];
 

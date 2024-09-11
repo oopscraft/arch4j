@@ -45,7 +45,7 @@
       // operators
       {regex: /(?:[\+\-\=\/\*<>])(?=\s|$)/, token: "keyword"},
       // any id (?)
-      {regex: /\S+/, token: "variable"},
+      {regex: /\S+/, token: "variables.html"},
       {regex: /\s+|./, token: null}
     ],
     vocabulary: [

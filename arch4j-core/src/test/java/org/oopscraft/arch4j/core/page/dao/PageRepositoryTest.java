@@ -3,7 +3,7 @@ package org.oopscraft.arch4j.core.page.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.support.CoreTestSupport;
+import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import java.util.stream.IntStream;
 
@@ -17,7 +17,7 @@ class PageRepositoryTest extends CoreTestSupport {
     private PageEntity getTestPageEntity() {
         PageEntity pageEntity = PageEntity.builder()
                 .pageId("test-page")
-                .pageName("test page")
+                .name("test page")
                 .build();
         IntStream.range(0,3).forEach(index -> {
             pageEntity.getPageWidgets().add(PageWidgetEntity.builder()
@@ -59,14 +59,14 @@ class PageRepositoryTest extends CoreTestSupport {
         PageEntity testPageEntity = saveTestPageEntity();
 
         // then
-        testPageEntity.setPageName("changed");
+        testPageEntity.setName("changed");
         PageEntity pageEntity = pageRepository.saveAndFlush(testPageEntity);
 
         // then
         entityManager.clear();
         assertEquals(
                 "changed",
-                entityManager.find(PageEntity.class, pageEntity.getPageId()).getPageName()
+                entityManager.find(PageEntity.class, pageEntity.getPageId()).getName()
         );
     }
 

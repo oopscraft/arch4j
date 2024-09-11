@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/_admin.html">
+<th:block layout:fragment="_content">
+    <script th:inline="javascript">
+        const menus = new duice.ArrayProxy([]);
+        const menu = new duice.ObjectProxy({
+            menuId: null,
+            name: null,
+            parentMenu: {},
+            viewRoles: [],
+            linkRoles: []
+        });
+        duice.ObjectProxy.setDisableAll(menu, true);
+
+        /**
+         * gets menus
+         */
+        function getMenus() {
+            let url = new URL(/*[[@{/admin/menus/get-menus}]]*/'', document.location.origin);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ArrayProxy.clear(menus);
+                    duice.ArrayProxy.assign(menus, data);
+
+                    // select current item
+                    duice.ArrayProxy.selectItem(menus, menus.findIndex(item => item.menuId === menu.menuId));
+                });
+        }
+
+        /**
+         * gets menu
+         * @param menuId menu id
+         */
+        function getMenu(menuId) {
+            let url = new URL(/*[[@{/admin/menus/get-menu}]]*/'', document.location.origin);
+            url.searchParams.append('menuId', menuId);
+            _fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    duice.ObjectProxy.setDisableAll(menu, false);
+                    duice.ObjectProxy.assign(menu, data);
+                    duice.ObjectProxy.setReadonly(menu, 'menuId', true);
+                    duice.ObjectProxy.setReadonly(menu, 'parentMenuName', true);
+                });
+        }
+
+        /**
+         * creates menu
+         */
+        function createMenu() {
+            duice.ObjectProxy.clear(menu);
+            duice.ObjectProxy.assign(menu, {
+                _new: true
+            });
+            duice.ObjectProxy.setDisableAll(menu, false);
+            duice.ObjectProxy.focus(menu, 'menuName');
+        }
+
+        /**
+         * clears parent menu
+         */
+        function clearParentMenu() {
+            menu.parentMenuId = null;
+            menu.parentMenuName = null;
+        }
+
+        /**
+         * saves menu
+         * @returns {Promise<void>}
+         */
+        async function saveMenu() {
+            // check menu name
+            if(_isEmpty(menu.name)) {
+                await _alert(/*[[#{web.global.itemEmpty(#{core.menu.Menu.name})}]]*/'');
+                duice.ObjectProxy.focus(menu, 'menuName');
+                return;
+            }
+
+            // calls save
+            _confirm(/*[[#{web.global.saveItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
+                if(result) {
+                    let url = new URL(/*[[@{/admin/menus/save-menu}]]*/'', document.location.origin);
+                    _fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type' : 'application/json'
+                        },
+                        body: JSON.stringify(menu)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        _alert(/*[[#{web.global.saveItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
+                            menu.menuId = data.menuId;
+                            getMenus();
+                        });
+                    });
+                }
+            });
+        }
+
+        function deleteMenu() {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
+                if(result) {
+                    let url = new URL(/*[[@{/admin/menu/delete-menu}]]*/'', document.location.origin);
+                    url.searchParams.append('menuId', menu.menuId);
+                    _fetch(url).then(response => {
+                        if(response.ok) {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.menu.Menu})}]]*/'').then(() => {
+                                getMenus();
+                            });
+                        }
+                    })
+                }
+            });
+        }
+
+        function selectParentId() {
+            let disabledMenuIds = [ menu.menuId ];
+            menuSelectDialog.open(disabledMenuIds).then(selectedMenu => {
+                menu.parentMenuId = selectedMenu.menuId;
+                menu.parentMenuName = selectedMenu.menuName;
+            });
+        }
+
+        async function addMenuViewRole() {
+            let disabledRoleIds = [];
+            menu.viewRoles.forEach(role=>{
+                disabledRoleIds.push(role.roleId);
+            });
+            let selectedRoles = await roleSelectDialog.open(disabledRoleIds);
+            selectedRoles.forEach(role => {
+                menu.viewRoles.push(role);
+            });
+        }
+
+        function removeMenuViewRole(index) {
+            menu.viewRoles.splice(index, 1);
+        }
+
+        async function addMenuLinkRole() {
+            let disabledRoleIds = [];
+            menu.linkRoles.forEach(role=>{
+                disabledRoleIds.push(role.roleId);
+            });
+            let selectedRoles = await roleSelectDialog.open(disabledRoleIds);
+            selectedRoles.forEach(role => {
+                menu.linkRoles.push(role);
+            });
+        }
+
+        function removeMenuLinkRole(index) {
+            menu.linkRoles.splice(index, 1);
+        }
+
+        function openMenu() {
+            let url = new URL(menu.link, document.location.origin);
+            window.open(url,'_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded',()=> {
+            getMenus();
+        });
+    </script>
+    <style th:inline="css">
+        .menu-item {
+            padding: 0.2em;
+        }
+        .menu-item:hover {
+            background-color: var(--web-table-body-hover-background-color);
+        }
+        .menu-item::before {
+            content: "";
+            background-image: url(/*[[@{/static/image/icon-folder-close.svg}]]*/);
+            background-size: 1em 1em;
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+        }
+        .dark-mode .menu-item::before {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .selected > .menu-item::before {
+            background-image: url(/*[[@{/static/image/icon-folder-open.svg}]]*/);
+        }
+        .selected > .menu-item {
+            background-color: var(--web-table-body-hover-background-color);
+        }
+    </style>
+
+    <!-- ================================== -->
+    <!-- start: title                       -->
+    <!-- ================================== -->
+    <h1 id="title">
+        <img class="icon" th:src="@{/static/image/icon-menu.svg}" alt="menu"/>
+        <span data-th-text="#{web.admin.menu}"></span>
+    </h1>
+    <!-- ================================== -->
+    <!-- end: title                         -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: menu content                -->
+    <!-- ================================== -->
+    <div id="menuContent" class="display--grid grid-template-columns--12 grid-gap--1em">
+
+        <!-- ================================== -->
+        <!-- start: menu list                   -->
+        <!-- ================================== -->
+        <div id="menuList" class="grid-column--5 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
+                        <span data-th-text="#{core.menu.Menu}+' '+#{web.global.list}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                    <div>
+                        <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
+                             data-duice-execute="
+                    this.dataset.menuId = menu.menuId;
+                    if(menu.parentMenuId) {
+                        this.style.marginLeft=status.depth + 'em';
+                    }
+                    ">
+                            <div class="link menu-item" data-duice-bind="menu" data-duice-execute="this.dataset.menuId = menu.menuId;"
+                                 onclick="getMenu(this.dataset.menuId);">
+                                <img data-duice-bind="menu" data-duice-property="icon" class="icon"
+                                     th:src="@{/static/image/icon-null.svg}"/>
+                                <span data-duice-bind="menu" data-duice-property="name" class="font-weight--bold"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="display--grid grid-template-columns--1">
+                    <div class="grid-column--1 justify-self--end">
+                        <button type="button" onclick="createMenu();">
+                            <img class="icon" th:src="@{/static/image/icon-create.svg}"/>
+                            <span data-th-text="#{web.global.create}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: menu list                     -->
+        <!-- ================================== -->
+
+        <!-- ================================== -->
+        <!-- start: menu detail                 -->
+        <!-- ================================== -->
+        <div id="menuDetail" class="grid-column--7 s__grid-column--12">
+            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+                <div>
+                    <h2>
+                        <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
+                        <span data-th-text="#{core.menu.Menu}+' '+#{web.global.detail}"></span>
+                    </h2>
+                </div>
+                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                        <label class="grid-column--6 s__grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.name}" class="font-weight--bold tag-required"></span>
+                            <input type="text" data-duice-bind="menu" data-duice-property="name" class="font-weight--bold width--100"/>
+                        </label>
+                        <div class="grid-column--6 s__grid-column--12">
+                            <label>
+                                <span data-th-text="#{core.menu.Menu.parentMenu}" class="font-weight--bold"></span>
+                                <br/>
+                                <input data-duice-bind="menu" data-duice-property="parentMenuName"/>
+                                <span class="vertical-align--bottom">
+                                <button type="button" class="small" onclick="selectParentId();"
+                                        data-duice-bind="menu"
+                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                    <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
+                                </button>
+                                <button type="button" class="small" onclick="clearParentMenu();"
+                                        data-duice-bind="menu"
+                                        data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                    <img class="icon" th:src="@{/static/image/icon-clear.svg}"/>
+                                </button>
+                            </span>
+                            </label>
+                        </div>
+                        <label class="grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.icon}" class="font-weight--bold"></span>
+                            <div class="width--100">
+                                <img class="icon" th:src="@{/static/image/icon-null.svg}"
+                                     data-duice-bind="menu"
+                                     data-duice-property="icon"
+                                     data-duice-width="32"
+                                     data-duice-height="32"
+                                     data-duice-editable="true"
+                                     style="width:32px; height:32px;"/>
+                            </div>
+                        </label>
+                        <label class="grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.link}" class="font-weight--bold"></span>
+                            <input type="text" data-duice-bind="menu" data-duice-property="link" class="width--100"/>
+                        </label>
+                        <label class="grid-column--6 s__grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.target}" class="font-weight--bold"></span>
+                            <select class="width--100" data-duice-bind="menu" data-duice-property="target">
+                                <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
+                                <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
+                                        th:text="${menuTarget}"></option>
+                            </select>
+                        </label>
+                        <label class="grid-column--6 s__grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.sort}" class="font-weight--bold"></span>
+                            <input class="width--100" type="number" data-duice-bind="menu" data-duice-property="sort"/>
+                        </label>
+                        <div class="grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.note}" class="font-weight--bold"></span>
+                            <textarea data-duice-bind="menu" data-duice-property="note" rows="3"
+                                      class="width--100"></textarea>
+                        </div>
+                        <div class="grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.viewRoles}" class="font-weight--bold"></span>
+                            <table class="width--100">
+                                <colgroup>
+                                    <col style="width:3em;"/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="text-align--center">
+                                        <button type="button" class="small" onclick="addMenuViewRole();">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
+                                        </button>
+                                    </th>
+                                    <th data-th-text="#{core.security.Role.roleId}"></th>
+                                    <th data-th-text="#{core.security.Role.name}"></th>
+                                    <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
+                                    <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="menu.viewRoles" data-duice-loop="role,status">
+                                    <td class="text-align--center">
+                                        <button type="button" class="small"
+                                                data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeMenuViewRole(this.dataset.index);">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}"/>
+                                        </button>
+                                    </td>
+                                    <td>
+                                    <span data-duice-bind="role" data-duice-property="roleId"
+                                          data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
+                                          class="font-weight--bold"></span>
+                                    </td>
+                                    <td>
+                                        <span data-duice-bind="role" data-duice-property="roleName"></span>
+                                    </td>
+                                    <td class="text-align--center">
+                                        <label>
+                                            <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
+                                        </label>
+                                    </td>
+                                    <td class="text-align--center">
+                                        <label>
+                                            <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="menu.viewRoles"
+                                    data-duice-if="return (menu.viewRoles.length < 1);">
+                                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="grid-column--12">
+                            <span data-th-text="#{core.menu.Menu.linkRoles}" class="font-weight--bold"></span>
+                            <table class="width--100">
+                                <colgroup>
+                                    <col style="width:3em;"/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                    <col/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="text-align--center">
+                                        <button type="button" class="small" onclick="addMenuLinkRole();">
+                                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
+                                        </button>
+                                    </th>
+                                    <th data-th-text="#{core.security.Role.roleId}"></th>
+                                    <th data-th-text="#{core.security.Role.name}"></th>
+                                    <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
+                                    <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-duice-bind="menu.linkRoles" data-duice-loop="role,status">
+                                    <td class="text-align--center">
+                                        <button type="button" class="small"
+                                                data-duice-bind="role"
+                                                data-duice-execute="this.dataset.index=status.index;"
+                                                onclick="removeMenuLinkRole(this.dataset.index);">
+                                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
+                                        </button>
+                                    </td>
+                                    <td>
+                                    <span data-duice-bind="role" data-duice-property="roleId"
+                                          data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
+                                          class="font-weight--bold"></span>
+                                    </td>
+                                    <td>
+                                        <span data-duice-bind="role" data-duice-property="roleName"></span>
+                                    </td>
+                                    <td class="text-align--center">
+                                        <label>
+                                            <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
+                                        </label>
+                                    </td>
+                                    <td class="text-align--center">
+                                        <label>
+                                            <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr data-duice-bind="menu.linkRoles"
+                                    data-duice-if="return (menu.linkRoles.length < 1);">
+                                    <td colspan="100%" class="text-align--center font-size--smaller">No Data</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="display--grid grid-template-columns--2 gap--1em">
+                        <div>
+                            <button type="button" onclick="openMenu();"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
+                                <span data-th-text="#{web.admin.menu.openMenu}"></span>
+                            </button>
+                        </div>
+                        <div class="justify-self--end">
+                            <button type="button" onclick="deleteMenu();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENUS_EDIT'')')}?'locked'"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
+                                <span data-th-text="#{web.global.delete}"></span>
+                            </button>
+                            <button type="button" onclick="saveMenu();"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_MENUS_EDIT'')')}?'locked'"
+                                    data-duice-bind="menu"
+                                    data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
+                                <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
+                                <span data-th-text="#{web.global.save}"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-align--right font-size--smaller font-style--italic">
+                        Last Updated At
+                        <span data-duice-bind="menu" data-duice-property="systemUpdatedAt" data-duice-format="date('yyyy-MM-dd HH:mm:ss')"></span>
+                        By
+                        <span data-duice-bind="menu" data-duice-property="systemUpdatedBy"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ================================== -->
+        <!-- end: menu detail                   -->
+        <!-- ================================== -->
+
+    </div>
+    <!-- ================================== -->
+    <!-- end: menu content                  -->
+    <!-- ================================== -->
+
+    <!-- ================================== -->
+    <!-- start: menuSelectDialog            -->
+    <!-- ================================== -->
+    <dialog id="menuSelectDialog">
+        <style>
+            #menuSelectDialog {
+                min-width: 20rem;
+                padding: 1.5rem;
+            }
+        </style>
+        <script th:inline="javascript">
+            const menuSelectDialog = {
+                dialog: new duice.dialog.Dialog(document.getElementById('menuSelectDialog')),
+                disabledMenuIds : null,
+                menus: new duice.ArrayProxy([]),
+                /**
+                 * open
+                 * @param disabledMenuIds
+                 */
+                open: async function(disabledMenuIds) {
+                    if(disabledMenuIds) {
+                        this.disabledMenuIds = disabledMenuIds;
+                    }else{
+                        this.disabledMenuIds = [];
+                    }
+                    this.getMenus();
+                    return this.dialog.open();
+                },
+                /**
+                 * getMenus
+                 */
+                getMenus: function() {
+                    let url = new URL(/*[[@{/admin/menus/get-menus}]]*/'',document.location.origin);
+                    _fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            duice.ArrayProxy.clear(this.menus);
+                            duice.ArrayProxy.assign(this.menus, data);
+                            // check already selected
+                            this.menus.forEach(menu => {
+                                if(this.disabledMenuIds.includes(menu.id)){
+                                    menu['_selected'] = true;
+                                }
+                            });
+                        });
+                },
+                /**
+                 * select menu
+                 * @param menuId selected menu id
+                 */
+                selectMenu: function(menuId) {
+                    let selectedMenu = this.menus.filter(menu => {
+                        if(menu.menuId === menuId) {
+                            return menu;
+                        }
+                    })[0];
+                    this.dialog.close(selectedMenu);
+                }
+            }
+        </script>
+        <h1>
+            <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
+            <span data-th-text="#{core.menu.Menu}"></span>
+        </h1>
+        <div class="overflow-x--scroll">
+            <div data-duice-bind="menuSelectDialog.menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId"
+                 data-duice-execute="
+                    this.dataset.menuId = menu.menuId;
+                    if(menu.parentMenuId) {
+                        this.style.marginLeft='1rem';
+                    }
+                ">
+                <div>
+                    <a href="#" data-duice-bind="menu" data-duice-execute="
+                        this.dataset.menuId = menu.menuId;
+                        if(menuSelectDialog.disabledMenuIds.includes(menu.menuId)) {
+                            this.style.opacity = '0.5';
+                            this.style.pointerEvents = 'none';
+                        }
+                        " onclick="menuSelectDialog.selectMenu(this.dataset.menuId);">
+                        <img data-duice-bind="menu" data-duice-property="icon" class="icon" th:src="@{/static/image/icon-null.svg}"/>
+                        <span data-duice-bind="menu" data-duice-property="menuName" class="font-weight--bold"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <!-- ================================== -->
+    <!-- end: menuSelectDialog              -->
+    <!-- ================================== -->
+
+    <th:block th:include="admin/_common.html :: roleSelectDialog"/>
+
+</th:block>

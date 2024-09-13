@@ -101,6 +101,9 @@
             });
         }
 
+        /**
+         * deletes menu
+         */
         function deleteMenu() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.menu.Menu})}]]*/'').then(result => {
                 if(result) {
@@ -117,7 +120,10 @@
             });
         }
 
-        function selectParentId() {
+        /**
+         * select parent menu id
+         */
+        function selectParentMenuId() {
             let disabledMenuIds = [ menu.menuId ];
             menuSelectDialog.open(disabledMenuIds).then(selectedMenu => {
                 menu.parentMenuId = selectedMenu.menuId;
@@ -125,6 +131,10 @@
             });
         }
 
+        /**
+         * adds menu view role
+         * @returns {Promise<void>}
+         */
         async function addMenuViewRole() {
             let disabledRoleIds = [];
             menu.viewRoles.forEach(role=>{
@@ -136,10 +146,18 @@
             });
         }
 
+        /**
+         * removes menu view role
+         * @param index row index
+         */
         function removeMenuViewRole(index) {
             menu.viewRoles.splice(index, 1);
         }
 
+        /**
+         * adds menu link role
+         * @returns {Promise<void>}
+         */
         async function addMenuLinkRole() {
             let disabledRoleIds = [];
             menu.linkRoles.forEach(role=>{
@@ -151,10 +169,17 @@
             });
         }
 
+        /**
+         * removes menu link role
+         * @param index row index
+         */
         function removeMenuLinkRole(index) {
             menu.linkRoles.splice(index, 1);
         }
 
+        /**
+         * opens menu
+         */
         function openMenu() {
             let url = new URL(menu.link, document.location.origin);
             window.open(url,'_blank');
@@ -210,14 +235,14 @@
         <!-- start: menu list                   -->
         <!-- ================================== -->
         <div id="menuList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.menu.Menu}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <div>
                         <div data-duice-bind="menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId" data-duice-selected-item-class="selected"
                              data-duice-execute="
@@ -254,14 +279,14 @@
         <!-- start: menu detail                 -->
         <!-- ================================== -->
         <div id="menuDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.menu.Menu}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                             <span data-th-text="#{core.menu.Menu.name}" class="font-weight--bold tag-required"></span>
@@ -273,7 +298,7 @@
                                 <br/>
                                 <input data-duice-bind="menu" data-duice-property="parentMenuName"/>
                                 <span class="vertical-align--bottom">
-                                <button type="button" class="small" onclick="selectParentId();"
+                                <button type="button" class="small" onclick="selectParentMenuId();"
                                         data-duice-bind="menu"
                                         data-duice-execute="(menu.menuId || menu._new) ? this.disabled=false : this.disabled=true;">
                                     <img class="icon" th:src="@{/static/image/icon-search.svg}"/>
@@ -488,8 +513,7 @@
     <dialog id="menuSelectDialog">
         <style>
             #menuSelectDialog {
-                min-width: 20rem;
-                padding: 1.5rem;
+                min-width: 400px;
             }
         </style>
         <script th:inline="javascript">
@@ -542,29 +566,35 @@
                 }
             }
         </script>
-        <h1>
-            <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
-            <span data-th-text="#{core.menu.Menu}"></span>
-        </h1>
-        <div class="overflow-x--scroll">
-            <div data-duice-bind="menuSelectDialog.menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId"
-                 data-duice-execute="
+        <div class="display--flex flex-direction--column padding--1em">
+            <div>
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-menu.svg}"/>
+                    <span data-th-text="#{core.menu.Menu}"></span>
+                </h1>
+            </div>
+            <div class="display--flex flex-direction--column gap--1em padding--1em">
+                <div class="overflow-x--scroll">
+                    <div data-duice-bind="menuSelectDialog.menus" data-duice-loop="menu,status" data-duice-hierarchy="menuId,parentMenuId"
+                         data-duice-execute="
                     this.dataset.menuId = menu.menuId;
                     if(menu.parentMenuId) {
                         this.style.marginLeft='1rem';
                     }
                 ">
-                <div>
-                    <a href="#" data-duice-bind="menu" data-duice-execute="
+                        <div>
+                            <a href="#" data-duice-bind="menu" data-duice-execute="
                         this.dataset.menuId = menu.menuId;
                         if(menuSelectDialog.disabledMenuIds.includes(menu.menuId)) {
                             this.style.opacity = '0.5';
                             this.style.pointerEvents = 'none';
                         }
                         " onclick="menuSelectDialog.selectMenu(this.dataset.menuId);">
-                        <img data-duice-bind="menu" data-duice-property="icon" class="icon" th:src="@{/static/image/icon-null.svg}"/>
-                        <span data-duice-bind="menu" data-duice-property="menuName" class="font-weight--bold"></span>
-                    </a>
+                                <img data-duice-bind="menu" data-duice-property="icon" class="icon" th:src="@{/static/image/icon-null.svg}"/>
+                                <span data-duice-bind="menu" data-duice-property="name" class="font-weight--bold"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

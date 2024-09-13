@@ -33,6 +33,10 @@
             return true;
         });
 
+        /**
+         * gets emails
+         * @param page page number
+         */
         function getEmails(page) {
             if(page) {
                 emailSearch._page = page;
@@ -55,11 +59,18 @@
                 });
         }
 
+        /**
+         * resets emails
+         */
         function resetEmails() {
             duice.ObjectProxy.reset(emailSearch);
             getEmails();
         }
 
+        /**
+         * gets email
+         * @param emailId email id
+         */
         function getEmail(emailId) {
             let url = new URL(/*[[@{/admin/emails/get-email}]]*/'', document.location.origin);
             url.searchParams.append('emailId', emailId);
@@ -73,6 +84,9 @@
                 });
         }
 
+        /**
+         * creates email
+         */
         function createEmail() {
             duice.ObjectProxy.clear(email);
             duice.ObjectProxy.assign(email, {
@@ -83,6 +97,11 @@
             duice.ObjectProxy.focus(email, 'emailId');
         }
 
+        /**
+         * validates email id
+         * @param emailId email id
+         * @returns {Promise<boolean>}
+         */
         async function validateEmailId(emailId) {
             // check blank
             if (!emailId) {
@@ -107,6 +126,10 @@
             return true;
         }
 
+        /**
+         * saves email
+         * @returns {Promise<boolean>}
+         */
         async function saveEmail() {
             // if new, checks id
             if (email._new) {
@@ -144,6 +167,9 @@
             });
         }
 
+        /**
+         * deletes email
+         */
         function deleteEmail() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.email.Email})}]]*/'').then(result => {
                 if (result) {
@@ -187,14 +213,14 @@
         <!-- start: email list                      -->
         <!-- ====================================== -->
         <div id="emailList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.email.Email}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="emailSearch" data-duice-property="key">
@@ -283,14 +309,14 @@
         <!-- start: email detail                    -->
         <!-- ====================================== -->
         <div id="emailDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.email.Email}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.email.Email.emailId}"

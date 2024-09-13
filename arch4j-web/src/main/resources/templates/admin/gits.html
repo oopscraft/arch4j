@@ -30,6 +30,10 @@
             return true;
         });
 
+        /**
+         * gets gits
+         * @param page page number
+         */
         function getGits(page) {
             if(page) {
                 gitSearch._page = page;
@@ -52,11 +56,18 @@
                 });
         }
 
+        /**
+         * resets gits
+         */
         function resetGits() {
             duice.ObjectProxy.reset(gitSearch);
             getGits();
         }
 
+        /**
+         * gets git
+         * @param gitId git id
+         */
         function getGit(gitId) {
             let url = new URL(/*[[@{/admin/gits/get-git}]]*/'', document.location.origin);
             url.searchParams.append('gitId', gitId);
@@ -70,6 +81,9 @@
                 });
         }
 
+        /**
+         * creates git
+         */
         function createGit() {
             duice.ObjectProxy.clear(git);
             duice.ObjectProxy.assign(git, {
@@ -80,6 +94,11 @@
             duice.ObjectProxy.focus(git, 'gitId');
         }
 
+        /**
+         * validates git id
+         * @param gitId git id
+         * @returns {Promise<boolean>}
+         */
         async function validateGitId(gitId) {
             // check blank
             if (!gitId) {
@@ -104,6 +123,10 @@
             return true;
         }
 
+        /**
+         * saves git
+         * @returns {Promise<boolean>}
+         */
         async function saveGit() {
             // if new, checks id
             if (git._new) {
@@ -148,6 +171,9 @@
             });
         }
 
+        /**
+         * deletes git
+         */
         function deleteGit() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.git.Git})}]]*/'').then(result => {
                 if (result) {
@@ -191,14 +217,14 @@
         <!-- start: git list                   -->
         <!-- ====================================== -->
         <div id="gitList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.git.Git}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="gitSearch" data-duice-property="key">
@@ -286,14 +312,14 @@
         <!-- start: git detail                 -->
         <!-- ====================================== -->
         <div id="gitDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.git.Git}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.git.Git.gitId}"

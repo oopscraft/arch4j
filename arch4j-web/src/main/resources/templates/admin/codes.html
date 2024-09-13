@@ -34,6 +34,10 @@
             return true;
         });
 
+        /**
+         * gets codes
+         * @param page
+         */
         function getCodes(page) {
             if(page) {
                 codeSearch._page = page;
@@ -56,11 +60,18 @@
                 });
         }
 
+        /**
+         * resets codes
+         */
         function resetCodes() {
             duice.ObjectProxy.reset(codeSearch);
             getCodes();
         }
 
+        /**
+         * gets code
+         * @param codeId code id
+         */
         function getCode(codeId) {
             let url = new URL(/*[[@{/admin/codes/get-code}]]*/'', document.location.origin);
             url.searchParams.append('codeId', codeId);
@@ -74,6 +85,9 @@
                 });
         }
 
+        /**
+         * creates code
+         */
         function createCode() {
             duice.ObjectProxy.clear(code);
             duice.ObjectProxy.assign(code, {
@@ -84,6 +98,11 @@
             duice.ObjectProxy.focus(code, 'codeId');
         }
 
+        /**
+         * validates code id
+         * @param codeId code id
+         * @returns {Promise<boolean>}
+         */
         async function validateCodeId(codeId) {
             // check blank
             if (!codeId) {
@@ -108,6 +127,10 @@
             return true;
         }
 
+        /**
+         * saves code
+         * @returns {Promise<boolean>}
+         */
         async function saveCode() {
             // if new, checks id
             if (code._new) {
@@ -154,6 +177,9 @@
             });
         }
 
+        /**
+         * deletes code
+         */
         function deleteCode() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.code.Code})}]]*/'').then(result => {
                 if (result) {
@@ -171,10 +197,17 @@
             });
         }
 
+        /**
+         * adds code item
+         */
         function addCodeItem() {
             code.codeItems.push({});
         }
 
+        /**
+         * removes code item
+         * @param index row index
+         */
         function removeCodeItem(index) {
             code.codeItems.splice(index, 1);
         }
@@ -205,14 +238,14 @@
         <!-- start: code list                   -->
         <!-- ================================== -->
         <div id="codeList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.code.Code}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="codeSearch" data-duice-property="key">
@@ -298,14 +331,14 @@
         <!-- start: code detail                 -->
         <!-- ================================== -->
         <div id="codeDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1rem">
+            <div class="display--flex flex-direction--column border--1 padding--1rem">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.code.Code}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                             <span data-th-text="#{core.code.Code.codeId}" class="font-weight--bold tag-required"></span>

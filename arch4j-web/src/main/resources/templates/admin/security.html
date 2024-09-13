@@ -468,6 +468,10 @@
             }
         });
 
+        /**
+         * gets authorities
+         * @param page page number
+         */
         function getAuthorities(page) {
             if(page) {
                 authoritySearch._page = page;
@@ -490,14 +494,21 @@
                 });
         }
 
+        /**
+         * resets authorities
+         */
         function resetAuthorities() {
             duice.ObjectProxy.reset(authoritySearch);
             getAuthorities();
         }
 
-        function getAuthority(id) {
+        /**
+         * gets authority
+         * @param authorityId authority id
+         */
+        function getAuthority(authorityId) {
             let url = new URL(/*[[@{/admin/security/get-authority}]]*/'', document.location.origin);
-            url.searchParams.append('authorityId', id);
+            url.searchParams.append('authorityId', authorityId);
             _fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -508,6 +519,9 @@
                 });
         }
 
+        /**
+         * creates authority
+         */
         function createAuthority() {
             duice.ObjectProxy.clear(authority);
             duice.ObjectProxy.assign(authority, {
@@ -518,6 +532,11 @@
             duice.ObjectProxy.focus(authority, 'authorityId');
         }
 
+        /**
+         * validates authority id
+         * @param authorityId authority id
+         * @returns {Promise<boolean>}
+         */
         async function validateAuthorityId(authorityId) {
             // check blank
             if (!authorityId) {
@@ -542,6 +561,10 @@
             return true;
         }
 
+        /**
+         * saves authority
+         * @returns {Promise<boolean>}
+         */
         async function saveAuthority() {
             // if new, checks id
             if (authority._new) {
@@ -579,6 +602,9 @@
             });
         }
 
+        /**
+         * deletes authority
+         */
         function deleteAuthority() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.security.Authority})}]]*/'').then(result => {
                 if (result) {
@@ -664,14 +690,14 @@
         <!-- start: user list                       -->
         <!-- ====================================== -->
         <div id="userList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.security.User} + ' ' + #{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="userSearch" data-duice-property="key">
@@ -788,14 +814,14 @@
         <!-- start: user detail                     -->
         <!-- ====================================== -->
         <div id="userDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="open"/>
                         <span data-th-text="#{core.security.User} + ' ' + #{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--2 s__grid-column--12">
                             <span data-th-text="#{core.security.User.photo}" class="font-weight--bold"></span><br>
@@ -984,7 +1010,6 @@
         <style>
             #userPasswordChangeDialog {
                 width: 400px;
-                padding: 1.5rem;
             }
         </style>
         <script th:inline="javascript">
@@ -1040,26 +1065,30 @@
                 }
             }
         </script>
-        <div class="display--grid grid-gap--1em">
-            <h1>
-                <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
-                <span data-th-text="#{web.admin.security.changePassword}"></span>
-            </h1>
-            <form class="display--grid grid-template-columns--12 grid-gap--1em">
-                <div class="grid-column--12">
-                    <span data-th-text="#{core.security.User.password}" class="font-weight--bold tag-required"></span>
-                    <input type="password" data-duice-bind="userPasswordChangeDialog.data" data-duice-property="password" class="width--100"/>
+        <div class="display--flex flex-direction--column padding--1em">
+            <div>
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
+                    <span data-th-text="#{web.admin.security.changePassword}"></span>
+                </h1>
+            </div>
+            <div class="display--flex flex-direction--column gap--1em padding--1em">
+                <form class="display--grid grid-template-columns--12 grid-gap--1em">
+                    <div class="grid-column--12">
+                        <span data-th-text="#{core.security.User.password}" class="font-weight--bold tag-required"></span>
+                        <input type="password" data-duice-bind="userPasswordChangeDialog.data" data-duice-property="password" class="width--100"/>
+                    </div>
+                    <div class="grid-column--12">
+                        <span data-th-text="#{core.security.User.password}" class="font-weight--bold tag-required"></span>(*)
+                        <input type="password" data-duice-bind="userPasswordChangeDialog.data" data-duice-property="passwordConfirm" class="width--100"/>
+                    </div>
+                </form>
+                <div class="text-align--right">
+                    <button type="button" onclick="userPasswordChangeDialog.confirm();">
+                        <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                        <span data-th-text="#{web.global.confirm}"></span>
+                    </button>
                 </div>
-                <div class="grid-column--12">
-                    <span data-th-text="#{core.security.User.password}" class="font-weight--bold tag-required"></span>(*)
-                    <input type="password" data-duice-bind="userPasswordChangeDialog.data" data-duice-property="passwordConfirm" class="width--100"/>
-                </div>
-            </form>
-            <div class="text-align--right">
-                <button type="button" onclick="userPasswordChangeDialog.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
-                    <span data-th-text="#{web.global.confirm}"></span>
-                </button>
             </div>
         </div>
     </dialog>
@@ -1074,7 +1103,6 @@
         <style th:inline="css">
             #securityTokenGenerateDialog {
                 width: 400px;
-                padding: 1.5rem;
             }
         </style>
         <script th:inline="javascript">
@@ -1106,29 +1134,33 @@
                 }
             }
         </script>
-        <div class="display--grid grid-gap--1em">
-            <h1>
-                <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>
-                <span data-th-text="#{web.admin.security.generateSecurityToken}"></span>
-            </h1>
-            <form class="display--grid grid-template-columns--12 grid-gap--1em">
-                <label class="grid-column--6">
-                    <select data-duice-bind="securityTokenGenerateDialog.data" data-duice-property="expirationDays" class="width--100">
-                        <option value="0">No expiration</option>
-                        <option value="30">30 days</option>
-                        <option value="60">60 days</option>
-                        <option value="90">90 days</option>
-                    </select>
-                </label>
-                <div class="grid-column--6 justify-self--end">
-                    <button type="button" onclick="securityTokenGenerateDialog.confirm();">
-                        <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
-                        <span data-th-text="#{web.global.confirm}"></span>
-                    </button>
-                </div>
-            </form>
+        <div class="display--flex flex-direction--column padding--1em">
             <div>
-                <textarea data-duice-bind="securityTokenGenerateDialog.data" data-duice-property="securityToken" class="width--100" style="height:10em; white-space:normal;"></textarea>
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>
+                    <span data-th-text="#{web.admin.security.generateSecurityToken}"></span>
+                </h1>
+            </div>
+            <div class="display--flex flex-direction--column gap--1em padding--1em">
+                <form class="display--grid grid-template-columns--12 grid-gap--1em">
+                    <label class="grid-column--6">
+                        <select data-duice-bind="securityTokenGenerateDialog.data" data-duice-property="expirationDays" class="width--100">
+                            <option value="0">No expiration</option>
+                            <option value="30">30 days</option>
+                            <option value="60">60 days</option>
+                            <option value="90">90 days</option>
+                        </select>
+                    </label>
+                    <div class="grid-column--6 justify-self--end">
+                        <button type="button" onclick="securityTokenGenerateDialog.confirm();">
+                            <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                            <span data-th-text="#{web.global.confirm}"></span>
+                        </button>
+                    </div>
+                </form>
+                <div>
+                    <textarea data-duice-bind="securityTokenGenerateDialog.data" data-duice-property="securityToken" class="width--100" style="height:10em; white-space:normal;"></textarea>
+                </div>
             </div>
         </div>
     </dialog>
@@ -1145,14 +1177,14 @@
         <!-- start: role list                       -->
         <!-- ====================================== -->
         <div id="roleList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.security.Role} + ' ' + #{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="roleSearch" data-duice-property="key">
@@ -1258,14 +1290,14 @@
         <!-- start: role detail                     -->
         <!-- ====================================== -->
         <div id="roleDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="open"/>
                         <span data-th-text="#{core.security.Role} + ' ' + #{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                             <span data-th-text="#{core.security.Role.roleId}" class="font-weight--bold tag-required"></span>
@@ -1387,7 +1419,6 @@
         <style th:inline="css">
             #authoritySelectDialog {
                 width: 800px;
-                padding: 1.5rem;
             }
         </style>
         <script th:inline="javascript">
@@ -1494,144 +1525,146 @@
                 }
             }
         </script>
-        <div>
-            <h1>
-                <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
-                <span data-th-text="#{core.security.Authority}"></span>
-            </h1>
-        </div>
-        <div class="display--flex flex-direction--column gap--1em">
-            <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-                <label class="grid-column--2 s__grid-column--4">
-                    <select class="width--100" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="key">
-                        <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
-                        <option value="name" th:text="#{core.security.Authority.name}"></option>
-                    </select>
-                </label>
-                <label class="grid-column--4 s__grid-column--8">
-                    <input class="width--100" type="text" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="value"/>
-                </label>
-                <div class="grid-column--6 s__grid-column--12 justify-self--end">
-                    <button type="submit" onclick="authoritySelectDialog.getAuthorities();">
-                        <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
-                        <span data-th-text="#{web.global.search}">Search</span>
-                    </button>
-                    <button type="button" onclick="authoritySelectDialog.resetAuthorities();">
-                        <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
-                        <span data-th-text="#{web.global.reset}">Reset</span>
-                    </button>
-                </div>
-            </form>
-            <div class="overflow-x--scroll">
-                <table class="width--100">
-                    <colgroup>
-                        <col style="width:3rem;"/>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th class="text-align--center">-</th>
-                        <th data-th-text="#{core.security.Authority.authorityId}"></th>
-                        <th data-th-text="#{core.security.Authority.name}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-duice-bind="authoritySelectDialog.authorities" data-duice-loop="authority,status">
-                        <td class="text-align--center">
-                            <button type="button"
-                                    data-duice-bind="authority"
-                                    data-duice-execute="
+        <div class="display--flex flex-direction--column padding--1em">
+            <div>
+                <h1>
+                    <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
+                    <span data-th-text="#{core.security.Authority}"></span>
+                </h1>
+            </div>
+            <div class="display--flex flex-direction--column gap--1em padding--1em">
+                <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
+                    <label class="grid-column--2 s__grid-column--4">
+                        <select class="width--100" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="key">
+                            <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
+                            <option value="name" th:text="#{core.security.Authority.name}"></option>
+                        </select>
+                    </label>
+                    <label class="grid-column--4 s__grid-column--8">
+                        <input class="width--100" type="text" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="value"/>
+                    </label>
+                    <div class="grid-column--6 s__grid-column--12 justify-self--end">
+                        <button type="submit" onclick="authoritySelectDialog.getAuthorities();">
+                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                            <span data-th-text="#{web.global.search}">Search</span>
+                        </button>
+                        <button type="button" onclick="authoritySelectDialog.resetAuthorities();">
+                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                            <span data-th-text="#{web.global.reset}">Reset</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="overflow-x--scroll">
+                    <table class="width--100">
+                        <colgroup>
+                            <col style="width:3rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th class="text-align--center">-</th>
+                            <th data-th-text="#{core.security.Authority.authorityId}"></th>
+                            <th data-th-text="#{core.security.Authority.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="authoritySelectDialog.authorities" data-duice-loop="authority,status">
+                            <td class="text-align--center">
+                                <button type="button"
+                                        data-duice-bind="authority"
+                                        data-duice-execute="
                             this.dataset.index = status.index;
                             if(authority._selected) {
                                 this.disabled = true;
                             }"
-                                    onclick="authoritySelectDialog.selectAuthority(this.dataset.index);"
-                                    class="small">
-                                <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
-                            </button>
-                        </td>
-                        <td>
+                                        onclick="authoritySelectDialog.selectAuthority(this.dataset.index);"
+                                        class="small">
+                                    <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
+                                </button>
+                            </td>
+                            <td>
                             <span data-duice-bind="authority"
                                   data-duice-property="authorityId"
                                   data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
                                   class="font-weight--bold"></span>
-                        </td>
-                        <td>
-                            <span data-duice-bind="authority" data-duice-property="name"></span>
-                        </td>
-                    </tr>
-                    <tr data-duice-bind="authoritySelectDialog.authorities"
-                        data-duice-execute="if(authoritySelectDialog.authorities.length === 0) this.hidden=false;" hidden>
-                        <td colspan="100%" class="text-align--center">No Data</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="display--grid grid-template-columns--3">
-                <div>
-                    <span data-th-text="#{web.global.total}"></span>
-                    <span data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                    <span data-th-text="#{web.global.rows}"></span>
+                            </td>
+                            <td>
+                                <span data-duice-bind="authority" data-duice-property="name"></span>
+                            </td>
+                        </tr>
+                        <tr data-duice-bind="authoritySelectDialog.authorities"
+                            data-duice-execute="if(authoritySelectDialog.authorities.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align--center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="justify-self--center">
-                    <duice-pagination
-                            data-duice-bind="authoritySelectDialog.authoritySearch"
-                            data-duice-size-property="_size"
-                            data-duice-page-property="_page"
-                            data-duice-count-property="_count"
-                            data-duice-onclick="authoritySelectDialog.getAuthorities(this.dataset.page);">
-                    </duice-pagination>
+                <div class="display--grid grid-template-columns--3">
+                    <div>
+                        <span data-th-text="#{web.global.total}"></span>
+                        <span data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                        <span data-th-text="#{web.global.rows}"></span>
+                    </div>
+                    <div class="justify-self--center">
+                        <duice-pagination
+                                data-duice-bind="authoritySelectDialog.authoritySearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="authoritySelectDialog.getAuthorities(this.dataset.page);">
+                        </duice-pagination>
+                    </div>
+                    <div></div>
                 </div>
-                <div></div>
-            </div>
-            <div class="overflow-x--scroll">
-                <table class="width--100">
-                    <colgroup>
-                        <col style="width:3rem;"/>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th class="text-align--center">-</th>
-                        <th data-th-text="#{core.security.Authority.authorityId}"></th>
-                        <th data-th-text="#{core.security.Authority.name}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-duice-bind="authoritySelectDialog.selectedAuthorities" data-duice-loop="authority,status">
-                        <td class="text-align--center">
-                            <button type="button"
-                                    data-duice-bind="authority"
-                                    data-duice-execute="this.dataset.index = status.index;"
-                                    onclick="authoritySelectDialog.deselectAuthority(this.dataset.index);"
-                                    class="small">
-                                <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
-                            </button>
-                        </td>
-                        <td>
+                <div class="overflow-x--scroll">
+                    <table class="width--100">
+                        <colgroup>
+                            <col style="width:3rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th class="text-align--center">-</th>
+                            <th data-th-text="#{core.security.Authority.authorityId}"></th>
+                            <th data-th-text="#{core.security.Authority.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="authoritySelectDialog.selectedAuthorities" data-duice-loop="authority,status">
+                            <td class="text-align--center">
+                                <button type="button"
+                                        data-duice-bind="authority"
+                                        data-duice-execute="this.dataset.index = status.index;"
+                                        onclick="authoritySelectDialog.deselectAuthority(this.dataset.index);"
+                                        class="small">
+                                    <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
+                                </button>
+                            </td>
+                            <td>
                             <span data-duice-bind="authority"
                                   data-duice-property="authorityId"
                                   data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
                                   class="font-weight--bold"></span>
-                        </td>
-                        <td>
-                            <span data-duice-bind="authority" data-duice-property="name"></span>
-                        </td>
-                    </tr>
-                    <tr data-duice-bind="authoritySelectDialog.selectedAuthorities"
-                        data-duice-execute="if(authoritySelectDialog.selectedAuthorities.length === 0) this.hidden=false;" hidden>
-                        <td colspan="100%" class="text-align--center">No Data</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="display--flex justify-content--flex-end">
-                <button type="button" onclick="authoritySelectDialog.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
-                    <span data-th-text="#{web.global.confirm}"></span>
-                </button>
+                            </td>
+                            <td>
+                                <span data-duice-bind="authority" data-duice-property="name"></span>
+                            </td>
+                        </tr>
+                        <tr data-duice-bind="authoritySelectDialog.selectedAuthorities"
+                            data-duice-execute="if(authoritySelectDialog.selectedAuthorities.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align--center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="display--flex justify-content--flex-end">
+                    <button type="button" onclick="authoritySelectDialog.confirm();">
+                        <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                        <span data-th-text="#{web.global.confirm}"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </dialog>
@@ -1648,14 +1681,14 @@
         <!-- start: authority list                  -->
         <!-- ====================================== -->
         <div id="authorityList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.security.Authority} + ' ' + #{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="authoritySearch" data-duice-property="key">
@@ -1747,14 +1780,14 @@
         <!-- start: authority detail                -->
         <!-- ====================================== -->
         <div id="authorityDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1rem">
+            <div class="display--flex flex-direction--column border--1 padding--1rem">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="open"/>
                         <span data-th-text="#{core.security.Authority} + ' ' + #{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                             <span data-th-text="#{core.security.Authority.authorityId}" class="font-weight--bold tag-required"></span>

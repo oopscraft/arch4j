@@ -38,6 +38,10 @@
             return true;
         });
 
+        /**
+         * gets boards
+         * @param page page number
+         */
         function getBoards(page) {
             if(page) {
                 boardSearch._page = page;
@@ -60,11 +64,18 @@
                 });
         }
 
+        /**
+         * resets boards
+         */
         function resetBoards() {
             duice.ObjectProxy.reset(boardSearch);
             getBoards();
         }
 
+        /**
+         * gets board
+         * @param boardId board id
+         */
         function getBoard(boardId) {
             let url = new URL(/*[[@{/admin/boards/get-board}]]*/'', document.location.origin);
             url.searchParams.append('boardId', boardId);
@@ -78,6 +89,9 @@
                 });
         }
 
+        /**
+         * creates board
+         */
         function createBoard() {
             duice.ObjectProxy.clear(board);
             duice.ObjectProxy.assign(board, {
@@ -94,6 +108,11 @@
             duice.ObjectProxy.focus(board, 'boardId');
         }
 
+        /**
+         * validates board id
+         * @param boardId
+         * @returns {Promise<boolean>}
+         */
         async function validateBoardId(boardId) {
             // check blank
             if (!boardId) {
@@ -118,6 +137,10 @@
             return true;
         }
 
+        /**
+         * saves board
+         * @returns {Promise<boolean>}
+         */
         async function saveBoard() {
             // if new, checks id
             if (board._new) {
@@ -154,6 +177,9 @@
             });
         }
 
+        /**
+         * deletes board
+         */
         function deleteBoard() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.board.Board})}]]*/'').then(result => {
                 if (result) {
@@ -171,6 +197,10 @@
             });
         }
 
+        /**
+         * adds board access role
+         * @returns {Promise<void>}
+         */
         async function addBoardAccessRole() {
             let disabledRoleIds = [];
             board.accessRoles.forEach(role => {
@@ -182,10 +212,18 @@
             });
         }
 
+        /**
+         * removes board access role
+         * @param index row index
+         */
         function removeBoardAccessRole(index) {
             board.accessRoles.splice(index, 1);
         }
 
+        /**
+         * adds board read role
+         * @returns {Promise<void>}
+         */
         async function addBoardReadRole() {
             let disabledRoleIds = [];
             board.readRoles.forEach(role => {
@@ -197,10 +235,18 @@
             });
         }
 
+        /**
+         * removes board read role
+         * @param index row index
+         */
         function removeBoardReadRole(index) {
             board.readRoles.splice(index, 1);
         }
 
+        /**
+         * adds board write role
+         * @returns {Promise<void>}
+         */
         async function addBoardWriteRole() {
             let disabledRoleIds = [];
             board.writeRoles.forEach(role => {
@@ -212,10 +258,18 @@
             });
         }
 
+        /**
+         * removes board write role
+         * @param index row index
+         */
         function removeBoardWriteRole(index) {
             board.writeRoles.splice(index, 1);
         }
 
+        /**
+         * adds board comment role
+         * @returns {Promise<void>}
+         */
         async function addBoardCommentRole() {
             let disabledRoleIds = [];
             board.commentRoles.forEach(role => {
@@ -227,10 +281,18 @@
             });
         }
 
+        /**
+         * removes board comment role
+         * @param index row index
+         */
         function removeBoardCommentRole(index) {
             board.commentRoles.splice(index, 1);
         }
 
+        /**
+         * adds board file role
+         * @returns {Promise<void>}
+         */
         async function addBoardFileRole() {
             let disabledRoleIds = [];
             board.fileRoles.forEach(role => {
@@ -242,10 +304,17 @@
             });
         }
 
+        /**
+         * removes board file role
+         * @param index row index
+         */
         function removeBoardFileRole(index) {
             board.fileRoles.splice(index, 1);
         }
 
+        /**
+         * opens board
+         */
         function openBoard() {
             let urlPrefix = /*[[@{/board/}]]*/'';
             let url = new URL(urlPrefix + board.boardId, document.location.origin);
@@ -278,14 +347,14 @@
         <!-- start: board list                  -->
         <!-- ================================== -->
         <div id="boardList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.board.Board}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="boardSearch" data-duice-property="key">
@@ -375,14 +444,14 @@
         <!-- start: board detail                -->
         <!-- ================================== -->
         <div id="boardDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.board.Board}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                             <span data-th-text="#{core.board.Board.boardId}" class="font-weight--bold tag-required"></span>

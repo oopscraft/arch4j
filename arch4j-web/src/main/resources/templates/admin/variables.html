@@ -33,6 +33,10 @@
             return true;
         });
 
+        /**
+         * gets variables
+         * @param page page number
+         */
         function getVariables(page) {
             if(page) {
                 variableSearch._page = page;
@@ -55,11 +59,18 @@
                 });
         }
 
+        /**
+         * resets variables
+         */
         function resetVariables() {
             duice.ObjectProxy.reset(variableSearch);
             getVariables();
         }
 
+        /**
+         * gets variable
+         * @param variableId variable id
+         */
         function getVariable(variableId) {
             let url = new URL(/*[[@{/admin/variables/get-variable}]]*/'', document.location.origin);
             url.searchParams.append('variableId', variableId);
@@ -73,6 +84,9 @@
                 });
         }
 
+        /**
+         * creates variable
+         */
         function createVariable() {
             duice.ObjectProxy.clear(variable);
             duice.ObjectProxy.assign(variable, {
@@ -83,6 +97,11 @@
             duice.ObjectProxy.focus(variable, 'variableId');
         }
 
+        /**
+         * validates variable id
+         * @param variableId variable id
+         * @returns {Promise<boolean>}
+         */
         async function validateVariableId(variableId) {
             // check blank
             if (!variableId) {
@@ -107,6 +126,10 @@
             return true;
         }
 
+        /**
+         * saves variable
+         * @returns {Promise<boolean>}
+         */
         async function saveVariable() {
             // if new, checks id
             if (variable._new) {
@@ -144,6 +167,9 @@
             });
         }
 
+        /**
+         * deletes variable
+         */
         function deleteVariable() {
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.variable.Variable})}]]*/'').then(result => {
                 if (result) {
@@ -187,14 +213,14 @@
         <!-- start: variable list                   -->
         <!-- ====================================== -->
         <div id="variableList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.variable.Variable}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--4">
                             <select class="width--100" data-duice-bind="variableSearch" data-duice-property="key">
@@ -282,14 +308,14 @@
         <!-- start: variable detail                 -->
         <!-- ====================================== -->
         <div id="variableDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column gap--1em border--1 padding--1em">
+            <div class="display--flex flex-direction--column border--1 padding--1em">
                 <div>
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.variable.Variable}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding-y--1em">
+                <div class="display--flex flex-direction--column gap--1em padding--1em">
                     <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
                         <label class="grid-column--6 s__grid-column--12">
                         <span data-th-text="#{core.variable.Variable.variableId}"

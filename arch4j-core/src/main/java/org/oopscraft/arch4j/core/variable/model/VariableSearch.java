@@ -1,4 +1,4 @@
-package org.oopscraft.arch4j.core.variable;
+package org.oopscraft.arch4j.core.variable.model;
 
 import lombok.Builder;
 import lombok.Data;

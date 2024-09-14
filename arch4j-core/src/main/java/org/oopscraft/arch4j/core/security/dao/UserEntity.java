@@ -19,8 +19,7 @@ import java.util.List;
     name = "core_user",
     indexes = {
         @Index(name = "ix_username", columnList = "username"),
-        @Index(name = "ix_name", columnList = "name"),
-        @Index(name = "ix_mobile", columnList = "mobile")
+        @Index(name = "ix_name", columnList = "name")
     }
 )
 @Data

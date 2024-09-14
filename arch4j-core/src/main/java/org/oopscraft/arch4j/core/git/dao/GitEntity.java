@@ -23,13 +23,13 @@ public class GitEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "note")
-    private String note;
-
     @Column(name = "url")
     private String url;
 
     @Column(name = "branch", length = 32)
     private String branch;
+
+    @Column(name = "note")
+    private String note;
 
 }

@@ -1,8 +1,8 @@
 package org.oopscraft.arch4j.web.admin.view;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.core.variable.Variable;
-import org.oopscraft.arch4j.core.variable.VariableSearch;
+import org.oopscraft.arch4j.core.variable.model.Variable;
+import org.oopscraft.arch4j.core.variable.model.VariableSearch;
 import org.oopscraft.arch4j.core.variable.VariableService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

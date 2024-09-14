@@ -16,11 +16,11 @@ public class Git extends BaseModel {
 
     private String name;
 
-    private String note;
-
     private String url;
 
     private String branch;
+
+    private String note;
 
     public static Git from(GitEntity gitEntity) {
         return Git.builder()
@@ -29,9 +29,9 @@ public class Git extends BaseModel {
                 .systemUpdatedBy(gitEntity.getSystemUpdatedBy())
                 .gitId(gitEntity.getGitId())
                 .name(gitEntity.getName())
-                .note(gitEntity.getNote())
                 .url(gitEntity.getUrl())
                 .branch(gitEntity.getBranch())
+                .note(gitEntity.getNote())
                 .build();
     }
 

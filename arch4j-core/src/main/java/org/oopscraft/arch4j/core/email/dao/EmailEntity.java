@@ -23,7 +23,7 @@ public class EmailEntity extends BaseEntity implements I18nSupportEntity<EmailI1
     @Column(name = "email_id", length = 32)
     private String emailId;
 
-    @Column(name = "name", length = 128)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "subject", length = 1024)

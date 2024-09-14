@@ -211,7 +211,7 @@
             _confirm(/*[[#{web.global.deleteItemConfirm(#{core.security.User})}]]*/'').then(result => {
                 if (result) {
                     let url = new URL(/*[[@{/admin/security/delete-user}]]*/'', document.location.origin);
-                    url.searchParams.append('userId', users.userId);
+                    url.searchParams.append('userId', user.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
                             _alert(/*[[#{web.global.deleteItemComplete(#{core.security.User})}]]*/'').then(() => {

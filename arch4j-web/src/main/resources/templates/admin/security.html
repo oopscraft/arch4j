@@ -208,13 +208,13 @@
          * deletes current selected user
          */
         function deleteUser() {
-            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.user.User})}]]*/'').then(result => {
+            _confirm(/*[[#{web.global.deleteItemConfirm(#{core.security.User})}]]*/'').then(result => {
                 if (result) {
                     let url = new URL(/*[[@{/admin/security/delete-user}]]*/'', document.location.origin);
                     url.searchParams.append('userId', users.userId);
                     _fetch(url).then(response => {
                         if (response.ok) {
-                            _alert(/*[[#{web.global.deleteItemComplete(#{core.user.User})}]]*/'').then(() => {
+                            _alert(/*[[#{web.global.deleteItemComplete(#{core.security.User})}]]*/'').then(() => {
                                 getUsers();
                                 duice.ObjectProxy.clear(user);
                             });

@@ -129,7 +129,7 @@
             if (response.ok) {
                 let user = await response.json();
                 if (user) {
-                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.user.User.userId})}]]*/'');
+                    await _alert(/*[[#{web.global.itemAlreadyExist(#{core.security.User.userId})}]]*/'');
                     return false;
                 }
             }

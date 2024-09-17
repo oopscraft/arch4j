@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Builder
@@ -11,14 +13,30 @@ import java.time.LocalDateTime;
 public class ErrorResponse {
 
     @Builder.Default
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private Instant timestamp = Instant.now();
 
-    private HttpStatus status;
+    private Integer status;
 
     private String error;
 
     private String message;
 
     private String path;
+
+    /**
+     * factory method
+     * @param request http servlet request
+     * @param status http status
+     * @param message message
+     * @return error response
+     */
+    public static ErrorResponse from(HttpServletRequest request, HttpStatus status, String message) {
+        return ErrorResponse.builder()
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .message(message)
+                .path(request.getRequestURI())
+                .build();
+    }
 
 }

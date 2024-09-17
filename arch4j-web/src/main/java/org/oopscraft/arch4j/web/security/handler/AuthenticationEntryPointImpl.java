@@ -1,8 +1,7 @@
 package org.oopscraft.arch4j.web.security.handler;
 
 import lombok.RequiredArgsConstructor;
-import org.oopscraft.arch4j.web.common.error.ErrorResponse;
-import org.oopscraft.arch4j.web.common.error.ErrorControllerAdvice;
+import org.oopscraft.arch4j.web.common.error.ErrorResponseHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -17,13 +16,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-    private final ErrorControllerAdvice errorResponseHandler;
+    private final ErrorResponseHandler errorResponseHandler;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
-        ErrorResponse errorResponse = errorResponseHandler.createErrorResponse(request, HttpStatus.FORBIDDEN, authenticationException);
         if (errorResponseHandler.isRestRequest(request)) {
-            errorResponseHandler.sendRestErrorResponse(response, errorResponse);
+            errorResponseHandler.sendErrorResponse(request, response, HttpStatus.FORBIDDEN, authenticationException);
         }else{
             String requestUri = request.getRequestURI();
             String loginUrl;

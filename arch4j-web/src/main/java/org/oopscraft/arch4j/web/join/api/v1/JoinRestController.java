@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("api/v1/join")
 @RequiredArgsConstructor
@@ -55,13 +57,10 @@ public class JoinRestController {
     }
 
     @GetMapping("validate-user-id/{userId}")
-    public ResponseEntity<?> validateUserId(@PathVariable("userId")String userId) {
+    public ResponseEntity<?> validateUserId(@PathVariable("userId")String userId, HttpServletRequest request) {
         User user = userService.getUser(userId).orElse(null);
         if(user != null) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.CONFLICT)
-                    .message("duplicated user id")
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.CONFLICT, "duplicated user id");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
         return ResponseEntity.ok().build();

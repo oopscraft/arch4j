@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -23,16 +24,15 @@ public class ResetPasswordRestController {
 
     private final EmailService emailService;
 
+    private final HttpServletRequest request;
+
     @PostMapping
     public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
 
         // checks already existing user
         User user = userService.getUserByUsername(resetPasswordRequest.getUsername()).orElse(null);
         if(user == null) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message("user not found")
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.BAD_REQUEST, "user not found");
             return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
         }
 
@@ -40,10 +40,7 @@ public class ResetPasswordRestController {
         try {
             emailService.validateEmailVerification(resetPasswordRequest.getUsername(), resetPasswordRequest.getAnswer());
         } catch (Throwable t) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message(t.getMessage())
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.BAD_REQUEST, t.getMessage());
             return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
         }
 
@@ -60,10 +57,7 @@ public class ResetPasswordRestController {
         // check duplicated email
         User user = userService.getUserByUsername(email).orElse(null);
         if(user == null) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message("email is not registered.")
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.BAD_REQUEST, "email is not registered");
             return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
         }
 
@@ -79,16 +73,10 @@ public class ResetPasswordRestController {
         try {
             emailService.validateEmailVerification(email, answer);
         } catch (Throwable t) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message(t.getMessage())
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.BAD_REQUEST, t.getMessage());
             return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
         }
         return ResponseEntity.ok().build();
     }
-
-
-
 
 }

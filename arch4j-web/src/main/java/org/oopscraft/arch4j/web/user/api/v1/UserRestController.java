@@ -15,6 +15,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("api/v1/user")
 @RequiredArgsConstructor
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserService userService;
+
+    private final HttpServletRequest request;
 
     @GetMapping("{userId}")
     public ResponseEntity<?> getUser(@PathVariable("userId")String userId) {
@@ -60,10 +64,7 @@ public class UserRestController {
         if(userService.isPasswordMatched(currentUserId, changePasswordRequest.getCurrentPassword())){
             userService.changePassword(currentUserId, changePasswordRequest.getNewPassword());
         }else{
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message("password not matched")
-                    .build();
+            ErrorResponse errorResponse = ErrorResponse.from(request, HttpStatus.BAD_REQUEST, "password not matched");
             return ResponseEntity
                     .status(errorResponse.getStatus())
                     .body(errorResponse);

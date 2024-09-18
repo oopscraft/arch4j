@@ -19,7 +19,6 @@ import java.security.cert.CertificateException;
 @Slf4j
 public class RestTemplateBuilder {
 
-
     private boolean insecure = true;
 
     private String proxyHost;
@@ -68,7 +67,12 @@ public class RestTemplateBuilder {
                         return true;
                     }
                 }).build();
-                SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
+                SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
+                        sslContext,
+                        sslContext.getSupportedSSLParameters().getProtocols(),
+                        null,
+                        SSLConnectionSocketFactory.getDefaultHostnameVerifier()
+                );
                 httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
             } catch (Exception e) {
                 throw new RuntimeException(e);

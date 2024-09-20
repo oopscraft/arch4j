@@ -9,12 +9,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.TrustStrategy;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
-import java.security.cert.CertificateException;
+import java.util.Optional;
 
 @Slf4j
 public class RestTemplateBuilder {
@@ -24,6 +23,8 @@ public class RestTemplateBuilder {
     private String proxyHost;
 
     private int proxyPort;
+
+    private String[] httpsProtocols;
 
     private int connectTimeout = 3000;
 
@@ -44,6 +45,11 @@ public class RestTemplateBuilder {
         return this;
     }
 
+    public RestTemplateBuilder httpsProtocols(String[] httpsProtocols) {
+        this.httpsProtocols = httpsProtocols;
+        return this;
+    }
+
     public RestTemplateBuilder connectTimeout(int connectTimeout){
         this.connectTimeout = connectTimeout;
         return this;
@@ -55,29 +61,33 @@ public class RestTemplateBuilder {
     }
 
     public RestTemplate build() {
-
         HttpClientBuilder httpClientBuilder = HttpClients.custom();
 
-        // insecure
-        if(insecure) {
-            try {
-                SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                    @Override
-                    public boolean isTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        return true;
-                    }
-                }).build();
-                SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
-                        sslContext,
-                        sslContext.getSupportedSSLParameters().getProtocols(),
-                        null,
-                        SSLConnectionSocketFactory.getDefaultHostnameVerifier()
-                );
-                httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        // ssl context
+        SSLContext sslContext;
+        try {
+            if (insecure) {
+                log.debug("Insecure mode enabled. SSL certificate validation will be ignored.");
+                sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
+            } else {
+                sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, null, new java.security.SecureRandom());
             }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
+
+        // ssl socket factory
+        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
+                sslContext,
+                Optional.ofNullable(this.httpsProtocols).orElse(sslContext.getSupportedSSLParameters().getProtocols()),
+                null,
+                SSLConnectionSocketFactory.getDefaultHostnameVerifier()
+        );
+
+        // applies ssl socket factory to http client
+        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
 
         // proxy
         if(StringUtils.isNotBlank(proxyHost)) {

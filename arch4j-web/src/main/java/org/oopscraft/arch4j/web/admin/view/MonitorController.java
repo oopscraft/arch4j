@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("admin/monitor")
-@PreAuthorize("hasAuthority('ADMIN_MONITOR')")
+@PreAuthorize("hasAuthority('admin.monitor')")
 @RequiredArgsConstructor
 @Slf4j
 public class MonitorController {

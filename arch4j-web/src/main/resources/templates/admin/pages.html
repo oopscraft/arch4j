@@ -475,7 +475,7 @@
                         <div class="justify-self--end">
                             <button type="button"
                                     onclick="deletePage();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGES_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.pages.edit'')')}?'locked'"
                                     data-duice-bind="page"
                                     data-duice-execute="(page.pageId && !page._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
@@ -483,7 +483,7 @@
                             </button>
                             <button type="button"
                                     onclick="savePage();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_PAGES_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.pages.edit'')')}?'locked'"
                                     data-duice-bind="page"
                                     data-duice-execute="(page.pageId || page._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>

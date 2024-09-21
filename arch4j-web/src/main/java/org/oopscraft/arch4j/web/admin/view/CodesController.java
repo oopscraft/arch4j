@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("admin/codes")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN_CODES')")
+@PreAuthorize("hasAuthority('admin.codes')")
 public class CodesController {
 
     private final CodeService codeService;
@@ -40,7 +40,7 @@ public class CodesController {
 
     @PostMapping("save-code")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_CODES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.codes.edit')")
     @Transactional
     public Code saveCode(@RequestBody Code code) {
         return codeService.saveCode(code);
@@ -48,7 +48,7 @@ public class CodesController {
 
     @GetMapping("delete-code")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_CODES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.codes.edit')")
     @Transactional
     public void deleteCode(@RequestParam("codeId")String codeId) {
         codeService.deleteCode(codeId);

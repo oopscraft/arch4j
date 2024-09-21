@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/variables")
-@PreAuthorize("hasAuthority('ADMIN_VARIABLES')")
+@PreAuthorize("hasAuthority('admin.variables')")
 @RequiredArgsConstructor
 public class VariablesController {
 
@@ -41,14 +41,14 @@ public class VariablesController {
 
     @PostMapping("save-variable")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_VARIABLES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.variables.edit')")
     public Variable saveVariable(@RequestBody @Valid Variable variable) {
         return variableService.saveVariable(variable);
     }
 
     @GetMapping("delete-variable")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_VARIABLES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.variables.edit')")
     public void deleteVariable(@RequestParam("variableId")String variableId) {
         variableService.deleteVariable(variableId);
     }

@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("admin/menus")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN_MENUS')")
+@PreAuthorize("hasAuthority('admin.menus')")
 public class MenusController {
 
     private final MenuService menuService;
@@ -44,7 +44,7 @@ public class MenusController {
     @PostMapping("save-menu")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_MENUS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.menus.edit')")
     public Menu saveMenu(@RequestBody @Valid Menu menu) {
         if(menu.getMenuId() == null) {
             menu.setMenuId(IdGenerator.uuid());
@@ -55,7 +55,7 @@ public class MenusController {
     @GetMapping("delete-menu")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_MENUS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.menus.edit')")
     public void deleteMenu(@RequestParam("menuId")String menuId) {
         menuService.deleteMenu(menuId);
     }

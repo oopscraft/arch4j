@@ -210,7 +210,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
                     .antMatchers("/admin/login**")
                     .permitAll()
                     .anyRequest()
-                    .hasAuthority("ADMIN");
+                    .hasAuthority("admin");
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)
@@ -235,7 +235,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(2)
         public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/actuator/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("ACTUATOR");
+            http.authorizeRequests().anyRequest().hasAuthority("actuator");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             // additional security filter
@@ -247,7 +247,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(3)
         public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/swagger-ui/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("SWAGGER-UI");
+            http.authorizeRequests().anyRequest().hasAuthority("swagger-ui");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             http.formLogin()
@@ -265,7 +265,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(4)
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/h2-console/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("H2-CONSOLE");
+            http.authorizeRequests().anyRequest().hasAuthority("h2-console");
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
             http.formLogin()

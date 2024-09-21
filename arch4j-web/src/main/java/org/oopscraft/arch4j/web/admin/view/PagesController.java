@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("admin/pages")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN_PAGES')")
+@PreAuthorize("hasAuthority('admin.pages')")
 public class PagesController {
 
     private final PageService pageService;
@@ -44,14 +44,14 @@ public class PagesController {
 
     @PostMapping("save-page")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_PAGES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.pages.edit')")
     public Page savePage(@RequestBody @Valid Page page) {
         return pageService.savePage(page);
     }
 
     @GetMapping("delete-page")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_PAGES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.pages.edit')")
     public void deletePage(@RequestParam("pageId")String pageId) {
         pageService.deletePage(pageId);
     }

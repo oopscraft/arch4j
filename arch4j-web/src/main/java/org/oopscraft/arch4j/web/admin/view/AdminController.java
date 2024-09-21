@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("admin")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('admin')")
 @RequiredArgsConstructor
 public class AdminController {
 

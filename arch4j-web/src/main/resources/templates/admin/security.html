@@ -955,14 +955,14 @@
                     <div class="display--grid grid-template-columns--2">
                         <div>
                             <button type="button" onclick="changeUserPassword();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="user"
                                     data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-password.svg}" alt="password"/>
                                 <span data-th-text="#{web.admin.security.changePassword}"></span>
                             </button>
                             <button type="button" onclick="generateSecurityToken();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="user"
                                     data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-token.svg}" alt="password"/>
@@ -971,14 +971,14 @@
                         </div>
                         <div class="justify-self--end">
                             <button type="button" onclick="deleteUser();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="user"
                                     data-duice-execute="(user.userId && !user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button type="button" onclick="saveUser();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="user"
                                     data-duice-execute="(user.userId || user._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
@@ -1380,14 +1380,14 @@
                     <div class="display--grid grid-template-columns--1">
                         <div class="justify-self--end">
                             <button type="button" onclick="deleteRole();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="role"
                                     data-duice-execute="(role.roleId && !role._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button type="button" onclick="saveRole();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="role"
                                     data-duice-execute="(role.roleId || role._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
@@ -1729,8 +1729,8 @@
                             <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-selected-item-class="selected" data-duice-execute="
                         this.dataset.id=authority.authorityId;
                         " onclick="getAuthority(this.dataset.id);" class="link">
-                                <td>
-                                    <span data-duice-bind="status" data-duice-property="count" class="text-align--center"></span>
+                                <td class="text-align--center">
+                                    <span data-duice-bind="status" data-duice-property="count"></span>
                                 </td>
                                 <td>
                                 <span data-duice-bind="authority" data-duice-property="authorityId"
@@ -1809,14 +1809,14 @@
                         <div></div>
                         <div class="justify-self--end">
                             <button type="button" onclick="deleteAuthority();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="authority"
                                     data-duice-execute="(authority.authorityId && !authority._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button type="button" onclick="saveAuthority();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_SECURITY_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.security.edit'')')}?'locked'"
                                     data-duice-bind="authority"
                                     data-duice-execute="(authority.authorityId || authority._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>

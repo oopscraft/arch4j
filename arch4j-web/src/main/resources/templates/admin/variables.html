@@ -339,17 +339,16 @@
                         <div></div>
                         <div class="justify-self--end">
                             <button type="button" onclick="deleteVariable();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLES_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.variables.edit'')')}?'locked'"
                                     data-duice-bind="variable"
                                     data-duice-execute="(variable.variableId && !variable._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
                             <button type="button" onclick="saveVariable();"
-                                    th:classappend="!${#authorization.expression('hasAuthority(''ADMIN_VARIABLES_EDIT'')')}?'locked'"
+                                    th:classappend="!${#authorization.expression('hasAuthority(''admin.variables.edit'')')}?'locked'"
                                     data-duice-bind="variable"
                                     data-duice-execute="(variable.variableId || variable._new) ? this.disabled=false : this.disabled=true;">
-
                                 <img class="icon" th:src="@{/static/image/icon-save.svg}" alt="save"/>
                                 <span data-th-text="#{web.global.save}"></span>
                             </button>

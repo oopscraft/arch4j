@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/alarms")
-@PreAuthorize("hasAuthority('ADMIN_ALARMS')")
+@PreAuthorize("hasAuthority('admin.alarms')")
 @RequiredArgsConstructor
 public class AlarmsController {
 
@@ -46,7 +46,7 @@ public class AlarmsController {
     @PostMapping("save-alarm")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_ALARMS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.alarms.edit')")
     public Alarm saveAlarm(@RequestBody @Valid Alarm alarm) {
         return alarmService.saveAlarm(alarm);
     }
@@ -54,7 +54,7 @@ public class AlarmsController {
     @GetMapping("delete-alarm")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_ALARMS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.alarms.edit')")
     public void deleteAlarm(@RequestParam("alarmId")String alarmId) {
         alarmService.deleteAlarm(alarmId);
     }

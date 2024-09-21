@@ -87,6 +87,10 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * gets anonymous authorities
+     * @return anonymous authorities
+     */
     public Collection<GrantedAuthority> getAnonymousAuthorities() {
         DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
         transactionDefinition.setPropagationBehavior(Propagation.REQUIRED.value());

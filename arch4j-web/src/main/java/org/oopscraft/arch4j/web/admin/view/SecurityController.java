@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("admin/security")
-@PreAuthorize("hasAuthority('ADMIN_SECURITY')")
+@PreAuthorize("hasAuthority('admin.security')")
 @RequiredArgsConstructor
 public class SecurityController {
 
@@ -57,14 +57,14 @@ public class SecurityController {
 
     @PostMapping("save-user")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public User saveUser(@RequestBody @Valid User user) {
         return userService.saveUser(user);
     }
 
     @GetMapping("delete-user")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public void deleteUser(@RequestParam("userId") String userId) {
         userService.deleteUser(userId);
     }
@@ -77,7 +77,7 @@ public class SecurityController {
 
     @PostMapping(value = "generate-security-token", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public String generateAccessToken(@RequestBody Map<String,String> payload) {
         String userId = Optional.ofNullable(payload.get("userId")).orElseThrow();
         int expirationDays = Optional.ofNullable(payload.get("expirationDays")).map(Integer::parseInt).orElseThrow();
@@ -102,14 +102,14 @@ public class SecurityController {
 
     @PostMapping("save-role")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public Role saveRole(@RequestBody @Valid Role role) {
         return roleService.saveRole(role);
     }
 
     @GetMapping("delete-role")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public void deleteRole(@RequestParam("roleId") String roleId) {
         roleService.deleteRole(roleId);
     }
@@ -129,14 +129,14 @@ public class SecurityController {
 
     @PostMapping("save-authority")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public Authority saveAuthority(@RequestBody @Valid Authority authority) {
         return authorityService.saveAuthority(authority);
     }
 
     @GetMapping("delete-authority")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_SECURITY_EDIT')")
+    @PreAuthorize("hasAuthority('admin.security.edit')")
     public void deleteAuthority(@RequestParam("authorityId")String authorityId) {
         authorityService.deleteAuthority(authorityId);
     }

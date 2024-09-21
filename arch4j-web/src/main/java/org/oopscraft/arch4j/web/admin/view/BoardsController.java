@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("admin/boards")
-@PreAuthorize("hasAuthority('ADMIN_BOARDS')")
+@PreAuthorize("hasAuthority('admin.boards')")
 @RequiredArgsConstructor
 public class BoardsController {
 
@@ -74,7 +74,7 @@ public class BoardsController {
 
     @PostMapping("save-board")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_BOARDS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.boards.edit')")
     @Transactional
     public Board saveVariable(@RequestBody @Valid Board board) {
         return boardService.saveBoard(board);
@@ -82,7 +82,7 @@ public class BoardsController {
 
     @GetMapping("delete-board")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_BOARDS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.boards.edit')")
     @Transactional
     public void deleteBoard(@RequestParam("boardId")String boardId) {
         boardService.deleteBoard(boardId);

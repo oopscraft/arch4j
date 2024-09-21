@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/emails")
-@PreAuthorize("hasAuthority('ADMIN_EMAILS')")
+@PreAuthorize("hasAuthority('admin.emails')")
 @RequiredArgsConstructor
 public class EmailsController {
 
@@ -43,7 +43,7 @@ public class EmailsController {
     @PostMapping("save-email")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_EMAILS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.emails.edit')")
     public Email saveEmail(@RequestBody @Valid Email email) {
         return emailService.saveEmail(email);
     }
@@ -51,7 +51,7 @@ public class EmailsController {
     @GetMapping("delete-email")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_EMAILS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.emails.edit')")
     public void deleteEmail(@RequestParam("emailId")String emailId) {
         emailService.deleteEmail(emailId);
     }

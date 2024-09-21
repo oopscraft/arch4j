@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin/gits")
-@PreAuthorize("hasAuthority('ADMIN_GITS')")
+@PreAuthorize("hasAuthority('admin.gits')")
 @RequiredArgsConstructor
 public class GitsController {
 
@@ -42,7 +42,7 @@ public class GitsController {
     @PostMapping("save-git")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_GITS')")
+    @PreAuthorize("hasAuthority('admin.gits')")
     public Git saveGit(@RequestBody @Valid Git git) {
         return gitService.saveGit(git);
     }
@@ -50,7 +50,7 @@ public class GitsController {
     @GetMapping("delete-git")
     @ResponseBody
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN_GITS_EDIT')")
+    @PreAuthorize("hasAuthority('admin.gits.edit')")
     public void deleteGit(@RequestParam("gitId")String gitId) {
         gitService.deleteGit(gitId);
     }

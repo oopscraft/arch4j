@@ -6,11 +6,13 @@ import org.oopscraft.arch4j.core.security.model.RoleSearch;
 import org.oopscraft.arch4j.core.security.service.RoleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("admin/common")
+@PreAuthorize("hasAuthority('admin.common')")
 @RequiredArgsConstructor
 public class CommonController {
 

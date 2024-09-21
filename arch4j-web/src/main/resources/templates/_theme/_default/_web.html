@@ -241,6 +241,9 @@
                 }
                 this.dataset.link = menu.link??'';
                 this.dataset.target = menu.target??'';
+                if (!menu.link) {
+                    this.classList.add('locked');
+                }
                 "
                 onclick="_openLink(this.dataset.link,this.dataset.target);"
                 class="link">

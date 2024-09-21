@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("admin/messages")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN_MESSAGES')")
+@PreAuthorize("hasAuthority('admin.messages')")
 public class MessagesController {
 
     private final MessageService messageService;
@@ -41,14 +41,14 @@ public class MessagesController {
 
     @PostMapping("save-message")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_MESSAGES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.messages.edit')")
     public Message saveMessage(@RequestBody @Valid Message message) {
         return messageService.saveMessage(message);
     }
 
     @GetMapping("delete-message")
     @ResponseBody
-    @PreAuthorize("hasAuthority('ADMIN_MESSAGES_EDIT')")
+    @PreAuthorize("hasAuthority('admin.messages.edit')")
     public void deleteMessage(@RequestParam("messageId")String messageId) {
         messageService.deleteMessage(messageId);
     }

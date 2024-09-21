@@ -31,8 +31,6 @@ public class RoleService {
                     .build());
         roleEntity.setSystemUpdatedAt(LocalDateTime.now());
         roleEntity.setName(role.getName());
-        roleEntity.setAnonymous(role.isAnonymous());
-        roleEntity.setAuthenticated(role.isAuthenticated());
         roleEntity.setNote(role.getNote());
 
         // authorities

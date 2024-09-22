@@ -283,6 +283,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Order(98)
         public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
             http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
+            http.authorizeRequests()
+                    .antMatchers("/api/*/login**", "/api/*/join**")
+                    .permitAll();
             if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
                 http.authorizeRequests()
                         .anyRequest()
@@ -294,12 +297,13 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
-
+            // exception handling
+            http.exceptionHandling()
+                    .accessDeniedHandler(accessDeniedHandler);
             // remember-me
             http.rememberMe()
                     .rememberMeServices(rememberMeServices)
                     .tokenValiditySeconds(1209600); // default 2 weeks
-
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
@@ -325,26 +329,27 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.headers().frameOptions().sameOrigin();
+            // exception handling
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)
                     .accessDeniedHandler(accessDeniedHandler);
+            // login
             http.formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login/process")
                     .successHandler(authenticationSuccessHandler)
                     .failureHandler(authenticationFailureHandler)
                     .permitAll();
+            // logout
             http.logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
                     .permitAll();
-
             // remember-me
             http.rememberMe()
                     .rememberMeServices(rememberMeServices)
                     .tokenValiditySeconds(1209600); // default 2 weeks
-
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();

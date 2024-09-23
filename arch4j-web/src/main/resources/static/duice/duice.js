@@ -606,6 +606,16 @@ var duice;
                 array.forEach((object, index) => {
                     let objectProxy = new duice.ObjectProxy(object);
                     arrayProxy[index] = objectProxy;
+                    // readonly
+                    duice.ObjectProxy.setReadonlyAll(objectProxy, arrayHandler.isReadonlyAll());
+                    arrayHandler.readonly.forEach(property => {
+                        duice.ObjectProxy.setReadonly(objectProxy, property, true);
+                    });
+                    // disable
+                    duice.ObjectProxy.setDisableAll(objectProxy, arrayHandler.isDisableAll());
+                    arrayHandler.disable.forEach(property => {
+                        duice.ObjectProxy.setDisable(objectProxy, property, true);
+                    });
                     // add listener
                     duice.ObjectProxy.onPropertyChanging(objectProxy, arrayHandler.propertyChangingListener);
                     duice.ObjectProxy.onPropertyChanged(objectProxy, arrayHandler.propertyChangedListener);
@@ -679,30 +689,36 @@ var duice;
         }
         static setReadonly(arrayProxy, property, readonly) {
             this.getHandler(arrayProxy).setReadonly(property, readonly);
+            arrayProxy.forEach(objectProxy => {
+                duice.ObjectProxy.setReadonly(objectProxy, property, readonly);
+            });
         }
         static isReadonly(arrayProxy, property) {
             return this.getHandler(arrayProxy).isReadonly(property);
         }
         static setReadonlyAll(arrayProxy, readonly) {
             this.getHandler(arrayProxy).setReadonlyAll(readonly);
-            for (let index = 0; index >= this.length; index++) {
-                duice.ObjectProxy.setReadonlyAll(this[index], readonly);
-            }
+            arrayProxy.forEach(objectProxy => {
+                duice.ObjectProxy.setReadonlyAll(objectProxy, readonly);
+            });
         }
         static isReadonlyAll(arrayProxy) {
             return this.getHandler(arrayProxy).isReadonlyAll();
         }
         static setDisable(arrayProxy, property, disable) {
             this.getHandler(arrayProxy).setDisable(property, disable);
+            arrayProxy.forEach(objectProxy => {
+                duice.ObjectProxy.setDisable(objectProxy, property, disable);
+            });
         }
         static isDisable(arrayProxy, property) {
             return this.getHandler(arrayProxy).isDisable(property);
         }
         static setDisableAll(arrayProxy, disable) {
             this.getHandler(arrayProxy).setDisableAll(disable);
-            for (let index = 0; index >= this.length; index++) {
-                duice.ObjectProxy.setDisableAll(this[index], disable);
-            }
+            arrayProxy.forEach(objectProxy => {
+                duice.ObjectProxy.setDisableAll(objectProxy, disable);
+            });
         }
         static isDisableAll(arrayProxy) {
             return this.getHandler(arrayProxy).isDisableAll();

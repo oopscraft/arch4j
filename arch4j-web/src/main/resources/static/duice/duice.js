@@ -1981,12 +1981,15 @@ var duice;
                     return this.falseValue;
                 }
             }
+            disableClick(event) {
+                event.preventDefault();
+            }
             setReadonly(readonly) {
                 if (readonly) {
-                    this.getHtmlElement().style.pointerEvents = 'none';
+                    this.getHtmlElement().addEventListener('click', this.disableClick);
                 }
                 else {
-                    this.getHtmlElement().style.pointerEvents = '';
+                    this.getHtmlElement().removeEventListener('click', this.disableClick);
                 }
             }
         }

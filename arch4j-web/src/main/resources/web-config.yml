@@ -9,6 +9,9 @@ logging:
 # server
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 30m
   error:
     include-message: always
     include-binding-errors: always

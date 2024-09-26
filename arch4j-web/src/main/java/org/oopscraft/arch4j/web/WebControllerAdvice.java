@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,8 @@ public class WebControllerAdvice {
     private final CoreProperties coreProperties;
 
     private final WebProperties webProperties;
+
+    private final HttpSession httpSession;
 
     @GetMapping
     public ModelAndView index() {
@@ -48,6 +51,11 @@ public class WebControllerAdvice {
     @ModelAttribute("_scriptVersion")
     public String scriptVersion() {
         return String.valueOf(SCRIPT_VERSION);
+    }
+
+    @ModelAttribute("_sessionTimeout")
+    public Integer sessionTimeout() {
+        return httpSession.getMaxInactiveInterval();
     }
 
     @ModelAttribute("_theme")

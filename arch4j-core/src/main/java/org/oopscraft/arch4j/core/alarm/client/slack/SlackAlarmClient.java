@@ -1,6 +1,7 @@
 package org.oopscraft.arch4j.core.alarm.client.slack;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.oopscraft.arch4j.core.alarm.client.AlarmClient;
 import org.oopscraft.arch4j.core.common.support.RestTemplateBuilder;
 import org.springframework.http.MediaType;
@@ -32,14 +33,13 @@ public class SlackAlarmClient extends AlarmClient {
         RestTemplate restTemplate = RestTemplateBuilder.create()
                 .insecure(this.insecure)
                 .build();
-
         Map<String, Object> payload = new LinkedHashMap<>();
         List<Map<String,Object>> blocks = new ArrayList<>();
         Map<String,Object> block = new LinkedHashMap<String,Object>(){{
             put("type", "section");
             put("text", new LinkedHashMap<String,Object>(){{
                 put("type", "mrkdwn");
-                put("text", subject + '\n' + Optional.ofNullable(content).orElse(""));
+                put("text", StringUtils.abbreviate(subject + '\n' + Optional.ofNullable(content).orElse(""), 3000));
             }});
         }};
         blocks.add(block);

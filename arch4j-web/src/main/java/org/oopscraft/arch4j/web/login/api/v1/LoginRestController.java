@@ -8,6 +8,7 @@ import org.oopscraft.arch4j.web.login.api.v1.dto.LoginRequest;
 import org.oopscraft.arch4j.web.login.api.v1.dto.LoginResponse;
 import org.oopscraft.arch4j.web.security.model.UserDetailsImpl;
 import org.oopscraft.arch4j.web.security.service.SecurityTokenService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -15,14 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -68,6 +67,15 @@ public class LoginRestController {
                 .refreshToken(refreshToken)
                 .build();
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("status")
+    public ResponseEntity<Void> loginStatus(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

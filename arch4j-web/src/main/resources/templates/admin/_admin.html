@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta th:http-equiv="'refresh'" th:content="${_sessionTimeout}" />
     <title>ARCH4J (Application Archetype for Java)</title>
     <link rel="icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
     <!-- nprogress -->
@@ -217,6 +216,9 @@
         }
     </style>
     <script th:inline="javascript">
+        const _apiUrl = [[@{/api}]];
+        const _sessionTimeout = [[${_sessionTimeout}]];
+
         const _gotoIndex = function() {
             document.location.href = /*[[@{/}]]*/'';
         }
@@ -233,6 +235,19 @@
             document.querySelector('header #_header-menu').classList.toggle('open');
             document.querySelector('nav').classList.toggle('open');
         }
+
+        // checks session expired
+        setInterval(() => {
+            let url = `${_apiUrl}/v1/login/status`;
+            fetch(url).then(response => {
+                console.log(response);
+                if (response.status === 401 || response.status === 403) {
+                    _alert(/*[[#{web.error.SessionExpired}]]*/'').then(() => {
+                        document.location.reload();
+                    });
+                }
+            });
+        }, (_sessionTimeout + 3)*1000);
 
     </script>
 </head>

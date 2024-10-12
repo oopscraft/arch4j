@@ -95,22 +95,22 @@
 }
 
 /* screen */
-.large-screen {
+.only-large-screen {
     position: static;
     visibility: visible;
 }
-.small-screen {
+.only-small-screen {
     position: absolute;
     top: -9999px;
     left: -9999px;
 }
 @media (max-width: 600px) {
-    .large-screen {
+    .only-large-screen {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
-    .small-screen {
+    .only-small-screen {
         position: static;
         visibility: visible;
     }

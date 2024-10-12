@@ -254,10 +254,14 @@ const _getRandomColor = function() {
  * @param linkUrl
  * @param linkTarget
  */
-const _openLink = function(linkUrl, linkTarget){
+const _openLink = function(linkUrl, linkTarget) {
     if(linkUrl) {
         if(linkTarget) {
-            window.open(linkUrl, linkTarget);
+            let result = window.open(linkUrl, linkTarget);
+            // ios is security block
+            if (!result) {
+                window.location.href = linkUrl;
+            }
         }else{
             window.location.href = linkUrl;
         }

@@ -94,6 +94,28 @@
     filter: invert(1) hue-rotate(180deg);
 }
 
+/* screen */
+.large-screen {
+    position: static;
+    visibility: visible;
+}
+.small-screen {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+@media (max-width: 600px) {
+    .large-screen {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    .small-screen {
+        position: static;
+        visibility: visible;
+    }
+}
+
 /* global */
 html {
     font-size: var(--web-font-size);

@@ -38,6 +38,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -297,6 +298,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().disable();
             http.headers().frameOptions().sameOrigin();
+            // session
+            http.sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
             // exception handling
             http.exceptionHandling()
                     .accessDeniedHandler(accessDeniedHandler);
@@ -329,6 +333,9 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
             }
             http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             http.headers().frameOptions().sameOrigin();
+            // session
+            http.sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
             // exception handling
             http.exceptionHandling()
                     .authenticationEntryPoint(authenticationEntryPoint)

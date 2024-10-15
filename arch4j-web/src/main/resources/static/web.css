@@ -25,6 +25,8 @@
     --web-element-transition: all .2s ease-out;
     /* select */
     --web-select-icon: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='10' height='10' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='darkgray'/></g></svg>");
+    /* input-checkbox */
+    --web-input-checkbox-icon: url("data:image/svg+xml;utf8,<svg fill='none' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M10.5858 13.4142L7.75735 10.5858L6.34314 12L10.5858 16.2427L17.6568 9.1716L16.2426 7.75739L10.5858 13.4142Z' fill='gray'/></svg>");
     /* button */
     --web-button-border: solid 1px darkgray;
     --web-button-border-radius: 2px;
@@ -227,7 +229,29 @@ input:focus {
     outline: 0;
     border-bottom: var(--web-element-focus-border);
 }
-input[type='checkbox'],
+input[type='checkbox'] {
+    vertical-align: middle;
+    -webkit-appearance: none;
+    appearance: none;
+    height: var(--web-line-height);
+    width: var(--web-line-height);
+    border: var(--web-element-border);
+    border-radius: var(--web-element-border-radius);
+    padding: 0;
+    display: inline-flex;
+    justify-content: center;
+}
+input[type="checkbox"]::before {
+    content: var(--web-input-checkbox-icon);
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+}
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+
+
 input[type='radio'] {
     vertical-align: middle;
 }
@@ -887,12 +911,15 @@ hr {
 /* text-align */
 .text-align--left {
     text-align: left;
+    text-align: -webkit-left;
 }
 .text-align--center {
     text-align: center;
+    text-align: -webkit-center;
 }
 .text-align--right {
     text-align: right;
+    text-align: -webkit-right;
 }
 
 /* text-overflow */
@@ -1453,9 +1480,11 @@ hr {
 /* badge */
 .badge {
     display: inline-block;
+    min-width: var(--web-line-height);
+    text-align: center;
     font-size: smaller;
     font-weight: 600;
-    line-height: 1.2em;
+    line-height: calc(var(--web-line-height) / 2);
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: var(--web-badge-border-radius);

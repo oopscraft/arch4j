@@ -7,8 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title>ARCH4J (Application Archetype for Java)</title>
-    <link rel="icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
+    <title data-th-text="${_title}"></title>
+    <link rel="manifest" th:href="@{/static/manifest.json}">
+    <link rel="icon" type="image/png" th:href="${_favicon}" sizes="32x32"/>
     <!-- nprogress -->
     <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>

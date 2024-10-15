@@ -102,7 +102,8 @@ springdoc:
 # web
 web:
   theme: _default
-  brand: <img class="icon" src="/static/image/logo-arch4j.png"/>
+  brand: <span><img src="/static/image/arch4j-icon.svg"/><img src="/static/image/arch4j-title.svg"/></span>
+  favicon: /static/image/arch4j-icon.svg
   title: ARCH4J (Application Archetype for Java)
   index: git/arch4j/README.md
   security-policy: ANONYMOUS

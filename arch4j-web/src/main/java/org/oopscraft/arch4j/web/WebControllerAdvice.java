@@ -68,6 +68,11 @@ public class WebControllerAdvice {
         return webProperties.getBrand();
     }
 
+    @ModelAttribute("_favicon")
+    public String favicon() {
+        return webProperties.getFavicon();
+    }
+
     @ModelAttribute("_title")
     public String title() {
         return webProperties.getTitle();

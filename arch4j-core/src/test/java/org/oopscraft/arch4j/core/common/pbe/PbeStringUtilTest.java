@@ -3,11 +3,14 @@ package org.oopscraft.arch4j.core.common.pbe;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
+@SpringBootTest(classes = CoreConfiguration.class)
 class PbeStringUtilTest extends CoreTestSupport {
 
     @Test

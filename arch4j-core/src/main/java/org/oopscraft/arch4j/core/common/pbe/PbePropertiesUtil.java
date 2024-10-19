@@ -30,7 +30,8 @@ public class PbePropertiesUtil {
             List<String> lines = IOUtils.readLines(stringReader);
             for(String line : lines) {
                 if(line.isBlank() || line.startsWith("#")) {
-                    stringBuilder.append(line);
+                    stringBuilder.append(line)
+                            .append('\n');
                     continue;
                 }
                 int indexOf = line.indexOf("=");

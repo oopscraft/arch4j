@@ -40,7 +40,9 @@ var duice;
                 if (!value) {
                     value = '';
                 }
+                let scrollInfo = this.codeMirror.getScrollInfo();
                 this.codeMirror.doc.setValue(value);
+                this.codeMirror.scrollTo(scrollInfo.left, scrollInfo.top);
             }
             getValue() {
                 let value = this.codeMirror.doc.getValue();

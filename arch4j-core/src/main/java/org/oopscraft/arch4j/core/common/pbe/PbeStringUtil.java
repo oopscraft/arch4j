@@ -18,14 +18,29 @@ public class PbeStringUtil implements ApplicationContextAware {
         pbeStringEncryptor = applicationContext.getBean(StandardPBEStringEncryptor.class);
     }
 
+    /**
+     * encrypt value
+     * @param value origin value
+     * @return encrypted value
+     */
     public static String encrypt(String value) {
         return pbeStringEncryptor.encrypt(value);
     }
 
+    /**
+     * decrypt value
+     * @param value encrypted value
+     * @return origin value
+     */
     public static String decrypt(String value) {
         return pbeStringEncryptor.decrypt(value);
     }
 
+    /**
+     * checks encrypted mark
+     * @param value value
+     * @return whether encrypted mark is included or not
+     */
     public static boolean hasEncryptedMark(String value ) {
         if (value == null) {
             return false;
@@ -34,6 +49,11 @@ public class PbeStringUtil implements ApplicationContextAware {
         return (value.startsWith("ENC(") && value.endsWith(")"));
     }
 
+    /**
+     * checks decrypted mark
+     * @param value value
+     * @return whether decrypted mark is included or not
+     */
     public static boolean hasDecryptedMark(String value) {
         if (value == null) {
             return false;

@@ -25,17 +25,7 @@ public class AlarmClientFactory {
     }
 
     private static Properties loadPropertiesFromString(String config) {
-        Properties properties = new Properties();
-        try {
-            properties.load(new StringReader(config));
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid properties string", e);
-        }
-
-        properties = PbePropertiesUtil.decode(properties);
-        properties = PbePropertiesUtil.unwrapDecryptedMark(properties);
-
-        return properties;
+        return PbePropertiesUtil.loadProperties(config);
     }
 
 }

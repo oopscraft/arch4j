@@ -6,6 +6,8 @@ import org.oopscraft.arch4j.core.CoreConfiguration;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Properties;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = CoreConfiguration.class)
@@ -13,15 +15,47 @@ import static org.junit.jupiter.api.Assertions.*;
 class PbePropertiesUtilTest extends CoreTestSupport {
 
     @Test
-    void encode() {
+    void encodePropertiesString() {
         // given
-        String properties = "#comment\n" +
+        String originPropertiesString = "#comment\n" +
                 "param1=DEC(value1)\n" +
                 "param2=value2";
         // when
-        String encodedProperties = PbePropertiesUtil.encode(properties);
+        String encodedPropertiesString = PbePropertiesUtil.encodePropertiesString(originPropertiesString);
         // then
-        log.info("encodedProperties:{}", encodedProperties);
+        log.info("originPropertiesString:{}", originPropertiesString);
+        log.info("encodedPropertiesString:{}", encodedPropertiesString);
+    }
+
+    @Test
+    void loadPropertiesFromDecryptedMark() {
+        // given
+        String name = "param1";
+        String originValue = "value1";
+        String originPropertiesString = "#comment\n" +
+                String.format("%s=DEC(%s)\n", name, originValue) +
+                "param2=value2";
+        // when
+        Properties properties = PbePropertiesUtil.loadProperties(originPropertiesString);
+        // then
+        log.info("properties:{}", properties);
+        assertEquals(originValue, properties.get(name));
+    }
+
+    @Test
+    void loadPropertiesFromEncryptedValue() {
+        // given
+        String name = "param1";
+        String originValue = "value1";
+        String encryptedValue = PbeStringUtil.encrypt(originValue);
+        String originPropertiesString = "#comment\n" +
+                String.format("%s=ENC(%s)\n", name, encryptedValue) +
+                "param2=value2";
+        // when
+        Properties properties = PbePropertiesUtil.loadProperties(originPropertiesString);
+        // then
+        log.info("properties:{}", properties);
+        assertEquals(originValue, properties.get(name));
     }
 
 }

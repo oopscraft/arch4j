@@ -1,21 +1,21 @@
 package org.oopscraft.arch4j.core.common.pbe;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.validation.constraints.NotNull;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.function.Function;
 
 public class PbePropertiesUtil {
 
     public static String encodePropertiesString(@NotNull String propertiesString) {
         StringBuilder stringBuilder = new StringBuilder();
-        try (StringReader stringReader = new StringReader(propertiesString)) {
-            List<String> lines = IOUtils.readLines(stringReader);
+
+        try (StringReader stringReader = new StringReader(propertiesString);
+             BufferedReader bufferedReader = new BufferedReader(stringReader)) {
+            List<String> lines = bufferedReader.lines().toList();
             for(String line : lines) {
                 if(line.isBlank() || line.startsWith("#")) {
                     stringBuilder.append(line)
@@ -39,10 +39,12 @@ public class PbePropertiesUtil {
 
     public static Properties loadProperties(String propertiesString) {
         Properties properties = new Properties();
-        try {
-            properties.load(new StringReader(propertiesString));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+        if (propertiesString != null && propertiesString.trim().length() > 0) {
+            try {
+                properties.load(new StringReader(propertiesString));
+            } catch (IOException e) {
+                throw new IllegalArgumentException(e);
+            }
         }
         Properties newProperties = new Properties();
         properties.forEach((keyObject, valueObject) -> {

@@ -1498,6 +1498,16 @@ hr {
     font-family: var(--web-font-family-code);
 }
 
+/* number */
+.number {
+    font-family: var(--web-font-family-code);
+}
+
+/* date */
+.date {
+    font-family: var(--web-font-family-code);
+}
+
 /* tag */
 .tag-required:after {
     display: inline-block;

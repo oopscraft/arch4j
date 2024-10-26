@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.web.common.error;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,11 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public void handleMethodArgumentNotValidException(HttpServletRequest request, HttpServletResponse response, MethodArgumentNotValidException exception) {
         errorResponseHandler.sendErrorResponse(request, response, HttpStatus.BAD_REQUEST, exception);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void handleDataIntegrityViolationException(HttpServletRequest request, HttpServletResponse response, DataIntegrityViolationException exception) {
+        errorResponseHandler.sendErrorResponse(request, response, HttpStatus.CONFLICT, exception);
     }
 
 }

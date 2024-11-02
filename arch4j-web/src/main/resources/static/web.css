@@ -464,6 +464,9 @@ dialog {
     background-color: var(--web-background-color);
     border: var(--web-dialog-border);
 }
+dialog:focus {
+    outline: none;
+}
 
 /* hr */
 hr {

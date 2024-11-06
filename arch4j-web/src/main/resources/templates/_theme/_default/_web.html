@@ -124,6 +124,7 @@
             border-bottom: dotted 1px lightgray;
             font-weight: 600;
             transition-duration: 0.3s;
+            cursor: pointer;
         }
         .dark-mode nav #_nav-menu li {
             border-bottom: dotted 1px #555555;
@@ -247,8 +248,7 @@
                     this.classList.add('locked');
                 }
                 "
-                onclick="_openLink(this.dataset.link,this.dataset.target);"
-                class="link">
+                onclick="_openLink(this.dataset.link,this.dataset.target);">
                 <img class="icon" th:src="@{/static/image/icon-null.svg}" data-duice-bind="menu" data-duice-property="icon" alt="menu"/>
                 <span data-duice-bind="menu" data-duice-property="menuName"></span>
             </li>

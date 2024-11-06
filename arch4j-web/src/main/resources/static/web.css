@@ -1479,6 +1479,10 @@ hr {
 .link {
     cursor: pointer;
 }
+.link:hover {
+    text-decoration: underline;
+    transition: box-shadow 1.0s ease;
+}
 
 /* badge */
 .badge {

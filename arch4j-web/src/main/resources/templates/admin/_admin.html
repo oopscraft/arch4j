@@ -170,6 +170,7 @@
             border-bottom: dotted 1px lightgray;
             font-weight: 600;
             transition-duration: 0.3s;
+            cursor: pointer;
         }
         .dark-mode nav #_nav-menu li {
             border-bottom: dotted 1px #555555;
@@ -306,51 +307,51 @@
     <!-- ====================================== -->
     <nav>
         <ul id="_nav-menu">
-            <li class="link" th:onclick="|_openLink('@{/admin/monitor}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.monitor'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/monitor}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.monitor'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-monitor.svg}" alt="monitor"/>
                 <span data-th-text="#{web.admin.monitor}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/security}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.security'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/security}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.security'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-security.svg}" alt="security"/>
                 <span data-th-text="#{web.admin.security}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/menus}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.menus'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/menus}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.menus'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-menu.svg}" alt="menu"/>
                 <span data-th-text="#{web.admin.menu}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/boards}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.boards'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/boards}')|" th:classappend="!${#authorization.expression('hasAuthority(''admin.boards'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-board.svg}" alt="board"/>
                 <span data-th-text="#{web.admin.board}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/pages}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.pages'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/pages}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.pages'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-page.svg}" alt="page"/>
                 <span data-th-text="#{web.admin.page}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/gits}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.gits'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/gits}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.gits'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-git.svg}" alt="git"/>
                 <span data-th-text="#{web.admin.git}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/emails}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.emails'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/emails}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.emails'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-email.svg}" alt="email"/>
                 <span data-th-text="#{web.admin.email}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/messages}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.messages'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/messages}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.messages'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-message.svg}" alt="message"/>
                 <span data-th-text="#{web.admin.message}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/variables}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.variables'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/variables}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.variables'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-variable.svg}" alt="variable"/>
                 <span data-th-text="#{web.admin.variable}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/codes}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.codes'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/codes}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.codes'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-code.svg}" alt="code"/>
                 <span data-th-text="#{web.admin.code}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/admin/alarms}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.alarms'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/admin/alarms}');|" th:classappend="!${#authorization.expression('hasAuthority(''admin.alarms'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-alarm.svg}" alt="code"/>
                 <span data-th-text="#{web.admin.alarm}"></span>
             </li>
-            <li class="link" th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''swagger-ui'')')}?'locked'">
+            <li th:onclick="|_openLink('@{/swagger-ui.html}','_blank')|" th:classappend="!${#authorization.expression('hasAuthority(''swagger-ui'')')}?'locked'">
                 <img class="icon" th:src="@{/static/image/icon-api.svg}" alt="api"/>
                 <span data-th-text="#{web.admin.api}"></span>
             </li>

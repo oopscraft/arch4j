@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.core.common.support;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
+import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -15,6 +16,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 @Slf4j
@@ -32,7 +34,7 @@ public class RestTemplateBuilder {
 
     private int readTimeout = 30_000;
 
-    private int retryCount = 0;
+    private HttpRequestRetryHandler httpRequestRetryHandler;
 
     public static RestTemplateBuilder create() {
         return new RestTemplateBuilder();
@@ -64,8 +66,8 @@ public class RestTemplateBuilder {
         return this;
     }
 
-    public RestTemplateBuilder retryCount(int retryCount) {
-        this.retryCount = retryCount;
+    public RestTemplateBuilder httpRequestRetryHandler(HttpRequestRetryHandler httpRequestRetryHandler) {
+        this.httpRequestRetryHandler = httpRequestRetryHandler;
         return this;
     }
 
@@ -111,9 +113,9 @@ public class RestTemplateBuilder {
             .build();
         httpClientBuilder.setDefaultRequestConfig(requestConfig);
 
-        // retry count
-        if (retryCount > 0) {
-            httpClientBuilder.setRetryHandler(new StandardHttpRequestRetryHandler());
+        // retry handler
+        if (httpRequestRetryHandler != null) {
+            httpClientBuilder.setRetryHandler(httpRequestRetryHandler);
         }
 
         // build

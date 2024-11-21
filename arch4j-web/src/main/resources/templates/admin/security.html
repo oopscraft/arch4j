@@ -624,26 +624,28 @@
 
         // DOM content loaded listener
         document.addEventListener('DOMContentLoaded',() => {
-            let tabFolder = duice.tabFolder(
-                duice.tabItem(
-                    document.getElementById('userTabButton'),
-                    document.getElementById('userTabContent'),
-                    () => {
-                        getUsers();
-                    }),
-                duice.tabItem(
-                    document.getElementById('roleTabButton'),
-                    document.getElementById('roleTabContent'),
-                    () => {
-                        getRoles();
-                    }),
-                duice.tabItem(
-                    document.getElementById('authorityTabButton'),
-                    document.getElementById('authorityTabContent'),
-                    () => {
-                        getAuthorities();
-                    })
-            );
+            let tabFolder = new duice.TabFolder();
+            tabFolder.addItem(new duice.TabItem(
+                document.getElementById('userTabButton'),
+                document.getElementById('userTabContent'),
+                () => {
+                    getUsers();
+                }
+            ));
+            tabFolder.addItem(new duice.TabItem(
+                document.getElementById('roleTabButton'),
+                document.getElementById('roleTabContent'),
+                () => {
+                    getRoles();
+                }
+            ));
+            tabFolder.addItem(new duice.TabItem(
+                document.getElementById('authorityTabButton'),
+                document.getElementById('authorityTabContent'),
+                () => {
+                    getAuthorities();
+                }
+            ));
             tabFolder.setActive(0);
         });
     </script>
@@ -751,7 +753,8 @@
                             <tbody>
                             <tr data-duice-bind="users" data-duice-loop="user,status"
                                 data-duice-selected-item-class="selected" data-duice-execute="this.dataset.userId=user.userId;"
-                                onclick="getUser(this.dataset.userId);" class="link">
+                                onclick="getUser(this.dataset.userId);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count" class="text-align--center"></td>
                                 <td>
                                     <img data-duice-bind="user" data-duice-property="photo"
@@ -1014,7 +1017,7 @@
         </style>
         <script th:inline="javascript">
             const userPasswordChangeDialog = {
-                dialog: new duice.dialog.Dialog(document.getElementById('userPasswordChangeDialog')),
+                dialog: new duice.Dialog(document.getElementById('userPasswordChangeDialog')),
                 data: new duice.ObjectProxy({
                     userId: null,
                     password: null,
@@ -1107,7 +1110,7 @@
         </style>
         <script th:inline="javascript">
             const securityTokenGenerateDialog = {
-                dialog: new duice.dialog.Dialog(document.getElementById('securityTokenGenerateDialog')),
+                dialog: new duice.Dialog(document.getElementById('securityTokenGenerateDialog')),
                 data: new duice.ObjectProxy({
                     userId: null,
                     expirationDays: null,
@@ -1226,9 +1229,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="roles" data-duice-loop="role,status" data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.id=role.roleId;
-                        " onclick="getRole(this.dataset.id);" class="link">
+                            <tr data-duice-bind="roles"
+                                data-duice-loop="role,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=role.roleId;"
+                                onclick="getRole(this.dataset.id);"
+                                class="cursor--pointer">
                                 <td class="text-align--center">
                                     <span data-duice-bind="status" data-duice-property="count"></span>
                                 </td>
@@ -1423,7 +1429,7 @@
         </style>
         <script th:inline="javascript">
             const authoritySelectDialog = {
-                dialog: new duice.dialog.Dialog(document.getElementById('authoritySelectDialog')),
+                dialog: new duice.Dialog(document.getElementById('authoritySelectDialog')),
                 alreadySelectedAuthorityIds : null,
                 authoritySearch: new duice.ObjectProxy({
                     key: 'authorityId',
@@ -1726,9 +1732,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="authorities" data-duice-loop="authority,status" data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.id=authority.authorityId;
-                        " onclick="getAuthority(this.dataset.id);" class="link">
+                            <tr data-duice-bind="authorities"
+                                data-duice-loop="authority,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=authority.authorityId;"
+                                onclick="getAuthority(this.dataset.id);"
+                                class="cursor--pointer">
                                 <td class="text-align--center">
                                     <span data-duice-bind="status" data-duice-property="count"></span>
                                 </td>

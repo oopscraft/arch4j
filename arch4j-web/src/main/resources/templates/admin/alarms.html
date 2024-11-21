@@ -294,10 +294,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="alarms" data-duice-loop="alarm,status"
-                                data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.alarmId=alarm.alarmId;
-                        " onclick="getAlarm(this.dataset.alarmId);" class="link">
+                            <tr data-duice-bind="alarms"
+                                data-duice-loop="alarm,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.alarmId=alarm.alarmId;"
+                                onclick="getAlarm(this.dataset.alarmId);"
+                                class="cursor--pointer">
                                 <td>
                                 <span data-duice-bind="status" data-duice-property="count"
                                       class="text-align--center"></span>

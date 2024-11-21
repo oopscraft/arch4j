@@ -258,10 +258,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="variables" data-duice-loop="variable,status"
-                                data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.variableId=variable.variableId;
-                        " onclick="getVariable(this.dataset.variableId);" class="link">
+                            <tr data-duice-bind="variables"
+                                data-duice-loop="variable,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.variableId=variable.variableId;"
+                                onclick="getVariable(this.dataset.variableId);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td data-duice-bind="variable" data-duice-property="variableId"></td>

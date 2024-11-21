@@ -6,7 +6,7 @@
  */
 const _alert = function(message, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>' + message + '<br/>';
-    return duice.alert(message)
+    return new duice.AlertDialog(message)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)
         .onClosing(option_?.onClosing)
@@ -22,7 +22,7 @@ const _alert = function(message, option_) {
  */
 const _confirm = function(message, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>' + message + '<br/>';
-    return duice.confirm(message)
+    return new duice.ConfirmDialog(message)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)
         .onClosing(option_?.onClosing)
@@ -39,7 +39,7 @@ const _confirm = function(message, option_) {
  */
 const _prompt = function(message, type, option_) {
     message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
-    return duice.prompt(message, type)
+    return new duice.PromptDialog(message, type)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)
         .onClosing(option_?.onClosing)

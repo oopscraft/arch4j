@@ -258,10 +258,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="emails" data-duice-loop="email,status"
-                                data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.emailId=email.emailId;
-                        " onclick="getEmail(this.dataset.emailId);" class="link">
+                            <tr data-duice-bind="emails"
+                                data-duice-loop="email,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.emailId=email.emailId;"
+                                onclick="getEmail(this.dataset.emailId);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td data-duice-bind="email" data-duice-property="emailId" class="font-weight--bold"></td>

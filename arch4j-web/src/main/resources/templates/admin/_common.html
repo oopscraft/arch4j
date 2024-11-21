@@ -10,7 +10,7 @@
     </style>
     <script th:inline="javascript">
         const roleSelectDialog = {
-            dialog: new duice.dialog.Dialog(document.getElementById('roleSelectDialog')),
+            dialog: new duice.Dialog(document.getElementById('roleSelectDialog')),
             alreadySelectedRoleIds : null,
             roleSearch: new duice.ObjectProxy({
                 key: 'roleId',
@@ -204,7 +204,7 @@
             <div class="display--grid grid-template-columns--3">
                 <div>
                     <span data-th-text="#{web.global.total}"></span>
-                    <span data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="_count" data-duice-format="number"></span>
+                    <span data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="_count" data-duice-format="number()"></span>
                     <span data-th-text="#{web.global.rows}"></span>
                 </div>
                 <div class="justify-self--center">

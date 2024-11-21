@@ -254,9 +254,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="messages" data-duice-loop="message,status" data-duice-selected-item-class="selected" data-duice-execute="
-                            this.dataset.id=message.messageId;
-                            " onclick="getMessage(this.dataset.id);" class="link">
+                            <tr data-duice-bind="messages"
+                                data-duice-loop="message,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=message.messageId;"
+                                onclick="getMessage(this.dataset.id);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td data-duice-bind="message" data-duice-property="messageId"></td>

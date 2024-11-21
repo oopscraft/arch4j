@@ -318,9 +318,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="pages" data-duice-loop="page,status" data-duice-selected-item-class="selected" data-duice-execute="
-                            this.dataset.id=page.pageId;
-                            " onclick="getPage(this.dataset.id);" class="link">
+                            <tr data-duice-bind="pages"
+                                data-duice-loop="page,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=page.pageId;"
+                                onclick="getPage(this.dataset.id);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td data-duice-bind="page" data-duice-property="pageId" class="font-weight--bold"></td>

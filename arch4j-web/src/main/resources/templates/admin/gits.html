@@ -262,10 +262,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="gits" data-duice-loop="git,status"
-                                data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.gitId=git.gitId;
-                        " onclick="getGit(this.dataset.gitId);" class="link">
+                            <tr data-duice-bind="gits"
+                                data-duice-loop="git,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.gitId=git.gitId;"
+                                onclick="getGit(this.dataset.gitId);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td data-duice-bind="git" data-duice-property="gitId"></td>

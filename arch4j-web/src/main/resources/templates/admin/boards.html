@@ -392,9 +392,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-duice-bind="boards" data-duice-loop="board,status" data-duice-selected-item-class="selected" data-duice-execute="
-                        this.dataset.boardId=board.boardId;
-                        " onclick="getBoard(this.dataset.boardId);" class="link">
+                            <tr data-duice-bind="boards"
+                                data-duice-loop="board,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.boardId=board.boardId;"
+                                onclick="getBoard(this.dataset.boardId);"
+                                class="cursor--pointer">
                                 <td data-duice-bind="status" data-duice-property="count"
                                     class="text-align--center"></td>
                                 <td>

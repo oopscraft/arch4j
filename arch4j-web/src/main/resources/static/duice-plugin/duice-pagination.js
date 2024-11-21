@@ -125,7 +125,6 @@ var duicePagination = (function (exports, duice) {
         duice.DataElementRegistry.register(`${duice.Configuration.getNamespace()}-pagination`, new PaginationFactory());
     })();
 
-    exports.Pagination = Pagination;
     exports.PaginationFactory = PaginationFactory;
 
     Object.defineProperty(exports, '__esModule', { value: true });

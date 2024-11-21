@@ -37,7 +37,6 @@ var duiceMarked = (function (exports, duice) {
         duice.DataElementRegistry.register(`${duice.Configuration.getNamespace()}-marked`, new MarkedFactory());
     })();
 
-    exports.Marked = Marked;
     exports.MarkedFactory = MarkedFactory;
 
     Object.defineProperty(exports, '__esModule', { value: true });

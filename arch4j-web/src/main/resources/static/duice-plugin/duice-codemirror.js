@@ -88,7 +88,6 @@ var duiceCodemirror = (function (exports, duice) {
         duice.DataElementRegistry.register(`${duice.Configuration.getNamespace()}-codemirror`, new CodemirrorFactory());
     })();
 
-    exports.Codemirror = Codemirror;
     exports.CodemirrorFactory = CodemirrorFactory;
 
     Object.defineProperty(exports, '__esModule', { value: true });

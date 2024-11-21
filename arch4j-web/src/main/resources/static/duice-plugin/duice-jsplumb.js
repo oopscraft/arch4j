@@ -296,7 +296,6 @@ var duiceJsplumb = (function (exports, duice) {
     })();
 
     exports.DiagramFactory = DiagramFactory;
-    exports.Jsplumb = Jsplumb;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

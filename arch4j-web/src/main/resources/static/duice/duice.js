@@ -1,9 +1,6 @@
 var duice = (function (exports) {
     'use strict';
 
-    class DataElementFactory {
-    }
-
     class Configuration {
         static setNamespace(value) {
             this.namespace = value;
@@ -96,6 +93,9 @@ var duice = (function (exports) {
         }
     }
 
+    class DataElementFactory {
+    }
+
     class Observable {
         constructor() {
             this.observers = [];
@@ -164,7 +164,7 @@ var duice = (function (exports) {
         }
     }
 
-    var __awaiter$5 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -239,7 +239,7 @@ var duice = (function (exports) {
             this.listenerEnabled = true;
         }
         checkListener(listener, event) {
-            return __awaiter$5(this, void 0, void 0, function* () {
+            return __awaiter$4(this, void 0, void 0, function* () {
                 if (this.listenerEnabled && listener) {
                     let result = yield listener.call(this.getTarget(), event);
                     if (result == false) {
@@ -599,7 +599,7 @@ var duice = (function (exports) {
         }
     }
 
-    var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -625,7 +625,7 @@ var duice = (function (exports) {
             return true;
         }
         update(observable, event) {
-            return __awaiter$4(this, void 0, void 0, function* () {
+            return __awaiter$3(this, void 0, void 0, function* () {
                 console.debug("ObjectHandler.update", observable, event);
                 // Element
                 if (observable instanceof ObjectElement) {
@@ -714,7 +714,7 @@ var duice = (function (exports) {
         }
     }
 
-    var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -735,7 +735,7 @@ var duice = (function (exports) {
                 if (['push', 'unshift'].includes(property)) {
                     return function () {
                         var arguments_1 = arguments;
-                        return __awaiter$3(this, void 0, void 0, function* () {
+                        return __awaiter$2(this, void 0, void 0, function* () {
                             let index;
                             if (property === 'push') {
                                 index = receiver['length'];
@@ -756,7 +756,7 @@ var duice = (function (exports) {
                 if (['splice'].includes(property)) {
                     return function () {
                         var arguments_2 = arguments;
-                        return __awaiter$3(this, void 0, void 0, function* () {
+                        return __awaiter$2(this, void 0, void 0, function* () {
                             // parse arguments
                             let start = arguments_2[0];
                             let deleteCount = arguments_2[1];
@@ -784,7 +784,7 @@ var duice = (function (exports) {
                 // pop, shift
                 if (['pop', 'shift'].includes(property)) {
                     return function () {
-                        return __awaiter$3(this, void 0, void 0, function* () {
+                        return __awaiter$2(this, void 0, void 0, function* () {
                             let index;
                             if (property === 'pop') {
                                 index = receiver['length'] - 1;
@@ -812,7 +812,7 @@ var duice = (function (exports) {
             return true;
         }
         update(observable, event) {
-            return __awaiter$3(this, void 0, void 0, function* () {
+            return __awaiter$2(this, void 0, void 0, function* () {
                 console.debug("ArrayHandler.update", observable, event);
                 // instance is array component
                 if (observable instanceof ArrayElement) {
@@ -832,7 +832,7 @@ var duice = (function (exports) {
             });
         }
         insertItem(arrayProxy, index, ...rows) {
-            return __awaiter$3(this, void 0, void 0, function* () {
+            return __awaiter$2(this, void 0, void 0, function* () {
                 let arrayHandler = ArrayProxy.getHandler(arrayProxy);
                 let proxyTarget = ArrayProxy.getTarget(arrayProxy);
                 rows.forEach((object, index) => {
@@ -851,7 +851,7 @@ var duice = (function (exports) {
             });
         }
         deleteItem(arrayProxy, index, size) {
-            return __awaiter$3(this, void 0, void 0, function* () {
+            return __awaiter$2(this, void 0, void 0, function* () {
                 let arrayHandler = ArrayProxy.getHandler(arrayProxy);
                 let proxyTarget = ArrayProxy.getTarget(arrayProxy);
                 let sliceBegin = index;
@@ -868,7 +868,7 @@ var duice = (function (exports) {
             });
         }
         appendItem(arrayProxy, ...rows) {
-            return __awaiter$3(this, void 0, void 0, function* () {
+            return __awaiter$2(this, void 0, void 0, function* () {
                 let index = arrayProxy.length;
                 return this.insertItem(arrayProxy, index, ...rows);
             });
@@ -1250,90 +1250,7 @@ var duice = (function (exports) {
         }
     }
 
-    class CustomElementFactory extends DataElementFactory {
-        createElement(htmlElement, bindData, context) {
-            return this.doCreateElement(htmlElement, bindData, context);
-        }
-    }
-
-    class ObjectElementFactory extends DataElementFactory {
-        createElement(htmlElement, bindData, context) {
-            return new ObjectElement(htmlElement, bindData, context);
-        }
-    }
-
-    class DataElementRegistry {
-        static register(tagName, elementFactory) {
-            if (elementFactory instanceof ArrayElementFactory) {
-                this.arrayElementFactories.set(tagName, elementFactory);
-            }
-            else if (elementFactory instanceof ObjectElementFactory) {
-                this.objectElementFactories.set(tagName, elementFactory);
-            }
-            else if (elementFactory instanceof CustomElementFactory) {
-                this.customElementFactories.set(tagName, elementFactory);
-            }
-            // register custom html element
-            if (tagName.includes('-')) {
-                globalThis.customElements.define(tagName, class extends HTMLElement {
-                });
-            }
-        }
-        static getFactory(htmlElement, bindData, context) {
-            let tagName = htmlElement.tagName.toLowerCase();
-            // custom element
-            if (this.customElementFactories.has(tagName)) {
-                return this.customElementFactories.get(tagName);
-            }
-            // array element
-            if (Array.isArray(bindData)) {
-                if (this.arrayElementFactories.has(tagName)) {
-                    return this.arrayElementFactories.get(tagName);
-                }
-                return this.defaultArrayElementFactory;
-            }
-            // object element
-            else {
-                if (this.objectElementFactories.has(tagName)) {
-                    return this.objectElementFactories.get(tagName);
-                }
-                return this.defaultObjectElementFactory;
-            }
-        }
-    }
-    DataElementRegistry.defaultObjectElementFactory = new ObjectElementFactory();
-    DataElementRegistry.defaultArrayElementFactory = new ArrayElementFactory();
-    DataElementRegistry.objectElementFactories = new Map();
-    DataElementRegistry.arrayElementFactories = new Map();
-    DataElementRegistry.customElementFactories = new Map();
-
-    class Initializer {
-        static initialize(container, context, index) {
-            // scan DOM tree
-            container.querySelectorAll(getElementQuerySelector()).forEach(element => {
-                var _a, _b;
-                // if (element instanceof HTMLElement) {
-                const htmlElement = element;
-                if (!hasElementAttribute(htmlElement, 'id')) {
-                    try {
-                        let bindName = getElementAttribute(htmlElement, 'bind');
-                        let bindData = findVariable(context, bindName);
-                        (_b = (_a = DataElementRegistry.getFactory(htmlElement, bindData, context)) === null || _a === void 0 ? void 0 : _a.createElement(htmlElement, bindData, context)) === null || _b === void 0 ? void 0 : _b.render();
-                        // index
-                        if (index !== undefined) {
-                            setElementAttribute(htmlElement, "index", index.toString());
-                        }
-                    }
-                    catch (e) {
-                        console.error(e, htmlElement, container, JSON.stringify(context));
-                    }
-                }
-                // }
-            });
-        }
-    }
-
-    var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1459,7 +1376,7 @@ var duice = (function (exports) {
                     e.stopPropagation();
                 });
                 itemHtmlElement.addEventListener('drop', function (e) {
-                    return __awaiter$2(this, void 0, void 0, function* () {
+                    return __awaiter$1(this, void 0, void 0, function* () {
                         e.preventDefault();
                         e.stopPropagation();
                         let fromIndex = parseInt(e.dataTransfer.getData('text'));
@@ -1523,6 +1440,89 @@ var duice = (function (exports) {
         }
     }
 
+    class CustomElementFactory extends DataElementFactory {
+        createElement(htmlElement, bindData, context) {
+            return this.doCreateElement(htmlElement, bindData, context);
+        }
+    }
+
+    class ObjectElementFactory extends DataElementFactory {
+        createElement(htmlElement, bindData, context) {
+            return new ObjectElement(htmlElement, bindData, context);
+        }
+    }
+
+    class DataElementRegistry {
+        static register(tagName, elementFactory) {
+            if (elementFactory instanceof ArrayElementFactory) {
+                this.arrayElementFactories.set(tagName, elementFactory);
+            }
+            else if (elementFactory instanceof ObjectElementFactory) {
+                this.objectElementFactories.set(tagName, elementFactory);
+            }
+            else if (elementFactory instanceof CustomElementFactory) {
+                this.customElementFactories.set(tagName, elementFactory);
+            }
+            // register custom html element
+            if (tagName.includes('-')) {
+                globalThis.customElements.define(tagName, class extends HTMLElement {
+                });
+            }
+        }
+        static getFactory(htmlElement, bindData, context) {
+            let tagName = htmlElement.tagName.toLowerCase();
+            // custom element
+            if (this.customElementFactories.has(tagName)) {
+                return this.customElementFactories.get(tagName);
+            }
+            // array element
+            if (Array.isArray(bindData)) {
+                if (this.arrayElementFactories.has(tagName)) {
+                    return this.arrayElementFactories.get(tagName);
+                }
+                return this.defaultArrayElementFactory;
+            }
+            // object element
+            else {
+                if (this.objectElementFactories.has(tagName)) {
+                    return this.objectElementFactories.get(tagName);
+                }
+                return this.defaultObjectElementFactory;
+            }
+        }
+    }
+    DataElementRegistry.defaultObjectElementFactory = new ObjectElementFactory();
+    DataElementRegistry.defaultArrayElementFactory = new ArrayElementFactory();
+    DataElementRegistry.objectElementFactories = new Map();
+    DataElementRegistry.arrayElementFactories = new Map();
+    DataElementRegistry.customElementFactories = new Map();
+
+    class Initializer {
+        static initialize(container, context, index) {
+            // scan DOM tree
+            container.querySelectorAll(getElementQuerySelector()).forEach(element => {
+                var _a, _b;
+                // if (element instanceof HTMLElement) {
+                const htmlElement = element;
+                if (!hasElementAttribute(htmlElement, 'id')) {
+                    try {
+                        let bindName = getElementAttribute(htmlElement, 'bind');
+                        let bindData = findVariable(context, bindName);
+                        (_b = (_a = DataElementRegistry.getFactory(htmlElement, bindData, context)) === null || _a === void 0 ? void 0 : _a.createElement(htmlElement, bindData, context)) === null || _b === void 0 ? void 0 : _b.render();
+                        // index
+                        if (index !== undefined) {
+                            setElementAttribute(htmlElement, "index", index.toString());
+                        }
+                    }
+                    catch (e) {
+                        console.error(e, htmlElement, container, JSON.stringify(context));
+                    }
+                }
+                // }
+            });
+        }
+    }
+
     class CustomElement extends DataElement {
         constructor(htmlElement, bindData, context) {
             super(htmlElement, bindData, context);
@@ -1544,7 +1544,325 @@ var duice = (function (exports) {
         }
     }
 
-    var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    class InputElement extends ObjectElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            // adds change listener
+            this.getHtmlElement().addEventListener('change', e => {
+                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
+                this.notifyObservers(event);
+            }, true);
+            // turn off autocomplete
+            this.getHtmlElement().setAttribute('autocomplete', 'off');
+        }
+        setValue(value) {
+            if (value) {
+                value = this.getFormat() ? this.getFormat().format(value) : value;
+            }
+            else {
+                value = '';
+            }
+            this.getHtmlElement().value = value;
+        }
+        getValue() {
+            let value = this.getHtmlElement().value;
+            if (value) {
+                value = this.getFormat() ? this.getFormat().parse(value) : value;
+            }
+            else {
+                value = null;
+            }
+            return value;
+        }
+        setReadonly(readonly) {
+            this.getHtmlElement().readOnly = readonly;
+        }
+        setDisable(disable) {
+            if (disable) {
+                this.getHtmlElement().setAttribute('disabled', 'disabled');
+            }
+            else {
+                this.getHtmlElement().removeAttribute('disabled');
+            }
+        }
+        focus() {
+            this.getHtmlElement().focus();
+            return true;
+        }
+    }
+
+    class InputNumberElement extends InputElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            // changes type and style
+            this.getHtmlElement().removeAttribute('type');
+            this.getHtmlElement().style.textAlign = 'right';
+            // prevents invalid key press
+            this.getHtmlElement().addEventListener('keypress', event => {
+                if (/[\d|\.|,]/.test(event.key) === false) {
+                    event.preventDefault();
+                }
+            });
+        }
+        getValue() {
+            let value = super.getValue();
+            return Number(value);
+        }
+    }
+
+    class InputCheckboxElement extends InputElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            this.trueValue = true;
+            this.falseValue = false;
+            // true false value
+            let trueValue = getElementAttribute(this.getHtmlElement(), 'true-value');
+            this.trueValue = trueValue ? trueValue : this.trueValue;
+            let falseValue = getElementAttribute(this.getHtmlElement(), 'false-value');
+            this.falseValue = falseValue ? falseValue : this.falseValue;
+        }
+        setValue(value) {
+            if (value === this.trueValue) {
+                this.getHtmlElement().checked = true;
+            }
+            else {
+                this.htmlElement.checked = false;
+            }
+        }
+        getValue() {
+            if (this.htmlElement.checked) {
+                return this.trueValue;
+            }
+            else {
+                return this.falseValue;
+            }
+        }
+        disableClick(event) {
+            event.preventDefault();
+        }
+        setReadonly(readonly) {
+            if (readonly) {
+                this.getHtmlElement().addEventListener('click', this.disableClick);
+            }
+            else {
+                this.getHtmlElement().removeEventListener('click', this.disableClick);
+            }
+        }
+    }
+
+    class InputDatetimeLocalElement extends InputElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            this.dateFormat = new DateFormat('yyyy-MM-ddTHH:mm');
+        }
+        setValue(value) {
+            if (value) {
+                this.getHtmlElement().value = this.dateFormat.format(value);
+            }
+            else {
+                this.getHtmlElement().value = '';
+            }
+        }
+        getValue() {
+            let value = this.getHtmlElement().value;
+            if (value) {
+                return new Date(value).toISOString();
+            }
+            else {
+                return null;
+            }
+        }
+    }
+
+    class InputRadioElement extends InputElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+        }
+        setValue(value) {
+            this.getHtmlElement().checked = (this.getHtmlElement().value === value);
+        }
+        getValue() {
+            return this.getHtmlElement().value;
+        }
+        setReadonly(readonly) {
+            if (readonly) {
+                this.getHtmlElement().style.pointerEvents = 'none';
+            }
+            else {
+                this.getHtmlElement().style.pointerEvents = '';
+            }
+        }
+    }
+
+    class InputElementFactory extends ObjectElementFactory {
+        createElement(element, bindData, context) {
+            let type = element.getAttribute('type');
+            switch (type) {
+                case 'number':
+                    return new InputNumberElement(element, bindData, context);
+                case 'checkbox':
+                    return new InputCheckboxElement(element, bindData, context);
+                case 'radio':
+                    return new InputRadioElement(element, bindData, context);
+                case 'datetime-local':
+                    return new InputDatetimeLocalElement(element, bindData, context);
+                default:
+                    return new InputElement(element, bindData, context);
+            }
+        }
+    }
+    (() => {
+        // register factory instance
+        DataElementRegistry.register('input', new InputElementFactory());
+    })();
+
+    class SelectElement extends ObjectElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            this.defaultOptions = [];
+            // adds event listener
+            this.getHtmlElement().addEventListener('change', () => {
+                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
+                this.notifyObservers(event);
+            }, true);
+            // stores default option
+            for (let i = 0; i < this.getHtmlElement().options.length; i++) {
+                this.defaultOptions.push(this.getHtmlElement().options[i]);
+            }
+            // option property
+            let optionName = getElementAttribute(this.getHtmlElement(), 'option');
+            if (optionName) {
+                this.option = findVariable(this.getContext(), optionName);
+                this.optionValueProperty = getElementAttribute(this.getHtmlElement(), 'option-value-property');
+                this.optionTextProperty = getElementAttribute(this.getHtmlElement(), 'option-text-property');
+                ArrayProxy.getHandler(this.option).addObserver(this);
+                this.updateOptions();
+            }
+        }
+        updateOptions() {
+            let value = this.getHtmlElement().value;
+            this.getHtmlElement().innerHTML = '';
+            this.defaultOptions.forEach(defaultOption => {
+                this.getHtmlElement().appendChild(defaultOption);
+            });
+            this.option.forEach(data => {
+                let option = document.createElement('option');
+                option.value = data[this.optionValueProperty];
+                option.appendChild(document.createTextNode(data[this.optionTextProperty]));
+                this.getHtmlElement().appendChild(option);
+            });
+            this.getHtmlElement().value = value;
+        }
+        update(observable, dataEvent) {
+            super.update(observable, dataEvent);
+            if (this.option) {
+                this.updateOptions();
+            }
+        }
+        setValue(value) {
+            this.getHtmlElement().value = value;
+            // force select option
+            if (!value) {
+                for (let i = 0; i < this.getHtmlElement().options.length; i++) {
+                    let option = this.getHtmlElement().options[i];
+                    if (!option.nodeValue) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+        }
+        getValue() {
+            let value = this.getHtmlElement().value;
+            if (!value || value.trim().length < 1) {
+                value = null;
+            }
+            return value;
+        }
+        setReadonly(readonly) {
+            if (readonly) {
+                console.warn("==ok");
+                this.getHtmlElement().style.pointerEvents = 'none';
+            }
+            else {
+                this.getHtmlElement().style.pointerEvents = '';
+            }
+        }
+        setDisable(disable) {
+            if (disable) {
+                this.getHtmlElement().setAttribute('disabled', 'disabled');
+            }
+            else {
+                this.getHtmlElement().removeAttribute('disabled');
+            }
+        }
+    }
+
+    class SelectElementFactory extends ObjectElementFactory {
+        createElement(element, bindData, context) {
+            return new SelectElement(element, bindData, context);
+        }
+    }
+    (() => {
+        // register factory instance
+        DataElementRegistry.register('select', new SelectElementFactory());
+    })();
+
+    class TextareaElement extends ObjectElement {
+        constructor(element, bindData, context) {
+            super(element, bindData, context);
+            // adds change event listener
+            this.getHtmlElement().addEventListener('change', e => {
+                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
+                this.notifyObservers(event);
+            }, true);
+        }
+        setValue(value) {
+            if (value) {
+                this.getHtmlElement().value = value;
+            }
+            else {
+                this.getHtmlElement().value = '';
+            }
+        }
+        getValue() {
+            let value = this.getHtmlElement().value;
+            if (value != null && value.length > 0) {
+                return value;
+            }
+            else {
+                return null;
+            }
+        }
+        setReadonly(readonly) {
+            if (readonly) {
+                this.getHtmlElement().setAttribute('readonly', 'readonly');
+            }
+            else {
+                this.getHtmlElement().removeAttribute('readonly');
+            }
+        }
+        setDisable(disable) {
+            if (disable) {
+                this.getHtmlElement().setAttribute('disabled', 'disabled');
+            }
+            else {
+                this.getHtmlElement().removeAttribute('disabled');
+            }
+        }
+    }
+
+    class TextareaElementFactory extends ObjectElementFactory {
+        createElement(element, bindData, context) {
+            return new TextareaElement(element, bindData, context);
+        }
+    }
+    (() => {
+        // register
+        DataElementRegistry.register('textarea', new TextareaElementFactory());
+    })();
+
+    var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1664,7 +1982,7 @@ var duice = (function (exports) {
             this.dialogElement.close();
         }
         open() {
-            return __awaiter$1(this, void 0, void 0, function* () {
+            return __awaiter(this, void 0, void 0, function* () {
                 // opening listener
                 if (this.openingListener) {
                     if (this.openingListener.call(this) == false) {
@@ -1911,534 +2229,25 @@ var duice = (function (exports) {
         });
     }
 
-    var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    };
-    class ImgElement extends ObjectElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            this.editable = false;
-            this.closeButtonImg = 'data:image/svg+xml;base64,' + window.btoa('<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#292D32"></path> <path d="M13.0594 12.0001L15.3594 9.70011C15.6494 9.41011 15.6494 8.93011 15.3594 8.64011C15.0694 8.35011 14.5894 8.35011 14.2994 8.64011L11.9994 10.9401L9.69937 8.64011C9.40937 8.35011 8.92937 8.35011 8.63938 8.64011C8.34938 8.93011 8.34938 9.41011 8.63938 9.70011L10.9394 12.0001L8.63938 14.3001C8.34938 14.5901 8.34938 15.0701 8.63938 15.3601C8.78938 15.5101 8.97937 15.5801 9.16937 15.5801C9.35937 15.5801 9.54937 15.5101 9.69937 15.3601L11.9994 13.0601L14.2994 15.3601C14.4494 15.5101 14.6394 15.5801 14.8294 15.5801C15.0194 15.5801 15.2094 15.5101 15.3594 15.3601C15.6494 15.0701 15.6494 14.5901 15.3594 14.3001L13.0594 12.0001Z" fill="#292D32"></path> </g></svg>');
-            this.originSrc = String(this.getHtmlElement().src);
-            // editable
-            this.editable = (getElementAttribute(this.getHtmlElement(), 'editable') === 'true');
-            if (this.editable) {
-                // add click event listener
-                this.getHtmlElement().style.cursor = 'pointer';
-                this.getHtmlElement().addEventListener('click', event => {
-                    this.changeImage();
-                });
-                // create clear button
-                this.clearButton = document.createElement('img');
-                this.clearButton.src = this.closeButtonImg;
-                this.clearButton.style.cursor = 'pointer';
-                this.clearButton.style.width = '16px';
-                this.clearButton.style.height = '16px';
-                this.clearButton.addEventListener('mouseout', event => {
-                    this.hideClearImageButton();
-                }, true);
-                this.clearButton.addEventListener('click', event => {
-                    this.clearImage();
-                });
-                // mouse over
-                this.getHtmlElement().addEventListener('mouseover', event => {
-                    this.showClearImageButton();
-                }, true);
-                // mouse over
-                this.getHtmlElement().addEventListener('mouseout', event => {
-                    // related target is overlay button
-                    if (event.relatedTarget === this.clearButton) {
-                        return;
-                    }
-                    this.hideClearImageButton();
-                }, true);
-            }
-            // size
-            let size = getElementAttribute(this.getHtmlElement(), 'size');
-            if (size) {
-                let sizeArgs = size.split(',');
-                this.width = parseInt(sizeArgs[0].trim());
-                this.height = parseInt(sizeArgs[1].trim());
-            }
-        }
-        showClearImageButton() {
-            this.getHtmlElement().parentNode.insertBefore(this.clearButton, this.getHtmlElement().nextSibling);
-            this.clearButton.style.position = 'absolute';
-            this.clearButton.style.zIndex = '100';
-        }
-        hideClearImageButton() {
-            this.getHtmlElement().parentNode.removeChild(this.clearButton);
-        }
-        clearImage() {
-            if (this.originSrc) {
-                this.getHtmlElement().src = this.originSrc;
-            }
-            else {
-                this.getHtmlElement().src = null;
-            }
-            // notify observers
-            let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
-            this.notifyObservers(event);
-        }
-        changeImage() {
-            let input = document.createElement('input');
-            input.setAttribute("type", "file");
-            input.setAttribute("accept", "image/gif, image/jpeg, image/png");
-            let _this = this;
-            input.addEventListener('change', function (e) {
-                let fileReader = new FileReader();
-                if (this.files && this.files[0]) {
-                    fileReader.addEventListener("load", (e) => __awaiter(this, void 0, void 0, function* () {
-                        let image = e.target.result;
-                        let value;
-                        if (_this.width && _this.height) {
-                            value = yield _this.convertImage(image, _this.width, _this.height);
-                        }
-                        else {
-                            value = yield _this.convertImage(image);
-                        }
-                        _this.setValue(value);
-                        // notify observers
-                        let event = new PropertyChangeEvent(_this, _this.getProperty(), _this.getValue(), _this.getIndex());
-                        _this.notifyObservers(event);
-                    }));
-                    fileReader.readAsDataURL(this.files[0]);
-                }
-                e.preventDefault();
-                e.stopPropagation();
-            });
-            input.click();
-        }
-        convertImage(dataUrl, width, height) {
-            return new Promise(function (resolve, reject) {
-                try {
-                    let canvas = document.createElement("canvas");
-                    let ctx = canvas.getContext("2d");
-                    let image = new Image();
-                    image.onload = function () {
-                        if (width && height) {
-                            canvas.width = width;
-                            canvas.height = height;
-                            ctx.drawImage(image, 0, 0, width, height);
-                        }
-                        else {
-                            canvas.width = image.naturalWidth;
-                            canvas.height = image.naturalHeight;
-                            ctx.drawImage(image, 0, 0);
-                        }
-                        let dataUrl = canvas.toDataURL("image/png");
-                        resolve(dataUrl);
-                    };
-                    image.src = dataUrl;
-                }
-                catch (e) {
-                    reject(e);
-                }
-            });
-        }
-        setValue(value) {
-            if (value) {
-                this.getHtmlElement().src = value;
-            }
-            else {
-                this.getHtmlElement().src = this.originSrc;
-            }
-        }
-        getValue() {
-            let value = this.getHtmlElement().src;
-            if (value === this.originSrc) {
-                return null;
-            }
-            else {
-                return value;
-            }
-        }
-        setReadonly(readonly) {
-            this.getHtmlElement().style.pointerEvents = (readonly ? 'none' : 'unset');
-        }
-        setDisable(disable) {
-            this.getHtmlElement().style.pointerEvents = (disable ? 'none' : 'unset');
-        }
-    }
-
-    class ImgElementFactory extends ObjectElementFactory {
-        createElement(element, bindData, context) {
-            return new ImgElement(element, bindData, context);
-        }
-    }
-    (() => {
-        // register factory instance
-        DataElementRegistry.register('img', new ImgElementFactory());
-    })();
-
-    class InputElement extends ObjectElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            // adds change listener
-            this.getHtmlElement().addEventListener('change', e => {
-                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
-                this.notifyObservers(event);
-            }, true);
-            // turn off autocomplete
-            this.getHtmlElement().setAttribute('autocomplete', 'off');
-        }
-        setValue(value) {
-            if (value) {
-                value = this.getFormat() ? this.getFormat().format(value) : value;
-            }
-            else {
-                value = '';
-            }
-            this.getHtmlElement().value = value;
-        }
-        getValue() {
-            let value = this.getHtmlElement().value;
-            if (value) {
-                value = this.getFormat() ? this.getFormat().parse(value) : value;
-            }
-            else {
-                value = null;
-            }
-            return value;
-        }
-        setReadonly(readonly) {
-            this.getHtmlElement().readOnly = readonly;
-        }
-        setDisable(disable) {
-            if (disable) {
-                this.getHtmlElement().setAttribute('disabled', 'disabled');
-            }
-            else {
-                this.getHtmlElement().removeAttribute('disabled');
-            }
-        }
-        focus() {
-            this.getHtmlElement().focus();
-            return true;
-        }
-    }
-
-    class InputCheckboxElement extends InputElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            this.trueValue = true;
-            this.falseValue = false;
-            // true false value
-            let trueValue = getElementAttribute(this.getHtmlElement(), 'true-value');
-            this.trueValue = trueValue ? trueValue : this.trueValue;
-            let falseValue = getElementAttribute(this.getHtmlElement(), 'false-value');
-            this.falseValue = falseValue ? falseValue : this.falseValue;
-        }
-        setValue(value) {
-            if (value === this.trueValue) {
-                this.getHtmlElement().checked = true;
-            }
-            else {
-                this.htmlElement.checked = false;
-            }
-        }
-        getValue() {
-            if (this.htmlElement.checked) {
-                return this.trueValue;
-            }
-            else {
-                return this.falseValue;
-            }
-        }
-        disableClick(event) {
-            event.preventDefault();
-        }
-        setReadonly(readonly) {
-            if (readonly) {
-                this.getHtmlElement().addEventListener('click', this.disableClick);
-            }
-            else {
-                this.getHtmlElement().removeEventListener('click', this.disableClick);
-            }
-        }
-    }
-
-    class InputDatetimeLocalElement extends InputElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            this.dateFormat = new DateFormat('yyyy-MM-ddTHH:mm');
-        }
-        setValue(value) {
-            if (value) {
-                this.getHtmlElement().value = this.dateFormat.format(value);
-            }
-            else {
-                this.getHtmlElement().value = '';
-            }
-        }
-        getValue() {
-            let value = this.getHtmlElement().value;
-            if (value) {
-                return new Date(value).toISOString();
-            }
-            else {
-                return null;
-            }
-        }
-    }
-
-    class InputNumberElement extends InputElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            // changes type and style
-            this.getHtmlElement().removeAttribute('type');
-            this.getHtmlElement().style.textAlign = 'right';
-            // prevents invalid key press
-            this.getHtmlElement().addEventListener('keypress', event => {
-                if (/[\d|\.|,]/.test(event.key) === false) {
-                    event.preventDefault();
-                }
-            });
-        }
-        getValue() {
-            let value = super.getValue();
-            return Number(value);
-        }
-    }
-
-    class InputRadioElement extends InputElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-        }
-        setValue(value) {
-            this.getHtmlElement().checked = (this.getHtmlElement().value === value);
-        }
-        getValue() {
-            return this.getHtmlElement().value;
-        }
-        setReadonly(readonly) {
-            if (readonly) {
-                this.getHtmlElement().style.pointerEvents = 'none';
-            }
-            else {
-                this.getHtmlElement().style.pointerEvents = '';
-            }
-        }
-    }
-
-    class InputElementFactory extends ObjectElementFactory {
-        createElement(element, bindData, context) {
-            let type = element.getAttribute('type');
-            switch (type) {
-                case 'number':
-                    return new InputNumberElement(element, bindData, context);
-                case 'checkbox':
-                    return new InputCheckboxElement(element, bindData, context);
-                case 'radio':
-                    return new InputRadioElement(element, bindData, context);
-                case 'datetime-local':
-                    return new InputDatetimeLocalElement(element, bindData, context);
-                default:
-                    return new InputElement(element, bindData, context);
-            }
-        }
-    }
-    (() => {
-        // register factory instance
-        DataElementRegistry.register('input', new InputElementFactory());
-    })();
-
-    class SelectElement extends ObjectElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            this.defaultOptions = [];
-            // adds event listener
-            this.getHtmlElement().addEventListener('change', () => {
-                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
-                this.notifyObservers(event);
-            }, true);
-            // stores default option
-            for (let i = 0; i < this.getHtmlElement().options.length; i++) {
-                this.defaultOptions.push(this.getHtmlElement().options[i]);
-            }
-            // option property
-            let optionName = getElementAttribute(this.getHtmlElement(), 'option');
-            if (optionName) {
-                this.option = findVariable(this.getContext(), optionName);
-                this.optionValueProperty = getElementAttribute(this.getHtmlElement(), 'option-value-property');
-                this.optionTextProperty = getElementAttribute(this.getHtmlElement(), 'option-text-property');
-                ArrayProxy.getHandler(this.option).addObserver(this);
-                this.updateOptions();
-            }
-        }
-        updateOptions() {
-            let value = this.getHtmlElement().value;
-            this.getHtmlElement().innerHTML = '';
-            this.defaultOptions.forEach(defaultOption => {
-                this.getHtmlElement().appendChild(defaultOption);
-            });
-            this.option.forEach(data => {
-                let option = document.createElement('option');
-                option.value = data[this.optionValueProperty];
-                option.appendChild(document.createTextNode(data[this.optionTextProperty]));
-                this.getHtmlElement().appendChild(option);
-            });
-            this.getHtmlElement().value = value;
-        }
-        update(observable, dataEvent) {
-            super.update(observable, dataEvent);
-            if (this.option) {
-                this.updateOptions();
-            }
-        }
-        setValue(value) {
-            this.getHtmlElement().value = value;
-            // force select option
-            if (!value) {
-                for (let i = 0; i < this.getHtmlElement().options.length; i++) {
-                    let option = this.getHtmlElement().options[i];
-                    if (!option.nodeValue) {
-                        option.selected = true;
-                        break;
-                    }
-                }
-            }
-        }
-        getValue() {
-            let value = this.getHtmlElement().value;
-            if (!value || value.trim().length < 1) {
-                value = null;
-            }
-            return value;
-        }
-        setReadonly(readonly) {
-            if (readonly) {
-                console.warn("==ok");
-                this.getHtmlElement().style.pointerEvents = 'none';
-            }
-            else {
-                this.getHtmlElement().style.pointerEvents = '';
-            }
-        }
-        setDisable(disable) {
-            if (disable) {
-                this.getHtmlElement().setAttribute('disabled', 'disabled');
-            }
-            else {
-                this.getHtmlElement().removeAttribute('disabled');
-            }
-        }
-    }
-
-    class SelectElementFactory extends ObjectElementFactory {
-        createElement(element, bindData, context) {
-            return new SelectElement(element, bindData, context);
-        }
-    }
-    (() => {
-        // register factory instance
-        DataElementRegistry.register('select', new SelectElementFactory());
-    })();
-
-    class TextareaElement extends ObjectElement {
-        constructor(element, bindData, context) {
-            super(element, bindData, context);
-            // adds change event listener
-            this.getHtmlElement().addEventListener('change', e => {
-                let event = new PropertyChangeEvent(this, this.getProperty(), this.getValue(), this.getIndex());
-                this.notifyObservers(event);
-            }, true);
-        }
-        setValue(value) {
-            if (value) {
-                this.getHtmlElement().value = value;
-            }
-            else {
-                this.getHtmlElement().value = '';
-            }
-        }
-        getValue() {
-            let value = this.getHtmlElement().value;
-            if (value != null && value.length > 0) {
-                return value;
-            }
-            else {
-                return null;
-            }
-        }
-        setReadonly(readonly) {
-            if (readonly) {
-                this.getHtmlElement().setAttribute('readonly', 'readonly');
-            }
-            else {
-                this.getHtmlElement().removeAttribute('readonly');
-            }
-        }
-        setDisable(disable) {
-            if (disable) {
-                this.getHtmlElement().setAttribute('disabled', 'disabled');
-            }
-            else {
-                this.getHtmlElement().removeAttribute('disabled');
-            }
-        }
-    }
-
-    class TextareaElementFactory extends ObjectElementFactory {
-        createElement(element, bindData, context) {
-            return new TextareaElement(element, bindData, context);
-        }
-    }
-    (() => {
-        // register
-        DataElementRegistry.register('textarea', new TextareaElementFactory());
-    })();
-
     exports.AlertDialog = AlertDialog;
     exports.ArrayElement = ArrayElement;
     exports.ArrayElementFactory = ArrayElementFactory;
-    exports.ArrayHandler = ArrayHandler;
     exports.ArrayProxy = ArrayProxy;
     exports.Configuration = Configuration;
     exports.ConfirmDialog = ConfirmDialog;
     exports.CustomElement = CustomElement;
     exports.CustomElementFactory = CustomElementFactory;
-    exports.DataElement = DataElement;
-    exports.DataElementFactory = DataElementFactory;
     exports.DataElementRegistry = DataElementRegistry;
-    exports.DataEvent = DataEvent;
-    exports.DataHandler = DataHandler;
-    exports.DateFormat = DateFormat;
     exports.Dialog = Dialog;
-    exports.FormatFactory = FormatFactory;
-    exports.ImgElement = ImgElement;
-    exports.ImgElementFactory = ImgElementFactory;
     exports.Initializer = Initializer;
-    exports.InputCheckboxElement = InputCheckboxElement;
-    exports.InputDatetimeLocalElement = InputDatetimeLocalElement;
-    exports.InputElement = InputElement;
     exports.InputElementFactory = InputElementFactory;
-    exports.InputNumberElement = InputNumberElement;
-    exports.InputRadioElement = InputRadioElement;
-    exports.ItemDeleteEvent = ItemDeleteEvent;
-    exports.ItemInsertEvent = ItemInsertEvent;
-    exports.ItemMoveEvent = ItemMoveEvent;
-    exports.ItemSelectEvent = ItemSelectEvent;
-    exports.NumberFormat = NumberFormat;
     exports.ObjectElement = ObjectElement;
     exports.ObjectElementFactory = ObjectElementFactory;
-    exports.ObjectHandler = ObjectHandler;
     exports.ObjectProxy = ObjectProxy;
-    exports.Observable = Observable;
     exports.PromptDialog = PromptDialog;
-    exports.PropertyChangeEvent = PropertyChangeEvent;
-    exports.SelectElement = SelectElement;
     exports.SelectElementFactory = SelectElementFactory;
-    exports.StringFormat = StringFormat;
     exports.TabFolder = TabFolder;
     exports.TabItem = TabItem;
-    exports.TextareaElement = TextareaElement;
     exports.TextareaElementFactory = TextareaElementFactory;
     exports.assert = assert;
     exports.findVariable = findVariable;

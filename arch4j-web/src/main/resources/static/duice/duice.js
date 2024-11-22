@@ -1351,7 +1351,8 @@ var duice = (function (exports) {
                 Initializer.initialize(itemHtmlElement, this.getContext());
                 this.itemHtmlElements.push(itemHtmlElement);
                 // append to slot
-                this.slot.appendChild(itemHtmlElement);
+                // this.slot.appendChild(itemHtmlElement);
+                this.slot.parentNode.insertBefore(itemHtmlElement, this.slot);
                 // check if
                 runIfCode(itemHtmlElement, context);
                 // execute script
@@ -1390,7 +1391,7 @@ var duice = (function (exports) {
             Initializer.initialize(itemHtmlElement, context, index);
             this.itemHtmlElements.push(itemHtmlElement);
             // insert into slot
-            this.slot.appendChild(itemHtmlElement);
+            this.slot.parentNode.insertBefore(itemHtmlElement, this.slot);
             // check if clause
             runIfCode(itemHtmlElement, context);
             // execute script

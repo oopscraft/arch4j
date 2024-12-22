@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.oopscraft.arch4j.core.security.model.Authority;
 import org.oopscraft.arch4j.core.security.model.Role;
-import org.oopscraft.arch4j.web.security.model.GrantedAuthorityImpl;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

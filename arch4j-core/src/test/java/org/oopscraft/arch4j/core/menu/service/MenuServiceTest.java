@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.menu.dao.MenuEntity;
 import org.oopscraft.arch4j.core.menu.model.Menu;
-import org.oopscraft.arch4j.core.menu.service.MenuService;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;

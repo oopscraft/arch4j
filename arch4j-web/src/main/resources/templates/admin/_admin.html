@@ -24,6 +24,8 @@
     <script th:src="@{/static/randomColor/randomColor.js?version={version}(version=${_scriptVersion})}"></script>
     <!-- duice -->
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice.css?version={version}(version=${_scriptVersion})}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice-theme.css?version={version}(version=${_scriptVersion})}">
     <!-- duice-pagination -->
     <script th:src="@{/static/duice-plugin/duice-pagination.js?version={version}(version=${_scriptVersion})}"></script>
     <!-- duice-marked -->
@@ -166,7 +168,7 @@
             padding: 0;
         }
         nav #_nav-menu li {
-            padding: 0.5rem;
+            padding: 0.25rem;
             border-bottom: dotted 1px lightgray;
             font-weight: 600;
             transition-duration: 0.3s;

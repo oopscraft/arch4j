@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.security.dao.AuthorityEntity;
 import org.oopscraft.arch4j.core.security.model.Authority;
 import org.oopscraft.arch4j.core.security.model.AuthoritySearch;
-import org.oopscraft.arch4j.core.security.service.AuthorityService;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +37,6 @@ public class UserService {
             userEntity = UserEntity.builder()
                     .userId(IdGenerator.uuid())
                     .password(passwordEncoder.encode(user.getPassword()))
-                    .joinAt(Instant.now())
-                    .passwordAt(Instant.now())
                     .build();
         }
         userEntity.setSystemUpdatedAt(LocalDateTime.now()); // disable dirty checking
@@ -47,10 +44,10 @@ public class UserService {
         userEntity.setName(user.getName());
         userEntity.setAdmin(user.isAdmin());
         userEntity.setStatus(user.getStatus());
+        userEntity.setEmail(user.getEmail());
         userEntity.setMobile(user.getMobile());
         userEntity.setPhoto(user.getPhoto());
         userEntity.setProfile(user.getProfile());
-        userEntity.setExpireAt(user.getExpireAt());
 
         // user roles
         userEntity.getUserRoles().clear();
@@ -87,8 +84,8 @@ public class UserService {
         return new PageImpl<>(users, pageable, userEntityPage.getTotalElements());
     }
 
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
+    public void deleteUser(String userId) {
+        userRepository.deleteById(userId);
         userRepository.flush();
     }
 

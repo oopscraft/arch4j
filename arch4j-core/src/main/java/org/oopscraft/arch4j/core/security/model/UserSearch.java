@@ -14,6 +14,10 @@ public class UserSearch {
 
     private String name;
 
+    private String email;
+
+    private String mobile;
+
     private boolean admin;
 
     private User.Status status;

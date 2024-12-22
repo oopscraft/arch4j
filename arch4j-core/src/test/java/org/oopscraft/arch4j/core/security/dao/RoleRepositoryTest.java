@@ -2,10 +2,6 @@ package org.oopscraft.arch4j.core.security.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.*;
-import org.oopscraft.arch4j.core.security.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.security.dao.RoleAuthorityEntity;
-import org.oopscraft.arch4j.core.security.dao.RoleEntity;
-import org.oopscraft.arch4j.core.security.dao.RoleRepository;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import java.util.Arrays;

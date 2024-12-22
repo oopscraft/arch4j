@@ -43,7 +43,6 @@ public class MenuRoleEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(
             name = "menu_id",
-            referencedColumnName = "menu_id",
             insertable = false,
             updatable = false
     )
@@ -52,7 +51,6 @@ public class MenuRoleEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(
             name = "role_id",
-            referencedColumnName = "role_id",
             insertable = false,
             updatable = false
     )

@@ -42,23 +42,23 @@ public class UserRestController {
         if(!userId.equals(currentUserId)) {
             throw new AccessDeniedException("Not login user");
         }
-        User currentUser = userService.getUser(currentUserId).orElseThrow();
-        currentUser.setUsername(userRequest.getUsername());
-        currentUser.setMobile(userRequest.getMobile());
-        currentUser.setPhoto(userRequest.getPhoto());
-        currentUser.setProfile(userRequest.getProfile());
-        currentUser = userService.saveUser(currentUser);
-        return ResponseEntity.ok(UserResponse.from(currentUser));
+        User user = userService.getUser(currentUserId).orElseThrow();
+        user.setUsername(userRequest.getUsername());
+        user.setMobile(userRequest.getMobile());
+        user.setPhoto(userRequest.getPhoto());
+        user.setProfile(userRequest.getProfile());
+        user = userService.saveUser(user);
+        return ResponseEntity.ok(UserResponse.from(user));
     }
 
     @PutMapping("{userId}/password")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> changeUserPassword(
-            @PathVariable("userId")String userId,
+            @PathVariable("userId")String id,
             @RequestBody ChangePasswordRequest changePasswordRequest
     ) {
         String currentUserId = SecurityUtils.getCurrentUserId();
-        if(!userId.equals(currentUserId)) {
+        if(!id.equals(currentUserId)) {
             throw new AccessDeniedException("Not login user");
         }
         if(userService.isPasswordMatched(currentUserId, changePasswordRequest.getCurrentPassword())){

@@ -33,6 +33,8 @@ public class User extends BaseModel {
 
     private Status status;
 
+    private String email;
+
     private String mobile;
 
     private String photo;
@@ -68,13 +70,10 @@ public class User extends BaseModel {
                 .name(userEntity.getName())
                 .status(userEntity.getStatus())
                 .admin(userEntity.isAdmin())
+                .email(userEntity.getEmail())
                 .mobile(userEntity.getMobile())
                 .photo(userEntity.getPhoto())
                 .profile(userEntity.getProfile())
-                .joinAt(userEntity.getJoinAt())
-                .passwordAt(userEntity.getPasswordAt())
-                .expireAt(userEntity.getExpireAt())
-                .closeAt(userEntity.getCloseAt())
                 .build();
 
         // roles

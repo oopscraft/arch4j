@@ -7,7 +7,6 @@ import org.oopscraft.arch4j.core.security.dao.AuthorityEntity;
 import org.oopscraft.arch4j.core.security.model.Authority;
 import org.oopscraft.arch4j.core.security.model.Role;
 import org.oopscraft.arch4j.core.security.model.RoleSearch;
-import org.oopscraft.arch4j.core.security.service.RoleService;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 import org.oopscraft.arch4j.core.security.dao.RoleEntity;
 import org.springframework.data.domain.Page;

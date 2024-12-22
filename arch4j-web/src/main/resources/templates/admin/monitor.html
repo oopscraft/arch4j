@@ -257,90 +257,85 @@
     <!-- ================================== -->
     <!-- start: monitorContent              -->
     <!-- ================================== -->
-    <div id="monitorContent" class="display--grid grid-template-columns--2 s__grid-template-columns--1 grid-gap--1em">
-
-        <!-- ================================== -->
-        <!-- start: info                        -->
-        <!-- ================================== -->
-        <div id="info" class="grid-column--1">
-            <div class="display--flex flex-direction--column border--1 padding--1em height--100">
-                <div>
+    <div id="monitorContent" class="display--grid grid-template-columns--2fr s__grid-template-columns--1fr gap--1em">
+        <div class="grid-column--span-1">
+            <!-- ================================== -->
+            <!-- start: info                        -->
+            <!-- ================================== -->
+            <div id="info" class="panel height--100">
+                <div class="panel-title">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-info.svg}" alt="info"/>
                         <span data-th-text="#{web.admin.monitor.info}"></span>
                     </h2>
                 </div>
-                <div class="padding--1em height--100">
-                    <label>
+                <div class="panel-content height--100">
+                    <label class="height--100">
                         <textarea id="infoText" readonly="readonly" class="width--100 height--100"></textarea>
                     </label>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: info                          -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: info                          -->
-        <!-- ================================== -->
-
-        <!-- ================================== -->
-        <!-- start: cpu                         -->
-        <!-- ================================== -->
-        <div class="grid-column--1">
-            <div class="display--flex flex-direction--column border--1 padding--1em height--100">
-                <div>
+        <div class="grid-column--span-1">
+            <!-- ================================== -->
+            <!-- start: cpu                         -->
+            <!-- ================================== -->
+            <div id="cpu" class="panel">
+                <div class="panel-title">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-cpu.svg}" alt="cpu"/>
                         <span data-th-text="#{web.admin.monitor.cpu}"></span>
                     </h2>
                 </div>
-                <div class="padding--1em">
+                <div class="panel-content">
                     <canvas id="cpuChart"></canvas>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: cpu                           -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: cpu                           -->
-        <!-- ================================== -->
-
-        <!-- ================================== -->
-        <!-- start: memory                      -->
-        <!-- ================================== -->
-        <div class="grid-column--1">
-            <div class="display--flex flex-direction--column border--1 padding--1em height--100">
-                <div>
+        <div class="grid-column--span-1">
+            <!-- ================================== -->
+            <!-- start: memory                      -->
+            <!-- ================================== -->
+            <div id="memory" class="panel">
+                <div class="panel-title">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-memory.svg}" alt="memory"/>
                         <span data-th-text="#{web.admin.monitor.memory}"></span>
                     </h2>
                 </div>
-                <div class="padding--1em">
+                <div class="panel-content">
                     <canvas id="memoryChart"></canvas>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: memory                        -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: memory                        -->
-        <!-- ================================== -->
-
-        <!-- ================================== -->
-        <!-- start: disk                        -->
-        <!-- ================================== -->
-        <div class="grid-column--1">
-            <div class="display--flex flex-direction--column border--1 padding--1em height--100">
-                <div>
+        <div class="grid-column--span-1">
+            <!-- ================================== -->
+            <!-- start: disk                        -->
+            <!-- ================================== -->
+            <div class="panel">
+                <div id="disk" class="panel-title">
                     <h1>
                         <img class="icon" th:src="@{/static/image/icon-disk.svg}" alt="disk"/>
                         <span data-th-text="#{web.admin.monitor.disk}"></span>
                     </h1>
                 </div>
-                <div class="padding--1em">
+                <div class="panel-content">
                     <canvas id="diskChart"></canvas>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: disk                          -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: disk                          -->
-        <!-- ================================== -->
-
     </div>
     <!-- ================================== -->
     <!-- end: monitorContent                -->

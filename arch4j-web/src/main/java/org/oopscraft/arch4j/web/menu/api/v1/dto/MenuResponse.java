@@ -11,7 +11,7 @@ public class MenuResponse {
 
     private String menuId;
 
-    private String menuName;
+    private String name;
 
     private String parentMenuId;
 
@@ -26,7 +26,7 @@ public class MenuResponse {
     public static MenuResponse from(Menu menu) {
         return MenuResponse.builder()
                 .menuId(menu.getMenuId())
-                .menuName(menu.getName())
+                .name(menu.getName())
                 .parentMenuId(menu.getParentMenuId())
                 .link(menu.getLink())
                 .target(menu.getTarget())

@@ -25,6 +25,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .mobile(user.getMobile())
                 .photo(user.getPhoto())
                 .profile(user.getProfile())

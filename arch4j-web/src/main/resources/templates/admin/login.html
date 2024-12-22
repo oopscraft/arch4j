@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title>ARCH4J (Application Archetype for Java)</title>
-    <link rel="icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
+    <link rel="web-icon" type="image/png" th:href="@{/static/image/favicon.png}" sizes="32x32"/>
     <link rel="stylesheet" type="text/css" th:href="@{/static/nprogress/nprogress.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/nprogress/nprogress.js?version={version}(version=${_scriptVersion})}"></script>
+    <!-- duice -->
     <script th:src="@{/static/duice/duice.js?version={version}(version=${_scriptVersion})}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice.css?version={version}(version=${_scriptVersion})}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/duice/duice-theme.css?version={version}(version=${_scriptVersion})}">
+    <!-- web -->
     <script th:src="@{/static/web.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
@@ -34,15 +38,8 @@
                 grid-template-rows: 100%;
             }
         }
-        #_brand,
-        #_brand * {
-            height: 2rem;
-            vertical-align: middle;
-            font-weight: bold;
-        }
         #login {
             width: 300px;
-            padding: 1em;
         }
     </style>
     <script th:inline="javascript">
@@ -93,45 +90,46 @@
     <!-- ================================== -->
     <!-- start: login                       -->
     <!-- ================================== -->
-    <div id="login" class="border--1">
-        <h1 class="text-align--center">
-            <div id="_brand">
-                <img src="/static/image/arch4j-icon.svg" alt="icon"/>
-                <img src="/static/image/arch4j-title.svg" alt="title"/>
-            </div>
-        </h1>
-        <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding--1em">
-            <label class="grid-column--12">
-                <input type="text" autocomplete="off"
-                       data-duice-bind="login" data-duice-property="username"
-                       class="width--100 text-align--center font-weight--bold"
-                       th:placeholder="#{web.admin.login.userId}"/>
-            </label>
-            <label class="grid-column--12">
-                <input type="password" autocomplete="off"
-                       data-duice-bind="login" data-duice-property='password'
-                       class="width--100 text-align--center"
-                       th:placeholder="#{web.admin.login.password}"/>
-            </label>
-            <div class="grid-column--12">
-                <button type="submit" onclick="requestLogin();" class="width--100">
-                    <img class="icon" th:src="@{/static/image/icon-login.svg}">
-                    <span data-th-text="#{web.global.login}"></span>
-                </button>
-            </div>
-            <div class="grid-column--12 justify-self--center">
-                <span data-duice-bind="login" data-duice-property="message"></span>
-            </div>
-            <div class="grid-column--12 justify-self--end">
-                <label>
-                    <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                    <select onchange="_changeLanguage(this.value);">
-                        <option>- language -</option>
-                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                    </select>
+    <div id="login" class="panel">
+        <div class="panel-title justify-content--center">
+            <h1>
+                <img class="icon" src="/static/image/arch4j-icon.svg" alt="web-icon"/><img class="icon" src="/static/image/arch4j-title.svg" alt="title"/>
+            </h1>
+        </div>
+        <div class="panel-content">
+            <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1rem">
+                <label class="grid-column--span-12">
+                    <input type="text" autocomplete="off"
+                           data-duice-bind="login" data-duice-property="username"
+                           class="width--100 text-align--center font-weight--bold"
+                           th:placeholder="#{web.admin.login.userId}"/>
                 </label>
-            </div>
-        </form>
+                <label class="grid-column--span-12">
+                    <input type="password" autocomplete="off"
+                           data-duice-bind="login" data-duice-property='password'
+                           class="width--100 text-align--center"
+                           th:placeholder="#{web.admin.login.password}"/>
+                </label>
+                <div class="grid-column--span-12">
+                    <button type="submit" onclick="requestLogin();" class="width--100">
+                        <img class="icon" th:src="@{/static/image/icon-login.svg}">
+                        <span data-th-text="#{web.global.login}"></span>
+                    </button>
+                </div>
+                <div class="grid-column--span-12 justify-self--center">
+                    <span data-duice-bind="login" data-duice-property="message"></span>
+                </div>
+                <div class="grid-column--span-12 justify-self--end">
+                    <label>
+                        <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
+                        <select onchange="_changeLanguage(this.value);">
+                            <option>- language -</option>
+                            <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                        </select>
+                    </label>
+                </div>
+            </form>
+        </div>
     </div>
     <!-- ================================== -->
     <!-- end: login                         -->

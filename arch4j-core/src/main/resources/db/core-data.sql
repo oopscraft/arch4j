@@ -1,10 +1,10 @@
 -- user
 insert into `core_user`
-    (`user_id`,`username`,`password`,`name`,`admin`,`status`,`mobile`)
+    (`user_id`,`username`,`password`,`name`,`admin`,`status`,`email`,`mobile`)
 values
-    ('35db23b70f3940819d1965a891cbbef0','admin@oopscraft.org','{noop}admin','Administrator','Y','ACTIVE','{noop}010-1234-5678'),
-    ('27b91369bdee4e1ab77a2cecb70384ec','apple@oopscraft.org','{noop}apple','Apple','N','ACTIVE', null),
-    ('5e676016aa644a6cb5f4e1fd4a469dce','orange@oopscraft.org','{noop}orange','Orange','N','ACTIVE', '{noop}010-1111-2222');
+    ('35db23b70f3940819d1965a891cbbef0','admin','{noop}admin','Administrator','Y','ACTIVE','{noop}admin@oopscraft.org','{noop}010-1234-5678'),
+    ('27b91369bdee4e1ab77a2cecb70384ec','apple','{noop}apple','Apple','N','ACTIVE', '{noop}apple@oopscraft.org', null),
+    ('5e676016aa644a6cb5f4e1fd4a469dce','orange','{noop}orange','Orange','N','ACTIVE', '{noop}orange@oopscraft.org', '{noop}010-1111-2222');
 
 -- authority
 insert into `core_authority`
@@ -101,39 +101,39 @@ insert into `core_board` (
     `file_enabled`,
     `icon`
 ) values (
-     'anonymous',
-     'Anonymous Board',
-     'MARKDOWN',
-     '**Anonymous Board Demo**
-* Accessible for non-logged-in users
-* Read/Write enabled
-',
-     '_default',
-     10,
-     'Y',
-     'Y',
-     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAuRJREFUWEftlttL1FEQx+ec32V31dVdt5WtvFFpIoG6iq0LCZH4FIT01F9QtHYh6CUIliIIIggz6ql8KILwpctbl4colbQto4u3yFTM9bLuthfX8/udM/GLCtYsLwhG7Hk7nDMzn/nOwAyBdT5kneNDGuDfUcDaOuZQCdzWUNSrEg4zTrqEID0ceWCOmXvhpCu+on65MJFpUZMVEpHchGKNLKFH56RYIvQpRzgQbc6fMfz9UiDryujlIqt08JzXpnyK6BCYnOfdQaaNRXUTAKAq02HGsQsRegiSgArJV6GjJV8NJ7ktg9kMzFVI0E0I1CiUeDQuig3/Tos0vz1XVkptqrQxU4Lr72LsS0JcizUXHEsBcF793HGkKqfu9M6clERjDKF3msHrKQaBIBPdQcaGI5oJAUCl9ImGQBDFbsPIlSHPl+XKaqldodtsMmzNlsGipFb55oc4tA/GO0O+Iu8CgJHO4+5sz6naVIDFZE/oCG+mGDTdn9a5QDhblyNvsclglpZuqVt9cbgzkOia9RXWrRrgJ9Se9kmIMgEX623Lbo81BTj0OATBOIcTbmsaIK1AWoG0AmkF/gMF7K0jd/eVWPbeaNxAl5vOambB+e6IeD6h3YscLmhKmYbWlpFdhMIjh5kKd54qVbtMSqVTgUqnCsYisdjZ/2AKQkkBZzyLj/CZpIChsAZDEQ6DIU3rD+s8ygRBgg1RX9GzFADjYr40Xkip3gBEVGcoxMt0Us4RVLuJMneeQmpcJqXCqYIB5jBLUN42znVE0tbooBEmvgf6GNagP6RpA2EdYxqqlABTKL5PcuwApC9Rkh7O+TaP/kzo7xuEH+Us+2iZsWoBUrdFBa8mxA5dEItEECnQWW54Qm4XQAmlOCcReKtptAOICBirW2y2oA/8RP9TWZdeYRZa+pFabeMlQtbzLfGMF8bzXGailuryWDS8aRD8RCy3h34rwUoM1+rvyhVYq8g//KQB1l2Bb6xnBD8tREAmAAAAAElFTkSuQmCC'
-), (
-    'member',
-    'Member Board',
-    'TEXT',
-    'Member Board',
-    '_default',
-    10,
-    'Y',
-    'Y',
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABW1JREFUWEe9l2lMVFcUx//nPsCFpglSl0TFXSsVq1XTGqsozow6g1RmQdMPSIxLXVps2qDWjRhs1VaIRuPauFcDzGCdBZkZlaq1torRUms0bY1pVVxQKIICwz3NG0ODsg7avk8v793zP79z7j3n3ksI8NFMMg0lwfGAeIvBXQGuZClukZAnJSPnuMt2IxBJaulgjd4SRcTrAdbW2gSHhDBLCZ/P59dh5hoS2CWFb9mxI0futES7RQAavSlBEPYw0DYyKgpjxo/DwDcGoX1oqN/HwwfFKLx4Cd7cXNy+eQsg3BTguDyH7UJzEM0CaPTm9wBpa9O2Hc2aP5eGDB/eqKaUEkftduRkZqnpKJEs3z7myrnWFESTADF6Yw+F6JeQkJDQlJUrqEevXs0F5P///XcnsXvbNvX11wdF4UMKCrZXN2bYJIBOb9zDRIlJs2dj1NjoFjmvHbR35w6cOp4PBuZ5ndYtAQOMj48Pp0pxp2v3bkrq2jUgana2nvFRWlKKJcnJXFVVfdXrsg4MGEATa04k5j3GaVMxKS4uoOhrB29Oz8DF8+chWQ5obC00GpZWb14L4pRFK1ei74D+rQLwuFzI3H8ADDJ5ndm2hkQaBaid/9UZ6ejUuXOrAH46cwY7Nm0GGAs8LuvmgAC0etMWED5YuWYNukV0bxXAyRMnsG/HThCQ5HZa9wQEoDGYlhKQNu/jhRg6YkSrAKwHD/n7Aog0Hkf2sYAAxsdaRgqWZ0ZFj0HSnDmtAljxaQqKbt180kZUhdvt9oqAAFJTU8WZc4XXleCg7p9npFNYh/CAIC4WFGDz+nR1h8jyOG0JAZehaqDVG5NAtKt3v75Qq0EI0SKI0tISrFqylEsfPmRFocF5duvl1gCQzmCZJSE3EtDmzWHDMDc5GUqQ0iREWdkjfLFiOe7duevfDyAww+Ow5QQEYLFYlJIK3zeASGDmciGojBld+vTri6nTE9Grd596esyMC+fOIXPffn5QXEwM/E5ADwBBYFrncWUvavEa0BlMaQwsleCCGlZiEYpHwRW+r1UgVSSiZ08MjBqEsLAOkLIGd4vuoPDSRS6+d1/t2D4pOc3rsq2aMNkUKSWcUEEIcz0O69bnIeo1orF6S5cg1NwAUbEvuCYy//DhklqjCQbjOClpEQRiAAQ/I0b4G8C3Usq0um1X3VEFQV0DlaI6NMLt3lde164egFZvngPircRIcbusXzaUNt1k0+sscaXOP1+QbBuem3tAhaj3aA3mrwD+hATi3Xbr4SYBdJPMGSx4IRON8zqy8xsBmMISOf2Hj0bl43LcuHwBxHjH7bL+2AiABeDMhoKqlwGdwbSdgVkMGel15tSN8l9trcG4GqDPRpuS8KS8DOeOWsGED70O66aGADSxlneJ5SmA13qctsVNZ6AFABp9fB6R0MXNW4YnFWVw794AYt7rdtmm/x8ApDGY7r/yaliYfnYKgRm2jansq6pq9ODxUjMQM2lKH0Uov3UbEIWRk9/3B3zi0Hbc/+s6VwfXdKhbNbXZeKkAOoN5GoMPDo6eiAEjnp4TL+W7cO38KQhwTJ7TduL5aXipALUlNTZhJjpGPO2If179GWftBwHQYo8ze+1/C6A35pMQ0XELliOkTTu/r/LSh3DtWAciWN0Oq/mFANRbEAgflbcX2h+ysh7XEzMY7ypKcMfohJl4rava6oGiP67hdM5u9Wp2xeO0Rj5vo56wRaXIZcJyr9Oa12QZNlRGdb9p9ab5DN6gKIoYEhNL1ZWVKDztZjBXE9EMtyP7QHMaLwSgGuv0xjEQIouZOz0Vo9sspdGbazsbiHO/ZaAGteMnTpzS06co+wlUUc2UmO/KKmqN1j+PxZs/bL7TnQAAAABJRU5ErkJggg=='
-), (
-    'notice',
-    'Notice Board',
-    'TEXT',
-    'Notice Board',
-    '_default',
-    10,
-    'Y',
-    'Y',
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAmBJREFUWEft1kvIzmkYBvDfJxlKSmMWRIoiOTSRU6EsJHIuh4zlsDEk7FiyYzYTK7KymBHlkNNCiaKhJElT0gjNwoJkYyi66vnr/d7e03eoT/nuehfv89yH67me+77+T5cBtq4Brq8vAMZjYTnAHbzszWH6AmAj/ipFN+HMIID+ZGADLuH/FkkXYG/Z/x13W/gOwyqcq/dp1AP7cARXsB4fenOympgUT6+sxUEcrs1XD2A0HmNscbqANFvFxCiswxpMx4Ti96LEnUd+78p6iqc54x/7r8S9qUA0YmAqbmAc3mNRSf4bDmBMG0Ze4xCOYQZuY2QpvhT/tGKg2guIi/gVj/AnltUEfsYTPC9rEzGNbrpyDVswEyexur54YlvpwFAMxy38XAqFkfTHCbyqYyLCtL00Zk4ce4DFpY8+NWKunRCdRSYiFiZyl2+xu/TClEJvbe5JpQ9Cfyw9EKFqaK0ArMDlEvUU8zGrdPRPNdka5fgRfyNgYstxvacM3Mcc5L7nYghuYkRJFCYy+wHayAI434gAvId5PQEwGTl1LNewGQ/LCGXtFPbUjFszhiM80ZJYcj6rd2x2BRm5P4pzdCDNF2GKXcXKwkyzwtV67j4TFNuJ450COFojsxmxXdhfgmeX7m5XPPuJ/bc4JmeV42tsMwZOY2vx+gE7sKT8/wUfO6mOKGEl5cm5rVMGot2hPtZuVNthSRPHGo5js+SDAAYZ+L4ZyPjlrZc3X6zpl6zd/JX96ume70bejt2e743GsJrbDvP32K1bzW8SQKWAPT5ahwFtr6DDPP3j1led7zOKL04qfSGcgtpYAAAAAElFTkSuQmCC'
-);
+             'anonymous',
+             'Anonymous Board',
+             'MARKDOWN',
+             '**Anonymous Board Demo**
+        * Accessible for non-logged-in users
+        * Read/Write enabled
+        ',
+             '_default',
+             10,
+             'Y',
+             'Y',
+             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAuRJREFUWEftlttL1FEQx+ec32V31dVdt5WtvFFpIoG6iq0LCZH4FIT01F9QtHYh6CUIliIIIggz6ql8KILwpctbl4colbQto4u3yFTM9bLuthfX8/udM/GLCtYsLwhG7Hk7nDMzn/nOwAyBdT5kneNDGuDfUcDaOuZQCdzWUNSrEg4zTrqEID0ceWCOmXvhpCu+on65MJFpUZMVEpHchGKNLKFH56RYIvQpRzgQbc6fMfz9UiDryujlIqt08JzXpnyK6BCYnOfdQaaNRXUTAKAq02HGsQsRegiSgArJV6GjJV8NJ7ktg9kMzFVI0E0I1CiUeDQuig3/Tos0vz1XVkptqrQxU4Lr72LsS0JcizUXHEsBcF793HGkKqfu9M6clERjDKF3msHrKQaBIBPdQcaGI5oJAUCl9ImGQBDFbsPIlSHPl+XKaqldodtsMmzNlsGipFb55oc4tA/GO0O+Iu8CgJHO4+5sz6naVIDFZE/oCG+mGDTdn9a5QDhblyNvsclglpZuqVt9cbgzkOia9RXWrRrgJ9Se9kmIMgEX623Lbo81BTj0OATBOIcTbmsaIK1AWoG0AmkF/gMF7K0jd/eVWPbeaNxAl5vOambB+e6IeD6h3YscLmhKmYbWlpFdhMIjh5kKd54qVbtMSqVTgUqnCsYisdjZ/2AKQkkBZzyLj/CZpIChsAZDEQ6DIU3rD+s8ygRBgg1RX9GzFADjYr40Xkip3gBEVGcoxMt0Us4RVLuJMneeQmpcJqXCqYIB5jBLUN42znVE0tbooBEmvgf6GNagP6RpA2EdYxqqlABTKL5PcuwApC9Rkh7O+TaP/kzo7xuEH+Us+2iZsWoBUrdFBa8mxA5dEItEECnQWW54Qm4XQAmlOCcReKtptAOICBirW2y2oA/8RP9TWZdeYRZa+pFabeMlQtbzLfGMF8bzXGailuryWDS8aRD8RCy3h34rwUoM1+rvyhVYq8g//KQB1l2Bb6xnBD8tREAmAAAAAElFTkSuQmCC'
+         ), (
+             'member',
+             'Member Board',
+             'TEXT',
+             'Member Board',
+             '_default',
+             10,
+             'Y',
+             'Y',
+             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABW1JREFUWEe9l2lMVFcUx//nPsCFpglSl0TFXSsVq1XTGqsozow6g1RmQdMPSIxLXVps2qDWjRhs1VaIRuPauFcDzGCdBZkZlaq1torRUms0bY1pVVxQKIICwz3NG0ODsg7avk8v793zP79z7j3n3ksI8NFMMg0lwfGAeIvBXQGuZClukZAnJSPnuMt2IxBJaulgjd4SRcTrAdbW2gSHhDBLCZ/P59dh5hoS2CWFb9mxI0futES7RQAavSlBEPYw0DYyKgpjxo/DwDcGoX1oqN/HwwfFKLx4Cd7cXNy+eQsg3BTguDyH7UJzEM0CaPTm9wBpa9O2Hc2aP5eGDB/eqKaUEkftduRkZqnpKJEs3z7myrnWFESTADF6Yw+F6JeQkJDQlJUrqEevXs0F5P///XcnsXvbNvX11wdF4UMKCrZXN2bYJIBOb9zDRIlJs2dj1NjoFjmvHbR35w6cOp4PBuZ5ndYtAQOMj48Pp0pxp2v3bkrq2jUgana2nvFRWlKKJcnJXFVVfdXrsg4MGEATa04k5j3GaVMxKS4uoOhrB29Oz8DF8+chWQ5obC00GpZWb14L4pRFK1ei74D+rQLwuFzI3H8ADDJ5ndm2hkQaBaid/9UZ6ejUuXOrAH46cwY7Nm0GGAs8LuvmgAC0etMWED5YuWYNukV0bxXAyRMnsG/HThCQ5HZa9wQEoDGYlhKQNu/jhRg6YkSrAKwHD/n7Aog0Hkf2sYAAxsdaRgqWZ0ZFj0HSnDmtAljxaQqKbt180kZUhdvt9oqAAFJTU8WZc4XXleCg7p9npFNYh/CAIC4WFGDz+nR1h8jyOG0JAZehaqDVG5NAtKt3v75Qq0EI0SKI0tISrFqylEsfPmRFocF5duvl1gCQzmCZJSE3EtDmzWHDMDc5GUqQ0iREWdkjfLFiOe7duevfDyAww+Ow5QQEYLFYlJIK3zeASGDmciGojBld+vTri6nTE9Grd596esyMC+fOIXPffn5QXEwM/E5ADwBBYFrncWUvavEa0BlMaQwsleCCGlZiEYpHwRW+r1UgVSSiZ08MjBqEsLAOkLIGd4vuoPDSRS6+d1/t2D4pOc3rsq2aMNkUKSWcUEEIcz0O69bnIeo1orF6S5cg1NwAUbEvuCYy//DhklqjCQbjOClpEQRiAAQ/I0b4G8C3Usq0um1X3VEFQV0DlaI6NMLt3lde164egFZvngPircRIcbusXzaUNt1k0+sscaXOP1+QbBuem3tAhaj3aA3mrwD+hATi3Xbr4SYBdJPMGSx4IRON8zqy8xsBmMISOf2Hj0bl43LcuHwBxHjH7bL+2AiABeDMhoKqlwGdwbSdgVkMGel15tSN8l9trcG4GqDPRpuS8KS8DOeOWsGED70O66aGADSxlneJ5SmA13qctsVNZ6AFABp9fB6R0MXNW4YnFWVw794AYt7rdtmm/x8ApDGY7r/yaliYfnYKgRm2jansq6pq9ODxUjMQM2lKH0Uov3UbEIWRk9/3B3zi0Hbc/+s6VwfXdKhbNbXZeKkAOoN5GoMPDo6eiAEjnp4TL+W7cO38KQhwTJ7TduL5aXipALUlNTZhJjpGPO2If179GWftBwHQYo8ze+1/C6A35pMQ0XELliOkTTu/r/LSh3DtWAciWN0Oq/mFANRbEAgflbcX2h+ysh7XEzMY7ypKcMfohJl4rava6oGiP67hdM5u9Wp2xeO0Rj5vo56wRaXIZcJyr9Oa12QZNlRGdb9p9ab5DN6gKIoYEhNL1ZWVKDztZjBXE9EMtyP7QHMaLwSgGuv0xjEQIouZOz0Vo9sspdGbazsbiHO/ZaAGteMnTpzS06co+wlUUc2UmO/KKmqN1j+PxZs/bL7TnQAAAABJRU5ErkJggg=='
+         ), (
+             'notice',
+             'Notice Board',
+             'TEXT',
+             'Notice Board',
+             '_default',
+             10,
+             'Y',
+             'Y',
+             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAmBJREFUWEft1kvIzmkYBvDfJxlKSmMWRIoiOTSRU6EsJHIuh4zlsDEk7FiyYzYTK7KymBHlkNNCiaKhJElT0gjNwoJkYyi66vnr/d7e03eoT/nuehfv89yH67me+77+T5cBtq4Brq8vAMZjYTnAHbzszWH6AmAj/ipFN+HMIID+ZGADLuH/FkkXYG/Z/x13W/gOwyqcq/dp1AP7cARXsB4fenOympgUT6+sxUEcrs1XD2A0HmNscbqANFvFxCiswxpMx4Ti96LEnUd+78p6iqc54x/7r8S9qUA0YmAqbmAc3mNRSf4bDmBMG0Ze4xCOYQZuY2QpvhT/tGKg2guIi/gVj/AnltUEfsYTPC9rEzGNbrpyDVswEyexur54YlvpwFAMxy38XAqFkfTHCbyqYyLCtL00Zk4ce4DFpY8+NWKunRCdRSYiFiZyl2+xu/TClEJvbe5JpQ9Cfyw9EKFqaK0ArMDlEvUU8zGrdPRPNdka5fgRfyNgYstxvacM3Mcc5L7nYghuYkRJFCYy+wHayAI434gAvId5PQEwGTl1LNewGQ/LCGXtFPbUjFszhiM80ZJYcj6rd2x2BRm5P4pzdCDNF2GKXcXKwkyzwtV67j4TFNuJ450COFojsxmxXdhfgmeX7m5XPPuJ/bc4JmeV42tsMwZOY2vx+gE7sKT8/wUfO6mOKGEl5cm5rVMGot2hPtZuVNthSRPHGo5js+SDAAYZ+L4ZyPjlrZc3X6zpl6zd/JX96ume70bejt2e743GsJrbDvP32K1bzW8SQKWAPT5ahwFtr6DDPP3j1led7zOKL04qfSGcgtpYAAAAAElFTkSuQmCC'
+         );
 
 -- board_i18n
 insert into `core_board_i18n` (
@@ -142,14 +142,14 @@ insert into `core_board_i18n` (
     `name`,
     `message`
 ) values (
-    'anonymous',
-    'ko',
-    '익명 게시판',
-    '**익명게시판 데모**
-* 로그인하지 않은 사용자 접근가능
-* 읽기/쓰기 가능
-'
-);
+             'anonymous',
+             'ko',
+             '익명 게시판',
+             '**익명게시판 데모**
+         * 로그인하지 않은 사용자 접근가능
+         * 읽기/쓰기 가능
+         '
+         );
 
 -- article
 insert into core_article (
@@ -161,301 +161,301 @@ insert into core_article (
     user_id,
     created_at
 ) values (
-    '8fb7622000744407af0d762c71fe02f1',
-    'anonymous',
-    'Markdown-it demo page contents (copy)',
-    'You will like those projects!
----
-__Advertisement :)__
+             '8fb7622000744407af0d762c71fe02f1',
+             'anonymous',
+             'Markdown-it demo page contents (copy)',
+             'You will like those projects!
+         ---
+         __Advertisement :)__
 
-- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
-  resize in browser.
-- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
-  i18n with plurals support and easy syntax.
+         - __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
+           resize in browser.
+         - __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
+           i18n with plurals support and easy syntax.
 
----
+         ---
 
-# h1 Heading 8-)
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
+         # h1 Heading 8-)
+         ## h2 Heading
+         ### h3 Heading
+         #### h4 Heading
+         ##### h5 Heading
+         ###### h6 Heading
 
 
-## Horizontal Rules
+         ## Horizontal Rules
 
-___
+         ___
 
----
+         ---
 
-***
+         ***
 
 
-## Typographic replacements
+         ## Typographic replacements
 
-Enable typographer option to see result.
+         Enable typographer option to see result.
 
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+         (c) (C) (r) (R) (tm) (TM) (p) (P) +-
 
-test.. test... test..... test?..... test!....
+         test.. test... test..... test?..... test!....
 
-!!!!!! ???? ,,  -- ---
+         !!!!!! ???? ,,  -- ---
 
-"Smartypants, double quotes" and ''single quotes''
+         "Smartypants, double quotes" and ''single quotes''
 
 
-## Emphasis
+         ## Emphasis
 
-**This is bold text**
+         **This is bold text**
 
-__This is bold text__
+         __This is bold text__
 
-*This is italic text*
+         *This is italic text*
 
-_This is italic text_
+         _This is italic text_
 
-~~Strikethrough~~
+         ~~Strikethrough~~
 
 
-## Blockquotes
+         ## Blockquotes
 
 
-> Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows.
+         > Blockquotes can also be nested...
+         >> ...by using additional greater-than signs right next to each other...
+         > > > ...or with spaces between arrows.
 
 
-## Lists
+         ## Lists
 
-Unordered
+         Unordered
 
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
-  - Marker character change forces new list start:
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
-    - Nulla volutpat aliquam velit
-+ Very easy!
+         + Create a list by starting a line with `+`, `-`, or `*`
+         + Sub-lists are made by indenting 2 spaces:
+           - Marker character change forces new list start:
+             * Ac tristique libero volutpat at
+             + Facilisis in pretium nisl aliquet
+             - Nulla volutpat aliquam velit
+         + Very easy!
 
-Ordered
+         Ordered
 
-1. Lorem ipsum dolor sit amet
-2. Consectetur adipiscing elit
-3. Integer molestie lorem at massa
+         1. Lorem ipsum dolor sit amet
+         2. Consectetur adipiscing elit
+         3. Integer molestie lorem at massa
 
 
-1. You can use sequential numbers...
-1. ...or keep all the numbers as `1.`
+         1. You can use sequential numbers...
+         1. ...or keep all the numbers as `1.`
 
-Start numbering with offset:
+         Start numbering with offset:
 
-57. foo
-1. bar
+         57. foo
+         1. bar
 
 
-## Code
+         ## Code
 
-Inline `code`
+         Inline `code`
 
-Indented code
+         Indented code
 
-    // Some comments
-    line 1 of code
-    line 2 of code
-    line 3 of code
+             // Some comments
+             line 1 of code
+             line 2 of code
+             line 3 of code
 
 
-Block code "fences"
+         Block code "fences"
 
-```
-Sample text here...
-```
+         ```
+         Sample text here...
+         ```
 
-Syntax highlighting
+         Syntax highlighting
 
-``` js
-var foo = function (bar) {
-  return bar++;
-};
+         ``` js
+         var foo = function (bar) {
+           return bar++;
+         };
 
-console.log(foo(5));
-```
+         console.log(foo(5));
+         ```
 
-## Tables
+         ## Tables
 
-| Option | Description |
-| ------ | ----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+         | Option | Description |
+         | ------ | ----------- |
+         | data   | path to data files to supply the data that will be passed into templates. |
+         | engine | engine to be used for processing templates. Handlebars is the default. |
+         | ext    | extension to be used for dest files. |
 
-Right aligned columns
+         Right aligned columns
 
-| Option | Description |
-| ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+         | Option | Description |
+         | ------:| -----------:|
+         | data   | path to data files to supply the data that will be passed into templates. |
+         | engine | engine to be used for processing templates. Handlebars is the default. |
+         | ext    | extension to be used for dest files. |
 
 
-## Links
+         ## Links
 
-[link text](http://dev.nodeca.com)
+         [link text](http://dev.nodeca.com)
 
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+         [link with title](http://nodeca.github.io/pica/demo/ "title text!")
 
-Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+         Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
 
 
-## Images
+         ## Images
 
-![Minion](https://octodex.github.com/images/minion.png)
-![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+         ![Minion](https://octodex.github.com/images/minion.png)
+         ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
 
-Like links, Images also have a footnote style syntax
+         Like links, Images also have a footnote style syntax
 
-![Alt text][id]
+         ![Alt text][id]
 
-With a reference later in the document defining the URL location:
+         With a reference later in the document defining the URL location:
 
-[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+         [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
 
 
-## Plugins
+         ## Plugins
 
-The killer feature of `markdown-it` is very effective support of
-[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
+         The killer feature of `markdown-it` is very effective support of
+         [syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
 
 
-### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
+         ### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
 
-> Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
->
-> Shortcuts (emoticons): :-) :-( 8-) ;)
+         > Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
+         >
+         > Shortcuts (emoticons): :-) :-( 8-) ;)
 
-see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+         see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
 
 
-### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
+         ### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
-- 19^th^
-- H~2~O
+         - 19^th^
+         - H~2~O
 
 
-### [\\<ins>](https://github.com/markdown-it/markdown-it-ins)
+         ### [\\<ins>](https://github.com/markdown-it/markdown-it-ins)
 
-++Inserted text++
+         ++Inserted text++
 
 
-### [\\<mark>](https://github.com/markdown-it/markdown-it-mark)
+         ### [\\<mark>](https://github.com/markdown-it/markdown-it-mark)
 
-==Marked text==
+         ==Marked text==
 
 
-### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
+         ### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
 
-Footnote 1 link[^first].
+         Footnote 1 link[^first].
 
-Footnote 2 link[^second].
+         Footnote 2 link[^second].
 
-Inline footnote^[Text of inline footnote] definition.
+         Inline footnote^[Text of inline footnote] definition.
 
-Duplicated footnote reference[^second].
+         Duplicated footnote reference[^second].
 
-[^first]: Footnote **can have markup**
+         [^first]: Footnote **can have markup**
 
-    and multiple paragraphs.
+             and multiple paragraphs.
 
-[^second]: Footnote text.
+         [^second]: Footnote text.
 
 
-### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
+         ### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
 
-Term 1
+         Term 1
 
-:   Definition 1
-with lazy continuation.
+         :   Definition 1
+         with lazy continuation.
 
-Term 2 with *inline markup*
+         Term 2 with *inline markup*
 
-:   Definition 2
+         :   Definition 2
 
-        { some code, part of Definition 2 }
+                 { some code, part of Definition 2 }
 
-    Third paragraph of definition 2.
+             Third paragraph of definition 2.
 
-_Compact style:_
+         _Compact style:_
 
-Term 1
-  ~ Definition 1
+         Term 1
+           ~ Definition 1
 
-Term 2
-  ~ Definition 2a
-  ~ Definition 2b
+         Term 2
+           ~ Definition 2a
+           ~ Definition 2b
 
 
-### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
+         ### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
 
-This is HTML abbreviation example.
+         This is HTML abbreviation example.
 
-It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+         It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
-*[HTML]: Hyper Text Markup Language
+         *[HTML]: Hyper Text Markup Language
 
-### [Custom containers](https://github.com/markdown-it/markdown-it-container)
+         ### [Custom containers](https://github.com/markdown-it/markdown-it-container)
 
-::: warning
-*here be dragons*
-:::
-    ',
-    'MARKDOWN',
-    '35db23b70f3940819d1965a891cbbef0',
-    '2023-07-15 14:01:17.777'
-),(
-    '7b70bab4b58d4265b18b7d5859efbb62',
-    'anonymous',
-    'The 12 Principles behind the Agile Manifesto(from agilealliance.org)',
-    'We are uncovering better ways of developing software by doing it and helping others do it.
-Through this work we have come to value:
+         ::: warning
+         *here be dragons*
+         :::
+             ',
+             'MARKDOWN',
+             '35db23b70f3940819d1965a891cbbef0',
+             '2023-07-15 14:01:17.777'
+         ),(
+             '7b70bab4b58d4265b18b7d5859efbb62',
+             'anonymous',
+             'The 12 Principles behind the Agile Manifesto(from agilealliance.org)',
+             'We are uncovering better ways of developing software by doing it and helping others do it.
+         Through this work we have come to value:
 
-Individuals and interactions over processes and tools
-Working software over comprehensive documentation
-Customer collaboration over contract negotiation
-Responding to change over following a plan
+         Individuals and interactions over processes and tools
+         Working software over comprehensive documentation
+         Customer collaboration over contract negotiation
+         Responding to change over following a plan
 
-That is, while there is value in the items on the right, we value the items on the left more.
-© 2001, the Agile Manifesto authors
-This declaration may be freely copied in any form, but only in its entirety through this notice.
+         That is, while there is value in the items on the right, we value the items on the left more.
+         © 2001, the Agile Manifesto authors
+         This declaration may be freely copied in any form, but only in its entirety through this notice.
 
-1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
+         1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
 
-2. Welcome changing requirements, even late in development. Agile processes harness change for the customer’s competitive advantage.
+         2. Welcome changing requirements, even late in development. Agile processes harness change for the customer’s competitive advantage.
 
-3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.
+         3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.
 
-4. Business people and developers must work together daily throughout the project.
+         4. Business people and developers must work together daily throughout the project.
 
-5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.
+         5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.
 
-6. The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.
+         6. The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.
 
-7. Working software is the primary measure of progress.
+         7. Working software is the primary measure of progress.
 
-8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.
+         8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.
 
-9. Continuous attention to technical excellence and good design enhances agility.
+         9. Continuous attention to technical excellence and good design enhances agility.
 
-10. Simplicity–the art of maximizing the amount of work not done–is essential.
+         10. Simplicity–the art of maximizing the amount of work not done–is essential.
 
-11. The best architectures, requirements, and designs emerge from self-organizing teams.
+         11. The best architectures, requirements, and designs emerge from self-organizing teams.
 
-12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
-    ',
-    'MARKDOWN',
-    '35db23b70f3940819d1965a891cbbef0',
-    '2023-06-18 17:14:36.231'
-);
+         12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
+             ',
+             'MARKDOWN',
+             '35db23b70f3940819d1965a891cbbef0',
+             '2023-06-18 17:14:36.231'
+         );
 
 -- page
 insert into `core_page` (
@@ -464,15 +464,15 @@ insert into `core_page` (
     `content_format`,
     `content`
 ) values (
-    'board',
-    'Board Demo',
-    'MARKDOWN',
-    '# 데모 게시판 최근 게시물 페이지
+             'board',
+             'Board Demo',
+             'MARKDOWN',
+             '# 데모 게시판 최근 게시물 페이지
 
-데모게시판 최근게시물 위젯을 포함한 페이지
+         데모게시판 최근게시물 위젯을 포함한 페이지
 
-'
-);
+         '
+         );
 
 -- page_widget
 insert into `core_page_widget` (
@@ -481,24 +481,24 @@ insert into `core_page_widget` (
     `type`,
     `properties`
 ) values (
-    'board',
-    0,
-    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
-    'boardId=notice
-pageSize=10'
-), (
-    'board',
-    1,
-    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
-    'boardId=anonymous
-pageSize=10'
-), (
-    'board',
-    2,
-    'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
-    'boardId=member
-pageSize=10'
-);
+             'board',
+             0,
+             'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
+             'boardId=notice
+         pageSize=10'
+         ), (
+             'board',
+             1,
+             'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
+             'boardId=anonymous
+         pageSize=10'
+         ), (
+             'board',
+             2,
+             'org.oopscraft.arch4j.web.board.view.widget.LatestArticlesWidgetController',
+             'boardId=member
+         pageSize=10'
+         );
 
 -- git
 insert into `core_git` (`git_id`,`name`,`note`,`url`,`branch`) values
@@ -522,8 +522,8 @@ insert into `core_code` (`code_id`,`name`) values
 
 -- code_item
 insert into `core_code_item` (`code_id`,`item_id`,`name`,`sort`) values
-    ('test','item_1','Item 1',1),
-    ('test','item_2','Item 2',2);
+                                                                     ('test','item_1','Item 1',1),
+                                                                     ('test','item_2','Item 2',2);
 
 -- alarm
 insert into `core_alarm` (`alarm_id`,`name`) values

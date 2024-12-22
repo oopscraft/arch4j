@@ -341,96 +341,93 @@
     <!-- ================================== -->
     <!-- start: boardContent                -->
     <!-- ================================== -->
-    <div id="boardContent" class="display--grid grid-template-columns--12 grid-gap--1em">
-
-        <!-- ================================== -->
-        <!-- start: board list                  -->
-        <!-- ================================== -->
-        <div id="boardList" class="grid-column--5 s__grid-column--12">
-            <div class="display--flex flex-direction--column border--1 padding--1em">
-                <div>
+    <div id="boardContent" class="display--grid grid-template-columns--12fr gap--1em">
+        <div id="boardList" class="grid-column--span-5 s__grid-column--span-12">
+            <!-- ================================== -->
+            <!-- start: board list                  -->
+            <!-- ================================== -->
+            <div class="panel">
+                <div class="panel-title">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-list.svg}" alt="list"/>
                         <span data-th-text="#{core.board.Board}+' '+#{web.global.list}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding--1em">
-                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-                        <label class="grid-column--4">
-                            <select class="width--100" data-duice-bind="boardSearch" data-duice-property="key">
-                                <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
-                                <option value="name" th:text="#{core.board.Board.name}"></option>
-                            </select>
-                        </label>
-                        <label class="grid-column--8">
-                            <input class="width--100" type="text" data-duice-bind="boardSearch" data-duice-property="value"
-                                   th:placeholder="#{web.global.keyword}"/>
-                        </label>
-                        <div class="grid-column--12 justify-self--end">
-                            <button type="submit" onclick="getBoards();">
+                <div class="panel-content">
+                    <form onsubmit="return false;" class="display--flex justify-content--space-between flex-wrap--wrap gap--1rem">
+                        <div class="white-space--nowrap">
+                            <label>
+                                <select data-duice-bind="boardSearch" data-duice-property="key">
+                                    <option value="boardId" th:text="#{core.board.Board.boardId}"></option>
+                                    <option value="name" th:text="#{core.board.Board.name}"></option>
+                                </select>
+                            </label>
+                            <label>
+                                <input type="text" data-duice-bind="boardSearch" data-duice-property="value"
+                                       th:placeholder="#{web.global.keyword}"/>
+                            </label>
+                        </div>
+                        <div class="text-align--right s__text-align--left">
+                            <button class="button" type="submit" onclick="getBoards();">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                                 <span data-th-text="#{web.global.search}">Search</span>
                             </button>
-                            <button type="button" onclick="resetBoards();">
+                            <button class="button" type="button" onclick="resetBoards();">
                                 <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
                                 <span data-th-text="#{web.global.reset}">Reset</span>
                             </button>
                         </div>
                     </form>
-                    <div class="overflow-x--auto">
-                        <table class="width--100">
-                            <colgroup>
-                                <col style="width:5rem;"/>
-                                <col/>
-                                <col/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
-                                <th data-th-text="#{core.board.Board.boardId}"></th>
-                                <th data-th-text="#{core.board.Board.name}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-duice-bind="boards"
-                                data-duice-loop="board,status"
-                                data-duice-selected-item-class="selected"
-                                data-duice-execute="this.dataset.boardId=board.boardId;"
-                                onclick="getBoard(this.dataset.boardId);"
-                                class="cursor--pointer">
-                                <td data-duice-bind="status" data-duice-property="count"
-                                    class="text-align--center"></td>
-                                <td>
-                                    <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board" data-duice-property="icon" class="icon" alt="icon"/>
-                                    <span data-duice-bind="board" data-duice-property="boardId"
-                                          class="font-weight--bold"></span>
-                                </td>
-                                <td data-duice-bind="board" data-duice-property="name"></td>
-                            </tr>
-                            <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
-                                <td colspan="100%" class="text-align--center">No Data</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="display--grid grid-template-columns--3 grid-gap--1em">
+                    <table class="table width--100">
+                        <colgroup>
+                            <col style="width:5rem;"/>
+                            <col/>
+                            <col/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                            <th data-th-text="#{core.board.Board.boardId}"></th>
+                            <th data-th-text="#{core.board.Board.name}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-duice-bind="boards"
+                            data-duice-loop="board,status"
+                            data-duice-selected-item-class="selected"
+                            data-duice-execute="this.dataset.boardId=board.boardId;"
+                            onclick="getBoard(this.dataset.boardId);"
+                            class="cursor--pointer">
+                            <td data-duice-bind="status" data-duice-property="count"
+                                class="text-align--center"></td>
+                            <td>
+                                <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board" data-duice-property="icon" class="icon" alt="icon"/>
+                                <span data-duice-bind="board" data-duice-property="boardId"
+                                      class="font-weight--bold"></span>
+                            </td>
+                            <td data-duice-bind="board" data-duice-property="name"></td>
+                        </tr>
+                        <tr data-duice-bind="boards" data-duice-execute="if(boards.length === 0) this.hidden=false;" hidden>
+                            <td colspan="100%" class="text-align--center">No Data</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="display--flex justify-content--space-between">
                         <div>
                             <span data-th-text="#{web.global.total}"></span>
                             <span data-duice-bind="boardSearch" data-duice-property="_count"
                                   data-duice-format="number(0)"></span>
                             <span data-th-text="#{web.global.rows}"></span>
                         </div>
-                        <div class="justify-self--center">
-                            <duice-pagination
-                                    data-duice-bind="boardSearch"
-                                    data-duice-size-property="_size"
-                                    data-duice-page-property="_page"
-                                    data-duice-count-property="_count"
-                                    data-duice-onclick="getBoards(this.dataset.page);">
-                            </duice-pagination>
-                        </div>
-                        <div class="justify-self--end">
-                            <button type="button" onclick="createBoard();">
+                        <duice-pagination
+                                data-duice-bind="boardSearch"
+                                data-duice-size-property="_size"
+                                data-duice-page-property="_page"
+                                data-duice-count-property="_count"
+                                data-duice-onclick="getBoards(this.dataset.page);">
+                        </duice-pagination>
+                        <div class="text-align--right">
+                            <button class="button" type="button" onclick="createBoard();">
                                 <img class="icon" th:src="@{/static/image/icon-create.svg}" alt="create"/>
                                 <span data-th-text="#{web.global.create}"></span>
                             </button>
@@ -438,35 +435,34 @@
                     </div>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: board list                    -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: board list                    -->
-        <!-- ================================== -->
-
-        <!-- ================================== -->
-        <!-- start: board detail                -->
-        <!-- ================================== -->
-        <div id="boardDetail" class="grid-column--7 s__grid-column--12">
-            <div class="display--flex flex-direction--column border--1 padding--1em">
-                <div>
+        <div id="boardDetail" class="grid-column--span-7 s__grid-column--span-12">
+            <!-- ================================== -->
+            <!-- start: board detail                -->
+            <!-- ================================== -->
+            <div class="panel">
+                <div class="panel-title">
                     <h2>
                         <img class="icon" th:src="@{/static/image/icon-detail.svg}" alt="detail"/>
                         <span data-th-text="#{core.board.Board}+' '+#{web.global.detail}"></span>
                     </h2>
                 </div>
-                <div class="display--flex flex-direction--column gap--1em padding--1em">
-                    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-                        <label class="grid-column--6 s__grid-column--12">
+                <div class="panel-content">
+                    <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1em">
+                        <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.boardId}" class="font-weight--bold tag-required"></span>
                             <input type="text" data-duice-bind="board" data-duice-property="boardId"
                                    class="width--100 font-weight--bold"/>
                         </label>
-                        <label class="grid-column--6 s__grid-column--12">
+                        <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.name}" class="font-weight--bold tag-required"></span>
                             <input type="text" data-duice-bind="board" data-duice-property="name"
                                    class="width--100"/>
                         </label>
-                        <label class="grid-column--6 s__grid-column--12">
+                        <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.skin}" class="font-weight--bold"></span>
                             <select class="width--100" data-duice-bind="board" data-duice-property="skin">
                                 <option value th:text="'- '+#{web.global.select}+' -'"></option>
@@ -475,7 +471,7 @@
                                         th:text="${skinName}"></option>
                             </select>
                         </label>
-                        <label class="grid-column--6 s__grid-column--12">
+                        <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.pageSize}" class="font-weight--bold"></span>
                             <select class="width--100" data-duice-bind="board" data-duice-property="pageSize">
                                 <option value th:text="'- '+#{web.global.select}+' -'"></option>
@@ -486,14 +482,14 @@
                                 <option value="50">50</option>
                             </select>
                         </label>
-                        <label class="grid-column--6 s__grid-column--12">
+                        <label class="grid-column--span-12">
                             <span data-th-text="#{core.board.Board.icon}" class="font-weight--bold"></span><br>
                             <img th:src="@{/static/image/icon-null.svg}" data-duice-bind="board"
                                  data-duice-property="icon" data-duice-editable="true" data-duice-size="32,32"
                                  style="width:32px; height:32px;" alt="icon"/>
                         </label>
-                        <div class="grid-column--12">
-                            <span data-th-text="#{core.board.Board.message}" class="font-weight--bold"></span>
+                        <div class="grid-column--span-12">
+                            <div data-th-text="#{core.board.Board.message}" class="font-weight--bold"></div>
                             <div>
                                 <label>
                                     <input type="radio" data-duice-bind="board" data-duice-property="messageFormat" value="TEXT"/>
@@ -505,21 +501,23 @@
                                     <span data-th-text="#{core.board.ContentFormat.MARKDOWN}" class="font-weight--bold"></span>
                                 </label>
                             </div>
-                            <label>
-                                <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message" rows="5" class="width--100"></textarea>
-                            </label>
-                            <label>
-                                <duice-codemirror
-                                        data-duice-bind="board"
-                                        data-duice-property="message"
-                                        data-duice-mode="markdown"
-                                        data-duice-if="return board.messageFormat==='MARKDOWN'"
-                                        class="border--1 width--100"/>
-                            </label>
+                            <div>
+                                <label class="display--flex">
+                                    <textarea data-duice-bind="board" data-duice-if="return board.messageFormat==='TEXT'" data-duice-property="message" rows="5" class="width--100"></textarea>
+                                </label>
+                                <label class="display--flex">
+                                    <duice-codemirror
+                                            data-duice-bind="board"
+                                            data-duice-property="message"
+                                            data-duice-mode="markdown"
+                                            data-duice-if="return board.messageFormat==='MARKDOWN'"
+                                            class="box width--100"/>
+                                </label>
+                            </div>
                         </div>
-                        <div class="grid-column--12">
+                        <div class="grid-column--span-12">
                             <span data-th-text="#{core.board.Board.accessRoles}" class="font-weight--bold"></span>
-                            <table class="width--100">
+                            <table class="table width--100">
                                 <colgroup>
                                     <col style="width:3em;"/>
                                     <col style="width:15em;"/>
@@ -528,7 +526,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align--center">
-                                        <button type="button" class="small" onclick="addBoardAccessRole();">
+                                        <button class="button small" type="button" onclick="addBoardAccessRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -541,7 +539,7 @@
                                 <tbody>
                                 <tr data-duice-bind="board.accessRoles" data-duice-loop="role,status">
                                     <td class="text-align--center">
-                                        <button type="button" class="small"
+                                        <button class="button small" type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardAccessRole(this.dataset.index);">
@@ -572,9 +570,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="grid-column--12">
+                        <div class="grid-column--span-12">
                             <span data-th-text="#{core.board.Board.readRoles}" class="font-weight--bold"></span>
-                            <table class="width--100">
+                            <table class="table width--100">
                                 <colgroup>
                                     <col style="width:3em;"/>
                                     <col style="width:15em;"/>
@@ -585,7 +583,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align--center">
-                                        <button type="button" class="small" onclick="addBoardReadRole();">
+                                        <button class="button small" type="button" onclick="addBoardReadRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -598,7 +596,7 @@
                                 <tbody>
                                 <tr data-duice-bind="board.readRoles" data-duice-loop="role,status">
                                     <td class="text-align--center">
-                                        <button type="button" class="small"
+                                        <button class="button small" type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardReadRole(this.dataset.index);">
@@ -629,9 +627,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="grid-column--12">
+                        <div class="grid-column--span-12">
                             <span data-th-text="#{core.board.Board.writeRoles}" class="font-weight--bold"></span>
-                            <table class="width--100">
+                            <table class="table width--100">
                                 <colgroup>
                                     <col style="width:3em;"/>
                                     <col style="width:15em;"/>
@@ -642,7 +640,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align--center">
-                                        <button type="button" class="small" onclick="addBoardWriteRole();">
+                                        <button class="button small" type="button" onclick="addBoardWriteRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -655,7 +653,7 @@
                                 <tbody>
                                 <tr data-duice-bind="board.writeRoles" data-duice-loop="role,status">
                                     <td class="text-align--center">
-                                        <button type="button" class="small"
+                                        <button class="button small" type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardWriteRole(this.dataset.index);">
@@ -687,7 +685,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="grid-column--12">
+                        <div class="grid-column--span-12">
                             <label class="width--100">
                                 <input type="checkbox" data-duice-bind="board" data-duice-property="fileEnabled"/>
                                 <span data-th-text="#{core.board.Board.fileEnabled}" class="font-weight--bold"></span>
@@ -700,7 +698,7 @@
                             </label>
                             <br/>
                             <span data-th-text="#{core.board.Board.fileRoles}" class="font-weight--bold"></span>
-                            <table class="width--100">
+                            <table class="table width--100">
                                 <colgroup>
                                     <col style="width:3em;"/>
                                     <col style="width:15em;"/>
@@ -711,7 +709,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align--center">
-                                        <button type="button" class="small" onclick="addBoardFileRole();">
+                                        <button class="button small" type="button" onclick="addBoardFileRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -724,7 +722,7 @@
                                 <tbody>
                                 <tr data-duice-bind="board.fileRoles" data-duice-loop="role,status">
                                     <td class="text-align--center">
-                                        <button type="button" class="small"
+                                        <button class="button small" type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardFileRole(this.dataset.index);">
@@ -756,14 +754,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="grid-column--12">
+                        <div class="grid-column--span-12">
                             <label class="width--100">
                                 <input type="checkbox" data-duice-bind="board" data-duice-property="commentEnabled"/>
                                 <span data-th-text="#{core.board.Board.commentEnabled}" class="font-weight--bold"></span>
                             </label>
                             <br/>
                             <span data-th-text="#{core.board.Board.commentRoles}" class="font-weight--bold"></span>
-                            <table class="width--100">
+                            <table class="table width--100">
                                 <colgroup>
                                     <col style="width:3em;"/>
                                     <col style="width:15em;"/>
@@ -774,7 +772,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-align--center">
-                                        <button type="button" class="small" onclick="addBoardCommentRole();">
+                                        <button class="button small" type="button" onclick="addBoardCommentRole();">
                                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                                         </button>
                                     </th>
@@ -787,7 +785,7 @@
                                 <tbody>
                                 <tr data-duice-bind="board.commentRoles" data-duice-loop="role,status">
                                     <td class="text-align--center">
-                                        <button type="button" class="small"
+                                        <button class="button small" type="button"
                                                 data-duice-bind="role"
                                                 data-duice-execute="this.dataset.index=status.index;"
                                                 onclick="removeBoardCommentRole(this.dataset.index);">
@@ -820,24 +818,24 @@
                             </table>
                         </div>
                     </form>
-                    <div class="display--grid grid-template-columns--2">
+                    <div class="display--flex justify-content--space-between">
                         <div>
-                            <button type="button" onclick="openBoard();"
+                            <button class="button" type="button" onclick="openBoard();"
                                     data-duice-bind="board"
                                     data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-open.svg}" alt="open"/>
                                 <span data-th-text="#{web.admin.board.openBoard}"></span>
                             </button>
                         </div>
-                        <div class="justify-self--end">
-                            <button type="button" onclick="deleteBoard();"
+                        <div class="text-align--right">
+                            <button class="button" type="button" onclick="deleteBoard();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''admin.boards.edit'')')}?'locked'"
                                     data-duice-bind="board"
                                     data-duice-execute="(board.boardId && !board._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-delete.svg}" alt="delete"/>
                                 <span data-th-text="#{web.global.delete}"></span>
                             </button>
-                            <button type="button" onclick="saveBoard();"
+                            <button class="button" type="button" onclick="saveBoard();"
                                     th:classappend="!${#authorization.expression('hasAuthority(''admin.boards.edit'')')}?'locked'"
                                     data-duice-bind="board"
                                     data-duice-execute="(board.boardId || board._new) ? this.disabled=false : this.disabled=true;">
@@ -854,11 +852,10 @@
                     </div>
                 </div>
             </div>
+            <!-- ================================== -->
+            <!-- end: board detail                  -->
+            <!-- ================================== -->
         </div>
-        <!-- ================================== -->
-        <!-- end: board detail                  -->
-        <!-- ================================== -->
-
     </div>
     <!-- ================================== -->
     <!-- end: boardContent                  -->

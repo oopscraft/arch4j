@@ -2,55 +2,58 @@
     #login {
         width: 300px;
         max-width: 100%;
-        padding: 1em;
     }
 </style>
-<div id="login" class="border--1">
-    <h1 class="text-align--center">
-        <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}"></span>
-    </h1>
-    <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em padding--1em">
-        <label class="grid-column--12">
-            <input type="text" th:placeholder="#{web.login.login.userId}"
-                   data-duice-bind="login" data-duice-property="username"
-                   class="width--100 font-weight--bold text-align--center"/>
-        </label>
-        <label class="grid-column--12">
-            <input type="password" th:placeholder="#{web.login.login.password}"
-                   data-duice-bind="login" data-duice-property="password"
-                   class="width--100 font-weight--bold text-align--center"/>
-        </label>
-        <label class="grid-column--12">
-            <input type="checkbox" data-duice-bind="login" data-duice-property="rememberMe"/>
-            <span>Remember me</span>
-        </label>
-        <div class="grid-column--12">
-            <button type="submit" onclick="requestLogin();" class="width--100">
-                <img class="icon" th:src="@{/static/image/icon-login.svg}" alt="login">
-                <span data-th-text="#{web.global.login}"></span>
-            </button>
-        </div>
-        <div class="grid-column--12 justify-self--center">
-            <span data-duice-bind="login" data-duice-property="message"></span>
-        </div>
-        <div class="grid-column--6">
-            <label>
-                <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
-                <select onchange="_changeLanguage(this.value);">
-                    <option>- language -</option>
-                    <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                </select>
+<div id="login" class="panel">
+    <div class="panel-title justify-content--center">
+        <h1>
+            <span id="_brand" class="link" onclick="_gotoIndex();" th:utext="${_brand}"></span>
+        </h1>
+    </div>
+    <div class="panel-content">
+        <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1rem">
+            <label class="grid-column--span-12">
+                <input type="text" th:placeholder="#{web.login.login.userId}"
+                       data-duice-bind="login" data-duice-property="username"
+                       class="width--100 font-weight--bold text-align--center"/>
             </label>
-        </div>
-        <div class="grid-column--6" th:if="${_securityPolicy == 'ANONYMOUS'}">
-            <div class="text-align--right">
+            <label class="grid-column--span-12">
+                <input type="password" th:placeholder="#{web.login.login.password}"
+                       data-duice-bind="login" data-duice-property="password"
+                       class="width--100 font-weight--bold text-align--center"/>
+            </label>
+            <label class="grid-column--span-12">
+                <input type="checkbox" data-duice-bind="login" data-duice-property="rememberMe"/>
+                <span>Remember me</span>
+            </label>
+            <div class="grid-column--span-12">
+                <button type="submit" onclick="requestLogin();" class="width--100">
+                    <img class="icon" th:src="@{/static/image/icon-login.svg}" alt="login">
+                    <span data-th-text="#{web.global.login}"></span>
+                </button>
+            </div>
+            <div class="grid-column--span-12 justify-self--center">
+                <span data-duice-bind="login" data-duice-property="message"></span>
+            </div>
+            <div class="grid-column--span-6">
+                <label>
+                    <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
+                    <select onchange="_changeLanguage(this.value);">
+                        <option>- language -</option>
+                        <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                    </select>
+                </label>
+            </div>
+            <div class="grid-column--span-6" th:if="${_securityPolicy == 'ANONYMOUS'}">
+                <div class="text-align--right">
                 <span onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}">
                 </span>
-            </div>
-            <div class="text-align--right">
+                </div>
+                <div class="text-align--right">
                 <span onclick="gotoResetPassword();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.resetPassword}">
                 </span>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

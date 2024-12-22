@@ -10,7 +10,6 @@ import org.oopscraft.arch4j.core.common.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.security.model.User;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,9 @@ import java.util.List;
     name = "core_user",
     indexes = {
         @Index(name = "ix_username", columnList = "username"),
-        @Index(name = "ix_name", columnList = "name")
+        @Index(name = "ix_name", columnList = "name"),
+        @Index(name = "ix_email", columnList = "email"),
+        @Index(name = "ix_mobile", columnList = "mobile"),
     }
 )
 @Data
@@ -51,6 +52,10 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status", length = 16)
     private User.Status status;
 
+    @Column(name = "email", unique = true, length = 128)
+    @Convert(converter = CryptoConverter.class)
+    private String email;
+
     @Column(name = "mobile", unique = true, length = 64)
     @Convert(converter = CryptoConverter.class)
     private String mobile;
@@ -62,18 +67,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "profile")
     @Lob
     private String profile;
-
-    @Column(name = "join_at")
-    private Instant joinAt;
-
-    @Column(name = "close_at")
-    private Instant closeAt;
-
-    @Column(name = "password_at")
-    private Instant passwordAt;
-
-    @Column(name = "expire_at")
-    private Instant expireAt;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", updatable = false)

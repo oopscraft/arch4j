@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.dao.BoardEntity;
 import org.oopscraft.arch4j.core.board.model.Board;
-import org.oopscraft.arch4j.core.board.service.BoardService;
 import org.oopscraft.arch4j.core.security.model.Role;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 

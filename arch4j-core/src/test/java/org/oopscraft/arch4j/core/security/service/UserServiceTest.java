@@ -1,19 +1,13 @@
 package org.oopscraft.arch4j.core.security.service;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.security.model.Role;
-import org.oopscraft.arch4j.core.security.dao.RoleEntity;
 import org.oopscraft.arch4j.core.security.model.User;
 import org.oopscraft.arch4j.core.security.model.UserSearch;
-import org.oopscraft.arch4j.core.security.service.UserService;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 import org.oopscraft.arch4j.core.security.dao.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

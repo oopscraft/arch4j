@@ -1,0 +1,300 @@
+:root {
+  --duice-line-height: 2.5rem;
+  --duice-font-size: 12px;
+  --duice-background: white;
+  --duice-table-border: solid 1px #ddd;
+  --duice-table-thead-background: #f7f7f7;
+  --duice-table-thead-border: solid 1px #ddd;
+  --duice-table-tbody-background: transparent;
+  --duice-table-tbody-border: solid 1px #eee;
+  --duice-table-tfoot-background: #f7f7f7;
+  --duice-table-tfoot-border: solid 1px #ddd;
+  --duice-input-border: solid 1px #ddd;
+  --duice-select-border: solid 1px #ddd;
+  --duice-select-icon: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='10' height='10' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='darkgray'/></g></svg>");
+  --duice-textarea-border: solid 1px #ddd;
+  --duice-button-border: solid 1px #aaa;
+  --duice-button-background: #f7f7f7;
+  --duice-element-padding: 0.5rem 0.5rem;
+  --duice-element-focus-border: solid 1px black;
+  --duice-element-focus-transition: all .2s ease-out;
+  --duice-element-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
+  --duice-dialog-border: solid 1px gray;
+}
+
+/* html */
+html {
+  line-height: var(--duice-line-height);
+  font-size: var(--duice-font-size);
+  background: var(--duice-background);
+}
+
+/* body */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+/* h1~6 */
+h1 {
+  font-size: 1.7rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h4 {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h5 {
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h6 {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* table */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: var(--duice-table-border);
+}
+
+table > thead {
+  position: sticky;
+  top: 0;
+  background: var(--duice-table-thead-background);
+}
+
+table > thead > tr > th,
+table > thead > tr > td {
+  border: none;
+  border-right: var(--duice-table-thead-border);
+  border-bottom: var(--duice-table-thead-border);
+}
+
+table > thead > tr > :last-child {
+  border-right: none;
+}
+
+table > tbody > tr > th,
+table > tbody > tr > td {
+  border: none;
+  border-right: var(--duice-table-tbody-border);
+  border-bottom: var(--duice-table-tbody-border);
+}
+
+table > tbody > tr > :last-child {
+  border-right: none;
+}
+
+table > tbody:last-of-type > tr:not([hidden]):last-of-type > th,
+table > tbody:last-of-type > tr:not([hidden]):last-of-type > td {
+  border-bottom: none;
+}
+
+table > tfoot {
+  background: var(--duice-table-tfoot-background);
+}
+
+table > tfoot > tr > th,
+table > tfoot > tr > td {
+  border: none;
+  border-right: var(--duice-table-tfoot-border);
+  border-bottom: var(--duice-table-tfoot-border);
+}
+
+table > tfoot > tr > :last-child {
+  border-right: none;
+}
+
+table > tfoot > tr:first-of-type > th,
+table > tfoot > tr:first-of-type > td {
+  border-top: var(--duice-table-tfoot-border);
+}
+
+table > tfoot > tr:last-of-type > th,
+table > tfoot > tr:last-of-type > td {
+  border-bottom: none;
+}
+
+table tr th,
+table tr td {
+  padding-left: calc(var(--duice-line-height) / 4);
+  padding-right: calc(var(--duice-line-height) / 4);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+table tr th:has(button, input, select, textarea, table),
+table tr td:has(button, input, select, textarea, table) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* input */
+input {
+  box-sizing: border-box;
+  height: var(--duice-line-height);
+  vertical-align: bottom;
+  border: var(--duice-input-border);
+  padding-left: calc(var(--duice-line-height) / 4);
+  padding-right: calc(var(--duice-line-height) / 4);
+}
+
+input:focus {
+  outline: none;
+  border: var(--duice-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+}
+
+/* input-checkbox */
+input[type=checkbox] {
+  margin: 0;
+  height: unset;
+  vertical-align: middle;
+}
+
+/* input-radio */
+input[type=radio] {
+  margin: 0;
+  height: unset;
+  vertical-align: sub;
+}
+
+/* select */
+select {
+  appearance: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: var(--duice-select-border);
+  box-sizing: border-box;
+  height: var(--duice-line-height);
+  vertical-align: bottom;
+  padding-left: calc(var(--duice-line-height) / 4);
+  background-color: inherit;
+  background-image: var(--duice-select-icon);
+  background-repeat: no-repeat;
+  background-position: right 0.5em center;
+  padding-right: var(--duice-line-height);
+}
+
+select:focus {
+  outline: none;
+  border: var(--duice-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+}
+
+/* textarea */
+textarea {
+  line-height: calc(var(--duice-line-height) / 1.5);
+  border: var(--duice-textarea-border);
+  box-sizing: border-box;
+  background-color: transparent;
+  padding-left: calc(var(--duice-line-height) / 4);
+  white-space: pre;
+  overflow-y: auto;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border: var(--duice-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+}
+
+/* button */
+button {
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  box-sizing: border-box;
+  height: var(--duice-line-height);
+  min-width: var(--duice-line-height);
+  white-space: nowrap;
+  padding-left: calc(var(--duice-line-height) / 4);
+  padding-right: calc(var(--duice-line-height) / 4);
+  cursor: pointer;
+  border: var(--duice-button-border);
+  background: var(--duice-button-background);
+}
+
+button:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+button:hover:not([disabled]),
+button:focus:not([disabled]) {
+  outline: none;
+  box-shadow: var(--duice-element-box-shadow);
+  border: var(--duice-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+}
+
+/* dialog */
+dialog {
+  border: var(--duice-dialog-border);
+  box-shadow: var(--duice-element-box-shadow);
+}
+
+dialog:focus {
+  outline: none;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*# sourceMappingURL=duice-theme.css.map */

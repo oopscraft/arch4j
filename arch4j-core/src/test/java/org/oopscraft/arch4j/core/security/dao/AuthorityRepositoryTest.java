@@ -3,8 +3,6 @@ package org.oopscraft.arch4j.core.security.dao;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.oopscraft.arch4j.core.security.dao.AuthorityEntity;
-import org.oopscraft.arch4j.core.security.dao.AuthorityRepository;
 import org.oopscraft.arch4j.core.common.test.CoreTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;

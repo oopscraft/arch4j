@@ -42,18 +42,17 @@ class UserRepositoryTest extends CoreTestSupport {
     }
 
     @Test
-    @Order(1)
     void saveToPersist() {
         // given
-        UserEntity testUserEntity = getTestUserEntity();
-
+        UserEntity userEntity = UserEntity.builder()
+                .userId("test_user")
+                .username("test-user")
+                .build();
         // when
-        userRepository.saveAndFlush(testUserEntity);
+        userRepository.saveAndFlush(userEntity);
 
         // then
-        entityManager.flush();
-        entityManager.clear();
-        assertNotNull(entityManager.find(UserEntity.class, testUserEntity.getUserId()));
+        assertNotNull(entityManager.find(UserEntity.class, userEntity.getUserId()));
     }
 
     @Test

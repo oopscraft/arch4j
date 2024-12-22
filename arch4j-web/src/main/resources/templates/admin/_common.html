@@ -2,10 +2,10 @@
 <!-- start: roleSelectDialog                -->
 <!-- ====================================== -->
 <th:block th:fragment="roleSelectDialog">
-<dialog id="roleSelectDialog">
+<dialog id="roleSelectDialog" class="dialog">
     <style th:inline="css">
         #roleSelectDialog {
-            width: 800px;
+            width: 600px;
         }
     </style>
     <script th:inline="javascript">
@@ -113,171 +113,171 @@
             }
         }
     </script>
-    <div class="display--flex flex-direction--column padding--1em">
-        <div>
-            <h1>
-                <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
-                <span data-th-text="#{core.security.Role}"></span>
-            </h1>
-        </div>
-        <div class="display--flex flex-direction--column gap--1em padding--1em">
-            <form onsubmit="return false;" class="display--grid grid-template-columns--12 grid-gap--1em">
-                <label class="grid-column--2 s__grid-column--4">
-                    <select class="width--100" data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="key">
-                        <option value="roleId" th:text="#{core.security.Role.roleId}"></option>
-                        <option value="name" th:text="#{core.security.Role.name}"></option>
-                    </select>
-                </label>
-                <label class="grid-column--4 s__grid-column--8">
-                    <input class="width--100" type="text" data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="value"/>
-                </label>
-                <div class="grid-column--6 s__grid-column--12 justify-self--end">
-                    <button onclick="roleSelectDialog.getRoles();">
-                        <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
-                        <span data-th-text="#{web.global.search}">Search</span>
-                    </button>
-                    <button onclick="roleSelectDialog.resetRoles();">
-                        <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
-                        <span data-th-text="#{web.global.reset}">Reset</span>
-                    </button>
+    <div class="dialog-title">
+        <h2>
+            <img class="icon" th:src="@{/static/image/icon-role.svg}" alt="role"/>
+            <span data-th-text="#{core.security.Role}"></span>
+        </h2>
+    </div>
+    <div class="dialog-content">
+        <form onsubmit="return false;" class="display--flex flex-wrap--wrap gap--1rem justify-content--space-between">
+            <div>
+                <div class="white-space--nowrap">
+                    <label>
+                        <select data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="key">
+                            <option value="roleId" th:text="#{core.security.Role.roleId}"></option>
+                            <option value="name" th:text="#{core.security.Role.name}"></option>
+                        </select>
+                    </label>
+                    <label>
+                        <input type="text" data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="value"/>
+                    </label>
                 </div>
-            </form>
-            <div class="overflow-x--scroll">
-                <table class="width--100">
-                    <colgroup>
-                        <col style="width:3em;"/>
-                        <col/>
-                        <col/>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th class="text-align--center">-</th>
-                        <th data-th-text="#{core.security.Role.roleId}"></th>
-                        <th data-th-text="#{core.security.Role.name}"></th>
-                        <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
-                        <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-duice-bind="roleSelectDialog.roles" data-duice-loop="role,status">
-                        <td class="text-align--center">
-                            <button type="button" class="small"
-                                    data-duice-bind="role"
-                                    data-duice-execute="
-                        this.dataset.index = status.index;
-                        if(role._selected) {
-                            this.disabled = true;
-                        }"
-                                    onclick="roleSelectDialog.selectRole(this.dataset.index);">
-                                <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
-                            </button>
-                        </td>
-                        <td>
-                        <span data-duice-bind="role"
-                              data-duice-property="roleId"
-                              data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
-                              class="font-weight--bold"></span>
-                        </td>
-                        <td>
-                            <span data-duice-bind="role" data-duice-property="name"></span>
-                        </td>
-                        <td class="text-align--center">
-                            <label>
-                                <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
-                            </label>
-                        </td>
-                        <td class="text-align--center">
-                            <label>
-                                <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr data-duice-bind="roleSelectDialog.roles"
-                        data-duice-execute="if(roleSelectDialog.roles.length === 0) this.hidden=false;" hidden>
-                        <td colspan="100%" class="text-align--center">No Data</td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
-            <div class="display--grid grid-template-columns--3">
-                <div>
-                    <span data-th-text="#{web.global.total}"></span>
-                    <span data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="_count" data-duice-format="number()"></span>
-                    <span data-th-text="#{web.global.rows}"></span>
-                </div>
-                <div class="justify-self--center">
-                    <duice-pagination
-                            data-duice-bind="roleSelectDialog.roleSearch"
-                            data-duice-size-property="_size"
-                            data-duice-page-property="_page"
-                            data-duice-count-property="_count"
-                            data-duice-onclick="roleSelectDialog.getRoles(this.dataset.page);">
-                    </duice-pagination>
-                </div>
-                <div class="justify-self--end"></div>
-            </div>
-            <div class="overflow-x--scroll">
-                <table class="width--100">
-                    <colgroup>
-                        <col style="width:3em;"/>
-                        <col/>
-                        <col/>
-                        <col/>
-                        <col/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th class="text-align--center">-</th>
-                        <th data-th-text="#{core.security.Role.roleId}"></th>
-                        <th data-th-text="#{core.security.Role.name}"></th>
-                        <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
-                        <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-duice-bind="roleSelectDialog.selectedRoles" data-duice-loop="role,status">
-                        <td class="text-align--center">
-                            <button data-duice-bind="role" class="small"
-                                    data-duice-execute="this.dataset.index = status.index;"
-                                    onclick="roleSelectDialog.deselectRole(this.dataset.index);">
-                                <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
-                            </button>
-                        </td>
-                        <td>
-                        <span data-duice-bind="role"
-                              data-duice-property="roleId"
-                              data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
-                              class="font-weight--bold"></span>
-                        </td>
-                        <td>
-                            <span data-duice-bind="role" data-duice-property="name"></span>
-                        </td>
-                        <td class="text-align--center">
-                            <label>
-                                <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
-                            </label>
-                        </td>
-                        <td class="text-align--center">
-                            <label>
-                                <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr data-duice-bind="roleSelectDialog.selectedRoles"
-                        data-duice-execute="if(roleSelectDialog.selectedRoles.length === 0) this.hidden=false;" hidden>
-                        <td colspan="100%" class="text-align--center">No Data</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="display--flex justify-content--flex-end">
-                <button onclick="roleSelectDialog.confirm();">
-                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
-                    <span data-th-text="#{web.global.confirm}"></span>
+            <div class="flex--1 text-align--right">
+                <button class="button" onclick="roleSelectDialog.getRoles();">
+                    <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                    <span data-th-text="#{web.global.search}">Search</span>
+                </button>
+                <button class="button" onclick="roleSelectDialog.resetRoles();">
+                    <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                    <span data-th-text="#{web.global.reset}">Reset</span>
                 </button>
             </div>
+        </form>
+        <div class="overflow--scroll">
+            <table class="table width--100">
+                <colgroup>
+                    <col style="width:3em;"/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-align--center">-</th>
+                    <th data-th-text="#{core.security.Role.roleId}"></th>
+                    <th data-th-text="#{core.security.Role.name}"></th>
+                    <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
+                    <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-bind="roleSelectDialog.roles" data-duice-loop="role,status">
+                    <td class="text-align--center">
+                        <button type="button" class="button small"
+                                data-duice-bind="role"
+                                data-duice-execute="
+                    this.dataset.index = status.index;
+                    if(role._selected) {
+                        this.disabled = true;
+                    }"
+                                onclick="roleSelectDialog.selectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
+                        </button>
+                    </td>
+                    <td>
+                    <span data-duice-bind="role"
+                          data-duice-property="roleId"
+                          data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
+                          class="font-weight--bold"></span>
+                    </td>
+                    <td>
+                        <span data-duice-bind="role" data-duice-property="name"></span>
+                    </td>
+                    <td class="text-align--center">
+                        <label>
+                            <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
+                        </label>
+                    </td>
+                    <td class="text-align--center">
+                        <label>
+                            <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
+                        </label>
+                    </td>
+                </tr>
+                <tr data-duice-bind="roleSelectDialog.roles"
+                    data-duice-execute="if(roleSelectDialog.roles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="text-align--center">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="display--flex justify-content--space-between">
+            <div>
+                <span data-th-text="#{web.global.total}"></span>
+                <span data-duice-bind="roleSelectDialog.roleSearch" data-duice-property="_count" data-duice-format="number()"></span>
+                <span data-th-text="#{web.global.rows}"></span>
+            </div>
+            <duice-pagination
+                    data-duice-bind="roleSelectDialog.roleSearch"
+                    data-duice-size-property="_size"
+                    data-duice-page-property="_page"
+                    data-duice-count-property="_count"
+                    data-duice-onclick="roleSelectDialog.getRoles(this.dataset.page);">
+            </duice-pagination>
+            <div></div>
+        </div>
+        <div class="overflow--scroll">
+            <table class="table width--100">
+                <colgroup>
+                    <col style="width:3em;"/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-align--center">-</th>
+                    <th data-th-text="#{core.security.Role.roleId}"></th>
+                    <th data-th-text="#{core.security.Role.name}"></th>
+                    <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
+                    <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-duice-bind="roleSelectDialog.selectedRoles" data-duice-loop="role,status">
+                    <td class="text-align--center">
+                        <button data-duice-bind="role" class="button small"
+                                data-duice-execute="this.dataset.index = status.index;"
+                                onclick="roleSelectDialog.deselectRole(this.dataset.index);">
+                            <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
+                        </button>
+                    </td>
+                    <td>
+                    <span data-duice-bind="role"
+                          data-duice-property="roleId"
+                          data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
+                          class="font-weight--bold"></span>
+                    </td>
+                    <td>
+                        <span data-duice-bind="role" data-duice-property="name"></span>
+                    </td>
+                    <td class="text-align--center">
+                        <label>
+                            <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
+                        </label>
+                    </td>
+                    <td class="text-align--center">
+                        <label>
+                            <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
+                        </label>
+                    </td>
+                </tr>
+                <tr data-duice-bind="roleSelectDialog.selectedRoles"
+                    data-duice-execute="if(roleSelectDialog.selectedRoles.length === 0) this.hidden=false;" hidden>
+                    <td colspan="100%" class="text-align--center">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="display--flex justify-content--end">
+            <button class="button" onclick="roleSelectDialog.confirm();">
+                <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                <span data-th-text="#{web.global.confirm}"></span>
+            </button>
         </div>
     </div>
 </dialog>

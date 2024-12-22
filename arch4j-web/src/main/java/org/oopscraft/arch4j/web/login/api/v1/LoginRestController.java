@@ -6,7 +6,6 @@ import org.oopscraft.arch4j.core.security.model.User;
 import org.oopscraft.arch4j.core.security.service.UserService;
 import org.oopscraft.arch4j.web.login.api.v1.dto.LoginRequest;
 import org.oopscraft.arch4j.web.login.api.v1.dto.LoginResponse;
-import org.oopscraft.arch4j.web.security.model.UserDetailsImpl;
 import org.oopscraft.arch4j.web.security.service.SecurityTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/login")

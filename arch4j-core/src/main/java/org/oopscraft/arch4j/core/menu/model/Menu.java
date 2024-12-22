@@ -25,8 +25,6 @@ public class Menu extends BaseModel {
 
     private String parentMenuId;
 
-    private String parentMenuName;
-
     private String link;
 
     private Target target;
@@ -64,11 +62,6 @@ public class Menu extends BaseModel {
                 .sort(menuEntity.getSort())
                 .note(menuEntity.getNote())
                 .build();
-
-        MenuEntity parentMenuEntity = menuEntity.getParentMenu();
-        if (parentMenuEntity != null) {
-            menu.setParentMenuName(parentMenuEntity.getName());
-        }
 
         // view role
         List<Role> viewRoles = menuEntity.getViewMenuRoles().stream()

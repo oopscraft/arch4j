@@ -26,7 +26,7 @@ import javax.persistence.EntityManager;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @AutoConfigureMockMvc
-@WithUserDetails(value="admin@oopscraft.org")
+@WithUserDetails(value="admin")
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional

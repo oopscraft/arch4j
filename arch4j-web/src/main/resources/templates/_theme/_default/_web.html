@@ -59,11 +59,10 @@
             display: flex;
             justify-content: start;
             align-items: center;
-            font-size: 2rem;
         }
         #_brand,
         #_brand * {
-            vertical-align: middle;
+            height: 2rem;
             font-weight: bold;
         }
         header #_header-menuButton {
@@ -190,7 +189,7 @@
     <th:block th:fragment="_header">
     <header>
         <div id="_header-logo">
-            <span id="_brand" onclick="_gotoIndex();" class="link" th:utext="${_brand}">
+            <span id="_brand" onclick="_gotoIndex();" class="cursor--pointer" th:utext="${_brand}">
             </span>
         </div>
         <div id="_header-menuButton">

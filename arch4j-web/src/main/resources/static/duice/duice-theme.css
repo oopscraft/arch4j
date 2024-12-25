@@ -1,6 +1,6 @@
 :root {
-  --duice-line-height: 2.5rem;
   --duice-font-size: 12px;
+  --duice-line-height: 2.5;
   --duice-background: white;
   --duice-table-border: solid 1px #ddd;
   --duice-table-thead-background: #f7f7f7;
@@ -15,7 +15,6 @@
   --duice-textarea-border: solid 1px #ddd;
   --duice-button-border: solid 1px #aaa;
   --duice-button-background: #f7f7f7;
-  --duice-element-padding: 0.5rem 0.5rem;
   --duice-element-focus-border: solid 1px black;
   --duice-element-focus-transition: all .2s ease-out;
   --duice-element-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
@@ -24,8 +23,8 @@
 
 /* html */
 html {
-  line-height: var(--duice-line-height);
   font-size: var(--duice-font-size);
+  line-height: var(--duice-line-height);
   background: var(--duice-background);
 }
 
@@ -50,39 +49,32 @@ body {
 
 /* h1~6 */
 h1 {
-  font-size: 1.7rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
 }
 
 h2 {
-  font-size: 1.6rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
 }
 
 h3 {
-  font-size: 1.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
 }
 
 h4 {
-  font-size: 1.4rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
 }
 
 h5 {
-  font-size: 1.3rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
 }
 
 h6 {
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* small */
+small {
+  font-size: smaller;
 }
 
 /* table */
@@ -152,8 +144,8 @@ table > tfoot > tr:last-of-type > td {
 
 table tr th,
 table tr td {
-  padding-left: calc(var(--duice-line-height) / 4);
-  padding-right: calc(var(--duice-line-height) / 4);
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -168,11 +160,14 @@ table tr td:has(button, input, select, textarea, table) {
 /* input */
 input {
   box-sizing: border-box;
-  height: var(--duice-line-height);
-  vertical-align: bottom;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-border-radius: unset;
   border: var(--duice-input-border);
-  padding-left: calc(var(--duice-line-height) / 4);
-  padding-right: calc(var(--duice-line-height) / 4);
+  height: calc(var(--duice-font-size) * var(--duice-line-height));
+  vertical-align: bottom;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 input:focus {
@@ -183,35 +178,43 @@ input:focus {
 
 /* input-checkbox */
 input[type=checkbox] {
-  margin: 0;
-  height: unset;
   vertical-align: middle;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 /* input-radio */
 input[type=radio] {
-  margin: 0;
-  height: unset;
-  vertical-align: sub;
+  vertical-align: middle;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+/* input-range */
+input[type=range] {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  vertical-align: middle;
 }
 
 /* select */
 select {
   appearance: none;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
-  border: var(--duice-select-border);
   box-sizing: border-box;
-  height: var(--duice-line-height);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-border-radius: unset;
+  border: var(--duice-select-border);
+  height: calc(var(--duice-font-size) * var(--duice-line-height));
   vertical-align: bottom;
-  padding-left: calc(var(--duice-line-height) / 4);
+  padding-left: 0.5em;
   background-color: inherit;
   background-image: var(--duice-select-icon);
   background-repeat: no-repeat;
   background-position: right 0.5em center;
-  padding-right: var(--duice-line-height);
+  padding-right: 2em;
 }
 
 select:focus {
@@ -222,11 +225,11 @@ select:focus {
 
 /* textarea */
 textarea {
-  line-height: calc(var(--duice-line-height) / 1.5);
   border: var(--duice-textarea-border);
   box-sizing: border-box;
   background-color: transparent;
-  padding-left: calc(var(--duice-line-height) / 4);
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   white-space: pre;
   overflow-y: auto;
   resize: none;
@@ -240,17 +243,13 @@ textarea:focus {
 
 /* button */
 button {
-  vertical-align: middle;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
   box-sizing: border-box;
-  height: var(--duice-line-height);
-  min-width: var(--duice-line-height);
   white-space: nowrap;
-  padding-left: calc(var(--duice-line-height) / 4);
-  padding-right: calc(var(--duice-line-height) / 4);
+  min-width: calc(1em * var(--duice-line-height));
+  height: calc(var(--duice-font-size) * var(--duice-line-height));
+  vertical-align: bottom;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   cursor: pointer;
   border: var(--duice-button-border);
   background: var(--duice-button-background);
@@ -259,6 +258,7 @@ button {
 button:disabled {
   pointer-events: none;
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 button:hover:not([disabled]),

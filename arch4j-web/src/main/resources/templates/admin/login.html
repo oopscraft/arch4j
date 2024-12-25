@@ -41,6 +41,11 @@
         #login {
             width: 300px;
         }
+        #_brand,
+        #_brand * {
+            height: 2rem;
+            font-weight: bold;
+        }
     </style>
     <script th:inline="javascript">
         const login = new duice.ObjectProxy({
@@ -91,10 +96,10 @@
     <!-- start: login                       -->
     <!-- ================================== -->
     <div id="login" class="panel">
-        <div class="panel-title justify-content--center">
-            <h1>
-                <img class="icon" src="/static/image/arch4j-icon.svg" alt="web-icon"/><img class="icon" src="/static/image/arch4j-title.svg" alt="title"/>
-            </h1>
+        <div class="panel-title justify-content--center padding-bottom--1rem">
+            <span id="_brand" onclick="_gotoIndex();" class="cursor--pointer">
+                <img src="/static/image/arch4j-icon.svg" alt=""/><img src="/static/image/arch4j-title.svg" alt=""/>
+            </span>
         </div>
         <div class="panel-content">
             <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1rem">

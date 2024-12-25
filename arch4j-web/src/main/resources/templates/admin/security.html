@@ -704,7 +704,7 @@
                 <div class="panel-content">
                     <form onsubmit="return false;" class="display--flex justify-content--space-between flex-wrap--wrap gap--1rem">
                         <div class="display--flex flex-wrap--wrap gap--1rem">
-                            <div class="white-space--nowrap">
+                            <div>
                                 <label>
                                     <select data-duice-bind="userSearch" data-duice-property="key">
                                         <option value="username" th:text="#{core.security.User.username}"></option>
@@ -740,55 +740,60 @@
                             </button>
                         </div>
                     </form>
-                    <table class="table">
-                        <colgroup>
-                            <col/>
-                            <col/>
-                            <col/>
-                            <col/>
-                            <col/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
-                            <th data-th-text="#{core.security.User.username}"></th>
-                            <th data-th-text="#{core.security.User.name}"></th>
-                            <th data-th-text="#{core.security.User.status}" class="text-align--center"></th>
-                            <th data-th-text="#{core.security.User.admin}" class="text-align--center"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-duice-bind="users" data-duice-loop="user,status"
-                            data-duice-selected-item-class="selected" data-duice-execute="this.dataset.userId=user.userId;"
-                            onclick="getUser(this.dataset.userId);"
-                            class="cursor--pointer">
-                            <td data-duice-bind="status" data-duice-property="count" class="text-align--center"></td>
-                            <td>
-                                <img data-duice-bind="user" data-duice-property="photo"
-                                     th:src="@{/static/image/icon-null.svg}" class="icon" alt="photo"/>
-                                <span data-duice-bind="user"
-                                      data-duice-property="username"
-                                      data-duice-execute="this.classList.toggle('tag-system-required', user.systemRequired);"
-                                      class="font-weight--bold"></span>
-                            </td>
-                            <td>
-                                <span data-duice-bind="user" data-duice-property="name"></span>
-                            </td>
-                            <td class="text-align--center">
-                                <span data-duice-bind="user" data-duice-property="status"></span>
-                            </td>
-                            <td class="text-align--center">
-                                <label>
-                                    <input type="checkbox" data-duice-bind="user" data-duice-property="admin" onclick="return false;"/>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr data-duice-bind="users" data-duice-execute="if(users.length === 0) this.hidden=false;"
-                            hidden>
-                            <td colspan="100%" class="text-align--center">No Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow--auto box">
+                        <table class="table width--100 border--none">
+                            <colgroup>
+                                <col/>
+                                <col/>
+                                <col/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                                <th data-th-text="#{core.security.User.username}"></th>
+                                <th data-th-text="#{core.security.User.name}"></th>
+                                <th data-th-text="#{core.security.User.status}" class="text-align--center"></th>
+                                <th data-th-text="#{core.security.User.admin}" class="text-align--center"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="cursor--pointer"
+                                data-duice-bind="users"
+                                data-duice-loop="user,status"
+                                data-duice-selected-item-class="selected" data-duice-execute="this.dataset.userId=user.userId;"
+                                onclick="getUser(this.dataset.userId);">
+                                <td class="text-align--center">
+                                    <span class="number" data-duice-bind="status" data-duice-property="count"></span>
+                                </td>
+                                <td>
+                                    <img data-duice-bind="user" data-duice-property="photo"
+                                         th:src="@{/static/image/icon-null.svg}" class="icon" alt="photo"/>
+                                    <span data-duice-bind="user"
+                                          data-duice-property="username"
+                                          data-duice-execute="this.classList.toggle('tag-system-required', user.systemRequired);"
+                                          class="font-weight--bold"></span>
+                                </td>
+                                <td>
+                                    <span data-duice-bind="user" data-duice-property="name"></span>
+                                </td>
+                                <td class="text-align--center">
+                                    <span data-duice-bind="user" data-duice-property="status"></span>
+                                </td>
+                                <td class="text-align--center">
+                                    <label>
+                                        <input type="checkbox" data-duice-bind="user" data-duice-property="admin" onclick="return false;"/>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr data-duice-bind="users" data-duice-execute="if(users.length === 0) this.hidden=false;"
+                                hidden>
+                                <td colspan="100%" class="text-align--center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="display--flex justify-content--space-between">
                         <div>
                             <span data-th-text="#{web.global.total}"></span>
@@ -1044,57 +1049,59 @@
                             </button>
                         </div>
                     </form>
-                    <table class="table width--100">
-                        <colgroup>
-                            <col style="width:5rem;"/>
-                            <col/>
-                            <col/>
-                            <col/>
-                            <col/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
-                            <th data-th-text="#{core.security.Role.roleId}"></th>
-                            <th data-th-text="#{core.security.Role.name}"></th>
-                            <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
-                            <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-duice-bind="roles"
-                            data-duice-loop="role,status"
-                            data-duice-selected-item-class="selected"
-                            data-duice-execute="this.dataset.id=role.roleId;"
-                            onclick="getRole(this.dataset.id);"
-                            class="cursor--pointer">
-                            <td class="text-align--center">
-                                <span data-duice-bind="status" data-duice-property="count"></span>
-                            </td>
-                            <td>
+                    <div class="box overflow--auto">
+                        <table class="table width--100 border--none">
+                            <colgroup>
+                                <col style="width:5rem;"/>
+                                <col/>
+                                <col/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                                <th data-th-text="#{core.security.Role.roleId}"></th>
+                                <th data-th-text="#{core.security.Role.name}"></th>
+                                <th data-th-text="#{core.security.Role.anonymous}" class="text-align--center"></th>
+                                <th data-th-text="#{core.security.Role.authenticated}" class="text-align--center"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="cursor--pointer"
+                                    data-duice-bind="roles"
+                                data-duice-loop="role,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=role.roleId;"
+                                onclick="getRole(this.dataset.id);">
+                                <td class="text-align--center">
+                                    <span class="number" data-duice-bind="status" data-duice-property="count"></span>
+                                </td>
+                                <td>
                             <span data-duice-bind="role" data-duice-property="roleId"
                                   data-duice-execute="this.classList.toggle('tag-system-required', role.systemRequired);"
                                   class="font-weight--bold"></span>
-                            </td>
-                            <td>
-                                <span data-duice-bind="role" data-duice-property="name"></span>
-                            </td>
-                            <td class="text-align--center">
-                                <label>
-                                    <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
-                                </label>
-                            </td>
-                            <td class="text-align--center">
-                                <label>
-                                    <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr data-duice-bind="roles" data-duice-execute="if(roles.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align--center">No Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+                                <td>
+                                    <span data-duice-bind="role" data-duice-property="name"></span>
+                                </td>
+                                <td class="text-align--center">
+                                    <label>
+                                        <input type="checkbox" data-duice-bind="role" data-duice-property="anonymous" onclick="return false;"/>
+                                    </label>
+                                </td>
+                                <td class="text-align--center">
+                                    <label>
+                                        <input type="checkbox" data-duice-bind="role" data-duice-property="authenticated" onclick="return false;"/>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr data-duice-bind="roles" data-duice-execute="if(roles.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align--center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="display--flex justify-content--space-between">
                         <div>
                             <span data-th-text="#{web.global.total}"></span>
@@ -1265,21 +1272,23 @@
                 </div>
                 <div class="panel-content">
                     <form onsubmit="return false;" class="display--flex flex-wrap--wrap gap--1rem justify-content--space-between">
-                        <div class="display--flex gap--1rem">
-                            <div class="white-space--nowrap">
-                                <label>
-                                    <select data-duice-bind="authoritySearch" data-duice-property="key">
-                                        <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
-                                        <option value="name" th:text="#{core.security.Authority.name}"></option>
-                                    </select>
-                                </label>
-                                <label>
-                                    <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
-                                           th:placeholder="#{web.global.keyword}"/>
-                                </label>
+                        <div>
+                            <div class="display--flex gap--1rem">
+                                <div>
+                                    <label>
+                                        <select data-duice-bind="authoritySearch" data-duice-property="key">
+                                            <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
+                                            <option value="name" th:text="#{core.security.Authority.name}"></option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <input type="text" data-duice-bind="authoritySearch" data-duice-property="value"
+                                               th:placeholder="#{web.global.keyword}"/>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-align--right s__text-align--left white-space--nowrap">
+                        <div class="flex--1 white-space--nowrap text-align--right s__text-align--left">
                             <button class="button" type="submit" onclick="getAuthorities();">
                                 <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                                 <span data-th-text="#{web.global.search}">Search</span>
@@ -1290,43 +1299,45 @@
                             </button>
                         </div>
                     </form>
-                    <table class="table width--100">
-                        <colgroup>
-                            <col style="width:5rem;"/>
-                            <col/>
-                            <col/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th data-th-text="#{web.global.no}" class="text-align--center"></th>
-                            <th data-th-text="#{core.security.Authority.authorityId}"></th>
-                            <th data-th-text="#{core.security.Authority.name}"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-duice-bind="authorities"
-                            data-duice-loop="authority,status"
-                            data-duice-selected-item-class="selected"
-                            data-duice-execute="this.dataset.id=authority.authorityId;"
-                            onclick="getAuthority(this.dataset.id);"
-                            class="cursor--pointer">
-                            <td class="text-align--center">
-                                <span data-duice-bind="status" data-duice-property="count"></span>
-                            </td>
-                            <td>
+                    <div class="overflow--auto box">
+                        <table class="table width--100 border--none">
+                            <colgroup>
+                                <col style="width:5rem;"/>
+                                <col/>
+                                <col/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th data-th-text="#{web.global.no}" class="text-align--center"></th>
+                                <th data-th-text="#{core.security.Authority.authorityId}"></th>
+                                <th data-th-text="#{core.security.Authority.name}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="cursor--pointer"
+                                data-duice-bind="authorities"
+                                data-duice-loop="authority,status"
+                                data-duice-selected-item-class="selected"
+                                data-duice-execute="this.dataset.id=authority.authorityId;"
+                                onclick="getAuthority(this.dataset.id);">
+                                <td class="text-align--center">
+                                    <span class="number" data-duice-bind="status" data-duice-property="count"></span>
+                                </td>
+                                <td>
                             <span data-duice-bind="authority" data-duice-property="authorityId"
                                   data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
                                   class="font-weight--bold"></span>
-                            </td>
-                            <td>
-                                <span data-duice-bind="authority" data-duice-property="name"></span>
-                            </td>
-                        </tr>
-                        <tr data-duice-bind="authorities" data-duice-execute="if(authorities.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align--center">No Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+                                <td>
+                                    <span data-duice-bind="authority" data-duice-property="name"></span>
+                                </td>
+                            </tr>
+                            <tr data-duice-bind="authorities" data-duice-execute="if(authorities.length === 0) this.hidden=false;" hidden>
+                                <td colspan="100%" class="text-align--center">No Data</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="display--flex justify-content--space-between">
                         <div>
                             <span data-th-text="#{web.global.total}"></span>
@@ -1582,7 +1593,7 @@
     <!-- ====================================== -->
     <!-- start: authoritySelectDialog           -->
     <!-- ====================================== -->
-    <dialog id="authoritySelectDialog">
+    <dialog id="authoritySelectDialog" class="dialog">
         <style th:inline="css">
             #authoritySelectDialog {
                 width: 800px;
@@ -1692,144 +1703,144 @@
                 }
             }
         </script>
-        <div class="display--flex flex-direction--column padding--1em">
-            <div>
-                <h1>
-                    <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
-                    <span data-th-text="#{core.security.Authority}"></span>
-                </h1>
-            </div>
-            <div class="display--flex flex-direction--column gap--1em padding--1em">
-                <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1em">
-                    <label class="grid-column--span-2 s__grid-column--span-4">
-                        <select class="width--100" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="key">
-                            <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
-                            <option value="name" th:text="#{core.security.Authority.name}"></option>
-                        </select>
-                    </label>
-                    <label class="grid-column--span-4 s__grid-column--span-8">
-                        <input class="width--100" type="text" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="value"/>
-                    </label>
-                    <div class="grid-column--span-6 s__grid-column--span-12 justify-self--end">
-                        <button class="button" type="submit" onclick="authoritySelectDialog.getAuthorities();">
-                            <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
-                            <span data-th-text="#{web.global.search}">Search</span>
-                        </button>
-                        <button class="button" type="button" onclick="authoritySelectDialog.resetAuthorities();">
-                            <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
-                            <span data-th-text="#{web.global.reset}">Reset</span>
-                        </button>
+        <div class="dialog-title">
+            <h1>
+                <img class="icon" th:src="@{/static/image/icon-authority.svg}" alt="authority"/>
+                <span data-th-text="#{core.security.Authority}"></span>
+            </h1>
+        </div>
+        <div class="dialog-content">
+            <form onsubmit="return false;" class="display--flex flex-wrap--wrap justify-content--space-between gap--1rem">
+                <div>
+                    <div class="white-space--nowrap">
+                        <label>
+                            <select data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="key">
+                                <option value="authorityId" th:text="#{core.security.Authority.authorityId}"></option>
+                                <option value="name" th:text="#{core.security.Authority.name}"></option>
+                            </select>
+                        </label>
+                        <label>
+                            <input type="text" data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="value"/>
+                        </label>
                     </div>
-                </form>
-                <div class="overflow-x--scroll">
-                    <table class="width--100">
-                        <colgroup>
-                            <col style="width:3rem;"/>
-                            <col/>
-                            <col/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th class="text-align--center">-</th>
-                            <th data-th-text="#{core.security.Authority.authorityId}"></th>
-                            <th data-th-text="#{core.security.Authority.name}"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-duice-bind="authoritySelectDialog.authorities" data-duice-loop="authority,status">
-                            <td class="text-align--center">
-                                <button class="button small" type="button"
-                                        data-duice-bind="authority"
-                                        data-duice-execute="
-                            this.dataset.index = status.index;
-                            if(authority._selected) {
-                                this.disabled = true;
-                            }"
-                                        onclick="authoritySelectDialog.selectAuthority(this.dataset.index);">
-                                    <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
-                                </button>
-                            </td>
-                            <td>
-                            <span data-duice-bind="authority"
-                                  data-duice-property="authorityId"
-                                  data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
-                                  class="font-weight--bold"></span>
-                            </td>
-                            <td>
-                                <span data-duice-bind="authority" data-duice-property="name"></span>
-                            </td>
-                        </tr>
-                        <tr data-duice-bind="authoritySelectDialog.authorities"
-                            data-duice-execute="if(authoritySelectDialog.authorities.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align--center">No Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
-                <div class="display--grid grid-template-columns--3">
-                    <div>
-                        <span data-th-text="#{web.global.total}"></span>
-                        <span data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
-                        <span data-th-text="#{web.global.rows}"></span>
-                    </div>
-                    <div class="justify-self--center">
-                        <duice-pagination
-                                data-duice-bind="authoritySelectDialog.authoritySearch"
-                                data-duice-size-property="_size"
-                                data-duice-page-property="_page"
-                                data-duice-count-property="_count"
-                                data-duice-onclick="authoritySelectDialog.getAuthorities(this.dataset.page);">
-                        </duice-pagination>
-                    </div>
-                    <div></div>
-                </div>
-                <div class="overflow-x--scroll">
-                    <table class="width--100">
-                        <colgroup>
-                            <col style="width:3rem;"/>
-                            <col/>
-                            <col/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th class="text-align--center">-</th>
-                            <th data-th-text="#{core.security.Authority.authorityId}"></th>
-                            <th data-th-text="#{core.security.Authority.name}"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-duice-bind="authoritySelectDialog.selectedAuthorities" data-duice-loop="authority,status">
-                            <td class="text-align--center">
-                                <button class="button" type="button"
-                                        data-duice-bind="authority"
-                                        data-duice-execute="this.dataset.index = status.index;"
-                                        onclick="authoritySelectDialog.deselectAuthority(this.dataset.index);">
-                                    <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
-                                </button>
-                            </td>
-                            <td>
-                            <span data-duice-bind="authority"
-                                  data-duice-property="authorityId"
-                                  data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
-                                  class="font-weight--bold"></span>
-                            </td>
-                            <td>
-                                <span data-duice-bind="authority" data-duice-property="name"></span>
-                            </td>
-                        </tr>
-                        <tr data-duice-bind="authoritySelectDialog.selectedAuthorities"
-                            data-duice-execute="if(authoritySelectDialog.selectedAuthorities.length === 0) this.hidden=false;" hidden>
-                            <td colspan="100%" class="text-align--center">No Data</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="display--flex justify-content--flex-end">
-                    <button class="button" type="button" onclick="authoritySelectDialog.confirm();">
-                        <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
-                        <span data-th-text="#{web.global.confirm}"></span>
+                <div class="white-space--nowrap text-align--right s__text-align--left">
+                    <button class="button" type="submit" onclick="authoritySelectDialog.getAuthorities();">
+                        <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
+                        <span data-th-text="#{web.global.search}">Search</span>
+                    </button>
+                    <button class="button" type="button" onclick="authoritySelectDialog.resetAuthorities();">
+                        <img class="icon" th:src="@{/static/image/icon-reset.svg}" alt="reset"/>
+                        <span data-th-text="#{web.global.reset}">Reset</span>
                     </button>
                 </div>
+            </form>
+            <div class="overflow-x--scroll box">
+                <table class="table width--100 border--none">
+                    <colgroup>
+                        <col style="width:3rem;"/>
+                        <col/>
+                        <col/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="text-align--center">-</th>
+                        <th data-th-text="#{core.security.Authority.authorityId}"></th>
+                        <th data-th-text="#{core.security.Authority.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-duice-bind="authoritySelectDialog.authorities" data-duice-loop="authority,status">
+                        <td class="text-align--center">
+                            <button class="button small" type="button"
+                                    data-duice-bind="authority"
+                                    data-duice-execute="
+                                    this.dataset.index = status.index;
+                                    if(authority._selected) {
+                                        this.disabled = true;
+                                    }"
+                                    onclick="authoritySelectDialog.selectAuthority(this.dataset.index);">
+                                <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
+                            </button>
+                        </td>
+                        <td>
+                        <span data-duice-bind="authority"
+                              data-duice-property="authorityId"
+                              data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
+                              class="font-weight--bold"></span>
+                        </td>
+                        <td>
+                            <span data-duice-bind="authority" data-duice-property="name"></span>
+                        </td>
+                    </tr>
+                    <tr data-duice-bind="authoritySelectDialog.authorities"
+                        data-duice-execute="if(authoritySelectDialog.authorities.length === 0) this.hidden=false;" hidden>
+                        <td colspan="100%" class="text-align--center">No Data</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="display--flex justify-content--space-between">
+                <div>
+                    <span data-th-text="#{web.global.total}"></span>
+                    <span data-duice-bind="authoritySelectDialog.authoritySearch" data-duice-property="_count" data-duice-format="number(0)"></span>
+                    <span data-th-text="#{web.global.rows}"></span>
+                </div>
+                <duice-pagination
+                        data-duice-bind="authoritySelectDialog.authoritySearch"
+                        data-duice-size-property="_size"
+                        data-duice-page-property="_page"
+                        data-duice-count-property="_count"
+                        data-duice-onclick="authoritySelectDialog.getAuthorities(this.dataset.page);">
+                </duice-pagination>
+                <div></div>
+            </div>
+            <div class="overflow-x--scroll">
+                <table class="width--100">
+                    <colgroup>
+                        <col style="width:3rem;"/>
+                        <col/>
+                        <col/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="text-align--center">-</th>
+                        <th data-th-text="#{core.security.Authority.authorityId}"></th>
+                        <th data-th-text="#{core.security.Authority.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-duice-bind="authoritySelectDialog.selectedAuthorities" data-duice-loop="authority,status">
+                        <td class="text-align--center">
+                            <button class="button" type="button"
+                                    data-duice-bind="authority"
+                                    data-duice-execute="this.dataset.index = status.index;"
+                                    onclick="authoritySelectDialog.deselectAuthority(this.dataset.index);">
+                                <img class="icon" th:src="@{/static/image/icon-remove.svg}" alt="remove"/>
+                            </button>
+                        </td>
+                        <td>
+                        <span data-duice-bind="authority"
+                              data-duice-property="authorityId"
+                              data-duice-execute="this.classList.toggle('tag-system-required', authority.systemRequired);"
+                              class="font-weight--bold"></span>
+                        </td>
+                        <td>
+                            <span data-duice-bind="authority" data-duice-property="name"></span>
+                        </td>
+                    </tr>
+                    <tr data-duice-bind="authoritySelectDialog.selectedAuthorities"
+                        data-duice-execute="if(authoritySelectDialog.selectedAuthorities.length === 0) this.hidden=false;" hidden>
+                        <td colspan="100%" class="text-align--center">No Data</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-align--right">
+                <button class="button" type="button" onclick="authoritySelectDialog.confirm();">
+                    <img class="icon" th:src="@{/static/image/icon-confirm.svg}" alt="confirm"/>
+                    <span data-th-text="#{web.global.confirm}"></span>
+                </button>
             </div>
         </div>
     </dialog>

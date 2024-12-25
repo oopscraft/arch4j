@@ -1762,7 +1762,7 @@ var duice = (function (exports) {
         constructor(element, bindData, context) {
             super(element, bindData, context);
             // changes type and style
-            this.getHtmlElement().removeAttribute('type');
+            this.getHtmlElement().setAttribute('type', 'text');
             this.getHtmlElement().style.textAlign = 'right';
             // prevents invalid key press
             this.getHtmlElement().addEventListener('keypress', event => {

@@ -90,17 +90,15 @@ var duicePagination = (function (exports, duice) {
             }
             .${duice.Configuration.getNamespace()}-pagination__item-page {
                 cursor: pointer;
-                padding: 0 0.5rem;
+                padding: 0 0.5em;
             }
             .${duice.Configuration.getNamespace()}-pagination__item-prev {
                 cursor: pointer;
-                padding: 0 0.5rem;
-                font-size: smaller;    
+                padding: 0 0.5em;
             }
             .${duice.Configuration.getNamespace()}-pagination__item-next {
                 cursor: pointer;
-                padding: 0 0.5rem;
-                font-size: smaller;
+                padding: 0 0.5em;
             }
             .${duice.Configuration.getNamespace()}-pagination__item--active {
                 font-weight: bold;

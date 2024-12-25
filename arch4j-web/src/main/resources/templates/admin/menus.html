@@ -225,6 +225,7 @@
             display: inline-block;
             width: 1em;
             height: 1em;
+            vertical-align: middle;
         }
         .dark-mode .menu-item::before {
             filter: invert(1) hue-rotate(180deg);
@@ -486,7 +487,7 @@
                         <div>
                             <button class="button" type="button" onclick="openMenu();"
                                     data-duice-bind="menu"
-                                    data-duice-execute="(menu.id && !menu._new) ? this.disabled=false : this.disabled=true;">
+                                    data-duice-execute="(menu.menuId && !menu._new) ? this.disabled=false : this.disabled=true;">
                                 <img class="icon" th:src="@{/static/image/icon-open.svg}"/>
                                 <span data-th-text="#{web.admin.menu.openMenu}"></span>
                             </button>

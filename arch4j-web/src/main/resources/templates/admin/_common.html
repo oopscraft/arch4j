@@ -134,7 +134,7 @@
                     </label>
                 </div>
             </div>
-            <div class="flex--1 text-align--right">
+            <div class="white-space--nowrap text-align--right s__text-align--left">
                 <button class="button" onclick="roleSelectDialog.getRoles();">
                     <img class="icon" th:src="@{/static/image/icon-search.svg}" alt="search"/>
                     <span data-th-text="#{web.global.search}">Search</span>
@@ -145,8 +145,8 @@
                 </button>
             </div>
         </form>
-        <div class="overflow--scroll">
-            <table class="table width--100">
+        <div class="overflow--scroll box">
+            <table class="table width--100 border--none">
                 <colgroup>
                     <col style="width:3em;"/>
                     <col/>
@@ -169,10 +169,12 @@
                         <button type="button" class="button small"
                                 data-duice-bind="role"
                                 data-duice-execute="
-                    this.dataset.index = status.index;
-                    if(role._selected) {
-                        this.disabled = true;
-                    }"
+                                this.dataset.index = status.index;
+                                if(role._selected) {
+                                    this.disabled = true;
+                                } else {
+                                    this.disabled = false;
+                                }"
                                 onclick="roleSelectDialog.selectRole(this.dataset.index);">
                             <img class="icon" th:src="@{/static/image/icon-add.svg}" alt="add"/>
                         </button>
@@ -219,8 +221,8 @@
             </duice-pagination>
             <div></div>
         </div>
-        <div class="overflow--scroll">
-            <table class="table width--100">
+        <div class="overflow--scroll box">
+            <table class="table width--100 border--none">
                 <colgroup>
                     <col style="width:3em;"/>
                     <col/>

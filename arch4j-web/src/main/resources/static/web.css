@@ -83,6 +83,14 @@ body {
     gap: 1rem;
 }
 
+/* link */
+.link {
+    cursor: pointer;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
 /* tab */
 .tab {
     display: flex;

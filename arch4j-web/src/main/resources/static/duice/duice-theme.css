@@ -297,4 +297,14 @@ dialog:focus {
   background: #555;
 }
 
+/* anchor */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=duice-theme.css.map */

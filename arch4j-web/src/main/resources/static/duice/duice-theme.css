@@ -1,7 +1,25 @@
 :root {
+  /* global */
   --duice-font-size: 12px;
   --duice-line-height: 2.5;
   --duice-background: white;
+  --duice-color: black;
+  --duice-form-element-border: solid 1px #ddd;
+  --duice-form-element-focus-border: solid 1px black;
+  --duice-form-element-focus-transition: all .2s ease-out;
+  --duice-scrollbar-thumb-background: #cccccc;
+  /* input */
+  --duice-input-border: var(--duice-form-element-border);
+  /* select */
+  --duice-select-border: var(--duice-form-element-border);
+  --duice-select-icon: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='10' height='10' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='darkgray'/></g></svg>");
+  /* textarea */
+  --duice-textarea-border: var(--duice-form-element-border);
+  /* button */
+  --duice-button-background: linear-gradient(180deg, #ffffff 0%, #eee 49%, #e2e2e2 51%, #f7f7f7 100%);
+  --duice-button-border: solid 1px #aaa;
+  --duice-button-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
+  /* table */
   --duice-table-border: solid 1px #ddd;
   --duice-table-thead-background: #f7f7f7;
   --duice-table-thead-border: solid 1px #ddd;
@@ -9,16 +27,36 @@
   --duice-table-tbody-border: solid 1px #eee;
   --duice-table-tfoot-background: #f7f7f7;
   --duice-table-tfoot-border: solid 1px #ddd;
-  --duice-input-border: solid 1px #ddd;
-  --duice-select-border: solid 1px #ddd;
-  --duice-select-icon: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='10' height='10' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='darkgray'/></g></svg>");
-  --duice-textarea-border: solid 1px #ddd;
-  --duice-button-border: solid 1px #aaa;
-  --duice-button-background: #f7f7f7;
-  --duice-element-focus-border: solid 1px black;
-  --duice-element-focus-transition: all .2s ease-out;
-  --duice-element-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
+  /* hr */
+  --duice-hr-border: solid 1px #ccc;
+  /* dialog */
   --duice-dialog-border: solid 1px gray;
+  --duice-dialog-bax-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
+}
+
+:root.dark-mode {
+  --duice-background: #1e1e1e;
+  --duice-color: #e0e0e0;
+  --duice-form-element-border: solid 1px #444444;
+  --duice-form-element-focus-border: solid 1px white;
+  --duice-scrollbar-thumb-background: #555555;
+  /* button */
+  --duice-button-background: linear-gradient(180deg, #222 0%, #333 49%, #333 51%, #222 100%);
+  --duice-button-border: solid 1px #666666;
+  --duice-button-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
+  /* table */
+  --duice-table-border: solid 1px #444444;
+  --duice-table-thead-background: #2c2c2c;
+  --duice-table-thead-border: solid 1px #444444;
+  --duice-table-tbody-background: transparent;
+  --duice-table-tbody-border: solid 1px #333333;
+  --duice-table-tfoot-background: #2c2c2c;
+  --duice-table-tfoot-border: solid 1px #333333;
+  /* hr */
+  --duice-hr-border: solid 1px #333333;
+  /* dialog */
+  --duice-dialog-border: solid 1px gray;
+  --duice-dialog-bax-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
 }
 
 /* html */
@@ -26,6 +64,8 @@ html {
   font-size: var(--duice-font-size);
   line-height: var(--duice-line-height);
   background: var(--duice-background);
+  color: var(--duice-color);
+  scroll-behavior: smooth;
 }
 
 /* body */
@@ -38,13 +78,36 @@ body {
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: inherit;
   font-size: inherit;
   color: inherit;
   line-height: inherit;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--duice-scrollbar-thumb-background);
+}
+
+/* anchor */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /* h1~6 */
@@ -75,6 +138,119 @@ h6 {
 /* small */
 small {
   font-size: smaller;
+}
+
+/* input */
+input {
+  box-sizing: border-box;
+  -webkit-border-radius: unset;
+  border: var(--duice-input-border);
+  vertical-align: bottom;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  background-color: transparent;
+}
+
+input:focus {
+  outline: none;
+  border: var(--duice-form-element-focus-border);
+  transition: var(--duice-form-element-focus-transition);
+}
+
+/* input-checkbox */
+input[type=checkbox] {
+  vertical-align: middle;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+/* input-radio */
+input[type=radio] {
+  vertical-align: middle;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+/* input-range */
+input[type=range] {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+/* input-datetime-local,date,time */
+html.dark-mode input[type=datetime-local]::-webkit-calendar-picker-indicator,
+html.dark-mode input[type=date]::-webkit-calendar-picker-indicator,
+html.dark-mode input[type=time]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* select */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: unset;
+  box-sizing: border-box;
+  border: var(--duice-select-border);
+  vertical-align: bottom;
+  padding-left: 0.5em;
+  background-color: inherit;
+  background-image: var(--duice-select-icon);
+  background-repeat: no-repeat;
+  background-position: right 0.5em center;
+  padding-right: 2em;
+}
+
+select:focus {
+  outline: none;
+  border: var(--duice-form-element-focus-border);
+  transition: var(--duice-form-element-focus-transition);
+}
+
+/* textarea */
+textarea {
+  box-sizing: border-box;
+  border: var(--duice-textarea-border);
+  background-color: transparent;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  white-space: pre;
+  overflow-y: auto;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border: var(--duice-form-element-focus-border);
+  transition: var(--duice-form-element-focus-transition);
+}
+
+/* button */
+button {
+  box-sizing: border-box;
+  white-space: nowrap;
+  min-width: calc(1em * var(--duice-line-height));
+  vertical-align: bottom;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  cursor: pointer;
+  border: var(--duice-button-border);
+  background: var(--duice-button-background);
+}
+
+button:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+button:hover:not([disabled]),
+button:focus:not([disabled]) {
+  outline: none;
+  border: var(--duice-form-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+  box-shadow: var(--duice-button-box-shadow);
 }
 
 /* table */
@@ -157,154 +333,21 @@ table tr td:has(button, input, select, textarea, table) {
   padding-right: 0;
 }
 
-/* input */
-input {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -webkit-border-radius: unset;
-  border: var(--duice-input-border);
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
-  vertical-align: bottom;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
-
-input:focus {
-  outline: none;
-  border: var(--duice-element-focus-border);
-  transition: var(--duice-element-focus-transition);
-}
-
-/* input-checkbox */
-input[type=checkbox] {
-  vertical-align: middle;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-}
-
-/* input-radio */
-input[type=radio] {
-  vertical-align: middle;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-}
-
-/* input-range */
-input[type=range] {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  vertical-align: middle;
-}
-
-/* select */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -webkit-border-radius: unset;
-  border: var(--duice-select-border);
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
-  vertical-align: bottom;
-  padding-left: 0.5em;
-  background-color: inherit;
-  background-image: var(--duice-select-icon);
-  background-repeat: no-repeat;
-  background-position: right 0.5em center;
-  padding-right: 2em;
-}
-
-select:focus {
-  outline: none;
-  border: var(--duice-element-focus-border);
-  transition: var(--duice-element-focus-transition);
-}
-
-/* textarea */
-textarea {
-  border: var(--duice-textarea-border);
-  box-sizing: border-box;
-  background-color: transparent;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  white-space: pre;
-  overflow-y: auto;
-  resize: none;
-}
-
-textarea:focus {
-  outline: none;
-  border: var(--duice-element-focus-border);
-  transition: var(--duice-element-focus-transition);
-}
-
-/* button */
-button {
-  box-sizing: border-box;
-  white-space: nowrap;
-  min-width: calc(1em * var(--duice-line-height));
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
-  vertical-align: bottom;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  cursor: pointer;
-  border: var(--duice-button-border);
-  background: var(--duice-button-background);
-}
-
-button:disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-button:hover:not([disabled]),
-button:focus:not([disabled]) {
-  outline: none;
-  box-shadow: var(--duice-element-box-shadow);
-  border: var(--duice-element-focus-border);
-  transition: var(--duice-element-focus-transition);
+/* hr */
+hr {
+  border: none;
+  border-top: var(--duice-hr-border);
+  margin: 1em 0;
 }
 
 /* dialog */
 dialog {
   border: var(--duice-dialog-border);
-  box-shadow: var(--duice-element-box-shadow);
+  box-shadow: var(--duice-dialog-box-shadow);
 }
 
 dialog:focus {
   outline: none;
-}
-
-/* scrollbar */
-::-webkit-scrollbar {
-  width: 2px;
-  height: 0;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* anchor */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 /*# sourceMappingURL=duice-theme.css.map */

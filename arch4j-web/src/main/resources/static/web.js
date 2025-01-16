@@ -5,7 +5,7 @@
  * @returns {*}
  */
 const _alert = function(message, option_) {
-    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>' + message + '<br/>';
+    message = `<img class="icon font-size--x-large" src="/static/image/icon-dialog-alert.svg" alt="alert"/><br/>${message}<br/>`;
     return new duice.AlertDialog(message)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)
@@ -21,7 +21,7 @@ const _alert = function(message, option_) {
  * @returns {*}
  */
 const _confirm = function(message, option_) {
-    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>' + message + '<br/>';
+    message = `<img class="icon font-size--x-large" src="/static/image/icon-dialog-confirm.svg" alt="confirm"/><br/>${message}<br/>`;
     return new duice.ConfirmDialog(message)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)
@@ -38,7 +38,7 @@ const _confirm = function(message, option_) {
  * @returns {*}
  */
 const _prompt = function(message, type, option_) {
-    message = '<img class="icon font-size--larger" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
+    message = '<img class="icon font-size--x-large" src="/static/image/icon-dialog-prompt.svg" alt="prompt"/><br/>' + message + '<br/>';
     return new duice.PromptDialog(message, type)
         .onOpening(option_?.onOpening)
         .onOpened(option_?.onOpened)

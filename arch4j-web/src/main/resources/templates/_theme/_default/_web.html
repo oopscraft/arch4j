@@ -3,21 +3,27 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
-
     <!-- ====================================== -->
     <!-- end: _script                           -->
     <!-- ====================================== -->
     <th:block th:fragment="_script">
+    <script th:inline="javascript">
+        function _openMenu() {
+            document.querySelector('header #_header-menu').classList.toggle('open');
+            document.querySelector('nav').classList.toggle('open');
+        }
+    </script>
+    </th:block>
+    <!-- ====================================== -->
+    <!-- end: _script                           -->
+    <!-- ====================================== -->
+    <!-- ====================================== -->
+    <!-- start: _style                          -->
+    <!-- ====================================== -->
+    <th:block th:fragment="_style">
     <link rel="stylesheet" type="text/css" th:href="@{/static/web.css?version={version}(version=${_scriptVersion})}"/>
     <style>
-        html {
-            width: 100%;
-            height: 100%;
-        }
         body {
-            width: 100%;
-            height: 100%;
-            position: relative;
             display: grid;
             grid-template-areas:
                 '_header _header _header'
@@ -64,6 +70,9 @@
         #_brand * {
             height: 2rem;
             font-weight: bold;
+        }
+        .dark-mode #_brand {
+            filter: invert(0.9);
         }
         header #_header-menuButton {
             display: none;
@@ -167,22 +176,15 @@
         .dark-mode footer {
             border-top: groove 1px #4b4b4b;
             background-color: #1a1a1a;
+            color: #888;
         }
     </style>
-    <script th:inline="javascript">
-        function _openMenu() {
-            document.querySelector('header #_header-menu').classList.toggle('open');
-            document.querySelector('nav').classList.toggle('open');
-        }
-    </script>
     </th:block>
     <!-- ====================================== -->
-    <!-- end: _script                           -->
+    <!-- end: _style                            -->
     <!-- ====================================== -->
-
 </head>
 <body>
-
     <!-- ====================================== -->
     <!-- start: _header                         -->
     <!-- ====================================== -->
@@ -223,7 +225,7 @@
             <li>
                 <label>
                     <img th:src="@{/static/_theme/{_theme}/static/image/icon-language.svg(_theme=${_theme})}" class="icon" alt="language"/>
-                    <select onchange="_changeLanguage(this.value);">
+                    <select class="font-size--smaller" onchange="_changeLanguage(this.value);">
                         <option value>- language -</option>
                         <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                     </select>
@@ -257,7 +259,6 @@
     <!-- ====================================== -->
     <!-- end: _header                           -->
     <!-- ====================================== -->
-
     <!-- ====================================== -->
     <!-- start: _footer                         -->
     <!-- ====================================== -->

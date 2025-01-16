@@ -64,22 +64,37 @@
         });
         const _locales = new duice.ArrayProxy([[${_locales}]]);
 
+        /**
+         * Go to index page
+         */
         const _gotoIndex = function() {
             document.location.href = [[@{/}]];
         }
 
+        /**
+         * Go to login page
+         */
         const _gotoLogin = function() {
             document.location.href = [[@{/login}]];
         }
 
+        /**
+         * Go to log out
+         */
         const _gotoLogout = function() {
             document.location.href = [[@{/logout}]];
         }
 
+        /**
+         * Go to join page
+         */
         const _gotoJoin = function() {
             document.location.href = [[@{/join}]];
         }
 
+        /**
+         * Go to user page
+         */
         const _gotoUser = function() {
             document.location.href = [[@{/user}]];
         }
@@ -91,6 +106,14 @@
     <th:block th:include="|_theme/${_theme}/_web-headless.html| :: _script"/>
     <!-- ============================================== -->
     <!-- end: fragment::_script                         -->
+    <!-- ============================================== -->
+
+    <!-- ============================================== -->
+    <!-- start: fragment::_style                        -->
+    <!-- ============================================== -->
+    <th:block th:include="|_theme/${_theme}/_web-headless.html| :: _style"/>
+    <!-- ============================================== -->
+    <!-- end: fragment::_style                          -->
     <!-- ============================================== -->
 </head>
 <body>

@@ -35,16 +35,22 @@
             <div class="grid-column--span-12 justify-self--center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
-            <div class="grid-column--span-6">
+            <div class="grid-column--span-12">
+                <label>
+                    <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
+                </label>
+                &nbsp;
+                <span class="font-size--xx-small">|</span>
+                &nbsp;
                 <label>
                     <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
-                    <select onchange="_changeLanguage(this.value);">
-                        <option>- language -</option>
+                    <select class="font-size--smaller" onchange="_changeLanguage(this.value);">
+                        <option>language...</option>
                         <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
                     </select>
                 </label>
             </div>
-            <div class="grid-column--span-6" th:if="${_securityPolicy == 'ANONYMOUS'}">
+            <div class="grid-column--span-12" th:if="${_securityPolicy == 'ANONYMOUS'}">
                 <div class="text-align--right">
                 <span onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}">
                 </span>

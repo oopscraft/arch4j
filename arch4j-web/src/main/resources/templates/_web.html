@@ -47,6 +47,7 @@
     <script th:src="@{/static/codemirror/mode/sql/sql.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/codemirror/mode/xml/xml.js?version={version}(version=${_scriptVersion})}"></script>
     <script th:src="@{/static/codemirror/mode/yaml/yaml.js?version={version}(version=${_scriptVersion})}"></script>
+    <script th:src="@{/static/codemirror/mode/properties/properties.js?version={version}(version=${_scriptVersion})}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/theme/dracula.css?version={version}(version=${_scriptVersion})}">
     <link rel="stylesheet" type="text/css" th:href="@{/static/codemirror/theme/material.css?version={version}(version=${_scriptVersion})}">
     <script th:src="@{/static/duice-plugin/duice-codemirror.js?version={version}(version=${_scriptVersion})}"></script>
@@ -70,26 +71,44 @@
         const _locales = new duice.ArrayProxy([[${_locales}]]);
         const _menus = new duice.ArrayProxy([]);
 
+        /**
+         * Go to index page
+         */
         const _gotoIndex = function() {
             document.location.href = [[@{/}]];
         }
 
+        /**
+         * Go to login page
+         */
         const _gotoLogin = function() {
             document.location.href = [[@{/login}]];
         }
 
+        /**
+         * Go to logout page
+         */
         const _gotoLogout = function() {
             document.location.href = [[@{/logout}]];
         }
 
+        /**
+         * Go to join page
+         */
         const _gotoJoin = function() {
             document.location.href = [[@{/join}]];
         }
 
+        /**
+         * Go to user page
+         */
         const _gotoUser = function() {
             document.location.href = [[@{/user}]];
         }
 
+        /**
+         * Get menus
+         */
         const _getMenus = function() {
             let url = new URL(`${_apiUrl}/v1/menu`, document.location.origin);
             _fetch(url)
@@ -115,22 +134,32 @@
 
         const _webSocketClient = new WebSocketClient('/ws');
 
+        // Listen DOMContentLoaded event
         document.addEventListener('DOMContentLoaded', event => {
             _getMenus();
             _webSocketClient.connect();
         });
 
+        // Listen beforeunload event
         window.addEventListener('beforeunload', () => {
             _webSocketClient.disconnect();
         });
-
     </script>
+
     <!-- ============================================== -->
     <!-- start: fragment::_script                       -->
     <!-- ============================================== -->
     <th:block th:include="|_theme/${_theme}/_web.html| :: _script"/>
     <!-- ============================================== -->
     <!-- end: fragment::_script                         -->
+    <!-- ============================================== -->
+
+    <!-- ============================================== -->
+    <!-- start: fragment::_style                        -->
+    <!-- ============================================== -->
+    <th:block th:include="|_theme/${_theme}/_web.html| :: _style"/>
+    <!-- ============================================== -->
+    <!-- start: fragment::_style                        -->
     <!-- ============================================== -->
 </head>
 <body>

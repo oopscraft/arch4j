@@ -3,7 +3,7 @@
   --duice-font-size: 12px;
   --duice-line-height: 2.5;
   --duice-background: white;
-  --duice-color: black;
+  --duice-color: #333;
   --duice-form-element-border: solid 1px #ddd;
   --duice-form-element-focus-border: solid 1px black;
   --duice-form-element-focus-transition: all .2s ease-out;
@@ -25,24 +25,26 @@
   --duice-table-thead-border: solid 1px #ddd;
   --duice-table-tbody-background: transparent;
   --duice-table-tbody-border: solid 1px #eee;
+  --duice-table-tbody-hover-background: #f9f9f9;
   --duice-table-tfoot-background: #f7f7f7;
   --duice-table-tfoot-border: solid 1px #ddd;
   /* hr */
   --duice-hr-border: solid 1px #ccc;
   /* dialog */
+  --duice-dialog-background: var(--duice-background);
   --duice-dialog-border: solid 1px gray;
   --duice-dialog-bax-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
 }
 
 :root.dark-mode {
   --duice-background: #1e1e1e;
-  --duice-color: #e0e0e0;
+  --duice-color: #ddd;
   --duice-form-element-border: solid 1px #444444;
-  --duice-form-element-focus-border: solid 1px white;
+  --duice-form-element-focus-border: solid 1px #aaa;
   --duice-scrollbar-thumb-background: #555555;
   /* button */
-  --duice-button-background: linear-gradient(180deg, #222 0%, #333 49%, #333 51%, #222 100%);
-  --duice-button-border: solid 1px #666666;
+  --duice-button-background: linear-gradient(180deg, #222 0%, #333 49%, #292929 51%, #222 100%);
+  --duice-button-border: solid 1px #555;
   --duice-button-box-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
   /* table */
   --duice-table-border: solid 1px #444444;
@@ -50,26 +52,25 @@
   --duice-table-thead-border: solid 1px #444444;
   --duice-table-tbody-background: transparent;
   --duice-table-tbody-border: solid 1px #333333;
+  --duice-table-tbody-hover-background: #222222;
   --duice-table-tfoot-background: #2c2c2c;
   --duice-table-tfoot-border: solid 1px #333333;
   /* hr */
   --duice-hr-border: solid 1px #333333;
   /* dialog */
+  --duice-dialog-background: var(--duice-background);
   --duice-dialog-border: solid 1px gray;
   --duice-dialog-bax-shadow: rgba(128, 128, 128, 0.5) 1px 1px 1px;
 }
 
-/* html */
-html {
+/* html, body*/
+html,
+body {
   font-size: var(--duice-font-size);
   line-height: var(--duice-line-height);
   background: var(--duice-background);
   color: var(--duice-color);
-  scroll-behavior: smooth;
-}
-
-/* body */
-body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -293,6 +294,10 @@ table > tbody:last-of-type > tr:not([hidden]):last-of-type > td {
   border-bottom: none;
 }
 
+table > tbody > tr:hover {
+  background: var(--duice-table-tbody-hover-background);
+}
+
 table > tfoot {
   background: var(--duice-table-tfoot-background);
 }
@@ -342,8 +347,9 @@ hr {
 
 /* dialog */
 dialog {
+  background: var(--duice-dialog-background);
   border: var(--duice-dialog-border);
-  box-shadow: var(--duice-dialog-box-shadow);
+  box-shadow: var(--duice-dialog-bax-shadow);
 }
 
 dialog:focus {

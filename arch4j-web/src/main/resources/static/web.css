@@ -111,7 +111,7 @@ html {
     top: 0;
 }
 .table > tbody > tr.selected{
-    background-color: var(--web-table-selected-background);
+    background-color: var(--duice-table-tbody-hover-background);
 }
 
 /* icon */

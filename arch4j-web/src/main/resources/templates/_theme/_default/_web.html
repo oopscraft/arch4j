@@ -57,8 +57,8 @@
             padding: 1rem;
         }
         .dark-mode header {
-            border-bottom: groove 2px #222222;
-            background-color: #1a1a1a;
+            border-bottom: groove 2px #6b6b6b;
+            background-color: #222;
         }
         header #_header-logo {
             grid-area: _header-logo;
@@ -127,25 +127,29 @@
             padding: 0;
         }
         nav #_nav-menu li {
-            padding: 0.5rem;
             border-bottom: dotted 1px lightgray;
-            font-weight: 600;
-            transition-duration: 0.3s;
-            cursor: pointer;
         }
         .dark-mode nav #_nav-menu li {
             border-bottom: dotted 1px #555555;
         }
-        nav #_nav-menu li img {
-            height: 1.5em;
-            vertical-align: middle;
+        nav #_nav-menu li a {
+            display: inline-block;
+            padding: 0.5rem;
+            width: 100%;
+            transition-duration: 0.3s;
+            font-weight: 600;
         }
-        nav #_nav-menu li:hover {
+        nav #_nav-menu li a:hover {
             padding-left: 1rem;
         }
-        nav #_nav-menu li.locked {
+        nav #_nav-menu li a.locked {
             pointer-events: none;
             opacity: 0.66;
+        }
+        nav #_nav-menu li a img {
+            height: 1.5em;
+            vertical-align: middle;
+            margin-right: 0.25em;
         }
         @media screen and (max-width: 1023px) {
             nav {
@@ -175,7 +179,7 @@
         }
         .dark-mode footer {
             border-top: groove 1px #4b4b4b;
-            background-color: #1a1a1a;
+            background-color: #222;
             color: #888;
         }
     </style>
@@ -242,15 +246,18 @@
                 if(menu.parentMenuId) {
                    this.style.marginLeft = status.depth + 'em';
                 }
-                this.dataset.link = menu.link??'';
-                this.dataset.target = menu.target??'';
-                if (!menu.link) {
-                    this.classList.add('locked');
-                }
-                "
-                onclick="_openLink(this.dataset.link,this.dataset.target);">
-                <img class="icon" th:src="@{/static/image/icon-null.svg}" data-duice-bind="menu" data-duice-property="icon" alt="menu"/>
-                <span data-duice-bind="menu" data-duice-property="name"></span>
+                ">
+                <a data-duice-bind="menu"
+                   data-duice-execute="
+                   this.href = menu.link ?? '';
+                   this.target = menu.target ?? '';
+                   if (!menu.link) {
+                       this.classList.add('locked');
+                   }
+                   ">
+                    <img class="icon" th:src="@{/static/image/icon-null.svg}" data-duice-bind="menu" data-duice-property="icon" alt="menu"/>
+                    <span data-duice-bind="menu" data-duice-property="name"></span>
+                </a>
             </li>
         </ul>
     </nav>

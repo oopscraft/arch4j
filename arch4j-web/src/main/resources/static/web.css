@@ -124,6 +124,7 @@ html {
 }
 .dark-mode .icon {
     filter: invert(0.9);
+    mix-blend-mode: difference;
 }
 
 /* code */

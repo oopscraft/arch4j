@@ -269,6 +269,27 @@ const _openLink = function(linkUrl, linkTarget) {
 }
 
 /**
+ * replace history state
+ */
+const _replaceHistoryState = function(data) {
+    history.replaceState(JSON.stringify(data), null);
+}
+
+/**
+ * push history state
+ */
+const _pushHistoryState = function(data) {
+    history.pushState(JSON.stringify(data), null, `#${new Date().getTime()}`);
+}
+
+/**
+ * get history state
+ */
+const _getHistoryState = function() {
+    return JSON.parse(history.state);
+}
+
+/**
  * checks is empty
  * @param value
  * @returns {boolean}

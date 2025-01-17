@@ -404,11 +404,12 @@
                             </label>
                             <label class="display--flex">
                                 <duice-codemirror
+                                        class="box width--100"
                                         data-duice-bind="page"
                                         data-duice-property="content"
                                         data-duice-mode="markdown"
-                                        data-duice-if="return page.contentFormat==='MARKDOWN'"
-                                        class="box width--100"/>
+                                        data-duice-theme="dracula"
+                                        data-duice-if="return page.contentFormat==='MARKDOWN'"/>
                             </label>
                         </div>
                         <div class="grid-column--span-12 display--grid grid-template-columns--12fr gap--1rem">
@@ -423,7 +424,7 @@
                                 <span class="font-weight--bold tag-required" data-th-text="#{core.page.PageWidget.type}">
                                 </span>
                                     <select class="width--100 font-weight--bold" data-duice-bind="pageWidget" data-duice-property="type">
-                                        <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                                        <option value th:text="|#{web.global.select}...|"></option>
                                         <option th:each="pageWidgetDefinition:${pageWidgetDefinitions}" th:value="${pageWidgetDefinition.type}" th:text="${pageWidgetDefinition.name}"></option></option>
                                     </select>
                                 </label>
@@ -431,12 +432,13 @@
                                 <span class="font-weight--bold" data-th-text="#{core.page.PageWidget.properties}">
                                 </span>
                                     <duice-codemirror
+                                            class="width--100 box"
                                             data-duice-bind="pageWidget"
                                             data-duice-property="properties"
                                             data-duice-theme="dracula">
                                     </duice-codemirror>
                                 </label>
-                                <iframe class="grid-column--6 width--100 border--0 margin-x--1em" sandbox="allow-same-origin allow-scripts"
+                                <iframe class="grid-column--span-6 width--100 box margin-x--1em" sandbox="allow-same-origin allow-scripts"
                                         data-duice-bind="pageWidget"
                                         data-duice-execute="this.src=pageWidget.url;">
                                 </iframe>

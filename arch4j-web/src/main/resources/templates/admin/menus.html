@@ -348,7 +348,7 @@
                         <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.menu.Menu.target}" class="font-weight--bold"></span>
                             <select class="width--100" data-duice-bind="menu" data-duice-property="target">
-                                <option value th:text="'- ' + #{web.global.select} + ' -'"></option>
+                                <option value th:text="|#{web.global.select}...|"></option>
                                 <option th:each="menuTarget:${menuTargets}" th:value="${menuTarget}"
                                         th:text="${menuTarget}"></option>
                             </select>

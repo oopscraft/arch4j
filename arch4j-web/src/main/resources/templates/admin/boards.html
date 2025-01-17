@@ -465,7 +465,7 @@
                         <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.skin}" class="font-weight--bold"></span>
                             <select class="width--100" data-duice-bind="board" data-duice-property="skin">
-                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                                <option value th:text="|#{web.global.select}...|"></option>
                                 <option th:each="skinName:${skinNames}"
                                         th:value="${skinName}"
                                         th:text="${skinName}"></option>
@@ -474,7 +474,7 @@
                         <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.board.Board.pageSize}" class="font-weight--bold"></span>
                             <select class="width--100" data-duice-bind="board" data-duice-property="pageSize">
-                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                                <option value th:text="|#{web.global.select}...|"></option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="30">30</option>
@@ -510,6 +510,7 @@
                                             data-duice-bind="board"
                                             data-duice-property="message"
                                             data-duice-mode="markdown"
+                                            data-duice-theme="dracula"
                                             data-duice-if="return board.messageFormat==='MARKDOWN'"
                                             class="box width--100"/>
                                 </label>

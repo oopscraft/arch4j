@@ -717,7 +717,7 @@
                             </div>
                             <label>
                                 <select data-duice-bind="userSearch" data-duice-property="status">
-                                    <option value data-th-text="'- '+#{core.security.User.status}+' -'"></option>
+                                    <option value data-th-text="|#{core.security.User.status}...|"></option>
                                     <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                             th:text="${userStatus}"></option>
                                 </select>
@@ -859,7 +859,7 @@
                         <label class="grid-column--span-6 s__grid-column--span-12">
                             <span data-th-text="#{core.security.User.status}" class="font-weight--bold tag-required"></span><br>
                             <select data-duice-bind="user" data-duice-property="status" class="width--100">
-                                <option value th:text="'- '+#{web.global.select}+' -'"></option>
+                                <option value th:text="|#{web.global.select}...|"></option>
                                 <option th:each="userStatus:${userStatuses}" th:value="${userStatus}"
                                         th:text="${userStatus}"></option>
                             </select>

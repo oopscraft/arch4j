@@ -180,6 +180,13 @@ input[type=range] {
 }
 
 /* input-datetime-local,date,time */
+input[type=datetime-local],
+input[type=date],
+input[type=time] {
+  box-sizing: content-box;
+  height: calc(var(--duice-font-size) * var(--duice-line-height));
+}
+
 html.dark-mode input[type=datetime-local]::-webkit-calendar-picker-indicator,
 html.dark-mode input[type=date]::-webkit-calendar-picker-indicator,
 html.dark-mode input[type=time]::-webkit-calendar-picker-indicator {

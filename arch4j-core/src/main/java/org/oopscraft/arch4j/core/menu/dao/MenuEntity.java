@@ -10,7 +10,7 @@ import org.oopscraft.arch4j.core.common.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.common.i18n.I18nSupportEntity;
 import org.oopscraft.arch4j.core.menu.model.Menu;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

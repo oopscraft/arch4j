@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'io.freefair.lombok' version '8.10'
-    id 'org.springframework.boot' version '2.7.9'
+    id 'org.springframework.boot' version '3.4.1'
     id 'idea'
     id 'maven-publish'
     id 'application'

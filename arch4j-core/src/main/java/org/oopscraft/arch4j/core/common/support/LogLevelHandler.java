@@ -34,9 +34,9 @@ public class LogLevelHandler implements Closeable {
      */
     public static final List<Preset> JPA = new ArrayList<>(){{
         add(new Preset("org.hibernate.SQL", "DEBUG"));
-        add(new Preset(org.hibernate.type.descriptor.sql.BasicBinder.class.getName(), "TRACE"));
+        add(new Preset("org.hibernate.type.descriptor.jdbc.JdbcTypeJavaDescriptor", "TRACE"));
+        add(new Preset("org.hibernate.type.descriptor.jdbc.JdbcTypeDescriptor", "TRACE"));
     }};
-
 
     Map<Logger, Level> originLogLevels = new LinkedHashMap<>();
 

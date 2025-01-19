@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.common.data.BaseEntity;
 import org.oopscraft.arch4j.core.security.dao.RoleEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity

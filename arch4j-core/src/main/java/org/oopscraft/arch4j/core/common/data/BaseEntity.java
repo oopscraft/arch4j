@@ -4,10 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.common.data.converter.BooleanConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass

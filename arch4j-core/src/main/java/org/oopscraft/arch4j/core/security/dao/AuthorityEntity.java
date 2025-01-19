@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

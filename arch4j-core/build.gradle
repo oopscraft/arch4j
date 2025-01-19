@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'io.freefair.lombok' version '8.10'
-    id 'org.springframework.boot' version '2.7.9'
+    id 'org.springframework.boot' version '3.4.1'
     id 'idea'
     id 'maven-publish'
 }
@@ -37,7 +37,7 @@ dependencies {
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     // javax.annotation-api
-    api 'javax.annotation:javax.annotation-api'
+    api 'jakarta.annotation:jakarta.annotation-api'
     api 'com.google.code.findbugs:jsr305'
 
     // mybatis
@@ -68,7 +68,7 @@ dependencies {
 
     // apache commons
     api 'commons-io:commons-io'
-    api 'org.apache.httpcomponents:httpclient'
+    api 'org.apache.httpcomponents.client5:httpclient5'
     api 'org.apache.commons:commons-exec'
     api 'org.apache.commons:commons-math3'
     api 'org.apache.commons:commons-csv'

@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.common.data;
 
-import javax.validation.*;
+import jakarta.validation.*;
 import java.util.Set;
 
 public class ValidationUtil {

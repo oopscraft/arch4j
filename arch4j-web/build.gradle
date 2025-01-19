@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'io.freefair.lombok' version '8.10'
-    id 'org.springframework.boot' version '2.7.9'
+    id 'org.springframework.boot' version '3.4.1'
     id 'idea'
     id 'maven-publish'
     id 'com.google.cloud.tools.jib' version '3.2.0'
@@ -30,7 +30,7 @@ dependencies {
     // thymeleaf
     api 'org.springframework.boot:spring-boot-starter-thymeleaf'
     api 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-    api 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    api 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     // spring doc
     api 'org.springdoc:springdoc-openapi-ui'
@@ -40,10 +40,6 @@ dependencies {
 
     // prometheus
     api "io.micrometer:micrometer-registry-prometheus"
-
-    // zipkin sleuth
-    api 'org.springframework.cloud:spring-cloud-starter-zipkin'
-    api 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
 }
 

@@ -7,9 +7,9 @@ import org.oopscraft.arch4j.core.common.data.BaseEntity;
 import org.oopscraft.arch4j.core.common.data.converter.AbstractEnumConverter;
 import org.oopscraft.arch4j.core.security.dao.UserEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity

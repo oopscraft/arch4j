@@ -52,7 +52,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.time.Duration;

@@ -7,7 +7,7 @@ import org.oopscraft.arch4j.core.common.data.converter.AbstractEnumConverter;
 import org.oopscraft.arch4j.core.security.model.User;
 import org.oopscraft.arch4j.core.security.model.UserMfa;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity

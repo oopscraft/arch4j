@@ -7,7 +7,7 @@ import org.oopscraft.arch4j.core.common.i18n.I18nGetter;
 import org.oopscraft.arch4j.core.common.i18n.I18nSetter;
 import org.oopscraft.arch4j.core.common.i18n.I18nSupportEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,8 +3,8 @@ package org.oopscraft.arch4j.core.common.data.converter;
 import lombok.extern.slf4j.Slf4j;
 import org.oopscraft.arch4j.core.common.crpyto.CryptoUtil;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter
 @Slf4j

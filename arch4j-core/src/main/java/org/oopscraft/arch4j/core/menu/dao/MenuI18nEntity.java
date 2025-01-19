@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.oopscraft.arch4j.core.common.i18n.I18nEntity;
 import org.oopscraft.arch4j.core.common.data.BaseEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity

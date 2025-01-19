@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'io.freefair.lombok' version '8.10'
+    id 'org.springframework.boot' version '2.7.9'
+    id 'idea'
+    id 'maven-publish'
+    id 'application'
+}
+
+dependencies {
+
+    // platform
+    implementation platform(project(":arch4j-dependencies"))
+    annotationProcessor platform(project(":arch4j-dependencies"))
+
+    // subproject
+    api project(":arch4j-core")
+
+    // spring shell starter
+    api 'org.springframework.shell:spring-shell-starter:3.1.0'
+    api 'org.jline:jline:3.21.0'
+
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
+    }
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+bootJar {
+    enabled = true
+    archiveClassifier = 'boot'
+    mainClass = 'org.oopscraft.arch4j.shell.ShellApplication'
+}
+
+springBoot {
+    buildInfo()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+distTar {
+    enabled = false
+}
+
+distZip {
+    enabled = false
+}
+
+bootDistZip {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
+}
+
+bootDistTar {
+    into("${project.name}-boot-${project.version}") {
+        from 'src/dist/'
+    }
+}

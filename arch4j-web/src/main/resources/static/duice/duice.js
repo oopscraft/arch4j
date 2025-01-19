@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.28
+ * duice - v0.2.29
  * git: https://gitbub.com/oopscraft/duice
  * website: https://duice.oopscraft.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -2150,17 +2150,17 @@ var duice = (function (exports) {
             this.dialogElement.style.left = '0';
             this.dialogElement.style.right = '0';
             // header
-            this.header = document.createElement('span');
+            this.header = document.createElement('div');
             this.dialogElement.appendChild(this.header);
-            this.header.style.display = 'block';
+            this.header.style.display = 'flex';
+            this.header.style.justifyContent = 'end';
+            this.header.style.lineHeight = '2rem';
             this.header.style.position = 'absolute';
             this.header.style.left = '0';
             this.header.style.top = '0';
             this.header.style.width = '100%';
-            this.header.style.height = '1rem';
             this.header.style.cursor = 'pointer';
             // drag
-            this.dialogElement.style.margin = '0px';
             this.header.onmousedown = function (event) {
                 let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
                 pos3 = event.clientX;
@@ -2181,17 +2181,17 @@ var duice = (function (exports) {
             // creates close button
             this.closeButton = document.createElement('span');
             this.closeButton.appendChild(document.createTextNode('X'));
-            this.closeButton.style.position = 'absolute';
-            this.closeButton.style.top = '5px';
-            this.closeButton.style.right = '5px';
-            this.closeButton.style.cursor = 'pointer';
-            this.closeButton.style.width = '16px';
-            this.closeButton.style.height = '16px';
+            this.closeButton.style.marginRight = '0.5rem';
+            this.closeButton.style.fontFamily = 'monospace';
             this.closeButton.addEventListener('click', event => {
                 _this.hide();
                 _this.close();
             });
-            this.dialogElement.appendChild(this.closeButton);
+            this.dialogElement.addEventListener('scroll', () => {
+                const scrollTop = this.dialogElement.scrollTop;
+                this.header.style.top = `${scrollTop}px`;
+            });
+            this.header.appendChild(this.closeButton);
             // on resize event
             window.addEventListener('resize', function (event) {
                 _this.moveToCenterPosition();

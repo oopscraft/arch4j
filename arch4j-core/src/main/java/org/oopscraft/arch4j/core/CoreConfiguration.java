@@ -22,7 +22,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +35,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
@@ -72,6 +76,8 @@ import java.util.*;
         annotationClass = Mapper.class,
         nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+@EnableScheduling
+@EnableCaching
 public class CoreConfiguration implements EnvironmentPostProcessor {
 
     @Override
@@ -145,6 +151,11 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
     @Bean
     public CaffeineCacheManager cacheManager() {
         return new CaffeineCacheManager();
+    }
+
+    @Bean
+    public KeyGenerator simpleKeyGenerator() {
+        return new SimpleKeyGenerator();
     }
 
     @Bean(initMethod = "start", destroyMethod = "stop")

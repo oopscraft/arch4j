@@ -30,6 +30,8 @@ dependencies {
 
         // query dsl
         api 'org.hibernate:hibernate-jpamodelgen:6.3.1.Final'
+        api "com.querydsl:querydsl-jpa:5.0.0"
+        api 'com.querydsl:querydsl-apt:5.0.0'
 
         // mybatis
         api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'

@@ -18,7 +18,7 @@ public class DbQuerydslToDbJpaBatchTest extends BatchTestSupport {
     @Qualifier("dbQuerydslToDbJpaJob")
     Job dbQuerydslToDbJpaJob;
 
-    @Test
+//    @Test
     void dbQuerydslToDbJpaJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)

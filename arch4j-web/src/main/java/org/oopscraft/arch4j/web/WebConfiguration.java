@@ -18,8 +18,11 @@ import org.oopscraft.arch4j.web.security.service.SecurityTokenService;
 import org.oopscraft.arch4j.web.security.model.SecurityPolicy;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cache.annotation.EnableCaching;
@@ -56,11 +59,13 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -212,9 +217,10 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(1)
-        public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
             // security matcher
-            http.securityMatcher(new AntPathRequestMatcher("/admin/**"));
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/admin/**");
+            http.securityMatcher(securityMatcher);
 
             // sets authorize
             http.authorizeHttpRequests(authorizeHttpRequests ->
@@ -262,9 +268,12 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(2)
-        public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, WebEndpointProperties webEndpointProperties) throws Exception {
             // security matcher
-            http.securityMatcher(new AntPathRequestMatcher("/actuator/**"));
+            String actuatorBasePath = webEndpointProperties.getBasePath();
+            String actuatorMatcherPattern = String.format("%s/**", actuatorBasePath);
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, actuatorMatcherPattern);
+            http.securityMatcher(securityMatcher);
 
             // authorize
             http.authorizeHttpRequests(authorizeHttpRequests ->
@@ -287,9 +296,13 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(3)
-        public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
+        @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
+        public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, Environment environment) throws Exception {
             // security matcher
-            http.securityMatcher(new AntPathRequestMatcher("/swagger-ui/**"));
+            String swaggerBasePath = environment.getProperty("springdoc.swagger-ui.path", "/swagger-ui");
+            String swaggerMatcherPattern = String.format("%s/**", swaggerBasePath);
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, swaggerMatcherPattern);
+            http.securityMatcher(securityMatcher);
 
             // authorize
             http.authorizeHttpRequests(authorizeHttpRequests -> {
@@ -319,9 +332,10 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(4)
+        @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
             // security matcher
-            http.securityMatcher(new AntPathRequestMatcher("/h2-console/**"));
+            http.securityMatcher(PathRequest.toH2Console());
 
             // authorize
             http.authorizeHttpRequests(authorizeHttpRequests -> {
@@ -351,9 +365,10 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(98)
-        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
+        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http,  HandlerMappingIntrospector introspector, RememberMeServices rememberMeServices) throws Exception {
             // security matcher
-            http.securityMatcher(new AntPathRequestMatcher("/api/**"));
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/api/**");
+            http.securityMatcher(securityMatcher);
 
             // authorize
             http.authorizeHttpRequests(authorizeHttpRequests -> {
@@ -396,7 +411,11 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(99)
-        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
+        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, RememberMeServices rememberMeServices) throws Exception {
+            // security matcher
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/**");
+            http.securityMatcher(securityMatcher);
+
             // authorize http requests
             http.authorizeHttpRequests(authorizeHttpRequests -> {
                 authorizeHttpRequests.requestMatchers("/login**", "/join**").permitAll();

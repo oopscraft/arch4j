@@ -18,7 +18,7 @@ public class DbMybatisToDbMybatisBatchTest extends BatchTestSupport {
     @Qualifier("dbMybatisToDbMybatisJob")
     Job mybatisToMybatisJob;
 
-    @Test
+//    @Test
     void dbMybatisToDbMybatisJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)

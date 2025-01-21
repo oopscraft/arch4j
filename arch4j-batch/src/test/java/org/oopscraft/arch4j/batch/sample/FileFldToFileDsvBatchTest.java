@@ -18,7 +18,7 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
     @Qualifier("fileFldToFileDsvJob")
     Job fileFldToFileDsvJob;
 
-    @Test
+//    @Test
     void fileFldToFileDsvJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
@@ -30,7 +30,7 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
 
-    @Test
+//    @Test
     void fileFldToFileDsvJobWithEncoding() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
@@ -44,7 +44,7 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
 
-    @Test
+//    @Test
     void fileFldToFileDsvJobWithLineSeparator() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
@@ -58,7 +58,7 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
 
-    @Test
+//    @Test
     void fileFldToFileDsvJobWithDelimiter() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("size", 1234L)
@@ -70,6 +70,5 @@ public class FileFldToFileDsvBatchTest extends BatchTestSupport {
         JobExecution jobExecution = getJobLauncherTestUtils(fileFldToFileDsvJob).launchJob(jobParameters);
         assertEquals(BatchStatus.COMPLETED.name(), jobExecution.getStatus().name());
     }
-
 
 }

@@ -3,8 +3,10 @@ package org.oopscraft.arch4j.web.board.api.v1;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.oopscraft.arch4j.core.board.model.Article;
+import org.oopscraft.arch4j.web.WebConfiguration;
 import org.oopscraft.arch4j.web.board.api.v1.dto.ArticleRequest;
 import org.oopscraft.arch4j.web.common.test.WebTestSupport;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -15,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 class ArticleRestControllerTest extends WebTestSupport {
 

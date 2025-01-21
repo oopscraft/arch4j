@@ -18,8 +18,11 @@ import org.oopscraft.arch4j.web.security.service.SecurityTokenService;
 import org.oopscraft.arch4j.web.security.model.SecurityPolicy;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cache.annotation.EnableCaching;
@@ -36,10 +39,12 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -53,11 +58,14 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -139,7 +147,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
     @Slf4j
     @Configuration
     @EnableWebSecurity
-    @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+    @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
     @RequiredArgsConstructor
     static class SecurityConfiguration {
 
@@ -175,7 +183,7 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
             return (web) -> web.ignoring()
-                    .antMatchers("/static/**");
+                    .requestMatchers("/static/**");
         }
 
         @Bean
@@ -209,28 +217,50 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(1)
-        public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> new AntPathRequestMatcher("/admin/**").matches(request));
-            http.authorizeRequests()
-                    .antMatchers("/admin/login**")
-                    .permitAll()
-                    .anyRequest()
-                    .hasAuthority("admin");
-            http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            http.exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint)
-                    .accessDeniedHandler(accessDeniedHandler);
-            http.formLogin()
-                    .loginPage("/admin/login")
-                    .loginProcessingUrl("/admin/login/process")
-                    .successHandler(authenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
-                    .permitAll();
-            http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
-                    .logoutSuccessUrl("/admin")
-                    .invalidateHttpSession(true)
-                    .permitAll();
+        public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+            // security matcher
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/admin/**");
+            http.securityMatcher(securityMatcher);
+
+            // sets authorize
+            http.authorizeHttpRequests(authorizeHttpRequests ->
+                    authorizeHttpRequests.requestMatchers("/admin/login**")
+                            .permitAll()
+                            .anyRequest()
+                            .hasAuthority("admin")
+            );
+
+            // csrf
+            CsrfTokenRequestAttributeHandler csrfTokenRequestHandler = new CsrfTokenRequestAttributeHandler();
+            csrfTokenRequestHandler.setCsrfRequestAttributeName(null);
+            http.csrf(csrf -> {
+                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                csrf.csrfTokenRequestHandler(csrfTokenRequestHandler);
+            });
+
+            // exception
+            http.exceptionHandling(exceptionHandling -> {
+                exceptionHandling.authenticationEntryPoint(authenticationEntryPoint);
+                exceptionHandling.accessDeniedHandler(accessDeniedHandler);
+            });
+
+            // login
+            http.formLogin(formLogin -> {
+                formLogin.loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/login/process")
+                        .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
+                        .permitAll();
+            });
+
+            // logout
+            http.logout(logout -> {
+                logout.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"));
+                logout.logoutSuccessUrl("/admin");
+                logout.invalidateHttpSession(true);
+                logout.permitAll();
+            });
+
             // additional security filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
@@ -238,130 +268,213 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
 
         @Bean
         @Order(2)
-        public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> new AntPathRequestMatcher("/actuator/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("actuator");
-            http.csrf().disable();
-            http.headers().frameOptions().sameOrigin();
-            // additional security filter
+        public SecurityFilterChain ActuatorSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, WebEndpointProperties webEndpointProperties) throws Exception {
+            // security matcher
+            String actuatorBasePath = webEndpointProperties.getBasePath();
+            String actuatorMatcherPattern = String.format("%s/**", actuatorBasePath);
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, actuatorMatcherPattern);
+            http.securityMatcher(securityMatcher);
+
+            // authorize
+            http.authorizeHttpRequests(authorizeHttpRequests ->
+                    authorizeHttpRequests.anyRequest()
+                            .hasAuthority("actuator")
+            );
+
+            // csrf
+            http.csrf(AbstractHttpConfigurer::disable);
+
+            // headers
+            http.headers(headers -> {
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
+            });
+
+            // custom filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(3)
-        public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> new AntPathRequestMatcher("/swagger-ui/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("swagger-ui");
-            http.csrf().disable();
-            http.headers().frameOptions().sameOrigin();
-            http.formLogin()
-                    .loginPage("/admin/login")
-                    .loginProcessingUrl("/admin/login/process")
-                    .successHandler(authenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
-                    .permitAll();
-            // additional security filter
+        @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
+        public SecurityFilterChain swaggerUiSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, Environment environment) throws Exception {
+            // security matcher
+            String swaggerBasePath = environment.getProperty("springdoc.swagger-ui.path", "/swagger-ui");
+            String swaggerMatcherPattern = String.format("%s/**", swaggerBasePath);
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, swaggerMatcherPattern);
+            http.securityMatcher(securityMatcher);
+
+            // authorize
+            http.authorizeHttpRequests(authorizeHttpRequests -> {
+                authorizeHttpRequests.anyRequest().hasAuthority("swagger-ui");
+            });
+
+            // csrf
+            http.csrf(AbstractHttpConfigurer::disable);
+
+            // headers
+            http.headers(headers ->
+                    headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+
+            // login
+            http.formLogin(formLogin -> {
+                formLogin.loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/login/process")
+                        .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
+                        .permitAll();
+            });
+
+            // custom filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(4)
+        @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
         public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.requestMatcher(request -> new AntPathRequestMatcher("/h2-console/**").matches(request));
-            http.authorizeRequests().anyRequest().hasAuthority("h2-console");
-            http.csrf().disable();
-            http.headers().frameOptions().sameOrigin();
-            http.formLogin()
-                    .loginPage("/admin/login")
-                    .loginProcessingUrl("/admin/login/process")
-                    .successHandler(authenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
-                    .permitAll();
-            // additional security filter
+            // security matcher
+            http.securityMatcher(PathRequest.toH2Console());
+
+            // authorize
+            http.authorizeHttpRequests(authorizeHttpRequests -> {
+                authorizeHttpRequests.anyRequest().hasAuthority("h2-console");
+            });
+
+            // csrf
+            http.csrf(AbstractHttpConfigurer::disable);
+
+            // headers
+            http.headers(headers ->
+                    headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+
+            // login
+            http.formLogin(formLogin -> {
+                formLogin.loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/login/process")
+                        .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
+                        .permitAll();
+            });
+
+            // custom filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(98)
-        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
-            http.requestMatcher(request -> new AntPathRequestMatcher("/api/**").matches(request));
-            http.authorizeRequests()
-                    .antMatchers("/api/*/login**", "/api/*/join**")
-                    .permitAll();
-            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
-                http.authorizeRequests()
-                        .anyRequest()
-                        .permitAll();
-            }else{
-                http.authorizeRequests()
-                        .anyRequest()
-                        .authenticated();
-            }
-            http.csrf().disable();
-            http.headers().frameOptions().sameOrigin();
+        public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http,  HandlerMappingIntrospector introspector, RememberMeServices rememberMeServices) throws Exception {
+            // security matcher
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/api/**");
+            http.securityMatcher(securityMatcher);
+
+            // authorize
+            http.authorizeHttpRequests(authorizeHttpRequests -> {
+                authorizeHttpRequests.requestMatchers("/api/*/login**", "/api/*/join**").permitAll();
+                if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+                    authorizeHttpRequests.anyRequest().permitAll();
+                }else{
+                    authorizeHttpRequests.anyRequest().authenticated();
+                }
+            });
+
+            // csrf
+            http.csrf(AbstractHttpConfigurer::disable);
+
+            // headers
+            http.headers(headers -> {
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
+            });
+
             // session
-            http.sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+            http.sessionManagement(sessionManagement -> {
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+            });
+
             // exception handling
-            http.exceptionHandling()
-                    .accessDeniedHandler(accessDeniedHandler);
+            http.exceptionHandling(exceptionHandling -> {
+                exceptionHandling.accessDeniedHandler(accessDeniedHandler);
+            });
+
             // remember-me
-            http.rememberMe()
-                    .rememberMeServices(rememberMeServices)
-                    .tokenValiditySeconds(1209600); // default 2 weeks
-            // additional security filter
+            http.rememberMe(rememberMe -> {
+                rememberMe.rememberMeServices(rememberMeServices);
+                rememberMe.tokenValiditySeconds(1209600);
+            });
+
+            // custom filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }
 
         @Bean
         @Order(99)
-        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
-            http.authorizeRequests()
-                    .antMatchers("/login**", "/join**")
-                    .permitAll();
-            http.authorizeRequests()
-                    .antMatchers("/user**")
-                    .authenticated();
-            if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
-                http.authorizeRequests()
-                        .anyRequest()
-                        .permitAll();
-            }else{
-                http.authorizeRequests()
-                        .anyRequest()
-                        .authenticated();
-            }
-            http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            http.headers().frameOptions().sameOrigin();
+        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector, RememberMeServices rememberMeServices) throws Exception {
+            // security matcher
+            MvcRequestMatcher securityMatcher = new MvcRequestMatcher(introspector, "/**");
+            http.securityMatcher(securityMatcher);
+
+            // authorize http requests
+            http.authorizeHttpRequests(authorizeHttpRequests -> {
+                authorizeHttpRequests.requestMatchers("/login**", "/join**").permitAll();
+                authorizeHttpRequests.requestMatchers("/user**").authenticated();
+                if(webProperties.getSecurityPolicy() == SecurityPolicy.ANONYMOUS) {
+                    authorizeHttpRequests.anyRequest().permitAll();
+                }else{
+                    authorizeHttpRequests.anyRequest().authenticated();
+                }
+            });
+
+            // csrf
+            CsrfTokenRequestAttributeHandler csrfTokenRequestHandler = new CsrfTokenRequestAttributeHandler();
+            csrfTokenRequestHandler.setCsrfRequestAttributeName(null);
+            http.csrf(csrf -> {
+                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                csrf.csrfTokenRequestHandler(csrfTokenRequestHandler);
+            });
+
+            // headers
+            http.headers(headers -> {
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
+            });
+
             // session
-            http.sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+            http.sessionManagement(it -> {
+                    it.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+            });
+
             // exception handling
-            http.exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint)
-                    .accessDeniedHandler(accessDeniedHandler);
+            http.exceptionHandling(exceptonHandling -> {
+                exceptonHandling.authenticationEntryPoint(authenticationEntryPoint);
+                exceptonHandling.accessDeniedHandler(accessDeniedHandler);
+            });
+
             // login
-            http.formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login/process")
-                    .successHandler(authenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
-                    .permitAll();
+            http.formLogin(formLogin -> {
+                formLogin.loginPage("/login")
+                        .loginProcessingUrl("/login/process")
+                        .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
+                        .permitAll();
+            });
+
             // logout
-            http.logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true)
-                    .permitAll();
-            // remember-me
-            http.rememberMe()
-                    .rememberMeServices(rememberMeServices)
-                    .tokenValiditySeconds(1209600); // default 2 weeks
-            // additional security filter
+            http.logout(logout -> {
+                logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                logout.logoutSuccessUrl("/");
+                logout.invalidateHttpSession(true);
+                logout.permitAll();
+            });
+
+            // remember me
+            http.rememberMe(rememberMe -> {
+                rememberMe.rememberMeServices(rememberMeServices);
+                rememberMe.tokenValiditySeconds(1209600); // default 2 weeks
+            });
+
+            // custom filter
             http.addFilterAfter(securityFilter(), AnonymousAuthenticationFilter.class);
             return http.build();
         }

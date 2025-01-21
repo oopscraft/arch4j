@@ -2,7 +2,7 @@ package org.oopscraft.arch4j.core.common.data.converter;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Optional;
 

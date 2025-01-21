@@ -6,7 +6,7 @@ import org.oopscraft.arch4j.core.common.data.BaseEntity;
 import org.oopscraft.arch4j.core.common.data.converter.CryptoConverter;
 import org.oopscraft.arch4j.core.sample.model.SampleType;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

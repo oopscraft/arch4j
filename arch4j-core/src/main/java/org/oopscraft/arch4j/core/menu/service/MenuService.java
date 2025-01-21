@@ -68,7 +68,7 @@ public class MenuService {
     }
 
     public List<Menu> getMenus() {
-        Sort sort = Sort.by(Sort.Order.asc(MenuEntity_.SORT).nullsLast()); // bug: nullsLast not work
+        Sort sort = Sort.by(Sort.Order.asc(MenuEntity_.SORT)); // bug: nullsLast not work
         List<MenuEntity> menuEntities = menuRepository.findAll(sort);
         return menuEntities.stream()
                 .map(Menu::from)

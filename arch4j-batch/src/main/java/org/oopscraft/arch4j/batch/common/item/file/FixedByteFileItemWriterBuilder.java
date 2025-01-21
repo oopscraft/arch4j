@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.batch.common.item.file;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.WritableResource;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class FixedByteFileItemWriterBuilder<T> {
 
     private Class<? extends T> itemType;
 
-    private Resource resource;
+    private WritableResource resource;
 
     private String encoding;
 

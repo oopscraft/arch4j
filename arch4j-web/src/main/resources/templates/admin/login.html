@@ -46,6 +46,9 @@
             height: 2rem;
             font-weight: bold;
         }
+        .dark-mode #_brand {
+            filter: invert(0.9);
+        }
     </style>
     <script th:inline="javascript">
         const login = new duice.ObjectProxy({
@@ -96,10 +99,12 @@
     <!-- start: login                       -->
     <!-- ================================== -->
     <div id="login" class="panel">
-        <div class="panel-title justify-content--center padding-bottom--1rem">
-            <span id="_brand" onclick="_gotoIndex();" class="cursor--pointer">
-                <img src="/static/image/arch4j-icon.svg" alt=""/><img src="/static/image/arch4j-title.svg" alt=""/>
-            </span>
+        <div class="panel-title justify-content--center">
+            <h1>
+                <span id="_brand" onclick="_gotoIndex();" class="cursor--pointer">
+                    <img src="/static/image/arch4j-icon.svg" alt=""/><img src="/static/image/arch4j-title.svg" alt=""/>
+                </span>
+            </h1>
         </div>
         <div class="panel-content">
             <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1rem">
@@ -124,14 +129,22 @@
                 <div class="grid-column--span-12 justify-self--center">
                     <span data-duice-bind="login" data-duice-property="message"></span>
                 </div>
-                <div class="grid-column--span-12 justify-self--end">
-                    <label>
-                        <img th:src="@{/static/image/icon-language.svg}" class="icon"/>
-                        <select onchange="_changeLanguage(this.value);">
-                            <option>- language -</option>
-                            <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
-                        </select>
-                    </label>
+                <div class="grid-column--span-12 justify-self--center">
+                    <div class="grid-column--span-12">
+                        <label>
+                            <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
+                        </label>
+                        &nbsp;
+                        <span class="font-size--xx-small">|</span>
+                        &nbsp;
+                        <label>
+                            <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
+                            <select class="font-size--smaller" onchange="_changeLanguage(this.value);">
+                                <option>language...</option>
+                                <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </form>
         </div>

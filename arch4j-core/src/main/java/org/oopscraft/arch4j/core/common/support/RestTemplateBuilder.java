@@ -1,23 +1,33 @@
 package org.oopscraft.arch4j.core.common.support;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
-import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.client5.http.config.RequestConfig;
+//import org.apache.http.HttpHost;
+//import org.apache.http.client.HttpRequestRetryHandler;
+//import org.apache.http.client.config.RequestConfig;
+//import org.apache.http.config.SocketConfig;
+//import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+//import org.apache.http.impl.client.CloseableHttpClient;
+//import org.apache.http.impl.client.HttpClientBuilder;
+//import org.apache.http.impl.client.HttpClients;
+//import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
+//import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
+
+import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
 
 @Slf4j
 public class RestTemplateBuilder {
@@ -34,7 +44,7 @@ public class RestTemplateBuilder {
 
     private int readTimeout = 30_000;
 
-    private HttpRequestRetryHandler httpRequestRetryHandler;
+    private HttpRequestRetryStrategy httpRequestRetryStrategy;
 
     public static RestTemplateBuilder create() {
         return new RestTemplateBuilder();
@@ -66,8 +76,8 @@ public class RestTemplateBuilder {
         return this;
     }
 
-    public RestTemplateBuilder httpRequestRetryHandler(HttpRequestRetryHandler httpRequestRetryHandler) {
-        this.httpRequestRetryHandler = httpRequestRetryHandler;
+    public RestTemplateBuilder httpRequestRetryStrategy(HttpRequestRetryStrategy httpRequestRetryStrategy) {
+        this.httpRequestRetryStrategy = httpRequestRetryStrategy;
         return this;
     }
 
@@ -90,15 +100,28 @@ public class RestTemplateBuilder {
         }
 
         // ssl socket factory
-        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
-            sslContext,
-            httpsProtocols != null ? httpsProtocols : sslContext.getSupportedSSLParameters().getProtocols(),
-            null,
-            SSLConnectionSocketFactory.getDefaultHostnameVerifier()
-        );
+//        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
+//            sslContext,
+//            httpsProtocols != null ? httpsProtocols : sslContext.getSupportedSSLParameters().getProtocols(),
+//            null,
+//            new DefaultHostnameVerifier()
+//        );
+
+        TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(sslContext);
+
+        // connection manager
+        PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+                .setTlsSocketStrategy(tlsSocketStrategy)
+//                .setSSLSocketFactory(connectionSocketFactory)
+                .build();
+//        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+//        connectionManager.setSSLSocketFactory(connectionSocketFactory);
+
+
 
         // applies ssl socket factory to http client
-        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
+        httpClientBuilder.setConnectionManager(connectionManager);
+//        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
 
         // proxy
         if (proxyHost != null && !proxyHost.isEmpty()) {
@@ -108,14 +131,14 @@ public class RestTemplateBuilder {
 
         // timeout settings
         RequestConfig requestConfig = RequestConfig.custom()
-            .setConnectTimeout(connectTimeout)
-            .setSocketTimeout(readTimeout)
+            .setConnectionRequestTimeout(Timeout.ofMilliseconds(connectTimeout))
+            .setResponseTimeout(Timeout.ofMilliseconds(readTimeout))
             .build();
         httpClientBuilder.setDefaultRequestConfig(requestConfig);
 
         // retry handler
-        if (httpRequestRetryHandler != null) {
-            httpClientBuilder.setRetryHandler(httpRequestRetryHandler);
+        if (httpRequestRetryStrategy != null) {
+            httpClientBuilder.setRetryStrategy(httpRequestRetryStrategy);
         }
 
         // build

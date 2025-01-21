@@ -1187,6 +1187,75 @@
   border-left-width: 3em;
 }
 
+/* border-radius */
+.border-radius--0 {
+  border-radius: 0;
+}
+
+.border-radius--0 {
+  border-radius: 0;
+}
+
+.border-radius--0 {
+  border-radius: 0;
+}
+
+.border-radius--1px {
+  border-radius: 1px;
+}
+
+.border-radius--1rem {
+  border-radius: 1rem;
+}
+
+.border-radius--1em {
+  border-radius: 1em;
+}
+
+.border-radius--2px {
+  border-radius: 2px;
+}
+
+.border-radius--2rem {
+  border-radius: 2rem;
+}
+
+.border-radius--2em {
+  border-radius: 2em;
+}
+
+.border-radius--3px {
+  border-radius: 3px;
+}
+
+.border-radius--3rem {
+  border-radius: 3rem;
+}
+
+.border-radius--3em {
+  border-radius: 3em;
+}
+
+.border-radius--10 {
+  border-radius: 10%;
+}
+
+.border-radius--20 {
+  border-radius: 20%;
+}
+
+.border-radius--30 {
+  border-radius: 30%;
+}
+
+.border-radius--40 {
+  border-radius: 40%;
+}
+
+.border-radius--50 {
+  border-radius: 50%;
+}
+
 /* font-size */
 .font-size--1rem {
   font-size: 1rem;
@@ -2395,6 +2464,58 @@
   }
   .s__border-left-width--3em {
     border-left-width: 3em;
+  }
+  /* border-radius */
+  .s__border-radius--0 {
+    border-radius: 0;
+  }
+  .s__border-radius--0 {
+    border-radius: 0;
+  }
+  .s__border-radius--0 {
+    border-radius: 0;
+  }
+  .s__border-radius--1px {
+    border-radius: 1px;
+  }
+  .s__border-radius--1rem {
+    border-radius: 1rem;
+  }
+  .s__border-radius--1em {
+    border-radius: 1em;
+  }
+  .s__border-radius--2px {
+    border-radius: 2px;
+  }
+  .s__border-radius--2rem {
+    border-radius: 2rem;
+  }
+  .s__border-radius--2em {
+    border-radius: 2em;
+  }
+  .s__border-radius--3px {
+    border-radius: 3px;
+  }
+  .s__border-radius--3rem {
+    border-radius: 3rem;
+  }
+  .s__border-radius--3em {
+    border-radius: 3em;
+  }
+  .s__border-radius--10 {
+    border-radius: 10%;
+  }
+  .s__border-radius--20 {
+    border-radius: 20%;
+  }
+  .s__border-radius--30 {
+    border-radius: 30%;
+  }
+  .s__border-radius--40 {
+    border-radius: 40%;
+  }
+  .s__border-radius--50 {
+    border-radius: 50%;
   }
   /* font-size */
   .s__font-size--1rem {

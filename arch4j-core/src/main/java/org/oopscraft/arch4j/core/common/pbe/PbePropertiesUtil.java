@@ -1,6 +1,6 @@
 package org.oopscraft.arch4j.core.common.pbe;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;

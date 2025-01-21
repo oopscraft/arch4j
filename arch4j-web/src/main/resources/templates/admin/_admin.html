@@ -181,6 +181,9 @@
         nav #_nav-menu li a:hover {
             padding-left: 1rem;
         }
+        nav #_nav-menu li a.disabled{
+            pointer-events: none;
+        }
         nav #_nav-menu li a.locked {
             pointer-events: none;
             opacity: 0.66;
@@ -281,7 +284,7 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span>
-                    <img th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" class="icon" alt="photo"/>
+                    <img class="icon border-radius--50" th:src="${_user.photo} == null ? @{/static/image/icon-user.svg} : ${_user.photo}" alt="photo"/>
                     <span data-th-text="${_user.name}" class="font-weight--bold"></span>
                 </span>
             </li>

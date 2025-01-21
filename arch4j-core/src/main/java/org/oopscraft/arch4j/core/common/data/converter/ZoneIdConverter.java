@@ -1,7 +1,7 @@
 package org.oopscraft.arch4j.core.common.data.converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import java.time.ZoneId;
 
 @Converter

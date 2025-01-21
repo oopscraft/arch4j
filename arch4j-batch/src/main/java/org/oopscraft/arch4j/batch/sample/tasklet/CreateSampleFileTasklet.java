@@ -9,12 +9,15 @@ import org.oopscraft.arch4j.batch.sample.dto.SampleFile;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.Resource;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.core.io.WritableResource;
+
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -37,7 +40,7 @@ public class CreateSampleFileTasklet implements Tasklet {
     private String lang = "en";
 
     @NotNull
-    private Resource resource;
+    private WritableResource resource;
 
     @Builder.Default
     private FileType fileType = FileType.DSV;
@@ -100,7 +103,7 @@ public class CreateSampleFileTasklet implements Tasklet {
                         .lobText(faker.address().cityName() + " " + faker.address().streetName())
                         .cryptoText(faker.business().creditCardNumber())
                         .build();
-                itemWriter.write(List.of(sample));
+                itemWriter.write(Chunk.of(sample));
             }
         }catch(Exception e){
             throw new RuntimeException(e);

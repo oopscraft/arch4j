@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title></title>
     <!-- ====================================== -->
@@ -142,6 +144,9 @@
         nav #_nav-menu li a:hover {
             padding-left: 1rem;
         }
+        nav #_nav-menu li a.disabled{
+            pointer-events: none;
+        }
         nav #_nav-menu li a.locked {
             pointer-events: none;
             opacity: 0.66;
@@ -202,7 +207,6 @@
             <img onclick="_openMenu();" th:src="@{/static/_theme/{_theme}/static/image/icon-menu.svg(_theme=${_theme})}" class="icon link" alt="menu"/>
         </div>
         <ul id="_header-menu">
-            <th:block th:if="${_securityPolicy == 'AUTHENTICATED'}">
             <li sec:authorize="!isAuthenticated()">
                 <div onclick="_gotoLogin();" class="link">
                     <img th:src="@{/static/_theme/{_theme}/static/image/icon-login.svg(_theme=${_theme})}" class="icon" alt="login"/>
@@ -211,7 +215,7 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <span onclick="_gotoUser();" class="link">
-                    <img class="icon" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
+                    <img class="icon border-radius--50" th:src="@{/static/_theme/{_theme}/static/image/icon-user.svg(_theme=${_theme})}"
                          data-duice-bind="_user" data-duice-property="photo" alt="user"/>
                     <span data-duice-bind="_user" data-duice-property="name" class="font-weight--bold"></span>
                 </span>
@@ -222,7 +226,6 @@
                     <span data-th-text="#{web.global.logout}"></span>
                 </span>
             </li>
-            </th:block>
             <li>
                 <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
             </li>
@@ -249,11 +252,14 @@
                 ">
                 <a data-duice-bind="menu"
                    data-duice-execute="
-                   this.href = menu.link ?? '';
-                   this.target = menu.target ?? '';
-                   if (!menu.link) {
-                       this.classList.add('locked');
-                   }
+                    if (menu.link) {
+                        this.href = menu.link;
+                    } else {
+                        this.classList.add('disabled');
+                    }
+                    if (menu.target) {
+                        this.target = menu.target;
+                    }
                    ">
                     <img class="icon" th:src="@{/static/image/icon-null.svg}" data-duice-bind="menu" data-duice-property="icon" alt="menu"/>
                     <span data-duice-bind="menu" data-duice-property="name"></span>

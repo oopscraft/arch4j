@@ -31,6 +31,7 @@ allprojects {
             it.compileJava.options.encoding = "UTF-8"
             it.tasks.withType(JavaCompile){
                 options.encoding = 'UTF-8'
+                options.compilerArgs += "-parameters"
             }
             it.tasks.withType(Jar) {
                 duplicatesStrategy = DuplicatesStrategy.INCLUDE

@@ -7,13 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.jpa.QueryHints;
-import org.hibernate.query.internal.QueryImpl;
+//import org.hibernate.query.internal.QueryImpl;
+import org.hibernate.query.Query;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 /**
  * QuerydslCursorItemReader
@@ -42,7 +43,7 @@ public class QuerydslDbItemReader<T> extends AbstractItemCountingItemStreamItemR
 
     private EntityManager entityManager;
 
-    private ScrollableResults cursor;
+    private ScrollableResults<T> cursor;
 
     public QuerydslDbItemReader() {
         super.setName(ClassUtils.getShortName(this.getClass()));
@@ -58,9 +59,9 @@ public class QuerydslDbItemReader<T> extends AbstractItemCountingItemStreamItemR
         // creates cursor
         entityManager = entityManagerFactory.createEntityManager();
         JPAQuery<T> jpaQuery = query.clone(entityManager);
-        jpaQuery.setHint(QueryHints.HINT_READONLY, true);
-        QueryImpl<?> query = (QueryImpl<?>) jpaQuery.createQuery();
-        query.setHint(QueryHints.HINT_READONLY, true);
+//        jpaQuery.setHint(QueryHints.HINT_READONLY, true);
+        Query<T> query = (Query<T>) jpaQuery.createQuery();
+//        query.setHint(QueryHints.HINT_READONLY, true);
         query.setReadOnly(true);
         query.setCacheable(false);
         if(fetchSize != null) {
@@ -78,7 +79,7 @@ public class QuerydslDbItemReader<T> extends AbstractItemCountingItemStreamItemR
     @Override
     protected T doRead() {
         if (cursor.next()) {
-            Object[] data = cursor.get();
+            Object[] data = (Object[]) cursor.get();
             entityManager.clear();  // Clears in-memory cache
             if(data.length > 1) {
                 @SuppressWarnings("unchecked")

@@ -35,7 +35,7 @@
             <div class="grid-column--span-12 justify-self--center">
                 <span data-duice-bind="login" data-duice-property="message"></span>
             </div>
-            <div class="grid-column--span-12">
+            <div class="grid-column--span-12 justify-self--center">
                 <label>
                     <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
                 </label>
@@ -50,14 +50,12 @@
                     </select>
                 </label>
             </div>
-            <div class="grid-column--span-12" th:if="${_securityPolicy == 'ANONYMOUS'}">
-                <div class="text-align--right">
-                <span onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}">
-                </span>
+            <div class="grid-column--span-12 justify-self--center" th:if="${_securityPolicy == 'ANONYMOUS'}">
+                <div class="text-align--center">
+                    <a onclick="gotoJoin();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.join}"></a>
                 </div>
-                <div class="text-align--right">
-                <span onclick="gotoResetPassword();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.resetPassword}">
-                </span>
+                <div class="text-align--center">
+                    <a onclick="gotoResetPassword();" class="text-decoration--underline cursor--pointer" data-th-text="#{web.login.login.resetPassword}"></a>
                 </div>
             </div>
         </form>

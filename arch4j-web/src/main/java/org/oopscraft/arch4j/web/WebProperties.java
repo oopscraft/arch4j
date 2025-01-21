@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.oopscraft.arch4j.web.security.model.SecurityPolicy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "web")
-@ConstructorBinding
 @AllArgsConstructor
 @Getter
 public final class WebProperties {

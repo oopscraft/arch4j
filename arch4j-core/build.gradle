@@ -29,11 +29,11 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     // query dsl
-    api "com.querydsl:querydsl-jpa"
-    api "com.querydsl:querydsl-apt"
+    api "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    api "com.querydsl:querydsl-apt:5.0.0:jakarta"
     api 'org.hibernate:hibernate-jpamodelgen'
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-    annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jpa'
+    annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', classifier: 'jakarta', version: '5.0.0'
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     // javax.annotation-api
@@ -72,6 +72,9 @@ dependencies {
     api 'org.apache.commons:commons-exec'
     api 'org.apache.commons:commons-math3'
     api 'org.apache.commons:commons-csv'
+
+    // groovy
+    api 'org.apache.groovy:groovy-all'
 
     // caffeine
     api "com.github.ben-manes.caffeine:caffeine"

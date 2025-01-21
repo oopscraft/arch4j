@@ -119,9 +119,6 @@ html {
     height: 1.0em;
     vertical-align: middle;
 }
-.icon--circle {
-    border-radius: 50%;
-}
 .dark-mode .icon {
     filter: invert(0.9);
     mix-blend-mode: difference;

@@ -119,12 +119,17 @@ public class CoreConfiguration implements EnvironmentPostProcessor {
     @Bean
     public MessageSource messageSource(MessageSourceProperties messageProperties, MessageService messageService) {
         MessageSource messageSource = new MessageSource(messageService);
-        String basename = messageProperties.getBasename();
-        if(basename != null && !basename.isBlank()) {
-            String[] basenameArray = StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(basename));
-            messageSource.setBasenames(Arrays.stream(basenameArray)
-                    .map(name -> "classpath*:" + name).toArray(String[]::new));
+
+        // basename
+        List<String> basenames = messageProperties.getBasename();
+        if (basenames != null && !basenames.isEmpty()) {
+            String[] basenameArray = basenames.stream()
+                    .map(name -> "classpath*:" + name.trim())
+                    .toArray(String[]::new);
+            messageSource.setBasenames(basenameArray);
         }
+
+        // encoding
         if (messageProperties.getEncoding() != null) {
             messageSource.setDefaultEncoding(messageProperties.getEncoding().name());
         }

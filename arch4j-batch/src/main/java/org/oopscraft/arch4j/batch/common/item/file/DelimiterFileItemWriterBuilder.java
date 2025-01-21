@@ -3,6 +3,7 @@ package org.oopscraft.arch4j.batch.common.item.file;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.WritableResource;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -11,9 +12,9 @@ import java.util.Optional;
 @Accessors(chain = true, fluent = true)
 public class DelimiterFileItemWriterBuilder<T> {
 
-    private Class<? extends T> itemType;
+    private Class<T> itemType;
 
-    private Resource resource;
+    private WritableResource resource;
 
     private String encoding;
 

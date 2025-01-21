@@ -5,27 +5,23 @@ import lombok.Getter;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.oopscraft.arch4j.batch.common.listener.JobListener;
 import org.oopscraft.arch4j.batch.common.listener.StepListener;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 @Configuration
 public abstract class AbstractBatchConfigurer {
 
     @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+    private JobRepository jobRepository;
 
     @Autowired
     @Getter
@@ -52,16 +48,13 @@ public abstract class AbstractBatchConfigurer {
     private SqlSessionFactory sqlSessionFactory;
 
     protected final JobBuilder getJobBuilder(String jobName) {
-        return jobBuilderFactory
-                .get(jobName)
+        return new JobBuilder(jobName, jobRepository)
                 .listener(new JobListener());
     }
 
     protected final StepBuilder getStepBuilder(String stepName) {
-        return stepBuilderFactory
-                .get(stepName)
-                .listener(new StepListener())
-                .transactionManager(transactionManager);
+        return new StepBuilder(stepName, jobRepository)
+                .listener(new StepListener());
     }
 
 }

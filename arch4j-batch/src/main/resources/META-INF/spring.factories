@@ -1,2 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.chomoo.arch4j.batch.BatchConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=org.chomookun.arch4j.batch.BatchConfiguration
 

@@ -1,2 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.oopscraft.arch4j.shell.ShellConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=org.chomookun.arch4j.shell.ShellConfiguration
 

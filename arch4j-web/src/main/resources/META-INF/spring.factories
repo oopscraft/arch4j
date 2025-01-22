@@ -1,1 +1,1 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.oopscraft.arch4j.web.WebConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=org.chomookun.arch4j.web.WebConfiguration

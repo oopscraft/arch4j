@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.chomoo.arch4j.core.sample.dao.SampleMapper">
+
+    <resultMap id="sample" type="org.chomoo.arch4j.core.sample.dao.SampleVo">
+        <result property="sampleId" column="sample_id"/>
+        <result property="sampleName" column="sample_name"/>
+        <result property="sampleType" column="sample_type"/>
+        <result property="number" column="number"/>
+        <result property="longNumber" column="long_number"/>
+        <result property="doubleNumber" column="double_number"/>
+        <result property="bigDecimal" column="big_decimal"/>
+        <result property="localDateTime" column="local_date_time"/>
+        <result property="localDate" column="local_date"/>
+        <result property="localTime" column="local_time"/>
+        <result property="lobText" column="lob_text"/>
+        <result property="cryptoText" column="crypto_text"/>
+    </resultMap>
+
+    <sql id="sqlSamples">
+        select  /* SampleMapper.sqlSamples */
+                sample_id,
+                sample_name,
+                sample_type,
+                number,
+                long_number,
+                double_number,
+                big_decimal,
+                local_date_time,
+                local_date,
+                local_time,
+                lob_text,
+                crypto_text
+        from    core_sample
+        where   1 = 1
+        <if test = "sampleId != null">
+            and sample_id like concat('%',#{sampleId},'%')
+        </if>
+        <if test = "sampleName != null">
+            and sample_name like concat('%',#{sampleName},'%')
+        </if>
+        <if test = "sampleType != null">
+            and sample_type like concat('%',${sampleType},'%')
+        </if>
+    </sql>
+
+    <select id="selectSamples" resultMap="sample">
+        <include refid="sqlSamples"/>
+    </select>
+
+    <select id="selectSamplesCount" resultType="long">
+        select  count(*) from (
+            <include refid="sqlSamples"/>
+        )
+    </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.chomoo.arch4j.batch.sample.dao.SampleBackupMapper">
+
+    <insert id="insertSampleBackup">
+        <![CDATA[
+        insert into core_sample_backup (
+            sample_id,
+            sample_name,
+            sample_type,
+            number,
+            long_number,
+            double_number,
+            big_decimal,
+            local_date_time,
+            local_date,
+            local_time,
+            lob_text,
+            crypto_text
+        ) values (
+            #{sampleId},
+            #{sampleName},
+            #{sampleType},
+            #{number},
+            #{longNumber},
+            #{doubleNumber},
+            #{bigDecimal},
+            #{localDateTime},
+            #{localDate},
+            #{localTime},
+            #{lobText},
+            #{cryptoText}
+        )
+        ]]>
+    </insert>
+
+</mapper>

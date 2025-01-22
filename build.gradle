@@ -26,8 +26,12 @@ allprojects {
     afterEvaluate {
        // java
         if(it.plugins.hasPlugin("java")) {
-            it.sourceCompatibility = "17"
-            it.targetCompatibility = "17"
+            it.java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of(17)
+                }
+                withSourcesJar()
+            }
             it.compileJava.options.encoding = "UTF-8"
             it.tasks.withType(JavaCompile){
                 options.encoding = 'UTF-8'
@@ -72,4 +76,3 @@ allprojects {
     }
 
 }
-

@@ -1,5 +1,6 @@
 package org.oopscraft.arch4j.core.common.support;
 
+import groovyjarjarpicocli.CommandLine;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -20,10 +21,14 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 
+import org.apache.hc.client5.http.ssl.DefaultHostnameVerifier;
 import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
 import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.reactor.ssl.SSLBufferMode;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.apache.hc.core5.util.Timeout;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,6 +48,8 @@ public class RestTemplateBuilder {
     private int connectTimeout = 5_000;
 
     private int readTimeout = 30_000;
+
+    private boolean bufferRequestBody = true;
 
     private HttpRequestRetryStrategy httpRequestRetryStrategy;
 
@@ -76,6 +83,11 @@ public class RestTemplateBuilder {
         return this;
     }
 
+    public RestTemplateBuilder setBufferRequestBody(boolean bufferRequestBody) {
+        this.bufferRequestBody = bufferRequestBody;
+        return this;
+    }
+
     public RestTemplateBuilder httpRequestRetryStrategy(HttpRequestRetryStrategy httpRequestRetryStrategy) {
         this.httpRequestRetryStrategy = httpRequestRetryStrategy;
         return this;
@@ -99,29 +111,22 @@ public class RestTemplateBuilder {
             throw new RuntimeException("Failed to configure SSLContext", e);
         }
 
-        // ssl socket factory
-//        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(
-//            sslContext,
-//            httpsProtocols != null ? httpsProtocols : sslContext.getSupportedSSLParameters().getProtocols(),
-//            null,
-//            new DefaultHostnameVerifier()
-//        );
-
-        TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(sslContext);
+        // tls strategy
+        TlsSocketStrategy tlsSocketStrategy = new DefaultClientTlsStrategy(
+                sslContext,
+                httpsProtocols != null ? httpsProtocols : sslContext.getSupportedSSLParameters().getProtocols(),
+                null,
+                SSLBufferMode.DYNAMIC,
+                new DefaultHostnameVerifier()
+        );
 
         // connection manager
         PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setTlsSocketStrategy(tlsSocketStrategy)
-//                .setSSLSocketFactory(connectionSocketFactory)
                 .build();
-//        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-//        connectionManager.setSSLSocketFactory(connectionSocketFactory);
-
-
 
         // applies ssl socket factory to http client
         httpClientBuilder.setConnectionManager(connectionManager);
-//        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
 
         // proxy
         if (proxyHost != null && !proxyHost.isEmpty()) {
@@ -143,8 +148,18 @@ public class RestTemplateBuilder {
 
         // build
         CloseableHttpClient httpClient = httpClientBuilder.build();
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        clientHttpRequestFactory.setHttpClient(httpClient);
+        HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpComponentsClientHttpRequestFactory.setHttpClient(httpClient);
+
+        // client http request factory
+        ClientHttpRequestFactory clientHttpRequestFactory;
+        if (bufferRequestBody) {
+            clientHttpRequestFactory = new BufferingClientHttpRequestFactory(httpComponentsClientHttpRequestFactory);
+        } else {
+            clientHttpRequestFactory = httpComponentsClientHttpRequestFactory;
+        }
+
+        // returns rest template
         return new RestTemplate(clientHttpRequestFactory);
     }
 

@@ -44,7 +44,7 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
     @JobScope
     Step createSampleFileStep() {
         return getStepBuilder("createSampleFileStep")
-                .tasklet(createSampleFileTasklet(null, null, null, null, null, null))
+                .tasklet(createSampleFileTasklet(null, null, null, null, null, null), getTransactionManager())
                 .transactionManager(getTransactionManager())
                 .build();
     }
@@ -74,7 +74,7 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
     @JobScope
     Step copySampleFileToSampleBackupFileStep() {
         return getStepBuilder("copySampleFileToSampleBackupFileStep")
-                .<SampleFile, SampleBackupFile>chunk(10)
+                .<SampleFile, SampleBackupFile>chunk(10, getTransactionManager())
                 .reader(sampleFileReader(null, null, null, null))
                 .processor(convertSampleToSampleBackupProcessor())
                 .writer(sampleBackupFileWriter(null, null, null))
@@ -128,7 +128,7 @@ public class FileDsvToFileFldBatch extends AbstractBatchConfigurer {
     @JobScope
     Step compareSampleFileToSampleBackupFileStep() {
         return getStepBuilder("compareSampleDbToSampleBackupDbStep")
-                .tasklet(compareSampleFileToSampleBackupFileTasklet())
+                .tasklet(compareSampleFileToSampleBackupFileTasklet(), getTransactionManager())
                 .build();
     }
 

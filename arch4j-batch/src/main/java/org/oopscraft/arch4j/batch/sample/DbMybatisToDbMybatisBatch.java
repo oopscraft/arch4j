@@ -45,7 +45,7 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
     @JobScope
     Step createSampleDbStep() {
         return getStepBuilder("createSampleDbStep")
-                .tasklet(createSampleDbTasklet(null))
+                .tasklet(createSampleDbTasklet(null), getTransactionManager())
                 .transactionManager(getTransactionManager())
                 .build();
     }
@@ -62,7 +62,7 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
     @JobScope
     Step copySampleDbToSampleBackupDbStep() {
         return getStepBuilder("copySampleDbToSampleBackupDbStep")
-                .<SampleVo, SampleBackupVo>chunk(10)
+                .<SampleVo, SampleBackupVo>chunk(10, getTransactionManager())
                 .reader(sampleDbReader(null))
                 .processor(convertSampleToSampleBackupProcessor())
                 .writer(sampleBackupDbWriter())
@@ -106,7 +106,7 @@ public class DbMybatisToDbMybatisBatch extends AbstractBatchConfigurer {
     @JobScope
     Step compareSampleDbToSampleBackupDbStep() {
         return getStepBuilder("compareSampleDbToSampleBackupDbStep")
-                .tasklet(compareSampleDataToSampleBackupDataTasklet())
+                .tasklet(compareSampleDataToSampleBackupDataTasklet(), getTransactionManager())
                 .build();
     }
 

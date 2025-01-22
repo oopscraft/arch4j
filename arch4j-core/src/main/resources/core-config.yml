@@ -35,13 +35,14 @@ spring:
   sql:
     init:
       mode: embedded
+      platform: h2
       schema-locations: |
         classpath*:db/core-schema.sql,
-        optional:classpath*:schema-${platform}.sql,
+        optional:classpath*:schema-${spring.sql.init.platform}.sql,
         optional:classpath*:schema.sql
       data-locations: |
         classpath*:db/core-data.sql,
-        optional:classpath*:data-${platform}.sql,
+        optional:classpath*:data-${spring.sql.init.platform}.sql,
         optional:classpath*:data.sql
   jpa:
     open-in-view: false

@@ -7,6 +7,7 @@
   --duice-form-element-border: solid 1px #ddd;
   --duice-form-element-focus-border: solid 1px black;
   --duice-form-element-focus-transition: all .2s ease-out;
+  --duice-form-element-height: calc(var(--duice-font-size) * var(--duice-line-height) + 2px);
   --duice-scrollbar-thumb-background: #cccccc;
   /* input */
   --duice-input-border: var(--duice-form-element-border);
@@ -144,7 +145,7 @@ small {
 /* input */
 input {
   box-sizing: border-box;
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
+  height: var(--duice-form-element-height);
   -webkit-border-radius: unset;
   border: var(--duice-input-border);
   vertical-align: bottom;
@@ -194,7 +195,7 @@ select {
   -moz-appearance: none;
   -webkit-border-radius: unset;
   box-sizing: border-box;
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
+  height: var(--duice-form-element-height);
   border: var(--duice-select-border);
   vertical-align: bottom;
   padding-left: 0.5em;
@@ -209,6 +210,37 @@ select:focus {
   outline: none;
   border: var(--duice-form-element-focus-border);
   transition: var(--duice-form-element-focus-transition);
+}
+
+/* button */
+button {
+  box-sizing: border-box;
+  height: var(--duice-form-element-height);
+  min-width: var(--duice-form-element-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: bottom;
+  padding-left: calc(var(--duice-form-element-height) / 4);
+  padding-right: calc(var(--duice-form-element-height) / 4);
+  cursor: pointer;
+  border: var(--duice-button-border);
+  background: var(--duice-button-background);
+}
+
+button:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+button:hover:not([disabled]),
+button:focus:not([disabled]) {
+  outline: none;
+  border: var(--duice-form-element-focus-border);
+  transition: var(--duice-element-focus-transition);
+  box-shadow: var(--duice-button-box-shadow);
 }
 
 /* textarea */
@@ -227,34 +259,6 @@ textarea:focus {
   outline: none;
   border: var(--duice-form-element-focus-border);
   transition: var(--duice-form-element-focus-transition);
-}
-
-/* button */
-button {
-  box-sizing: border-box;
-  height: calc(var(--duice-font-size) * var(--duice-line-height));
-  white-space: nowrap;
-  min-width: calc(1em * var(--duice-line-height));
-  vertical-align: bottom;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  cursor: pointer;
-  border: var(--duice-button-border);
-  background: var(--duice-button-background);
-}
-
-button:disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-button:hover:not([disabled]),
-button:focus:not([disabled]) {
-  outline: none;
-  border: var(--duice-form-element-focus-border);
-  transition: var(--duice-element-focus-transition);
-  box-shadow: var(--duice-button-box-shadow);
 }
 
 /* table */

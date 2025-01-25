@@ -8,7 +8,7 @@
 ## Git 저장소 및 웹사이트
 
 * Git Repository: [https://github.com/chomookun/arch4j](https://github.com/chomookun/arch4j)
-* Website: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
+* Website: [https://arch4j.chomookun.org](https://arch4j.chomookun.org)
 
 ## 데모 사이트
 

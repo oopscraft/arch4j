@@ -7,7 +7,7 @@ This archetype has Basic CMS(Content Management System) functionality.
 ## Git and Website
 
 * Git Repository: [https://github.com/chomookun/arch4j](https://github.com/oopscraft/arch4j)
-* Website: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
+* Website: [https://arch4j.chomookun.org](https://arch4j.chomookun.org)
 
 ## Demo Site
 

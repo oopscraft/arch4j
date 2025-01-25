@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      inkscape:zoom="5.6568542"
-     inkscape:cx="56.126601"
-     inkscape:cy="6.9826795"
-     inkscape:window-width="1680"
-     inkscape:window-height="1050"
-     inkscape:window-x="1133"
-     inkscape:window-y="0"
+     inkscape:cx="57.717592"
+     inkscape:cy="6.8942912"
+     inkscape:window-width="1136"
+     inkscape:window-height="691"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -51,7 +51,7 @@
          y="9.4571924">ARCH4J</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.57813px;font-family:'04b_09';-inkscape-font-specification:'04b_09, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;display:inline;fill:#000000;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.57813px;font-family:'04b_09';-inkscape-font-specification:'04b_09, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:0.264583"
        x="3.5076537"
        y="5.7779298"
        id="text2"><tspan
@@ -59,6 +59,6 @@
          id="tspan2"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.57813px;font-family:'04b_09';-inkscape-font-specification:'04b_09, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          x="3.5076537"
-         y="5.7779298">CHOMOOKUN.ORG______</tspan></text>
+         y="5.7779298">CHOMOOKUN.ORG</tspan></text>
   </g>
 </svg>

@@ -5,3 +5,5 @@
 theme: minima
 minima:
   skin: dark
+plugins:
+  - jekyll-remote-theme

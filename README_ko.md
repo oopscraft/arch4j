@@ -7,13 +7,13 @@
 
 ## Git 저장소 및 웹사이트
 
-* Git Repository: [https://github.com/oopscraft/arch4j](https://github.com/oopscraft/arch4j)
-* Website: [https://arch4j.oopscraft.org](https://arch4j.oopscraft.org)
+* Git Repository: [https://github.com/chomookun/arch4j](https://github.com/chomookun/arch4j)
+* Website: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
 
 ## 데모 사이트
 
-* Service Page: [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
-* Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
+* Service Page: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
+* Admin Console: [https://arch4j-web.chomookun.org/admin](https://arch4j-web.chomookun.org/admin)
 * Test Account: **dev/dev**
 
 ## 주요 기능
@@ -35,7 +35,7 @@
 
 ```shell
 # download source
-git clone https://github.com/oopscraft/arch4j.git
+git clone https://github.com/chomookun/arch4j.git
 
 # run application
 ./gradlew :arch4j-web:bootRun

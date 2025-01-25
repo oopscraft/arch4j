@@ -6,13 +6,13 @@ This archetype has Basic CMS(Content Management System) functionality.
 
 ## Git and Website
 
-* Git Repository: [https://github.com/oopscraft/arch4j](https://github.com/oopscraft/arch4j)
-* Website: [https://arch4j.oopscraft.org](https://arch4j.oopscraft.org)
+* Git Repository: [https://github.com/chomookun/arch4j](https://github.com/oopscraft/arch4j)
+* Website: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
 
 ## Demo Site
 
-* Service Page: [https://arch4j-web.oopscraft.org](https://arch4j-web.oopscraft.org)
-* Admin Console: [https://arch4j-web.oopscraft.org/admin](https://arch4j-web.oopscraft.org/admin)
+* Service Page: [https://arch4j-web.chomookun.org](https://arch4j-web.chomookun.org)
+* Admin Console: [https://arch4j-web.chomookun.org/admin](https://arch4j-web.chomookun.org/admin)
 * Test Account: **developer/developer**
 
 ## Main Features
@@ -34,7 +34,7 @@ This archetype has Basic CMS(Content Management System) functionality.
 
 ```shell
 # download source
-git clone https://github.com/oopscraft/arch4j.git
+git clone https://github.com/chomookun/arch4j.git
 
 # run application
 ./gradlew :arch4j-web:bootRun

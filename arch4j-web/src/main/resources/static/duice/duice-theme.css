@@ -88,6 +88,11 @@ body {
   line-height: inherit;
 }
 
+/* ul,ol,li */
+ul, ol {
+  margin-left: 2em;
+}
+
 /* scrollbar */
 ::-webkit-scrollbar {
   width: 2px;

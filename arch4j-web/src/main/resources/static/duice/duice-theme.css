@@ -227,6 +227,7 @@ button {
   height: var(--duice-form-element-height);
   min-width: var(--duice-form-element-height);
   display: inline-flex;
+  gap: calc(var(--duice-form-element-height) / 4 / 2);
   align-items: center;
   justify-content: center;
   white-space: nowrap;

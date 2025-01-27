@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.48
+ * duice - v0.2.49
  * git: https://gitbub.com/chomookun/duice
  * website: https://duice.chomookun.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -2217,9 +2217,9 @@ var duice = (function (exports) {
             return this;
         }
         moveToCenterPosition() {
-            let computedStyle = window.getComputedStyle(this.dialogElement);
-            let computedWidth = parseInt(computedStyle.getPropertyValue('width').replace(/px/gi, ''));
-            let computedHeight = parseInt(computedStyle.getPropertyValue('height').replace(/px/gi, ''));
+            window.getComputedStyle(this.dialogElement);
+            let computedWidth = this.dialogElement.offsetWidth;
+            let computedHeight = this.dialogElement.offsetHeight;
             let scrollX = window.scrollX;
             let scrollY = window.scrollY;
             this.dialogElement.style.left = Math.max(0, window.innerWidth / 2 - computedWidth / 2) + scrollX + 'px';

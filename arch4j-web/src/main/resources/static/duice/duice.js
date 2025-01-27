@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.47
+ * duice - v0.2.48
  * git: https://gitbub.com/chomookun/duice
  * website: https://duice.chomookun.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -2149,6 +2149,7 @@ var duice = (function (exports) {
             this.dialogElement.style.position = 'absolute';
             this.dialogElement.style.left = '0';
             this.dialogElement.style.right = '0';
+            this.dialogElement.style.maxWidth = '100%';
             // header
             this.header = document.createElement('div');
             this.dialogElement.appendChild(this.header);
@@ -2301,6 +2302,7 @@ var duice = (function (exports) {
             this.getDialogElement().style.textAlign = 'center';
             // message pre
             this.messagePre = document.createElement('pre');
+            this.messagePre.style.whiteSpace = 'pre-wrap';
             this.messagePre.style.marginTop = '1rem';
             this.messagePre.style.marginBottom = '1rem';
             this.messagePre.innerHTML = message;
@@ -2338,6 +2340,7 @@ var duice = (function (exports) {
             this.getDialogElement().style.textAlign = 'center';
             // message pre
             this.messagePre = document.createElement('pre');
+            this.messagePre.style.whiteSpace = 'pre-wrap';
             this.messagePre.style.marginTop = '1rem';
             this.messagePre.style.marginBottom = '1rem';
             this.messagePre.innerHTML = message;
@@ -2390,6 +2393,7 @@ var duice = (function (exports) {
             this.getDialogElement().style.textAlign = 'center';
             // message pre
             this.messagePre = document.createElement('pre');
+            this.messagePre.style.whiteSpace = 'pre-wrap';
             this.messagePre.style.marginTop = '1rem';
             this.messagePre.style.marginBottom = '1rem';
             this.messagePre.innerHTML = message;

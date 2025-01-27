@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.45
+ * duice - v0.2.47
  * git: https://gitbub.com/chomookun/duice
  * website: https://duice.chomookun.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -2180,10 +2180,11 @@ var duice = (function (exports) {
             };
             // creates close button
             this.closeButton = document.createElement('span');
-            this.closeButton.appendChild(document.createTextNode('X'));
+            this.closeButton.innerHTML = '&#10005;';
+            this.closeButton.style.fontFamily = 'monospace';
+            this.closeButton.style.fontSize = 'large';
             this.closeButton.style.marginLeft = '0.5rem';
             this.closeButton.style.marginRight = '0.5rem';
-            this.closeButton.style.fontFamily = 'monospace';
             this.closeButton.addEventListener('click', event => {
                 _this.hide();
                 _this.close();

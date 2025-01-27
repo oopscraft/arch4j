@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.49
+ * duice - v0.2.52
  * git: https://gitbub.com/chomookun/duice
  * website: https://duice.chomookun.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -2149,6 +2149,8 @@ var duice = (function (exports) {
             this.dialogElement.style.position = 'absolute';
             this.dialogElement.style.left = '0';
             this.dialogElement.style.right = '0';
+            this.dialogElement.style.overflowX = 'hidden';
+            this.dialogElement.style.boxSizing = 'border-box';
             this.dialogElement.style.maxWidth = '100%';
             // header
             this.header = document.createElement('div');
@@ -2218,6 +2220,7 @@ var duice = (function (exports) {
         }
         moveToCenterPosition() {
             window.getComputedStyle(this.dialogElement);
+            this.dialogElement.style.boxSizing = 'border-box';
             let computedWidth = this.dialogElement.offsetWidth;
             let computedHeight = this.dialogElement.offsetHeight;
             let scrollX = window.scrollX;

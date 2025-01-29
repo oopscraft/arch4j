@@ -298,7 +298,6 @@
                 <span class="icon dark-mode-switch" onclick="_toggleDarkMode();"></span>
             </li>
             <li>
-                <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
                 <select class="font-size--smaller" onchange="_changeLanguage(this.value);">
                     <option value>- language -</option>
                     <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>

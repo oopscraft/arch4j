@@ -3,12 +3,19 @@
         width: 300px;
         max-width: 100%;
     }
+    #_brand,
+    #_brand * {
+        display: inline-block;
+        height: 2rem;
+        font-weight: bold;
+    }
+    .dark-mode #_brand {
+        filter: invert(0.9);
+    }
 </style>
-<div id="login" class="panel">
-    <div class="panel-title justify-content--center">
-        <h1>
-            <span id="_brand" class="link" onclick="_gotoIndex();" th:utext="${_brand}"></span>
-        </h1>
+<div id="login" class="panel gap--1rem">
+    <div class="panel-title justify-content--center padding-bottom--1rem">
+        <span id="_brand" class="link" onclick="_gotoIndex();" th:utext="${_brand}"></span>
     </div>
     <div class="panel-content">
         <form onsubmit="return false;" class="display--grid grid-template-columns--12fr gap--1rem">
@@ -43,7 +50,6 @@
                 <span class="font-size--xx-small">|</span>
                 &nbsp;
                 <label>
-                    <img th:src="@{/static/image/icon-language.svg}" class="icon" alt="language"/>
                     <select class="font-size--smaller" onchange="_changeLanguage(this.value);">
                         <option>language...</option>
                         <option th:each="locale : ${_locales}" th:value="${locale.language}" th:text="${locale.displayLanguage}" th:selected="${locale.language == _locale.language}"></option>

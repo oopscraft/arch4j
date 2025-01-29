@@ -1,3 +1,9 @@
+/*!
+ * duice-marked - v0.2.2
+ * git: https://gitbub.com/chomookun/duice-plugin
+ * website: https://duice-plugin.chomookun.org
+ * Released under the LGPL(GNU Lesser General Public License version 3) License
+ */
 var duiceMarked = (function (exports, duice) {
     'use strict';
 
@@ -7,12 +13,18 @@ var duiceMarked = (function (exports, duice) {
             // creates child div
             this.div = document.createElement('div');
             this.getHtmlElement().appendChild(this.div);
+            // customizes responsive table
+            const renderer = new marked.Renderer();
+            renderer.table = (header, body) => {
+                return `<table style="display:inline-block;overflow-x:scroll;max-width:100%;">\n<thead>${header}</thead>\n<tbody>${body}</tbody>\n</table>`;
+            };
             // config
             this.config = {
                 headerIds: false,
                 mangle: false,
                 breaks: true,
-                gfm: true
+                gfm: true,
+                renderer: renderer
             };
         }
         setValue(value) {

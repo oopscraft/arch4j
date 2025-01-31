@@ -1,11 +1,17 @@
+/*!
+ * duice-pagination - v0.2.3
+ * git: https://gitbub.com/chomookun/duice-plugin
+ * website: https://duice-plugin.chomookun.org
+ * Released under the LGPL(GNU Lesser General Public License version 3) License
+ */
 var duicePagination = (function (exports, duice) {
     'use strict';
 
     class Pagination extends duice.CustomElement {
         constructor(htmlElement, bindData, context) {
             super(htmlElement, bindData, context);
-            this.prevContent = '<';
-            this.nextContent = '>';
+            this.prevContent = '&#9664;';
+            this.nextContent = '&#9654;';
             this.pageNumberSize = 10;
             // attributes
             this.pageProperty = duice.getElementAttribute(htmlElement, 'page-property');

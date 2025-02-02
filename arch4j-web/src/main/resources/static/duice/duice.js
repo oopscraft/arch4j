@@ -1,5 +1,5 @@
 /*!
- * duice - v0.2.54
+ * duice - v0.2.55
  * git: https://gitbub.com/chomookun/duice
  * website: https://duice.chomookun.com
  * Released under the LGPL(GNU Lesser General Public License version 3) License
@@ -551,7 +551,7 @@ var duice = (function (exports) {
             }
         }
         setValue(value) {
-            if (value !== undefined && value !== null) {
+            if (value != null) {
                 value = this.getFormat() ? this.getFormat().format(value) : value;
                 this.htmlElement.innerText = value;
             }
@@ -1826,7 +1826,7 @@ var duice = (function (exports) {
             this.getHtmlElement().setAttribute('autocomplete', 'off');
         }
         setValue(value) {
-            if (value) {
+            if (value != null) {
                 value = this.getFormat() ? this.getFormat().format(value) : value;
             }
             else {
@@ -2088,7 +2088,7 @@ var duice = (function (exports) {
             }, true);
         }
         setValue(value) {
-            if (value) {
+            if (value != null) {
                 this.getHtmlElement().value = value;
             }
             else {

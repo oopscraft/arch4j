@@ -71,6 +71,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -141,6 +142,12 @@ public class WebConfiguration implements EnvironmentPostProcessor, WebMvcConfigu
         public void registerStompEndpoints(StompEndpointRegistry registry) {
             registry.addEndpoint("/ws")
                     .setAllowedOriginPatterns("*");
+        }
+        @Override
+        public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+            registry.setMessageSizeLimit(2 * 1024 * 1024) // 2MB (default: 64KB)
+                    .setSendBufferSizeLimit(4 * 1024 * 1024) // 4MB (default: 512KB)
+                    .setTimeToFirstMessage(10_000); // 10 second first message (default: 5s)
         }
     }
 
